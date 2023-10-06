@@ -6,7 +6,6 @@ import {
     ContactForm,
     ActionForm,
     Title,
-    Map
 } from "./Contact.style"
 
 import{
@@ -23,10 +22,6 @@ import { Link } from '../../components/Buttton/Button.component';
 
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
 import { BiSolidMap } from 'react-icons/bi';
-
-import GoogleMapReact from 'google-map-react';
-
-
 
 export const ContactContainer = ({id}) => {
     let DefaultValue = {
