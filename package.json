@@ -1,14 +1,22 @@
 {
-  "name": "portfolio",
+  "name": "portfolio(GLeyzeJonathan",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
+    "@splinetool/react-spline": "^2.2.6",
+    "@splinetool/runtime": "^0.9.452",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "google-map-react": "^2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
     "react-scripts": "5.0.1",
+    "react-scroll": "^1.8.9",
+    "react-spinners": "^0.13.8",
+    "react-spline-next": "^0.9.282-release3",
+    "styled-components": "^6.0.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

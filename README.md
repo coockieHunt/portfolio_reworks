@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Portfolio Repository [ENG]
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to my portfolio repository! This repository contains the source code for my public portfolio, which showcases my skills and projects. Feel free to explore the code and projects to get a better understanding of my work.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To set up and run my portfolio locally, follow these steps:
 
-### `npm start`
+1. Clone this repository to your local machine using the following command:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   ```bash
+   git clone https://github.com/your-username/your-portfolio.git
+2. Navigate to the project directory:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```bash
+   cd your-portfolio
+3. start app:
 
-### `npm test`
+   ```bash
+   npm start
+That's it! You can now browse my portfolio locally and see my work.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###Live Portfolio
+If you want to view my portfolio online without installing it locally, you can access it here.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###Contact
+If you have any questions or would like to get in touch with me, please feel free to reach out via email at pro.jonathan.gleyze@gmail.com or visit my LinkedIn profile.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Portfolio Repository [FR]
 
-### `npm run eject`
+Bienvenue dans mon référentiel de portfolio ! Ce référentiel contient le code source de mon portfolio public, qui met en valeur mes compétences et mes projets. N'hésitez pas à explorer le code et les projets pour mieux comprendre mon travail.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clonez ce référentiel sur votre machine locale à l'aide de la commande suivante :
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```bash
+   git clone https://github.com/your-username/your-portfolio.git
+2. Accédez au répertoire du projet :
 
-## Learn More
+   ```bash
+   cd your-portfolio
+3. start app:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```bash
+   npm start
+That's it! You can now browse my portfolio locally and see my work.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+###Live Portfolio
+Si vous souhaitez consulter mon portfolio en ligne sans l'installer localement, vous pouvez y accéder ici.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+###Contact
+Si vous avez des questions ou souhaitez me contacter, n'hésitez pas à nous contacter par e-mail à pro.jonathan.gleyze@gmail.com ou à visiter mon profil LinkedIn.
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
