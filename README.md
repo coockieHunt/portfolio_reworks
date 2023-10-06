@@ -20,11 +20,11 @@ To set up and run my portfolio locally, follow these steps:
    npm start
 That's it! You can now browse my portfolio locally and see my work.
 
-###Live Portfolio
+Live Portfolio
 If you want to view my portfolio online without installing it locally, you can access it here.
 
 
-###Contact
+Contact
 If you have any questions or would like to get in touch with me, please feel free to reach out via email at pro.jonathan.gleyze@gmail.com or visit my LinkedIn profile.
 
 
@@ -50,10 +50,10 @@ Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
    npm start
 That's it! You can now browse my portfolio locally and see my work.
 
-###Live Portfolio
+Live Portfolio
 Si vous souhaitez consulter mon portfolio en ligne sans l'installer localement, vous pouvez y accéder ici.
 
 
-###Contact
+Contact
 Si vous avez des questions ou souhaitez me contacter, n'hésitez pas à nous contacter par e-mail à pro.jonathan.gleyze@gmail.com ou à visiter mon profil LinkedIn.
 
