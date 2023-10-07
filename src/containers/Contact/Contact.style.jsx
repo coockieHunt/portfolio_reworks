@@ -7,13 +7,15 @@ export const Container = styled.div`
     background-color: #202020;
     width: 80vw;
     margin: 30px auto;
-
     padding: 8px;
-
     border-radius: 15px;
 
-    & *{box-sizing:border-box;}// box sizing issue all child (gap input)
-    @media (max-width: ${SCREEN_SIZE.mobile}) {width: 85vw;}
+    & *{box-sizing:border-box;}
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        width: 100vw;
+        margin: 0 auto;
+        background-color: transparent;
+    }
 `
 
 export const Info = styled.div`
