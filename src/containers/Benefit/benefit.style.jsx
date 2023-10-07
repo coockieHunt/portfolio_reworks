@@ -7,6 +7,8 @@ export const Container = styled.div`
     justify-content: space-between;
     align-items: center;
 
+    overflow-x: hidden;
+
     padding: 40px 150px;
 
     @media (max-width: 1200px) {
@@ -16,7 +18,7 @@ export const Container = styled.div`
         padding: 40px 30px 80px 30px;
         text-align: center;
 
-        gap: 40px;
+        gap: 35px;
     }
 `;
 

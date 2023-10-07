@@ -3,8 +3,6 @@ import { SCREEN_SIZE } from '../../config';
 
 export const Container = styled.div`
     height: 95vh;
-
-  
 `
 
 export const DeskSpline = styled.div`
@@ -56,7 +54,7 @@ export const HeroText = styled.div`
         gap: 10px;
 
         @media (max-width:  ${SCREEN_SIZE.mobile}) {
-            justify-content: space-between;
+            justify-content: space-around;
         }
    }
 `

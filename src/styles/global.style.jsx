@@ -47,6 +47,12 @@ const GlobalStyle = createGlobalStyle`
   html{
     scroll-behavior: smooth;
   }
+
+  html,
+  body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
 `;
 
 
