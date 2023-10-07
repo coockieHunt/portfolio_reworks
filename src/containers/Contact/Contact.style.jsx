@@ -15,6 +15,7 @@ export const Container = styled.div`
         width: 100vw;
         margin: 0 auto;
         border-radius: 0px;
+        margin-bottom: 20px;
     }
 `
 
