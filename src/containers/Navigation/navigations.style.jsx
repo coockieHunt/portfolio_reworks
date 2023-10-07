@@ -17,6 +17,7 @@ export const NavigationContainer = styled.div`
         padding: 5px 10px;
         
         &.NavClose{height: 5vh; transition: height 0.3s ease;}
+        background-color: #20202099;
     }
 `
 

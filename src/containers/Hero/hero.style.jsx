@@ -21,13 +21,19 @@ export const HeroText = styled.div`
     z-index: 2;
 
     @media (max-width:  ${SCREEN_SIZE.mobile}) {
-        width: 80%;
+        width: 100%;
+        height: 100%;
         left: 50%;
-        top: 25%;
+        top: 0;
         transform: translateX(-50%);
         text-align: center;
 
-        background-color: #202020be;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+
+        background-color: #20202099;
         padding: 20px;
         /* border: 1px solid ${COLOR.primary}; */
         border-radius: 10px;
