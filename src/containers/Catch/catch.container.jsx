@@ -8,14 +8,14 @@ import HomeSheet from '../../image/home_sheet.png'
 import { SplitLayouComponent } from '../../components/SplitLayout/SplitLayout.component'
 import { AccentTextComponent } from '../../components/Text/Text.component'
 
-import {useWindowSize} from "../../hooks/screenResize.hook"
-
+import {useWindowSize} from "../../hooks/screenResize.hook";
 import{
     SCREEN_SIZE
 } from '../../config'
 
 
 export const CathContainer = ({id}) => {
+
     const isMobile = useWindowSize(
         SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
     ); 

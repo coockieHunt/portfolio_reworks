@@ -21,13 +21,13 @@ export const SplitLayouComponent = ({
     }) => {
 
     return(
-        <SplitLayourStyle.SplitLayout bg_color={background_color}>
-            <SplitLayourStyle.SplitLayoutLeft left_width={left_width}>
+        <SplitLayourStyle.SplitLayout $bg_color={background_color}>
+            <SplitLayourStyle.SplitLayoutLeft $left_width={left_width}>
                 <div className="content">
                     {left_child}
                 </div>
             </SplitLayourStyle.SplitLayoutLeft>
-            <SplitLayourStyle.SplitLayoutRight right_width={right_width}>
+            <SplitLayourStyle.SplitLayoutRight $right_width={right_width}>
                 <div className="content">
                     {rigth_child}
                 </div>

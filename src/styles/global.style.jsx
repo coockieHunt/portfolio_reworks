@@ -53,4 +53,35 @@ const GlobalStyle = createGlobalStyle`
 export const Content = styled.div`
 `
 
+export const LoadingContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1em;
+    font-size: 5vw;
+    height: 100vh;
+    position: relative;
+
+    overflow: hidden;
+
+    & span {
+        color: ${COLOR.primary};
+        font-variation-settings: "wght" 700;
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        z-index: 2; 
+    }
+
+    & .loader {
+      position: relative; 
+      z-index: 1; 
+      top: 0; 
+      left: 0; 
+      transform: translate(-50%, -50%); 
+    }
+`;
+
 export default GlobalStyle;

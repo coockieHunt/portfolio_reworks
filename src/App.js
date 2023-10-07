@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 
-import GlobalStyle, {Content} from './styles/global.style.jsx';
+import GlobalStyle, {Content, LoadingContainer} from './styles/global.style.jsx';
 import {COLOR} from './config'
 
-import {NavigationComponent} from './containers/Navigation/navigations.container';
+import { NavigationComponent } from './containers/Navigation/navigations.container';
 import { HeroContainer } from './containers/Hero/hero.container';
 import { CathContainer } from './containers/Catch/catch.container';
 import { FooterContainer } from './containers/Footer/footer.container';
@@ -34,38 +33,6 @@ function App() {
       }, 2000);
     };
   }, []);
-
-
-const LoadingContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1em;
-    font-size: 5vw;
-    height: 100vh;
-    position: relative;
-
-    overflow: hidden;
-
-    & span {
-        color: ${COLOR.primary};
-        font-variation-settings: "wght" 700;
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
-        z-index: 2; 
-    }
-
-    & .loader {
-        position: relative; 
-        z-index: 1; 
-        top: 0; 
-        left: 0; 
-        transform: translate(-50%, -50%); 
-    }
-  `;
 
   const Loader = () => {
     return (
