@@ -18,7 +18,7 @@ export const HeroContainer = ({id}) => {
         <Container id={id}>
             <HeroText>
                 <h1>Vous voulé transformez votre idée en <CradiantTextComponent>Site Web</CradiantTextComponent>.  </h1>
-                <p>Vous ète aux bonne adroit <HellowHandComponent/></p>
+                <p>Vous ète aux bonne endroit <HellowHandComponent/></p>
                 <div className="cta">
                     <Link to={'contact'}>
                         <Button>Contact</Button>

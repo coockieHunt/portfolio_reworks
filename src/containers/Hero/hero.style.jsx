@@ -27,9 +27,9 @@ export const HeroText = styled.div`
         transform: translateX(-50%);
         text-align: center;
 
-        background-color: #000000ae;
+        background-color: #202020be;
         padding: 20px;
-        border: 1px solid ${COLOR.primary};
+        /* border: 1px solid ${COLOR.primary}; */
         border-radius: 10px;
     }
 
