@@ -10,12 +10,14 @@ export const useScrollbar = (disableScrollbar) => {
   useEffect(() => {
     const handleScrollbar = () => {
       document.body.style.overflow = disableScrollbar ? 'hidden' : 'auto';
+      document.body.style.touchAction = disableScrollbar ? 'none' : 'auto';
     };
     
     handleScrollbar();
 
     return () => {
       document.body.style.overflow = 'auto';
+      document.body.style.touchAction = 'auto';
     };
   }, [disableScrollbar]);
 };
