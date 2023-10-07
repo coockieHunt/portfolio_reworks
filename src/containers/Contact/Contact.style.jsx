@@ -14,7 +14,7 @@ export const Container = styled.div`
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100vw;
         margin: 0 auto;
-        background-color: transparent;
+        border-radius: 0px;
     }
 `
 
