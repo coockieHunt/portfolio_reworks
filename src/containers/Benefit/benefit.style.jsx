@@ -8,13 +8,12 @@ export const Container = styled.div`
     align-items: center;
 
     padding: 40px 150px;
-    padding-bottom: 60px;
 
     @media (max-width: 1200px) {
         flex-direction: column;
         height: auto;
 
-        padding: 40px 30px;
+        padding: 40px 30px 80px 30px;
         text-align: center;
 
         gap: 40px;

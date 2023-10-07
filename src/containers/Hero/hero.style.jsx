@@ -3,6 +3,8 @@ import { SCREEN_SIZE } from '../../config';
 
 export const Container = styled.div`
     height: 95vh;
+
+  
 `
 
 export const DeskSpline = styled.div`
@@ -19,6 +21,14 @@ export const HeroText = styled.div`
     left: 100px;
     width: 50%;
     z-index: 2;
+
+    @media (max-width:  ${SCREEN_SIZE.mobile}) {
+        width: 80%;
+        left: 50%;
+        top: 25%;
+        transform: translateX(-50%);
+        text-align: center;
+    }
 
     & h1{
         font-weight: bold;
@@ -44,6 +54,10 @@ export const HeroText = styled.div`
    .cta{
         display : flex;
         gap: 10px;
+
+        @media (max-width:  ${SCREEN_SIZE.mobile}) {
+            justify-content: space-between;
+        }
    }
 `
 

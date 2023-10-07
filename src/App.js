@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import GlobalStyle, {Content, LoadingContainer} from './styles/global.style.jsx';
 import {COLOR} from './config'
