@@ -73,6 +73,8 @@ export const FormGroupe = styled.form `
     display: flex;
     flex-direction: column;
     height: 100%;
+
+
 `;
 
 export const FormInline = styled.div`
@@ -83,6 +85,10 @@ export const FormInline = styled.div`
     
     input{
         width: 100%;
+    }
+
+    @media (max-width: 850px) {
+        flex-direction: column;
     }
 `
 
