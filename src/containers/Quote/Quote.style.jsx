@@ -10,4 +10,6 @@ export const Quoute = styled.h2`
     font-size: 2em;
     font-variation-settings: "wght" 700;
 
+    & span{
+    }
 `

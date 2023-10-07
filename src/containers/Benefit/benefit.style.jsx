@@ -14,8 +14,10 @@ export const Container = styled.div`
         flex-direction: column;
         height: auto;
 
-        padding: 40px 0px;
+        padding: 40px 30px;
         text-align: center;
+
+        gap: 40px;
     }
 `;
 
@@ -50,7 +52,13 @@ export const Info = styled.div`
         line-height: 1.6em;
     }
 
-    &:first-child{
+    &.start{
+        text-align: end;
+        @media (max-width: 1200px) {text-align: center;}
+    }
+
+
+    &.end{
         text-align: end;
         @media (max-width: 1200px) {text-align: center;}
     }

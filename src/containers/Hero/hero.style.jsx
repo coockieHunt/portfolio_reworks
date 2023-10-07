@@ -35,6 +35,12 @@ export const HeroText = styled.div`
         }
    }
 
+   & p{
+        font-size: 2em;
+        margin-bottom: 1em;
+        margin-top: 2px;
+   }
+
    .cta{
         display : flex;
         gap: 10px;

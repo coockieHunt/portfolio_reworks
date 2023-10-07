@@ -1,30 +1,35 @@
 import { Container, Title, Info, Img } from "./benefit.style"; 
 
 import {AccentTextComponent} from '../../components/Text/Text.component'
+import { motion } from "framer-motion"
+
 
 export const BenefitContainer = ({id}) => {
     return(
         <>
             <Title><AccentTextComponent>My Skill</AccentTextComponent></Title>
             <Container id={id}>
-                <Info>
-                    <div>
-                        <h3>GESTION DE PROJETS WEB</h3>
-                        <p>Site vitrine, corporate, évènementiel, e-commerce.</p>
-                    </div>
-                    <div>
-                        <h3>INTÉGRATION WEB</h3>
-                        <p>Intégrations HTML / CSS respectueuses des standards du Web.</p>
-                    </div>
-                    <div>
-                        <h3>DÉVELOPPEMENTS SPÉCIFIQUES</h3>
-                        <p>Des outils adaptés à votre coeur de métier,applications & solutions personnalisées.</p>
-                    </div>
-                    <div>
-                        <h3>DYNAMISME DES PAGES</h3>
-                        <p>Des animations de contenu non intrusives pour embellir votre projet.</p>
-                    </div>
-                </Info>
+                <motion.div initial={{ x: 100, opactity: 100}} whileInView={{ x: 0, opactity: 0}} >
+                    <Info className="start">
+                        <div>
+                            <h3>GESTION DE PROJETS WEB</h3>
+                            <p>Site vitrine, corporate, évènementiel, e-commerce.</p>
+                        </div>
+                        <div>
+                            <h3>INTÉGRATION WEB</h3>
+                            <p>Intégrations HTML / CSS respectueuses des standards du Web.</p>
+                        </div>
+                        <div>
+                            <h3>DÉVELOPPEMENTS SPÉCIFIQUES</h3>
+                            <p>Des outils adaptés à votre coeur de métier,applications & solutions personnalisées.</p>
+                        </div>
+                        <div>
+                            <h3>DYNAMISME DES PAGES</h3>
+                            <p>Des animations de contenu non intrusives pour embellir votre projet.</p>
+                        </div>
+                    </Info>
+                </motion.div>
+               
                 <Img>
                     <svg width="2270" height="2500" viewBox="0 0 256 282" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
                         <g fill="currentColor">
@@ -32,24 +37,27 @@ export const BenefitContainer = ({id}) => {
                         </g>
                     </svg>
                 </Img>
-                <Info>
-                    <div>
-                        <h3>RESPONSIVE DESIGN</h3>
-                        <p>Compatible tous supports, tablette & application mobile.</p>
-                    </div>
-                    <div>
-                        <h3>CONCEPTION GRAPHIQUE & WEBDESIGN</h3>
-                        <p>plaquettes publicitaires, cartes de visite, newsletters...</p>
-                    </div>
-                    <div>
-                        <h3>INSTALLATION DU SERVEUR WEB</h3>
-                        <p>Instalation et configuration de votre serveur web pour une performance optimale.</p>
-                    </div>
-                    <div>
-                        <h3>SUPPORT TECHNIQUE</h3>
-                        <p>Support technique continu, assure le bon fonctionnement du site.</p>
-                    </div>
-                </Info>
+                <motion.div initial={{ x: -100, opactity: 100}} whileInView={{ x: 0, opactity: 0}} >
+                    <Info>
+                        <div>
+                            <h3>RESPONSIVE DESIGN</h3>
+                            <p>Compatible tous supports, tablette & application mobile.</p>
+                        </div>
+                        <div>
+                            <h3>CONCEPTION GRAPHIQUE & WEBDESIGN</h3>
+                            <p>plaquettes publicitaires, cartes de visite, newsletters...</p>
+                        </div>
+                        <div>
+                            <h3>INSTALLATION DU SERVEUR WEB</h3>
+                            <p>Instalation et configuration de votre serveur web pour une performance optimale.</p>
+                        </div>
+                        <div>
+                            <h3>SUPPORT TECHNIQUE</h3>
+                            <p>Support technique continu, assure le bon fonctionnement du site.</p>
+                        </div>
+                    </Info>
+                </motion.div>
+             
             </Container>
         </>
 
