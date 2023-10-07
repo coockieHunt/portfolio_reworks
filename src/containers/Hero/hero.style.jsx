@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE } from '../../config';
+import { SCREEN_SIZE, COLOR } from '../../config';
 
 export const Container = styled.div`
     height: 95vh;
@@ -26,6 +26,11 @@ export const HeroText = styled.div`
         top: 25%;
         transform: translateX(-50%);
         text-align: center;
+
+        background-color: #000000ae;
+        padding: 20px;
+        border: 1px solid ${COLOR.primary};
+        border-radius: 10px;
     }
 
     & h1{
