@@ -35,7 +35,6 @@ export const HeroText = styled.div`
 
         background-color: #20202099;
         padding: 20px;
-        /* border: 1px solid ${COLOR.primary}; */
         border-radius: 10px;
     }
 

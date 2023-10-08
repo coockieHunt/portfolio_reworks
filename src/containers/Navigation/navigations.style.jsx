@@ -57,6 +57,7 @@ export const Nav = styled.nav`
                 color: #fff;
                 font-weight: bold;
                 transition: color 0.3s ease;
+                cursor: pointer;
                 &:hover{color: ${COLOR.primary}; transition: color 0.3s ease;}
                 span{
                     color: ${COLOR.primary};
