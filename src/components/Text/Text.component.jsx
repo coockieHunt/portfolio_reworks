@@ -1,5 +1,6 @@
 import { Text } from "./style/AccentText.style"
 import { Gradient } from "./style/CradiantText.style"
+import { ToText } from "./style/LinkText.style"
 
 /**
  * AccentTextComponent
@@ -26,4 +27,28 @@ export const CradiantTextComponent = ({ children }) => {
     return(
         <Gradient>{children}</Gradient>
     )
+}
+
+/**
+ * A component that renders a secure link with specified text.
+ *
+ * @param {Object} props - The component's props.
+ * @param {string} props.children - The content to be displayed as the link text.
+ * @param {string} props.to - The URL to which the link should navigate.
+ * @returns {JSX.Element} A secure link element.
+ *
+ * @example
+ */
+export const LinkTextComponent = ({ children, to}) => {
+    const Redirect = () => {
+        try {
+            window.location.href = to
+        } catch (error) {
+            console.error("Invalid URL");
+        }
+    };
+
+    return (
+        <ToText onClick={Redirect}>{children}</ToText>
+    );
 }

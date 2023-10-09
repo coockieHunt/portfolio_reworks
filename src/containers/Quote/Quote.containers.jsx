@@ -4,7 +4,7 @@ import {Quoute} from './Quote.style.jsx'
 import { motion } from "framer-motion"
 
 
-export const QuoteContainer = ({text}) =>{
+export const QuoteContainer = ({children}) =>{
       return (
         
           <Quoute>
@@ -12,7 +12,7 @@ export const QuoteContainer = ({text}) =>{
               initial={{ y: -100}} 
               whileInView={{ y: 0}}
             >
-              <span>{text}</span>
+              <span>{children}</span>
             </motion.div>
           </Quoute>
         

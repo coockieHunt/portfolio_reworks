@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import GlobalStyle, {Content, LoadingContainer} from './styles/global.style.jsx';
-import {COLOR} from './config'
+import {COLOR, URL} from './config'
 
 import { NavigationComponent } from './containers/Navigation/navigations.container';
 import { HeroContainer } from './containers/Hero/hero.container';
@@ -14,6 +14,7 @@ import { QuoteContainer } from './containers/Quote/Quote.containers.jsx'
 
 import { ScroolToTop } from './components/Buttton/Button.component';
 import HashLoader from "react-spinners/HashLoader";
+import {LinkTextComponent} from './components/Text/Text.component.jsx'
 
 //Navabar
 const navigation = [
@@ -25,14 +26,6 @@ const navigation = [
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
-
-  // useEffect(() => {
-  //   window.onload = () => {
-  //     setTimeout(function(){
-  //       setIsLoading(false);
-  //     }, 2000);
-  //   };
-  // }, []);
 
   const Loader = () => {
     return (
@@ -64,9 +57,9 @@ function App() {
               <BenefitContainer id ='benefit'/>
               
               <MyPorjectContainer id='project'/>
-              <QuoteContainer 
-                text={"Vous voulez voir comment le site est construit ? Il est en public Ici"}
-              />
+              <QuoteContainer >
+                Vous voulez voir comment le site est construit ? Il est en public <LinkTextComponent to={URL.ghithudb_portfolio_rework}>ICI</LinkTextComponent>
+              </QuoteContainer>
               <ContactContainer id='contact'/>
               <FooterContainer/>
 
