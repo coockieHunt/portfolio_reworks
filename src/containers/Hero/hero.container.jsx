@@ -23,7 +23,6 @@ export const HeroContainer = ({id}) => {
                     <Link to={'contact'}>
                         <Button>Contact</Button>
                     </Link>
-                    <Button onclick={() => window.location.replace('www.google.fr')}>project git</Button>
                 </div>
             </HeroText>
 
