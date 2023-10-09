@@ -20,7 +20,7 @@ const navigation = [
   ['A propos', "catch"],
   ['Competences', "benefit"],
   ['Projets', "project"],
-  ['Contacte', "contact"],
+  ['Contact', "contact"],
 ]
 
 function App() {
@@ -65,7 +65,7 @@ function App() {
               
               <MyPorjectContainer id='project'/>
               <QuoteContainer 
-                text={"Vous voulée voir comment le site et construit ? Il et en public Ici"}
+                text={"Vous voulez voir comment le site est construit ? Il est en public Ici"}
               />
               <ContactContainer id='contact'/>
               <FooterContainer/>

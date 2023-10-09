@@ -7,7 +7,7 @@ export const MyPorjectContainer = ({id}) => {
     return(
         <Container id={id}>
             <Title><AccentTextComponent>MES PROJETS</AccentTextComponent></Title>
-            <Text>Une partie de mes project public</Text>
+            <Text>Une partie de mes projects publics</Text>
             <div className="listContainer">
                 <List>
                     <div>

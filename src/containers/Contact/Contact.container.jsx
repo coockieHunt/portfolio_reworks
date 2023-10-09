@@ -54,13 +54,13 @@ export const ContactContainer = ({id}) => {
     
     return(
         <div id={id}>
-            <Title><AccentTextComponent>Me contactée</AccentTextComponent></Title>
+            <Title><AccentTextComponent>Me contacter</AccentTextComponent></Title>
             <Container>
                 {!isMobile ?
                     <Info>
                         <div className="info">
                             <h1>Information</h1>
-                            <p>Remplissez ce formulaire, je vous repondrée le plus rapidement possible.</p>
+                            <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
                         
                             <div className="contact">
                                 <Link onClick={() => window.location.replace('https://bobbyhadz.com')}>
@@ -95,7 +95,7 @@ export const ContactContainer = ({id}) => {
                                 name="firsName"
                                 value={output.firsName} 
                                 onChange={handleChange}
-                                label="Prenon"
+                                label="Prenom"
                                 placeHolder="jhon"
                                 required
                             /> 
@@ -128,7 +128,7 @@ export const ContactContainer = ({id}) => {
 
                     </FormComponent.Groupe>
                     <ActionForm>
-                            <span onClick={() => {handleReset()}}>Remettre a zero</span>
+                            <span onClick={() => {handleReset()}}>Remettre a     zero</span>
                             <Button 
                                 onClick={() => {handleSubmit()}}
                                 icon={<AiOutlineSend/>}
