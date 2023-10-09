@@ -7,7 +7,8 @@ export const  IconContainer = styled.button`
     font-size: 1em;
     padding: 5px;
     transition: all .3s ease;
-
+    cursor: pointer;
+    
     &:hover{
         background-color: #363636;
         padding: 5px;
