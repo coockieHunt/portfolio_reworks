@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-scroll";
+import { URL } from '../../config'
 
 
 // hook
@@ -24,7 +25,7 @@ import {
 // icon
 import{
   AiFillGithub,
-  AiOutlineUser
+  AiFillLinkedin
 }from 'react-icons/ai';
 
 import{
@@ -82,9 +83,15 @@ export const NavigationComponent = ({navConfig}) =>{
           </ul>
 
           <div className="info">
-              <IconButton icon={<AiFillGithub />} color="#6e5494"/>
-              <IconButton icon={<AiOutlineUser/>} color="#0e63ff"/>
-              <IconButton icon={<FaDeviantart/>} color="#05cc46"/>
+              <IconButton icon={<AiFillGithub />} color="#6e5494" onClick={
+                () => window.location.href = URL.github
+              }/>
+              <IconButton icon={<AiFillLinkedin/>} color="#0e76a8"onClick={
+                () => window.location.href = URL.linkedin
+              }/>
+              <IconButton icon={<FaDeviantart/>} color="#05cc46"onClick={
+                () => window.location.href = URL.DeviantArt
+              }/>
           </div>
          
         </Nav>
