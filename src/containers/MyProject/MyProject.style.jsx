@@ -7,27 +7,31 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 55vh;
-    font-size: 2em;
     margin: 0 auto;
     background-color: #202020;
+    width: 100%;
+
 
     & .listContainer{
         width: 95%;
+        height: 100%;
+        padding-bottom: 30px;
     }
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        height: auto;
+    @media (max-width: 1200px) {
         padding-bottom: 30px;
     }
 `
 export const Title = styled.div`
+    font-size: 2em;
+    margin-top:30px;
+
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         margin-top:30px;
     }
 `
 export const Text = styled.span`
-    font-size: .6em;
+    font-size: 1em;
     margin-bottom:50px;
 `
 
@@ -36,26 +40,34 @@ export const List = styled.div`
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    height: 300px;
+    height: auto;
+    overflow: auto;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        height: auto;
+        height:100%;
     }
 
     & div{
+        display: flex;
+        flex-direction: column;
+        height: 350px;
+
+
         background-color: ${COLOR.primary};
         width: 300px;
-        overflow: hidden;
+        padding: 20px;
+        max-height: 500px;
 
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            width: 90%;
+        }
         cursor: pointer;
-        padding: 15px;
 
         & .title{
-            font-size: .7em;
+            font-size: 1.6em;
             font-variation-settings: "wght" 800;
             padding-bottom: 25px;
             position: relative;
-
            
             &:before{
                 content: "";
@@ -64,28 +76,33 @@ export const List = styled.div`
                 height: 10px;
                 background: ${COLOR.secondary};
                 left: 0;
-                top: 65%;
+                top: 70%;
                 position: absolute;
             }
         }
 
 
         & p {
-            font-size: .5em;
+            font-size: 1em;
             line-height: 1.3em;
+            width: 100%;
         }
 
         transition: all .6s ease;
            
 
         @media (min-width: ${SCREEN_SIZE.mobile}) {
-            &:hover{
+            &:hover
+             {
                 width: 400px;
                 transition: all .6s ease;
             }
+
+            &:hover ~ div {
+                width: 300px;
+                transition: all .6s ease;
+            }
         }
-       
-       
     }
 
    
