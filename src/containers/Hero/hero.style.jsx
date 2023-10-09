@@ -10,6 +10,17 @@ export const DeskSpline = styled.div`
     height: 100%;
     width: 100%;
     top: 0;
+
+    & .loading{
+        position: absolute;
+        top: 40%;
+        right: 20%;
+
+        @media (max-width:  ${SCREEN_SIZE.mobile}) {
+            top: 45%;
+            right: 35%;
+        }
+    }
 `
 
 export const HeroText = styled.div`

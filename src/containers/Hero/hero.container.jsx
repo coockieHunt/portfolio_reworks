@@ -6,6 +6,10 @@ import {
     DeskSpline 
 } from "./hero.style"
 
+import { COLOR } from '../../config';
+
+import HashLoader from "react-spinners/HashLoader";
+
 import{CradiantTextComponent} from "../../components/Text/Text.component"
 import{Button} from "../../components/Buttton/Button.component"
 import{HellowHandComponent} from '../../components/HelloHand/HelloHand.component'
@@ -27,7 +31,17 @@ export const HeroContainer = ({id}) => {
             </HeroText>
 
         <DeskSpline>
-            <Suspense fallback={<div>Loading...</div>}>
+
+            <Suspense fallback={ 
+                <div className="loading">
+                    <HashLoader
+                        color={COLOR.primary}
+                        size={120}
+                        aria-label="Loading Spinner spline"
+                        data-testid="loader"
+                    />
+                </div>
+            }>
                 <Spline scene="https://draft.spline.design/RkBPPEpmICxiaTWD/scene.splinecode" />
             </Suspense>
         </DeskSpline>
