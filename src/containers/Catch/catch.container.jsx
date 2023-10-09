@@ -13,11 +13,10 @@ import {useWindowSize} from "../../hooks/screenResize.hook";
 import{SCREEN_SIZE} from '../../config'
 
 export const CathContainer = ({id}) => {
-
-
     const isMobile = useWindowSize(
         SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
     ); 
+    
     return(
         <Container id={id}>
             <SplitLayouComponent

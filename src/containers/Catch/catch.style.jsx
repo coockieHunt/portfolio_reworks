@@ -3,6 +3,10 @@ import { COLOR } from '../../config';
 import {SCREEN_SIZE} from '../../config'
 
 export const Container = styled.div`
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
 `
 
 export const Text = styled.div`

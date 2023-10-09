@@ -55,7 +55,6 @@ function App() {
               <HeroContainer id='hero'/>
               <CathContainer id='catch'/>
               <BenefitContainer id ='benefit'/>
-              
               <MyPorjectContainer id='project'/>
               <QuoteContainer >
                 Vous voulez voir comment le site est construit ? Il est en public <LinkTextComponent to={URL.ghithudb_portfolio_rework}>ICI</LinkTextComponent>

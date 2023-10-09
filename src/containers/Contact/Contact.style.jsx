@@ -12,7 +12,7 @@ export const Container = styled.div`
     & *{box-sizing:border-box;}
 
     @media (max-width: 1400px) {
-        width: 99vw;
+        width: 95vw;
         margin: 0 auto;
         border-radius: 0px;
         margin: 0 auto;
