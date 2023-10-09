@@ -1,20 +1,21 @@
 import styled from 'styled-components';
 import { COLOR } from '../../config';
-import {SCREEN_SIZE} from '../../config';
 
 export const Container = styled.div`
     display: flex;
     background-color: #202020;
-    width: 80vw;
+    width: 90vw;
     margin: 30px auto;
     padding: 8px;
     border-radius: 15px;
 
     & *{box-sizing:border-box;}
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        width: 100vw;
+
+    @media (max-width: 1400px) {
+        width: 99vw;
         margin: 0 auto;
         border-radius: 0px;
+        margin: 0 auto;
         margin-bottom: 20px;
     }
 `
@@ -76,7 +77,7 @@ export const ContactForm  = styled.div`
     margin: auto;
     width: 70%;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {width: 100%;}
+    @media (max-width: 1400px) {width: 100%;}
 `
 
 export const ActionForm = styled.div`

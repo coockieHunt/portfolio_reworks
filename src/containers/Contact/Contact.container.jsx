@@ -32,12 +32,12 @@ export const ContactContainer = ({id}) => {
     }
     const [output, setOutput] = useState(DefaultValue)
 
-    const isMobile = useWindowSize(
-        SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
-    ); 
+    const isMobile = useWindowSize(1400); 
 
     const handleChange = (e) => {
-        setOutput(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        setOutput(prev => (
+            { ...prev, [e.target.name]: e.target.value }
+        ));
     }
 
     const handleReset = (e) => {
@@ -50,8 +50,6 @@ export const ContactContainer = ({id}) => {
         e.preventDefault();
     }
 
-
-    
     return(
         <div id={id}>
             <Title><AccentTextComponent>Me contacter</AccentTextComponent></Title>
