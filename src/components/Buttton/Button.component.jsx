@@ -19,7 +19,7 @@ import { useScroolOffsetY } from '../../hooks/offsetScrools.hook';
  * 
  * This component renders a customizable button with optional icon and click handler.
  * 
- * @param onclick {Function} - Callback function to be executed when the button is clicked.
+ * @param onClick {Function} - Callback function to be executed when the button is clicked.
  * @param color {string} - Color of the button.
  * @param children {ReactNode} - Content to be displayed inside the button.
  * @param icon {ReactNode} - Optional icon element to be displayed before the button content.
@@ -27,9 +27,9 @@ import { useScroolOffsetY } from '../../hooks/offsetScrools.hook';
  * @param disabled {boolean} - If `true`, the button will be disabled and cannot be clicked.
  */
 
-export const Button = ({ onclick, color, children, icon, icon_right, disabled }) => {
+export const Button = ({ onClick, color, children, icon, icon_right, disabled }) => {
     return (
-        <ButtonContainer onClick={!disabled ? onclick : null} colorLine={color} className={disabled ? "disabled" : null}>
+        <ButtonContainer onClick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
             <div className="button-content">
                  {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
             </div>
@@ -42,16 +42,16 @@ export const Button = ({ onclick, color, children, icon, icon_right, disabled })
  * 
  * This component renders a customizable outline button with optional icon and click handler.
  * 
- * @param onclick {Function} - Callback function to be executed when the button is clicked.
+ * @param onClick {Function} - Callback function to be executed when the button is clicked.
  * @param color {string} - Color of the outline button.
  * @param children {ReactNode} - Content to be displayed inside the outline button.
  * @param icon {ReactNode} - Optional icon element to be displayed before the button content.
  * @param icon_right {boolean} - If `true`, the icon will be displayed to the right of the button content.
  * @param disabled {boolean} - If `true`, the button will be disabled and cannot be clicked.
  */
-export const OutlineButton = ({ onclick, color, children, icon, icon_right, disabled }) => {
+export const OutlineButton = ({ onClick, color, children, icon, icon_right, disabled }) => {
     return (
-        <OutileButtonContainer onClick={!disabled ? onclick : null} colorLine={color} className={disabled ? "disabled" : null}>
+        <OutileButtonContainer onClonClickick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
             <div className="button-content">
             {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
             </div>
