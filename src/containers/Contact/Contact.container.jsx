@@ -16,6 +16,9 @@ import {useWindowSize} from "../../hooks/screenResize.hook"
 import axios, {isCancel, AxiosError} from 'axios';
 
 
+import {Html} from './mail_template'
+
+
 import * as FormComponent from "../../components/Form/From.component"
 import {Button} from "../../components/Buttton/Button.component"
 import {AccentTextComponent} from "../../components/Text/Text.component"
@@ -58,43 +61,16 @@ export const ContactContainer = ({id}) => {
 
         subjectFormat = subjectFormat.trim();
 
-        var emailHTML = `
-            <!DOCTYPE html>
-            <html lang="fr">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Votre E-mail</title>
-            </head>
-            <body>
-                <table width="100%" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center" style="background-color: #f0f0f0; padding: 20px;">
-                            <table width="600" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td align="center" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
-                                        ${output.message}  
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </body>
-            </html>
-        `;
-
-        
         const output_format = {
           to: CONTACT_EMAIL,
           subject: subjectFormat, 
-          message: emailHTML
+          message: Html,
         };
 
         console.log(JSON.stringify(output_format));
       
         try {
-          const response = await axios.post('https://api.jonathangleyze.fr/sendEmail', JSON.stringify(output_format));
+          const response = await axios.post('https://api.jonathangleyze.fr/sendEmail', output_format);
                   
           if (response.data.success) {
             alert("L'e-mail a été envoyé avec succès.");
