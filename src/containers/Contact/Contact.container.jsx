@@ -14,9 +14,9 @@ import{
 
 import {useWindowSize} from "../../hooks/screenResize.hook"
 import axios, {isCancel, AxiosError} from 'axios';
+import { renderToString } from 'react-dom/server';
 
-
-import {Html} from './mail_template'
+import {EmailStructure} from './mail_template'
 
 
 import * as FormComponent from "../../components/Form/From.component"
@@ -61,10 +61,18 @@ export const ContactContainer = ({id}) => {
 
         subjectFormat = subjectFormat.trim();
 
+        const contentMessage = renderToString(
+            <EmailStructure 
+                content={output.message} 
+                title="Formulaire de contact" 
+                email={output.email} 
+                FullName={subjectFormat}/>
+        );
+
         const output_format = {
           to: CONTACT_EMAIL,
           subject: subjectFormat, 
-          message: Html,
+          message: contentMessage,
         };
 
         console.log(JSON.stringify(output_format));
