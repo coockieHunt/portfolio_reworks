@@ -9,6 +9,8 @@ export const SCREEN_SIZE = {
     mobile: '850px',
 }
 
+export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com'
+
 export const URL = {
     DeviantArt: 'https://www.deviantart.com/coockiehunt',
     github: 'https://github.com/coockieHunt',

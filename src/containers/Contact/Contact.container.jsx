@@ -9,7 +9,7 @@ import {
 } from "./Contact.style"
 
 import{
-    SCREEN_SIZE
+    CONTACT_EMAIL
 } from '../../config'
 
 import {useWindowSize} from "../../hooks/screenResize.hook"
@@ -26,8 +26,8 @@ import { BiSolidMap } from 'react-icons/bi';
 
 export const ContactContainer = ({id}) => {
     let DefaultValue = {
-        firsName: '',
-        lastname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         message: ''
     }
@@ -46,22 +46,61 @@ export const ContactContainer = ({id}) => {
     }
 
     const handleSubmit = async(e) => {
-        console.log(JSON.stringify(output));
-      
+
+        let subjectFormat = 'Demande de contact de ';
+
+        if (output.firstName) {subjectFormat += `${output.firstName}`;}
+
+        if (output.lastName) {
+            if (output.firstName) {subjectFormat += ' ';}
+            subjectFormat += `${output.lastName}`;
+        }
+
+        subjectFormat = subjectFormat.trim();
+
+        var emailHTML = `
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Votre E-mail</title>
+            </head>
+            <body>
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="center" style="background-color: #f0f0f0; padding: 20px;">
+                            <table width="600" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td align="center" style="background-color: #ffffff; padding: 20px; border-radius: 10px;">
+                                        ${output.message}  
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>
+        `;
+
+        
         const output_format = {
-          to: output.email, // Remplacez par l'adresse e-mail du destinataire
-          subject: output.lastname, // Remplacez par l'objet de l'e-mail
-          message: output.message
+          to: CONTACT_EMAIL,
+          subject: subjectFormat, 
+          message: emailHTML
         };
+
+        console.log(JSON.stringify(output_format));
       
         try {
-          const response = await axios.post('http://jonathangleyze.fr:3001/sendEmail', output_format);
+          const response = await axios.post('https://api.jonathangleyze.fr/sendEmail', JSON.stringify(output_format));
                   
           if (response.data.success) {
             alert("L'e-mail a été envoyé avec succès.");
-            setOutput(DefaultValue); // Réinitialisez le formulaire
+            setOutput(DefaultValue); 
           } else {
-            // Il y a eu une erreur lors de l'envoi de l'e-mail
+            console.log(response)
             alert("Une erreur s'est produite lors de l'envoi de l'e-mail.");
           }
         } catch (error) {
@@ -110,16 +149,16 @@ export const ContactContainer = ({id}) => {
                     <FormComponent.Groupe >
                         <FormComponent.Inline>
                             <FormComponent.InputText 
-                                name="firsName"
-                                value={output.firsName} 
+                                name="firstName"
+                                value={output.firstName} 
                                 onChange={handleChange}
                                 label="Prenom"
                                 placeHolder="jhon"
                                 required
                             /> 
                             <FormComponent.InputText 
-                                name="lastname" 
-                                value={output.lastname} 
+                                name="lastName" 
+                                value={output.lastName} 
                                 onChange={handleChange}
                                 label="nom"
                                 placeHolder="doe"
@@ -146,9 +185,9 @@ export const ContactContainer = ({id}) => {
 
                     </FormComponent.Groupe>
                     <ActionForm>
-                            <span onclick={() => {handleReset()}}>Remettre a  zero</span>
+                            <span onClick={() => {handleReset()}}>Remettre a  zero</span>
                             <Button 
-                                onclick={() => {handleSubmit()}}
+                                onClick={() => {handleSubmit()}}
                                 icon={<AiOutlineSend/>}
                             >Envoyer</Button>
                     </ActionForm>
