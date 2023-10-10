@@ -13,6 +13,7 @@ import{
 } from '../../config'
 
 import {useWindowSize} from "../../hooks/screenResize.hook"
+import axios, {isCancel, AxiosError} from 'axios';
 
 
 import * as FormComponent from "../../components/Form/From.component"
@@ -44,11 +45,30 @@ export const ContactContainer = ({id}) => {
         setOutput(DefaultValue);
     }
 
-    const handleSubmit = (e) => {
-        console.log(JSON.stringify(output))
-        setOutput(DefaultValue);
-        e.preventDefault();
-    }
+    const handleSubmit = async(e) => {
+        console.log(JSON.stringify(output));
+      
+        const output_format = {
+          to: output.email, // Remplacez par l'adresse e-mail du destinataire
+          subject: output.lastname, // Remplacez par l'objet de l'e-mail
+          message: output.message
+        };
+      
+        try {
+          const response = await axios.post('http://jonathangleyze.fr:3001/sendEmail', output_format);
+                  
+          if (response.data.success) {
+            alert("L'e-mail a été envoyé avec succès.");
+            setOutput(DefaultValue); // Réinitialisez le formulaire
+          } else {
+            // Il y a eu une erreur lors de l'envoi de l'e-mail
+            alert("Une erreur s'est produite lors de l'envoi de l'e-mail.");
+          }
+        } catch (error) {
+          console.error('Erreur lors de la requête POST vers le serveur:', error);
+          alert("Une erreur s'est produite lors de l'envoi de l'e-mail.");
+        }
+    };
 
     return(
         <div id={id}>
@@ -126,9 +146,9 @@ export const ContactContainer = ({id}) => {
 
                     </FormComponent.Groupe>
                     <ActionForm>
-                            <span onClick={() => {handleReset()}}>Remettre a     zero</span>
+                            <span onclick={() => {handleReset()}}>Remettre a  zero</span>
                             <Button 
-                                onClick={() => {handleSubmit()}}
+                                onclick={() => {handleSubmit()}}
                                 icon={<AiOutlineSend/>}
                             >Envoyer</Button>
                     </ActionForm>
