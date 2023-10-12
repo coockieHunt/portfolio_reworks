@@ -13,10 +13,10 @@ import{
 } from '../../config'
 
 import {useWindowSize} from "../../hooks/screenResize.hook"
-import axios, {isCancel, AxiosError} from 'axios';
+import axios from 'axios';
 import { renderToString } from 'react-dom/server';
 
-import {EmailStructure} from './mail_template'
+import {EmailTemplateContact} from '../../templates/mail.contact.mail'
 
 
 import * as FormComponent from "../../components/Form/From.component"
@@ -27,7 +27,11 @@ import { Link } from '../../components/Buttton/Button.component';
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
 import { BiSolidMap } from 'react-icons/bi';
 
+import { useAlert } from '../../context/alert.context';
+
 export const ContactContainer = ({id}) => {
+    const { addAlert } = useAlert();
+
     let DefaultValue = {
         firstName: '',
         lastName: '',
@@ -48,7 +52,39 @@ export const ContactContainer = ({id}) => {
         setOutput(DefaultValue);
     }
 
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
     const handleSubmit = async(e) => {
+        if (!output.email || !isValidEmail(output.email)) {
+            addAlert({
+                message: 'Veuillez saisir une adresse email valide.',
+                colorAlert: "#cc3300",
+                delay: 4000
+            });
+            return;
+        }
+    
+        if (!output.firstName) {
+            addAlert({
+                message: 'Veuillez saisir votre prénom.',
+                colorAlert: "#cc3300",
+                delay: 4000
+            });
+            return;
+        }
+    
+        if (!output.message) {
+            addAlert({
+                message: 'Veuillez saisir votre message.',
+                colorAlert: "#cc3300",
+                delay: 4000
+            });
+            return;
+        }
 
         let subjectFormat = 'Demande de contact de ';
 
@@ -62,7 +98,7 @@ export const ContactContainer = ({id}) => {
         subjectFormat = subjectFormat.trim();
 
         const contentMessage = renderToString(
-            <EmailStructure 
+            <EmailTemplateContact 
                 content={output.message} 
                 title="Formulaire de contact" 
                 email={output.email} 
@@ -75,21 +111,30 @@ export const ContactContainer = ({id}) => {
           message: contentMessage,
         };
 
-        console.log(JSON.stringify(output_format));
-      
         try {
           const response = await axios.post('https://api.jonathangleyze.fr/sendEmail', output_format);
                   
           if (response.data.success) {
-            alert("L'e-mail a été envoyé avec succès.");
+            addAlert({
+                message: 'Message bien reçu 👌',
+                delay: 4000
+            });
             setOutput(DefaultValue); 
           } else {
             console.log(response)
-            alert("Une erreur s'est produite lors de l'envoi de l'e-mail.");
+            addAlert({
+                message: 'Message non evoyer',
+                colorAlert: "#ffcc00",
+                delay: 4000
+            });
           }
         } catch (error) {
           console.error('Erreur lors de la requête POST vers le serveur:', error);
-          alert("Une erreur s'est produite lors de l'envoi de l'e-mail.");
+          addAlert({
+            message: "Une erreur s'est produite lors de l'envoi de l'e-mail.",
+            colorAlert: "#cc3300",
+            delay: 4000
+        });
         }
     };
 
@@ -99,6 +144,7 @@ export const ContactContainer = ({id}) => {
             <Container>
                 {!isMobile ?
                     <Info>
+                        {/* <AlertConponent type="red" message='sqdsqdqsdsqdsd'/> */}
                         <div className="info">
                             <h1>Information</h1>
                             <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
@@ -163,7 +209,7 @@ export const ContactContainer = ({id}) => {
                             value={output.message} 
                             onChange={handleChange}
                             label= "message"
-                            placeHolder="Votre message ..."
+                            placeHolder="Ex. Salut, je veux créer un site web pour mes pingouins que chante du heavy metal. 🐧🤟 comment vous pouvez m'aider !"
                             required
                         />
 
@@ -174,6 +220,7 @@ export const ContactContainer = ({id}) => {
                                 onClick={() => {handleSubmit()}}
                                 icon={<AiOutlineSend/>}
                             >Envoyer</Button>
+
                     </ActionForm>
                 </ContactForm>
             </Container>

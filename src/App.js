@@ -16,6 +16,8 @@ import { ScroolToTop } from './components/Buttton/Button.component';
 import HashLoader from "react-spinners/HashLoader";
 import {LinkTextComponent} from './components/Text/Text.component.jsx'
 
+import { AlertProvider } from './context/alert.context.jsx';
+
 //Navabar
 const navigation = [
   ['A propos', "catch"],
@@ -52,17 +54,19 @@ function App() {
         ):(
           <>
               <NavigationComponent navConfig={navigation}/>
-              <HeroContainer id='hero'/>
-              <CathContainer id='catch'/>
-              <BenefitContainer id ='benefit'/>
-              <MyPorjectContainer id='project'/>
-              <QuoteContainer >
-                Vous voulez voir comment le site est construit ? Il est en public <LinkTextComponent to={URL.ghithudb_portfolio_rework}>ICI</LinkTextComponent>
-              </QuoteContainer>
-              <ContactContainer id='contact'/>
-              <FooterContainer/>
+              <AlertProvider>
+                <HeroContainer id='hero'/>
+                <CathContainer id='catch'/>
+                <BenefitContainer id ='benefit'/>
+                <MyPorjectContainer id='project'/>
+                <QuoteContainer >
+                  Vous voulez voir comment le site est construit ? Il est en public <LinkTextComponent to={URL.ghithudb_portfolio_rework}>ICI</LinkTextComponent>
+                </QuoteContainer>
+                <ContactContainer id='contact'/>
+                <FooterContainer/>
+              </AlertProvider>
 
-              <ScroolToTop hide_position={400}/>
+              {/* <ScroolToTop hide_position={400}/> */}
           </>
         )}
       </Content>
