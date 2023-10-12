@@ -8,31 +8,23 @@ export const useAlert = () => {
 };
 
 export const AlertProvider = ({ children, debug }) => {
-  const [alerts, setAlerts] = useState([]);
+    const [alerts, setAlerts] = useState([]);
 
-  const addAlert = (alert) => {
-    setAlerts([...alerts, alert]);
-    if(alert.delay !== undefined){
-      autoCloseAlert(alerts.length, alert.delay)
-    }
-  };
+    const addAlert = (message, colorAlert, delay) => {
+        const newAlert = { id: Date.now(), message, colorAlert, delay };
+        setAlerts((prevAlerts) => [...prevAlerts, newAlert]);
 
-  const autoCloseAlert = (index, delay) => {
-      setTimeout (() =>{
-        removeAlert(index)
-      }, delay)
-  }
+        if (delay) {setTimeout(() => removeAlert(newAlert), delay);}
+    };
 
-  const removeAlert = (index) => {
-    const newAlerts = [...alerts];
-    newAlerts.splice(index, 1);
-    setAlerts(newAlerts);
-  };
+    const removeAlert = (alert) => {
+        setAlerts((prevAlerts) => prevAlerts.filter((a) => a.id !== alert.id));
+    };
 
-  return (
-    <AlertContext.Provider value={{ alerts, addAlert, removeAlert }}>
-      <AlertContainerComponent view={debug}/>
-      {children}
-    </AlertContext.Provider>
-  );
+    return (
+        <AlertContext.Provider value={{ alerts, addAlert, removeAlert }}>
+            <AlertContainerComponent view={debug}/>
+            {children}
+        </AlertContext.Provider>
+    );
 };

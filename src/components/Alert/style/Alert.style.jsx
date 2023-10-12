@@ -2,55 +2,35 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     position: absolute;
-
     position: fixed;
-
     height: 95vh;
     width: 50vh;
-
-    bottom:5vh;
-    right:0;
-
+    bottom: 5vh;
+    right: 0;
     display: flex;
     flex-direction: column-reverse;
     gap: 10px;
     justify-content: start;
-
     z-index: 9999;
     pointer-events: none;
-
     padding: 10px;
 `
 
 export const AlertContainer = styled.div`
     background-color: ${props => props.$coloralert};
-
     box-shadow: 0 0 100px rgba(5, 0, 0, 0.336) inset;
-
     border-radius: 2px;
-
     display: flex;
-
     box-sizing: content-box;
     overflow: hidden;
-
-
     animation: fadeIn 0.5s ease-in;
 
     @keyframes fadeIn {
-        from {opacity: 0;} 
-        to { opacity: 1;}
-    }
-    
-
-    .fadeOut {animation: fadeOut 0.5s ease-out;}
-
-    @keyframes fadeOut {
-        from {opacity: 1;}
-        to {opacity: 0;}
+        from {opacity: 0;}
+        to {opacity: 1;}
     }
 
-    & button{
+    & button {
         background-color: ${props => props.$coloralert};
         box-shadow: 0 0 100px rgba(5, 0, 0, 0.336) inset;
         color: white;
@@ -60,21 +40,20 @@ export const AlertContainer = styled.div`
         overflow: hidden;
         cursor: pointer;
 
-        & svg{
+        & svg {
             font-size: 1.3em;
         }
     }
 
-    .content{
+    .content {
         width: 80%;
 
-        & span{
+        & span {
             margin-right: 0;
             margin-left: 0;
             padding: 20px 20px;
             display: block;
             width: 100%;
-
             background-color: ${props => props.$coloralert};
         }
     }
@@ -89,17 +68,15 @@ export const AlertContainer = styled.div`
         width: 100%;
         background-color: #f9fdff;
         animation: progressAnimation linear forwards;
-
-        display: ${props => props.timer_bar}
+        display: ${props => props.timer_bar};
     }
 
-  
-  @keyframes progressAnimation {
-    0% {
-      width: 100%;
+    @keyframes progressAnimation {
+        0% {
+            width: 100%;
+        }
+        100% {
+            width: 0;
+        }
     }
-    100% {
-      width: 0;
-    }
-  }
 `
