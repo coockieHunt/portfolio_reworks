@@ -6,11 +6,10 @@ import { motion } from "framer-motion"
 
 export const QuoteContainer = ({children}) =>{
       return (
-        
           <Quoute>
             <motion.div 
-              initial={{ y: -100}} 
-              whileInView={{ y: 0}}
+              initial={{ opacity: 0}} 
+              whileInView={{ opacity: 1}}
             >
               <span>{children}</span>
             </motion.div>
