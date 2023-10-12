@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const EmailStructure = ({ content, title, email, FullName }) => {
+export const EmailTemplateContact = ({ content, title, email, FullName }) => {
     const linkStyle = {
-        color: 'white', // Changer la couleur en noir
+        color: 'white',
         textDecoration: 'none',
     };
 
