@@ -63,7 +63,7 @@ export const InputText = ({ name, value, onChange, label, placeHolder, required 
     return (
         <FormElement>
             {LabelElement}
-            <FormInput name={name} type="text" placeholder={placeHolderElement} value={value} onChange={onChange} />
+            <FormInput name={name} id={name} type="text" placeholder={placeHolderElement} value={value} onChange={onChange} />
         </FormElement>
     );
 }
@@ -100,7 +100,7 @@ export const InputEmail = ({ name, value, onChange, label, placeHolder, required
     return (
         <FormElement>
             {LabelElement}
-            <FormInput name={name} type="email" placeholder={placeHolderElement} value={value} onChange={onChange} />
+            <FormInput name={name} id={name} type="email" placeholder={placeHolderElement} value={value} onChange={onChange} />
         </FormElement>
     );
 }
@@ -137,7 +137,7 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
     return (
         <FormElement>
             {LabelElement}
-            <FormTextArea name={name} placeholder={placeHolderElement} value={value} onChange={onChange} />
+            <FormTextArea name={name} id={name} placeholder={placeHolderElement} value={value} onChange={onChange} />
         </FormElement>
     );
 }

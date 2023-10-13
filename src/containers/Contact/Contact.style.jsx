@@ -72,7 +72,7 @@ export const Info = styled.div`
     }
 `
 
-export const ContactForm  = styled.div`
+export const ContactForm = styled.div`
     padding: 5px 20px;
     margin: auto;
     width: 70%;

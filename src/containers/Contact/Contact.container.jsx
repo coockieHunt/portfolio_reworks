@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import { 
+import {
     Container,
     Info,
     ContactForm,
@@ -8,22 +8,22 @@ import {
     Title,
 } from "./Contact.style"
 
-import{
+import {
     COLOR,
     CONTACT_EMAIL
 } from '../../config'
 
-import {useWindowSize} from "../../hooks/screenResize.hook"
+import { useWindowSize } from "../../hooks/screenResize.hook"
 import axios from 'axios';
 import { renderToString } from 'react-dom/server';
 
-import {EmailTemplateContact} from '../../templates/mail.contact.mail'
+import { EmailTemplateContact } from '../../templates/mail.contact.mail'
 import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
 
 
 import * as FormComponent from "../../components/Form/From.component"
-import {Button} from "../../components/Buttton/Button.component"
-import {AccentTextComponent} from "../../components/Text/Text.component"
+import { Button } from "../../components/Buttton/Button.component"
+import { AccentTextComponent } from "../../components/Text/Text.component"
 import { Link } from '../../components/Buttton/Button.component';
 
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
@@ -31,9 +31,9 @@ import { BiSolidMap } from 'react-icons/bi';
 
 import { useAlert } from '../../context/alert.context';
 
-import {CaptchaComponent} from '../../components/Captacha/Captcha.Component'
+import { CaptchaComponent } from '../../components/Captacha/Captcha.Component'
 
-export const ContactContainer = ({id}) => {
+export const ContactContainer = ({ id }) => {
     const { addAlert } = useAlert();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
@@ -45,7 +45,7 @@ export const ContactContainer = ({id}) => {
     }
     const [output, setOutput] = useState(DefaultValue)
 
-    const isMobile = useWindowSize(1400); 
+    const isMobile = useWindowSize(1400);
 
     const handleChange = (e) => {
         setOutput(prev => (
@@ -64,11 +64,11 @@ export const ContactContainer = ({id}) => {
     }
 
 
-    const SendEmail =   async(content) => {
+    const SendEmail = async (content) => {
 
         try {
             const response = await axios.post('https://api.jonathangleyze.fr/sendEmail', content);
-                    
+
             if (response.data.success) {
                 return true
             } else {
@@ -82,7 +82,7 @@ export const ContactContainer = ({id}) => {
                 return false
 
             }
-          } catch (error) {
+        } catch (error) {
             console.error('Erreur lors de la requête POST vers le serveur:', error);
             addAlert(
                 "Une erreur s'est produite lors de l'envoi de l'e-mail.",
@@ -102,7 +102,7 @@ export const ContactContainer = ({id}) => {
             );
             return false;
         }
-    
+
         if (!output.firstName) {
             addAlert(
                 'Veuillez saisir votre prénom.',
@@ -111,7 +111,7 @@ export const ContactContainer = ({id}) => {
             );
             return false;
         }
-    
+
         if (!output.message) {
             addAlert(
                 'Veuillez saisir votre message.',
@@ -134,52 +134,52 @@ export const ContactContainer = ({id}) => {
                 4000
             );
             return;
-          }
+        }
 
         if (CheckData(output)) {
             // Build subject
             let subjectFormat = 'Demande de contact de ';
-    
+
             if (output.firstName) {
                 subjectFormat += `${output.firstName}`;
             }
-    
+
             if (output.lastName) {
                 if (output.firstName) {
                     subjectFormat += ' ';
                 }
                 subjectFormat += `${output.lastName}`;
             }
-    
+
             subjectFormat = subjectFormat.trim();
-    
+
             // Build mail for the webmaster
             const contentMessage_webmaster = renderToString(
-            <EmailTemplateContact
-                content={output.message}
-                title="Formulaire de contact"
-                email={output.email}
-                FullName={subjectFormat}/>
+                <EmailTemplateContact
+                    content={output.message}
+                    title="Formulaire de contact"
+                    email={output.email}
+                    FullName={subjectFormat} />
             );
-    
+
             const output_format_webmaster = {
                 to: CONTACT_EMAIL,
                 subject: subjectFormat,
                 message: contentMessage_webmaster,
             };
-    
+
             // Send email to the webmaster
             const webmasterEmailSent = await SendEmail(output_format_webmaster);
-    
+
             if (webmasterEmailSent) {
                 const output_format_client = {
                     to: output.email,
                     subject: subjectFormat,
                     message: renderToString(<EmailConfirmTemplate />),
                 };
-    
+
                 const clientEmailSent = await SendEmail(output_format_client);
-    
+
                 if (clientEmailSent) {
                     addAlert(
                         'Message bien reçu 👌',
@@ -203,9 +203,9 @@ export const ContactContainer = ({id}) => {
             }
         }
     };
-    
 
-    return(
+
+    return (
         <div id={id}>
             <Title><AccentTextComponent>Me contacter</AccentTextComponent></Title>
             <Container>
@@ -214,67 +214,67 @@ export const ContactContainer = ({id}) => {
                         <div className="info">
                             <h1>Information</h1>
                             <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
-                        
+
                             <div className="contact">
                                 <Link onClick={() => window.location.hr('tel:0603420204')}>
-                                    <AiFillPhone/> 
+                                    <AiFillPhone />
                                     <span>+33 6.03.42.02.04</span>
                                 </Link>
                                 <Link>
-                                    <AiOutlineMail/>
+                                    <AiOutlineMail />
                                     <span
                                         onClick={() => window.location.replace('mailto:pro.jonathan.gleyze@gmail.com')}
                                     >pro.jonathan.gleyze@gmail.com</span>
                                 </Link>
                                 <Link>
-                                    <BiSolidMap/>
+                                    <BiSolidMap />
                                     <span
                                         onClick={() => window.location.href = 'https://www.google.com/maps/place/N%C3%AEmes/'}
                                     >Nîmes (GARD)</span>
                                 </Link>
                             </div>
                         </div>
-                    
+
                         <div className='bottom'>
                             <span>À votre disposition pour toute question.</span>
                         </div>
-                    </Info> :null
+                    </Info> : null
                 }
-            
+
                 <ContactForm>
                     <FormComponent.Groupe >
                         <FormComponent.Inline>
-                            <FormComponent.InputText 
+                            <FormComponent.InputText
                                 name="firstName"
-                                value={output.firstName} 
+                                value={output.firstName}
                                 onChange={handleChange}
                                 label="Prenom"
                                 placeHolder="jhon"
                                 required
-                            /> 
-                            <FormComponent.InputText 
-                                name="lastName" 
-                                value={output.lastName} 
+                            />
+                            <FormComponent.InputText
+                                name="lastName"
+                                value={output.lastName}
                                 onChange={handleChange}
                                 label="nom"
                                 placeHolder="doe"
-                            /> 
+                            />
                         </FormComponent.Inline>
-                    
-                        <FormComponent.InputEmail 
-                            name="email" 
-                            value={output.email} 
+
+                        <FormComponent.InputEmail
+                            name="email"
+                            value={output.email}
                             onChange={handleChange}
                             placeHolder="secteur@domaine.fr"
-                            label= "email"
+                            label="email"
                             required
                         />
 
-                        <FormComponent.InputTextArea 
+                        <FormComponent.InputTextArea
                             name="message"
-                            value={output.message} 
+                            value={output.message}
                             onChange={handleChange}
-                            label= "message"
+                            label="message"
                             placeHolder="Ex. Salut, je veux créer un site web pour mes pingouins que chante du heavy metal. 🐧🤟 comment vous pouvez m'aider !"
                             required
                         />
@@ -284,11 +284,11 @@ export const ContactContainer = ({id}) => {
                     <CaptchaComponent isCaptchaValid={isCaptchaValid} setIsCaptchaValid={setIsCaptchaValid} />
 
                     <ActionForm>
-                            <span onClick={() => {handleReset()}}>Remettre a  zero</span>
-                            <Button 
-                                onClick={() => {handleSubmit()}}
-                                icon={<AiOutlineSend/>}
-                            >Envoyer</Button>
+                        <span onClick={() => { handleReset() }}>Remettre a  zero</span>
+                        <Button
+                            onClick={() => { handleSubmit() }}
+                            icon={<AiOutlineSend />}
+                        >Envoyer</Button>
                     </ActionForm>
                 </ContactForm>
             </Container>
