@@ -13,7 +13,7 @@ To set up and run my portfolio locally, follow these steps:
 2. Navigate to the project directory:
 
    ```bash
-   cd your-portfolio
+   cd portfolio_reworks
 3. start app:
 
    ```bash
@@ -21,7 +21,7 @@ To set up and run my portfolio locally, follow these steps:
 That's it! You can now browse my portfolio locally and see my work.
 
 Live Portfolio
-If you want to view my portfolio online without installing it locally, you can access it here.
+If you want to view my portfolio online without installing it locally, you can access it [ici](https://www.jonathangleyze.fr).
 
 
 Contact
@@ -43,7 +43,7 @@ Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
 2. Accédez au répertoire du projet :
 
    ```bash
-   cd your-portfolio
+   cd portfolio_reworks
 3. start app:
 
    ```bash
@@ -51,7 +51,7 @@ Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
 That's it! You can now browse my portfolio locally and see my work.
 
 Live Portfolio
-Si vous souhaitez consulter mon portfolio en ligne sans l'installer localement, vous pouvez y accéder ici.
+Si vous souhaitez consulter mon portfolio en ligne sans l'installer localement, vous pouvez y accéder [ici](https://www.jonathangleyze.fr)
 
 
 Contact
