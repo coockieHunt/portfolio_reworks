@@ -12,11 +12,13 @@ export const Container = styled.div`
     & *{box-sizing:border-box;}
 
     @media (max-width: 1400px) {
-        width: 95vw;
+        width: 99%;
         margin: 0 auto;
         border-radius: 0px;
         margin: 0 auto;
         margin-bottom: 20px;
+
+        flex-direction: column;
     }
 `
 
@@ -69,6 +71,34 @@ export const Info = styled.div`
 
     & .bottom{
         justify-content: flex-end;
+    }
+
+    @media (max-width: 1400px) {
+        margin:0 auto;
+        width: 95%;
+        align-items: center;
+        justify-content: center;
+
+
+        padding: 0;
+
+        & .contact{
+            margin-top: 0px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            & span{
+                white-space: pre;
+                font-size: 2vh;
+            }
+        }
+
+        & svg{
+            display: none;
+        }
+      
     }
 `
 

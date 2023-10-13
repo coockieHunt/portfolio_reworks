@@ -209,12 +209,14 @@ export const ContactContainer = ({ id }) => {
         <div id={id}>
             <Title><AccentTextComponent>Me contacter</AccentTextComponent></Title>
             <Container>
-                {!isMobile ?
                     <Info>
                         <div className="info">
-                            <h1>Information</h1>
-                            <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
-
+                            {!isMobile &&
+                                <>
+                                    <h1>Information</h1>
+                                    <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
+                                </>
+                            }
                             <div className="contact">
                                 <Link onClick={() => window.location.hr('tel:0603420204')}>
                                     <AiFillPhone />
@@ -235,11 +237,10 @@ export const ContactContainer = ({ id }) => {
                             </div>
                         </div>
 
-                        <div className='bottom'>
+                        {!isMobile && <div className='bottom'>
                             <span>À votre disposition pour toute question.</span>
-                        </div>
-                    </Info> : null
-                }
+                        </div>}
+                    </Info>
 
                 <ContactForm>
                     <FormComponent.Groupe >
