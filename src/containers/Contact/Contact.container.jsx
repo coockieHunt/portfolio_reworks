@@ -218,7 +218,7 @@ export const ContactContainer = ({ id }) => {
                                 </>
                             }
                             <div className="contact">
-                                <Link onClick={() => window.location.hr('tel:0603420204')}>
+                                <Link onClick={() => window.location.href('tel:0603420204')}>
                                     <AiFillPhone />
                                     <span>+33 6.03.42.02.04</span>
                                 </Link>
