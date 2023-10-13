@@ -16,7 +16,7 @@ export const EmailConfirmTemplate = () => {
                 <table role="presentation" align="center" cellPadding={0} cellSpacing={0} style={{ paddingTop: "20px", margin: 'auto', backgroundColor: '#121212', color: '#fff', width: '600px' }}>
                     <tr>
                         <td className="header" style={{ textAlign: 'center', color: '#fff', padding: '10px 30px', borderBottom: '1px solid rgba(255, 255, 255, 0.315)' }}>
-                            <img className="logo" src="https://jonathangleyze.fr/main_logo.png" style={{ height: '50px' }} alt="Logo" />
+                            <img className="logo" src="https://jonathangleyze.fr/src/main_logo.png" style={{ height: '50px' }} alt="Logo" />
                             <h1 className="title" style={{ fontSize: '1.5em' }}>Confirmation de réception</h1>
                         </td>
                     </tr>
