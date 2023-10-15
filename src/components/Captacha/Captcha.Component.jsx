@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useImperativeHandle, forwardRef } from 'react';
 
 import {
     CaptchaContainer,
     CaptchaInput,
     CaptchaForm,
     CaptchaMessage
-} from './style/Captcha.style'
+} from './style/Captcha.style';
 
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 
@@ -24,7 +24,7 @@ const generateRandomNumber = () => {
  * @param {function} props.setIsCaptchaValid - A function to set the captcha's validity.
  * @returns {JSX.Element} The rendered captcha component.
  */
-export const CaptchaComponent = ({ isCaptchaValid, setIsCaptchaValid }) => {
+export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid }, ref) => {
     const [number1, setNumber1] = useState(generateRandomNumber());
     const [number2, setNumber2] = useState(generateRandomNumber());
     const [userAnswer, setUserAnswer] = useState('');
@@ -36,23 +36,35 @@ export const CaptchaComponent = ({ isCaptchaValid, setIsCaptchaValid }) => {
         setIsCaptchaValid(correctAnswer === userProvidedAnswer);
     };
 
+    const handleReset = () => {
+        setNumber1(generateRandomNumber());
+        setNumber2(generateRandomNumber());
+        setUserAnswer('');
+        setIsCaptchaValid(false);
+    };
+
+    useImperativeHandle(ref, () => ({
+        handleReset: handleReset
+    }));
+
     return (
         <CaptchaContainer>
-            <label htmlFor="Captha">Captcha *</label>
+            <label htmlFor="Captcha">Captcha *</label>
             <CaptchaForm>
                 <span>{number1} + {number2} =</span>
                 <CaptchaInput
                     type="text"
                     value={userAnswer}
                     onChange={handleCaptchaChange}
-                    name="Captha"
-                    id="Captha"
+                    name="Captcha"
+                    id="Captcha"
                 />
                 {isCaptchaValid ? (
-                    <CaptchaMessage style={{color: "green"}}><AiOutlineCheck/></CaptchaMessage>) : (
-                    <CaptchaMessage style={{color: "red"}}><AiOutlineClose/></CaptchaMessage>
+                    <CaptchaMessage style={{ color: "green" }}><AiOutlineCheck /></CaptchaMessage>
+                ) : (
+                    <CaptchaMessage style={{ color: "red" }}><AiOutlineClose /></CaptchaMessage>
                 )}
             </CaptchaForm>
         </CaptchaContainer>
     );
-  };
+});

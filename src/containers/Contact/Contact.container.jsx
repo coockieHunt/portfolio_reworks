@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import {
     Container,
@@ -36,6 +36,8 @@ import { CaptchaComponent } from '../../components/Captacha/Captcha.Component'
 export const ContactContainer = ({ id }) => {
     const { addAlert } = useAlert();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
+    const captchaComponentRef = useRef();
+
 
     let DefaultValue = {
         firstName: '',
@@ -53,8 +55,10 @@ export const ContactContainer = ({ id }) => {
         ));
     }
 
+
     const handleReset = (e) => {
         setOutput(DefaultValue);
+        captchaComponentRef.current.handleReset();
     }
 
 
@@ -65,9 +69,8 @@ export const ContactContainer = ({ id }) => {
 
 
     const SendEmail = async (content) => {
-
         try {
-            const response = await axios.post('https://api.jonathangleyze.fr/sendEmail', content);
+            const response = await axios.post('https://api.jonathangleyze.fr/api/sendEmail', content);
 
             if (response.data.success) {
                 return true
@@ -165,7 +168,7 @@ export const ContactContainer = ({ id }) => {
             const output_format_webmaster = {
                 to: CONTACT_EMAIL,
                 subject: subjectFormat,
-                message: contentMessage_webmaster,
+                content: contentMessage_webmaster,
             };
 
             // Send email to the webmaster
@@ -175,7 +178,7 @@ export const ContactContainer = ({ id }) => {
                 const output_format_client = {
                     to: output.email,
                     subject: subjectFormat,
-                    message: renderToString(<EmailConfirmTemplate />),
+                    content: renderToString(<EmailConfirmTemplate />),
                 };
 
                 const clientEmailSent = await SendEmail(output_format_client);
@@ -186,7 +189,7 @@ export const ContactContainer = ({ id }) => {
                         COLOR.primary,
                         3500
                     );
-                    setOutput(DefaultValue);
+                    handleReset()
                 } else {
                     addAlert(
                         "Erreur lors de l'envoi de l'e-mail de confirmation au client.",
@@ -240,7 +243,7 @@ export const ContactContainer = ({ id }) => {
                         </div>
 
                         {!isMobile && <div className='bottom'>
-                            <span>À votre disposition pour toute question.</span>
+                            <span>le formulaire avec une * sont obligatoire</span>
                         </div>}
                     </Info>
 
@@ -284,7 +287,10 @@ export const ContactContainer = ({ id }) => {
 
                     </FormComponent.Groupe>
 
-                    <CaptchaComponent isCaptchaValid={isCaptchaValid} setIsCaptchaValid={setIsCaptchaValid} />
+                    <CaptchaComponent 
+                        ref={captchaComponentRef}
+                        isCaptchaValid={isCaptchaValid} 
+                        setIsCaptchaValid={setIsCaptchaValid} />
 
                     <ActionForm>
                         <span onClick={() => { handleReset() }}>Remettre a  zero</span>
