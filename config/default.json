@@ -1,0 +1,23 @@
+{
+    "port": 3001,
+    
+    "MailTransport": {
+        "host": "",
+        "port": 0,
+        "secure": false,
+        "user": "",
+        "pass": ""
+    },
+
+    "allowedIPs": [
+        "127.0.0.1"
+    ],
+
+    "Log":{
+        "maxLine": 5000,
+        "directory": "logs",
+        "name": {
+            "mail": "mail_log.txt"
+        }
+    }
+}
