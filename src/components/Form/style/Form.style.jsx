@@ -16,6 +16,13 @@ export const FormLabel = styled.label`
     &:first-letter{
         text-transform: uppercase;
     }
+
+   & span{
+    color: ${COLOR.primary}
+   }
+
+
+
 `;
 
 export const FormInput = styled.input `
@@ -29,6 +36,15 @@ export const FormInput = styled.input `
     border-radius: 3px;
     &:focus{
         border: ${BorderSize} solid ${FormFocusColor};
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:focus, 
+    &:-webkit-autofill:active{
+        -webkit-text-fill-color: #ffffff;
+        transition: background-color 5000s ease-in-out 0s;
+        box-shadow: inset 0 0 20px 20px ${backgroundColor};
     }
 `;
 

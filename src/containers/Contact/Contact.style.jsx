@@ -121,7 +121,7 @@ export const ActionForm = styled.div`
         color: #464646;
         cursor: pointer;
         &:hover{
-            color: #6c6c6c;
+            color: ${COLOR.primary};
         }
     }
 `

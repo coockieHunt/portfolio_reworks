@@ -32,6 +32,7 @@ export const Text = styled.div`
         font-size: 22px;
         font-weight: lighter;
         margin-top: 20px;
+        font-variation-settings: "wght" 400;
     }
 
     & ul li::before {

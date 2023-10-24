@@ -243,7 +243,7 @@ export const ContactContainer = ({ id }) => {
                         </div>
 
                         {!isMobile && <div className='bottom'>
-                            <span>le formulaire avec une * sont obligatoire</span>
+                            <span>Les informations avec une * sont obligatoire</span>
                         </div>}
                     </Info>
 

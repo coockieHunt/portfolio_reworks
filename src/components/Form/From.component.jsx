@@ -42,28 +42,32 @@ export const Inline = ({ children }) => (
  * @param label Displayed text on label
  */
 export const InputText = ({ name, value, onChange, label, placeHolder, required }) => {
-    const IfLabel = (label) => {
+    const renderLabel = () => {
         if (label !== undefined) {
-            if (required !== undefined) {
-                label = label + " *";
+            if (required) {
+                return (
+                    <FormLabel htmlFor={name}>
+                        {label} <span>*</span>
+                    </FormLabel>
+                );
             }
             return <FormLabel htmlFor={name}>{label}</FormLabel>;
         }
 
-        return <FormLabel>&#x200B;</FormLabel>;
+        return null;
     };
 
-    let LabelElement = IfLabel(label);
+    const labelElement = renderLabel();
 
-    let placeHolderElement = placeHolder;
-    if (required !== undefined && label === undefined) {
-        placeHolderElement = placeHolder + " *";
+    let placeholderElement = placeHolder;
+    if (required && label === undefined) {
+        placeholderElement = `${placeHolder} *`;
     }
 
     return (
         <FormElement>
-            {LabelElement}
-            <FormInput name={name} id={name} type="text" placeholder={placeHolderElement} value={value} onChange={onChange} />
+            {labelElement}
+            <FormInput name={name} id={name} type="text" placeholder={placeholderElement} value={value} onChange={onChange} />
         </FormElement>
     );
 }
@@ -79,31 +83,35 @@ export const InputText = ({ name, value, onChange, label, placeHolder, required 
  * @param label Displayed text on label
  */
 export const InputEmail = ({ name, value, onChange, label, placeHolder, required }) => {
-    const IfLabel = (label) => {
+    const renderLabel = () => {
         if (label !== undefined) {
-            if (required !== undefined) {
-                label = label + " *";
+            if (required) {
+                return (
+                    <FormLabel htmlFor={name}>
+                        {label} <span>*</span>
+                    </FormLabel>
+                );
             }
             return <FormLabel htmlFor={name}>{label}</FormLabel>;
         }
 
-        return <FormLabel>&#x200B;</FormLabel>;
+        return null;
     };
 
-    let LabelElement = IfLabel(label);
+    const labelElement = renderLabel();
 
-    let placeHolderElement = placeHolder;
-    if (required !== undefined && label === undefined) {
-        placeHolderElement = placeHolder + " *";
+    let placeholderElement = placeHolder;
+    if (required && label === undefined) {
+        placeholderElement = `${placeHolder} *`;
     }
 
     return (
         <FormElement>
-            {LabelElement}
-            <FormInput name={name} id={name} type="email" placeholder={placeHolderElement} value={value} onChange={onChange} />
+            {labelElement}
+            <FormInput name={name} id={name} type="email" placeholder={placeholderElement} value={value} onChange={onChange} />
         </FormElement>
     );
-}
+};
 
 /**
  * * Add text area
@@ -116,28 +124,32 @@ export const InputEmail = ({ name, value, onChange, label, placeHolder, required
  * @param label Displayed text on text area
  */
 export const InputTextArea = ({ name, value, onChange, label, placeHolder, required }) => {
-    const IfLabel = (label) => {
+    const renderLabel = () => {
         if (label !== undefined) {
-            if (required !== undefined) {
-                label = label + " *";
+            if (required) {
+                return (
+                    <FormLabel htmlFor={name}>
+                        {label} <span>*</span>
+                    </FormLabel>
+                );
             }
             return <FormLabel htmlFor={name}>{label}</FormLabel>;
         }
 
-        return <FormLabel>&#x200B;</FormLabel>;
+        return null;
     };
 
-    let LabelElement = IfLabel(label);
+    const labelElement = renderLabel();
 
-    let placeHolderElement = placeHolder;
-    if (required !== undefined && label === undefined) {
-        placeHolderElement = placeHolder + " *";
+    let placeholderElement = placeHolder;
+    if (required && label === undefined) {
+        placeholderElement = `${placeHolder} *`;
     }
 
     return (
         <FormElement>
-            {LabelElement}
-            <FormTextArea name={name} id={name} placeholder={placeHolderElement} value={value} onChange={onChange} />
+            {labelElement}
+            <FormTextArea name={name} id={name} placeholder={placeholderElement} value={value} onChange={onChange} />
         </FormElement>
     );
 }

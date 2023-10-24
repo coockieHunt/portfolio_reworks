@@ -70,6 +70,7 @@ export const List = styled.div`
             position: relative;
            
             &:before{
+                transition: all .6s ease;
                 content: "";
                 display: block;
                 width: 20%;
@@ -89,6 +90,16 @@ export const List = styled.div`
         }
 
         transition: all .6s ease;
+
+        &:hover
+        {
+            & .title{
+                &:before{
+                transition: all .6s ease;
+                    width: 40%;
+                }
+            }
+        }
            
 
         @media (min-width: ${SCREEN_SIZE.mobile}) {

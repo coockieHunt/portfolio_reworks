@@ -4,7 +4,8 @@ import {
     CaptchaContainer,
     CaptchaInput,
     CaptchaForm,
-    CaptchaMessage
+    CaptchaMessage,
+    CaptchaLabel
 } from './style/Captcha.style';
 
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
@@ -49,7 +50,7 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
 
     return (
         <CaptchaContainer>
-            <label htmlFor="Captcha">Captcha *</label>
+            <CaptchaLabel htmlFor="Captcha">Captcha <span>*</span></CaptchaLabel>
             <CaptchaForm>
                 <span>{number1} + {number2} =</span>
                 <CaptchaInput
