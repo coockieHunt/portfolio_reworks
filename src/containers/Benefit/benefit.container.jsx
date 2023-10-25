@@ -5,16 +5,27 @@ import { motion } from "framer-motion"
 
 
 export const BenefitContainer = ({id}) => {
+
+    const containerVariants = {
+        left: { x: 100, opacity: 100 },
+        right: { x: -100, opacity: 100 },
+    };
+
+
     return(
         <>
-            <Title><AccentTextComponent>My Skill</AccentTextComponent></Title>
+            <Title><AccentTextComponent>Mes Skill</AccentTextComponent></Title>
             <Container id={id}>
-                <motion.div initial={{ x: 100, opactity: 100}} whileInView={{ x: 0, opactity: 0}} >
+                <motion.div 
+                    initial="left"
+                    whileInView={{ x: 0, opactity: 0}} 
+                    transition={{type: 'spring'}} 
+                    variants={containerVariants}>
                     <Info className="start">
                         <div>
                             <h3>GESTION DE PROJETS WEB</h3>
                             <p>Site vitrine, corporate, évènementiel, e-commerce.</p>
-                        </div>
+                        </div >
                         <div>
                             <h3>INTÉGRATION WEB</h3>
                             <p>Intégrations HTML / CSS respectueuses des standards du Web.</p>
@@ -37,7 +48,11 @@ export const BenefitContainer = ({id}) => {
                         </g>
                     </svg>
                 </Img>
-                <motion.div initial={{ x: -100, opactity: 100}} whileInView={{ x: 0, opactity: 0}} >
+                <motion.div 
+                    initial="right"
+                    whileInView={{ x: 0, opactity: 0}} 
+                    transition={{type: 'spring'}} 
+                    variants={containerVariants}>
                     <Info>
                         <div>
                             <h3>RESPONSIVE DESIGN</h3>
@@ -63,3 +78,4 @@ export const BenefitContainer = ({id}) => {
 
     )
 }
+

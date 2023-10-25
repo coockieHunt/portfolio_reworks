@@ -11,6 +11,9 @@ export const Container = styled.div`
 
     padding: 40px 150px;
 
+    padding-bottom: 50px;
+
+
     @media (max-width: 1200px) {
         flex-direction: column;
         height: auto;
