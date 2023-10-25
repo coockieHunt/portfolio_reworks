@@ -13,7 +13,7 @@ export const Text = styled.div`
 
     padding: 60px;
 
-    & h1{
+    & h2{
         font-size: 40px;
         padding-bottom: 10px;
     }

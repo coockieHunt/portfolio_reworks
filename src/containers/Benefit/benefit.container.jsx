@@ -14,7 +14,7 @@ export const BenefitContainer = ({id}) => {
 
     return(
         <>
-            <Title><AccentTextComponent>Mes Skill</AccentTextComponent></Title>
+            <Title><AccentTextComponent>Mes Skills</AccentTextComponent></Title>
             <Container id={id}>
                 <motion.div 
                     initial="left"

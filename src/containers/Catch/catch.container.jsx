@@ -24,7 +24,7 @@ export const CathContainer = ({id}) => {
                 left_width={!isMobile ? '50%' : "100%"}
                 left_child={
                     <Text>
-                        <h1><AccentTextComponent>PASSIONNÉ</AccentTextComponent> par de nombreux domaines</h1>
+                        <h2><AccentTextComponent>PASSIONNÉ</AccentTextComponent> par de nombreux domaines</h2>
                         <p>Passionné par de nombreux domaines, notamment le développement, la 3D, l'électronique et bien d'autres compétences. Mon expertise polyvalente me permet de relever efficacement les défis dans ces domaines, en fournissant des solutions innovantes et une qualité exceptionnelle pour chaque projet.</p>
                         <ul>
                             <li>Développement</li>

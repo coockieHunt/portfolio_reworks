@@ -33,7 +33,7 @@ export const Info = styled.div`
     justify-content: space-between;
     
     & .info{
-        & h1{
+        & h2{
             font-size: 2em;
             margin-bottom: 10px;
             font-variation-settings: "wght" 600;
@@ -126,7 +126,7 @@ export const ActionForm = styled.div`
     }
 `
 
-export const Title = styled.h1`
+export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
     padding: 20px;

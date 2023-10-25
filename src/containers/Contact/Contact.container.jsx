@@ -216,7 +216,7 @@ export const ContactContainer = ({ id }) => {
                         <div className="info">
                             {!isMobile &&
                                 <>
-                                    <h1>Information</h1>
+                                    <h2>Information</h2>
                                     <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
                                 </>
                             }
