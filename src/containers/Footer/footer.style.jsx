@@ -6,6 +6,7 @@ export const Container = styled.div`
     justify-content: space-between;
     align-items: end;
     color: white;
+    margin-top: 20px;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
