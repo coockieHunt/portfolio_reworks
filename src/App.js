@@ -65,7 +65,7 @@ function App() {
                 <BenefitContainer id ='benefit'/>
                 <MyPorjectContainer id='project'/>
                 <QuoteContainer >
-                  Vous voulez voir comment le site est construit ? Il est en public <LinkTextComponent to={URL.ghithudb_portfolio_rework}>ICI</LinkTextComponent>
+                  Vous voulez voir comment le site est construit ? Il est en public pour le <LinkTextComponent to={URL.ghithudb_portfolio_rework}>Front</LinkTextComponent> et <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>Api</LinkTextComponent>
                 </QuoteContainer>
                 <ContactContainer id='contact'/>
                 <StackContainer/>

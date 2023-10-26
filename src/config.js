@@ -18,5 +18,6 @@ export const URL = {
     github_hook: 'https://github.com/coockieHunt/custom_hook',
     ghithudb_portfolio: 'https://github.com/coockieHunt/portfolio',
     ghithudb_portfolio_rework: 'https://github.com/coockieHunt/portfolio_reworks',
+    ghithudb_portfolio_rework_api: 'https://github.com/coockieHunt/api-mail/tree/master',
     ghithudb_game: 'https://github.com/coockieHunt/ck_rp',
 }
