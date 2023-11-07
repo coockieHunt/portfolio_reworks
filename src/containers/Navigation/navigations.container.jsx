@@ -35,6 +35,7 @@ import{
 import{
   SCREEN_SIZE
 } from '../../config'
+import { useNavigate } from 'react-router';
 
 
 
@@ -54,6 +55,8 @@ const BuildNavigation = ({ menuItems, onClick }) => {
 
 export const NavigationComponent = ({navConfig}) =>{
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate(); 
+
 
   const isMobile = useWindowSize(
     SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2),
@@ -70,6 +73,9 @@ export const NavigationComponent = ({navConfig}) =>{
         <BrandContainer>
           <Logo src={brand_logo} 
             alt="brand_logo"
+            onClick={
+              () => navigate('/')
+            }
           />
           {isMobile ? <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} /> : null}
         </BrandContainer>

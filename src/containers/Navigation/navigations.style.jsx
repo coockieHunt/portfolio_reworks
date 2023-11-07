@@ -28,6 +28,7 @@ export const Logo = styled.img`
 
     box-sizing: content-box;
     width: 100%;
+    cursor: pointer;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;

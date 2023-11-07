@@ -2,7 +2,8 @@ export const COLOR = {
     background: '#121212',
     primary: '#5843e4',
     accentuate: '#404ad6',
-    secondary: '#32256c'
+    secondary: '#32256c',
+    secondary_background: '#202020'
 };
 
 export const SCREEN_SIZE = {
@@ -20,4 +21,9 @@ export const URL = {
     ghithudb_portfolio_rework: 'https://github.com/coockieHunt/portfolio_reworks',
     ghithudb_portfolio_rework_api: 'https://github.com/coockieHunt/api-mail/tree/master',
     ghithudb_game: 'https://github.com/coockieHunt/ck_rp',
+}
+
+export const API_URL = {
+    SendMail: 'http://localhost:3001/api/sendEmail',
+    Login: 'http://localhost:3001/api/auth',
 }

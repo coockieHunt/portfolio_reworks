@@ -10,7 +10,8 @@ import {
 
 import {
     COLOR,
-    CONTACT_EMAIL
+    CONTACT_EMAIL,
+    API_URL
 } from '../../config'
 
 import { useWindowSize } from "../../hooks/screenResize.hook"
@@ -70,7 +71,7 @@ export const ContactContainer = ({ id }) => {
 
     const SendEmail = async (content) => {
         try {
-            const response = await axios.post('https://api.jonathangleyze.fr/api/sendEmail', content);
+            const response = await axios.post(API_URL.SendMail, content);
 
             if (response.data.success) {
                 return true
