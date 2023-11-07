@@ -2,17 +2,9 @@ import styled from 'styled-components';
 import { COLOR } from '../../config';
 import {SCREEN_SIZE} from '../../config'
 
-export const Container = styled.div`
-    height: 100%;
-    width: 100%;
-
-    overflow: hidden;
-`
+export const Section = styled.div``
 
 export const Text = styled.div`
-
-    padding: 60px;
-
     & h2{
         font-size: 40px;
         padding-bottom: 10px;
@@ -53,4 +45,9 @@ export const HomeSheetContainer = styled.div`
 
     align-items: center;
     justify-content: center;
+
+    & img{
+        width: 450px;
+        height: auto
+    }
 `
