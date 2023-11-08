@@ -3,6 +3,11 @@ import { COLOR } from '../../config';
 
 export const Container = styled.div`
     padding:  30px 30px 50px;
+    height: auto;
+
+    @media (max-width: 1200px) {
+        padding:  30px 30px 100px;
+    }
 `
 
 export const TextContainer = styled.div`
@@ -10,22 +15,24 @@ export const TextContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    overflow-x: hidden;
 
     @media (max-width: 1200px) {
         flex-direction: column;
         height: auto;
 
-        padding: 40px 30px 80px 30px;
         text-align: center;
 
-        gap: 35px;
+        gap: 20px;
     }
 `;
 
 export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
+
+    @media (max-width: 1200px) {
+        line-height: 2em;
+    }
 `;
 
 export const Info = styled.div`
