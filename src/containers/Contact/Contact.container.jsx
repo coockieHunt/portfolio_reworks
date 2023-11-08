@@ -221,19 +221,19 @@ export const ContactContainer = ({ id }) => {
                                 </>
                             }
                             <div className="contact">
-                                <Link>
+                                <Link className= "info" >
                                     <AiFillPhone />
                                     <span
                                         onClick={() => window.location.href = 'tel:0603420204'}
                                     >+33 6.03.42.02.04</span>
                                 </Link>
-                                <Link>
+                                <Link className= "info" >
                                     <AiOutlineMail />
                                     <span
                                         onClick={() => window.location.replace('mailto:pro.jonathan.gleyze@gmail.com')}
                                     >pro.jonathan.gleyze@gmail.com</span>
                                 </Link>
-                                <Link>
+                                <Link className= "info" >
                                     <BiSolidMap />
                                     <span
                                         onClick={() => window.location.href = 'https://www.google.com/maps/place/N%C3%AEmes/'}

@@ -120,9 +120,9 @@ export const IconButton = ({color, icon, to, tooltip, onClick}) => {
  * @param {Function} onClick - The function to be executed when the link is clicked (optional).
  * @returns {ReactNode} - A custom link element.
  */
-export const Link = ({children, onClick}) => {
+export const Link = ({children, onClick, className}) => {
     return(
-        <LinkContainer onClick={onClick}>
+        <LinkContainer onClick={onClick} className={className}>
             {children}
         </LinkContainer>
     )

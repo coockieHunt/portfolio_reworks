@@ -2,17 +2,15 @@ import styled from 'styled-components';
 import { COLOR } from '../../config';
 
 export const Container = styled.div`
+    padding:  30px 30px 50px;
+`
+
+export const TextContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
     overflow-x: hidden;
-
-    padding: 40px 150px;
-
-    padding-bottom: 50px;
-
 
     @media (max-width: 1200px) {
         flex-direction: column;
@@ -28,7 +26,6 @@ export const Container = styled.div`
 export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
-    padding-top: 15px;
 `;
 
 export const Info = styled.div`
