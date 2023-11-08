@@ -2,21 +2,22 @@ import styled from 'styled-components';
 import { SCREEN_SIZE, COLOR } from '../../config';
 
 export const Container = styled.div`
-    height: 95vh;
+    height: 800px;
 `
-
 export const DeskSpline = styled.div`
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
+    position: relative;
+    top: -800px;
+    z-index: 1;
 
-    & .loading{
+    height: 100%;
+
+
+    & .loading {
         position: absolute;
         top: 40%;
         right: 20%;
 
-        @media (max-width:  ${SCREEN_SIZE.mobile}) {
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
             top: 45%;
             right: 35%;
         }
@@ -24,11 +25,13 @@ export const DeskSpline = styled.div`
 `
 
 export const HeroText = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
-    top: 45%;
-    transform: translateY(-50%);
-    left: 100px;
-    width: 50%;
+    padding: 50px;
+    width: 60%;
+    height: 100%;
     z-index: 2;
 
     @media (max-width:  ${SCREEN_SIZE.mobile}) {

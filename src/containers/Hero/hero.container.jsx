@@ -20,7 +20,7 @@ const Spline = React.lazy(() => import('@splinetool/react-spline'));
 export const HeroContainer = ({id}) => {
     return (
         <Container id={id}>
-            <HeroText>
+             <HeroText>
                 <h1>Vous voulez transformer votre idée en <CradiantTextComponent>Site Web</CradiantTextComponent>.</h1>
                 <p>Vous êtes au bon endroit <HellowHandComponent/></p>
                 <div className="cta">
@@ -29,23 +29,22 @@ export const HeroContainer = ({id}) => {
                     </Link>
                 </div>
             </HeroText>
-
-        <DeskSpline>
-
-            <Suspense fallback={ 
-                <div className="loading">
-                    <HashLoader
-                        color={COLOR.primary}
-                        size={120}
-                        aria-label="Loading Spinner spline"
-                        data-testid="loader"
-                    />
-                </div>
-            }>
-                <Spline scene="https://draft.spline.design/RkBPPEpmICxiaTWD/scene.splinecode" />
-            </Suspense>
-        </DeskSpline>
-          
+            <DeskSpline>
+                <Suspense fallback={ 
+                    <div className="loading">
+                        <HashLoader
+                            color={COLOR.primary}
+                            size={120}
+                            aria-label="Loading Spinner spline"
+                            data-testid="loader"
+                        />
+                    </div>
+                }>
+                    <Spline scene="https://draft.spline.design/RkBPPEpmICxiaTWD/scene.splinecode" />
+                </Suspense>
+            </DeskSpline>
+           
+            
         </Container>
     )
 }

@@ -5,11 +5,12 @@ export const NavigationContainer = styled.div`
     display: flex;
     align-items: center;
     color: #fff;
-    height: 5vh;
+    height: 60px;
     z-index: 999;
     position: relative;
 
-    padding: 5px 15px;
+
+    padding: 15px;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
