@@ -88,15 +88,17 @@ export const Info = styled.div`
             margin-top: 0px;
             flex-wrap: wrap;
             justify-content: space-around;
+            align-items: center;
+            text-align: center;
             flex-direction: row;
-            width: 100%;
             padding: 0;
             gap: 0;
 
-            & .info{
-                flex: 1;
-                text-align: center;
 
+            & .info{
+                width: 100%;
+                align-items: center;
+                border-radius: 0px;
             }        
         }
 

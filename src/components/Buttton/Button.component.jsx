@@ -99,11 +99,12 @@ export const ScroolToTop = ({hide_position}) => {
  * @param {string} tooltip - The tooltip text to display when hovering over the button (optional).
  * @returns {ReactNode} - An icon button component.
  */
-export const IconButton = ({color, icon, to, tooltip, onClick}) => {
+export const IconButton = ({color, icon, to, tooltip, onClick, text, textX = "-50%", textY = "120%"}) => {
     return(
         <Tooltip text={tooltip} onClick={onClick}>
-            <IconContainer color={color} to={to} onClick={onClick}>
+            <IconContainer color={color} to={to} onClick={onClick} textX={textX} textY={textY}>
                 {icon}
+                <span>{text}</span>
             </IconContainer>
         </Tooltip>
 

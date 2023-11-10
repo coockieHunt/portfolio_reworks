@@ -1,6 +1,6 @@
 import * as StyleCatch from './catch.style'
 
-import HomeSheet from '../../image/home_sheet.png'
+import HomeSheet from '../../assets/images/home_sheet.png'
 import { SplitLayouComponent } from '../../components/SplitLayout/SplitLayout.component'
 import { AccentTextComponent } from '../../components/Text/Text.component'
 
