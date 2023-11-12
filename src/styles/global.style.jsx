@@ -68,7 +68,7 @@ export const LoadingContainer = styled.div`
     font-size: 5vw;
     height: 100vh;
     position: relative;
-
+    z-index: 9999999999;
     overflow: hidden;
 
     & span {
