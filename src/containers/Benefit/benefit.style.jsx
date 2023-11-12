@@ -15,6 +15,7 @@ export const TextContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    overflow: hidden;
 
     @media (max-width: 1200px) {
         flex-direction: column;

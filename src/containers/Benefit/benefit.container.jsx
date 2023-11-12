@@ -72,7 +72,6 @@ export const BenefitContainer = ({id}) => {
                         </div>
                     </Info>
                 </motion.div>
-             
             </TextContainer>
         </Container>
 
