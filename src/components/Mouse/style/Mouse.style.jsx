@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { SCREEN_SIZE, COLOR } from '../../../config';
 
 const type_size = {
@@ -50,4 +50,18 @@ export const Mouse = styled.div`
     width: 10PX;
     height: 10PX;
   }
+
+  ${props => props.type !== "mouse" && css`
+      &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top:  15%;
+          left: calc(100% + 3px);
+          transform: translate(-50%, 0);
+          border: 1px solid ${COLOR.primary};
+  
+          height: 10PX;
+      }
+  `}
 `;
