@@ -1,27 +1,31 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, COLOR } from '../../config';
+
+import { SCREEN_SIZE } from '../../config';
 
 export const Container = styled.div`
-    height: 800px;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
 `
-export const DeskSpline = styled.div`
-    position: relative;
-    top: -800px;
-    z-index: 1;
-
+export const TagSlider = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
 
+    @media (max-width:  ${SCREEN_SIZE.mobile}) {display: none;}
+`
 
-    & .loading {
-        position: absolute;
-        top: 40%;
-        right: 20%;
-
-        @media (max-width: ${SCREEN_SIZE.mobile}) {
-            top: 45%;
-            right: 35%;
-        }
-    }
+export const Botton = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1;
+`
+export const Top = styled.div`
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 export const HeroText = styled.div`
@@ -30,9 +34,9 @@ export const HeroText = styled.div`
     justify-content: center;
     position: relative;
     padding: 50px;
-    width: 60%;
-    height: 100%;
+    width: 55%;
     z-index: 2;
+    height: 100%;
 
     @media (max-width:  ${SCREEN_SIZE.mobile}) {
         width: 100%;
@@ -47,7 +51,6 @@ export const HeroText = styled.div`
         justify-content: center;
         flex-direction: column;
 
-        background-color: #20202099;
         padding: 20px;
         border-radius: 10px;
     }
