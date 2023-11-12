@@ -31,7 +31,7 @@ export const Button = ({ onClick, color, children, icon, icon_right, disabled })
     return (
         <ButtonContainer onClick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
             <div className="button-content">
-                 {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
+                {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
             </div>
         </ButtonContainer>
     );
@@ -53,7 +53,7 @@ export const OutlineButton = ({ onClick, color, children, icon, icon_right, disa
     return (
         <OutileButtonContainer onClonClickick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
             <div className="button-content">
-            {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
+                {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
             </div>
         </OutileButtonContainer>
     );
@@ -67,7 +67,7 @@ export const OutlineButton = ({ onClick, color, children, icon, icon_right, disa
  * @param {number} hide_position - The position at which the scroll-to-top button should hide. When the scroll position is greater than this value, the button is visible; otherwise, it's hidden.
  * @returns {ReactNode} - A button component to scroll to the top of the page.
  */
-export const ScroolToTop = ({hide_position}) => {
+export const ScroolToTop = ({ hide_position }) => {
     const scroolY = useScroolOffsetY(hide_position);
 
     const scrollToTop = () => {
@@ -77,7 +77,7 @@ export const ScroolToTop = ({hide_position}) => {
         });
     };
 
-    return(
+    return (
         <button>
             <ArrowContainer onClick={scrollToTop} className={!scroolY ? "hide" : null}>
                 <div></div>
@@ -96,21 +96,22 @@ export const ScroolToTop = ({hide_position}) => {
  * @param {string} color - The color of the icon button(optional).
  * @param {ReactNode} icon - The icon element to be displayed inside the button.
  * @param {string} to - The URL or path to navigate to when the button is clicked (optional).
- * @param {string} tooltip - The tooltip text to display when hovering over the button (optional).
  * @returns {ReactNode} - An icon button component.
  */
-export const IconButton = ({color, icon, to, tooltip, onClick, text, textX = "-50%", textY = "120%"}) => {
-    return(
-        <Tooltip text={tooltip} onClick={onClick}>
-            <IconContainer color={color} to={to} onClick={onClick} textX={textX} textY={textY}>
-                {icon}
-                <span>{text}</span>
-            </IconContainer>
-        </Tooltip>
-
-    )
-}
-
+export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", textY = "120%", iconSize }) => {
+    return (
+        <IconContainer 
+            color={color} 
+            to={to} 
+            onClick={onClick} 
+            $textX={textX} 
+            $textY={textY}
+        >
+            {React.cloneElement(icon, { size: iconSize })}
+            <span>{text}</span>
+        </IconContainer>
+    );
+};
 /**
  * Link Component
  * 
@@ -121,8 +122,8 @@ export const IconButton = ({color, icon, to, tooltip, onClick, text, textX = "-5
  * @param {Function} onClick - The function to be executed when the link is clicked (optional).
  * @returns {ReactNode} - A custom link element.
  */
-export const Link = ({children, onClick, className}) => {
-    return(
+export const Link = ({ children, onClick, className }) => {
+    return (
         <LinkContainer onClick={onClick} className={className}>
             {children}
         </LinkContainer>

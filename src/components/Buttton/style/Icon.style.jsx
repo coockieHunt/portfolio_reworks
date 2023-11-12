@@ -28,7 +28,7 @@ export const  IconContainer = styled.button`
         position: absolute;
         bottom: 0;
         left: 50%;
-        transform: translateX(${props => props.textX && props.textX });
+        transform: translateX(${props => props.$textX && props.$textX });
         white-space: nowrap; 
         font-weight: 500;
         user-select: none;
@@ -38,7 +38,7 @@ export const  IconContainer = styled.button`
   &:hover {
     span {
       opacity: 1;
-      transform: translateX(${props => props.textX && props.textX}) translateY(${props => props.textY && props.textY});
+      transform: translateX(${props => props.$textX && props.$textX}) translateY(${props => props.$textY && props.$textY});
     }
   }
 `

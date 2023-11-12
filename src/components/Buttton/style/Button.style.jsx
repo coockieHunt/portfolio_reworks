@@ -13,6 +13,7 @@ export const ButtonContainer = styled.button`
     font-variation-settings: "wght" 500;
     font-size: .8em;
     white-space: nowrap;
+    
 
     & svg{
         font-size: 16px; 
