@@ -22,13 +22,34 @@ export const Header = styled.div`
 export const Content = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: center;
     color: white;
     margin-top: 20px;
+
+    text-align: center;
+
+    gap: 0px;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
+    }
+
+    & .text{
+        width: 90%;
+
+        @media (min-width: ${SCREEN_SIZE.mobile}) {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    & .action{
+        flex: 1;
     }
 `;
 

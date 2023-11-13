@@ -4,6 +4,7 @@ import { GiOutbackHat } from 'react-icons/gi';
 import { DiJavascript1 } from 'react-icons/di';
 import { IconButton } from '../../components/Buttton/Button.component';
 import cv from '../../assets/pdf/cv_dev_JG.pdf'
+import { ScroolToTop } from '../../components/Buttton/Button.component';
 
 import {
     AiFillGithub,
@@ -14,7 +15,7 @@ import {
 } from 'react-icons/bi';
 
 import {
-    FaDeviantart
+    FaDeviantart, FaOtter
 } from 'react-icons/fa';
 
 
@@ -49,16 +50,21 @@ export const FooterContainer = () => {
                 </Footer.Block>
             </Footer.Header>
             <Footer.Content>
-                <Footer.Block>
-                    Lève-toi et code <GiOutbackHat />
-                </Footer.Block>
-                <Footer.Block>
-                    GLEYZE Jonathan. All Rights Reserved<br />
-                    Powered by Node <DiJavascript1 /><br />
-                </Footer.Block>
-                <Footer.Block>
-                    create whith react <SiReact />
-                </Footer.Block>
+                <div className="text">
+                    <div>
+                        Lève-toi et code <GiOutbackHat />
+                    </div>
+                    <div>
+                        GLEYZE Jonathan. All Rights Reserved<br />
+                        Powered by Node <DiJavascript1 /><br />
+                    </div>
+                    <div>
+                        create whith react <SiReact />
+                    </div>
+                </div>
+                <div className="action">
+                    <ScroolToTop auto_hide={false}/>
+                </div>
             </Footer.Content>
         </Footer.Container>
     )

@@ -88,7 +88,7 @@ function App() {
                     <FooterContainer />
                 </AlertProvider>
 
-                <ScroolToTop hide_position={400} />
+                <ScroolToTop />
             </>
         </Content>
     );

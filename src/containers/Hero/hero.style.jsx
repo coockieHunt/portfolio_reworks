@@ -6,6 +6,7 @@ export const Container = styled.div`
     padding: 40px 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 `
 export const TagSlider = styled.div`
     display: flex;

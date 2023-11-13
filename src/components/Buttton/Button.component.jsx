@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 //style
 import { ButtonContainer } from './style/Button.style';
 import { OutileButtonContainer } from './style/OutlineButton.style';
-import { ArrowContainer } from './style/Arow.style';
+import { ArrowContainerFixed, ArrowContainer } from './style/Arow.style';
 import { IconContainer } from './style/Icon.style';
 import { LinkContainer } from './style/link.style'
 
@@ -60,12 +60,12 @@ export const OutlineButton = ({ onClick, color, children, icon, icon_right, disa
  * 
  * This component renders a button that allows scrolling the page to the top when clicked.
  * 
- * @param {number} hide_position - The position at which the scroll-to-top button should hide. When the scroll position is greater than this value, the button is visible; otherwise, it's hidden.
+ * @param {object} props - The properties of the ScrollToTop component.
+ * @param {number} hide_top - The position at which the scroll-to-top button should hide. 
+ * @param {number} hide_bottom - The position at which the scroll-to-bottom button should hide. 
  * @returns {ReactNode} - A button component to scroll to the top of the page.
  */
-export const ScroolToTop = ({ hide_position }) => {
-    const scroolY = useScroolOffsetY(hide_position);
-
+export const ScroolToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true }) => {
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -73,14 +73,49 @@ export const ScroolToTop = ({ hide_position }) => {
         });
     };
 
+
+    if(auto_hide){
+        const scroolY = useScroolOffsetY(hide_top);
+        const [isFixed, setIsFixed] = useState(false);
+
+        useEffect(() => {
+            const handleScroll = () => {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                setIsFixed(scrollPosition >= document.body.scrollHeight - hide_bottom);
+            };
+    
+            window.addEventListener('scroll', handleScroll);
+            return () => {window.removeEventListener('scroll', handleScroll);};
+        }, []);
+
+        return (
+            <button>
+                <ArrowContainerFixed 
+                    onClick={scrollToTop} 
+                    className={!scroolY || isFixed ? 'hide' : ''}
+                >
+                    <div></div>
+                    <div></div>
+                </ArrowContainerFixed>
+            </button>
+        )
+    }
+
+
+    
     return (
         <button>
-            <ArrowContainer onClick={scrollToTop} className={!scroolY ? "hide" : null}>
+            <ArrowContainer 
+                onClick={scrollToTop} 
+            >
                 <div></div>
                 <div></div>
             </ArrowContainer>
         </button>
     )
+   
+
+    
 }
 
 
