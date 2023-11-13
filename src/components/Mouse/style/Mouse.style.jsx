@@ -56,12 +56,14 @@ export const Mouse = styled.div`
           content: '';
           display: block;
           position: absolute;
-          top:  15%;
-          left: calc(100% + 3px);
+          top: 15%;
+          left: calc(100% + 4px);
           transform: translate(-50%, 0);
           border: 1px solid ${COLOR.primary};
-  
-          height: 10PX;
+          background-color: ${COLOR.primary};
+          height: 15px;
+          width: 1px;
+          border-radius: 0 4px 4px 0;
       }
   `}
 `;
