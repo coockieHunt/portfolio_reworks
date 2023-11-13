@@ -1,14 +1,19 @@
 import styled from 'styled-components';
+import {STYLE} from '../config/main.js'
 
 export const Container = styled.div`
     position: absolute;
     position: fixed;
-    height: 95vh;
-    width: 50vh;
+    height: ${STYLE.height};
+    width: ${STYLE.width};
     bottom: 5vh;
-    right: 0;
+    right: ${STYLE.position.right};
+    top: ${STYLE.position.top};
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: ${
+        STYLE.direction === "normal" ? "column" : 
+        STYLE.direction === "reverce" && "column-reverse"
+    };
     gap: 10px;
     justify-content: start;
     z-index: 9999;
@@ -40,9 +45,7 @@ export const AlertContainer = styled.div`
         overflow: hidden;
         cursor: pointer;
 
-        & svg {
-            font-size: 1.3em;
-        }
+        & svg {font-size: 1.3em;}
     }
 
     .content {
@@ -72,11 +75,7 @@ export const AlertContainer = styled.div`
     }
 
     @keyframes progressAnimation {
-        0% {
-            width: 100%;
-        }
-        100% {
-            width: 0;
-        }
+        0% {width: 100%;}
+        100% {width: 0;}
     }
 `

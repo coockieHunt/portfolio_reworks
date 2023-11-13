@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { COLOR } from '../config';
+import { STYLE } from '../config/main';
 
 export const ToText = styled.a`
     font-variation-settings: "wght" 700;
-    color: ${COLOR.secondary};
+    color: ${STYLE.secondary};
     cursor: pointer;
 
     border-bottom: 2px solid currentColor;

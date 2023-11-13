@@ -7,10 +7,6 @@ import { ArrowContainer } from './style/Arow.style';
 import { IconContainer } from './style/Icon.style';
 import { LinkContainer } from './style/link.style'
 
-
-//component
-import { Tooltip } from '../Tooltip/Tooltip.component';
-
 //hook
 import { useScroolOffsetY } from '../../hooks/offsetScrools.hook';
 

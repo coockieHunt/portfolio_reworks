@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useImperativeHandle, forwardRef } from 'react';
+
 
 import {
     FormInput,
@@ -6,8 +7,27 @@ import {
     FormElement,
     FormLabel,
     FormGroupe,
-    FormInline
+    FormInline,
+    CaptchaContainer,
+    CaptchaInput,
+    CaptchaForm,
+    CaptchaMessage,
+    CaptchaLabel
 } from './style/Form.style';
+
+import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
+
+import {CONFIG} from "./config/captcha"
+
+
+/**
+ * * Generates a random number between 1 and 10.
+ * 
+ * @returns {number} A random number.
+ */
+const generateRandomNumber = () => {
+    return Math.floor(Math.random() * 10) + 1;
+  };
 
 /**
  * * Parent Form
@@ -153,3 +173,59 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
         </FormElement>
     );
 }
+
+/**
+ ** A component for displaying a simple captcha.
+ * 
+ * @param {boolean} isCaptchaValid - Indicates whether the captcha answer is valid.
+ * @param {function} setIsCaptchaValid - A function to set the captcha's validity.
+ * @returns {JSX.Element} The rendered captcha component.
+ */
+export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid }, ref) => {
+    const [number1, setNumber1] = useState(generateRandomNumber());
+    const [number2, setNumber2] = useState(generateRandomNumber());
+    const [userAnswer, setUserAnswer] = useState('');
+
+    const handleCaptchaChange = (e) => {
+        const userInput = e.target.value;
+        setUserAnswer(userInput);
+        const limitedNumber1 = Math.min(number1, CONFIG.Max_number - 1);
+        const limitedNumber2 = Math.min(number2, CONFIG.Max_number - 1);
+        const limitedSum = Math.min(limitedNumber1 + limitedNumber2, CONFIG.Max_total_number - 1);
+        const isCaptchaValid = limitedSum.toString() === userInput.toString();
+        setIsCaptchaValid(isCaptchaValid);
+    };
+
+    const handleReset = () => {
+        setNumber1(generateRandomNumber());
+        setNumber2(generateRandomNumber());
+        setUserAnswer('');
+        setIsCaptchaValid(false);
+    };
+
+    useImperativeHandle(ref, () => ({
+        handleReset: handleReset
+    }));
+
+    return (
+        <CaptchaContainer>
+            <CaptchaLabel htmlFor="Captcha">Captcha <span>*</span></CaptchaLabel>
+            <CaptchaForm>
+                <span>{number1} + {number2} =</span>
+                <CaptchaInput
+                    type="text"
+                    value={userAnswer}
+                    onChange={handleCaptchaChange}
+                    name="Captcha"
+                    id="Captcha"
+                    pattern="[0-100]*"
+                />
+                {isCaptchaValid ? (
+                    <CaptchaMessage style={{ color: "green" }}><AiOutlineCheck /></CaptchaMessage>
+                ) : (
+                    <CaptchaMessage style={{ color: "red" }}><AiOutlineClose /></CaptchaMessage>
+                )}
+            </CaptchaForm>
+        </CaptchaContainer>
+    );
+});

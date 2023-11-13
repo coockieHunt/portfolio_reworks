@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { COLOR } from '../config';
+import { STYLE } from '../config/main';
 
 export const Text = styled.span`
-    color: ${COLOR.primary};
+    color: ${STYLE.primary};
     font-variation-settings: "wght" 800;
 `;

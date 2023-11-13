@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { COLOR } from '../config';
+import { STYLE } from '../config/main';
 
 const moveGradient = keyframes`
    to {
@@ -8,7 +8,7 @@ const moveGradient = keyframes`
 `;
 
 export const Gradient = styled.span`
-    background: linear-gradient(to right, ${COLOR.primary} 20%, ${COLOR.secondary_gradiant} 40%, ${COLOR.secondary_gradiant} 60%, ${COLOR.primary} 80%);
+    background: linear-gradient(to right, ${STYLE.primary} 20%, ${STYLE.secondary_gradiant} 40%, ${STYLE.secondary_gradiant} 60%, ${STYLE.primary} 80%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

@@ -1,12 +1,10 @@
 import styled from 'styled-components';
-import { COLOR } from "../../../config";
+import { STYLE } from "../config/main";
 
-const backgroundColor = "#303134"
-const FormColor = '#737272';
-const BorderSize = '1px';
-const FormFocusColor = COLOR.primary;
-
-
+const backgroundColor = STYLE.Background_color;
+const FormColor = STYLE.Border_color;
+const BorderSize = STYLE.Border_size;
+const FormFocusColor = STYLE.Form_focus;
 
 export const CaptchaContainer = styled.div`
     display: flex;
@@ -23,7 +21,7 @@ export const CaptchaForm = styled.div`
 
 export const CaptchaLabel = styled.label`
     & span{
-        color: ${COLOR.primary}
+        color: ${STYLE.Star_Color}
     }
 `
 

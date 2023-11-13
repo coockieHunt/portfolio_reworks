@@ -31,7 +31,6 @@ import { BiSolidMap } from 'react-icons/bi';
 
 import { useAlert } from '../../context/alert.context';
 
-import { CaptchaComponent } from '../../components/Captacha/Captcha.Component'
 
 export const ContactContainer = ({ id }) => {
     const { addAlert } = useAlert();
@@ -287,7 +286,7 @@ export const ContactContainer = ({ id }) => {
 
                     </FormComponent.Groupe>
 
-                    <CaptchaComponent 
+                    <FormComponent.CaptchaComponent 
                         ref={captchaComponentRef}
                         isCaptchaValid={isCaptchaValid} 
                         setIsCaptchaValid={setIsCaptchaValid} />

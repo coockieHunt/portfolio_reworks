@@ -3,20 +3,19 @@ import { Container, AlertContainer } from './style/Alert.style';
 import { useAlert } from '../../context/alert.context';
 
 import {RxCross2} from 'react-icons/rx'
-import { COLOR_ALERT } from './config';
+import { COLOR_ALERT, DEBUG } from './config/main';
 
 
 /**
  * Represents a component for rendering alert containers.
  * @param {object} props - The component's props.
- * @param {boolean} props.view - Determines if the component should be displayed.
  * @returns {JSX.Element} The rendered alert container component.
  */
-export const AlertContainerComponent = ({ view }) => {
+export const AlertContainerComponent = () => {
     const { alerts, removeAlert } = useAlert();
 
     return (
-        <Container style={view && { backgroundColor: '#ff000032' }}>
+        <Container style={DEBUG.container ? { backgroundColor: DEBUG.container_color } : {}}>
         {alerts.map((alert) => (
             <AlertContainer 
                 key={alert.id} 

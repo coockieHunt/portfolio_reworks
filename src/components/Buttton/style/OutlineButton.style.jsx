@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {COLOR} from '../config'
+import {COLOR} from '../config/main'
 
 export const OutileButtonContainer = styled.button`
     display: flex;

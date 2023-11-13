@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { COLOR } from "../config";
+import { STYLE } from "../config/main";
+
 
 // ? CONFIG STYLE FORM
-const FormFocusColor = COLOR.primary;
-const BorderSize = '1px';
-const FormColor = '#737272';
 const LabelPadding = '10px';
-const backgroundColor = "#303134"
+const backgroundColor = STYLE.Background_color;
+const FormColor = STYLE.Border_color;
+const BorderSize = STYLE.Border_size;
+const FormFocusColor = STYLE.Form_focus;
 
-// ? component style
 
 export const FormLabel = styled.label`
     padding: ${LabelPadding} 0 ${LabelPadding} 0;
@@ -18,11 +18,8 @@ export const FormLabel = styled.label`
     }
 
    & span{
-    color: ${COLOR.primary}
+    color: ${STYLE.Star_Color}
    }
-
-
-
 `;
 
 export const FormInput = styled.input `
@@ -67,7 +64,7 @@ export const FormTextArea = styled.textarea `
 export const FormSubmit = styled.input`
     padding : 15px;
     margin-top: 15px;
-    background-color: ${COLOR.primary};
+    background-color: ${backgroundColor};
     border: none;
     color: white;
     text-transform: uppercase;
@@ -108,6 +105,43 @@ export const FormInline = styled.div`
     }
 `
 
+//CAPTHA
+export const CaptchaContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 10px 0px;
+`;
+
+export const CaptchaForm = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 15px;
+`
+
+export const CaptchaLabel = styled.label`
+    & span{
+        color: ${STYLE.Star_Color}
+    }
+`
+
+export const CaptchaInput = styled.input`
+    background-color: ${backgroundColor};
+    border: ${BorderSize} solid ${FormColor};
+    padding: 10px 5px 10px 5px;
+    color: white;
+    border-radius: 3px;
+    outline: none;
+
+    &:focus{
+        border: ${BorderSize} solid ${FormFocusColor} !important;
+    }
+`
+
+export const CaptchaMessage = styled.span`
+    font-size: 16px;
+    color: #6b6b6b;
+`;
 
 
 

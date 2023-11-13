@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 
 /**
- * useScroolOffsetY Hook
- * 
  * Custom React hook to check if the current vertical scroll offset (Y) exceeds a given position.
  * 
  * @param {number} pos - The position to check against.
