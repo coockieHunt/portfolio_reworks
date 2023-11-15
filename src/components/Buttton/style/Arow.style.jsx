@@ -7,8 +7,8 @@ export const ArrowContainerFixed = styled.div`
     right: ${STYLE.position.right};
     z-index: 99999;
 
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -38,9 +38,9 @@ export const ArrowContainerFixed = styled.div`
         background-color: #fff;
     }
 
-    div:first-child {transform: translateY(2px) rotate(45deg);}
+    div:first-child {transform: translateY(1px) rotate(45deg);}
 
-    div:last-child {transform: translateY(-2px) rotate(-45deg);}
+    div:last-child {transform: translateY(-1px) rotate(-45deg);}
 
     &.hide{right: ${STYLE.hide_offset};}
 `
