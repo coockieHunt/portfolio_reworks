@@ -14,7 +14,7 @@ export const BenefitContainer = ({id}) => {
 
     return(
         <Container>
-            <Title><TitleTextComponent subtitle={"A PROPOS"}>Mes compétences</TitleTextComponent></Title>
+            <TitleTextComponent subtitle={"A PROPOS"}>Mes compétences</TitleTextComponent>
             <Text>En constante amélioration, ce métier est en évolution constante. <br/> L'apprentissage continu est l'une des plus belles facettes de la programmation.</Text>
             <TextContainer id={id}>
                 <motion.div 

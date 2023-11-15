@@ -7,10 +7,10 @@ import { URL } from '../../config'
 export const MyPorjectContainer = ({id}) => {
     return(
         <Container id={id}>
-            <Title><TitleTextComponent
+            <TitleTextComponent
                 subtitle={"Une partie de mes"}
                 subtitleOpacity={0.1}
-            >MES PROJETS</TitleTextComponent></Title>
+            >MES PROJETS</TitleTextComponent>
             <Text>Une partie de mes projets publics, un aperçu de mon travail</Text>
             <div className="listContainer">
                 <List>

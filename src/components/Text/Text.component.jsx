@@ -25,7 +25,7 @@ export const AccentTextComponent = ({ children }) => {
  * @param subtitle - Subtitle of the component.
  * @param subtitleOpacity - Subtitle opacity (default value: 0.2).
  */ 
-export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2 }) => {
+export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.1 }) => {
     return(
         <TitleContainer>
             <Title>{children}</Title>

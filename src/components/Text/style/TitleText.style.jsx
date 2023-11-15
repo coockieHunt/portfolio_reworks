@@ -4,8 +4,9 @@ import { STYLE } from '../config/main';
 export const TitleContainer = styled.div`
     position: relative;
     height: 100px;
-    width: 100vw;
+    width: 95vw;
     padding: 30px 0;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,6 +15,9 @@ export const TitleContainer = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
     overflow: hidden;
+
+    text-align: center;
+
 `
 
 export const Title = styled.h2`
@@ -46,7 +50,7 @@ export const BackTitle = styled.span`
 
     font-variation-settings: "wght" 700;
     font-size: 9vh;
-    color: #000000f8;
+    color: #292929f8;
     text-transform: uppercase;
 
     @media screen and (max-width: 768px) {

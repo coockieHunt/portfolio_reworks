@@ -210,9 +210,9 @@ export const ContactContainer = ({ id }) => {
 
     return (
         <div id={id}>
-            <Title><TitleTextComponent
+            <TitleTextComponent
                 subtitle={"Avotre service"}
-            >Me contacter</TitleTextComponent></Title>
+            >Me contacter</TitleTextComponent>
             <Container>
                     <Info>
                         <div className="info">
