@@ -1,6 +1,6 @@
 import { Container, TextContainer, Title, Info, Img } from "./benefit.style"; 
 
-import {AccentTextComponent} from '../../components/Text/Text.component'
+import {TitleTextComponenet} from '../../components/Text/Text.component'
 import { motion } from "framer-motion"
 
 
@@ -14,7 +14,7 @@ export const BenefitContainer = ({id}) => {
 
     return(
         <Container>
-            <Title><AccentTextComponent>Mes Skills</AccentTextComponent></Title>
+            <Title><TitleTextComponenet subtitle={"A PROPOS"}>Mes compétences</TitleTextComponenet></Title>
             <TextContainer id={id}>
                 <motion.div 
                     initial="left"
