@@ -1,5 +1,5 @@
 import { Container, Title, List, Text} from "./MyProject.style";
-import {TitleTextComponenet} from '../../components/Text/Text.component'
+import { TitleTextComponent } from '../../components/Text/Text.component'
 import { URL } from '../../config'
 
 
@@ -7,10 +7,10 @@ import { URL } from '../../config'
 export const MyPorjectContainer = ({id}) => {
     return(
         <Container id={id}>
-            <Title><TitleTextComponenet 
+            <Title><TitleTextComponent
                 subtitle={"Une partie de mes"}
                 subtitleOpacity={0.1}
-            >MES PROJETS</TitleTextComponenet></Title>
+            >MES PROJETS</TitleTextComponent></Title>
             <Text>Une partie de mes projets publics, un aperçu de mon travail</Text>
             <div className="listContainer">
                 <List>

@@ -8,9 +8,9 @@ import {
     TagSlider
 } from "./hero.style"
 
-import{CradiantTextComponent} from "../../components/Text/Text.component"
-import{Button} from "../../components/Buttton/Button.component"
-import{HellowHandComponent} from '../../components/HelloHand/HelloHand.component'
+import{ GradiantTextContainer } from "../../components/Text/Text.component"
+import{ Button } from "../../components/Buttton/Button.component"
+import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { Link } from "react-scroll";
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 import { ScroolingTagComponent } from '../../components/ScroolingTag/ScroolingTag.component';
@@ -38,8 +38,8 @@ export const HeroContainer = ({id}) => {
         <Container id={id}>
             <Top>
                 <HeroText>
-                    <h1>Vous voulez transformer votre idée en <CradiantTextComponent>Site Web</CradiantTextComponent>.</h1>
-                    <p>Vous êtes au bon endroit <HellowHandComponent/></p>
+                    <h1>Vous voulez transformer votre idée en <GradiantTextContainer>Site Web</GradiantTextContainer>.</h1>
+                    <p>Vous êtes au bon endroit <HelloHandComponent/></p>
                     <div className="cta">
                         <Link to={'contact'}>
                             <Button>Contact</Button>
