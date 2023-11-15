@@ -22,6 +22,10 @@ export const Title = styled.h2`
     color:${STYLE.primary};
     font-size: 5vh ;
     text-transform: uppercase;
+
+    @media screen and (max-width: 768px) {
+        font-size: 4vh; 
+    }
 `
 
 export const BackTitle = styled.span`

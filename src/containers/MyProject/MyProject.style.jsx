@@ -34,6 +34,7 @@ export const Text = styled.span`
     font-size: 2vh;
     margin-bottom:50px;
     color: #ffffffa2;
+    text-align: center;
 `
 
 export const List = styled.div`
