@@ -30,11 +30,11 @@ export const Title = styled.h2`
     z-index: 9;
     font-variation-settings: "wght" 500;
     color:${STYLE.primary};
-    font-size: 5vh ;
+    font-size: 2.5rem ;
     text-transform: uppercase;
 
     @media screen and (max-width: 768px) {
-        font-size: 4vh; 
+        font-size: 2rem; 
     }
 `
 
@@ -49,11 +49,11 @@ export const BackTitle = styled.span`
     text-align: center;
 
     font-variation-settings: "wght" 700;
-    font-size: 9vh;
+    font-size: 5rem;
     color: #292929f8;
     text-transform: uppercase;
 
     @media screen and (max-width: 768px) {
-        font-size: 7vh; 
+        font-size: 4rem; 
     }
 `
