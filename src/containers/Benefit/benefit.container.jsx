@@ -1,6 +1,6 @@
 import { Container, TextContainer, Title, Info, Img , Text} from "./benefit.style"; 
 
-import {TitleTextComponenet} from '../../components/Text/Text.component'
+import {TitleTextComponent} from '../../components/Text/Text.component'
 import { motion } from "framer-motion"
 
 
@@ -14,7 +14,7 @@ export const BenefitContainer = ({id}) => {
 
     return(
         <Container>
-            <Title><TitleTextComponenet subtitle={"A PROPOS"}>Mes compétences</TitleTextComponenet></Title>
+            <Title><TitleTextComponent subtitle={"A PROPOS"}>Mes compétences</TitleTextComponent></Title>
             <Text>En constante amélioration, ce métier est en évolution constante. <br/> L'apprentissage continu est l'une des plus belles facettes de la programmation.</Text>
             <TextContainer id={id}>
                 <motion.div 

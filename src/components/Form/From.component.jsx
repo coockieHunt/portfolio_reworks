@@ -17,7 +17,20 @@ import {
 
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 
-import {CONFIG} from "./config/captcha"
+const renderLabel = (label, required) => {
+    if (label !== undefined) {
+        if (required) {
+            return (
+                <FormLabel htmlFor={name}>
+                    {label} <span>*</span>
+                </FormLabel>
+            );
+        }
+        return <FormLabel htmlFor={name}>{label}</FormLabel>;
+    }
+
+    return null;
+};
 
 
 /**
@@ -53,31 +66,18 @@ export const Inline = ({ children }) => (
 
 /**
  * * Add input text
- * 
+ *
  * ? if label not define the label will not be added
- * 
+ *
  * @param name Var name of input
  * @param value Value default input value
  * @param onChange Callback onChange function
  * @param label Displayed text on label
+ * @param placeHolder Place Holder text on label
+ * @param required
  */
 export const InputText = ({ name, value, onChange, label, placeHolder, required }) => {
-    const renderLabel = () => {
-        if (label !== undefined) {
-            if (required) {
-                return (
-                    <FormLabel htmlFor={name}>
-                        {label} <span>*</span>
-                    </FormLabel>
-                );
-            }
-            return <FormLabel htmlFor={name}>{label}</FormLabel>;
-        }
-
-        return null;
-    };
-
-    const labelElement = renderLabel();
+    const labelElement = renderLabel(label, required);
 
     let placeholderElement = placeHolder;
     if (required && label === undefined) {
@@ -94,31 +94,18 @@ export const InputText = ({ name, value, onChange, label, placeHolder, required 
 
 /**
  * * Add input email
- * 
+ *
  * ? if label not define the label will not be added
- * 
+ *
  * @param name Var name of input
  * @param value Value default input value
  * @param onChange Callback onChange function
  * @param label Displayed text on label
+ * @param placeHolder PlaceHolder text on label
+ * @param required
  */
 export const InputEmail = ({ name, value, onChange, label, placeHolder, required }) => {
-    const renderLabel = () => {
-        if (label !== undefined) {
-            if (required) {
-                return (
-                    <FormLabel htmlFor={name}>
-                        {label} <span>*</span>
-                    </FormLabel>
-                );
-            }
-            return <FormLabel htmlFor={name}>{label}</FormLabel>;
-        }
-
-        return null;
-    };
-
-    const labelElement = renderLabel();
+    const labelElement = renderLabel(label, required);
 
     let placeholderElement = placeHolder;
     if (required && label === undefined) {
@@ -135,13 +122,15 @@ export const InputEmail = ({ name, value, onChange, label, placeHolder, required
 
 /**
  * * Add text area
- * 
+ *
  * ? if label not define the label will not be added
- * 
+ *
  * @param name Var name of input
  * @param value Value default text area value
  * @param onChange Callback onChange function
  * @param label Displayed text on text area
+ * @param placeHolder Place Holder text on label
+ * @param required if label required
  */
 export const InputTextArea = ({ name, value, onChange, label, placeHolder, required }) => {
     const renderLabel = () => {
@@ -178,7 +167,7 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
  ** A component for displaying a simple captcha.
  * 
  * @param {boolean} isCaptchaValid - Indicates whether the captcha answer is valid.
- * @param {function} setIsCaptchaValid - A function to set the captcha's validity.
+ * @param {function} setIsCaptchaValid - A function to set the captcha validity.
  * @returns {JSX.Element} The rendered captcha component.
  */
 export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid }, ref) => {
@@ -209,6 +198,7 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
             <CaptchaLabel htmlFor="Captcha">Captcha <span>*</span></CaptchaLabel>
             <CaptchaForm>
                 <span>{number1} + {number2} =</span>
+
                 <CaptchaInput
                     type="text"
                     value={userAnswer}

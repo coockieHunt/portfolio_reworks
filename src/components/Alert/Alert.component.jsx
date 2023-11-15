@@ -8,7 +8,6 @@ import { COLOR_ALERT, DEBUG } from './config/main';
 
 /**
  * Represents a component for rendering alert containers.
- * @param {object} props - The component's props.
  * @returns {JSX.Element} The rendered alert container component.
  */
 export const AlertContainerComponent = () => {

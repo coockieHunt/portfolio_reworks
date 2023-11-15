@@ -1,12 +1,12 @@
 import { Hand } from "./style/HellowHand.style"
 
 /**
- * HellowHandComponent
+ * HelloHandComponent
  * 
  * This component renders a waving hand emoji that pulses when hovered over.
  * 
  */
-export const HellowHandComponent = () => {
+export const HelloHandComponent = () => {
     return(
         <Hand>🖐️</Hand>
     )

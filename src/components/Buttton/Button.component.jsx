@@ -121,13 +121,17 @@ export const ScroolToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
 
 /**
  * IconButton Component
- * 
+ *
  * This component renders an icon button with optional color, tooltip, and navigation link.
- * 
- * @param {string} color - The color of the icon button(optional).
- * @param {ReactNode} icon - The icon element to be displayed inside the button.
- * @param {string} to - The URL or path to navigate to when the button is clicked (optional).
- * @returns {ReactNode} - An icon button component.
+ *
+ * @param color - The color of the icon button(optional).
+ * @param icon - The icon element to be displayed inside the button.
+ * @param to - The URL or path to navigate to when the button is clicked (optional).
+ * @param onClick - On clock event.
+ * @param text - Text on display on hover (optional).
+ * @param textX - Change text position on hover (optional).
+ * @param textY - Change text position on hover (optional).
+ * @param iconSize - Size on icon (optional).
  */
 export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", textY = "120%", iconSize }) => {
     return (
@@ -145,12 +149,13 @@ export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", tex
 };
 /**
  * Link Component
- * 
+ *
  * This Component returns a custom link element that can be used for various purposes,
  * such as navigation or triggering a Component when clicked.
- * 
- * @param {ReactNode} children - The content to be displayed inside the link.
- * @param {Function} onClick - The function to be executed when the link is clicked (optional).
+ *
+ * @param children - The content to be displayed inside the link.
+ * @param onClick - The function to be executed when the link is clicked (optional).
+ * @param className - ClassName on link
  * @returns {ReactNode} - A custom link element.
  */
 export const Link = ({ children, onClick, className }) => {

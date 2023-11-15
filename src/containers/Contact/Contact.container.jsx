@@ -24,7 +24,7 @@ import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
 
 import * as FormComponent from "../../components/Form/From.component"
 import { Button } from "../../components/Buttton/Button.component"
-import { TitleTextComponenet } from "../../components/Text/Text.component"
+import { TitleTextComponent } from "../../components/Text/Text.component"
 import { Link } from '../../components/Buttton/Button.component';
 
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
@@ -210,9 +210,9 @@ export const ContactContainer = ({ id }) => {
 
     return (
         <div id={id}>
-            <Title><TitleTextComponenet
+            <Title><TitleTextComponent
                 subtitle={"Avotre service"}
-            >Me contacter</TitleTextComponenet></Title>
+            >Me contacter</TitleTextComponent></Title>
             <Container>
                     <Info>
                         <div className="info">

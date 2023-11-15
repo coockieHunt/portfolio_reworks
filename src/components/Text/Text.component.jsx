@@ -17,14 +17,15 @@ export const AccentTextComponent = ({ children }) => {
 }
 
 /**
- * TitleTextComponenet
- * 
+ * TitleTextComponent
+ *
  * Title component with subtitle.
- * 
+ *
+ * @param children - Main title
  * @param subtitle - Subtitle of the component.
  * @param subtitleOpacity - Subtitle opacity (default value: 0.2).
  */ 
-export const TitleTextComponenet = ({ children, subtitle, subtitleOpacity= 0.2 }) => {
+export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2 }) => {
     return(
         <TitleContainer>
             <Title>{children}</Title>
@@ -35,13 +36,13 @@ export const TitleTextComponenet = ({ children, subtitle, subtitleOpacity= 0.2 }
 
 
 /**
- * CradiantTextContainer
+ * GradiantTextContainer
  * 
  * This component creates a container with an animated gradient background.
  * 
  * @param children {ReactNode} - The content to be displayed within the gradient container.
  */
-export const CradiantTextComponent = ({ children }) => {
+export const GradiantTextContainer = ({ children }) => {
     return(
         <Gradient>{children}</Gradient>
     )
