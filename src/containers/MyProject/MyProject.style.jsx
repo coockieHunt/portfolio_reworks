@@ -25,7 +25,7 @@ export const Container = styled.div`
 export const Title = styled.div`
     font-size: 2em;
     margin-top:30px;
-
+    text-align: center;
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         margin-top:30px;
     }

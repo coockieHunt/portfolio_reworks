@@ -4,18 +4,23 @@ import { STYLE } from '../config/main';
 export const TitleContainer = styled.div`
     position: relative;
     height: 100px;
+    width: 100vw;
     padding: 30px 0;
     display: flex;
     justify-content: center;
     align-items: center;
     white-space:nowrap;
 
+    left: 50%;
+    transform: translate(-50%, 0);
+    overflow: hidden;
 `
 
 export const Title = styled.h2`
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
+    width: 100%;
 
     display: inline-block;
     z-index: 9;
@@ -32,6 +37,7 @@ export const Title = styled.h2`
 export const BackTitle = styled.span`
     display: inline-block;
     z-index: 2;
+    width: 100%;
 
     position: absolute;
     left: 50%;
@@ -44,6 +50,6 @@ export const BackTitle = styled.span`
     text-transform: uppercase;
 
     @media screen and (max-width: 768px) {
-        font-size: 5vh; 
+        font-size: 7vh; 
     }
 `
