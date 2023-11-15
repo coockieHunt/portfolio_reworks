@@ -9,6 +9,7 @@ export const TitleContainer = styled.div`
     justify-content: center;
     align-items: center;
     white-space:nowrap;
+
 `
 
 export const Title = styled.h2`
@@ -43,6 +44,6 @@ export const BackTitle = styled.span`
     text-transform: uppercase;
 
     @media screen and (max-width: 768px) {
-        font-size: 5.6vh; 
+        font-size: 5vh; 
     }
 `
