@@ -2,6 +2,7 @@ import React from 'react';
 import {Stack} from './Stack.style'
 
 import Node_mailer_logo from '../../assets/images/Node_mailer.webp'
+import Express_logo from '../../assets/images/Express.webp'
 
 export const StackContainer = () =>{
       return (
@@ -29,6 +30,12 @@ export const StackContainer = () =>{
             <img 
               src="https://www.cdnlogo.com/logos/n/79/node-js.svg"
               alt="Node js technologie logo"
+            />
+          </a>
+          <a href="https://expressjs.com/fr/">
+            <img 
+              src={Express_logo}
+              alt="Express js technologie logo"
             />
           </a>
         </Stack>
