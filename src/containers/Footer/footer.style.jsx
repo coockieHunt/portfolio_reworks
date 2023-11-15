@@ -21,7 +21,7 @@ export const Header = styled.div`
 
 export const Content = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     color: white;
     margin-top: 20px;
@@ -41,7 +41,7 @@ export const Content = styled.div`
 
     & .text{
         width: 90%;
-
+        padding-left: 10px;
         @media (min-width: ${SCREEN_SIZE.mobile}) {
             display: flex;
             justify-content: space-between;
