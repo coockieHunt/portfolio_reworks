@@ -1,6 +1,7 @@
 import { Text } from "./style/AccentText.style"
 import { Gradient } from "./style/CradiantText.style"
 import { ToText } from "./style/LinkText.style"
+import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
 
 /**
  * AccentTextComponent
@@ -12,6 +13,23 @@ import { ToText } from "./style/LinkText.style"
 export const AccentTextComponent = ({ children }) => {
     return(
         <Text>{children}</Text>
+    )
+}
+
+/**
+ * TitleTextComponenet
+ * 
+ * Title component with subtitle.
+ * 
+ * @param subtitle - Subtitle of the component.
+ * @param subtitleOpacity - Subtitle opacity (default value: 0.2).
+ */ 
+export const TitleTextComponenet = ({ children, subtitle, subtitleOpacity= 0.2 }) => {
+    return(
+        <TitleContainer>
+            <Title>{children}</Title>
+            <BackTitle  style={{ opacity: subtitleOpacity }}>{subtitle}</BackTitle>   
+        </TitleContainer>
     )
 }
 
