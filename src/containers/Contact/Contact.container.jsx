@@ -6,6 +6,7 @@ import {
     ContactForm,
     ActionForm,
     Title,
+    Text
 } from "./Contact.style"
 
 import {

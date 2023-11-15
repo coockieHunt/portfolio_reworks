@@ -7,9 +7,10 @@ export const Container = styled.div`
     display: flex;
     background-color: #202020;
     width: 90vw;
-    margin: 30px auto;
+    margin: 50px auto;
     padding: 8px;
     border-radius: 15px;
+    
     & * {
         box-sizing: border-box;
     }

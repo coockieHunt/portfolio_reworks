@@ -31,8 +31,9 @@ export const Title = styled.div`
     }
 `
 export const Text = styled.span`
-    font-size: 1em;
+    font-size: 2vh;
     margin-bottom:50px;
+    color: #ffffffa2;
 `
 
 export const List = styled.div`

@@ -2,12 +2,21 @@ import styled from 'styled-components';
 import { COLOR } from '../../config';
 
 export const Container = styled.div`
-    padding:  30px 30px 50px;
+    padding:  20px 30px 70px;
     height: auto;
 
     @media (max-width: 1200px) {
-        padding:  30px 30px 100px;
+        padding:  20px 30px 70px;
     }
+`
+
+export const Text = styled.span`
+    font-size: 2vh;
+    margin-bottom:50px;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    color: #ffffffa2;
 `
 
 export const TextContainer = styled.div`
