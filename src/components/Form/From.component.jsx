@@ -187,13 +187,10 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
     const [userAnswer, setUserAnswer] = useState('');
 
     const handleCaptchaChange = (e) => {
-        const userInput = e.target.value;
-        setUserAnswer(userInput);
-        const limitedNumber1 = Math.min(number1, CONFIG.Max_number - 1);
-        const limitedNumber2 = Math.min(number2, CONFIG.Max_number - 1);
-        const limitedSum = Math.min(limitedNumber1 + limitedNumber2, CONFIG.Max_total_number - 1);
-        const isCaptchaValid = limitedSum.toString() === userInput.toString();
-        setIsCaptchaValid(isCaptchaValid);
+        const userProvidedAnswer = parseInt(e.target.value, 10);
+        setUserAnswer(e.target.value);
+        const correctAnswer = number1 + number2;
+        setIsCaptchaValid(correctAnswer === userProvidedAnswer);
     };
 
     const handleReset = () => {
