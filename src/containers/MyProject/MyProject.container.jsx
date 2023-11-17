@@ -9,7 +9,7 @@ export const MyPorjectContainer = ({id}) => {
         <Container id={id}>
             <TitleTextComponent
                 subtitle={"Une partie de mes"}
-                subtitleOpacity={0.1}
+                subtitleOpacity={0.3}
             >MES PROJETS</TitleTextComponent>
             <Text>Une partie de mes projets publics, un aperçu de mon travail</Text>
             <div className="listContainer">

@@ -31,8 +31,12 @@ export const TextContainer = styled.div`
         height: auto;
 
         text-align: center;
+        justify-content: space-between;
 
-        gap: 20px;
+        & div{
+            height: 100%;
+        }
+
     }
 `;
 
