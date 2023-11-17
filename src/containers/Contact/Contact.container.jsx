@@ -5,8 +5,6 @@ import {
     Info,
     ContactForm,
     ActionForm,
-    Title,
-    Text
 } from "./Contact.style"
 
 import {
@@ -32,41 +30,36 @@ import { BiSolidMap } from 'react-icons/bi';
 
 import { useAlert } from '../../context/alert.context';
 
-
 export const ContactContainer = ({ id }) => {
+    //ALERT
     const { addAlert } = useAlert();
-    const [isCaptchaValid, setIsCaptchaValid] = useState(false);
+
+    //REF FORM
     const captchaComponentRef = useRef();
-
-
-    let DefaultValue = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        message: ''
-    }
+    let DefaultValue = {firstName: '',lastName: '',email: '',message: ''}
+    const [isCaptchaValid, setIsCaptchaValid] = useState(false);
     const [output, setOutput] = useState(DefaultValue)
 
+    //Cooldown send
+    const [IsCoolDown , SetIsCoolDown ] = useState(false)
+    const [CoolDownTime , SetCoolDownTime ] = useState(0)
+
+    //WINDOWS
     const isMobile = useWindowSize(1400);
 
     const handleChange = (e) => {
-        setOutput(prev => (
-            { ...prev, [e.target.name]: e.target.value }
-        ));
+        setOutput(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
-
 
     const handleReset = (e) => {
         setOutput(DefaultValue);
         captchaComponentRef.current.handleReset();
     }
 
-
     const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-
 
     const SendEmail = async (content) => {
         try {
@@ -76,51 +69,29 @@ export const ContactContainer = ({ id }) => {
                 return true
             } else {
                 console.log(response)
-                addAlert(
-                    'Message non evoyer',
-                    "#ffcc00",
-                    4000
-                );
-
+                addAlert('Message non evoyer', "#ffcc00",4000);
                 return false
-
             }
         } catch (error) {
             console.error('Erreur lors de la requête POST vers le serveur:', error);
-            addAlert(
-                "Une erreur s'est produite lors de l'envoi de l'e-mail.",
-                "#cc3300",
-                4000
-            );
+            addAlert( "Une erreur s'est produite lors de l'envoi de l'e-mail.","#cc3300",4000);
             return false
         }
     }
 
     const CheckData = (output) => {
         if (!output.email || !isValidEmail(output.email)) {
-            addAlert(
-                'Veuillez saisir une adresse email valide.',
-                "#cc3300",
-                4000
-            );
+            addAlert('Veuillez saisir une adresse email valide.', "#cc3300",4000);
             return false;
         }
 
         if (!output.firstName) {
-            addAlert(
-                'Veuillez saisir votre prénom.',
-                "#cc3300",
-                4000
-            );
+            addAlert('Veuillez saisir votre prénom.', "#cc3300", 4000);
             return false;
         }
 
         if (!output.message) {
-            addAlert(
-                'Veuillez saisir votre message.',
-                "#cc3300",
-                4000
-            );
+            addAlert('Veuillez saisir votre message.', "#cc3300",4000);
             return false;
         }
 
@@ -131,16 +102,11 @@ export const ContactContainer = ({ id }) => {
     const handleSubmit = async (e) => {
 
         if (!isCaptchaValid) {
-            addAlert(
-                'Captcha invalide.',
-                "#cc3300",
-                4000
-            );
+            addAlert('Captcha invalide.', "#cc3300",4000 );
             return;
         }
 
         if (CheckData(output)) {
-            // Build subject
             let subjectFormat = 'Demande de contact de ';
 
             if (output.firstName) {
@@ -148,15 +114,12 @@ export const ContactContainer = ({ id }) => {
             }
 
             if (output.lastName) {
-                if (output.firstName) {
-                    subjectFormat += ' ';
-                }
+                if (output.firstName) {subjectFormat += ' ';}
                 subjectFormat += `${output.lastName}`;
             }
 
             subjectFormat = subjectFormat.trim();
 
-            // Build mail for the webmaster
             const contentMessage_webmaster = renderToString(
                 <EmailTemplateContact
                     content={output.message}
@@ -171,7 +134,6 @@ export const ContactContainer = ({ id }) => {
                 content: contentMessage_webmaster,
             };
 
-            // Send email to the webmaster
             const webmasterEmailSent = await SendEmail(output_format_webmaster);
 
             if (webmasterEmailSent) {
@@ -184,25 +146,27 @@ export const ContactContainer = ({ id }) => {
                 const clientEmailSent = await SendEmail(output_format_client);
 
                 if (clientEmailSent) {
-                    addAlert(
-                        'Message bien reçu 👌',
-                        COLOR.primary,
-                        3500
-                    );
+                    SetIsCoolDown(true);
+                    SetCoolDownTime(10)
+
+
+                    const CoolDownInterval = setInterval(() => {
+                        SetCoolDownTime(prevCoolDownTime => {
+                            console.log(prevCoolDownTime);
+                
+                            if (prevCoolDownTime === 1) {
+                                SetIsCoolDown(false);
+                                clearInterval(CoolDownInterval);
+                            }
+                
+                            return prevCoolDownTime - 1;
+                        });
+                    }, 1000);
+                    addAlert('Message bien reçu 👌',COLOR.primary,3500);
                     handleReset()
-                } else {
-                    addAlert(
-                        "Erreur lors de l'envoi de l'e-mail de confirmation au client.",
-                        "#cc3300",
-                        4000
-                    );
-                }
+                } else {addAlert("Erreur lors de l'envoi de l'e-mail de confirmation au client.","#cc3300",4000);}
             } else {
-                addAlert(
-                    'Message non envoyé',
-                    "#ffcc00",
-                    4000
-                );
+                addAlert('Message non envoyé', "#ffcc00",4000);
             }
         }
     };
@@ -295,11 +259,12 @@ export const ContactContainer = ({ id }) => {
                         setIsCaptchaValid={setIsCaptchaValid} />
 
                     <ActionForm>
-                        <span onClick={() => { handleReset() }}>Remettre a  zero</span>
+                        <span onClick={() => {handleReset()}}>Remettre a  zero</span>
                         <Button
-                            onClick={() => { handleSubmit() }}
-                            icon={<AiOutlineSend />}
-                        >Envoyer</Button>
+                            onClick={() => {handleSubmit()}}
+                            icon={!IsCoolDown && <AiOutlineSend/>}
+                            disabled={IsCoolDown}>
+                        {IsCoolDown ? CoolDownTime : "envoyer"}</Button>
                     </ActionForm>
                 </ContactForm>
             </Container>
