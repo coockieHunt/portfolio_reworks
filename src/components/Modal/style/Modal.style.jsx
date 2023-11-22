@@ -5,21 +5,20 @@ import { COLOR } from "../../../config";
 
 export const ModalDiv = styled(motion.div)`
     position: fixed;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
     display: flex;
     flex-direction: column;
-    width: 80%;
-    max-width: 380px;
-    height: auto;
+    width: 90%;
+    max-width: 550px;
     background: #292929;
     border-radius: 10px;
 `;
 
 export const Content = styled.div`
-    padding: 20px;
+    padding: 25px;
     font-variation-settings: "wght" 300;
     font-size: 1em;
 
@@ -39,10 +38,10 @@ export const Content = styled.div`
 
 export const Top = styled.div`
     display: flex;
-    align-items: right;
     justify-content: end;
+
     & > svg{
-        margin: 20px 20px 00;
+        margin: 10px 20px 00;
         color: ${COLOR.primary};
         cursor: pointer;
     }
@@ -50,7 +49,7 @@ export const Top = styled.div`
 
 
 export const BackDrop = styled(motion.div)`
-    background: #18104b40;
+    background: #05030f63;
     width: 100%;
     height: 100%;
     display: block;
