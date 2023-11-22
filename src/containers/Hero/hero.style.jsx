@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import { SCREEN_SIZE } from '../../config';
 
+
+
 export const Container = styled.div`
     padding: 40px 0;
     display: flex;
@@ -75,6 +77,7 @@ export const HeroText = styled.div`
         font-size: 2em;
         margin-bottom: 1em;
         margin-top: 2px;
+        font-variation-settings: "wght" 150;
    }
 
    .cta{

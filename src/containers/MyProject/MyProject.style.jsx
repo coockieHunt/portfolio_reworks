@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { COLOR, SCREEN_SIZE } from '../../config';
-
+import { useColorContext } from '../../context/color.context';
 
 export const Container = styled.div`
     display: flex;

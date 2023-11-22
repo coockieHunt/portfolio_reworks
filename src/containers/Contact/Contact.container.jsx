@@ -26,7 +26,7 @@ import { TitleTextComponent } from "../../components/Text/Text.component"
 import { Link } from '../../components/Buttton/Button.component';
 
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
-import { BiSolidMap } from 'react-icons/bi';
+import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
 
 import { useAlert } from '../../context/alert.context';
 
@@ -183,7 +183,7 @@ export const ContactContainer = ({ id }) => {
                             {!isMobile &&
                                 <>
                                     <h2>Information</h2>
-                                    <p>Remplissez ce formulaire, je vous repondrais le plus rapidement possible.</p>
+                                    <p>Une idéé ? Un projet ? N'hésitez pas à demander un devis !</p>
                                 </>
                             }
                             <div className="contact">
@@ -204,6 +204,12 @@ export const ContactContainer = ({ id }) => {
                                     <span
                                         onClick={() => window.location.href = 'https://www.google.com/maps/place/N%C3%AEmes/'}
                                     >Nîmes (GARD)</span>
+                                </Link>
+                                <Link className= "info" >
+                                    <BiLogoLinkedin />
+                                    <span
+                                        onClick={() => window.location.replace('https://www.linkedin.com/in/jonathan-gleyze-173ab7239/')}
+                                    >jonathan gleyze</span>
                                 </Link>
                             </div>
                         </div>

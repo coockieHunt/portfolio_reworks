@@ -1,8 +1,8 @@
 export const COLOR = {
     background: '#121212',
-    primary: '#5843e4',
+    primary: "#5943e4",//863643
     accentuate: '#404ad6',
-    secondary: '#32256c'
+    secondary: "#32256c", //32256c
 };
 
 export const SCREEN_SIZE = {

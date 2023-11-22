@@ -49,6 +49,7 @@ export const Info = styled.div`
         flex-direction: column;
         gap: 15px;
         margin-top: 50px;
+        transition: all .3s ease-in-out;
 
         & span {
             line-height: 50px;
@@ -68,6 +69,7 @@ export const Info = styled.div`
 
         & .info:hover{
             background-color: ${COLOR.secondary};
+            transition: all .3s ease-in-out;
         }
 
         & .info{
@@ -89,22 +91,15 @@ export const Info = styled.div`
             margin-top: 0px;
             flex-wrap: wrap;
             justify-content: space-around;
-            align-items: center;
-            text-align: center;
             flex-direction: row;
             padding: 0;
             gap: 0;
 
-
             & .info{
                 width: 100%;
-                align-items: center;
                 border-radius: 0px;
+                padding: 5px;
             }        
-        }
-
-        & svg {
-            display: none;
         }
     }
 `;

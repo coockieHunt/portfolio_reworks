@@ -65,11 +65,12 @@ export const Info = styled.div`
         font-size: 1.4em;
         line-height: 1.6em;
         text-transform: uppercase;
-        font-variation-settings: "wght" 600;
+        font-variation-settings: "wght" 500;
         color: ${COLOR.primary};
     }
 
     & p {
+        font-variation-settings: "wght" 200;
         font-size: 1em;
         line-height: 1.6em;
     }

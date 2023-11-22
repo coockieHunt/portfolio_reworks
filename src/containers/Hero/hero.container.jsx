@@ -17,6 +17,9 @@ import { ScroolingTagComponent } from '../../components/ScroolingTag/ScroolingTa
 import { useWindowSize } from '../../hooks/screenResize.hook';
 import { SCREEN_SIZE } from '../../config'
 
+
+import { AiOutlineCluster } from 'react-icons/ai'
+
 export const HeroContainer = ({id}) => {
     const isMobile = useWindowSize(
         SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
@@ -42,7 +45,7 @@ export const HeroContainer = ({id}) => {
                     <p>Vous êtes au bon endroit <HelloHandComponent/></p>
                     <div className="cta">
                         <Link to={'contact'}>
-                            <Button>Contact</Button>
+                            <Button icon={<AiOutlineCluster/>}>Mes Service</Button>
                         </Link>
                     </div>
                 </HeroText>
