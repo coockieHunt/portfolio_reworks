@@ -1,7 +1,9 @@
 import { Text } from "./style/AccentText.style"
 import { Gradient } from "./style/CradiantText.style"
 import { ToText } from "./style/LinkText.style"
+import chroma from 'chroma-js';
 import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
+import {STYLE} from "./config/main"
 
 /**
  * AccentTextComponent
@@ -38,14 +40,25 @@ export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2 })
 /**
  * GradiantTextContainer
  * 
- * This component creates a container with an animated gradient background.
+ * This component creates a container with an animated gradient background by primary color.
  * 
  * @param children {ReactNode} - The content to be displayed within the gradient container.
  */
 export const GradiantTextContainer = ({ children }) => {
-    return(
-        <Gradient>{children}</Gradient>
-    )
+    const steps = 5;
+
+    const startColorChroma = chroma(STYLE.primary);
+
+    const gradientColors = Array.from({ length: steps + 1 }, (_, index) =>
+    startColorChroma
+        .brighten(0.5 * index) 
+        .saturate(0.3 * index)
+        .hex()
+    );
+
+    return (
+        <Gradient color={gradientColors}>{children}</Gradient>
+    );
 }
 
 /**

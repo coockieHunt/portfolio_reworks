@@ -1,19 +1,24 @@
 import styled, { keyframes } from 'styled-components';
-import { STYLE } from '../config/main';
 
 const moveGradient = keyframes`
-   to {
-      background-position: 200% center;
-    }
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
 `;
 
 export const Gradient = styled.span`
-    background: linear-gradient(to right, ${STYLE.primary} 20%, ${STYLE.secondary_gradiant} 40%, ${STYLE.secondary_gradiant} 60%, ${STYLE.primary} 80%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    background-size: 200% 100%;
-    animation: ${moveGradient} 2s linear infinite;
+  background: linear-gradient(to right, ${(props) => props.color.join(', ')});
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+  font-variation-settings: "wght" 800;
 
-    font-variation-settings: "wght" 800;
+  background-size: 200% 100%;
+  animation: ${moveGradient} 4s linear infinite;
 `;
