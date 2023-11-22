@@ -10,9 +10,36 @@ export const FenceContainer = styled.div`
     padding: 30px 19px;
 `
 
-export const catchModal = styled.span`
-    background-color: red;
-    font-size: .2rem;
+export const IconList = styled.span`
+    & > svg{
+            color: ${COLOR.primary};
+            height: 100%;
+        }
+`
+
+export const CatchModal = styled.span`
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 1rem;
+    font-variation-settings: "wght" 200;
+`
+
+export const ListModal = styled.ul`
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 30px;
+
+    & > li{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-variation-settings: "wght" 300;
+    }
+
 `
 
 export const Fence = styled.div`
