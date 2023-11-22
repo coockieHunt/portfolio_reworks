@@ -8,7 +8,7 @@ import { useWindowSize } from "../../hooks/screenResize.hook"
 
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
-import { IconButton } from "../../components/Buttton/Button.component"
+import { IconButton } from "../../components/Button/Button"
 
 // assets
 import brand_logo from '../../assets/images/main_logo.svg'

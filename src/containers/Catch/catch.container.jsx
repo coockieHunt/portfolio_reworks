@@ -1,7 +1,7 @@
 import * as StyleCatch from './catch.style'
 
 import HomeSheet from '../../assets/images/home_sheet.webp'
-import { SplitLayouComponent } from '../../components/SplitLayout/SplitLayout.component'
+import { SplitLayoutComponent } from '../../components/SplitLayout/SplitLayout.component'
 import { AccentTextComponent } from '../../components/Text/Text.component'
 
 import { useWindowSize } from "../../hooks/screenResize.hook";
@@ -15,7 +15,7 @@ export const CathContainer = ({ id }) => {
 
     return (
         <StyleCatch.Section id={id}>
-            <SplitLayouComponent
+            <SplitLayoutComponent
                 padding="50px"
                 background_color="#292929"
                 left_width={!isMobile ? '50%' : "100%"}

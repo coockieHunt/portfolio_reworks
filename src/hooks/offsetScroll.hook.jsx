@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
  * @param {number} pos - The position to check against.
  * @returns {boolean} - `true` if the current scroll position exceeds `pos`, otherwise `false`.
  */
-export const useScroolOffsetY = (pos) => {
+export const useScrollOffsetY = (pos) => {
     const [isScrolled, setIsScrolled] = useState(false);
   
     useEffect(() => {

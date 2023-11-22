@@ -4,7 +4,7 @@ import { URL } from '../../config'
 
 
 
-export const MyPorjectContainer = ({id}) => {
+export const MyProjectContainer = ({id}) => {
     return(
         <Container id={id}>
             <TitleTextComponent

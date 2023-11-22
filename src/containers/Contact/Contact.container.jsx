@@ -21,9 +21,9 @@ import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
 
 
 import * as FormComponent from "../../components/Form/From.component"
-import { Button } from "../../components/Buttton/Button.component"
+import { Button } from "../../components/Button/Button"
 import { TitleTextComponent } from "../../components/Text/Text.component"
-import { Link } from '../../components/Buttton/Button.component';
+import { Link } from '../../components/Button/Button';
 
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
 import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';

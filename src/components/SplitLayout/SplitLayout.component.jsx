@@ -1,5 +1,5 @@
 import React from "react";
-import * as SplitLayourStyle from "./style/SplitLayout.style";
+import * as SplitLayoutStyle from "./style/SplitLayout.style";
 
 /**
  * SplitLayoutComponent
@@ -13,7 +13,7 @@ import * as SplitLayourStyle from "./style/SplitLayout.style";
  * @param left_child {ReactNode} - Content to be displayed in the left section.
  * @param padding {string} - The padding for the content inside SplitLayoutLeft and SplitLayoutRight.
  */
-export const SplitLayouComponent = ({
+export const SplitLayoutComponent = ({
         left_width, 
         right_width, 
         background_color, 
@@ -23,17 +23,17 @@ export const SplitLayouComponent = ({
     }) => {
 
     return (
-        <SplitLayourStyle.SplitLayout $bg_color={background_color} style={{ padding: padding }}>
-            <SplitLayourStyle.SplitLayoutLeft $left_width={left_width}>
+        <SplitLayoutStyle.SplitLayout $bg_color={background_color} style={{ padding: padding }}>
+            <SplitLayoutStyle.SplitLayoutLeft $left_width={left_width}>
                 <div className="content">
                     {left_child}
                 </div>
-            </SplitLayourStyle.SplitLayoutLeft>
-            <SplitLayourStyle.SplitLayoutRight $right_width={right_width}>
+            </SplitLayoutStyle.SplitLayoutLeft>
+            <SplitLayoutStyle.SplitLayoutRight $right_width={right_width}>
                 <div className="content">
                     {right_child}
                 </div>
-            </SplitLayourStyle.SplitLayoutRight>
-        </SplitLayourStyle.SplitLayout>
+            </SplitLayoutStyle.SplitLayoutRight>
+        </SplitLayoutStyle.SplitLayout>
     );
 }

@@ -11,13 +11,13 @@ import { HeroContainer } from './containers/Hero/hero.container';
 import { CathContainer } from './containers/Catch/catch.container';
 import { FooterContainer } from './containers/Footer/footer.container';
 import { ContactContainer } from './containers/Contact/Contact.container';
-import { MyPorjectContainer } from './containers/MyProject/MyProject.container';
+import { MyProjectContainer } from './containers/MyProject/MyProject.container';
 import { BenefitContainer } from './containers/Benefit/benefit.container';
 import { QuoteContainer } from './containers/Quote/Quote.containers.jsx';
 import { StackContainer } from './containers/Stack/Stack.containers.jsx';
 import { ServiceContainer } from './containers/Services/Service.containers.jsx';
 //Hook
-import { ScroolToTop } from './components/Buttton/Button.component';
+import { ScrollToTop } from './components/Button/Button.jsx';
 import { LinkTextComponent } from './components/Text/Text.component.jsx'
 
 //Provider
@@ -30,7 +30,7 @@ import {
 } from 'react-icons/bi';
 import { ColorProvider } from './context/color.context.jsx';
 
-//Navabar
+//Navbar
 const navigation = [
     ['A propos', "catch"],
     ['Competences', "benefit"],
@@ -85,13 +85,13 @@ function App() {
                             <QuoteContainer >
                                 <BiSolidQuoteLeft /> Vous voulez voir comment le site est construit ? Il est en public pour le <LinkTextComponent to={URL.ghithudb_portfolio_rework}>Front</LinkTextComponent> et <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>Api</LinkTextComponent> <BiSolidQuoteRight />
                             </QuoteContainer>
-                            <MyPorjectContainer id='project' />
+                            <MyProjectContainer id='project' />
                             <ContactContainer id='contact' />
                             <StackContainer />
                             <FooterContainer />
                         </AlertProvider>
                     </ColorProvider>
-                <ScroolToTop />
+                <ScrollToTop />
             </>
         </Content>
     );

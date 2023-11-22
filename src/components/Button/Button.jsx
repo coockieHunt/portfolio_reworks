@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 //style
 import { ButtonContainer } from './style/Button.style';
 import { OutileButtonContainer } from './style/OutlineButton.style';
-import { ArrowContainerFixed, ArrowContainer } from './style/Arow.style';
+import { ArrowContainerFixed, ArrowContainer } from './style/Arrow.style';
 import { IconContainer } from './style/Icon.style';
 import { LinkContainer } from './style/link.style'
 
 //hook
-import { useScroolOffsetY } from '../../hooks/offsetScrools.hook';
+import { useScrollOffsetY as useScrollOffsetY } from '../../hooks/offsetScroll.hook';
 
 /**
  * Button Component
@@ -47,7 +47,7 @@ export const Button = ({ onClick, color, children, icon, icon_right, disabled })
  */
 export const OutlineButton = ({ onClick, color, children, icon, icon_right, disabled }) => {
     return (
-        <OutileButtonContainer onClonClickick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
+        <OutileButtonContainer onClick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
             <div className="button-content">
                 {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
             </div>
@@ -65,7 +65,7 @@ export const OutlineButton = ({ onClick, color, children, icon, icon_right, disa
  * @param {number} hide_bottom - The position at which the scroll-to-bottom button should hide. 
  * @returns {ReactNode} - A button component to scroll to the top of the page.
  */
-export const ScroolToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true }) => {
+export const ScrollToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true }) => {
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -75,7 +75,7 @@ export const ScroolToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
 
 
     if(auto_hide){
-        const scroolY = useScroolOffsetY(hide_top);
+        const scrollY = useScrollOffsetY(hide_top);
         const [isFixed, setIsFixed] = useState(false);
 
         useEffect(() => {
@@ -92,7 +92,7 @@ export const ScroolToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
             <button>
                 <ArrowContainerFixed 
                     onClick={scrollToTop} 
-                    className={!scroolY || isFixed ? 'hide' : ''}
+                    className={!scrollY || isFixed ? 'hide' : ''}
                 >
                     <div></div>
                     <div></div>

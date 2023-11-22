@@ -2,9 +2,9 @@ import * as Footer from './footer.style'
 import { SiReact } from 'react-icons/si';
 import { GiOutbackHat } from 'react-icons/gi';
 import { DiJavascript1 } from 'react-icons/di';
-import { IconButton } from '../../components/Buttton/Button.component';
+import { IconButton } from '../../components/Button/Button';
 import cv from '../../assets/pdf/cv_dev_JG.pdf'
-import { ScroolToTop } from '../../components/Buttton/Button.component';
+import { ScrollToTop } from '../../components/Button/Button';
 
 import {
     AiFillGithub,
@@ -59,11 +59,11 @@ export const FooterContainer = () => {
                         Powered by Node <DiJavascript1 /><br />
                     </div>
                     <div>
-                        create whith react <SiReact />
+                        create with react <SiReact />
                     </div>
                 </div>
                 <div className="action">
-                    <ScroolToTop auto_hide={false}/>
+                    <ScrollToTop auto_hide={false}/>
                 </div>
             </Footer.Content>
         </Footer.Container>

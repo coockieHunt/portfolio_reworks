@@ -85,7 +85,5 @@ export const ServiceContainer = ({ children }) => {
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
 			</FenceContainer>
 		</>
-
-
 	);
 }

@@ -9,7 +9,7 @@ import {
 } from "./hero.style"
 
 import{ GradiantTextContainer } from "../../components/Text/Text.component"
-import{ Button } from "../../components/Buttton/Button.component"
+import{ Button } from "../../components/Button/Button"
 import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { Link } from "react-scroll";
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
