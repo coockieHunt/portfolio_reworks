@@ -5,7 +5,7 @@ export const ArrowContainerFixed = styled.div`
     position: fixed;
     bottom: ${STYLE.position.bottom};
     right: ${STYLE.position.right};
-    z-index: 99999;
+    z-index: 999;
 
     width: 10px;
     height: 10px;
