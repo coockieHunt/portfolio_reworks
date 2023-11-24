@@ -51,7 +51,7 @@ export const GradiantTextContainer = ({ children }) => {
 
     const gradientColors = Array.from({ length: steps + 1 }, (_, index) =>
     startColorChroma
-        .brighten(0.5 * index) 
+        .brighten(0.3 * index) 
         .saturate(0.3 * index)
         .hex()
     );
