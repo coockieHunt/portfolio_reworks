@@ -17,7 +17,7 @@ import {
 
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 
-const renderLabel = (label, required) => {
+const renderLabel = (label, required, name) => {
     if (label !== undefined) {
         if (required) {
             return (
@@ -77,7 +77,7 @@ export const Inline = ({ children }) => (
  * @param required
  */
 export const InputText = ({ name, value, onChange, label, placeHolder, required }) => {
-    const labelElement = renderLabel(label, required);
+    const labelElement = renderLabel(label, required, name);
 
     let placeholderElement = placeHolder;
     if (required && label === undefined) {
@@ -105,7 +105,7 @@ export const InputText = ({ name, value, onChange, label, placeHolder, required 
  * @param required
  */
 export const InputEmail = ({ name, value, onChange, label, placeHolder, required }) => {
-    const labelElement = renderLabel(label, required);
+    const labelElement = renderLabel(label, required, name);
 
     let placeholderElement = placeHolder;
     if (required && label === undefined) {
@@ -115,7 +115,7 @@ export const InputEmail = ({ name, value, onChange, label, placeHolder, required
     return (
         <FormElement>
             {labelElement}
-            <FormInput name={name} id={name} type="email" placeholder={placeholderElement} value={value} onChange={onChange} />
+            <FormInput name={name} id={name} type="email" placeholder={placeholderElement} value={value} onChange={onChange}  autoComplete="email"/>
         </FormElement>
     );
 };
@@ -135,20 +135,14 @@ export const InputEmail = ({ name, value, onChange, label, placeHolder, required
 export const InputTextArea = ({ name, value, onChange, label, placeHolder, required }) => {
     const renderLabel = () => {
         if (label !== undefined) {
-            if (required) {
-                return (
-                    <FormLabel htmlFor={name}>
-                        {label} <span>*</span>
-                    </FormLabel>
-                );
-            }
-            return <FormLabel htmlFor={name}>{label}</FormLabel>;
+            return (
+                <FormLabel htmlFor={name}>
+                    {label} {required && <span>*</span>}
+                </FormLabel>
+            );
         }
-
         return null;
     };
-
-    const labelElement = renderLabel();
 
     let placeholderElement = placeHolder;
     if (required && label === undefined) {
@@ -157,11 +151,11 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
 
     return (
         <FormElement>
-            {labelElement}
+            {renderLabel()}
             <FormTextArea name={name} id={name} placeholder={placeholderElement} value={value} onChange={onChange} />
         </FormElement>
     );
-}
+};
 
 /**
  ** A component for displaying a simple captcha.
