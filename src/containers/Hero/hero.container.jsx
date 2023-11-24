@@ -8,7 +8,7 @@ import {
     TagSlider
 } from "./hero.style"
 
-import{ GradiantTextContainer } from "../../components/Text/Text.component"
+import{ GradientTextContainer } from "../../components/Text/Text.component"
 import{ Button } from "../../components/Button/Button"
 import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { Link } from "react-scroll";
@@ -41,7 +41,7 @@ export const HeroContainer = ({id}) => {
         <Container id={id}>
             <Top>
                 <HeroText>
-                    <h1>Vous voulez transformer votre idée en <GradiantTextContainer>Site Web</GradiantTextContainer>.</h1>
+                    <h1>Vous voulez transformer votre idée en <GradientTextContainer>Site Web</GradientTextContainer>.</h1>
                     <p>Vous êtes au bon endroit <HelloHandComponent/></p>
                     <div className="cta">
                         <Link to={'contact'}>

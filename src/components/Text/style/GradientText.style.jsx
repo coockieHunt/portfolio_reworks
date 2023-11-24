@@ -15,6 +15,7 @@ const moveGradient = keyframes`
 export const Gradient = styled.span`
   background: linear-gradient(to right, ${(props) => props.color.join(', ')});
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   display: inline-block;
   font-variation-settings: "wght" 800;
