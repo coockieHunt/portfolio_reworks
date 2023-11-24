@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { COLOR, SCREEN_SIZE } from '../../config';
-import { useColorContext } from '../../context/color.context';
 
 export const Container = styled.div`
     display: flex;
@@ -10,7 +9,6 @@ export const Container = styled.div`
     margin: 0 auto;
     background-color: #202020;
     width: 100%;
-
 
     & .listContainer{
         width: 95%;
