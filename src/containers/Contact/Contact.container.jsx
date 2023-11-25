@@ -36,13 +36,13 @@ export const ContactContainer = ({ id }) => {
 
     //REF FORM
     const captchaComponentRef = useRef();
-    let DefaultValue = {firstName: '',lastName: '',email: '',message: ''}
+    let DefaultValue = { firstName: '', lastName: '', email: '', message: '' }
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
     const [output, setOutput] = useState(DefaultValue)
 
     //Cooldown send
-    const [IsCoolDown , SetIsCoolDown ] = useState(false)
-    const [CoolDownTime , SetCoolDownTime ] = useState(0)
+    const [IsCoolDown, SetIsCoolDown] = useState(false)
+    const [CoolDownTime, SetCoolDownTime] = useState(0)
 
     //WINDOWS
     const isMobile = useWindowSize(1400);
@@ -69,19 +69,19 @@ export const ContactContainer = ({ id }) => {
                 return true
             } else {
                 console.log(response)
-                addAlert('Message non evoyer', "#ffcc00",4000);
+                addAlert('Message non evoyer', "#ffcc00", 4000);
                 return false
             }
         } catch (error) {
             console.error('Erreur lors de la requête POST vers le serveur:', error);
-            addAlert( "Une erreur s'est produite lors de l'envoi de l'e-mail.","#cc3300",4000);
+            addAlert("Une erreur s'est produite lors de l'envoi de l'e-mail.", "#cc3300", 4000);
             return false
         }
     }
 
     const CheckData = (output) => {
         if (!output.email || !isValidEmail(output.email)) {
-            addAlert('Veuillez saisir une adresse email valide.', "#cc3300",4000);
+            addAlert('Veuillez saisir une adresse email valide.', "#cc3300", 4000);
             return false;
         }
 
@@ -91,7 +91,7 @@ export const ContactContainer = ({ id }) => {
         }
 
         if (!output.message) {
-            addAlert('Veuillez saisir votre message.', "#cc3300",4000);
+            addAlert('Veuillez saisir votre message.', "#cc3300", 4000);
             return false;
         }
 
@@ -102,7 +102,7 @@ export const ContactContainer = ({ id }) => {
     const handleSubmit = async (e) => {
 
         if (!isCaptchaValid) {
-            addAlert('Captcha invalide.', "#cc3300",4000 );
+            addAlert('Captcha invalide.', "#cc3300", 4000);
             return;
         }
 
@@ -114,7 +114,7 @@ export const ContactContainer = ({ id }) => {
             }
 
             if (output.lastName) {
-                if (output.firstName) {subjectFormat += ' ';}
+                if (output.firstName) { subjectFormat += ' '; }
                 subjectFormat += `${output.lastName}`;
             }
 
@@ -153,20 +153,20 @@ export const ContactContainer = ({ id }) => {
                     const CoolDownInterval = setInterval(() => {
                         SetCoolDownTime(prevCoolDownTime => {
                             console.log(prevCoolDownTime);
-                
+
                             if (prevCoolDownTime === 1) {
                                 SetIsCoolDown(false);
                                 clearInterval(CoolDownInterval);
                             }
-                
+
                             return prevCoolDownTime - 1;
                         });
                     }, 1000);
-                    addAlert('Message bien reçu 👌',COLOR.primary,3500);
+                    addAlert('Message bien reçu 👌', COLOR.primary, 3500);
                     handleReset()
-                } else {addAlert("Erreur lors de l'envoi de l'e-mail de confirmation au client.","#cc3300",4000);}
+                } else { addAlert("Erreur lors de l'envoi de l'e-mail de confirmation au client.", "#cc3300", 4000); }
             } else {
-                addAlert('Message non envoyé', "#ffcc00",4000);
+                addAlert('Message non envoyé', "#ffcc00", 4000);
             }
         }
     };
@@ -175,49 +175,49 @@ export const ContactContainer = ({ id }) => {
     return (
         <div id={id}>
             <TitleTextComponent
-                subtitle={"Avotre service"}
+                subtitle={"A votre service"}
             >Me contacter</TitleTextComponent>
             <Container>
-                    <Info>
-                        <div className="info">
-                            {!isMobile &&
-                                <>
-                                    <h2>Information</h2>
-                                    <p>Une idéé ? Un projet ? N'hésitez pas à demander un devis !</p>
-                                </>
-                            }
-                            <div className="contact">
-                                <Link className= "info" >
-                                    <AiFillPhone />
-                                    <span
-                                        onClick={() => window.location.href = 'tel:0603420204'}
-                                    >+33 6.03.42.02.04</span>
-                                </Link>
-                                <Link className= "info" >
-                                    <AiOutlineMail />
-                                    <span
-                                        onClick={() => window.location.replace('mailto:pro.jonathan.gleyze@gmail.com')}
-                                    >pro.jonathan.gleyze@gmail.com</span>
-                                </Link>
-                                <Link className= "info" >
-                                    <BiSolidMap />
-                                    <span
-                                        onClick={() => window.location.href = 'https://www.google.com/maps/place/N%C3%AEmes/'}
-                                    >Nîmes (GARD)</span>
-                                </Link>
-                                <Link className= "info" >
-                                    <BiLogoLinkedin />
-                                    <span
-                                        onClick={() => window.location.replace('https://www.linkedin.com/in/jonathan-gleyze-173ab7239/')}
-                                    >jonathan gleyze</span>
-                                </Link>
-                            </div>
+                <Info>
+                    <div className="info">
+                        {!isMobile &&
+                            <>
+                                <h2>Information</h2>
+                                <p>Une idéé ? Un projet ? N'hésitez pas à demander un devis !</p>
+                            </>
+                        }
+                        <div className="contact">
+                            <Link className="info" >
+                                <AiFillPhone />
+                                <span
+                                    onClick={() => window.location.href = 'tel:0603420204'}
+                                >+33 6.03.42.02.04</span>
+                            </Link>
+                            <Link className="info" >
+                                <AiOutlineMail />
+                                <span
+                                    onClick={() => window.location.replace('mailto:pro.jonathan.gleyze@gmail.com')}
+                                >pro.jonathan.gleyze@gmail.com</span>
+                            </Link>
+                            <Link className="info" >
+                                <BiSolidMap />
+                                <span
+                                    onClick={() => window.location.href = 'https://www.google.com/maps/place/N%C3%AEmes/'}
+                                >Nîmes (GARD)</span>
+                            </Link>
+                            <Link className="info" >
+                                <BiLogoLinkedin />
+                                <span
+                                    onClick={() => window.location.replace('https://www.linkedin.com/in/jonathan-gleyze-173ab7239/')}
+                                >jonathan gleyze</span>
+                            </Link>
                         </div>
+                    </div>
 
-                        {!isMobile && <div className='bottom'>
-                            <span>Les informations avec une * sont obligatoire</span>
-                        </div>}
-                    </Info>
+                    {!isMobile && <div className='bottom'>
+                        <span>Les informations avec une * sont obligatoire</span>
+                    </div>}
+                </Info>
 
                 <ContactForm>
                     <FormComponent.Groupe >
@@ -226,15 +226,15 @@ export const ContactContainer = ({ id }) => {
                                 name="firstName"
                                 value={output.firstName}
                                 onChange={handleChange}
-                                label="Prenom"
-                                placeHolder="jhon"
+                                label="Prénom"
+                                placeHolder="john"
                                 required
                             />
                             <FormComponent.InputText
                                 name="lastName"
                                 value={output.lastName}
                                 onChange={handleChange}
-                                label="nom"
+                                label="Nom"
                                 placeHolder="doe"
                             />
                         </FormComponent.Inline>
@@ -244,7 +244,7 @@ export const ContactContainer = ({ id }) => {
                             value={output.email}
                             onChange={handleChange}
                             placeHolder="secteur@domaine.fr"
-                            label="email"
+                            label="Email"
                             required
                         />
 
@@ -259,18 +259,18 @@ export const ContactContainer = ({ id }) => {
 
                     </FormComponent.Groupe>
 
-                    <FormComponent.CaptchaComponent 
+                    <FormComponent.CaptchaComponent
                         ref={captchaComponentRef}
-                        isCaptchaValid={isCaptchaValid} 
+                        isCaptchaValid={isCaptchaValid}
                         setIsCaptchaValid={setIsCaptchaValid} />
 
                     <ActionForm>
-                        <span onClick={() => {handleReset()}}>Remettre a  zero</span>
+                        <span onClick={() => { handleReset() }}>Remettre a  zero</span>
                         <Button
-                            onClick={() => {handleSubmit()}}
-                            icon={!IsCoolDown && <AiOutlineSend/>}
+                            onClick={() => { handleSubmit() }}
+                            icon={!IsCoolDown && <AiOutlineSend />}
                             disabled={IsCoolDown}>
-                        {IsCoolDown ? CoolDownTime : "envoyer"}</Button>
+                            {IsCoolDown ? CoolDownTime : "envoyer"}</Button>
                     </ActionForm>
                 </ContactForm>
             </Container>

@@ -14,7 +14,9 @@ export const AlertContainerComponent = () => {
     const { alerts, removeAlert } = useAlert();
 
     return (
-        <Container style={DEBUG.container ? { backgroundColor: DEBUG.container_color } : {}}>
+        <Container 
+            style={DEBUG.container ? { backgroundColor: DEBUG.container_color } : {}
+        }>
         {alerts.map((alert) => (
             <AlertContainer 
                 key={alert.id} 

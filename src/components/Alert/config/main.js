@@ -25,11 +25,11 @@ export const STYLE = {
     direction: "normal",
 
     /**
-     * Width of the container. Default: "50vh".
+     * Width of the container. Default: "400px".
      * @type {string}
-     * @default "50vh"
+     * @default "400px"
      */
-    width: "50vh",
+    width: "400px",
 
     /**
      * Height of the container. Default: "100vh".
