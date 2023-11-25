@@ -2,11 +2,13 @@ import { useState, React } from 'react';
 
 import { Fence, FenceContainer, CatchModal, ListModal, IconList} from "./Service.style"
 
-import { AiOutlineBuild, AiOutlineArrowRight, AiOutlineBgColors , AiOutlineUnlock } from "react-icons/ai";
+import { AiOutlineBuild, AiOutlineArrowRight, AiOutlineBgColors , AiOutlineUnlock, AiOutlineSend  } from "react-icons/ai";
 import { TitleTextComponent } from '../../components/Text/Text.component'
 import { ModalComponent } from '../../components/Modal/Modal.coponents';
 import {CiCircleCheck } from 'react-icons/ci'
 import { useScrollbar } from '../../hooks/scroolBar.hook';
+import { Link } from "react-scroll";
+
 
 export const ServiceContainer = ({ children, id }) => {
 	const [modals, setModals] = useState([
@@ -83,6 +85,14 @@ export const ServiceContainer = ({ children, id }) => {
 				{BuildFence(<AiOutlineBuild />, 'Développement\nWeb', () => openModal(0))}
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
+				<Link to={'contact'}>
+					<Fence onClick={() => {}} color="#221f30">
+						<AiOutlineSend />
+						<p className='catch' style={{ whiteSpace: 'pre-line' }}>Me <br/>Contacter</p>
+						<span> Contacter<AiOutlineArrowRight /></span>
+					</Fence>
+                </Link>
+				
 			</FenceContainer>
 		</div>
 	);

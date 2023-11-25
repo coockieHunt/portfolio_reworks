@@ -43,7 +43,7 @@ export const ListModal = styled.ul`
 `
 
 export const Fence = styled.div`
-    background-color: #292929;
+    background-color: ${props => props.color ? props.color : "#292929"}; 
     min-height: 200px;
     min-width: 200px;
 
