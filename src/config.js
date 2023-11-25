@@ -1,8 +1,11 @@
+import { theme } from "./context/theme.context";
+
+
 export const COLOR = {
     background: '#121212',
-    primary: "#5943e4",//863643
-    accentuate: '#404ad6',
+    primary: "#5943e4",//5943e4
     secondary: "#32256c", //32256c
+    accentuate: '#404ad6',
 };
 
 export const SCREEN_SIZE = {

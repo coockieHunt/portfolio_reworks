@@ -40,7 +40,7 @@ export const ContactContainer = ({ id }) => {
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
     const [output, setOutput] = useState(DefaultValue)
 
-    //Cooldown send
+    //CoolDown send
     const [IsCoolDown, SetIsCoolDown] = useState(false)
     const [CoolDownTime, SetCoolDownTime] = useState(0)
 
@@ -69,7 +69,7 @@ export const ContactContainer = ({ id }) => {
                 return true
             } else {
                 console.log(response)
-                addAlert('Message non evoyer', "#ffcc00", 4000);
+                addAlert('Message non envoyer', "#ffcc00", 4000);
                 return false
             }
         } catch (error) {
@@ -183,7 +183,7 @@ export const ContactContainer = ({ id }) => {
                         {!isMobile &&
                             <>
                                 <h2>Information</h2>
-                                <p>Une idéé ? Un projet ? N'hésitez pas à demander un devis !</p>
+                                <p>Une idée ? Un projet ? N'hésitez pas à demander un devis !</p>
                             </>
                         }
                         <div className="contact">
@@ -209,7 +209,7 @@ export const ContactContainer = ({ id }) => {
                                 <BiLogoLinkedin />
                                 <span
                                     onClick={() => window.location.replace('https://www.linkedin.com/in/jonathan-gleyze-173ab7239/')}
-                                >jonathan gleyze</span>
+                                >Jonathan gleyze</span>
                             </Link>
                         </div>
                     </div>
