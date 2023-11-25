@@ -19,6 +19,11 @@ export const Container = styled.div`
     z-index: 9999;
     pointer-events: none;
     padding: 10px;
+
+
+    @media (max-width: 700px) {
+        width: 100%;
+    }
 `
 
 export const AlertContainer = styled.div`
