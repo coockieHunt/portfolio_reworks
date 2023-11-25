@@ -8,7 +8,7 @@ import { ModalComponent } from '../../components/Modal/Modal.coponents';
 import {CiCircleCheck } from 'react-icons/ci'
 import { useScrollbar } from '../../hooks/scroolBar.hook';
 
-export const ServiceContainer = ({ children }) => {
+export const ServiceContainer = ({ children, id }) => {
 	const [modals, setModals] = useState([
 		{ isOpend: false, title: "Développement Web", content: 
 			<>
@@ -71,7 +71,7 @@ export const ServiceContainer = ({ children }) => {
 	}
 
 	return (
-		<>
+		<div className={id}>
 			<TitleTextComponent
 				subtitle={"A VOTRE"}
 				subtitleOpacity={0.3}
@@ -84,6 +84,6 @@ export const ServiceContainer = ({ children }) => {
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
 			</FenceContainer>
-		</>
+		</div>
 	);
 }

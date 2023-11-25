@@ -44,7 +44,7 @@ export const HeroContainer = ({id}) => {
                     <h1>Vous voulez transformer votre idée en <GradientTextContainer>Site Web</GradientTextContainer>.</h1>
                     <p>Vous êtes au bon endroit <HelloHandComponent/></p>
                     <div className="cta">
-                        <Link to={'contact'}>
+                        <Link to={'service'}>
                             <Button icon={<AiOutlineCluster/>}>Mes Service</Button>
                         </Link>
                     </div>
