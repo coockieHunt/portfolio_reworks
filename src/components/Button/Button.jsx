@@ -26,9 +26,10 @@ import { useScrollOffsetY as useScrollOffsetY } from '../../hooks/offsetScroll.h
 export const Button = ({ onClick, color, children, icon, icon_right, disabled }) => {
     return (
         <ButtonContainer onClick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
-            <div className="button-content">
-                {icon_right ? <>{icon} {children}</> : <>{children} {icon}</>}
-            </div>
+            {icon_right ? 
+                <><div className="icon">{icon}</div> <span>{children}</span></> :
+                <><span>{children}</span> <div className="icon">{icon}</div></>
+            }
         </ButtonContainer>
     );
 }

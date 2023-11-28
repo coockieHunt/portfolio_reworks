@@ -20,7 +20,7 @@ export const STYLE = {
      * @type {string}
      * @default "30%"
      */
-    border_radius: "30%",
+    border_radius: "5px",
 
     /**
      * Position offset on hide arrow. Default: "-60px".

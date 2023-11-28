@@ -21,7 +21,7 @@ export const ArrowContainerFixed = styled.div`
     transition: all 0.3s ease;
     box-sizing: content-box;
 
-	border: ${STYLE.border && "1px solid white"};
+	border: ${STYLE.border && "1px solid #ffffff68"};
 
     &:hover{
       box-shadow: 
