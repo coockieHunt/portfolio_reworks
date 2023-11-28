@@ -9,6 +9,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     overflow: hidden;
+
+    position: relative;
 `
 export const TagSlider = styled.div`
     display: flex;
@@ -19,7 +21,7 @@ export const TagSlider = styled.div`
     @media (max-width:  ${SCREEN_SIZE.mobile}) {display: none;}
 `
 
-export const Botton = styled.div`
+export const ButtonScroll = styled.div`
     display: flex;
     align-items: center;
     flex: 1;

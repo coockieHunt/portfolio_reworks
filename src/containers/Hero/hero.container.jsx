@@ -3,7 +3,7 @@ import React from 'react';
 import { 
     Container,
     HeroText,
-    Botton,
+    ButtonScroll,
     Top,
     TagSlider
 } from "./hero.style"
@@ -13,7 +13,7 @@ import{ Button } from "../../components/Button/Button"
 import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { Link } from "react-scroll";
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
-import { ScroolingTagComponent } from '../../components/ScroolingTag/ScroolingTag.component';
+import { ScrollTagComponent } from '../../components/ScroolingTag/ScroolingTag.component';
 import { useWindowSize } from '../../hooks/screenResize.hook';
 import { SCREEN_SIZE } from '../../config'
 
@@ -21,9 +21,7 @@ import { SCREEN_SIZE } from '../../config'
 import { AiOutlineCluster } from 'react-icons/ai'
 
 export const HeroContainer = ({id}) => {
-    const isMobile = useWindowSize(
-        SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
-    );
+    const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
 
     const tags = [
         'HTML', 
@@ -51,19 +49,15 @@ export const HeroContainer = ({id}) => {
                 </HeroText>
 
                 <TagSlider>
-                    <ScroolingTagComponent 
-                        Tags = {tags}
-                        Witdth = "40rem"
-                    />
+                    <ScrollTagComponent Tags = {tags} Width = "40rem"/>
                 </TagSlider>
-
             </Top>
             
-            <Botton>
+            <ButtonScroll>
                 <MouseComponent type={
                     isMobile ? "phone" : "mouse"
                 }/>
-            </Botton>
+            </ButtonScroll>
         </Container>
     )
 }

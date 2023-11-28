@@ -3,7 +3,7 @@ import { Link } from "react-scroll";
 import { URL } from '../../config'
 
 // hook
-import { useScrollbar } from "../../hooks/scroolBar.hook"
+import { useScrollbar } from "../../hooks/scrollBar.hook"
 import { useWindowSize } from "../../hooks/screenResize.hook"
 
 //component
@@ -95,19 +95,19 @@ export const NavigationComponent = ({ navConfig }) => {
                     <IconButton
                         icon={<AiFillLinkedin />}
                         color="#0e76a8"
-                        onClick={() => window.location.href = URL.linkedin} 
+                        onClick={() => window.location.href = URL.linkedin}
                         text="Linkedin"
                     />
                     <IconButton
                         icon={<FaDeviantart />}
                         color="#05cc46"
-                        onClick={() => window.location.href = URL.DeviantArt} 
+                        onClick={() => window.location.href = URL.DeviantArt}
                         text="Deviantart"
                     />
                     <IconButton
                         icon={<BiSolidUser />}
                         color="#00ffc8"
-                        onClick={() => window.open(cv, '_blank')} 
+                        onClick={() => window.open(cv, '_blank')}
                         text="Curriculum vitae"
                         textX="-90%"
                     />
