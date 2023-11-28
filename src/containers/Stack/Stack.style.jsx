@@ -13,6 +13,7 @@ export const Stack = styled.div`
     
     & a img{
         height: 80px;
+        width: auto; 
 
         &:hover{
             transform: scale(1.04);
