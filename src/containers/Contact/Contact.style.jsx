@@ -120,7 +120,7 @@ export const ActionForm = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    & span {
+    & > span {
         color: #464646;
         cursor: pointer;
         &:hover {
