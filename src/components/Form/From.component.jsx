@@ -170,10 +170,10 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
     const [userAnswer, setUserAnswer] = useState('');
 
     const handleCaptchaChange = (e) => {
-        const userProvidedAnswer = parseInt(e.target.value, 10);
-        setUserAnswer(e.target.value);
+        const userProvidedAnswer = e.target.value.replace(/\D/g, '');;
+        setUserAnswer(userProvidedAnswer);
         const correctAnswer = number1 + number2;
-        setIsCaptchaValid(correctAnswer === userProvidedAnswer);
+        setIsCaptchaValid(correctAnswer === parseInt(userProvidedAnswer));
     };
 
     const handleReset = () => {
@@ -199,7 +199,7 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
                     onChange={handleCaptchaChange}
                     name="Captcha"
                     id="Captcha"
-                    pattern="[0-100]*"
+                    pattern="[0-9]*"
                 />
                 {isCaptchaValid ? (
                     <CaptchaMessage style={{ color: "green" }}><AiOutlineCheck /></CaptchaMessage>
