@@ -22,7 +22,7 @@ export const  IconContainer = styled.button`
         transition: all .3s ease;
     }
 
-    span {
+    & span {
         opacity: 0;
         transition: all 0.3s ease-in-out;
         position: absolute;
