@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { AnimatePresence } from 'framer-motion';
 import { ModalDiv, BackDrop, Top, Content } from "./style/Modal.style";
 import { AiOutlineClose  } from 'react-icons/ai';
@@ -8,18 +8,38 @@ import { AiOutlineClose  } from 'react-icons/ai';
  *
  * @component
  * @param {Object[]} modals - An array of modal objects.
- * @param {boolean} modals.isOpend - Determines if the modal is open.
+ * @param {boolean} modals.isOpen - Determines if the modal is open.
  * @param {string} modals.title - The title of the modal.
  * @param {ReactNode} modals.content - The content of the modal.
  * @param {function} onClose - A function to close the modal.
  * @returns {ReactNode} - Returns the modal component.
  */
 export const ModalComponent = ({ modals, onClose }) => {
+    const handleKeyDown = (event, index) => {
+        if (event.key === "Escape") {
+          onClose(index);
+        }
+      };
+    
+      useEffect(() => {
+        const handleKeyDownGlobal = (event) => {
+          const lastOpenedModalIndex = modals.findIndex((modal) => modal.isOpen);
+          if (lastOpenedModalIndex !== -1) {
+            handleKeyDown(event, lastOpenedModalIndex);
+          }
+        };
+    
+        window.addEventListener("keydown", handleKeyDownGlobal);
+    
+        return () => {
+          window.removeEventListener("keydown", handleKeyDownGlobal);
+        };
+      }, [modals]);
     return (
         <AnimatePresence>
             {modals.map((modal, index) => (
                 <React.Fragment key={index}>
-                    {modal.isOpend && (
+                    {modal.isOpen && (
                         <>
                             <BackDrop
                                 initial={{ opacity: 0 }}
