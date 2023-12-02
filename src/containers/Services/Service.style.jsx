@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { COLOR } from '../../config';
+import { COLOR, getColorSettings } from '../../config';
 
 export const FenceContainer = styled.div`
     display: flex;
@@ -12,9 +12,9 @@ export const FenceContainer = styled.div`
 
 export const IconList = styled.span`
     & > svg{
-            color: ${COLOR.primary};
-            height: 100%;
-        }
+        color: ${props => getColorSettings(props.theme).primary};
+        height: 100%;
+    }
 `
 
 export const CatchModal = styled.span`
@@ -61,7 +61,7 @@ export const Fence = styled.div`
 
 
     & > svg{
-        color: ${COLOR.primary}; 
+        color:  ${props => getColorSettings(props.theme).primary};
         font-size: 2em;
     }
 
@@ -72,7 +72,7 @@ export const Fence = styled.div`
     }
 
     & span{
-        color: ${COLOR.primary}; 
+        color:  ${props => getColorSettings(props.theme).primary};
         transition: all .3s ease-in;
         font-variation-settings: "wght" 600;
 

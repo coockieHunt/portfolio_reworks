@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { COLOR } from '../../config';
+import { getColorSettings } from '../../config';
+
 
 export const Container = styled.div`
     padding:  20px 30px 70px;
@@ -25,11 +27,11 @@ export const TextContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-
+    margin: 0 auto;
+    width: 90%;
     @media (max-width: 1200px) {
         flex-direction: column;
-        height: auto;
-
+        height: 10%;
         text-align: center;
         justify-content: space-between;
 
@@ -66,7 +68,7 @@ export const Info = styled.div`
         line-height: 1.6em;
         text-transform: uppercase;
         font-variation-settings: "wght" 500;
-        color: ${COLOR.primary};
+        color: ${props => getColorSettings(props.theme).primary};
     }
 
     & p {
@@ -100,6 +102,6 @@ export const Img = styled.div`
     & svg {
         width: 40%;
         height: auto;
-        color : ${ COLOR.primary};
+        color : ${props => getColorSettings(props.theme).primary};
     }
 `;

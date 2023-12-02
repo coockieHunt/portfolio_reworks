@@ -2,13 +2,15 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { COLOR } from "../../../config";
+import { getColorSettings } from '../../../config';
+
 
 export const ModalDiv = styled(motion.div)`
     position: fixed;
     top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 22;
     display: flex;
     flex-direction: column;
     width: 90%;
@@ -23,7 +25,7 @@ export const Content = styled.div`
     font-size: 1em;
 
     & h1{
-        color: ${COLOR.primary};
+        color: ${props => getColorSettings(props.theme).primary};
         font-size: 1.3em;
 
         display: inline-block;
@@ -42,7 +44,7 @@ export const Top = styled.div`
 
     & > svg{
         margin: 10px 20px 00;
-        color: ${COLOR.primary};
+        color: ${props => getColorSettings(props.theme).primary};
         cursor: pointer;
     }
 `
@@ -56,7 +58,7 @@ export const BackDrop = styled(motion.div)`
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 21;
 
     cursor: pointer;
 `

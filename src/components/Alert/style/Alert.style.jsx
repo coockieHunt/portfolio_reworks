@@ -16,7 +16,7 @@ export const Container = styled.div`
     };
     gap: 10px;
     justify-content: start;
-    z-index: 9999;
+    z-index: 10000;
     pointer-events: none;
     padding: 10px;
 

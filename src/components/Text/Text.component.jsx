@@ -3,7 +3,10 @@ import { Gradient } from "./style/GradientText.style"
 import { ToText } from "./style/LinkText.style"
 import chroma from 'chroma-js';
 import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
-import {STYLE} from "./config/main"
+
+
+import { useSettingContext, } from "../../context/Setting.context";
+import { COLOR_SETTING } from '../../config'
 
 /**
  * AccentTextComponent
@@ -45,9 +48,10 @@ export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2 })
  * @param children {ReactNode} - The content to be displayed within the gradient container.
  */
 export const GradientTextContainer = ({ children }) => {
+    const theme = useSettingContext();
     const steps = 5;
 
-    const startColorChroma = chroma(STYLE.primary);
+    const startColorChroma = chroma(COLOR_SETTING[theme.settings.theme].primary);
 
     const gradientColors = Array.from({ length: steps + 1 }, (_, index) =>
     startColorChroma

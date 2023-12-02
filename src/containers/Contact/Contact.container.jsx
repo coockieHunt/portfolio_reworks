@@ -8,7 +8,6 @@ import {
 } from "./Contact.style"
 
 import {
-    COLOR,
     CONTACT_EMAIL
 } from '../../config'
 
@@ -50,6 +49,7 @@ export const ContactContainer = ({ id }) => {
     const handleChange = (e) => {
         setOutput(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
+
 
     const handleReset = (e) => {
         setOutput(DefaultValue);
@@ -162,7 +162,7 @@ export const ContactContainer = ({ id }) => {
                             return prevCoolDownTime - 1;
                         });
                     }, 1000);
-                    addAlert('Message bien reçu 👌', COLOR.primary, 3500);
+                    addAlert('Message bien reçu 👌', "green", 3500);
                     handleReset()
                 } else { addAlert("Erreur lors de l'envoi de l'e-mail de confirmation au client.", "#cc3300", 4000); }
             } else {
@@ -266,11 +266,14 @@ export const ContactContainer = ({ id }) => {
 
                     <ActionForm>
                         <span onClick={() => { handleReset() }}>Remettre a  zero</span>
-                        <Button
-                            onClick={() => { handleSubmit() }}
-                            icon={!IsCoolDown && <AiOutlineSend />}
-                            disabled={IsCoolDown}>
-                            {IsCoolDown ? CoolDownTime : "envoyer"}</Button>
+                        {!IsCoolDown ? 
+                            <Button
+                                onClick={() => { handleSubmit() }}
+                                icon={!IsCoolDown && <AiOutlineSend />}
+                                disabled={IsCoolDown}>
+                            envoyer</Button> : 
+                            <span className='colored'>{CoolDownTime}</span>
+                        }
                     </ActionForm>
                 </ContactForm>
             </Container>

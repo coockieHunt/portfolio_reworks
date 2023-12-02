@@ -1,5 +1,7 @@
 import { createGlobalStyle, styled } from 'styled-components';
-import { COLOR } from '../config';
+import { COLOR_SETTING } from '../config';
+
+console.log(props => props.theme)
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -12,17 +14,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${COLOR.background};
+    background:  ${props => COLOR_SETTING[props.theme.theme].background_accentuated};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${COLOR.primary};
+    background-color:  ${props => COLOR_SETTING[props.theme.theme].primary};
     border-radius: 3px;
     border:0px;
   }
 
   body {
-    background-color: ${COLOR.background};
+    background-color:  ${props => COLOR_SETTING[props.theme.theme].background};
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: white;
@@ -48,41 +50,11 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     scroll-behavior: smooth;
   }
-`;
-
+`
 
 export const Content = styled.div`
 `
 
-export const LoadingContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1em;
-    font-size: 5vw;
-    height: 100vh;
-    position: relative;
-    z-index: 9999999999;
-    overflow: hidden;
 
-    & span {
-        color: ${COLOR.primary};
-        font-variation-settings: "wght" 700;
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
-        z-index: 2; 
-    }
-
-    & .loader {
-      position: relative; 
-      z-index: 1; 
-      top: 0; 
-      left: 0; 
-      transform: translate(-50%, -50%); 
-    }
-`;
 
 export default GlobalStyle;

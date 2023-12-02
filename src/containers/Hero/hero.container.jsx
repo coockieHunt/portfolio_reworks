@@ -49,7 +49,7 @@ export const HeroContainer = ({id}) => {
                 </HeroText>
 
                 <TagSlider>
-                    <ScrollTagComponent Tags = {tags} Width = "40rem"/>
+                    <ScrollTagComponent Tags = {tags} Width = "35rem"/>
                 </TagSlider>
             </Top>
             

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { COLOR, SCREEN_SIZE } from '../../config';
+import {SCREEN_SIZE, getColorSettings } from '../../config';
 
 export const Container = styled.div`
     display: flex;
@@ -20,22 +20,9 @@ export const Container = styled.div`
         padding-bottom: 30px;
     }
 `
-export const Title = styled.div`
-    font-size: 2em;
-    margin-top:30px;
-    text-align: center;
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        margin-top:30px;
-    }
-`
-export const Text = styled.span`
-    font-size: 2vh;
-    margin-bottom:50px;
-    color: #ffffffa2;
-    text-align: center;
-`
 
 export const List = styled.div`
+    margin-top:50px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -44,7 +31,7 @@ export const List = styled.div`
     overflow: auto;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        height:100%;
+        height:90%;
     }
 
     & div{
@@ -53,13 +40,13 @@ export const List = styled.div`
         height: 350px;
 
 
-        background-color: ${COLOR.primary};
+        background-color: ${props => getColorSettings(props.theme).primary};
         width: 300px;
         padding: 20px;
         max-height: 500px;
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
-            width: 90%;
+            width: 85%;
         }
         cursor: pointer;
 
@@ -75,7 +62,7 @@ export const List = styled.div`
                 display: block;
                 width: 20%;
                 height: 10px;
-                background: ${COLOR.secondary};
+                background: ${props => getColorSettings(props.theme).secondary};
                 left: 0;
                 top: 70%;
                 position: absolute;

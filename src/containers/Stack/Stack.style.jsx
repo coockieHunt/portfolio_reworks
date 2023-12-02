@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import {COLOR, SCREEN_SIZE} from '../../config'
+import {getColorSettings, SCREEN_SIZE} from '../../config'
 
 export const Stack = styled.div`
-    background-color: ${COLOR.primary};
+    background-color: ${props => getColorSettings(props.theme).primary};
     padding: 30px 150px;   
     display: flex;
     align-items: center;

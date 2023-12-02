@@ -1,15 +1,12 @@
 import styled from 'styled-components';
-import {COLOR, SCREEN_SIZE} from '../../config'
+import {getColorSettings, SCREEN_SIZE} from '../../config'
 
 export const NavigationContainer = styled.div`
     display: flex;
     align-items: center;
     color: #fff;
     height: 60px;
-    z-index: 999;
     position: relative;
-
-
     padding: 15px;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -40,10 +37,12 @@ export const Logo = styled.img`
 `;
 
 export const Nav = styled.nav`
+    position: relative;
     display: flex;
     width: 100%;
     justify-content: space-between;
-    
+    z-index: 11;
+    background-color: ${props => getColorSettings(props.theme).background};
     ul {
         display: flex;
         list-style: none;
@@ -58,9 +57,9 @@ export const Nav = styled.nav`
                 font-weight: bold;
                 transition: color 0.3s ease;
                 cursor: pointer;
-                &:hover{color: ${COLOR.primary}; transition: color 0.3s ease;}
+                &:hover{color: ${props => getColorSettings(props.theme).primary}; transition: color 0.3s ease;}
                 span{
-                    color: ${COLOR.primary};
+                    color: ${props => getColorSettings(props.theme).primary};
                     font-variation-settings: "wght" 1000;
                 }
 

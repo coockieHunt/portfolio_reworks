@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { STYLE } from '../config/arrow';
+import { getColorSettings } from '../../../config';
 
 export const ArrowContainerFixed = styled.div`
     position: fixed;
     bottom: ${STYLE.position.bottom};
     right: ${STYLE.position.right};
-    z-index: 999;
+    z-index: 20;
 
     width: 10px;
     height: 10px;
@@ -14,8 +15,8 @@ export const ArrowContainerFixed = styled.div`
     justify-content: space-between;
     cursor: pointer;
 
-    background-color: ${STYLE.background_color};
-    padding: 20px;
+    background-color: ${props => getColorSettings(props.theme).primary};
+    padding: 15px;
     border-radius: ${STYLE.border_radius};
     transform: rotate(-90deg);
     transition: all 0.3s ease;
@@ -46,7 +47,6 @@ export const ArrowContainerFixed = styled.div`
 `
 
 export const ArrowContainer = styled.div`
-    
     width: 15px;
     height: 15px;
     display: flex;
@@ -54,7 +54,7 @@ export const ArrowContainer = styled.div`
     justify-content: space-between;
     cursor: pointer;
 
-    background-color: ${STYLE.background_color};
+    background-color: ${props => getColorSettings(props.theme).primary};
     padding: 20px;
     transform: rotate(-90deg);
     transition: all 0.3s ease;
@@ -77,8 +77,6 @@ export const ArrowContainer = styled.div`
     }
 
     div:first-child {transform: translateY(2px) rotate(45deg);}
-
     div:last-child {transform: translateY(-2px) rotate(-45deg);}
-
     &.hide{right: ${STYLE.hide_offset};}
 `

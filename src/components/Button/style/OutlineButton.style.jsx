@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {COLOR} from '../config/main'
+import { getColorSettings } from '../../../config';
 
 export const OutileButtonContainer = styled.button`
     display: flex;
@@ -8,17 +9,13 @@ export const OutileButtonContainer = styled.button`
     padding: 5px 10px;
     cursor: pointer;
 
-    border-color: ${props => props.colorLine ? props.colorLine : COLOR.primary};
-    color: ${props => props.colorLine ? props.colorLine : COLOR.primary};
+    border-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
+    color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
     transition: all 0.6s ease;
     border-radius: 1px;
     font-weight: bold;
 
-    & svg{
-        font-size: 16px; 
-    }
-
-   
+    & svg{font-size: 16px; }
     .button-content {
         display: flex; 
         align-items: center; 
@@ -26,7 +23,7 @@ export const OutileButtonContainer = styled.button`
     }
     &:hover{
         color: white;
-        background-color:  ${props => props.colorLine ? props.colorLine : COLOR.primary};
+        background-color:  ${props => props.colorLine ? props.colorLine : getColorSettings(props.theme).primary};
         transition: all 0.6s ease;
 
         &.disabled{
@@ -34,7 +31,6 @@ export const OutileButtonContainer = styled.button`
             color: white;
         }
     }
-
 
     &.disabled{
         border-color: #3f393b;

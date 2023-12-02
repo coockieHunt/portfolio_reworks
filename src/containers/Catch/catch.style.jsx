@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { COLOR } from '../../config';
-import {SCREEN_SIZE} from '../../config'
+import {SCREEN_SIZE, getColorSettings} from '../../config'
+
 
 export const Section = styled.div``
 
@@ -29,7 +30,7 @@ export const Text = styled.div`
 
     & ul li::before {
         content: "#";
-        color: ${COLOR.primary};
+        color: ${props => getColorSettings(props.theme).primary};
         margin-right: 10px;
         font-variation-settings: "wght" 700;
     }

@@ -9,6 +9,9 @@ import {CiCircleCheck } from 'react-icons/ci'
 import { useScrollbar } from '../../hooks/scrollBar.hook';
 import { Link } from "react-scroll";
 import { scroller } from "react-scroll";
+import { useSettingContext } from '../../context/Setting.context';
+import { COLOR_SETTING } from '../../config'
+
 
 
 export const ServiceContainer = ({ children, id }) => {
@@ -82,6 +85,11 @@ export const ServiceContainer = ({ children, id }) => {
 
 	}
 
+	const ContactBackground = () => {
+		const theme = useSettingContext();
+		return COLOR_SETTING[theme.settings.theme].background_accentuated
+	}
+
 	return (
 		<div className={id}>
 			<TitleTextComponent
@@ -96,7 +104,7 @@ export const ServiceContainer = ({ children, id }) => {
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
 				<Link to={'contact'}>
-					<Fence onClick={() => {}} color="#221f30">
+					<Fence onClick={() => {}} color={ContactBackground()}>
 						<AiOutlineSend />
 						<p className='catch' style={{ whiteSpace: 'pre-line' }}>Me <br/>Contacter</p>
 						<span> Contacter<AiOutlineArrowRight /></span>

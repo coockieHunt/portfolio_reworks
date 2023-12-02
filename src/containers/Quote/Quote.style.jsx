@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { COLOR } from '../../config';
+import { COLOR, getColorSettings } from '../../config';
 
 
 export const Quoute = styled.h2`
-    background-color: ${COLOR.primary};
+    background-color: ${props => getColorSettings(props.theme).primary};
     color: white;
     text-align: center;
     padding: 50px;

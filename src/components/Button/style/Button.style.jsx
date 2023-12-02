@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { COLOR } from '../config/main'
+import { getColorSettings } from '../../../config';
 
 export const ButtonContainer = styled.button`
     display: flex;
     cursor: pointer;
     text-transform: uppercase;
-    background-color: ${props => props.colorLine ? props.colorLine : COLOR.primary};
+    background-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
     color: white;
     transition: all 0.6s ease;
     border-radius: 5px;
@@ -13,7 +13,6 @@ export const ButtonContainer = styled.button`
     font-size: .8em;
     white-space: nowrap;
     align-items: center;    
-
 
     & .icon{
         height: 100%;
@@ -32,16 +31,13 @@ export const ButtonContainer = styled.button`
         color: white;
     }
 
-    & svg{
-        font-size: 16px; 
-    }
+    & svg{font-size: 16px; }
 
     &:hover{
         color: white;
-        background-color:  ${props => props.colorLine ? props.colorLine : COLOR.primary};
+        background-color:  ${props => props.colorLine ? props.colorLine : getColorSettings(props.theme).primary};
         transition: all 0.6s ease;
         box-shadow: inset 0 0 20px .5em #0000005c;
-
         & span{color: white;}
     }
 

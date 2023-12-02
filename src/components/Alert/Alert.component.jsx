@@ -1,9 +1,11 @@
 import React  from 'react';
 import { Container, AlertContainer } from './style/Alert.style';
 import { useAlert } from '../../context/alert.context';
-
 import {RxCross2} from 'react-icons/rx'
-import { COLOR_ALERT, DEBUG } from './config/main';
+import { DEBUG } from './config/main';
+import { COLOR_SETTING } from '../../config';
+import { useSettingContext } from '../../context/Setting.context';
+
 
 
 /**
@@ -12,6 +14,7 @@ import { COLOR_ALERT, DEBUG } from './config/main';
  */
 export const AlertContainerComponent = () => {
     const { alerts, removeAlert } = useAlert();
+    const theme = useSettingContext();
 
     return (
         <Container 
@@ -21,7 +24,7 @@ export const AlertContainerComponent = () => {
             <AlertContainer 
                 key={alert.id} 
                 style={{ pointerEvents: 'auto' }}
-                $coloralert={alert.colorAlert ? alert.colorAlert : COLOR_ALERT.default}
+                $coloralert={alert.colorAlert ? alert.colorAlert : COLOR_SETTING[theme.settings.theme].primary}
             >
                 <div className="content">
                     <div className="progress-bar" style={{ animationDuration: `${alert.delay}ms` }}></div>

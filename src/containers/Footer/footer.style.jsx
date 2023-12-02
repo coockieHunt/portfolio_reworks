@@ -50,6 +50,7 @@ export const Content = styled.div`
 
     & .action{
         flex: 1;
+        padding: 0 0 10px 0;
     }
 `;
 

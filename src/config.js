@@ -1,11 +1,63 @@
-import { theme } from "./context/theme.context";
+import {useSettingContext} from "./context/Setting.context"
 
+export const COLOR_SETTING = {
+    default:{
+        background: '#121212',
+        background_tertiary: '#303134',
 
-export const COLOR = {
-    background: '#121212',
-    primary: "#5943e4",//5943e4
-    secondary: "#32256c", //32256c
-    accentuate: '#404ad6',
+        background_accentuated: '#221f30',
+
+        primary: "#5943e4",
+        secondary: "#32256c",
+        accentuate: '#404ad6',
+
+        border: "rgba(0, 0, 0, 0.16)"
+    },
+
+    red:{
+        background: '#121212',
+        background_tertiary: '#303134',
+
+        background_accentuated: '#1a0806',
+
+        primary: "#bf2e1f",
+        secondary: "#780e04",
+        accentuate: '#780e04',
+
+        border: "rgba(0, 0, 0, 0.16)"
+    },
+
+    green:{
+        background: '#121212',
+        background_tertiary: '#303134',
+
+        background_accentuated: '#040f06',
+
+        primary: "#166e29",
+        secondary: "#0E461A", 
+        accentuate: '#404ad6',
+        
+        border: "#737272"
+    },
+
+    yellow:{
+        background: '#121212',
+        background_tertiary: '#303134',
+
+        background_accentuated: '#261D07',
+
+        primary: "#996d05",
+        secondary: "#745817", 
+        accentuate: '#404ad6',
+        
+        border: "#737272"
+    }
+  
+};
+
+export const getColorSettings = () => {
+    const { settings } = useSettingContext();
+    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
 };
 
 export const SCREEN_SIZE = {

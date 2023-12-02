@@ -1,31 +1,23 @@
 import styled from 'styled-components';
 
 export const BurgerMenuContainer = styled.div`
-  width: 30px;
-  height: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
+	width: 30px;
+	height: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	cursor: pointer;
 
-  div {
-    width: 100%;
-    height: 2px;
-    background-color: #fff;
-    transition: all 0.3s ease;
-  }
+	div {
+		width: 100%;
+		height: 2px;
+		background-color: #fff;
+		transition: all 0.3s ease;
+	}
 
-  &.open {
-    div:first-child {
-      transform: translateY(9px) rotate(45deg);
-    }
-
-    div:nth-child(2) {
-      opacity: 0;
-    }
-
-    div:last-child {
-      transform: translateY(-9px) rotate(-45deg);
-    }
-  }
+	&.open {
+		div:first-child {transform: translateY(9px) rotate(45deg);}
+		div:nth-child(2) {opacity: 0;}
+		div:last-child {transform: translateY(-9px) rotate(-45deg);}
+  	}
 `;

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { STYLE } from '../config/main';
+import { getColorSettings } from '../../../config';
 
 export const TitleContainer = styled.div`
     position: relative;
@@ -29,13 +30,11 @@ export const Title = styled.h2`
     display: inline-block;
     z-index: 9;
     font-variation-settings: "wght" 500;
-    color:${STYLE.primary};
+    color:${props => getColorSettings(props.theme).primary};
     font-size: 2.5rem ;
     text-transform: uppercase;
 
-    @media screen and (max-width: 768px) {
-        font-size: 2rem; 
-    }
+    @media screen and (max-width: 768px) {font-size: 2rem; }
 `
 
 export const BackTitle = styled.span`
@@ -53,7 +52,5 @@ export const BackTitle = styled.span`
     color: #292929f8;
     text-transform: uppercase;
 
-    @media screen and (max-width: 768px) {
-        font-size: 4rem; 
-    }
+    @media screen and (max-width: 768px) {font-size: 4rem; }
 `

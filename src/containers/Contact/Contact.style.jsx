@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { COLOR } from '../../config';
-import { color } from 'framer-motion';
+import { COLOR, getColorSettings } from '../../config';
 
 // Container
 export const Container = styled.div`
@@ -24,7 +23,7 @@ export const Container = styled.div`
 `;
 
 export const Info = styled.div`
-    background-color: ${COLOR.primary};
+    background-color: ${props => getColorSettings(props.theme).primary};
     width: 30%;
     border-radius: 8px;
     padding: 20px;
@@ -59,7 +58,7 @@ export const Info = styled.div`
         }
 
         & svg {
-            background-color: ${COLOR.secondary};
+            background-color: ${props => getColorSettings(props.theme).secondary};
             height: 50px;
             width: 50px;
             padding: 15px;
@@ -68,7 +67,7 @@ export const Info = styled.div`
         }
 
         & .info:hover{
-            background-color: ${COLOR.secondary};
+            background-color: ${props => getColorSettings(props.theme).secondary};
             transition: all .3s ease-in-out;
         }
 
@@ -124,8 +123,12 @@ export const ActionForm = styled.div`
         color: #464646;
         cursor: pointer;
         &:hover {
-            color: ${COLOR.primary};
+            color: ${props => getColorSettings(props.theme).primary};
         }
+    }
+
+    & > .colored{
+        color: ${props => getColorSettings(props.theme).primary};
     }
 `;
 

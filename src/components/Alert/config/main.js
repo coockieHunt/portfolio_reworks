@@ -1,5 +1,3 @@
-import { COLOR } from "../../../config";
-
 export const DEBUG = {
     /**
      * Flag indicating whether the container debug is enabled. Default: false. If true, the alert container is visible.
@@ -49,13 +47,4 @@ export const STYLE = {
         top: "0",
         right: "0",
     },
-};
-
-export const COLOR_ALERT = {
-    /**
-     * Default color for alerts. Default: The primary color from the global COLOR configuration.
-     * @type {string}
-     * @default COLOR.primary
-     */
-    default: COLOR.primary,
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import {useSettingContext} from './context/Setting.context.jsx'
 // Import
 import GlobalStyle, { Content, LoadingContainer } from './styles/global.style.jsx';
 import { COLOR, URL } from './config'
@@ -16,7 +16,7 @@ import { BenefitContainer } from './containers/Benefit/benefit.container';
 import { QuoteContainer } from './containers/Quote/Quote.containers.jsx';
 import { StackContainer } from './containers/Stack/Stack.containers.jsx';
 import { ServiceContainer } from './containers/Services/Service.containers.jsx';
-// import { SettingContainer } from './containers/Setting/Setting.container.jsx';
+import { SettingContainer } from './containers/Setting/Setting.container.jsx';
 
 //Hook
 import { ScrollToTop } from './components/Button/Button.jsx';
@@ -24,7 +24,7 @@ import { LinkTextComponent } from './components/Text/Text.component.jsx'
 
 //Provider
 import { AlertProvider } from './context/alert.context.jsx';
-import {ColorProvider} from "./context/theme.context.jsx";
+import {SettingProvider} from "./context/Setting.context.jsx";
 
 //Icon
 import {
@@ -39,6 +39,11 @@ const navigation = [
     ['Projets', "project"],
     ['Contact', "contact"],
 ]
+
+const GlobalStyleTheme = () => {
+    const { settings } = useSettingContext();
+    return(<GlobalStyle theme={settings} />)
+}
 
 function App() {
     const [isLoading, setIsLoading] = useState(false);
@@ -55,48 +60,28 @@ function App() {
         };
     }, []);
 
-    const Loader = () => {
-        return (
-            <LoadingContainer>
-                <span>Chargement</span>
-                <HashLoader
-                    color={COLOR.primary}
-                    loading={isLoading}
-                    size={"12em"}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                    className="loader"
-                />
-            </LoadingContainer>
-        );
-    };
-
     return (
 
         <Content>
-            <ColorProvider>
-                <GlobalStyle />
-
-                {/* {isLoading && <Loader/>} */}
+            <SettingProvider>
+                <GlobalStyleTheme/>
                 <NavigationComponent navConfig={navigation} />
-                    <ColorProvider>
-                        <AlertProvider>
-                            <HeroContainer id='hero' />
-                            <CathContainer id='catch' />
-                            <ServiceContainer id='service'/>
-                            <BenefitContainer id='benefit' />
-                            <QuoteContainer >
-                                <BiSolidQuoteLeft /> Vous voulez voir comment le site est construit ? Il est en public pour le <LinkTextComponent to={URL.ghithudb_portfolio_rework}>Front</LinkTextComponent> et <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>Api</LinkTextComponent> <BiSolidQuoteRight />
-                            </QuoteContainer>
-                            <MyProjectContainer id='project' />
-                            <ContactContainer id='contact' />
-                            <StackContainer />
-                            {/* <SettingContainer/> */}
-                            <FooterContainer />
-                        </AlertProvider>
-                    </ColorProvider>
-                <ScrollToTop />
-            </ColorProvider>
+                    <AlertProvider>
+                        <SettingContainer/>
+                        <HeroContainer id='hero' />
+                        <CathContainer id='catch' />
+                        <ServiceContainer id='service'/>
+                        <BenefitContainer id='benefit' />
+                        <QuoteContainer >
+                            <BiSolidQuoteLeft /> Vous voulez voir comment le site est construit ? Il est en public pour le <LinkTextComponent to={URL.ghithudb_portfolio_rework}>Front</LinkTextComponent> et <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>Api</LinkTextComponent> <BiSolidQuoteRight />
+                        </QuoteContainer>
+                        <MyProjectContainer id='project' />
+                        <ContactContainer id='contact' />
+                        <StackContainer />
+                        <FooterContainer />
+                    </AlertProvider>
+                {/* <ScrollToTop /> */}
+            </SettingProvider>
         </Content>
     );
 }

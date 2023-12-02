@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import {STYLE} from '../config/icon'
+import { getColorSettings } from '../../../config';
 
 export const  IconContainer = styled.button`
     position: relative;
-    color: ${props => props.color ? props.color : STYLE.background_color};
+    color: ${props => props.color ? props.color : getColorSettings(props.theme).primary};
     background-color: transparent;
     font-size: 1em;
     padding: 5px;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { STYLE } from "../config/main";
+import { getColorSettings } from '../../../config';
 
 
 // ? CONFIG STYLE FORM
@@ -13,35 +14,27 @@ const FormFocusColor = STYLE.Form_focus;
 export const FormLabel = styled.label`
     padding: ${LabelPadding} 0 ${LabelPadding} 0;
 
-    &:first-letter{
-        text-transform: uppercase;
-    }
-
-   & span{
-    color: ${STYLE.Star_Color}
-   }
+    &:first-letter{text-transform: uppercase;}
+    & span{color: ${props => getColorSettings(props.theme).primary}}
 `;
 
 export const FormInput = styled.input `
     padding: 10px 5px 10px 5px;
     outline: none;
-    border: ${BorderSize} solid ${FormColor};
+    border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     width: 100%;
-    background-color: ${backgroundColor};
+    background-color: ${props => getColorSettings(props.theme).background_tertiary};
     color: white;
 
     border-radius: 3px;
-    &:focus{
-        border: ${BorderSize} solid ${FormFocusColor};
-    }
-
+    &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary};}
     &:-webkit-autofill,
     &:-webkit-autofill:hover, 
     &:-webkit-autofill:focus, 
     &:-webkit-autofill:active{
         -webkit-text-fill-color: #ffffff;
         transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px ${backgroundColor};
+        box-shadow: inset 0 0 20px 20px ${props => getColorSettings(props.theme).background_tertiary};
     }
 `;
 
@@ -50,30 +43,26 @@ export const FormTextArea = styled.textarea `
     resize: none;
     height: 400px;
     outline: none;
-    border: ${BorderSize} solid ${FormColor};
+    border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     border-radius: 3px;
-    background-color: ${backgroundColor};
+    background-color: ${props => getColorSettings(props.theme).background_tertiary};
     color: white;
 
-    &:focus{
-        border: ${BorderSize} solid ${FormFocusColor};
-    }
+    &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary};}
 `;
 
 
 export const FormSubmit = styled.input`
     padding : 15px;
     margin-top: 15px;
-    background-color: ${backgroundColor};
+    background-color: ${props => getColorSettings(props.theme).background_tertiary};
     border: none;
     color: white;
     text-transform: uppercase;
     border-radius: 3px;
     cursor: pointer;
 
-    &:hover{
-        background-color: red;
-    }
+    &:hover{background-color: red;}
 `;
 
 export const FormElement = styled.div`
@@ -96,16 +85,12 @@ export const FormInline = styled.div`
     justify-content:space-between;
     gap: 10px;
     
-    input{
-        width: 100%;
-    }
+    input{width: 100%;}
 
-    @media (max-width: 850px) {
-        flex-direction: column;
-    }
+    @media (max-width: 850px) {flex-direction: column;}
 `
 
-//CAPTHA
+//CAPTCHA
 export const CaptchaContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -120,22 +105,18 @@ export const CaptchaForm = styled.div`
 `
 
 export const CaptchaLabel = styled.label`
-    & span{
-        color: ${STYLE.Star_Color}
-    }
+    & span{color: ${props => getColorSettings(props.theme).primary};}
 `
 
 export const CaptchaInput = styled.input`
-    background-color: ${backgroundColor};
-    border: ${BorderSize} solid ${FormColor};
+    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     padding: 10px 5px 10px 5px;
     color: white;
     border-radius: 3px;
     outline: none;
 
-    &:focus{
-        border: ${BorderSize} solid ${FormFocusColor} !important;
-    }
+    &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary} !important;}
 `
 
 export const CaptchaMessage = styled.span`
