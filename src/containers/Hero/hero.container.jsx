@@ -22,6 +22,7 @@ import { AiOutlineCluster } from 'react-icons/ai'
 
 export const HeroContainer = ({id}) => {
     const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
+    const IsSmallScreen = useWindowSize(1400);
 
     const tags = [
         'HTML', 
@@ -49,7 +50,7 @@ export const HeroContainer = ({id}) => {
                 </HeroText>
 
                 <TagSlider>
-                    <ScrollTagComponent Tags = {tags} Width = "35rem"/>
+                    <ScrollTagComponent Tags = {tags} Width = {IsSmallScreen ? "25rem" : "40rem"}/>
                 </TagSlider>
             </Top>
             
