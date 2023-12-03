@@ -52,8 +52,10 @@ export const Tag = styled.div`
 
 export const Fade = styled.div`
 	pointer-events: none;
-	border-left: 1px solid ${props => getColorSettings(props.theme).primary};
-	border-right: 1px solid ${props => getColorSettings(props.theme).primary};
 	position: absolute;
 	inset: 0;
+	background: 
+		linear-gradient(to left, #121212, transparent 20%),
+		linear-gradient(to right, #121212, transparent 20%);
+	background-repeat: no-repeat;
 `;
