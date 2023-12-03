@@ -13,7 +13,7 @@ export const Container = styled.div`
 `
 
 export const Text = styled.span`
-    font-size: 2vh;
+    font-size: 1.2em;
     margin-bottom:50px;
     text-align: center;
     width: 100%;
