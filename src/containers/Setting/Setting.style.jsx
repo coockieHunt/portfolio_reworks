@@ -82,7 +82,6 @@ export const Option = styled.div`
 
 export const Title = styled.span`
     font-variation-settings: "wght" 600;
-    /* color: ${props => getColorSettings(props.theme).primary}; */
     padding: 0 0 15px 0;
 
     display: flex;
@@ -96,6 +95,7 @@ export const ButtonColor = styled.button`
     content: "";
     border: 1px solid white;
     flex: 1;
+    cursor: pointer;
 `
 
 export const OptionsList = styled.div`
