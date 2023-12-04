@@ -1,8 +1,6 @@
 import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING } from '../config';
 
-console.log(props => props.theme)
-
 const GlobalStyle = createGlobalStyle`
   * {
     scrollbar-width: auto;
