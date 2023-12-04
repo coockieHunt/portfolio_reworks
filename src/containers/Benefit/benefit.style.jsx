@@ -95,12 +95,14 @@ export const Img = styled.div`
     justify-content: center;
     align-items: center;
 
+
     @media (max-width: 1200px) {
         display: none;
     }
 
     & svg {
-        width: 40%;
+        padding: 10px;
+        width: 60%;
         height: auto;
         color : ${props => getColorSettings(props.theme).primary};
     }
