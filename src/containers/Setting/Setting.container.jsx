@@ -5,9 +5,8 @@ import { useSettingContext } from "../../context/Setting.context"
 import { COLOR_SETTING } from '../../config';
 
 export const SettingContainer = () => {
-    const { settings, changeTheme } = useSettingContext();
+    const {changeTheme } = useSettingContext();
     const [isOpen, setIsOpen] = useState(false)
-    const theme = useSettingContext();
 
     const [ HideScroll, SetHideScroll] = useState(false)
 
@@ -33,11 +32,13 @@ export const SettingContainer = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY + window.innerHeight;
-            if((scrollPosition >= document.body.scrollHeight - 450) || (window.scrollY <= 50)){
-                setIsOpen(false);
-                SetHideScroll(true);
-            }else{SetHideScroll(false)}
+    
+            if ((scrollPosition >= document.body.scrollHeight - 450) ||(window.scrollY <= 50) ||(window.scrollY === 0)
+            ){setIsOpen(false);SetHideScroll(true);
+            } else {SetHideScroll(false);}
         };
+    
+        if (window.scrollY === 0) {SetHideScroll(true);}
         window.addEventListener('scroll', handleScroll);
         return () => {window.removeEventListener('scroll', handleScroll);};
     }, [])

@@ -9,7 +9,7 @@ import {
 } from "./hero.style"
 
 import{ GradientTextContainer } from "../../components/Text/Text.component"
-import{ Button } from "../../components/Button/Button"
+import{ Button, OutlineButton } from "../../components/Button/Button"
 import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { Link } from "react-scroll";
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
@@ -44,8 +44,9 @@ export const HeroContainer = ({id}) => {
                     <p>Vous êtes au bon endroit <HelloHandComponent/></p>
                     <div className="cta">
                         <Link to={'service'}>
-                            <Button icon={<AiOutlineCluster/>}>Mes Service</Button>
+                            <OutlineButton icon_right icon={<AiOutlineCluster/>}>Mes Service</OutlineButton>
                         </Link>
+
                     </div>
                 </HeroText>
 
