@@ -95,11 +95,11 @@ export const BenefitContainer = ({ id }) => {
                         </div>
                         <div>
                             <h3>CONCEPTION GRAPHIQUE & WEBDESIGN</h3>
-                            <p>plaquettes publicitaires, cartes de visite, newsletters...</p>
+                            <p>Plaquettes publicitaires, cartes de visite, newsletters...</p>
                         </div>
                         <div>
                             <h3>INSTALLATION DU SERVEUR WEB</h3>
-                            <p>Instalation et configuration de votre serveur web pour une performance optimale.</p>
+                            <p>Installation et configuration de votre serveur web pour une performance optimale.</p>
                         </div>
                         <div>
                             <h3>SUPPORT TECHNIQUE</h3>
