@@ -48,7 +48,6 @@ export const Info = styled.div`
         flex-direction: column;
         gap: 15px;
         margin-top: 50px;
-        transition: all .3s ease-in-out;
 
         & span {
             line-height: 50px;
@@ -58,7 +57,6 @@ export const Info = styled.div`
         }
 
         & svg {
-            background-color: ${props => getColorSettings(props.theme).secondary};
             height: 50px;
             width: 50px;
             padding: 15px;
@@ -66,13 +64,12 @@ export const Info = styled.div`
             border-radius: 50%;
         }
 
-        & .info:hover{
-            background-color: ${props => getColorSettings(props.theme).secondary};
-            transition: all .3s ease-in-out;
-        }
-
         & .info{
             border-radius: 10px;
+            transition: all .3s ease-in-out;
+            &:hover{
+                background-color: ${props => getColorSettings(props.theme).secondary};
+            }
         }
     }
 
