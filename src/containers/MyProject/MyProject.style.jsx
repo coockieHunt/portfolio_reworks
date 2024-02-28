@@ -8,11 +8,8 @@ export const Container = styled.div`
     justify-content: center;
     margin: 0 auto;
     background-color: #202020;
-    width: 100%;
 
     & .listContainer{
-        width: 95%;
-        height: 100%;
         padding-bottom: 30px;
     }
 
@@ -27,8 +24,6 @@ export const List = styled.div`
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    height: auto;
-    overflow: auto;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         height:90%;
@@ -37,17 +32,11 @@ export const List = styled.div`
     & div{
         display: flex;
         flex-direction: column;
-        height: 350px;
-
-
         background-color: ${props => getColorSettings(props.theme).primary};
         width: 300px;
+        height: auto;
+        height: 350px;
         padding: 20px;
-        max-height: 500px;
-
-        @media (max-width: ${SCREEN_SIZE.mobile}) {
-            width: 85%;
-        }
         cursor: pointer;
 
         & .title{
@@ -64,7 +53,7 @@ export const List = styled.div`
                 height: 10px;
                 background: ${props => getColorSettings(props.theme).secondary};
                 left: 0;
-                top: 70%;
+                top: 75%;
                 position: absolute;
             }
         }
@@ -80,9 +69,11 @@ export const List = styled.div`
 
         &:hover
         {
+            transform: scale(1.05);
+
             & .title{
                 &:before{
-                transition: all .6s ease;
+                    transition: all .6s ease;
                     width: 40%;
                 }
             }
@@ -91,16 +82,12 @@ export const List = styled.div`
 
         @media (min-width: ${SCREEN_SIZE.mobile}) {
             &:hover
-             {
-                width: 400px;
-                transition: all .6s ease;
-            }
-
-            &:hover ~ div {
-                width: 300px;
+            {
                 transition: all .6s ease;
             }
         }
+
+        @media (max-width: ${SCREEN_SIZE.mobile}) {width: 70%;}
     }
 
    
