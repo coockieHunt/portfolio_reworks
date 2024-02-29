@@ -9,13 +9,10 @@ export const Container = styled.div`
     margin: 0 auto;
     background-color: #202020;
 
-    & .listContainer{
-        padding-bottom: 30px;
-    }
+    padding:  15px 0 25px 0;
 
-    @media (max-width: 1200px) {
-        padding-bottom: 30px;
-    }
+    & .listContainer{padding-bottom: 30px;}
+    @media (max-width: 1200px) {padding-bottom: 30px;}
 `
 
 export const List = styled.div`
@@ -25,9 +22,7 @@ export const List = styled.div`
     gap: 20px;
     justify-content: center;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        height:90%;
-    }
+    @media (max-width: ${SCREEN_SIZE.mobile}) {height:90%;}
 
     & div{
         display: flex;
@@ -38,6 +33,7 @@ export const List = styled.div`
         height: 350px;
         padding: 20px;
         cursor: pointer;
+        transition: all .6s ease;
 
         & .title{
             font-size: 1.6em;
@@ -65,28 +61,18 @@ export const List = styled.div`
             width: 100%;
         }
 
-        transition: all .6s ease;
 
         &:hover
         {
             transform: scale(1.05);
-
-            & .title{
-                &:before{
-                    transition: all .6s ease;
-                    width: 40%;
-                }
+            & .title:before{
+                transition: all .6s ease;
+                width: 40%;
             }
         }
            
 
-        @media (min-width: ${SCREEN_SIZE.mobile}) {
-            &:hover
-            {
-                transition: all .6s ease;
-            }
-        }
-
+        @media (min-width: ${SCREEN_SIZE.mobile}) {&:hover{transition: all .6s ease;}}
         @media (max-width: ${SCREEN_SIZE.mobile}) {width: 70%;}
     }
 
