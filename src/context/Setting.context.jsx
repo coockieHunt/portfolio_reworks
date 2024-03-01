@@ -8,15 +8,20 @@ export const useSettingContext = () => {
 
 export const SettingProvider = ({ children }) => {
     const [settings, setSettings] = useState({
-        theme: "default"
+        theme: "default",
+        light: false
     });
 
     const changeTheme = (theme) => {
         setSettings({ ...settings, theme });
     };
 
+    const changeLight = (light) => {
+        setSettings({ ...settings, light });
+    };
+
     return (
-        <SettingContext.Provider value={{ settings, changeTheme }}>
+        <SettingContext.Provider value={{ settings, changeTheme, changeLight }}>
             {children}
         </SettingContext.Provider>
     );

@@ -16,7 +16,7 @@ export const COLOR_SETTING = {
 
     red:{
         background: '#121212',
-        background_tertiary: '#303134',
+        background_tertiary: 'green',
 
         background_accentuated: '#1a0806',
 
@@ -52,13 +52,33 @@ export const COLOR_SETTING = {
         
         border: "#737272"
     }
-  
+};
+
+export const LIGHT_SETTING = {
+    light:{
+        background: '#cccccf',
+        background_secondary: '#99999c',
+        background_tertiary: '#303134',
+        font: 'black',
+    },
+
+    dark:{
+        background: '#121212',
+        background_accentuated: '#202020',
+        background_tertiary: '#303134',
+        font: 'white',
+    },
 };
 
 export const getColorSettings = () => {
     const { settings } = useSettingContext();
     return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
 };
+
+export const GetLightSetting = () => {
+    const { settings } = useSettingContext();
+    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
+}
 
 export const SCREEN_SIZE = {
     mobile: '850px',

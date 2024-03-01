@@ -1,15 +1,15 @@
 import { ContainerSetting, Option, Action, Title, Icon, ButtonColor,OptionsList, RoudedButtonColor } from "./Setting.style"
 import { useState, useEffect } from "react"
-import { AiFillTool, AiOutlineUp, AiFillFormatPainter, AiFillFlag } from 'react-icons/ai'
+import { AiFillTool, AiOutlineUp, AiFillFormatPainter,  AiOutlineCaretRight } from 'react-icons/ai'
 import { COLOR_SETTING } from '../../config';
 
 import { useSettingContext } from "../../context/Setting.context";
 
+import { FaLightbulb, FaRegLightbulb  } from "react-icons/fa6";
+
 export const SettingContainer = () => {
-    const {changeTheme, settings } = useSettingContext();
+    const {changeTheme, changeLight, settings } = useSettingContext();
     const [isOpen, setIsOpen] = useState(false)
-
-
 
     const [ HideScroll, SetHideScroll] = useState(false)
 
@@ -22,6 +22,11 @@ export const SettingContainer = () => {
         setIsOpen(false);
         window.scrollTo({top: 0,behavior: 'smooth'});
     };
+
+    const ButtonLight = ( state ) => {
+        console.log('click', state)
+        changeLight(state);
+    }
 
     const ButtonTheme = ({Name, display}) => {
         return (
@@ -58,7 +63,7 @@ export const SettingContainer = () => {
             <Icon>
                 <Action 
                     onClick={() => setIsOpen(!isOpen)} 
-                ><AiFillTool/></Action>
+                >{isOpen ? <AiOutlineCaretRight/> : <AiFillTool/>}</Action>
                 <Action 
                     onClick={() => scrollToTop()} 
                     className={HideScroll && "hide"}
@@ -73,7 +78,12 @@ export const SettingContainer = () => {
                         <ButtonTheme Name={'green'} display={"Vert"}/>
                         <ButtonTheme Name={'yellow'} display={"Jaune"}/>
                     </div>
+                    <Title> <AiFillFormatPainter/> Theme</Title>
+                    <div className="ContainerButton">
+                        {settings.light ? <><FaLightbulb onClick={() => ButtonLight(false)} /> <p>false</p> </>: <><FaRegLightbulb onClick={() => ButtonLight(true)} /><p>true</p> </>}
+                    </div>
                 </Option>
+                
             </OptionsList>
 
         </ContainerSetting>
