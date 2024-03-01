@@ -1,17 +1,20 @@
-import { ContainerSetting, Option, Action, Title, Icon, ButtonColor,OptionsList } from "./Setting.style"
+import { ContainerSetting, Option, Action, Title, Icon, ButtonColor,OptionsList, RoudedButtonColor } from "./Setting.style"
 import { useState, useEffect } from "react"
 import { AiFillTool, AiOutlineUp, AiFillFormatPainter, AiFillFlag } from 'react-icons/ai'
-import { useSettingContext } from "../../context/Setting.context"
 import { COLOR_SETTING } from '../../config';
 
+import { useSettingContext } from "../../context/Setting.context";
+
 export const SettingContainer = () => {
-    const {changeTheme } = useSettingContext();
+    const {changeTheme, settings } = useSettingContext();
     const [isOpen, setIsOpen] = useState(false)
+
+
 
     const [ HideScroll, SetHideScroll] = useState(false)
 
-    const handleThemeChange = (theme) => {
-        changeTheme(theme);
+    const handleThemeChange = (NewTheme) => {
+        changeTheme(NewTheme);
         setIsOpen(false);
     };
 
@@ -20,12 +23,19 @@ export const SettingContainer = () => {
         window.scrollTo({top: 0,behavior: 'smooth'});
     };
 
-    const ButtonTheme = ({Name}) => {
+    const ButtonTheme = ({Name, display}) => {
         return (
-            <ButtonColor 
-                onClick={() => handleThemeChange(Name)} 
-                style={{backgroundColor: COLOR_SETTING[Name].primary}}
-            />
+            <>
+                <RoudedButtonColor 
+                    onClick={() => handleThemeChange(Name)} 
+                    color={Name} 
+                    primary = {COLOR_SETTING[Name].primary} 
+                    secondary = {COLOR_SETTING[Name].secondary}
+                    className={Name == settings.theme && "current"}
+                    display = {display}
+                />
+            </>
+            
         )
     }
 
@@ -56,12 +66,12 @@ export const SettingContainer = () => {
             </Icon>
             <OptionsList>
                 <Option>
-                    <Title> <AiFillFormatPainter/> Theme</Title>
+                    <Title> <AiFillFormatPainter/> Couleur du site</Title>
                     <div className="ContainerButton">
-                        <ButtonTheme Name={'default'}/>
-                        <ButtonTheme Name={'red'}/>
-                        <ButtonTheme Name={'green'}/>
-                        <ButtonTheme Name={'yellow'}/>
+                        <ButtonTheme Name={'default'} display={"Default"}/>
+                        <ButtonTheme Name={'red'} display={"Rouge"}/>
+                        <ButtonTheme Name={'green'} display={"Vert"}/>
+                        <ButtonTheme Name={'yellow'} display={"Jaune"}/>
                     </div>
                 </Option>
             </OptionsList>

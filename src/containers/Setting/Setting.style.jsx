@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { getColorSettings } from '../../config';
 
-const Panel_width = "150px"
+const Panel_width = "200px"
 
 export const ContainerSetting = styled.div`
     position: fixed;
@@ -9,7 +9,7 @@ export const ContainerSetting = styled.div`
 
     bottom: 50vh;
     right: 0;
-    width: 200px;
+    width: 250px;
     
     display: flex;
     justify-content: space-between;
@@ -61,7 +61,7 @@ export const Action = styled.div`
     &.hide{ 
         transition: right .5s ease-in-out, opacity 0.5s ease-in-out;
         opacity: 0;
-        right: -200px;
+        right: -300px;
     }
 `
 
@@ -75,8 +75,8 @@ export const Option = styled.div`
 
     & .ContainerButton{
         display: flex;
-        gap: 5px;
-        flex-wrap: nowrap;
+        gap: 10px;
+        flex-direction: column;
     }
 `
 
@@ -102,5 +102,22 @@ export const OptionsList = styled.div`
     display: flex;
     flex-direction: column;
 
-    gap: 10px;
+    gap: 25px;
 `
+
+export const RoudedButtonColor = styled.span`
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: linear-gradient(to left, ${props => props.primary}  50%, ${props => props.secondary} 50%);
+    cursor: pointer;
+    
+    &.current{
+        border: 1px solid white;
+    }
+
+    &::after{
+        content: "${props => props.display}";
+        padding-left: 35px;
+    }
+` 
