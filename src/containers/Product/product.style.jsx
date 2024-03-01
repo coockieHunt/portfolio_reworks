@@ -6,30 +6,41 @@ export const Container = styled.div`
 `
 
 export const PriceInfo = styled.div`
-    padding: 15px 0 0 180px;
-    
-    & svg{
-        color: ${props => getColorSettings(props.theme).primary};
-    }
+    text-align: center;
+    padding: 15px 0;
+    & svg{color: ${props => getColorSettings(props.theme).primary};}
 `
 
 export const ProductContainer = styled.div`
     display: flex;
     justify-content: center;
-        
+    align-content: center;
+    align-items: center;
+    padding: 0 10px;
     gap: 50px;
+    flex-wrap: wrap;
 `
 
 export const ItemProduct = styled.div`
     background-color: ${props => getColorSettings(props.theme).background_accentuated};
     width: 400px;
+    min-width: 400px;
+    height: 400px;
+    
     border-radius: 10px;
-
+    cursor: pointer;
     padding: 30px 20px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    transition: all .3s ease-in-out;
+
+    &:hover{
+        transition: all .3s ease-in-out;
+        & .bottom .ViewMore svg{margin-left: 10px;}
+    }
 
     & .top{
         & #title{
@@ -74,9 +85,9 @@ export const ItemProduct = styled.div`
                 transition: all .3s ease-in;
             }
 
-            &:hover svg{
-                transition: all .3s ease-in-out;
-                margin-left: 10px}
+
         }
     }
+
+   
 `
