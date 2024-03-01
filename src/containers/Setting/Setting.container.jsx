@@ -80,7 +80,7 @@ export const SettingContainer = () => {
                     </div>
                     <Title> <AiFillFormatPainter/> Theme</Title>
                     <div className="ContainerButton">
-                        {settings.light ? <><FaLightbulb onClick={() => ButtonLight(false)} /> <p>false</p> </>: <><FaRegLightbulb onClick={() => ButtonLight(true)} /><p>true</p> </>}
+                        {settings.light == "dark" ? <><FaLightbulb onClick={() => ButtonLight("light")} /> <p>false</p> </>: <><FaRegLightbulb onClick={() => ButtonLight("dark")} /><p>true</p> </>}
                     </div>
                 </Option>
                 

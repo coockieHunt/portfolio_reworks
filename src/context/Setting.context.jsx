@@ -9,7 +9,7 @@ export const useSettingContext = () => {
 export const SettingProvider = ({ children }) => {
     const [settings, setSettings] = useState({
         theme: "default",
-        light: false
+        light: "dark"
     });
 
     const changeTheme = (theme) => {

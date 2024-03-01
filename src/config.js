@@ -56,7 +56,7 @@ export const COLOR_SETTING = {
 
 export const LIGHT_SETTING = {
     light:{
-        background: '#cccccf',
+        background: 'white',
         background_secondary: '#99999c',
         background_tertiary: '#303134',
         font: 'black',
@@ -77,7 +77,7 @@ export const getColorSettings = () => {
 
 export const GetLightSetting = () => {
     const { settings } = useSettingContext();
-    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
+    return LIGHT_SETTING[settings.light] || LIGHT_SETTING.dark;
 }
 
 export const SCREEN_SIZE = {
