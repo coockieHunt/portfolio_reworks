@@ -1,8 +1,7 @@
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { COLOR } from "../../../config";
-import { getColorSettings } from '../../../config';
+import { getColorSettings, GetLightSetting } from '../../../config';
 
 
 export const ModalDiv = styled(motion.div)`
@@ -15,7 +14,7 @@ export const ModalDiv = styled(motion.div)`
     flex-direction: column;
     width: 90%;
     max-width: 550px;
-    background: #292929;
+    background: ${props=> GetLightSetting(props.light).background_secondary}; 
     border-radius: 10px;
 `;
 

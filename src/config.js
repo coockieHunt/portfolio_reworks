@@ -2,10 +2,8 @@ import {useSettingContext} from "./context/Setting.context"
 
 export const COLOR_SETTING = {
     default:{
-        background: '#121212',
-        background_tertiary: '#303134',
-
-        background_accentuated: '#221f30',
+        background: '#303134',
+        background_secondary: '#221f30',
 
         primary: "#5943e4",
         secondary: "#32256c",
@@ -15,10 +13,9 @@ export const COLOR_SETTING = {
     },
 
     red:{
-        background: '#121212',
-        background_tertiary: 'green',
+        background: '#303134',
+        background_secondary: '#1a0806',
 
-        background_accentuated: '#1a0806',
 
         primary: "#bf2e1f",
         secondary: "#780e04",
@@ -28,10 +25,9 @@ export const COLOR_SETTING = {
     },
 
     green:{
-        background: '#121212',
-        background_tertiary: '#303134',
+        background: '#303134',
+        background_secondary: '#040f06',
 
-        background_accentuated: '#040f06',
 
         primary: "#166e29",
         secondary: "#0E461A", 
@@ -41,10 +37,9 @@ export const COLOR_SETTING = {
     },
 
     yellow:{
-        background: '#121212',
-        background_tertiary: '#303134',
+        background: '#303134',
+        background_secondary: '#261D07',
 
-        background_accentuated: '#261D07',
 
         primary: "#996d05",
         secondary: "#745817", 
@@ -57,15 +52,26 @@ export const COLOR_SETTING = {
 export const LIGHT_SETTING = {
     light:{
         background: 'white',
-        background_secondary: '#99999c',
-        background_tertiary: '#303134',
+        background_secondary: '#d7d7db',
+        background_tertiary: '#a4a4a7',
+
+        background_accentuated: '#d1cfcb',
+
+        background_alpha : .1,
+
         font: 'black',
     },
 
     dark:{
         background: '#121212',
-        background_accentuated: '#202020',
+        background_secondary: '#292929',
         background_tertiary: '#303134',
+
+        background_accentuated: '#261D07',
+
+        background_alpha : 1,
+
+
         font: 'white',
     },
 };

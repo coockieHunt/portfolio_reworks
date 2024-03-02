@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { COLOR, getColorSettings } from '../../config';
+import { getColorSettings, GetLightSetting } from '../../config';
 
 // Container
 export const Container = styled.div`
     display: flex;
-    background-color: #202020;
+    background-color: ${props => GetLightSetting(props.ligh).background_secondary};
     width: 90vw;
     margin: 50px auto;
     padding: 8px;
@@ -19,6 +19,7 @@ export const Container = styled.div`
         border-radius: 0px;
         margin-bottom: 20px;
         flex-direction: column;
+        background-color: transparent;
     }
 `;
 
@@ -30,6 +31,7 @@ export const Info = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: white;
   
     & .info {
         & h2 {

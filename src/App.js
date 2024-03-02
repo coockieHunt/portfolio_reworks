@@ -43,7 +43,6 @@ const navigation = [
 
 const GlobalStyleTheme = () => {
     const { settings } = useSettingContext();
-    console.log(settings)
     return(<GlobalStyle theme={settings} />)
 }
 

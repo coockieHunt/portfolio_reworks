@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import {getColorSettings, SCREEN_SIZE} from '../../config'
+import {getColorSettings, GetLightSetting} from '../../config'
+import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter'
 
 export const Container = styled.div`
     padding: 25px 0;
@@ -8,6 +9,7 @@ export const Container = styled.div`
 export const PriceInfo = styled.div`
     text-align: center;
     padding: 15px 0;
+    color: ${props => props.light === "dark" ? "white" : "dark"} ;
     & svg{color: ${props => getColorSettings(props.theme).primary};}
 `
 
@@ -22,7 +24,13 @@ export const ProductContainer = styled.div`
 `
 
 export const ItemProduct = styled.div`
-    background-color: ${props => getColorSettings(props.theme).background_accentuated};
+    background-color: ${
+        props=>
+            HexToRgbaConverter(
+                getColorSettings(props.theme).background,
+                GetLightSetting(props.light).background_alpha
+            )
+    };
     width: 400px;
     min-width: 400px;
     height: 400px;

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {COLOR} from '../config/main'
 import { getColorSettings } from '../../../config';
 
 export const OutileButtonContainer = styled.button`

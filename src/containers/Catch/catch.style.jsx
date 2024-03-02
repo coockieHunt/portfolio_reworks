@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { COLOR } from '../../config';
 import {SCREEN_SIZE, getColorSettings} from '../../config'
 
 

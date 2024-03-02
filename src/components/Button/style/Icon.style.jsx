@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import {STYLE} from '../config/icon'
-import { getColorSettings } from '../../../config';
+import { getColorSettings, GetLightSetting } from '../../../config';
 
 export const  IconContainer = styled.button`
     position: relative;
@@ -18,7 +17,7 @@ export const  IconContainer = styled.button`
     padding: 6px;
     
     &:hover{
-        background-color: #363636;
+        background-color: ${props => GetLightSetting(props.light).background_secondary};
         border-radius: 100%;
         transition: all .3s ease;
     }

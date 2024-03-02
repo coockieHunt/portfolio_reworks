@@ -1,5 +1,5 @@
 import { createGlobalStyle, styled } from 'styled-components';
-import { COLOR_SETTING } from '../config';
+import { COLOR_SETTING, LIGHT_SETTING } from '../config';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background:  ${props => COLOR_SETTING[props.theme.theme].background_accentuated};
+    background:  ${props => LIGHT_SETTING[props.theme.light].background_accentuated};
   }
 
   *::-webkit-scrollbar-thumb {
@@ -22,10 +22,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color:  ${props => COLOR_SETTING[props.theme.theme].background};
+    background-color: ${props => LIGHT_SETTING[props.theme.light].background};
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: white;
+    color: ${props => LIGHT_SETTING[props.theme.light].font};
   }
 
   * {

@@ -1,6 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { SCREEN_SIZE, COLOR } from '../../../config';
-import { getColorSettings } from '../../../config';
+import { getColorSettings, GetLightSetting } from '../../../config';
 
 
 const type_size = {
@@ -31,7 +30,7 @@ export const Mouse = styled.div`
     width: ${props => props.type == "mouse" ? type_size.mouse.width : type_size.phone.width};
     height: ${props => props.type == "mouse" ? type_size.mouse.height : type_size.phone.height};
     margin: 50px auto;
-    border: 2px solid white;
+    border: 2px solid ${props => GetLightSetting(props.light).font};
     border-radius:  ${props => props.type == "mouse" ? type_size.mouse.border : type_size.phone.border};
 
   &:after {

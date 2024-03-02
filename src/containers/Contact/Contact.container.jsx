@@ -68,7 +68,6 @@ export const ContactContainer = ({ id }) => {
             if (response.data.success) {
                 return true
             } else {
-                console.log(response)
                 addAlert('Message non envoyer', "#ffcc00", 4000);
                 return false
             }
@@ -152,7 +151,6 @@ export const ContactContainer = ({ id }) => {
 
                     const CoolDownInterval = setInterval(() => {
                         SetCoolDownTime(prevCoolDownTime => {
-                            console.log(prevCoolDownTime);
 
                             if (prevCoolDownTime === 1) {
                                 SetIsCoolDown(false);

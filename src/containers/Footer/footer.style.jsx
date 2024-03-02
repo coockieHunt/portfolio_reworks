@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SCREEN_SIZE } from "../../config";
+import { SCREEN_SIZE, GetLightSetting } from "../../config";
 
 export const Container = styled.div`
    overflow-x: hidden;
@@ -12,7 +12,7 @@ export const Block = styled.div`
 `;
 
 export const Header = styled.div`
-    background-color: #202020;;
+    background-color: ${props => GetLightSetting(props.light).background_secondary};
 
     display: flex;
     justify-content: space-between;
@@ -23,7 +23,7 @@ export const Content = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    color: white;
+    color: ${props => GetLightSetting(props.light).font};
     margin-top: 20px;
 
     text-align: center;

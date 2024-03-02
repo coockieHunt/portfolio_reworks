@@ -10,7 +10,9 @@ import { useScrollbar } from '../../hooks/scrollBar.hook';
 import { Link } from "react-scroll";
 import { scroller } from "react-scroll";
 import { useSettingContext } from '../../context/Setting.context';
-import { COLOR_SETTING } from '../../config'
+import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
+import { GetLightSetting,  getColorSettings} from '../../config';
+
 
 
 
@@ -86,8 +88,12 @@ export const ServiceContainer = ({ children, id }) => {
 	}
 
 	const ContactBackground = () => {
-		const theme = useSettingContext();
-		return COLOR_SETTING[theme.settings.theme].background_accentuated
+		const {settings} = useSettingContext();
+		const bg_color = HexToRgbaConverter(
+			getColorSettings(settings.theme).background_secondary,
+			.8
+		)
+		return bg_color
 	}
 
 	return (
@@ -104,7 +110,7 @@ export const ServiceContainer = ({ children, id }) => {
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
 				<Link to={'contact'}>
-					<Fence onClick={() => {}} color={ContactBackground()}>
+					<Fence onClick={() => {}} color={ContactBackground()} style={{"color": "white"}}>
 						<AiOutlineSend />
 						<p className='catch' style={{ whiteSpace: 'pre-line' }}>Me <br/>Contacter</p>
 						<span> Contacter<AiOutlineArrowRight /></span>

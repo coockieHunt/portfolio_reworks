@@ -1,14 +1,11 @@
 import styled from "styled-components";
 import { STYLE } from "../config/main";
-import { getColorSettings } from '../../../config';
+import { getColorSettings, GetLightSetting } from '../../../config';
 
 
 // ? CONFIG STYLE FORM
 const LabelPadding = '10px';
-const backgroundColor = STYLE.Background_color;
-const FormColor = STYLE.Border_color;
 const BorderSize = STYLE.Border_size;
-const FormFocusColor = STYLE.Form_focus;
 
 
 export const FormLabel = styled.label`
@@ -23,7 +20,7 @@ export const FormInput = styled.input `
     outline: none;
     border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     width: 100%;
-    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    background-color: ${props => GetLightSetting(props.light).background_tertiary};
     color: white;
 
     border-radius: 3px;
@@ -34,7 +31,7 @@ export const FormInput = styled.input `
     &:-webkit-autofill:active{
         -webkit-text-fill-color: #ffffff;
         transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px ${props => getColorSettings(props.theme).background_tertiary};
+        box-shadow: inset 0 0 20px 20px ${props => GetLightSetting(props.light).background_tertiary};
     }
 `;
 
@@ -45,7 +42,7 @@ export const FormTextArea = styled.textarea `
     outline: none;
     border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     border-radius: 3px;
-    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    background-color: ${props => GetLightSetting(props.light).background_tertiary};
     color: white;
 
     &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary};}
@@ -55,7 +52,7 @@ export const FormTextArea = styled.textarea `
 export const FormSubmit = styled.input`
     padding : 15px;
     margin-top: 15px;
-    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    background-color: ${props => GetLightSetting(props.light).background_tertiary};
     border: none;
     color: white;
     text-transform: uppercase;
@@ -109,14 +106,14 @@ export const CaptchaLabel = styled.label`
 `
 
 export const CaptchaInput = styled.input`
-    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    background-color: ${props => GetLightSetting(props.light).background_tertiary};
     border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     padding: 10px 5px 10px 5px;
     color: white;
     border-radius: 3px;
     outline: none;
 
-    &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary} !important;}
+    &:focus{border: ${BorderSize} solid ${props => GetLightSetting(props.light).background_tertiary} !important;}
 `
 
 export const CaptchaMessage = styled.span`

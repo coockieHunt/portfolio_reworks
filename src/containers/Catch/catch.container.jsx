@@ -6,9 +6,10 @@ import { AccentTextComponent } from '../../components/Text/Text.component'
 
 import { useWindowSize } from "../../hooks/screenResize.hook";
 
-import { SCREEN_SIZE } from '../../config'
+import { SCREEN_SIZE, GetLightSetting, setting} from '../../config'
 
 export const CathContainer = ({ id }) => {
+    const light = GetLightSetting();
     const isMobile = useWindowSize(
         SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
     );
@@ -17,7 +18,7 @@ export const CathContainer = ({ id }) => {
         <StyleCatch.Section id={id}>
             <SplitLayoutComponent
                 padding="50px"
-                background_color="#292929"
+                background_color= {light.background_secondary}
                 left_width={!isMobile ? '50%' : "100%"}
                 left_child={
                     <StyleCatch.Text>

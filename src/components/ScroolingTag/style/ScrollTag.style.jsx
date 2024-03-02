@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings } from '../../../config';
+import { getColorSettings, GetLightSetting } from '../../../config';
 
 const Loop = keyframes`
   0% {transform: translateX(0);}
@@ -55,7 +55,7 @@ export const Fade = styled.div`
 	position: absolute;
 	inset: 0;
 	background: 
-		linear-gradient(to left, #121212, transparent 20%),
-		linear-gradient(to right, #121212, transparent 20%);
+		linear-gradient(to left, ${props => GetLightSetting(props.light).background}, transparent 20%),
+		linear-gradient(to right, ${props => GetLightSetting(props.light).background}, transparent 20%);
 	background-repeat: no-repeat;
 `;

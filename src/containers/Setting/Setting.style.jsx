@@ -6,6 +6,7 @@ const Panel_width = "200px"
 export const ContainerSetting = styled.div`
     position: fixed;
     z-index: 10;
+    color: white;
 
     bottom: 50vh;
     right: 0;
@@ -109,7 +110,7 @@ export const RoudedButtonColor = styled.span`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: linear-gradient(to left, ${props => props.primary}  50%, ${props => props.secondary} 50%);
+    background: linear-gradient(to left, ${props => props.$primary}  50%, ${props => props.$secondary} 50%);
     cursor: pointer;
     
     &.current{

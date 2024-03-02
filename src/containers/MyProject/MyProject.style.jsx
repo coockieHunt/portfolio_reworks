@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, getColorSettings } from '../../config';
+import {SCREEN_SIZE, getColorSettings, GetLightSetting } from '../../config';
 
 export const Container = styled.div`
     display: flex;
@@ -7,7 +7,8 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    background-color: #202020;
+    color: white;
+    background-color: ${props => GetLightSetting(props.ligh).background_secondary};
 
     padding:  15px 0 25px 0;
 

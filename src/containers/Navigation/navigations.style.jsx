@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import {getColorSettings, SCREEN_SIZE} from '../../config'
+import {getColorSettings, GetLightSetting,  SCREEN_SIZE} from '../../config'
 
 export const NavigationContainer = styled.div`
     display: flex;
     align-items: center;
-    color: #fff;
     height: 60px;
     position: relative;
     padding: 15px;
@@ -42,7 +41,7 @@ export const Nav = styled.nav`
     width: 100%;
     justify-content: space-between;
     z-index: 11;
-    background-color: ${props => getColorSettings(props.theme).background};
+    background-color: ${props => GetLightSetting(props.light).background};
     ul {
         display: flex;
         list-style: none;
@@ -53,7 +52,6 @@ export const Nav = styled.nav`
             padding: 0 10px;
             a {
                 text-decoration: none;
-                color: #fff;
                 font-weight: bold;
                 transition: color 0.3s ease;
                 cursor: pointer;

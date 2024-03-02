@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { COLOR, getColorSettings } from '../../config';
+import { getColorSettings, GetLightSetting  } from '../../config';
+import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
 
 export const FenceContainer = styled.div`
     display: flex;
@@ -43,7 +44,15 @@ export const ListModal = styled.ul`
 `
 
 export const Fence = styled.div`
-    background-color: ${props => props.color ? props.color : "#292929"}; 
+    background-color: ${
+        props=>
+            props.color ? 
+                props.color :
+                HexToRgbaConverter(
+                    getColorSettings(props.theme).background,
+                    GetLightSetting(props.light).background_alpha
+                )
+    };
     min-height: 200px;
     min-width: 200px;
 
@@ -65,9 +74,7 @@ export const Fence = styled.div`
         font-size: 2em;
     }
 
-
     & .catch{
-        color: white;
         font-variation-settings: "wght" 400;
     }
 

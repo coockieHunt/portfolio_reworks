@@ -1,6 +1,6 @@
-import { ContainerSetting, Option, Action, Title, Icon, ButtonColor,OptionsList, RoudedButtonColor } from "./Setting.style"
+import { ContainerSetting, Option, Action, Title, Icon, OptionsList, RoudedButtonColor } from "./Setting.style"
 import { useState, useEffect } from "react"
-import { AiFillTool, AiOutlineUp, AiFillFormatPainter,  AiOutlineCaretRight } from 'react-icons/ai'
+import { AiOutlineUp, AiFillFormatPainter,  AiOutlineClose  } from 'react-icons/ai'
 import { COLOR_SETTING } from '../../config';
 
 import { useSettingContext } from "../../context/Setting.context";
@@ -24,23 +24,19 @@ export const SettingContainer = () => {
     };
 
     const ButtonLight = ( state ) => {
-        console.log('click', state)
         changeLight(state);
     }
 
     const ButtonTheme = ({Name, display}) => {
         return (
-            <>
-                <RoudedButtonColor 
-                    onClick={() => handleThemeChange(Name)} 
-                    color={Name} 
-                    primary = {COLOR_SETTING[Name].primary} 
-                    secondary = {COLOR_SETTING[Name].secondary}
-                    className={Name == settings.theme && "current"}
-                    display = {display}
-                />
-            </>
-            
+            <RoudedButtonColor 
+                onClick={() => handleThemeChange(Name)} 
+                color={Name} 
+                $primary = {COLOR_SETTING[Name].primary} 
+                $secondary = {COLOR_SETTING[Name].secondary}
+                className={Name == settings.theme && "current"}
+                display = {display}
+            />
         )
     }
 
@@ -63,7 +59,10 @@ export const SettingContainer = () => {
             <Icon>
                 <Action 
                     onClick={() => setIsOpen(!isOpen)} 
-                >{isOpen ? <AiOutlineCaretRight/> : <AiFillTool/>}</Action>
+                >{isOpen ? <AiOutlineClose /> : <AiFillFormatPainter />}</Action>
+                 <Action onClick={()=> settings.light == "dark" ? ButtonLight("light") : ButtonLight("dark")}>
+                    {settings.light == "dark" ? <FaLightbulb/>: <FaRegLightbulb/>}
+                </Action>
                 <Action 
                     onClick={() => scrollToTop()} 
                     className={HideScroll && "hide"}
@@ -71,16 +70,11 @@ export const SettingContainer = () => {
             </Icon>
             <OptionsList>
                 <Option>
-                    <Title> <AiFillFormatPainter/> Couleur du site</Title>
                     <div className="ContainerButton">
                         <ButtonTheme Name={'default'} display={"Default"}/>
                         <ButtonTheme Name={'red'} display={"Rouge"}/>
                         <ButtonTheme Name={'green'} display={"Vert"}/>
                         <ButtonTheme Name={'yellow'} display={"Jaune"}/>
-                    </div>
-                    <Title> <AiFillFormatPainter/> Theme</Title>
-                    <div className="ContainerButton">
-                        {settings.light == "dark" ? <><FaLightbulb onClick={() => ButtonLight("light")} /> <p>false</p> </>: <><FaRegLightbulb onClick={() => ButtonLight("dark")} /><p>true</p> </>}
                     </div>
                 </Option>
                 
