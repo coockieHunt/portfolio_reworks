@@ -1,101 +1,172 @@
-import styled from 'styled-components';
-import {getColorSettings, GetLightSetting} from '../../config'
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter'
+import styled from "styled-components";
+import { getColorSettings, GetLightSetting } from "../../config";
+
+const border_radius = "10px";
 
 export const Container = styled.div`
-    padding: 25px 0;
-`
-
-export const PriceInfo = styled.div`
-    text-align: center;
-    padding: 15px 0;
-    color: ${props => props.light === "dark" ? "white" : "dark"} ;
-    & svg{color: ${props => getColorSettings(props.theme).primary};}
-`
+    transition: transform 2s ease-in-out;
+`;
 
 export const ProductContainer = styled.div`
+    width: 80%;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    padding: 0 10px;
-    gap: 50px;
-    flex-wrap: wrap;
-`
+    gap: 5px;
+    & button {
+        background-color: transparent;
+        color: ${(props) => GetLightSetting(props.light).font};
+    }
+`;
 
-export const ItemProduct = styled.div`
-    background-color: ${
-        props=>
-            HexToRgbaConverter(
-                getColorSettings(props.theme).background,
-                GetLightSetting(props.light).background_alpha
-            )
-    };
-    width: 400px;
-    min-width: 400px;
-    height: 400px;
-    
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 30px 20px;
-
+export const Tab = styled.ul`
+    list-style: none;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 10px;
+    transition: width 1s;
 
-    transition: all .3s ease-in-out;
-
-    &:hover{
-        transition: all .3s ease-in-out;
-        & .bottom .ViewMore svg{margin-left: 10px;}
+    &.reduce {
+        width: ${(props) => (props.$mobile ? "30px" : "50px")};
+        & li {
+            padding: ${(props) => (props.$mobile ? "15px 10px" : "15px 18px")};
+        }
     }
-
-    & .top{
-        & #title{
-            font-size: 30px;
-            font-variation-settings: "wght" 600;
-        }
-        & #subtitle{
-            font-size: 20;
-            font-variation-settings: "wght" 400;
-            color: #929294;
-        }
-
-        & p{
-            margin-top: 15px;
+    &.expand {
+        width: ${(props) => (props.$mobile ? "100%" : "300px")};
+        & li {
+            padding: 15px 18px;
         }
     }
 
-    & .bottom{
-        & .info{
+    & li {
+        background-color: ${(props) =>
+            GetLightSetting(props.light).background_secondary};
+        border-radius: ${border_radius};
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        cursor: pointer;
+        overflow: hidden;
+
+        &:hover {
+            background-color: ${(props) =>
+                getColorSettings(props.theme).background_secondary};
+        }
+
+        &.current_item {
+            background-color: ${(props) =>
+                getColorSettings(props.theme).primary};
+        }
+
+        &.current_item,
+        &:hover {
+            color: white;
+        }
+
+        & svg {
+            flex-shrink: 0;
+            flex-grow: 0;
+            font-size: ${(props) => (props.$mobile ? ".8em" : "1em")};
+        }
+
+        & span {
+            flex-shrink: 0;
+            flex-grow: 0;
+            white-space: nowrap;
+            transition: opacity 0.5s ease-in-out;
+        }
+    }
+`;
+
+export const ItemProduct = styled.div`
+    & .productFrame{
+        background-color: ${(props) =>
+            GetLightSetting(props.light).background_secondary};
+        border-radius: ${border_radius};
+
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 60px;
+
+        min-height: 60vh;
+        cursor: pointer;
+
+        &:hover {
+            & .bottom .viewMore svg {
+                transition: transform 0.3s ease-in;
+                transform: translateX(5px);
+            }
+        }
+
+        & .description {
+            & .subtitle {
+                font-variation-settings: "wght" 600;
+                font-size: 1.5em;
+
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                padding: 10px 0;
+
+                & svg {
+                    font-size: 1.6em;
+                }
+            }
+        }
+
+        & .bottom {
             display: flex;
-            align-items: center;
-            margin-top: 60px;
-            
-            & svg{
-                color: ${props => getColorSettings(props.theme).primary};
-            }
-        }   
+            justify-content: space-between;
+            align-items: end;
 
-        & .ViewMore{
-            font-variation-settings: "wght" 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            line-height: 1.5em;
-            margin-top: 10px;
-            color:  ${props => getColorSettings(props.theme).primary};
-            width: 100%;
-            
-            & svg{
-                transition: all .3s ease-in-out;
-                margin-left: 5px;
-                transition: all .3s ease-in;
+            @media (max-width: 700px) {
+                flex-direction: column;
+                align-items: start;
+                gap: 20px;
             }
 
+            & span {
+                display: inline-flex;
+                align-items: center;
+            }
 
+            & .ProductInfo {
+                display: flex;
+                flex-direction: column;
+
+                gap: 10px;
+
+                & svg {
+                    color: ${(props) => getColorSettings(props.theme).primary};
+                }
+
+                & .title {
+                    font-variation-settings: "wght" 600;
+                    color: ${(props) => getColorSettings(props.theme).primary};
+                }
+            }
+
+            & .viewMore {
+                color: ${(props) => getColorSettings(props.theme).primary};
+
+                & svg {transition: transform 0.3s ease-in;}
+            }
         }
     }
 
+
+    & .warning{
+        padding: 10px 0;
+        display: inline-flex;
+        align-items: center;
+
+        line-height: 1.3em;
+
+
+        & svg{color: ${(props) => getColorSettings(props.theme).primary};}
+    }
    
-`
+`;
