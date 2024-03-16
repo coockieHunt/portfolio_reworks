@@ -72,7 +72,7 @@ export const Info = styled.div`
     }
 
     & p {
-        font-variation-settings: "wght" 200;
+        font-variation-settings: "wght" 350;
         font-size: 1em;
         line-height: 1.6em;
     }

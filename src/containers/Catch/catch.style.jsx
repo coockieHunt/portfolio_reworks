@@ -12,8 +12,10 @@ export const Text = styled.div`
 
     & p{
         font-size: 18px;
-        font-weight: lighter;
+        font-variation-settings: "wght" 350;
+
     }
+    
 
     & ul{
         list-style-type: none;
