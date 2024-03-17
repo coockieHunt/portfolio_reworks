@@ -24,7 +24,7 @@ export const SettingContainer = () => {
         }, 500);
         setTimeout(() => {
             hideLoading();
-        }, 1000); 
+        }, 2000); 
     };
 
     const scrollToTop = () => {
@@ -41,7 +41,7 @@ export const SettingContainer = () => {
         }, 500);
         setTimeout(() => {
             hideLoading();
-        }, 1000); 
+        }, 2000); 
     }
 
     const ButtonTheme = ({Name, display}) => {

@@ -1,44 +1,17 @@
 import styled, { keyframes, css } from 'styled-components';
 import { GetLightSetting } from '../../../config';
 
-const fade = keyframes`
- 0% {
-    opacity: 0;
-  }
-
-  40% {
-    opacity: 1;
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
-
 const complete = keyframes`
     0% {
-        width: 0px;
-        height: 0px;
-        border-radius: 50%;
-        bottom: calc(50% - 50px);
-        left: calc(50% - 50px); 
+        transform: scale(1)
     }
 
     50% {
-        width: 200vw;
-        height: 200vw;
-        bottom: calc(50% - 100vw);
-        left: calc(50% - 100vw); 
+      transform: scale(400)
     }
 
     100% {
-        width: 0px;
-        height: 0px;
-        border-radius: 50%;
-        bottom: calc(50% - 50px); 
-        left: calc(50% - 50px);
+      transform: scale(1)
     }
 `;
 
@@ -48,17 +21,24 @@ export const Container = styled.div`
     width: 100vw;
     z-index: 999999;
 
+
     & .frame{
         content: " ";
-        background-color:  ${({ color }) => color || 'white'};
-
-        position: absolute;
+         background-color:  ${({ color }) => color || 'white'};
+        position: fixed;
         border-radius: 50%;
+        bottom: 0px;
+        left: 0px; 
+
+        height:10px;
+        width:10px;
+
+        transform-origin: center; 
 
         animation: ${({ loading }) =>
             loading
             ? css`
-                  ${complete} 1s ease forwards
+                  ${complete} 2s ease forwards
               `
             : 'none'};
     }
