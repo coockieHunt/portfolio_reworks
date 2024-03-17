@@ -1,21 +1,30 @@
 import { ContainerSetting, Option, Action, Title, Icon, OptionsList, RoudedButtonColor } from "./Setting.style"
 import { useState, useEffect } from "react"
 import { AiOutlineUp, AiFillFormatPainter,  AiOutlineClose  } from 'react-icons/ai'
-import { COLOR_SETTING } from '../../config';
+import { COLOR_SETTING, getColorSettings } from '../../config';
 
 import { useSettingContext } from "../../context/Setting.context";
+import { useLoading } from "../../context/loading.context";
+import { useScrollbar } from "../../hooks/scrollBar.hook";
 
 import { FaLightbulb, FaRegLightbulb  } from "react-icons/fa6";
 
+
 export const SettingContainer = () => {
     const {changeTheme, changeLight, settings } = useSettingContext();
+    const {showLoading, hideLoading} = useLoading();
     const [isOpen, setIsOpen] = useState(false)
-
     const [ HideScroll, SetHideScroll] = useState(false)
 
     const handleThemeChange = (NewTheme) => {
-        changeTheme(NewTheme);
+        showLoading(COLOR_SETTING[NewTheme].background_secondary);
         setIsOpen(false);
+        setTimeout(() => {
+            changeTheme(NewTheme);
+        }, 500);
+        setTimeout(() => {
+            hideLoading();
+        }, 1000); 
     };
 
     const scrollToTop = () => {
@@ -24,7 +33,15 @@ export const SettingContainer = () => {
     };
 
     const ButtonLight = ( state ) => {
-        changeLight(state);
+        const color = state === "dark" ? "black" : "white";
+        showLoading(color);
+        setIsOpen(false);
+        setTimeout(() => {
+            changeLight(state);
+        }, 500);
+        setTimeout(() => {
+            hideLoading();
+        }, 1000); 
     }
 
     const ButtonTheme = ({Name, display}) => {

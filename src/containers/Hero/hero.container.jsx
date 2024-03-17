@@ -18,7 +18,7 @@ import { useWindowSize } from '../../hooks/screenResize.hook';
 import { SCREEN_SIZE } from '../../config'
 
 
-import { AiOutlineCluster } from 'react-icons/ai'
+import { AiOutlineCluster, AiOutlineBuild  } from 'react-icons/ai'
 
 export const HeroContainer = ({id}) => {
     const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
@@ -45,6 +45,9 @@ export const HeroContainer = ({id}) => {
                     <div className="cta">
                         <Link to={'service'}>
                             <OutlineButton icon_right icon={<AiOutlineCluster/>}>Mes Service</OutlineButton>
+                        </Link>
+                        <Link to={'product'}>
+                            <OutlineButton icon_right icon={<AiOutlineBuild/>}>Produits</OutlineButton>
                         </Link>
 
                     </div>

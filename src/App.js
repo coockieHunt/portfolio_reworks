@@ -20,12 +20,13 @@ import { SettingContainer } from './containers/Setting/Setting.container.jsx';
 import { ProductContainer } from './containers/Product/product.container.jsx';
 
 //Hook
-import { ScrollToTop } from './components/Button/Button.jsx';
 import { LinkTextComponent } from './components/Text/Text.component.jsx'
 
 //Provider
 import { AlertProvider } from './context/alert.context.jsx';
 import {SettingProvider} from "./context/Setting.context.jsx";
+import { LoadingProvider } from './context/loading.context.jsx';
+
 
 //Icon
 import {
@@ -47,26 +48,13 @@ const GlobalStyleTheme = () => {
 }
 
 function App() {
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        const handleLoad = () => {
-            setIsLoading(false);
-        };
-
-        window.addEventListener('load', handleLoad);
-
-        return () => {
-            window.removeEventListener('load', handleLoad);
-        };
-    }, []);
-
     return (
-
         <Content>
             <SettingProvider>
                 <GlobalStyleTheme/>
-                <NavigationComponent navConfig={navigation} />
+                {/* <Loading/> */}
+                    <LoadingProvider>
+                    <NavigationComponent navConfig={navigation} />
                     <AlertProvider>
                         <SettingContainer/>
                         <HeroContainer id='hero' />
@@ -82,7 +70,7 @@ function App() {
                         <StackContainer />
                         <FooterContainer />
                     </AlertProvider>
-                {/* <ScrollToTop /> */}
+                    </LoadingProvider>
             </SettingProvider>
         </Content>
     );
