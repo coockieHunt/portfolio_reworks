@@ -5,6 +5,10 @@ const border_radius = "10px";
 
 export const Container = styled.div`
     transition: transform 2s ease-in-out;
+
+    & .accent{
+        color: ${(props) => getColorSettings(props.theme).primary};
+    }
 `;
 
 export const ProductContainer = styled.div`
@@ -160,12 +164,9 @@ export const ItemProduct = styled.div`
 
     & .warning{
         padding: 10px 0;
-        display: inline-flex;
-        align-items: center;
-
-        line-height: 1.3em;
-
-
+        display: block;
+        margin-top: 10px;
+        
         & svg{color: ${(props) => getColorSettings(props.theme).primary};}
     }
    

@@ -75,7 +75,7 @@ export const ProductContainer = ({id}) => {
                                     <>
                                         <div className="ProductInfo">
                                             <span className="title">
-                                                <AiFillInfoCircle/>&nbsp;Information 
+                                                *&nbsp;Information 
                                             </span>
                                             <span>
                                                 <IoIosPricetag />
@@ -101,10 +101,12 @@ export const ProductContainer = ({id}) => {
                             </>
                         )}
                     </div>
-                    <strong className="warning">
-                        <AiFillInfoCircle/>&nbsp;Information seulement a titre indicatif.
-                    </strong>
-
+                    {!(isMobile && !reduceNav) && 
+                        <strong className="warning">
+                            <span className="accent">*</span> &nbsp;Information seulement a titre indicatif.
+                        </strong>
+                    }
+                    
                 </styled.ItemProduct>
             </styled.ProductContainer>
         );
