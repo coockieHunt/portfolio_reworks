@@ -15,9 +15,9 @@ import { COLOR_SETTING } from '../../config'
  * 
  * @param children {ReactNode} - The text content to be displayed on top of other content.
  */
-export const AccentTextComponent = ({ children }) => {
+export const AccentTextComponent = ({ children, className }) => {
     return(
-        <Text>{children}</Text>
+        <Text className={className}>{children}</Text>
     )
 }
 
