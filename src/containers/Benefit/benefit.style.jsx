@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { COLOR } from '../../config';
-import { getColorSettings } from '../../config';
+import { getColorSettings, GetLightSetting } from '../../config';
 
 
 export const Container = styled.div`
@@ -18,7 +18,7 @@ export const Text = styled.span`
     text-align: center;
     width: 100%;
     display: inline-block;
-    color: #ffffffa2;
+    color: ${props => GetLightSetting(props.light).font} ;
 `
 
 export const TextContainer = styled.div`

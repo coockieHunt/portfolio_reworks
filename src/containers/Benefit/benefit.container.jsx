@@ -1,4 +1,4 @@
-import { Container, TextContainer, Title, Info, Img, Text } from "./benefit.style";
+import { Container, TextContainer, Info, Img, Text } from "./benefit.style";
 
 import { TitleTextComponent } from '../../components/Text/Text.component'
 import { motion } from "framer-motion"
