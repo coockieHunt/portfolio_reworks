@@ -87,7 +87,7 @@ export const HeroText = styled.div`
         gap: 10px;
 
         @media (max-width:  ${SCREEN_SIZE.mobile}) {
-            justify-content: space-around;
+            justify-content: center;
         }
    }
 `

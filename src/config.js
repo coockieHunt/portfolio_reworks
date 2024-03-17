@@ -32,7 +32,7 @@ export const COLOR_SETTING = {
 
         primary: "#166e29",
         secondary: "#0E461A", 
-        accentuate: '#404ad6',
+        accentuate: '#115720',
         
         border: "#737272"
     },
@@ -44,7 +44,7 @@ export const COLOR_SETTING = {
 
         primary: "#996d05",
         secondary: "#745817", 
-        accentuate: '#404ad6',
+        accentuate: '#6e4e03',
         
         border: "#737272"
     }

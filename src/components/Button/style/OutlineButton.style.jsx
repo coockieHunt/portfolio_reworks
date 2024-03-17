@@ -39,10 +39,10 @@ export const OutileButtonContainer = styled.button`
             top: 0;
             left: 0;
             height: 100%;
-            width: 10%;
+            width: 0%;
             z-index: -1;
 
-            background-color: ${props => getColorSettings(props.theme).primary};
+            background-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
         }
     }
 
