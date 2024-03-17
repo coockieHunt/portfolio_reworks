@@ -111,8 +111,8 @@ export const productList = [
         icon: <AiFillLayout/>, 
         subTitle: 'Wordpress, e-comerce, Vitrine',
         content: "Flexibilité est le mot d'ordre. Que vous soyez un entrepreneur en herbe ou une grande entreprise, un CMS s'adapte à vos besoins. Mettez à jour votre site en temps réel sans attendre un développeur. Collaborez facilement avec votre équipe grâce à une interface intuitive. La sécurité est notre priorité, assurant la protection de votre contenu contre les menaces potentielles.",
-        price: 600,
-        time: 2
+        price: 0,
+        time: 0
     },
     { 
         id: 2, 
@@ -120,8 +120,8 @@ export const productList = [
         icon: <AiOutlineRise/>,
         subTitle: 'Aplication metier',
         content: "Que vous soyez un particulier cherchant à marquer sa présence en ligne ou une entreprise en quête d'innovation, je m'adapte à vos besoins spécifiques. La mise en place d'une interface intuitive permet une gestion fluide du contenu, et les mises à jour se font sans difficulté.",
-        price: 400,
-        time: 10
+        price: 0,
+        time: 0
     },
     { 
         id: 3, 
@@ -129,7 +129,7 @@ export const productList = [
         icon: <AiOutlineAim/>,
         subTitle: 'Audite Web',
         content: "Un audit approfondi de votre site web, évaluant chaque aspect de sa performance. De l'expérience utilisateur à la structure technique, Identifions les opportunités d'optimisation pour renforcer votre impact en ligne.",
-        price: 400,
-        time: 10
+        price: 0,
+        time: 0
     },
 ];
