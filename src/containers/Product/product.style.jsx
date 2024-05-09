@@ -140,7 +140,6 @@ export const ItemProduct = styled.div`
             & .ProductInfo {
                 display: flex;
                 flex-direction: column;
-
                 gap: 10px;
 
                 & svg {

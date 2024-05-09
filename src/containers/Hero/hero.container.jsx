@@ -27,15 +27,12 @@ export const HeroContainer = ({id}) => {
     const {settings} = useSettingContext();
 
     const tags = [
-        'HTML', 
-        'CSS', 
-        'JavaScript', 
-        'NodeJs',
+        'Sites', 
+        'Applications', 
+        'API', 
+        'UX/UI',
         'Express',
-        'RestApi',
-        'Linux',
-        'MangoDb',
-        'Mysql',
+        'Performance',
     ];
 
     return (

@@ -5,12 +5,10 @@ import { motion } from "framer-motion"
 import { useInView } from 'react-intersection-observer';
 
 export const BenefitContainer = ({ id }) => {
-
     const InfoVariants = {
         left: { x: 100, opacity: 100 },
         right: { x: -100, opacity: 100 },
     };
-    
 
     const AnimateSvg = () => {
         const [ref, inView] = useInView({
@@ -109,7 +107,6 @@ export const BenefitContainer = ({ id }) => {
                 </motion.div>
             </TextContainer>
         </Container>
-
     )
 }
 

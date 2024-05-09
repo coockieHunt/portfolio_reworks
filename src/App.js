@@ -18,6 +18,7 @@ import { StackContainer } from './containers/Stack/Stack.containers.jsx';
 import { ServiceContainer } from './containers/Services/Service.containers.jsx';
 import { SettingContainer } from './containers/Setting/Setting.container.jsx';
 import { ProductContainer } from './containers/Product/product.container.jsx';
+import { ProcessTimeLine } from './containers/ProcessTimeline/ProcessTileline.container.jsx';
 
 //Hook
 import { LinkTextComponent } from './components/Text/Text.component.jsx'
@@ -62,6 +63,7 @@ function App() {
                         <ProductContainer id='product'/>
                         <ServiceContainer id='service'/>
                         <BenefitContainer id='benefit' />
+                        <ProcessTimeLine id='ProcessTimeline' />
                         <QuoteContainer >
                             <BiSolidQuoteLeft /> Vous voulez voir comment le site est construit ? Il est en public pour le <LinkTextComponent to={URL.ghithudb_portfolio_rework}>Front</LinkTextComponent> et <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>Api</LinkTextComponent> <BiSolidQuoteRight />
                         </QuoteContainer>

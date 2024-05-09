@@ -81,7 +81,7 @@ export const ServiceContainer = ({ children, id }) => {
 				<p className='catch' style={{ whiteSpace: 'pre-line' }}>
 					{catchText}
 				</p>
-				<span>View More <AiOutlineArrowRight /></span>
+				<span>Voir plus <AiOutlineArrowRight /></span>
 			</Fence>
 		)
 
@@ -98,13 +98,7 @@ export const ServiceContainer = ({ children, id }) => {
 
 	return (
 		<div className={id}>
-			<TitleTextComponent
-				subtitle={"A VOTRE"}
-				subtitleOpacity={0.3}
-			>Services</TitleTextComponent>
-
 			<ModalComponent modals={modals} onClose={closeModal} />
-
 			<FenceContainer className='scrollTo'>
 				{BuildFence(<AiOutlineBuild />, 'Développement\nWeb', () => openModal(0))}
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}

@@ -81,7 +81,6 @@ export const Fence = styled.div`
     & span{
         color:  ${props => getColorSettings(props.theme).primary};
         transition: all .3s ease-in;
-        font-variation-settings: "wght" 600;
 
         display: inline-flex;
         align-items: center;

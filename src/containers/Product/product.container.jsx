@@ -7,7 +7,6 @@ import {
     AiOutlineArrowRight,
     AiFillCaretLeft,
     AiFillCaretRight,
-    AiFillInfoCircle 
 } from "react-icons/ai";
 
 import { TitleTextComponent } from "../../components/Text/Text.component";
