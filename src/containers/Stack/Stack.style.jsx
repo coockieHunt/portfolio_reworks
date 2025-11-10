@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {getColorSettings, SCREEN_SIZE} from '../../config'
+import {getColorSettings, SCREEN_SIZE} from '../../config.jsx'
 
 export const Stack = styled.div`
     background-color: ${props => getColorSettings(props.theme).primary};

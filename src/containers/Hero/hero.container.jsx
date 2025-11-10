@@ -15,7 +15,7 @@ import { Link } from "react-scroll";
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 import { ScrollTagComponent } from '../../components/ScroolingTag/ScroolingTag.component';
 import { useWindowSize } from '../../hooks/screenResize.hook';
-import { SCREEN_SIZE, getColorSettings} from '../../config'
+import { SCREEN_SIZE, getColorSettings} from '../../config.jsx'
 import { useSettingContext } from '../../context/Setting.context';
 
 import { AiOutlineCluster, AiOutlineBuild  } from 'react-icons/ai'

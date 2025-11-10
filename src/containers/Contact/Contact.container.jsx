@@ -9,7 +9,7 @@ import {
 
 import {
     CONTACT_EMAIL
-} from '../../config'
+} from '../../config.jsx'
 
 import { useWindowSize } from "../../hooks/screenResize.hook"
 import axios from 'axios';

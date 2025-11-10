@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { STYLE } from '../config/main';
-import { getColorSettings } from '../../../config';
+import { getColorSettings } from '../../../config.jsx';
 
 export const Text = styled.span`
     color: ${props => getColorSettings(props.theme).primary};

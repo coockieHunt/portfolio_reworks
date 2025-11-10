@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, getColorSettings, GetLightSetting } from '../../config';
+import {SCREEN_SIZE, getColorSettings, GetLightSetting } from '../../config.jsx';
 
 export const Container = styled.div`
     display: flex;

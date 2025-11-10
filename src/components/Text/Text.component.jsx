@@ -6,7 +6,7 @@ import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
 
 
 import { useSettingContext, } from "../../context/Setting.context";
-import { COLOR_SETTING } from '../../config'
+import { COLOR_SETTING } from '../../config.jsx'
 
 /**
  * AccentTextComponent

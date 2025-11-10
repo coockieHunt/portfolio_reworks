@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, GetLightSetting } from '../../config';
+import { getColorSettings, GetLightSetting } from '../../config.jsx';
 
 // Container
 export const Container = styled.div`

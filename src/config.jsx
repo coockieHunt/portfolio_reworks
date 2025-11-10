@@ -133,3 +133,7 @@ export const productList = [
         time: 0
     },
 ];
+
+// Alias exports for backward compatibility
+export const COLOR = COLOR_SETTING;
+export const setting = LIGHT_SETTING;

@@ -1,7 +1,7 @@
 import { ContainerSetting, Option, Action, Title, Icon, OptionsList, RoudedButtonColor } from "./Setting.style"
 import { useState, useEffect } from "react"
 import { AiOutlineUp, AiFillFormatPainter,  AiOutlineClose  } from 'react-icons/ai'
-import { COLOR_SETTING, getColorSettings } from '../../config';
+import { COLOR_SETTING, getColorSettings } from '../../config.jsx';
 
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { COLOR, getColorSettings } from '../../config';
+import { COLOR, getColorSettings } from '../../config.jsx';
 
 
 export const Quoute = styled.h2`

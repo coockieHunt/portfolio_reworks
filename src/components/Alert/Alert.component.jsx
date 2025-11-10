@@ -3,7 +3,7 @@ import { Container, AlertContainer } from './style/Alert.style';
 import { useAlert } from '../../context/alert.context';
 import {RxCross2} from 'react-icons/rx'
 import { DEBUG } from './config/main';
-import { COLOR_SETTING } from '../../config';
+import { COLOR_SETTING } from '../../config.jsx';
 import { useSettingContext } from '../../context/Setting.context';
 
 

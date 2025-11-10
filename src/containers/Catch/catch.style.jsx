@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, getColorSettings} from '../../config'
+import {SCREEN_SIZE, getColorSettings} from '../../config.jsx'
 
 
 export const Section = styled.div``

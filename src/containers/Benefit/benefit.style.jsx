@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { COLOR } from '../../config';
-import { getColorSettings, GetLightSetting } from '../../config';
+import { COLOR } from '../../config.jsx';
+import { getColorSettings, GetLightSetting } from '../../config.jsx';
 
 
 export const Container = styled.div`

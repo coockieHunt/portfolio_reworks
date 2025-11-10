@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {getColorSettings, GetLightSetting,  SCREEN_SIZE} from '../../config'
+import {getColorSettings, GetLightSetting,  SCREEN_SIZE} from '../../config.jsx'
 
 export const NavigationContainer = styled.div`
     display: flex;

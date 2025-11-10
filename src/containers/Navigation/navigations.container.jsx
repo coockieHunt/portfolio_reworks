@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-scroll";
-import { URL } from '../../config'
+import { URL } from '../../config.jsx'
 
 
 // hook
@@ -38,7 +38,7 @@ import {
 
 import {
     SCREEN_SIZE
-} from '../../config'
+} from '../../config.jsx'
 
 
 

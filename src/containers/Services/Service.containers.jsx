@@ -11,7 +11,7 @@ import { Link } from "react-scroll";
 import { scroller } from "react-scroll";
 import { useSettingContext } from '../../context/Setting.context';
 import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
-import { getColorSettings} from '../../config';
+import { getColorSettings} from '../../config.jsx';
 
 
 

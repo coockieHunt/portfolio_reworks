@@ -6,7 +6,7 @@ import { AccentTextComponent } from '../../components/Text/Text.component'
 
 import { useWindowSize } from "../../hooks/screenResize.hook";
 
-import { SCREEN_SIZE, GetLightSetting, setting} from '../../config'
+import { SCREEN_SIZE, GetLightSetting, setting} from '../../config.jsx'
 
 export const CathContainer = ({ id }) => {
     const light = GetLightSetting();

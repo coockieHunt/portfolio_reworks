@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {useSettingContext} from './context/Setting.context.jsx'
 // Import
-import GlobalStyle, { Content, LoadingContainer } from './styles/global.style.jsx';
-import { COLOR, URL } from './config'
+import GlobalStyle, { Content } from './styles/global.style.jsx';
+import { COLOR, URL } from './config.jsx'
 import HashLoader from "react-spinners/HashLoader";
 
 // Container

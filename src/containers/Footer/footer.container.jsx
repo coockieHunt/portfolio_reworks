@@ -5,7 +5,7 @@ import { DiJavascript1 } from 'react-icons/di';
 import { IconButton } from '../../components/Button/Button';
 import cv from '../../assets/pdf/cv_dev_JG.pdf'
 import { ScrollToTop } from '../../components/Button/Button';
-import { URL } from '../../config'
+import { URL } from '../../config.jsx'
 
 import {
     AiFillGithub,

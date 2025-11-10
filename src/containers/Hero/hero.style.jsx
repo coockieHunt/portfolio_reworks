@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { SCREEN_SIZE } from '../../config';
+import { SCREEN_SIZE } from '../../config.jsx';
 
 
 

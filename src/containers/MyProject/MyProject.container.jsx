@@ -1,6 +1,6 @@
 import { Container, List} from "./MyProject.style";
 import { TitleTextComponent } from '../../components/Text/Text.component'
-import { URL } from '../../config'
+import { URL } from '../../config.jsx'
 
 export const MyProjectContainer = ({id}) => {
     return(
