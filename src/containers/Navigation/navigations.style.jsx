@@ -1,12 +1,26 @@
 import styled from 'styled-components';
 import {getColorSettings, GetLightSetting,  SCREEN_SIZE} from '../../config.jsx'
+import { get } from 'react-scroll/modules/mixins/scroller.js';
+
 
 export const NavigationContainer = styled.div`
     display: flex;
     align-items: center;
     height: 60px;
-    position: relative;
     padding: 15px;
+
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 15;
+    background-color: transparent;
+
+    transition: background-color 0.3s ease;
+
+    &.NavOpen{
+       background-color: ${props => getColorSettings(props.theme).background};
+    }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
@@ -15,6 +29,9 @@ export const NavigationContainer = styled.div`
         
         &.NavClose{height: 5vh; transition: height 0.3s ease;}
     }
+
+
+
 `
 
 export const Logo = styled.img`
@@ -41,7 +58,9 @@ export const Nav = styled.nav`
     width: 100%;
     justify-content: space-between;
     z-index: 11;
-    background-color: ${props => GetLightSetting(props.light).background};
+
+
+
     ul {
         display: flex;
         list-style: none;
