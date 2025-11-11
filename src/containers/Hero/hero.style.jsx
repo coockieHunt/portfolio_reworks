@@ -37,7 +37,7 @@ export const LabelWorld = styled.input`
     font-weight: bold;
     font-variation-settings: "wght" 600;
     padding: 10px 15px;
-    background: ${props => props.backgroundCustom || 'transparent'};
+    background: ${props => props.$backgroundCustom || 'transparent'};
     outline: transparent;
     color: white;
 
