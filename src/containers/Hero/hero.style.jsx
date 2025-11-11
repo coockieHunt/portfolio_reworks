@@ -42,7 +42,7 @@ export const LabelWorld = styled.input`
     color: white;
 
     &::placeholder{opacity: 0.9;}
-    &&:hover, &&:focus{ border: 2px solid ${props => props.borderColorCustom || 'black'};}
+    &&:hover, &&:focus{ border: 2px solid ${props => props.$borderColorCustom || 'black'};}
 `
 
 export const ButtonScroll = styled.div`

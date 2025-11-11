@@ -12,9 +12,9 @@ const TimeLine = [
 const TimeLineItem = ({ step, title, content }) => {
     return (
         <TimeLineItemContainer
-            initial={{ opacity: 0, y: 50 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.5 }} 
+            $initial={{ opacity: 0, y: 50 }} 
+            $animate={{ opacity: 1, y: 0 }} 
+            $transition={{ duration: 0.5 }} 
         >
             <TimeLineTitle><span>{step + 1}.</span> {title}</TimeLineTitle>
             <TimeLineContent>{content}</TimeLineContent>

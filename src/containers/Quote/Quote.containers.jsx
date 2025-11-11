@@ -8,7 +8,7 @@ export const QuoteContainer = ({children}) =>{
       return (
           <Quoute>
             <motion.div 
-              initial={{ opacity: 0}} 
+              $initial={{ opacity: 0}} 
               whileInView={{ opacity: 1}}
             >
               <span>{children}</span>

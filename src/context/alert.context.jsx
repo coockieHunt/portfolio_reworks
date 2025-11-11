@@ -34,7 +34,7 @@ export const AlertProvider = ({ children, debug }) => {
 
     return (
         <AlertContext.Provider value={{ alerts, addAlert, removeAlert }}>
-            <AlertContainerComponent view={debug}/>
+            <AlertContainerComponent $view={debug}/>
             {children}
         </AlertContext.Provider>
     );

@@ -42,16 +42,16 @@ export const ModalComponent = ({ modals, onClose }) => {
                     {modal.isOpen && (
                         <>
                             <BackDrop
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ ease: "easeOut", duration: 0.3 }}
+                                $initial={{ opacity: 0 }}
+                                $animate={{ opacity: 1 }}
+                                $transition={{ ease: "easeOut", duration: 0.3 }}
                                 exit={{ opacity: 0 }}
                                 onClick={() => onClose(index)}
                             />
                             <ModalDiv
-                                initial={{ y: 10, x: "-50%", opacity: 1 }}
-                                animate={{ y: 50, opacity: 1 }}
-                                transition={{ ease: "easeOut", duration: 0.3 }}
+                                $initial={{ y: 10, x: "-50%", opacity: 1 }}
+                                $animate={{ y: 50, opacity: 1 }}
+                                $transition={{ ease: "easeOut", duration: 0.3 }}
                                 exit={{ y: 100, opacity: 0 }}
                             >
                                 <Top>

@@ -92,8 +92,8 @@ export const HeroContainer = ({id}) => {
                 placeholder={currentWord}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
-                borderColorCustom={COLOR_SETTING[settings.theme].primary}
-                backgroundCustom={COLOR_SETTING[settings.theme].background_secondary}
+                $borderColorCustom={COLOR_SETTING[settings.theme].primary}
+                $backgroundCustom={COLOR_SETTING[settings.theme].background_secondary}
                 size="10" /> 
             )
     }

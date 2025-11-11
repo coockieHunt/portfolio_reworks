@@ -16,7 +16,7 @@ export const LoadingProvider = ({ children }) => {
 
   return (
     <LoadingContext.Provider value={{ loading, color, showLoading, hideLoading }}>
-      {loading && <Loading loading={loading} color={color} />} {/* Passer la couleur au composant de chargement */}
+      {loading && <Loading $loading={loading} $color={color} />} {/* Passer la couleur au composant de chargement */}
       {children}
     </LoadingContext.Provider>
   );
