@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { getColorSettings } from '../../config.jsx';
 
-const Panel_width = "200px"
+const Panel_width = "300px";
 
 export const ContainerSetting = styled.div`
     position: fixed;
@@ -10,35 +10,31 @@ export const ContainerSetting = styled.div`
 
     bottom: 50vh;
     right: 0;
-    width: 250px;
     
     display: flex;
-    justify-content: space-between;
-    align-items: start;
 
-    transform: translate(0, 50%);
-    transition: transform 0.3s ease-in-out;
+    transform: translateX(0%);
+
+    transition: transform .5s ease-in-out;
+
 
     &.close{
-        transform: translate( ${Panel_width}, 50%);
-        transition: transform 0.3s ease-in-out;
+        transform: translateX(100%);
     }
+
 `
 
-export const Icon = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+export const Toggle = styled.div`
 `
 
 export const Action = styled.div`
+
     position: relative;
     z-index: 9;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
     border-radius: 5px;
     background-color: ${props => getColorSettings(props.theme).primary};
     cursor: pointer;
@@ -47,47 +43,53 @@ export const Action = styled.div`
     opacity: 1;
 
     right: 0;
-    transition: right .5s ease-in-out, opacity 0.2s ease-in-out;
+    transition: all .5s ease-in-out, opacity 0.2s ease-in-out;
 
     &:hover{
-      box-shadow: 
-	  	rgba(0, 0, 0, 0.17) 0px -5px 5px 0px inset, 
-		rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, 
-		rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, 
-		rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, 
-		rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, 
-		rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        opacity: 0.8;
     }
 
-    &.hide{ 
-        transition: right .5s ease-in-out, opacity 0.5s ease-in-out;
-        opacity: 0;
-        right: -300px;
-    }
+   
+`
+
+export const Title = styled.span`
+    font-size: 1.2em;
+    position: absolute;
+    right: calc(200% + 20px);
+    top: 50%;
+    font-variation-settings: "wght" 300;
+    transform-origin: right top;
+    transform: rotate(-90deg);
+    display: flex;
+    align-items: center;
+
+    color: ${props => getColorSettings(props.theme).font};
+
+    opacity: 0.7;
+
+    height: 40px;
 `
 
 export const Option = styled.div`
-    width: ${Panel_width};
     background-color: ${props => getColorSettings(props.theme).primary};;
-    padding: 25px 15px;
-    border-radius: 5px 0 0 5px;
+    padding: 15px 15px; 
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
 
     & .ContainerButton{
         display: flex;
-        gap: 10px;
         flex-direction: column;
+
+        gap: 10px;
     }
+
 `
 
-export const Title = styled.span`
-    font-variation-settings: "wght" 600;
-    padding: 0 0 15px 0;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
+export const TitleOption = styled.h3`
+    font-variation-settings: "wght" 700;
+    margin: 0;
+    margin-bottom: 10px;
 `
 
 export const ButtonColor = styled.button`
@@ -97,13 +99,20 @@ export const ButtonColor = styled.button`
     border: 1px solid white;
     flex: 1;
     cursor: pointer;
+
+    gap: 10px;
+
+    &:hover{
+        opacity: 0.8;
+    }
 `
 
 export const OptionsList = styled.div`
     display: flex;
     flex-direction: column;
 
-    gap: 25px;
+    gap: 10px;
+
 `
 
 export const RoudedButtonColor = styled.span`

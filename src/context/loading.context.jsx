@@ -5,10 +5,10 @@ const LoadingContext = createContext();
 
 export const LoadingProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [color, setColor] = useState(''); // Ajout de la couleur
+  const [color, setColor] = useState(''); 
 
   const showLoading = (color = '') => {
-    setColor(color); // Mise à jour de la couleur si elle est fournie
+    setColor(color); 
     setLoading(true);
   };
 
@@ -16,7 +16,7 @@ export const LoadingProvider = ({ children }) => {
 
   return (
     <LoadingContext.Provider value={{ loading, color, showLoading, hideLoading }}>
-      {loading && <Loading $loading={loading} $color={color} />} {/* Passer la couleur au composant de chargement */}
+      {loading && <Loading $loading={loading} $color={color} />}
       {children}
     </LoadingContext.Provider>
   );

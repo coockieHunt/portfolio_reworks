@@ -1,52 +1,43 @@
-import { ContainerSetting, Option, Action, Title, Icon, OptionsList, RoudedButtonColor } from "./Setting.style"
+import * as Styled from "./Setting.style"
 import { useState, useEffect } from "react"
-import { AiOutlineUp, AiFillFormatPainter,  AiOutlineClose  } from 'react-icons/ai'
-import { COLOR_SETTING, getColorSettings } from '../../config.jsx';
+import { COLOR_SETTING } from '../../config.jsx';
 
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
-import { useScrollbar } from "../../hooks/scrollBar.hook";
 
 import { FaLightbulb, FaRegLightbulb  } from "react-icons/fa6";
+
+import { useRef } from "react";
 
 
 export const SettingContainer = () => {
     const {changeTheme, changeLight, settings } = useSettingContext();
     const {showLoading, hideLoading} = useLoading();
+
     const [isOpen, setIsOpen] = useState(false)
-    const [ HideScroll, SetHideScroll] = useState(false)
+
+    const containerRef = useRef(null);
 
     const handleThemeChange = (NewTheme) => {
         showLoading(COLOR_SETTING[NewTheme].background_secondary);
         setIsOpen(false);
-        setTimeout(() => {
-            changeTheme(NewTheme);
-        }, 500);
-        setTimeout(() => {
-            hideLoading();
-        }, 2000); 
-    };
-
-    const scrollToTop = () => {
-        setIsOpen(false);
-        window.scrollTo({top: 0,behavior: 'smooth'});
+        setTimeout(() => {changeTheme(NewTheme);}, 500);
+        setTimeout(() => {hideLoading();}, 2000); 
     };
 
     const ButtonLight = ( state ) => {
         const color = state === "dark" ? "black" : "white";
         showLoading(color);
         setIsOpen(false);
-        setTimeout(() => {
-            changeLight(state);
+        setTimeout(() => {changeLight(state);
         }, 500);
-        setTimeout(() => {
-            hideLoading();
+        setTimeout(() => { hideLoading();
         }, 2000); 
     }
 
     const ButtonTheme = ({Name, display}) => {
         return (
-            <RoudedButtonColor 
+            <Styled.RoudedButtonColor 
                 onClick={() => handleThemeChange(Name)} 
                 color={Name} 
                 $primary = {COLOR_SETTING[Name].primary} 
@@ -58,45 +49,47 @@ export const SettingContainer = () => {
     }
 
     useEffect(() => {
-        const handleScroll = () => {
-            const scrollPosition = window.scrollY + window.innerHeight;
-    
-            if ((scrollPosition >= document.body.scrollHeight - 450) ||(window.scrollY <= 50) ||(window.scrollY === 0)
-            ){setIsOpen(false);SetHideScroll(true);
-            } else {SetHideScroll(false);}
-        };
-    
-        if (window.scrollY === 0) {SetHideScroll(true);}
-        window.addEventListener('scroll', handleScroll);
-        return () => {window.removeEventListener('scroll', handleScroll);};
-    }, [])
+        function handleClickOutside(event) {if (containerRef.current && !containerRef.current.contains(event.target)) {setIsOpen(false); }}
+        
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);;
+    }, [containerRef]);
 
     return (
-        <ContainerSetting className={isOpen ? "opened" : "close"}>
-            <Icon>
-                <Action 
-                    onClick={() => setIsOpen(!isOpen)} 
-                >{isOpen ? <AiOutlineClose /> : <AiFillFormatPainter />}</Action>
-                 <Action onClick={()=> settings.light == "dark" ? ButtonLight("light") : ButtonLight("dark")}>
-                    {settings.light == "dark" ? <FaLightbulb/>: <FaRegLightbulb/>}
-                </Action>
-                <Action 
-                    onClick={() => scrollToTop()} 
-                    className={HideScroll && "hide"}
-                ><AiOutlineUp/></Action>
-            </Icon>
-            <OptionsList>
-                <Option>
-                    <div className="ContainerButton">
+        <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
+            <Styled.Toggle>
+                <Styled.Action 
+                    onClick={() => setIsOpen(!isOpen)}
+                    style={{padding: '0 10px', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}} 
+                >
+                    <Styled.Title style={{cursor: 'pointer'}}>
+                        Apparence
+                    </Styled.Title>
+                </Styled.Action>
+            </Styled.Toggle>
+            
+            <Styled.OptionsList>
+                <Styled.Option>
+                    <Styled.TitleOption>Mode éclairage</Styled.TitleOption>
+                    <Styled.Action 
+                        onClick={()=> settings.light == "dark" ? ButtonLight("light") : ButtonLight("dark")}
+                        style={{marginTop: '10px'}} 
+                    >
+                         {settings.light == "dark" ? <FaLightbulb/>: <FaRegLightbulb/>}
+                         &nbsp; {settings.light == "dark" ? 'Mode Jour (Light)' : 'Mode Nuit (Dark)'}
+                    </Styled.Action>
+                </Styled.Option>
+                
+                <Styled.Option>
+                    <Styled.TitleOption>Thème de Couleur</Styled.TitleOption>
+                    <div className="ContainerButton" style={{marginTop: '10px'}}>
                         <ButtonTheme Name={'default'} display={"Default"}/>
                         <ButtonTheme Name={'red'} display={"Rouge"}/>
                         <ButtonTheme Name={'green'} display={"Vert"}/>
                         <ButtonTheme Name={'yellow'} display={"Jaune"}/>
                     </div>
-                </Option>
-                
-            </OptionsList>
-
-        </ContainerSetting>
+                </Styled.Option>
+            </Styled.OptionsList>
+        </Styled.ContainerSetting>
     )
 }
