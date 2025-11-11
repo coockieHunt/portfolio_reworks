@@ -104,7 +104,7 @@ export const HeroContainer = ({id}) => {
                 <styled.Top>
                     <styled.HeroText>
                         <h1>Vous voulez transformer votre {lables()} en <GradientTextContainer>Site Web</GradientTextContainer>.</h1>
-                        <p>Bonjour moi ces jonathan Vous êtes au bon endroit <HelloHandComponent/></p>
+                        <p className="font_code">Bonjour, je suis Jonathan, développeur Web. je développe vos plateformes numériques, rapides. pour atteindre vos objectifs.<HelloHandComponent/></p>
                         <div className="cta">
                             <Link to={'service'}>
                                 <OutlineButton icon_right icon={<AiOutlineCluster/>}>Mes Service</OutlineButton>
@@ -112,7 +112,6 @@ export const HeroContainer = ({id}) => {
                             <Link to={'product'}>
                                 <OutlineButton color={getColorSettings(settings.theme).ter} icon_right icon={<AiOutlineBuild/>}>Produits</OutlineButton>
                             </Link>
-
                         </div>
                     </styled.HeroText>
 

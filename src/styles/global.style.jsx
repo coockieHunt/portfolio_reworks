@@ -2,18 +2,9 @@ import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING, LIGHT_SETTING } from '../config';
 
 const GlobalStyle = createGlobalStyle`
-  * {
-    scrollbar-width: auto;
-    box-sizing: border-box;
-  }
-
-  *::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background:  ${props => LIGHT_SETTING[props.theme.light].background_accentuated};
-  }
+  *::-webkit-scrollbar {width: 10px;}
+  *::-webkit-scrollbar-track {background:  ${props => LIGHT_SETTING[props.theme.light].background_accentuated};}
+  * {scrollbar-width: auto;box-sizing: border-box;}
 
   *::-webkit-scrollbar-thumb {
     background-color:  ${props => COLOR_SETTING[props.theme.theme].primary};
@@ -26,6 +17,9 @@ const GlobalStyle = createGlobalStyle`
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: ${props => LIGHT_SETTING[props.theme.light].font};
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   * {
@@ -39,20 +33,18 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Montserrat', sans-serif;
   }
 
-  html{
-    scroll-behavior: smooth;
+  .font_code {
+    font-family: "Source Code Pro", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
   }
 
   html,
   body {
     overflow-x: hidden;
-    scroll-behavior: smooth;
   }
 `
 
-export const Content = styled.div`
-`
-
-
-
+export const Content = styled.div``
 export default GlobalStyle;

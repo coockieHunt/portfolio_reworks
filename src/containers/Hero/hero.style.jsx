@@ -41,6 +41,7 @@ export const LabelWorld = styled.input`
     outline: transparent;
     color: white;
 
+
     &::placeholder{opacity: 0.9;}
     &&:hover, &&:focus{ border: 2px solid ${props => props.$borderColorCustom || 'black'};}
 `
