@@ -101,15 +101,6 @@ export const HeroContainer = ({id}) => {
                                 'Prêt à démarrer ? Envoyez-moi un message pour transformer votre idée en réalité numérique.',
                                  true
                             )}
-                            
-                            {/* <Link to={'service'}>
-                                <OutlineButton icon_right icon={<AiOutlineCluster/>}>Mes Service</OutlineButton>
-                            </Link>
-                            <Link to={'product'}>
-                                <OutlineButton color={getColorSettings(settings.theme).ter} icon_right icon={<AiOutlineBuild/>}>Produits</OutlineButton>
-                            </Link> */}
-
-
                         </div>
                     </styled.HeroText>
                 </styled.Top>
