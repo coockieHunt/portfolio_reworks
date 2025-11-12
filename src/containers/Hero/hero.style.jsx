@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import { SCREEN_SIZE, getColorSettings } from '../../config.jsx';
 
 export const Container = styled.div`
@@ -133,71 +133,95 @@ export const HeroText = styled.div`
 `
 
 export const Action = styled.div`
-    max-width: 300px;
-    border : 2px solid #ffffff21;
-    border-radius: 10px;
-    border-style: solid;
-    padding: 10px;
+	max-width: 300px;
+	border: 2px solid #ffffff21;
+	border-radius: 10px;
+	padding: 10px;
+	cursor: pointer;
+	transition: border 0.3s ease-in-out;
+	border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+	background-color: #0a0a0a6a;
+	margin: 0 auto;
+	width: 100%;
+	position: relative;
+	overflow: hidden; 
 
-    cursor: pointer;
-    transition: border 0.3s ease-in-out;
-    border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+	&.highlight {
+			border: 2px solid ${props => getColorSettings(props.theme).primary};
+			border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+		& .icon svg {
+			background-color: ${props => getColorSettings(props.theme).primary};
+		}
+	}
 
-    background-color: #0a0a0a6a;
+	&:hover {
+		border-style: inset;
+		border: 2px solid ${props => getColorSettings(props.theme).primary};
+		border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+	}
 
-    margin: 0 auto;
-    width: 100%;
+	&:hover::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 250px; 
+		height: 250px;
+		transform: translate(-50%, -50%);
+		border-radius: 50%;
+		background: radial-gradient(
+		circle,
+		${props => getColorSettings(props.theme).primary}40 0%,
+		transparent 80%
+		);
+		opacity: 0;
+		animation: fadeIn 0.5s ease-out forwards;
+		pointer-events: none;
+		z-index: 0;
+  }
 
-
-    &.highlight{
-        border : 2px solid ${props => getColorSettings(props.theme).primary};
-        border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
-        & .icon svg{background-color: ${props => getColorSettings(props.theme).primary};}
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.9);
     }
-
-
-    &:hover{
-        border-style: inset;
-        border : 2px solid ${props => getColorSettings(props.theme).primary};
-        border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
+  }
 
-    & .icon{
-        font-size: 2em;
-        margin-bottom: 10px;
+  & .icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        & svg{
-            font-variation-settings: "wght" 600;
-            border: 2px solid white;
-            height: 50px;
-            width: 50px;
-            padding: 10px;
-
-            border-color: ${props => getColorSettings(props.theme).primary};
-
-            border-radius: 25%;
-
-            background-color: #111111;
-        }
+    & svg {
+      font-variation-settings: "wght" 600;
+      border: 2px solid ${props => getColorSettings(props.theme).primary};
+      height: 50px;
+      width: 50px;
+      padding: 10px;
+      border-radius: 25%;
+      background-color: #111111;
+      transition: background-color 0.3s;
     }
+  }
 
-    & h3{
-        font-size: 1.5em;
-        margin-bottom: 10px;
-        font-variation-settings: "wght" 600;
-    }
+  & h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    font-variation-settings: "wght" 600;
+  }
 
-    & p{
-        font-size: 1em;
-        font-variation-settings: "wght" 200;
-        color: #ccccccc0;
-
-        padding: 0 8px;
-        text-align: center;
-        justify-content: center;
-    }
-`
+  & p {
+    font-size: 1em;
+    font-variation-settings: "wght" 200;
+    color: #cccccc;
+    padding: 0 8px;
+    text-align: center;
+    justify-content: center;
+  }
+`;
