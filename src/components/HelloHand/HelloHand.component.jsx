@@ -21,7 +21,6 @@ export const HelloHandComponent = () => {
 
             timer = setTimeout(() => {
                 setIsHello(true);
-                console.log("Hello!");
                 animationTimeOut = setTimeout(() => {
                     setIsHello(false);
                     RandomHello();
