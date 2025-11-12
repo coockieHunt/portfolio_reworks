@@ -5,7 +5,7 @@ import { COLOR_SETTING } from '../../config.jsx';
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
 
-import { FaLightbulb, FaRegLightbulb  } from "react-icons/fa6";
+import { FaLightbulb, FaRegLightbulb, FaCaretUp, FaCaretDown } from "react-icons/fa6";
 
 import { useRef } from "react";
 
@@ -55,6 +55,9 @@ export const SettingContainer = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);;
     }, [containerRef]);
 
+
+    const ArrowIcon = isOpen ? <FaCaretDown />: <FaCaretUp />;
+
     return (
         <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
             <Styled.Toggle>
@@ -62,9 +65,11 @@ export const SettingContainer = () => {
                     onClick={() => setIsOpen(!isOpen)}
                     style={{padding: '0 10px', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}} 
                 >
-                    <Styled.Title style={{cursor: 'pointer'}}>
-                        Apparence
-                    </Styled.Title>
+                <Styled.Title style={{ cursor: 'pointer' }}>
+                    <span>
+                        {ArrowIcon} <span>Apparence</span>
+                    </span>
+                </Styled.Title>
                 </Styled.Action>
             </Styled.Toggle>
             
