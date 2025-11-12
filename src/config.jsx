@@ -1,6 +1,19 @@
 import {useSettingContext} from "./context/Setting.context"
 import { AiFillLayout, AiOutlineRise, AiOutlineAim } from "react-icons/ai";
 
+
+//FUNCTION
+export const getColorSettings = () => {
+    const { settings } = useSettingContext();
+    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
+};
+
+export const GetLightSetting = () => {
+    const { settings } = useSettingContext();
+    return LIGHT_SETTING[settings.light] || LIGHT_SETTING.dark;
+};
+
+//CONSTANTS
 export const COLOR_SETTING = {
     default:{
         background: '#303134',
@@ -77,15 +90,7 @@ export const LIGHT_SETTING = {
     },
 };
 
-export const getColorSettings = () => {
-    const { settings } = useSettingContext();
-    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
-};
 
-export const GetLightSetting = () => {
-    const { settings } = useSettingContext();
-    return LIGHT_SETTING[settings.light] || LIGHT_SETTING.dark;
-}
 
 export const SCREEN_SIZE = {
     mobile: '850px',
@@ -136,21 +141,21 @@ export const productList = [
 
 export const word_hero = [
     'idée',
-        'projet',
-        'concept',
-        'vision',
-        'rêve',
-        'univers',
-        'œuvre',
-        'entreprise',
-        'marque',
-        'inspiration',
-        'pensée',
-        'passion',
-        'équilibre',
-        'quête',
-        'silence',
-        'monde',
+    'projet',
+    'concept',
+    'vision',
+    'rêve',
+    'univers',
+    'œuvre',
+    'entreprise',
+    'marque',
+    'inspiration',
+    'pensée',
+    'passion',
+    'équilibre',
+    'quête',
+    'silence',
+    'monde',
 ];
 
 // Alias exports for backward compatibility
