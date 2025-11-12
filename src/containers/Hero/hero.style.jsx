@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE } from '../../config.jsx';
+import { SCREEN_SIZE, getColorSettings } from '../../config.jsx';
 
 export const Container = styled.div`
-    padding: 60px 0;
+    padding: 30px 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
-    min-height: 80vh;
     width: 100%;
 
     &::before{
@@ -23,14 +22,7 @@ export const Container = styled.div`
     }
 
 `;
-export const TagSlider = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
 
-    @media (max-width:  ${SCREEN_SIZE.mobile}) {display: none;}
-`
 
 export const LabelWorld = styled.input`
     font-size: .7em;
@@ -85,6 +77,8 @@ export const HeroText = styled.div`
 
         padding: 20px;
         border-radius: 10px;
+
+        
     }
 
     & h1{
@@ -107,6 +101,18 @@ export const HeroText = styled.div`
         margin-bottom: 1em;
         margin-top: 2px;
         font-variation-settings: "wght" 150;
+
+        & .other{
+            display: block;
+            font-variation-settings: "wght" 150;
+            font-size: .7em;
+            text-align: left;
+            margin-top: 50px;
+        }
+
+        @media (max-width:  ${SCREEN_SIZE.mobile}) {
+            font-size: 1.6em;
+        }
    }
 
    .cta{
@@ -115,5 +121,83 @@ export const HeroText = styled.div`
 
         justify-content: center;
    }
+
+     @media (max-width:  ${SCREEN_SIZE.mobile}) {
+        .cta{
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+     }
+
 `
 
+export const Action = styled.div`
+    max-width: 300px;
+    border : 2px solid #ffffff21;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px;
+
+    cursor: pointer;
+    transition: border 0.3s ease-in-out;
+    border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+
+    background-color: #0a0a0a6a;
+
+    margin: 0 auto;
+    width: 100%;
+
+
+    &.highlight{
+        border : 2px solid ${props => getColorSettings(props.theme).primary};
+        border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+        & .icon svg{background-color: ${props => getColorSettings(props.theme).primary};}
+    }
+
+
+    &:hover{
+        border-style: inset;
+        border : 2px solid ${props => getColorSettings(props.theme).primary};
+        border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+    }
+
+    & .icon{
+        font-size: 2em;
+        margin-bottom: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & svg{
+            font-variation-settings: "wght" 600;
+            border: 2px solid white;
+            height: 50px;
+            width: 50px;
+            padding: 10px;
+
+            border-color: ${props => getColorSettings(props.theme).primary};
+
+            border-radius: 25%;
+
+            background-color: #111111;
+        }
+    }
+
+    & h3{
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        font-variation-settings: "wght" 600;
+    }
+
+    & p{
+        font-size: 1em;
+        font-variation-settings: "wght" 200;
+        color: #ccccccc0;
+
+        padding: 0 8px;
+        text-align: center;
+        justify-content: center;
+    }
+`

@@ -2,11 +2,10 @@
 import * as styled from "./hero.style.jsx";
 import { Link } from "react-scroll";
 import { useState, useEffect } from "react";
-import { AiOutlineCluster, AiOutlineBuild  } from 'react-icons/ai'
+import { AiOutlineCluster, AiOutlineBuild, AiOutlineSend } from 'react-icons/ai'
 
 //components
 import{ GradientTextContainer } from "../../components/Text/Text.component"
-import{ OutlineButton } from "../../components/Button/Button"
 import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 
@@ -14,47 +13,11 @@ import { MouseComponent } from '../../components/Mouse/Mouse.component';
 import { useWindowSize } from '../../hooks/screenResize.hook';
 
 //config
-import { SCREEN_SIZE, getColorSettings, COLOR_SETTING} from '../../config.jsx'
+import { SCREEN_SIZE, getColorSettings, COLOR_SETTING, word_hero} from '../../config.jsx'
 
 //context
 import { useSettingContext } from '../../context/Setting.context';
 import { GridEffect } from '../../styles/effect.jsx';
-
-
-//disabled
-
-// import { ScrollTagComponent } from '../../components/ScroolingTag/ScroolingTag.component';
-{/* <styled.TagSlider>
-    <ScrollTagComponent Tags = {tags} Width = {IsSmallScreen ? "25rem" : "40rem"}/>
-</styled.TagSlider> */}
-//  const tags = [
-//     'Sites', 
-//     'Applications', 
-//     'API', 
-//     'UX/UI',
-//     'Express',
-//     'Performance',
-// ];
-
-
-const words = [
-    'idée',
-    'projet',
-    'concept',
-    'vision',
-    'rêve',
-    'univers',
-    'œuvre',
-    'entreprise',
-    'marque',
-    'inspiration',
-    'pensée',
-    'passion',
-    'équilibre',
-    'quête',
-    'silence',
-    'monde',
-];
 
 
 export const HeroContainer = ({id}) => {
@@ -62,8 +25,8 @@ export const HeroContainer = ({id}) => {
     const {settings} = useSettingContext();
 
     const [currentWord, setCurrentWord] = useState(() => {
-        const randomIndex = Math.floor(Math.random() * words.length);
-        return words[randomIndex];
+        const randomIndex = Math.floor(Math.random() * word_hero.length);
+        return word_hero[randomIndex];
     });
     const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -72,8 +35,8 @@ export const HeroContainer = ({id}) => {
 
         if (!isInputFocused) {
             timerWorld = setInterval(() => {
-                const randomIndex = Math.floor(Math.random() * words.length);
-                setCurrentWord(words[randomIndex]);
+                const randomIndex = Math.floor(Math.random() * word_hero.length);
+                setCurrentWord(word_hero[randomIndex]);
             }, 2000);
         }
 
@@ -98,23 +61,57 @@ export const HeroContainer = ({id}) => {
             )
     }
 
+    const CtaAction = (to, icon, title, content, hightLight = false) => {
+        return (
+            <Link to={to}>
+                <styled.Action className={hightLight ? 'highlight' : ''}>
+                    <div className="icon">{icon}</div>
+                    <h3>{title}</h3>
+                    <p>{content}</p>
+                </styled.Action>
+            </Link>
+        )
+    }
+    
     return (
         <GridEffect>
             <styled.Container id={id}>
                 <styled.Top>
                     <styled.HeroText>
                         <h1>Vous voulez transformer votre {lables()} en <GradientTextContainer>Site Web</GradientTextContainer>.</h1>
-                        <p className="font_code">Bonjour, je suis Jonathan, développeur Web. je développe vos plateformes numériques, rapides. pour atteindre vos objectifs.<HelloHandComponent/></p>
+                        <p className="font_code">Bonjour, je suis Jonathan, développeur Web. Je développe vos plateformes numériques, rapides, pour atteindre vos objectifs.
+                        <HelloHandComponent/><br/><span className="font_code other">Choisissez votre prochaine étape :</span></p>
                         <div className="cta">
-                            <Link to={'service'}>
+                            {CtaAction(
+                                'service', 
+                                <AiOutlineCluster/>, 
+                                'Mes Services', 
+                                'Découvrez mes services sur mesure pour lancer votre idée et la transformer en succès numérique.'
+                            )}
+                            {CtaAction(
+                                'ProcessTimeline', 
+                                <AiOutlineBuild/>, 
+                                'Mon processus', 
+                                'Processus de développement innovant, efficace, et garantissant des résultats fiables.'
+                            )}
+                            {CtaAction(
+                                'contact', 
+                                <AiOutlineSend/>, 
+                                'Me contacter', 
+                                'Prêt à démarrer ? Envoyez-moi un message pour transformer votre idée en réalité numérique.',
+                                 true
+                            )}
+                            
+                            {/* <Link to={'service'}>
                                 <OutlineButton icon_right icon={<AiOutlineCluster/>}>Mes Service</OutlineButton>
                             </Link>
                             <Link to={'product'}>
                                 <OutlineButton color={getColorSettings(settings.theme).ter} icon_right icon={<AiOutlineBuild/>}>Produits</OutlineButton>
-                            </Link>
+                            </Link> */}
+
+
                         </div>
                     </styled.HeroText>
-
                 </styled.Top>
                 
                 <styled.ButtonScroll>

@@ -134,6 +134,25 @@ export const productList = [
     },
 ];
 
+export const word_hero = [
+    'idée',
+        'projet',
+        'concept',
+        'vision',
+        'rêve',
+        'univers',
+        'œuvre',
+        'entreprise',
+        'marque',
+        'inspiration',
+        'pensée',
+        'passion',
+        'équilibre',
+        'quête',
+        'silence',
+        'monde',
+];
+
 // Alias exports for backward compatibility
 export const COLOR = COLOR_SETTING;
 export const setting = LIGHT_SETTING;

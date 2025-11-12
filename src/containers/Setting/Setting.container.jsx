@@ -70,7 +70,7 @@ export const SettingContainer = () => {
             
             <Styled.OptionsList>
                 <Styled.Option>
-                    <Styled.TitleOption>Mode éclairage</Styled.TitleOption>
+                    <Styled.TitleOption>Mode éclairage WIP</Styled.TitleOption>
                     <Styled.Action 
                         onClick={()=> settings.light == "dark" ? ButtonLight("light") : ButtonLight("dark")}
                         style={{marginTop: '10px'}} 
