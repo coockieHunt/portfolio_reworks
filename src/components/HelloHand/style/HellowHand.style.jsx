@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 const Hand_hello = keyframes`
     0%, 60%, 100% { transform: rotate(0deg); }
@@ -10,9 +10,12 @@ const Hand_hello = keyframes`
 
 export const Hand = styled.span`
     cursor: pointer;
-    &:hover{
-        animation:  ${Hand_hello} 2.5s infinite;
-        display: inline-block;
-    }
+    display: inline-block;
+    transform-origin: bottom center;
 
-`
+    ${props =>
+        props.$IsRandHello &&
+        css`
+            animation: ${Hand_hello} 2.5s ease-in-out;
+        `}
+`;
