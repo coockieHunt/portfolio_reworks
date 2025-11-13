@@ -61,11 +61,10 @@ export const SettingContainer = () => {
     return (
         <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
             <Styled.Toggle>
-                <Styled.Action 
-                    onClick={() => setIsOpen(!isOpen)}
-                    style={{padding: '0 10px', backgroundColor: 'transparent', border: 'none', boxShadow: 'none'}} 
+                <Styled.Action className={isOpen ? "opened" : ""}
+                    onClick={() => setIsOpen(!isOpen)} 
                 >
-                <Styled.Title style={{ cursor: 'pointer' }}>
+                <Styled.Title>
                     <span>
                         {ArrowIcon} <span>Apparence</span>
                     </span>

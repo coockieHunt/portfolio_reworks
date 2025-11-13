@@ -6,12 +6,6 @@ export const WaveComponent = ({ colorPrimary, colorAccent }) => (
         style={{ width: '100%', height: 'auto', display: 'block' }}
     >
         <path 
-            fill={colorAccent} 
-            fillOpacity="0.15" 
-            d="M0,192L48,165.3C96,139,192,85,288,80C384,75,480,117,576,144C672,171,768,181,864,170.7C960,160,1056,128,1152,122.7C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-        ></path>
-
-        <path 
             fill="none" 
             stroke={colorPrimary} 
             strokeOpacity="0.3" 

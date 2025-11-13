@@ -19,48 +19,44 @@ export const ContainerSetting = styled.div`
 export const Toggle = styled.div``
 
 export const Action = styled.div`
-
     position: relative;
     z-index: 9;
-
+    padding: 0 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
     background-color: ${props => getColorSettings(props.theme).primary};
     cursor: pointer;
-
-    border: 1px solid ${props => getColorSettings(props.theme).border};
-    opacity: 1;
-
+    opacity: 0.6;
     right: 0;
     transition: all .5s ease-in-out, opacity 0.2s ease-in-out;
 
-    &:hover{opacity: 0.8;}
+    &:hover{opacity: 1;}
+    &.opened{opacity: 1;}
 `
 
 export const Title = styled.span`
-  font-size: 1.2em;
-  position: absolute;
-  right: calc(200% + 20px);
-  top: 50%;
-  font-variation-settings: "wght" 300;
-  transform-origin: right top;
-  transform: rotate(-90deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.7;
-  height: 40px;
-  color: ${props => getColorSettings(props.theme).font};
-
-  & > span {
+    font-size: 1.2em;
+    position: absolute;
+    right: calc(200% + 20px);
+    top: 50%;
+    font-variation-settings: "wght" 300;
+    transform-origin: right top;
+    transform: rotate(-90deg);
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    opacity: 0.7;
+    height: 40px;
+    color: ${props => getColorSettings(props.theme).font};
 
-    & svg {margin-top: 5px;}
-  }
+    & > span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+    & svg {margin-top: 5px;}}
 `;
 
 export const Option = styled.div`
@@ -91,16 +87,13 @@ export const ButtonColor = styled.button`
     border: 1px solid white;
     flex: 1;
     cursor: pointer;
-
     gap: 10px;
-
-    &:hover{opacity: 0.8;}
+    &:hover{opacity: 1;}
 `
 
 export const OptionsList = styled.div`
     display: flex;
     flex-direction: column;
-
     gap: 10px;
 `
 
