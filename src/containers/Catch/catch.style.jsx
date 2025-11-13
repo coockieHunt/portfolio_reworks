@@ -4,8 +4,10 @@ import {SCREEN_SIZE, getColorSettings} from '../../config.jsx'
 export const Section = styled.div`
     position: relative;
     overflow: hidden;
-
-    padding: 60px 20px ;
+    padding: 60px 100px;
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        padding: 60px 20px;
+    }
 `;
 
 export const SkillCard = styled.div`
@@ -37,7 +39,7 @@ export const Text = styled.div`
     & .left{
         display: flex;
         flex-direction: column;
-        flex: 1;
+        flex: 0 0 40%; 
         text-align: right; 
         align-items: flex-end;
         justify-content: center;
@@ -55,11 +57,15 @@ export const Text = styled.div`
     }
 
     & .right{
-        flex: 1;
+        flex: 0 0 60%; 
         text-align: left; 
+        display: flex; 
+        justify-content: center; 
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             font-size: 16px;
+            flex: 1; 
+            justify-content: flex-start;
         }
     }
 
@@ -71,6 +77,7 @@ export const Text = styled.div`
         & .left, & .right{
             width: 100%;
             text-align: left; 
+            flex: 1; 
         }
         
         & .left{
@@ -83,13 +90,19 @@ export const Text = styled.div`
     }
 `;
 
-
 export const CardList = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    justify-items: center;
+    grid-template-columns: repeat(2, 1fr); 
+    justify-items: stretch;
     gap: 30px;
-    max-width: 1100px;
+    max-width: 100%;
+    width: 100%;
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        grid-template-columns: 1fr;
+        max-width: 100%; 
+        justify-items: center;
+    }
 
     & .card{
         border-radius: 12px;
@@ -98,25 +111,22 @@ export const CardList = styled.div`
         
         display: flex;
         flex-direction: column;
-        align-items: center;
-        text-align: center;
+        align-items: flex-start;
+        text-align: left;
         
         width: 100%;
         min-height: 100px;
 
         transition: transform 0.3s ease, border-color 0.3s ease, border-bottom-color 0.3s ease; 
-        padding: 15px 15px;
+        padding: 25px 30px;
 
         &:hover {
             transform: translateY(-5px);
             border-color: ${props => getColorSettings().accent};
-            border-bottom-color: ${props => getColorSettings().accent}; /* Correction du border-bottom au hover */
+            border-bottom-color: ${props => getColorSettings().accent};
         }
 
-
-
         & .header-card{
-
             display: flex;
             flex-direction: column;
             align-items: flex-start; 
@@ -152,3 +162,4 @@ export const CardList = styled.div`
         }
     }
 `
+
