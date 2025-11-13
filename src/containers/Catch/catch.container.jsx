@@ -1,45 +1,88 @@
+import {useState} from 'react'
+
+// style
 import * as StyleCatch from './catch.style'
+import {DotGridEffect} from '../../styles/effect.jsx'
 
-import HomeSheet from '../../assets/images/home_sheet.webp'
-import { SplitLayoutComponent } from '../../components/SplitLayout/SplitLayout.component'
+//components
 import { AccentTextComponent } from '../../components/Text/Text.component'
+import {WaveComponent} from '../../components/Wave/wave.component.jsx'
 
-import { useWindowSize } from "../../hooks/screenResize.hook";
+//config
+import { getColorSettings} from '../../config.jsx'
 
-import { SCREEN_SIZE, GetLightSetting, setting} from '../../config.jsx'
+//icons
+import { FaLaptopCode, FaDiceD20, FaBarsProgress, FaPaintbrush } from "react-icons/fa6";
 
 export const CathContainer = ({ id }) => {
-    const light = GetLightSetting();
-    const isMobile = useWindowSize(
-        SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2)
-    );
+    const SkillCard = ({ Icon, title, description, color }) => {
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
+        <StyleCatch.SkillCard
+        className="card"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}>
+            <DotGridEffect
+                $isHovered={true}
+                dotColor="#fafeff14"
+                spacing="18px"
+                dotSize="2px"/>
+
+            <div style={{ position: "relative", zIndex: 2 }}>
+                <div className='header-card'>
+                    <Icon color={color} size={30} />
+                    <h2>{title}</h2>
+                </div>
+                <p className='font_code'>{description}</p>
+            </div>
+        </StyleCatch.SkillCard>
+    );
+    };
+    return (
         <StyleCatch.Section id={id}>
-            <SplitLayoutComponent
-                padding="50px"
-                background_color= {light.background_secondary}
-                left_width={!isMobile ? '50%' : "100%"}
-                left_child={
-                    <StyleCatch.Text>
-                        <h2><AccentTextComponent>PASSIONNÉ</AccentTextComponent> par de nombreux domaines</h2>
-                        <p>Passionné par de nombreux domaines, notamment le développement, la 3D, l'électronique et bien d'autres compétences. Mon expertise polyvalente me permet de relever efficacement les défis dans ces domaines, en fournissant des solutions innovantes et une qualité exceptionnelle pour chaque projet.</p>
-                        <ul>
-                            <li>Développement</li>
-                            <li>3D</li>
-                            <li>Électronique</li>
-                            <li>Design</li>
-                        </ul>
-                    </StyleCatch.Text>
-                }
-                right_width={!isMobile ? '50%' : "0%"}
-                right_child={
-                    !isMobile &&
-                    <StyleCatch.HomeSheetContainer>
-                        <img src={HomeSheet} alt="HomeSheet" />
-                    </StyleCatch.HomeSheetContainer>
-                }
-            />
+            <StyleCatch.Text>
+                <div className="left">
+                    <h3><AccentTextComponent>DÉPASSER</AccentTextComponent> les limites du technique</h3>
+                    <p className=''>Je construis des mondes numériques où chaque ligne de code cherche le sens derrière la forme.<br/> Voici mes quatre piliers d'expertise :</p>
+                </div>
+                <div className="right">
+                    <StyleCatch.CardList className="cardList">
+                        <SkillCard 
+                            Icon={FaLaptopCode} 
+                            title="Développement" 
+                            description="L'art de transformer des concepts abstraits en solutions logicielles performantes, évolutives et innovantes." 
+                            color="#0065a9" 
+                        />
+
+                        <SkillCard
+                            Icon={FaDiceD20}
+                            title="Création 3D"
+                            description="Intégration d'expériences immersives et de modèles 3D interactifs en temps réel directement sur le Web."
+                            color="#EA7600"
+                        />
+
+                        <SkillCard
+                            Icon={FaBarsProgress}
+                            title="Systèmes Électroniques"
+                            description="L'intelligence connectée : de l'IoT à l'intégration hardware-software pour des interactions physiques."
+                            color="#2ac703"
+                        />
+
+                        <SkillCard
+                            Icon={FaPaintbrush}
+                            title="Design & UX/UI"
+                            description="Conception d'interfaces intuitives et créatives qui captivent l'utilisateur et optimisent l'expérience."
+                            color="#E749A0"
+                        />
+                    </StyleCatch.CardList>
+                </div>
+            </StyleCatch.Text>
+            
+            <StyleCatch.WaveBackground>
+                <WaveComponent colorPrimary={getColorSettings().primary} colorAccent={getColorSettings().accent} />
+            </StyleCatch.WaveBackground>
+            
         </StyleCatch.Section>
     )
 }
