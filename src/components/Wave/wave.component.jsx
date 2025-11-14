@@ -1,4 +1,4 @@
-export const WaveComponent = ({ colorPrimary, colorAccent }) => (
+export const WaveComponent = ({ colorPrimary }) => (
     <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 1440 320" 
@@ -12,7 +12,6 @@ export const WaveComponent = ({ colorPrimary, colorAccent }) => (
             strokeWidth="2"
             d="M0,224L60,208C120,192,240,160,360,144C480,128,600,128,720,138.7C840,149,960,171,1080,192C1200,213,1320,235,1380,245.3L1440,256"
         ></path>
-       
 
         <path 
             fill="none" 
