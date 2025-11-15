@@ -1,172 +1,222 @@
-import styled from "styled-components";
-import { getColorSettings, GetLightSetting } from "../../config";
+import styled, { keyframes,  } from "styled-components";
+import { SCREEN_SIZE, getColorSettings } from '../../config.jsx';
 
-const border_radius = "10px";
-
-export const Container = styled.div`
-    transition: transform 2s ease-in-out;
-
-    & .accent{
-        color: ${(props) => getColorSettings(props.theme).primary};
-    }
+const blink = keyframes`
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 `;
 
-export const ProductContainer = styled.div`
-    width: 80%;
-    margin: 0 auto;
+
+export const TerminalContainer = styled.div`
+    background-color: #0000003e;
+    backdrop-filter: blur(10px);
+
+    border: 1px solid ${props => getColorSettings(props.theme).primary};
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: ${props => getColorSettings(props.theme).primary};
+    width: 100%;
+    max-width: 70%;
+    margin: 20px auto;
+    overflow: hidden;
+    font-size: 14px;
+
+    border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
+    
+    @media (max-width: ${SCREEN_SIZE.mobile}) {max-width: 95%;}
+`;
+
+
+export const TerminalHeader = styled.div`
     display: flex;
-    gap: 5px;
-    & button {
-        background-color: transparent;
-        color: ${(props) => GetLightSetting(props.light).font};
-    }
+    align-items: center;
+    padding: 8px 15px;
+    background-color: ${props => getColorSettings(props.theme).primary};
+    border-bottom: 1px solid ${props => getColorSettings(props.theme).primary};
+    color: white;
 `;
 
-export const Tab = styled.ul`
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: width 1s;
 
-    &.reduce {
-        width: ${(props) => (props.$mobile ? "30px" : "50px")};
-        & li {
-            padding: ${(props) => (props.$mobile ? "15px 10px" : "15px 18px")};
-        }
-    }
-    &.expand {
-        width: ${(props) => (props.$mobile ? "100%" : "300px")};
-        & li {
-            padding: 15px 18px;
-        }
+
+export const TerminalLine = styled.div`
+    cursor: pointer;
+
+    &.selected {
+        & .header{ border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};}
     }
 
-    & li {
-        background-color: ${(props) =>
-            GetLightSetting(props.light).background_secondary};
-        border-radius: ${border_radius};
-        display: inline-flex;
-        align-items: center;
-        gap: 16px;
-        cursor: pointer;
-        overflow: hidden;
-
-        &:hover {
-            background-color: ${(props) =>
-                getColorSettings(props.theme).background_secondary};
-        }
-
-        &.current_item {
-            background-color: ${(props) =>
-                getColorSettings(props.theme).primary};
-        }
-
-        &.current_item,
-        &:hover {
-            color: white;
-        }
-
-        & svg {
-            flex-shrink: 0;
-            flex-grow: 0;
-            font-size: ${(props) => (props.$mobile ? ".8em" : "1em")};
-        }
-
-        & span {
-            flex-shrink: 0;
-            flex-grow: 0;
-            white-space: nowrap;
-            transition: opacity 0.5s ease-in-out;
-        }
+    & p{
+        color: #f0f0f0;
+        margin: 10px 0 20px 0;
     }
-`;
 
-export const ItemProduct = styled.div`
-    & .productFrame{
-        background-color: ${(props) =>
-            GetLightSetting(props.light).background_secondary};
-        border-radius: ${border_radius};
+    & .header{
+            display: flex;
+            padding: 10px 20px;
+            border-left: transparent 4px solid;
 
-        padding: 25px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: 60px;
+            border-bottom: 1px solid ${props => getColorSettings(props.theme).background_secondary};
+            &:last-child {border-bottom: none;}
 
-        min-height: 60vh;
-        cursor: pointer;
-
-        &:hover {
-            & .bottom .viewMore svg {
-                transition: transform 0.3s ease-in;
-                transform: translateX(5px);
+            &:hover {
+                border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
+                & .left{
+                    scale: 1.05;
+                    & svg {
+                        background-color: ${props => getColorSettings(props.theme).accentuate};}
+                    }
             }
-        }
 
-        & .description {
-            & .subtitle {
-                font-variation-settings: "wght" 600;
-                font-size: 1.5em;
-
+            & .left {
                 display: flex;
-                flex-direction: column;
-                gap: 20px;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+                margin-right: 100px;
 
-                padding: 10px 0;
+                & span{
+                    font-weight: bold;
+                    opacity: 0.6;
+                }
 
                 & svg {
-                    font-size: 1.6em;
+                    margin-top: 5px;
+                    width: 45px;
+                    height: 45px;
+                    border: 1px solid ${props => getColorSettings(props.theme).primary};
+                    border-radius: 8px;
+                    padding: 10px;
+
+                    color: white;
                 }
             }
-        }
 
-        & .bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
+            & .info {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
 
-            @media (max-width: 700px) {
-                flex-direction: column;
-                align-items: start;
-                gap: 20px;
+                & .title{color: ${props => getColorSettings(props.theme).primary};}
+
+                & .subtitle{
+                    color: #aaaaaa;
+                    font-size: 13px;
+                }
             }
 
-            & span {
-                display: inline-flex;
+            & .action { 
+                margin-left: auto;
+                display: flex;
                 align-items: center;
             }
+    }
 
-            & .ProductInfo {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
+    & .content{
+        padding: 15px 20px;
+        display: flex;
+        justify-content: flex-end;
+        
+        position: relative; 
+        overflow: hidden; 
 
-                & svg {
-                    color: ${(props) => getColorSettings(props.theme).primary};
-                }
+        &::after{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 4px solid ${props => getColorSettings(props.theme).primary};
+            height: 100%;
+        }
 
-                & .title {
-                    font-variation-settings: "wght" 600;
-                    color: ${(props) => getColorSettings(props.theme).primary};
-                }
+        & .card {
+            border: 1px solid #f0f0f032;
+            width: 60%;
+            padding: 15px;
+            background-color: ${props => getColorSettings(props.theme).background_t}; 
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 10px;
+
+            & span {
+                display: flex; 
+                align-items: flex-start; 
+                width: 60px;
+                color: ${props => getColorSettings(props.theme).primary};
+                font-size: 1em;
+                margin-top: 5px;
             }
-
-            & .viewMore {
-                color: ${(props) => getColorSettings(props.theme).primary};
-
-                & svg {transition: transform 0.3s ease-in;}
+            
+            & p {
+                flex-grow: 1; 
+                margin: 0; 
+                color: #f0f0f0;
             }
         }
     }
 
 
-    & .warning{
-        padding: 10px 0;
-        display: block;
-        margin-top: 10px;
-        
-        & svg{color: ${(props) => getColorSettings(props.theme).primary};}
+     @media (max-width: ${SCREEN_SIZE.mobile}) {
+        & .header {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 10px;
+            font-size: 12px;
+
+            & .selected {& .header{ border-left: 4px solid transparent;}}
+
+            & .left {margin-right: 0px; 
+                & span{display: none;}
+            }  
+
+            & .action {margin-left: 0;}
+            &:hover {border-left: 4px solid transparent;}
+        }
+
+        & .content {
+            &::after{border-left: 4px solid transparent;}
+            &.card {width: 100%;}
+        }
     }
-   
 `;
+
+
+export const CommandPromptWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 15px 20px;
+
+    &::after {
+        content: '_';
+        color: white;
+        margin-left: 5px;
+        animation: ${blink} 1s step-end infinite;-è
+    }
+`;
+
+export const ServicesListWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px 30px;
+
+    span {
+        color: #f0f0f0;
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+`;
+
+export const Separator = styled.span`margin: 0 5px;`;
+export const LineTag = styled.span`font-weight: bold;`;
+export const LineName = styled.span`font-weight: bold;`;
+export const TerminalPath = styled.span`margin-right: 5px;`;
+export const TerminalBody = styled.div`line-height: 1.5;`;
+
+ 

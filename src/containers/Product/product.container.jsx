@@ -1,122 +1,109 @@
-import React, { useEffect, useState } from "react";
 import * as styled from "./product.style";
-import { AccentTextComponent } from "../../components/Text/Text.component";
-import { IoIosPricetag } from "react-icons/io";
-import { FaBusinessTime } from "react-icons/fa";
-import {
-    AiOutlineArrowRight,
-    AiFillCaretLeft,
-    AiFillCaretRight,
-} from "react-icons/ai";
+import { useState, useRef, useEffect } from "react";
+import { productList } from "../../config"; 
+import { FaArrowDown, FaArrowRight } from "react-icons/fa";
+import { TitleTextComponent } from "../../components/Text/Text.component"
 
-import { TitleTextComponent } from "../../components/Text/Text.component";
-import { productList } from "../../config";
-
-import { useWindowSize } from "../../hooks/screenResize.hook";
-
-export const ProductContainer = ({id}) => {
-    const [selectedProduct, setSelectedProduct] = useState(productList[0]);
-    const [reduceNav, SetReduceNav] = useState(false);
-    const isMobile = useWindowSize(1000);
-
-    useEffect(() => {
-        SetReduceNav(isMobile);
-    }, [isMobile]);
-
-    const handleChangeProduct = (product) => {
-        setSelectedProduct(product);
-        if (!reduceNav && isMobile) {
-            SetReduceNav(true);
-        }
-    };
-
-    const GenerateItemProduct = () => {
-        return (
-            <styled.ProductContainer>
-                <styled.Tab
-                    className={reduceNav ? "reduce" : "expand"}
-                    $mobile={isMobile}
-                >
-                    {productList.map((product) => (
-                        <li
-                            key={product.id}
-                            onClick={() => {
-                                handleChangeProduct(product);
-                            }}
-                            className={
-                                product.id === selectedProduct.id
-                                    ? "current_item"
-                                    : "not_current_item"
-                            }
-                        >
-                            {product.icon}
-                            <span>{product.title}</span>
-                        </li>
-                    ))}
-                </styled.Tab>
-
-                <button onClick={() => SetReduceNav(!reduceNav)}>
-                    {reduceNav ? <AiFillCaretRight /> : <AiFillCaretLeft />}
-                </button>
-
-                <styled.ItemProduct title={selectedProduct.title}>
-                    <div className="productFrame">
-                        {!(isMobile && !reduceNav) && (
-                            <>
-                                <div className="description">
-                                    <AccentTextComponent className="subtitle">
-                                        {selectedProduct.icon}
-                                        {selectedProduct.subTitle}
-                                    </AccentTextComponent>
-                                    <p>{selectedProduct.content}</p>
-                                </div>
-                                <div className="bottom">
-                                    <>
-                                        <div className="ProductInfo">
-                                            <span className="title">
-                                                *&nbsp;Information 
-                                            </span>
-                                            <span>
-                                                <IoIosPricetag />
-                                                &nbsp;&nbsp;{
-                                                    selectedProduct.price
-                                                }{" "}
-                                                €
-                                            </span>
-                                            <span>
-                                                <FaBusinessTime />
-                                                &nbsp;&nbsp;{
-                                                    selectedProduct.time
-                                                }{" "}
-                                                jour
-                                            </span>
-                                        </div>
-                                        <span className="viewMore">
-                                            Voir plus &nbsp;
-                                            <AiOutlineArrowRight />
-                                        </span>
-                                    </>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                    {!(isMobile && !reduceNav) && 
-                        <strong className="warning">
-                            <span className="accent">*</span> &nbsp;Information seulement a titre indicatif.
-                        </strong>
-                    }
-                    
-                </styled.ItemProduct>
-            </styled.ProductContainer>
-        );
-    };
+const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
+    const isOpen = openItemId === product.id;
+    const IfSelectedClass = isOpen ? 'selected' : '';
 
     return (
-        <styled.Container id={id}>
+        <styled.TerminalLine className={IfSelectedClass}>
+            <div className="header" onClick={() => onItemClick(product.id)} aria-expanded={isOpen}>
+                <div className="left">
+                    <span>{String(product.id).padStart(2, '0')}</span>
+                    {product.icon}
+                </div>
+
+                <div className="info">
+                    <styled.LineTag className="title">[{product.title}]</styled.LineTag>
+                    <styled.LineTag className="subtitle">{product.subTitle}</styled.LineTag>
+                </div>
+
+                <div className="action">
+                    <styled.Separator aria-hidden="true"><FaArrowDown /></styled.Separator>
+                </div>
+            </div>
+            {isOpen &&
+            <div className="content">
+                <div className="card">
+                    <span><FaArrowRight /></span>
+                    <p>{product.description}</p>
+                </div>
+            </div>
+            }
+        </styled.TerminalLine>
+    );
+};
+
+export const ProductContainer = ({id}) => {
+    const [openItemId, setOpenItemId] = useState(null);
+    const [Title, setTitle] = useState('/');
+    const containerRef = useRef(null);
+
+   const handleItemClick = (id) => {
+    setOpenItemId(prevId => {
+        const newId = prevId === id ? null : id;
+
+        if (newId === null) {
+            setTitle("/"); 
+        } else {
+             const selectedProduct = productList.find(p => p.id === newId);
+             if (selectedProduct) {
+                setTitle("/" + selectedProduct.title);
+             }
+        }
+        return newId;
+    });
+};
+
+    useEffect(() => {
+        //scroll to container on open
+        if (containerRef && containerRef.current) {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        //if click is outside of container close all
+        const handleOutsideClick = (event) => {
+            if (containerRef.current && !containerRef.current.contains(event.target)) {
+                setOpenItemId(null); 
+                setTitle('/');
+            }
+        };
+
+        //Click event
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {document.removeEventListener('mousedown', handleOutsideClick);};
+    }, [openItemId, containerRef]);
+
+    return (
+        <div id={id}>
             <TitleTextComponent subtitle={"Faites votre choix"}>
-                Produits
+                    Produits
             </TitleTextComponent>
-            <GenerateItemProduct />
-        </styled.Container>
+
+            <styled.TerminalContainer  ref={containerRef}>
+                <styled.TerminalHeader>
+                    <styled.TerminalPath>
+                        jonathangleyze.fr/projets/products{Title}
+                    </styled.TerminalPath>
+                </styled.TerminalHeader>
+
+                <styled.TerminalBody>
+                    <styled.CommandPromptWrapper>{' '}ls /projects --all</styled.CommandPromptWrapper>
+                    <styled.ServicesListWrapper>
+                        {productList.map((product) => (
+                            <TerminalLineItem 
+                                key={product.id} 
+                                product={product} 
+                                openItemId={openItemId} 
+                                onItemClick={handleItemClick} 
+                            />
+                        ))}
+                    </styled.ServicesListWrapper>
+                </styled.TerminalBody>
+            </styled.TerminalContainer>
+        </div>
     );
 };
