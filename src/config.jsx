@@ -15,9 +15,10 @@ export const GetLightSetting = () => {
 
 //CONSTANTS
 export const COLOR_SETTING = {
-    default:{
+default: {
         background: '#303134',
         background_secondary: '#221f30',
+        background_tertiary: '#1a1a1a',
 
         primary: "#5943e4",
         secondary: "#32256c",
@@ -26,40 +27,40 @@ export const COLOR_SETTING = {
         border: "rgba(0, 0, 0, 0.16)"
     },
 
-    red:{
+    red: {
         background: '#303134',
-        background_secondary: '#1a0806',
+        background_secondary: '#2c1510',
+        background_tertiary: '#4a1712',
 
+        primary: "#e74c3c",
+        secondary: "#a0392c",
+        accentuate: '#ff7a6b',
 
-        primary: "#bf2e1f",
-        secondary: "#780e04",
-        accentuate: '#780e04',
-
-        border: "rgba(0, 0, 0, 0.16)"
+        border: "#4a4b52"
     },
 
-    green:{
+    green: {
         background: '#303134',
-        background_secondary: '#040f06',
+        background_secondary: '#172419',
+        background_tertiary: '#1f4224',
 
+        primary: "#2ecc71",
+        secondary: "#1d6333",
+        accentuate: '#58d68e',
 
-        primary: "#166e29",
-        secondary: "#0E461A", 
-        accentuate: '#115720',
-        
-        border: "#737272"
+        border: "#4a4b52"
     },
 
-    yellow:{
+    yellow: {
         background: '#303134',
-        background_secondary: '#261D07',
+        background_secondary: '#2c2415',
+        background_tertiary: '#4a3d17',
 
+        primary: "#f39c12",
+        secondary: "#b9770e",
+        accentuate: '#ffbb59',
 
-        primary: "#996d05",
-        secondary: "#745817", 
-        accentuate: '#6e4e03',
-        
-        border: "#737272"
+        border: "#4a4b52"
     }
 };
 
@@ -115,7 +116,7 @@ export const productList = [
         title: "Gestion de contenu", 
         icon: <AiFillLayout/>, 
         subTitle: 'Wordpress, e-comerce, Vitrine',
-        content: "Flexibilité est le mot d'ordre. Que vous soyez un entrepreneur en herbe ou une grande entreprise, un CMS s'adapte à vos besoins. Mettez à jour votre site en temps réel sans attendre un développeur. Collaborez facilement avec votre équipe grâce à une interface intuitive. La sécurité est notre priorité, assurant la protection de votre contenu contre les menaces potentielles.",
+        description: "Flexibilité est le mot d'ordre. Que vous soyez un entrepreneur en herbe ou une grande entreprise, un CMS s'adapte à vos besoins. Mettez à jour votre site en temps réel sans attendre un développeur. Collaborez facilement avec votre équipe grâce à une interface intuitive. La sécurité est notre priorité, assurant la protection de votre contenu contre les menaces potentielles.",
         price: 0,
         time: 0
     },
@@ -124,7 +125,7 @@ export const productList = [
         title: "Application web", 
         icon: <AiOutlineRise/>,
         subTitle: 'Aplication metier',
-        content: "Que vous soyez un particulier cherchant à marquer sa présence en ligne ou une entreprise en quête d'innovation, je m'adapte à vos besoins spécifiques. La mise en place d'une interface intuitive permet une gestion fluide du contenu, et les mises à jour se font sans difficulté.",
+        description: "Que vous soyez un particulier cherchant à marquer sa présence en ligne ou une entreprise en quête d'innovation, je m'adapte à vos besoins spécifiques. La mise en place d'une interface intuitive permet une gestion fluide du contenu, et les mises à jour se font sans difficulté.",
         price: 0,
         time: 0
     },
@@ -133,7 +134,7 @@ export const productList = [
         title: "Consulting", 
         icon: <AiOutlineAim/>,
         subTitle: 'Audite Web',
-        content: "Un audit approfondi de votre site web, évaluant chaque aspect de sa performance. De l'expérience utilisateur à la structure technique, Identifions les opportunités d'optimisation pour renforcer votre impact en ligne.",
+        description: "Un audit approfondi de votre site web, évaluant chaque aspect de sa performance. De l'expérience utilisateur à la structure technique, Identifions les opportunités d'optimisation pour renforcer votre impact en ligne.",
         price: 0,
         time: 0
     },
