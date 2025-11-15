@@ -195,7 +195,7 @@ export const CommandPromptWrapper = styled.div`
         content: '_';
         color: white;
         margin-left: 5px;
-        animation: ${blink} 1s step-end infinite;-è
+        animation: ${blink} 1s step-end infinite;
     }
 `;
 
