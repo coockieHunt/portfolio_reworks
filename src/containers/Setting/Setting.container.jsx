@@ -14,7 +14,7 @@ export const SettingContainer = () => {
     const {changeTheme, changeLight, settings } = useSettingContext();
     const {showLoading, hideLoading} = useLoading();
 
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
 
     const containerRef = useRef(null);
 
