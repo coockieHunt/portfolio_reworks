@@ -1,21 +1,27 @@
-import { useState, React } from 'react';
+// import library
+import { useState } from 'react';
+import { scroller, Link } from "react-scroll";
 
+// import icon
+import { AiOutlineBuild, AiOutlineArrowRight, AiOutlineBgColors , AiOutlineUnlock, AiOutlineSend  } from "react-icons/ai";
+import {CiCircleCheck } from 'react-icons/ci'
+
+// import style
 import { Fence, FenceContainer, CatchModal, ListModal, IconList} from "./Service.style"
 
-import { AiOutlineBuild, AiOutlineArrowRight, AiOutlineBgColors , AiOutlineUnlock, AiOutlineSend  } from "react-icons/ai";
-import { TitleTextComponent } from '../../components/Text/Text.component'
+// import effect
+import { DotGridEffect } from '../../styles/effect.jsx';
+
+// import data
 import { serviceModals } from '../../data.jsx'
-import { ModalComponent } from '../../components/Modal/Modal.coponents';
-import {CiCircleCheck } from 'react-icons/ci'
+
+//import hook
 import { useScrollbar } from '../../hooks/scrollBar.hook';
-import { Link } from "react-scroll";
-import { scroller } from "react-scroll";
-import { useSettingContext } from '../../context/Setting.context';
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
-import { getColorSettings} from '../../config.jsx';
 
+//import component
+import { ModalComponent } from '../../components/Modal/Modal.coponents';
 
-export const ServiceContainer = ({ children, id }) => {
+export const ServiceContainer = ({ id }) => {
 	const [modals, setModals] = useState(
 		serviceModals.map(m => ({
 			isOpen: false,
@@ -59,6 +65,12 @@ export const ServiceContainer = ({ children, id }) => {
 	const BuildFence = (icon, catchText, onClick) => {
 		return (
 			<Fence onClick={onClick}>
+				<DotGridEffect
+					$isHovered={true}
+					dotColor="#fafeff6c"
+					spacing="18px"
+					dotSize="2px"/>
+
 				{icon}
 				<p className='catch' style={{ whiteSpace: 'pre-line' }}>
 					{catchText}
@@ -69,14 +81,6 @@ export const ServiceContainer = ({ children, id }) => {
 
 	}
 
-	const ContactBackground = () => {
-		const {settings} = useSettingContext();
-		const bg_color = HexToRgbaConverter(
-			getColorSettings(settings.theme).background_secondary,
-			.8
-		)
-		return bg_color
-	}
 
 	return (
 		<div className={id}>
@@ -86,7 +90,7 @@ export const ServiceContainer = ({ children, id }) => {
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
 				<Link to={'contact'}>
-					<Fence onClick={() => {}} color={ContactBackground()} style={{"color": "white"}}>
+					<Fence onClick={() => {}} className='HightLighting' style={{"opacity": "white"}}>
 						<AiOutlineSend />
 						<p className='catch' style={{ whiteSpace: 'pre-line' }}>Me <br/>Contacter</p>
 						<span> Contacter<AiOutlineArrowRight /></span>

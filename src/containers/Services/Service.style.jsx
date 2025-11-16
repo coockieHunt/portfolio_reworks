@@ -33,7 +33,6 @@ export const ListModal = styled.ul`
     flex-direction: column;
     gap: 20px;
     padding-top: 30px;
-
     & > li{
         display: flex;
         align-items: center;
@@ -44,44 +43,42 @@ export const ListModal = styled.ul`
 `
 
 export const Fence = styled.div`
-    background-color: ${
-        props=>
-            props.color ? 
-                props.color :
-                HexToRgbaConverter(
-                    getColorSettings(props.theme).background,
-                    GetLightSetting(props.light).background_alpha
-                )
-    };
+    cursor: pointer;
     min-height: 200px;
     min-width: 200px;
-
     padding: 50px 20px;
-
     display: flex;
     align-items: start;
     justify-content: end;
     flex-direction: column;
     gap: 15px;
-
     border-radius: 10px;
+    border: 2px solid ${props => getColorSettings(props.theme).primary};
+    position: relative;
 
-    cursor: pointer;
+    &.HightLighting {box-shadow: 0 0 30px ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.6)};}
+    & .catch{ font-variation-settings: "wght" 400;}
 
+    &::after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, GetLightSetting(props.theme) ? 0.05 : 0.1)};
+        z-index: -1;
+    }
 
     & > svg{
         color:  ${props => getColorSettings(props.theme).primary};
         font-size: 2em;
     }
 
-    & .catch{
-        font-variation-settings: "wght" 400;
-    }
 
     & span{
         color:  ${props => getColorSettings(props.theme).primary};
         transition: all .3s ease-in;
-
         display: inline-flex;
         align-items: center;
         & svg{
@@ -91,9 +88,9 @@ export const Fence = styled.div`
     }
 
     &:hover{
+        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, GetLightSetting(props.theme) ? 0.1 : 0.2)};
         & > span > svg{
-        transition: all .3s ease-in-out;
-
+            transition: all .3s ease-in-out;
             margin-left: 10px
         }
     }
