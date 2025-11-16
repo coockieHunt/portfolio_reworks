@@ -9,20 +9,26 @@ import { FaCaretUp, FaCaretDown, FaXmark  } from "react-icons/fa6";
 import { useRef } from "react";
 import { getContrastTextColor } from "../../utils/WCAG_check.jsx";
 
+import { useAlert } from '../../context/alert.context';
+
 
 export const SettingContainer = () => {
     const {changeTheme, changeLight, settings } = useSettingContext();
     const {showLoading, hideLoading} = useLoading();
+    const { addAlert } = useAlert();
 
     const [isOpen, setIsOpen] = useState(false)
 
     const containerRef = useRef(null);
 
-    const handleThemeChange = (NewTheme) => {
+    const handleThemeChange = (NewTheme, DisplayName) => {
         showLoading(COLOR_SETTING[NewTheme].background_secondary);
         setIsOpen(false);
         setTimeout(() => {changeTheme(NewTheme);}, 500);
         setTimeout(() => {hideLoading();}, 2000); 
+
+        console.log("Theme changed to:", NewTheme);
+        addAlert(`Votre thème est maintenant en mode ${DisplayName}.`, COLOR_SETTING[NewTheme].primary, 4000);
     };
 
     const handleRandomThemeChange = () => {
@@ -42,7 +48,7 @@ export const SettingContainer = () => {
             accentuate: randHex(), 
             border: randHex()
         };
-        handleThemeChange(newKey);
+        handleThemeChange(newKey, "PAPUCHE !!!");
     };
 
 
@@ -50,7 +56,7 @@ export const SettingContainer = () => {
         const classNameCur = Name == settings.theme ? "current" : "";
 
         return (
-            <div className={`themeButton ${classNameCur}`}  onClick={() => handleThemeChange(Name)} >
+            <div className={`themeButton ${classNameCur}`}  onClick={() => handleThemeChange(Name, Title)} >
                 <Styled.RoundColor 
                     $color={COLOR_SETTING[Name].primary}/>
                 <Styled.RoundColor 
@@ -94,7 +100,7 @@ export const SettingContainer = () => {
                 <Styled.Option>
                     <h3 className="titleOption">Thème de Couleur</h3>
                     <div className="ContainerButton" style={{marginTop: '10px'}}>
-                        <ButtonTheme Name="default" Title="Default" />
+                        <ButtonTheme Name="default" Title="Violet" />
                         <ButtonTheme Name="red" Title="Rouge" />
                         <ButtonTheme Name="green" Title="Vert" />
                         <ButtonTheme Name="yellow" Title="Jaune" />
