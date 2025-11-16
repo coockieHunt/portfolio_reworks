@@ -15,7 +15,7 @@ export const GetLightSetting = () => {
 
 //CONSTANTS
 export const COLOR_SETTING = {
-default: {
+    default: {
         background: '#303134',
         background_secondary: '#221f30',
         background_tertiary: '#1a1a1a',
