@@ -170,9 +170,9 @@ export const Action = styled.div`
 		transform: translate(-50%, -50%);
 		border-radius: 50%;
 		background: radial-gradient(
-		circle,
-		${props => getColorSettings(props.theme).primary}40 0%,
-		transparent 80%
+      circle,
+      ${props => getColorSettings(props.theme).primary}40 0%,
+      transparent 80%
 		);
 		opacity: 0;
 		animation: fadeIn 0.5s ease-out forwards;
