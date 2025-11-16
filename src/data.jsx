@@ -61,3 +61,34 @@ export const word_hero = [
     'silence',
     'monde',
 ];
+
+export const serviceModals = [
+    {
+        title: 'Développement Web',
+        catch: "Avec une riche expérience et une expertise pointue dans les nouvelles technologies, je relève les défis émergents et propose des solutions innovantes.",
+        items: [
+            'Site vitrine, corporate, évènementiel, e-commerce.',
+            'Intégrations HTML / CSS respectueuses des standards du Web.',
+            "Outils adaptés à votre coeur de métier, applications & solutions personnalisées.",
+        ],
+    },
+    {
+        title: 'Consultant Web',
+        catch: "En tant que consultant web, je donne vie à vos idées en créant des solutions en ligne innovante.",
+        items: [
+            'Architecture web.',
+            'Stratégie digitale.',
+            'Sécurité web.',
+            'Accessibilité web.',
+        ],
+    },
+    {
+        title: 'Conception Graphique & WebDesign',
+        catch: "Fort d'une expérience en assistant de communication.",
+        items: [
+            'Logos, templates Web, plaquettes publicitaires, cartes de visite, newsletters...',
+            'Animations de contenu non intrusives pour embellir votre projet.',
+            'Compatible tous supports, tablette & application mobile.',
+        ],
+    },
+];
