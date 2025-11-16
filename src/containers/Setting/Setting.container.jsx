@@ -5,9 +5,9 @@ import { COLOR_SETTING } from '../../config.jsx';
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
 
-import { FaLightbulb, FaRegLightbulb, FaCaretUp, FaCaretDown, FaXmark  } from "react-icons/fa6";
-
+import { FaCaretUp, FaCaretDown, FaXmark  } from "react-icons/fa6";
 import { useRef } from "react";
+import { getContrastTextColor } from "../../utils/WCAG_check.jsx";
 
 
 export const SettingContainer = () => {
@@ -25,16 +25,26 @@ export const SettingContainer = () => {
         setTimeout(() => {hideLoading();}, 2000); 
     };
 
-    // WIP
-    // const ButtonLight = ( state ) => {
-    //     const color = state === "dark" ? "black" : "white";
-    //     showLoading(color);
-    //     setIsOpen(false);
-    //     setTimeout(() => {changeLight(state);
-    //     }, 500);
-    //     setTimeout(() => { hideLoading();
-    //     }, 2000); 
-    // }
+    const handleRandomThemeChange = () => {
+        const randHex = () => '#'+Math.floor(Math.random()*0xFFFFFF).toString(16).padStart(6,'0');
+        const newKey = `random_${Date.now().toString(36)}`;
+        
+        const newBackground = randHex(); 
+
+        const contrastPrimaryColor = getContrastTextColor(newBackground);
+
+        COLOR_SETTING[newKey] = {
+            background: newBackground,
+            background_secondary: randHex(), 
+            background_tertiary: randHex(), 
+            primary: contrastPrimaryColor,
+            secondary: randHex(), 
+            accentuate: randHex(), 
+            border: randHex()
+        };
+        handleThemeChange(newKey);
+    };
+
 
     const ButtonTheme = ({Name, Title}) => {
         const classNameCur = Name == settings.theme ? "current" : "";
@@ -79,20 +89,8 @@ export const SettingContainer = () => {
                 </Styled.CloseButton>
 
                 <h3 className="font_code">Apparence</h3>
-                
-                {/* DESACTIVATE FOR FIX ENV THEME VAR */}
-                {/* <Styled.Option>
-                    <h3 className="titleOption">Thème de Couleur</h3>
 
-                    <Styled.Action 
-                        onClick={()=> settings.light == "dark" ? ButtonLight("light") : ButtonLight("dark")}
-                        style={{marginTop: '10px'}} 
-                    >
-                         {settings.light == "dark" ? <FaLightbulb/>: <FaRegLightbulb/>}
-                         &nbsp; {settings.light == "dark" ? 'Mode Jour (Light)' : 'Mode Nuit (Dark)'}
-                    </Styled.Action>
-                </Styled.Option> */}
-                
+
                 <Styled.Option>
                     <h3 className="titleOption">Thème de Couleur</h3>
                     <div className="ContainerButton" style={{marginTop: '10px'}}>
@@ -100,6 +98,12 @@ export const SettingContainer = () => {
                         <ButtonTheme Name="red" Title="Rouge" />
                         <ButtonTheme Name="green" Title="Vert" />
                         <ButtonTheme Name="yellow" Title="Jaune" />
+                        <h3 className="titleOption">Mode fun</h3>
+                        <div className="themeButton random" onClick={handleRandomThemeChange}>
+                            <p>⚠️ Le theme aleatoire peut causer de fort problèmes visuels ⚠️</p>
+                            <p>🔎 n'hesitez pas a re-charger la page si besoin 🔎</p>
+                            <span>🦄Theme aléatoire 🦄</span>
+                        </div>
                     </div>
                 </Styled.Option>
 

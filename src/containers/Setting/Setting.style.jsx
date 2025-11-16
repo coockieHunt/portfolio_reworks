@@ -66,8 +66,10 @@ export const Title = styled.span`
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1;
+    opacity: 0.7;
     color: ${props => getColorSettings(props.theme).font};
+
+    font-size: 1em;
 
     & > span {
         display: flex;
@@ -81,7 +83,7 @@ export const Option = styled.div`
 
     & .titleOption {
         font-variation-settings: "wght" 600;
-        margin-bottom: 15px;
+        margin: 15px 0;
         font-size: 1.2em;
     }
 
@@ -96,7 +98,7 @@ export const Option = styled.div`
             align-items: center;
             justify-content: flex-start;
             flex-direction: row;
-            gap: 15px 10px;
+            gap: 10px;
             padding: 10px;
 
             transition: all .3s ease-in-out;
@@ -110,24 +112,67 @@ export const Option = styled.div`
 
             & span {
                 font-variation-settings: "wght" 500;
-                font-size: 1.3em;
+                font-size: 1em;
 
                 margin-left: 20px;
+            }
+
+            &.random {
+                background: linear-gradient(90deg,
+                    #ff0040 0%,
+                    #ff7a00 16%,
+                    #ffd400 32%,
+                    #33cc33 48%,
+                    #334acc 64%,
+                    #3366ff 80%,
+                    #a833ff 100%
+                );
+                color: #000000; 
+                font-size: 1em;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                border-radius: 5px;
+                flex-direction: column;
+                gap: 10px;
+
+
+                & p {
+                    margin: 0;
+                    font-size: .85em;
+                    color: #FFFFFF; 
+                    text-shadow: 
+                        -1px -1px 2px #000000,
+                        1px -1px 2px #000000,
+                        -1px 1px 2px #000000,
+                        1px 1px 2px #000000;
+                }
+
+
+                & span {
+                    margin-left: 0;
+                    font-variation-settings: "wght" 600;
+                    color: #FFFFFF;
+                    font-size: 1.5em;
+                    text-shadow: 
+                        -1px -1px 2px #000000,
+                        1px -1px 2px #000000,
+                        -1px 1px 2px #000000,
+                        1px 1px 2px #000000;
+                }
             }
         }
     }
 
 `
 
-
 export const RoundColor = styled.div`
     flex-shrink: 0;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%; 
     background-color: ${props => props.$color}; 
 `
-
 
 
 export const OptionsList = styled.div`
@@ -138,7 +183,7 @@ export const OptionsList = styled.div`
     padding: 15px;
     width: 500px;
     height: 100vh;
-    border: 3px solid ${props => getColorSettings(props.theme).background_secondary};
+    border-left: 3px solid ${props => getColorSettings(props.theme).background_secondary};
     padding: 30px 30px;
     position: relative;
     overflow: hidden;
@@ -148,7 +193,7 @@ export const OptionsList = styled.div`
     & h3{
         font-variation-settings: "wght" 600;
         margin-bottom: 15px;
-        font-size: 1.5em;
+        font-size: 1.2em;
     }
     
     &::after {
@@ -175,20 +220,21 @@ export const Footer = styled.div`
         font-variation-settings: "wght" 300;
         color: ${props => getColorSettings(props.theme).font_secondary};
         text-align: center;
-        color: #bbb;
+        color: #bbbbbb73;
     }
 `
 
 export const infoText = styled.div`
-    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
 
     & p {
         display: block;
         font-size: 0.9em;
         font-variation-settings: "wght" 300;
-        color: ${props => getColorSettings(props.theme).font_secondary};
         text-align: center;
-        color: #bbb;
+        color: ${props => getColorSettings(props.theme).font};
 
         background-color: ${props => getColorSettings(props.theme).background_secondary};
         padding: 10px;
@@ -206,7 +252,7 @@ export const infoText = styled.div`
             background-color: ${props => getColorSettings(props.theme).primary};
             padding: 4px 8px;
             border-radius: 3px;
-            color: white;
+            color: ${props => getColorSettings(props.theme).font_secondary};
 
             margin-right: 5px;
         }
