@@ -1,5 +1,17 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { getColorSettings, SCREEN_SIZE } from '../../config.jsx';
+
+const rainbowShift = keyframes`
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+`;
 
 export const ContainerSetting = styled.div`
     position: fixed;
@@ -125,8 +137,11 @@ export const Option = styled.div`
                     #33cc33 48%,
                     #334acc 64%,
                     #3366ff 80%,
-                    #a833ff 100%
+                    #a833ff 100%,
+                    #ff0040 116%
                 );
+                background-size: 200% 200%;
+                animation: ${rainbowShift} 4s ease infinite;
                 color: #000000; 
                 font-size: 1em;
                 justify-content: center;
