@@ -9,6 +9,8 @@ export const BurgerMenuContainer = styled.div`
 	justify-content: space-between;
 	cursor: pointer;
 
+	z-index: 1001;
+
 	div {
 		width: 100%;
 		height: 2px;

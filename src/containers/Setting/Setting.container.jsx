@@ -5,7 +5,7 @@ import { COLOR_SETTING } from '../../config.jsx';
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
 
-import { FaLightbulb, FaRegLightbulb, FaCaretUp, FaCaretDown } from "react-icons/fa6";
+import { FaLightbulb, FaRegLightbulb, FaCaretUp, FaCaretDown, FaXmark  } from "react-icons/fa6";
 
 import { useRef } from "react";
 
@@ -14,7 +14,7 @@ export const SettingContainer = () => {
     const {changeTheme, changeLight, settings } = useSettingContext();
     const {showLoading, hideLoading} = useLoading();
 
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(true)
 
     const containerRef = useRef(null);
 
@@ -25,26 +25,28 @@ export const SettingContainer = () => {
         setTimeout(() => {hideLoading();}, 2000); 
     };
 
-    const ButtonLight = ( state ) => {
-        const color = state === "dark" ? "black" : "white";
-        showLoading(color);
-        setIsOpen(false);
-        setTimeout(() => {changeLight(state);
-        }, 500);
-        setTimeout(() => { hideLoading();
-        }, 2000); 
-    }
+    // WIP
+    // const ButtonLight = ( state ) => {
+    //     const color = state === "dark" ? "black" : "white";
+    //     showLoading(color);
+    //     setIsOpen(false);
+    //     setTimeout(() => {changeLight(state);
+    //     }, 500);
+    //     setTimeout(() => { hideLoading();
+    //     }, 2000); 
+    // }
 
-    const ButtonTheme = ({Name, display}) => {
+    const ButtonTheme = ({Name, Title}) => {
+        const classNameCur = Name == settings.theme ? "current" : "";
+
         return (
-            <Styled.RoudedButtonColor 
-                onClick={() => handleThemeChange(Name)} 
-                color={Name} 
-                $primary = {COLOR_SETTING[Name].primary} 
-                $secondary = {COLOR_SETTING[Name].secondary}
-                className={Name == settings.theme && "current"}
-                display = {display}
-            />
+            <div className={`themeButton ${classNameCur}`}  onClick={() => handleThemeChange(Name)} >
+                <Styled.RoundColor 
+                    $color={COLOR_SETTING[Name].primary}/>
+                <Styled.RoundColor 
+                    $color={COLOR_SETTING[Name].secondary}/>
+                <span>{Title}</span>
+            </div>
         )
     }
 
@@ -57,7 +59,6 @@ export const SettingContainer = () => {
 
 
     const ArrowIcon = isOpen ? <FaCaretDown />: <FaCaretUp />;
-
     return (
         <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
             <Styled.Toggle>
@@ -65,7 +66,7 @@ export const SettingContainer = () => {
                     onClick={() => setIsOpen(!isOpen)} 
                 >
                 <Styled.Title>
-                    <span>
+                    <span className="Toggle">
                         {ArrowIcon} <span>Apparence</span>
                     </span>
                 </Styled.Title>
@@ -73,8 +74,16 @@ export const SettingContainer = () => {
             </Styled.Toggle>
             
             <Styled.OptionsList>
-                <Styled.Option>
-                    <Styled.TitleOption>Mode éclairage WIP</Styled.TitleOption>
+                <Styled.CloseButton onClick={() => setIsOpen(false)}>
+                    <FaXmark  />
+                </Styled.CloseButton>
+
+                <h3 className="font_code">Apparence</h3>
+                
+                {/* DESACTIVATE FOR FIX ENV THEME VAR */}
+                {/* <Styled.Option>
+                    <h3 className="titleOption">Thème de Couleur</h3>
+
                     <Styled.Action 
                         onClick={()=> settings.light == "dark" ? ButtonLight("light") : ButtonLight("dark")}
                         style={{marginTop: '10px'}} 
@@ -82,17 +91,25 @@ export const SettingContainer = () => {
                          {settings.light == "dark" ? <FaLightbulb/>: <FaRegLightbulb/>}
                          &nbsp; {settings.light == "dark" ? 'Mode Jour (Light)' : 'Mode Nuit (Dark)'}
                     </Styled.Action>
-                </Styled.Option>
+                </Styled.Option> */}
                 
                 <Styled.Option>
-                    <Styled.TitleOption>Thème de Couleur</Styled.TitleOption>
+                    <h3 className="titleOption">Thème de Couleur</h3>
                     <div className="ContainerButton" style={{marginTop: '10px'}}>
-                        <ButtonTheme Name={'default'} display={"Default"}/>
-                        <ButtonTheme Name={'red'} display={"Rouge"}/>
-                        <ButtonTheme Name={'green'} display={"Vert"}/>
-                        <ButtonTheme Name={'yellow'} display={"Jaune"}/>
+                        <ButtonTheme Name="default" Title="Default" />
+                        <ButtonTheme Name="red" Title="Rouge" />
+                        <ButtonTheme Name="green" Title="Vert" />
+                        <ButtonTheme Name="yellow" Title="Jaune" />
                     </div>
                 </Styled.Option>
+
+                <Styled.infoText>
+                    <p><strong>WIP</strong> En développement <br/> Plus d'options de personnalisation arrivent bientôt !</p>
+                </Styled.infoText>
+
+                <Styled.Footer>
+                    <p>Personnalisez votre expérience</p>
+                </Styled.Footer>
             </Styled.OptionsList>
         </Styled.ContainerSetting>
     )
