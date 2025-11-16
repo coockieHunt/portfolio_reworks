@@ -1,7 +1,12 @@
+// style
 import * as styled from "./product.style";
+// react
 import { useState, useRef, useEffect } from "react";
-import { productList } from "../../config"; 
+// icons
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
+// config
+import { productList } from "../../config"; 
+// components
 import { TitleTextComponent } from "../../components/Text/Text.component"
 
 const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
@@ -16,9 +21,9 @@ const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
                     {product.icon}
                 </div>
 
-                <div className="info">
-                    <styled.LineTag className="title">[{product.title}]</styled.LineTag>
-                    <styled.LineTag className="subtitle">{product.subTitle}</styled.LineTag>
+                <div className="info ">
+                    <styled.LineTag className="title font_code">[{product.title}]</styled.LineTag>
+                    <styled.LineTag className="subtitle font_code">{product.subTitle}</styled.LineTag>
                 </div>
 
                 <div className="action">
@@ -59,11 +64,6 @@ export const ProductContainer = ({id}) => {
 };
 
     useEffect(() => {
-        //scroll to container on open
-        if (containerRef && containerRef.current) {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-
         //if click is outside of container close all
         const handleOutsideClick = (event) => {
             if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -85,13 +85,13 @@ export const ProductContainer = ({id}) => {
 
             <styled.TerminalContainer  ref={containerRef}>
                 <styled.TerminalHeader>
-                    <styled.TerminalPath>
-                        jonathangleyze.fr/projets/products{Title}
+                    <styled.TerminalPath >
+                        jonathangleyze.fr/projets{Title}
                     </styled.TerminalPath>
                 </styled.TerminalHeader>
 
                 <styled.TerminalBody>
-                    <styled.CommandPromptWrapper>{' '}ls /projects --all</styled.CommandPromptWrapper>
+                    <styled.CommandPromptWrapper className="font_code" style={{"color": "green"}}>{' '}ls /projects --DDtree</styled.CommandPromptWrapper>
                     <styled.ServicesListWrapper>
                         {productList.map((product) => (
                             <TerminalLineItem 

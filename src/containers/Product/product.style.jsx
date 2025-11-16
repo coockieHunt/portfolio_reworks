@@ -6,9 +6,7 @@ const blink = keyframes`
     50% { opacity: 0; }
 `;
 
-
 export const TerminalContainer = styled.div`
-    background-color: #0000003e;
     backdrop-filter: blur(10px);
 
     border: 1px solid ${props => getColorSettings(props.theme).primary};
@@ -24,7 +22,36 @@ export const TerminalContainer = styled.div`
 
     border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
     
-    @media (max-width: ${SCREEN_SIZE.mobile}) {max-width: 95%;}
+    @media ( max-width: ${SCREEN_SIZE.mobile}) {max-width: 90%;}
+
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;        
+        left: 50%;       
+
+      
+        height: 100px;   
+        width: 100px;      
+
+        background-color: ${props => getColorSettings(props.theme).accentuate};
+        opacity: 0.15;    
+        z-index: -1;
+
+        transform: translate(-50%, -50%);
+
+        border-radius: 50%;     
+        filter: blur(40px);     
+
+        transition: width 0.5s ease, height 0.5s ease;
+    }
+
+    &:hover::before {
+        animation: pulse 3s infinite;
+        height: 300px;   
+        width: 300px;  
+    }
 `;
 
 
@@ -37,14 +64,8 @@ export const TerminalHeader = styled.div`
     color: white;
 `;
 
-
-
 export const TerminalLine = styled.div`
     cursor: pointer;
-
-    &.selected {
-        & .header{ border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};}
-    }
 
     & p{
         color: #f0f0f0;
@@ -52,65 +73,75 @@ export const TerminalLine = styled.div`
     }
 
     & .header{
-            display: flex;
-            padding: 10px 20px;
-            border-left: transparent 4px solid;
+        display: flex;
+        padding: 10px 20px;
+        border-left: transparent 4px solid;
 
-            border-bottom: 1px solid ${props => getColorSettings(props.theme).background_secondary};
-            &:last-child {border-bottom: none;}
+        border-bottom: 1px solid ${props => getColorSettings(props.theme).background_secondary};
+        &:last-child {border-bottom: none;}
 
-            &:hover {
-                border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
-                & .left{
-                    scale: 1.05;
-                    & svg {
-                        background-color: ${props => getColorSettings(props.theme).accentuate};}
-                    }
-            }
-
-            & .left {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 15px;
-                margin-right: 100px;
-
-                & span{
-                    font-weight: bold;
-                    opacity: 0.6;
-                }
-
+        &:hover {
+            border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
+            & .left{
+                scale: 1.05;
                 & svg {
-                    margin-top: 5px;
-                    width: 45px;
-                    height: 45px;
-                    border: 1px solid ${props => getColorSettings(props.theme).primary};
-                    border-radius: 8px;
-                    padding: 10px;
-
-                    color: white;
+                    background-color: ${props => getColorSettings(props.theme).accentuate};}
                 }
+        }
+
+        & .left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-right: 100px;
+
+            & span{
+                font-weight: bold;
+                opacity: 0.6;
             }
 
-            & .info {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
+            & svg {
+                margin-top: 5px;
+                width: 45px;
+                height: 45px;
+                border: 1px solid ${props => getColorSettings(props.theme).primary};
+                border-radius: 8px;
+                padding: 10px;
 
-                & .title{color: ${props => getColorSettings(props.theme).primary};}
+                color: white;
 
-                & .subtitle{
-                    color: #aaaaaa;
-                    font-size: 13px;
-                }
+                transform: rotate(0deg);
+
+                transition: all 0.3s ease;
             }
+        }
 
-            & .action { 
-                margin-left: auto;
-                display: flex;
-                align-items: center;
+        & .info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            font-size: 1rem;
+
+            & .title{color: ${props => getColorSettings(props.theme).primary};}
+
+            & .subtitle{
+                color: #aaaaaa;
+                font-size: 13px;
             }
+        }
+
+        & .action { 
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+
+            & svg {
+                transition: transform 0.3s ease;
+            }
+        }
     }
 
     & .content{
@@ -120,6 +151,8 @@ export const TerminalLine = styled.div`
         
         position: relative; 
         overflow: hidden; 
+
+        box-shadow: inset 0px 5px 10px -7px ${props => `rgba(${parseInt(getColorSettings(props.theme).primary.slice(1, 3), 16)}, ${parseInt(getColorSettings(props.theme).primary.slice(3, 5), 16)}, ${parseInt(getColorSettings(props.theme).primary.slice(5, 7), 16)}, 0.2)`};
 
         &::after{
             content: '';
@@ -141,6 +174,7 @@ export const TerminalLine = styled.div`
             justify-content: flex-start;
             gap: 10px;
 
+
             & span {
                 display: flex; 
                 align-items: flex-start; 
@@ -156,10 +190,41 @@ export const TerminalLine = styled.div`
                 color: #f0f0f0;
             }
         }
+
+        & .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 50%;
+            width: 20%;
+            margin-left: 20%;
+            pointer-events: none;
+
+            border-left: 2px dashed  ${props => getColorSettings(props.theme).accentuate};
+            border-bottom: 2px dashed  ${props => getColorSettings(props.theme).accentuate};
+
+            opacity: 0.4;
+        }
+    }
+
+    &.selected {
+        & .header{ 
+            border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
+
+            & .left{
+                & svg {
+                    background-color: ${props => getColorSettings(props.theme).accentuate};}
+                }
+        }
+
+        & .action svg {
+            transform: rotate(180deg);
+        }
     }
 
 
-     @media (max-width: ${SCREEN_SIZE.mobile}) {
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
         & .header {
             flex-direction: column;
             align-items: center;
@@ -167,11 +232,17 @@ export const TerminalLine = styled.div`
             padding: 15px 10px;
             font-size: 12px;
 
-            & .selected {& .header{ border-left: 4px solid transparent;}}
+            & .selected & .header{border-left: 4px solid transparent;}
 
-            & .left {margin-right: 0px; 
+            & .left {
+                margin-right: 0px; 
                 & span{display: none;}
-            }  
+            } 
+
+            & .info {
+                flex-direction: column;
+                gap: 2px;
+            }
 
             & .action {margin-left: 0;}
             &:hover {border-left: 4px solid transparent;}
@@ -179,7 +250,11 @@ export const TerminalLine = styled.div`
 
         & .content {
             &::after{border-left: 4px solid transparent;}
-            &.card {width: 100%;}
+            & .card {width: 100%;}
+             & .card::before {
+                border-left: 2px dashed transparent;
+                border-bottom: 2px dashed transparent;
+            }
         }
     }
 `;
@@ -202,7 +277,6 @@ export const CommandPromptWrapper = styled.div`
 export const ServicesListWrapper = styled.div`
     display: flex;
     flex-direction: column;
-
     padding: 5px 30px;
 
     span {
