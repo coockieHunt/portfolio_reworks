@@ -7,9 +7,7 @@ import {
     ActionForm,
 } from "./Contact.style"
 
-import {
-    CONTACT_EMAIL
-} from '../../config.jsx'
+import { CONTACT_EMAIL } from '../../data.jsx'
 
 import { useWindowSize } from "../../hooks/screenResize.hook"
 import axios from 'axios';

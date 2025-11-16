@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-scroll";
-import { URL } from '../../config.jsx'
+import { URL } from '../../data.jsx'
 
 
 // hook

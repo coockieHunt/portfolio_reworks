@@ -4,8 +4,8 @@ import * as styled from "./product.style";
 import { useState, useRef, useEffect } from "react";
 // icons
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
-// config
-import { productList } from "../../config"; 
+// data
+import { productList } from "../../data"; 
 // components
 import { TitleTextComponent } from "../../components/Text/Text.component"
 
