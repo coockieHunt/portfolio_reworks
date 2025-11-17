@@ -1,4 +1,7 @@
 import { AiFillLayout, AiOutlineRise, AiOutlineAim } from "react-icons/ai";
+import { FaBoxesStacked , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaQuestion  } from "react-icons/fa6";
+
+
 
 export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com'
 
@@ -60,6 +63,49 @@ export const word_hero = [
     'quête',
     'silence',
     'monde',
+];
+
+export const benefitItems = [
+    {
+        icon: <FaEarthEurope/>,
+        title: "GESTION DE PROJETS WEB",
+        description: "Site vitrine, corporate, évènementiel, e-commerce."
+    },
+    {
+        icon: <FaDiceD6 />,
+        title: "INTÉGRATION WEB",
+        description: "Intégrations HTML / CSS respectueuses des standards du Web."
+    },
+    {
+        icon: <FaFileCircleCheck />,
+        title: "DÉVELOPPEMENTS SPÉCIFIQUES",
+        description: "Des outils adaptés à votre coeur de métier,applications & solutions personnalisées."
+    },
+    {
+        icon: <FaEye />,
+        title: "DYNAMISME DES PAGES",
+        description: "Des animations de contenu non intrusives pour embellir votre projet."
+    },
+    {
+        icon: <FaMixer />,
+        title: "RESPONSIVE DESIGN",
+        description: "Compatible tous supports, tablette & application mobile."
+    },
+    {
+        icon: <FaPaintbrush />,
+        title: "CONCEPTION GRAPHIQUE & WEBDESIGN",
+        description: "Plaquettes publicitaires, cartes de visite, newsletters..."
+    },
+    {
+        icon: <FaBoxesStacked />,
+        title: "INSTALLATION DU SERVEUR WEB",
+        description: "Installation et configuration de votre serveur web pour une performance optimale."
+    },
+    {
+        icon: <FaQuestion />,
+        title: "SUPPORT TECHNIQUE",
+        description: "Support technique continu, assure le bon fonctionnement du site."
+    }
 ];
 
 export const serviceModals = [

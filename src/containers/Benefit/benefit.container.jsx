@@ -1,8 +1,19 @@
+// libraries
+import { motion } from "framer-motion"
+
+// styles
 import { Container, TextContainer, Info, Img, Text } from "./benefit.style";
 
+// components
 import { TitleTextComponent } from '../../components/Text/Text.component'
-import { motion } from "framer-motion"
+
+// data
+import { benefitItems } from '../../data';
+
+// hooks
+import { useWindowSize } from "../../hooks/screenResize.hook"
 import { useInView } from 'react-intersection-observer';
+
 
 export const BenefitContainer = ({ id }) => {
     const InfoVariants = {
@@ -49,10 +60,13 @@ export const BenefitContainer = ({ id }) => {
         )
     }
 
+    const marginValues = [0, 20, 20, 0];
+    const isMobile = useWindowSize(1400);
+    
     return (
         <Container>
             <TitleTextComponent subtitle={"A PROPOS"}>Mes compétences</TitleTextComponent>
-            <Text>En constante amélioration, ce métier est en évolution constante. <br /> L'apprentissage continu est l'une des plus belles facettes de la programmation.</Text>
+            <Text>En constante amélioration, ce métier est en évolution constante. <br /> L'apprentissage continu est l'une des plus belles facettes de la programmation.<br /> Cette dynamique, que j'embrasse avec passion, me permet de proposer des solutions modernes et pérennes.</Text>
             <TextContainer id={id}>
                 <motion.div
                     initial="left"
@@ -60,22 +74,17 @@ export const BenefitContainer = ({ id }) => {
                     $transition={{ type: 'spring' }}
                     variants={InfoVariants}>
                     <Info className="start">
-                        <div>
-                            <h3>GESTION DE PROJETS WEB</h3>
-                            <p>Site vitrine, corporate, évènementiel, e-commerce.</p>
-                        </div >
-                        <div>
-                            <h3>INTÉGRATION WEB</h3>
-                            <p>Intégrations HTML / CSS respectueuses des standards du Web.</p>
-                        </div>
-                        <div>
-                            <h3>DÉVELOPPEMENTS SPÉCIFIQUES</h3>
-                            <p>Des outils adaptés à votre coeur de métier,applications & solutions personnalisées.</p>
-                        </div>
-                        <div>
-                            <h3>DYNAMISME DES PAGES</h3>
-                            <p>Des animations de contenu non intrusives pour embellir votre projet.</p>
-                        </div>
+                        {benefitItems.slice(0, 4).map((item, index) => (
+                            <div className="InfoElement" key={index} style={!isMobile ? { marginRight: `${marginValues[index]}px` } : {}}>
+                                <div className="title">
+                                    {isMobile && item.icon}
+                                    <h3>{item.title}</h3>
+                                    {!isMobile && item.icon}
+                                </div>
+
+                                <p className="font_code">{item.description}</p>
+                            </div>
+                        ))}
                     </Info>
                 </motion.div>
                 <Img>
@@ -86,23 +95,16 @@ export const BenefitContainer = ({ id }) => {
                     whileInView={{ x: 0 }}
                     $transition={{ type: 'spring' }}
                     variants={InfoVariants}>
-                    <Info>
-                        <div>
-                            <h3>RESPONSIVE DESIGN</h3>
-                            <p>Compatible tous supports, tablette & application mobile.</p>
-                        </div>
-                        <div>
-                            <h3>CONCEPTION GRAPHIQUE & WEBDESIGN</h3>
-                            <p>Plaquettes publicitaires, cartes de visite, newsletters...</p>
-                        </div>
-                        <div>
-                            <h3>INSTALLATION DU SERVEUR WEB</h3>
-                            <p>Installation et configuration de votre serveur web pour une performance optimale.</p>
-                        </div>
-                        <div>
-                            <h3>SUPPORT TECHNIQUE</h3>
-                            <p>Support technique continu, assure le bon fonctionnement du site.</p>
-                        </div>
+                    <Info className="end">
+                        {benefitItems.slice(4, 8).map((item, index) => (
+                            <div className= "InfoElement" key={index} style={!isMobile ? { marginLeft: `${marginValues[index]}px` } : {}}>
+                                <div className="title" style={{justifyContent: 'flex-start' }}>
+                                    {item.icon}
+                                    <h3>{item.title}</h3>
+                                </div>
+                                <p className="font_code">{item.description}</p>
+                            </div>
+                        ))}
                     </Info>
                 </motion.div>
             </TextContainer>
