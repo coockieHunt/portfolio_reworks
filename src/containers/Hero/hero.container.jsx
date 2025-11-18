@@ -13,7 +13,7 @@ import { MouseComponent } from '../../components/Mouse/Mouse.component';
 import { useWindowSize } from '../../hooks/screenResize.hook';
 
 //config
-import { SCREEN_SIZE, getColorSettings, COLOR_SETTING } from '../../config.jsx'
+import { SCREEN_SIZE, COLOR_SETTING } from '../../config.jsx'
 import { word_hero } from '../../data.jsx'
 
 //context
