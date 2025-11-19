@@ -1,10 +1,29 @@
 import styled from 'styled-components';
-import { getColorSettings, GetLightSetting } from "../../config";
+import { getColorSettings, GetLightSetting, SCREEN_SIZE } from "../../config";
 
 export const Container = styled.div`
     margin: 0 0 100px 0;
     color: ${(props) => GetLightSetting(props.color).font}; 
-`
+    position: relative;
+    & svg {
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        z-index: -1; 
+        transform: translate(-50%, -50%);
+        width: 250%;
+        height: auto;
+        pointer-events: none;
+    }
+
+    @media (max-width: ${SCREEN_SIZE.tablet}) {margin: 0 0 80px 0;}
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        margin: 0 0 60px 0;
+        & svg {width: 300%;}
+    }
+`;
+
 
 export const TimeLineContainer = styled.div`
     display: flex;
@@ -12,23 +31,23 @@ export const TimeLineContainer = styled.div`
     align-items: center;
     position: relative;
     padding: 30px 0;
-    overflow: none;
+    overflow: visible;
+
     
-    &::before{
+    &::before {
         content: ''; 
         position: absolute;
         background-color: ${(props) => getColorSettings(props.theme).primary};
         width: 3px;
         height: 10%;
-        transition: height .5s ease-in-out;
+        transition: height 0.5s ease-in-out;
+        will-change: height;
+        box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary}40;
     }
 
-    &.visible::before {
-        transition: height .5s ease-in-out;
-        height: 97%;
-    }
-
-    &::after{
+    &.visible::before {height: 97%;}
+    
+    &::after {
         content: '';
         position: absolute;
         border-left: 3px solid ${(props) => getColorSettings(props.theme).primary};
@@ -38,42 +57,114 @@ export const TimeLineContainer = styled.div`
         transform: rotate(-45deg);
         bottom: -50px;
     }
+ 
+    & > div:nth-child(2n+1) { 
+        transform: translateX(55%) scale(1);
+        will-change: transform;
 
-    & div > :after{
-        content: ''; 
-        height: 10px;
-        width: 10px;
-        background-color: ${(props) => getColorSettings(props.theme).primary}; 
-        border-radius: 50%; 
-        position: absolute; 
-        top: 50%;
-        opacity: 1;
-        transition: opacity 0.2s ease-in-out;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -5%;
+            height: 1px;
+            width: 5%;
+            z-index: -1;
+            opacity: 1;
+            border-bottom: 1px dashed ${(props) => getColorSettings(props.theme).primary};
+            transition: opacity 0.2s ease;
+        }
+
+        & .dot {
+            left: -5%; 
+            transform: translate(-50%, -50%); 
+            margin-top: 2px;
+            transition: left 0.3s ease, transform 0.3s ease;
+        }
+
+        &:hover {
+            transform: translateX(55%) scale(1.1);
+            border-radius: 0px 5px 5px 0px;
+            
+            &::before {opacity: 0;}
+            
+            & .dot {
+                left: 0%; 
+                transform: translate(-50%, -50%);
+            }
+        }
     }
 
-    & div:hover::after {opacity: 0; }
+    & > div:nth-child(2n) { 
+        transform: translateX(-55%) scale(1);
+        will-change: transform;
 
-    & div{
-        transition: .3s all ease-in-out;
-        background-color: transparent;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -5%;
+            height: 1px;
+            width: 5%;
+            z-index: -1;
+            opacity: 1;
+            border-bottom: 1px dashed ${(props) => getColorSettings(props.theme).primary};
+            transition: opacity 0.2s ease;
+        }
+
+        & .dot {
+            right: -5%; 
+            margin-right: -2px;
+            left: auto;
+            transform: translate(50%, -50%);
+            transition: right 0.3s ease, transform 0.3s ease;
+        }
+
+        &:hover {
+            border-radius: 5px 0px 0px 5px;
+            transform: translateX(-55%) scale(1.1);
+            
+            &::before {opacity: 0;}
+            
+            & .dot {right: 0%; transform: translate(50%, -50%);}
+        }
     }
 
-    & div:hover{
-        background-color: ${(props) => GetLightSetting(props.color).background_secondary}; 
-        & > ::after{opacity: 0;}
+    @media (max-width: ${SCREEN_SIZE.tablet}) {
+        & > div:nth-child(2n+1),
+        & > div:nth-child(2n) {width: 60%;}
     }
 
-    & div:nth-child(2n+1) {
-        transform: translateX(50%)  scale(1);
-        & > ::after{right: 100%; transform: translate(50%, -50%);}
-        &:hover{transform: translate(50%)  scale(1.1);}
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        padding: 20px 0;
+        &::before {width: 2px;}
+        
+        &::after {
+            height: 30px;
+            width: 30px;
+            bottom: -40px;
+        }
+        
+        & > div:nth-child(2n+1),
+        & > div:nth-child(2n) { 
+            transform: translateX(0) !important;
+            width: 85%;
+            max-width: 500px;
+            
+            &::before {display: none;}
+            
+            & .dot {display: none;}
+            
+            &:hover {
+                transform: translateX(0) scale(1.03) !important;
+                border-radius: 5px !important;
+            }
+        }
     }
-    & div:nth-child(2n) {
-        transform: translateX(-50%) scale(1);
-        &:hover{transform: translate(-50%)  scale(1.1);}
-        & > ::after{left: 100%; transform: translate(-50%, -50%);}
-    }
+
 `;
+
 
 export const TimeLineItemContainer = styled.div`
     display: flex; 
@@ -84,24 +175,113 @@ export const TimeLineItemContainer = styled.div`
     padding: 15px 40px;
     margin: 5px 0;
     cursor: pointer;
-    transition: transform 0.3s; 
+    transition: transform 0.3s ease, border-radius 0.3s ease; 
     border-radius: 5px;
-    width: 45%;
+    width: 43%;
+    position: relative;
+    border: 1px solid ${(props) => getColorSettings(props.theme).primary};
+    border-bottom: 4px solid ${(props) => getColorSettings(props.theme).primary};
+    z-index: 1; 
+    will-change: transform;
+
+    & .DotBg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        z-index: 0;
+        pointer-events: none;
+
+        &::after, &::before {display: none;}
+    }
+
+    & .dot {
+        content: ' ';
+        position: absolute;
+        top: 50%; 
+        z-index: 10; 
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        background-color: ${(props) => getColorSettings(props.theme).primary};
+        box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary};
+    }
+
+    &::after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: ${(props) => getColorSettings(props.theme).background_secondary}; 
+        z-index: -1;
+        opacity: 0.9;
+        filter: blur(5px);
+        border-radius: inherit;
+        transition: opacity 0.3s ease, filter 0.3s ease;
+        pointer-events: none;
+    }
+
+    &:hover {&::after {opacity: 1;filter: blur(0px);}}
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        min-height: 80px;
+        padding: 15px 25px;
+        margin: 8px 0;
+    }
+
+    @media (max-width: 600px) {
+        padding: 12px 20px;
+        gap: 8px;
+        border-bottom-width: 3px;
+    }
 `;
+
 
 export const TimeLineTitle = styled.h3`
     font-size: 1.2em;
     font-variation-settings: "wght" 700;
     color: ${(props) => getColorSettings(props.theme).primary}; 
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    position: relative;
+    line-height: 1.3em;
 
-    & span{
-        font-variation-settings: "wght" 300;
-        font-size: 1.2em;
-        display: inline-block;
-        width: 100%;
+    & span {
+        margin-right: 5px;
+        background: linear-gradient(
+            135deg, 
+            ${(props) => getColorSettings(props.theme).primary}, 
+            ${(props) => getColorSettings(props.theme).accentuate}
+        );
+        background-clip: text;
+        font-weight: 800;
+    }
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {font-size: 1.1em;}
+
+    @media (max-width: 600px) {
+        font-size: 1em;
+        & span {margin-right: 3px;}
     }
 `;
 
+
 export const TimeLineContent = styled.p`
+    line-height: 1.6em;
+    z-index: 1;
+    position: relative;
+    opacity: 0.95;
+    
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        font-size: 0.95em;
+        line-height: 1.5em;
+    }
+
+    @media (max-width: 600px) {font-size: 0.9em;}
 `;
