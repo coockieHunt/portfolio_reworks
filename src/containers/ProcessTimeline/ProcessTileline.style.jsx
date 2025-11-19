@@ -11,9 +11,10 @@ export const Container = styled.div`
         left: 50%; 
         z-index: -1; 
         transform: translate(-50%, -50%);
-        width: 250%;
+        width: 250vw; 
         height: auto;
         pointer-events: none;
+
     }
 
     @media (max-width: ${SCREEN_SIZE.tablet}) {margin: 0 0 80px 0;}
@@ -22,6 +23,7 @@ export const Container = styled.div`
         margin: 0 0 60px 0;
         & svg {width: 300%;}
     }
+
 `;
 
 
@@ -48,6 +50,7 @@ export const TimeLineContainer = styled.div`
     &.visible::before {height: 97%;}
     
     &::after {
+
         content: '';
         position: absolute;
         border-left: 3px solid ${(props) => getColorSettings(props.theme).primary};

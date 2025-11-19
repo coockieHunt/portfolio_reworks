@@ -26,7 +26,7 @@ const TimeLineItem = ({ step, title, content }) => {
     )
 };
 
-export const BackgroundSVG = ({strokeColor = 'rgb(253, 252, 253)', opacity = 0.12}) => {
+export const BackgroundSVG = ({strokeColor = 'rgb(253, 252, 253)', opacity = 0.12, className = ''}) => {
     return (
         <svg 
             width="100%" 
@@ -34,13 +34,6 @@ export const BackgroundSVG = ({strokeColor = 'rgb(253, 252, 253)', opacity = 0.1
             viewBox="0 0 100 100" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
-            style={{ 
-                position: 'absolute', 
-                top: '50%', 
-                left: '50%', 
-                zIndex: -1, 
-                transform: 'translate(-50%, -50%)' 
-            }} 
         >
             <defs>
                 <filter id="neon-glow">
@@ -93,8 +86,13 @@ export const ProcessTimeLine = ({ id }) => {
         );
         
         if (timelineElement) {observer.observe(timelineElement);}
-        return () => { timelineElement : observer.unobserve(timelineElement);};
+        return () => { 
+            if (timelineElement) {
+                observer.unobserve(timelineElement);
+            }
+        };
     }, [id, hasBeenVisible]);
+
 
     return (
         <Container>
