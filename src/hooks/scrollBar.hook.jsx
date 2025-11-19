@@ -9,14 +9,21 @@ import { useEffect } from 'react';
 export const useScrollbar = (disableScrollbar) => {
   useEffect(() => {
     const handleScrollbar = () => {
-      document.body.style.overflow = disableScrollbar ? 'hidden' : 'auto';
-      document.body.style.touchAction = disableScrollbar ? 'none' : 'auto';
+      if (disableScrollbar) {
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+      } else {
+        document.body.style.overflowY = 'auto';
+        document.body.style.overflowX = 'hidden';
+        document.body.style.touchAction = 'auto';
+      }
     };
     
     handleScrollbar();
 
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'hidden';
       document.body.style.touchAction = 'auto';
     };
   }, [disableScrollbar]);

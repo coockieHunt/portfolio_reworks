@@ -5,5 +5,11 @@ export const ToText = styled.a`
     font-variation-settings: "wght" 700;
     cursor: pointer;
     border-bottom: 2px solid currentColor;
-    &:hover{font-variation-settings: "wght" 800;}
+    display: inline-block;
+
+    &:hover{
+        opacity: 0.8;
+        transform: scale(1.02);
+        transition: all 0.1s ease-in-out;
+    }
 `;
