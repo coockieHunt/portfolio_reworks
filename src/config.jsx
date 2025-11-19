@@ -1,6 +1,4 @@
 import {useSettingContext} from "./context/Setting.context"
-import { AiFillLayout, AiOutlineRise, AiOutlineAim } from "react-icons/ai";
-
 
 //FUNCTION
 export const getColorSettings = () => {
@@ -95,6 +93,7 @@ export const LIGHT_SETTING = {
 
 export const SCREEN_SIZE = {
     mobile: '850px',
+    tablet: '1150px'
 }
 
 // Alias exports for backward compatibility
