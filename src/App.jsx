@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import {useSettingContext} from './context/Setting.context.jsx'
 // Import
 import GlobalStyle, { Content } from './styles/global.style.jsx';
-import { COLOR } from './config.jsx'
 import { URL } from './data.jsx'
-import HashLoader from "react-spinners/HashLoader";
 
 // Container
 import { NavigationComponent } from './containers/Navigation/navigations.container';
@@ -65,9 +62,9 @@ function App() {
                         <BenefitContainer id='benefit' />
                         <ProcessTimeLine id='ProcessTimeline' />
                         <QuoteContainer >
-                            <BiSolidQuoteLeft /> Vous voulez voir comment le site est construit ? Il est en public pour le <LinkTextComponent to={URL.ghithudb_portfolio_rework}>Front</LinkTextComponent> et <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>Api</LinkTextComponent> <BiSolidQuoteRight />
+                            <BiSolidQuoteLeft /> Vous êtes un <span style={{fontStyle: "italic"}} className="fond_code">Techos</span> ? vous voulez voir comment le site est construit ? <br/> Il est en public ici <LinkTextComponent to={URL.ghithudb_portfolio_rework}> [Code Source Front-end] </LinkTextComponent> <LinkTextComponent to={URL.ghithudb_portfolio_rework_api}>[Code Source API]</LinkTextComponent> <BiSolidQuoteRight />
                         </QuoteContainer>
-                        <MyProjectContainer id='project' />
+                        <MyProjectContainer id='project' /> 
                         <ContactContainer id='contact' />
                         <StackContainer />
                         <FooterContainer />

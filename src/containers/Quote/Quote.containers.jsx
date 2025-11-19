@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {Quoute} from './Quote.style.jsx'
 import { motion } from "framer-motion"
 
@@ -14,6 +12,5 @@ export const QuoteContainer = ({children}) =>{
               <span>{children}</span>
             </motion.div>
           </Quoute>
-        
       );
   }

@@ -43,6 +43,10 @@ const GlobalStyle = createGlobalStyle`
   html,
   body {
     overflow-x: hidden;
+    overflow-y: auto;
+    height: 100vh;
+    width: 100%;
+
   }
 `
 
