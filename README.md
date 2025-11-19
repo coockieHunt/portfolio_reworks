@@ -32,10 +32,15 @@ To set up and run my portfolio locally, follow these steps:
 
 4. **Start the development server**:
    ```bash
-   npm start
+   npm run dev
    ```
 
-5. **Build for production**:
+   To run the server with network access (accessible from other devices on your network):
+   ```bash
+   npm run dev:network
+   ```
+
+5. **Build for production (read license)**:
    ```bash
    npm run build
    ```
@@ -117,10 +122,15 @@ Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
 
 4. **Démarrer le serveur de développement**:
    ```bash
-   npm start
+   npm run dev
    ```
 
-5. **Compiler pour la production**:
+   Pour lancer le serveur avec accès réseau (accessible depuis d'autres appareils sur votre réseau) :
+   ```bash
+   npm run dev:network
+   ```
+
+5. **Compiler pour la production (lire la license)**:
    ```bash
    npm run build
    ```
