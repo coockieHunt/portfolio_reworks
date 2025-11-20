@@ -1,24 +1,29 @@
-import * as Styled from "./Setting.style"
-import { useState, useEffect } from "react"
-import { COLOR_SETTING } from '../../config.jsx';
+//React
+import { useState, useEffect, useRef } from "react"
 
+//Icons
+import { FaCaretUp, FaCaretDown, FaXmark, FaPalette   } from "react-icons/fa6";
+
+//Styles
+import * as Styled from "./Setting.style"
+
+//Config
+import { COLOR_SETTING,SCREEN_SIZE } from '../../config.jsx';
+
+//Hooks
+import { useWindowSize } from "../../hooks/screenResize.hook"
+
+//Context
+import { useAlert } from '../../context/alert.context';
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
 
-import { FaCaretUp, FaCaretDown, FaXmark  } from "react-icons/fa6";
-import { useRef } from "react";
-import { getContrastTextColor } from "../../utils/WCAG_check.jsx";
-
-import { useAlert } from '../../context/alert.context';
-
-
 export const SettingContainer = () => {
-    const {changeTheme, changeLight, settings } = useSettingContext();
+    const {changeTheme, settings } = useSettingContext();
     const {showLoading, hideLoading} = useLoading();
     const { addAlert } = useAlert();
-
     const [isOpen, setIsOpen] = useState(false)
-
+    const isMobile = useWindowSize(1200);
     const containerRef = useRef(null);
 
     const handleThemeChange = (NewTheme, DisplayName) => {
@@ -27,7 +32,6 @@ export const SettingContainer = () => {
         setTimeout(() => {changeTheme(NewTheme);}, 500);
         setTimeout(() => {hideLoading();}, 2000); 
 
-        console.log("Theme changed to:", NewTheme);
         addAlert(`Votre thème est maintenant en mode ${DisplayName}.`, COLOR_SETTING[NewTheme].primary, 4000);
     };
 
@@ -86,7 +90,7 @@ export const SettingContainer = () => {
     }, [containerRef]);
 
 
-    const ArrowIcon = isOpen ? <FaCaretDown />: <FaCaretUp />;
+    const ArrowIcon = isOpen ? FaCaretDown : FaCaretUp;
     return (
         <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
             <Styled.Toggle>
@@ -95,7 +99,13 @@ export const SettingContainer = () => {
                 >
                 <Styled.Title>
                     <span className="Toggle">
-                        {ArrowIcon} <span>Apparence</span>
+                        {!isMobile ? 
+                            <>
+                                <ArrowIcon /> 
+                                <span>Apparence</span>
+                            </> 
+                            : <FaPalette />
+                        }
                     </span>
                 </Styled.Title>
                 </Styled.Action>
@@ -107,7 +117,6 @@ export const SettingContainer = () => {
                 </Styled.CloseButton>
 
                 <h3 className="font_code">Apparence</h3>
-
 
                 <Styled.Option>
                     <h3 className="titleOption">Thème de Couleur</h3>

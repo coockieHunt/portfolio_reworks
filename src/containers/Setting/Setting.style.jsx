@@ -38,7 +38,12 @@ export const ContainerSetting = styled.div`
             background-color: ${props => getColorSettings(props.theme).background_secondary};
             padding: 10px 20px;
             border-radius: 5px;
-            border: 2px solid ${props => getColorSettings(props.theme).primary}
+            border: 2px solid ${props => getColorSettings(props.theme).primary};
+            @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                border: none;   
+                border-radius: inherit;
+            }
+            
         }
         transform: translateX(0%);
     }
@@ -52,6 +57,12 @@ export const Toggle = styled.div`
 
     padding: 10px;
     cursor: pointer;
+
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        top: auto;
+        bottom: 80px;
+    }
 `
 
 export const Action = styled.div`
@@ -86,15 +97,39 @@ export const Title = styled.span`
     opacity: 0.7;
     color: ${props => getColorSettings(props.theme).font};
     font-size: 1em;
+    top: 50%;
+
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         z-index: 50;
+        transform: rotate(0deg);
+        right: calc(0);
+        right: 0;
+
+        color: ${props => getColorSettings(props.theme).primary};
+
+        bottom: 0;
+        padding: 30px;
+        width: 20%;
+        height: auto;
+
+        background-color: ${props => getColorSettings(props.theme).background_secondary};
+        border-radius: 50%;
+        border: 2px solid ${props => getColorSettings(props.theme).primary};
+        box-shadow: 0 0 20px ${props => getColorSettings(props.theme).primary};
+        
+        & svg {
+            height: 20px; width: 20px;
+            transform: translateY(-15%);
+        }
+
     }
 
     & > span {
         display: flex;
         align-items: center;
         gap: 5px;
+        
 
     & svg {margin-top: 5px;}}
 `;
