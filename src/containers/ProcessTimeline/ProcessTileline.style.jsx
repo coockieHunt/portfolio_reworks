@@ -165,7 +165,6 @@ export const TimeLineContainer = styled.div`
             }
         }
     }
-
 `;
 
 
@@ -196,8 +195,22 @@ export const TimeLineItemContainer = styled.div`
         border-radius: inherit;
         z-index: 0;
         pointer-events: none;
+        overflow: hidden; 
 
-        &::after, &::before {display: none;}
+        &::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            right: -20%;
+            bottom: -20%;
+            background-color: ${(props) => getColorSettings(props.theme).background_secondary};
+            z-index: 0;
+            opacity: 0.9;
+            filter: blur(5px);
+            transition: opacity 0.3s ease, filter 0.3s ease;
+            pointer-events: none;
+        }
     }
 
     & .dot {
@@ -212,23 +225,8 @@ export const TimeLineItemContainer = styled.div`
         box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary};
     }
 
-    &::after {
-        content: ' ';
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background-color: ${(props) => getColorSettings(props.theme).background_secondary}; 
-        z-index: -1;
-        opacity: 0.9;
-        filter: blur(5px);
-        border-radius: inherit;
-        transition: opacity 0.3s ease, filter 0.3s ease;
-        pointer-events: none;
-    }
-
-    &:hover {&::after {opacity: 1;filter: blur(0px);}}
+    /* Le pseudo-élément flou est maintenant dans .DotBg::before, on cible celui-ci au hover */
+    &:hover { & .DotBg::before { opacity: 1; filter: blur(0px); } }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         min-height: 80px;
