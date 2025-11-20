@@ -74,6 +74,8 @@ export const Info = styled.div`
         & .InfoElement {           
             border-bottom: 1px solid #ffffff32;
             padding-bottom: 30px;
+
+            &:hover {transform: scale(1);}}
         }
     }
 
