@@ -23,9 +23,9 @@ export const CathContainer = ({ id }) => {
         onMouseLeave={() => setIsHovered(false)}>
             <DotGridEffect
                 $isHovered={true}
-                dotColor="#fafeff14"
-                spacing="18px"
-                dotSize="2px"/>
+                $DotColor="#fafeff14"
+                $Spacing="18px"
+                $DotSize="2px"/>
 
             <div style={{ position: "relative", zIndex: 2 }}>
                 <div className='header-card'>

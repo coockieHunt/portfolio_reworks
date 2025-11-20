@@ -31,17 +31,15 @@ export const DotGridEffect = styled.div`
 
   background-image: radial-gradient(
     circle,
-    ${props => props.dotColor || '#383737'} ${props => props.dotSize || '2px'},
-    transparent ${props => props.dotSize || '2px'}
+    ${props => props.$DotColor || '#383737'} ${props => props.$DotSize || '2px'},
+    transparent ${props => props.$DotSize || '2px'}
   );
-  background-size: ${props => props.spacing || '20px'} ${props => props.spacing || '20px'};
-  background-position: ${props => props.offsetX || '0'} ${props => props.offsetY || '0'};
+  background-size: ${props => props.$Spacing || '20px'} ${props => props.$Spacing || '20px'};
+  background-position: ${props => props.$offsetX || '0'} ${props => props.$offsetY || '0'};
 
-  /* Animation d’apparition douce */
   opacity: ${props => (props.$isHovered ? 1 : 0)};
   transition: opacity 0.5s ease-in-out;
 
-  /* Effet visuel optionnel pour mieux fondre avec le fond */
   mix-blend-mode: overlay;
-  pointer-events: none; /* Empêche d’interférer avec les clics sur la carte */
+  pointer-events: none; 
 `;

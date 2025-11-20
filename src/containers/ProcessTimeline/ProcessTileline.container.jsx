@@ -16,9 +16,9 @@ const TimeLineItem = ({ step, title, content }) => {
             <DotGridEffect
                 className='DotBg'
                 $isHovered={true}
-                dotColor="#fafeff14"
-                spacing="18px"
-                dotSize="2px"/>
+                $DotColor="#fafeff14"
+                $Spacing="18px"
+                $DotSize="2px"/>
             <TimeLineTitle className='font_code'><span>{step + 1}.</span> {title}</TimeLineTitle>
             <TimeLineContent>{content}</TimeLineContent>
             <div className="dot"/>

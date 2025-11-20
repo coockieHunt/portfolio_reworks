@@ -67,9 +67,9 @@ export const ServiceContainer = ({ id }) => {
 			<Fence onClick={onClick}>
 				<DotGridEffect
 					$isHovered={true}
-					dotColor="#fafeff6c"
-					spacing="18px"
-					dotSize="2px"/>
+					$DotColor="#fafeff6c"
+					$Spacing="18px"
+					$DotSize="2px"/>
 
 				{icon}
 				<p className='catch' style={{ whiteSpace: 'pre-line' }}>
