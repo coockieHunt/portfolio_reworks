@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 
 //Icons
-import { FaCaretUp, FaCaretDown, FaXmark, FaPalette   } from "react-icons/fa6";
+import { FaCaretUp, FaCaretDown, FaXmark, FaPalette, FaX    } from "react-icons/fa6";
 
 //Styles
 import * as Styled from "./Setting.style"
@@ -101,8 +101,8 @@ export const SettingContainer = () => {
                     <span className="Toggle">
                         {!isMobile ? 
                             <>
-                                <ArrowIcon /> 
-                                <span>Apparence</span>
+                                {isOpen ?  <span>Fermer</span> : <span>Apparence</span>}
+                                
                             </> 
                             : <FaPalette />
                         }

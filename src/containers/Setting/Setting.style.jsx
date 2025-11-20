@@ -35,10 +35,15 @@ export const ContainerSetting = styled.div`
 
     &.opened{
         & .Toggle{
+            height: auto;
+            font-size: 1.3em;
+
             background-color: ${props => getColorSettings(props.theme).background_secondary};
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: 2px solid ${props => getColorSettings(props.theme).primary};
+            padding: 12px;
+
+            border: 1px solid ${props => getColorSettings(props.theme).primary};
+            box-shadow: 0 0 15px ${props => getColorSettings(props.theme).primary} 40;
+            
             @media ( max-width: ${SCREEN_SIZE.mobile}) {
                 border: none;   
                 border-radius: inherit;
@@ -129,9 +134,7 @@ export const Title = styled.span`
         display: flex;
         align-items: center;
         gap: 5px;
-        
-
-    & svg {margin-top: 5px;}}
+        & svg {margin-top: 5px;}}
 `;
 
 export const Option = styled.div`
@@ -252,6 +255,7 @@ export const OptionsList = styled.div`
         font-variation-settings: "wght" 600;
         margin-bottom: 15px;
         font-size: 1.2em;
+        color: white;
     }
     
     &::after {
