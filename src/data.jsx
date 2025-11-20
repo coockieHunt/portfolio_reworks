@@ -1,5 +1,5 @@
 import { AiFillLayout, AiOutlineRise, AiOutlineAim } from "react-icons/ai";
-import { FaBoxesStacked , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaQuestion  } from "react-icons/fa6";
+import { FaBoxesStacked , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaQuestion, FaLaptopCode, FaDiceD20, FaBarsProgress } from "react-icons/fa6";
 
 
 
@@ -145,4 +145,31 @@ export const TimeLine = [
     { title: "En avant pour le développement ! 👨‍💻", content: "Une fois que vous aurez donné le feu vert sur le devis, c'est parti pour la création de votre site internet ! Je vous tiendrai au courant à chaque étape du processus, vous permettant ainsi de suivre l'évolution de l'interface et de l'expérience utilisateur dès le départ. Attachez vos ceintures, c'est le début d'une aventure digitale palpitante ! 🛠️💻" },
     { title: "Prêt, set, Go ! 🚀", content: "Une fois que votre site sera dans les starting-blocks et qu'il répondra à toutes vos attentes, je vous délivrerai les clés d'accès pour que vous puissiez vous lancer dans l'aventure en ligne. Accrochez-vous, le succès n'attend que vous ! 🚀🔑" },
     { title: "Derniers ajustements ! 🔍", content: "Je serai là pour vous guider dans les méandres de vitre site, vous donnant les superpouvoirs nécessaires pour dompter votre site web! Préparez-vous à devenir le maître incontesté de votre royaume en ligne ! 🌟💻" },
+];
+
+export const skillCards = [
+    {
+        Icon: FaLaptopCode,
+        title: "Développement",
+        description: "L'art de transformer des concepts abstraits en solutions logicielles performantes, évolutives et innovantes.",
+        color: "#0065a9"
+    },
+    {
+        Icon: FaDiceD20,
+        title: "Création 3D",
+        description: "Intégration d'expériences immersives et de modèles 3D interactifs en temps réel directement sur le Web.",
+        color: "#EA7600"
+    },
+    {
+        Icon: FaBarsProgress,
+        title: "Systèmes Électroniques",
+        description: "L'intelligence connectée : de l'IoT à l'intégration hardware-software pour des interactions physiques.",
+        color: "#2ac703"
+    },
+    {
+        Icon: FaPaintbrush,
+        title: "Design & UX/UI",
+        description: "Conception d'interfaces intuitives et créatives qui captivent l'utilisateur et optimisent l'expérience.",
+        color: "#E749A0"
+    }
 ];

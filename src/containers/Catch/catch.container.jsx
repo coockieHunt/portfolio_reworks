@@ -10,9 +10,7 @@ import {WaveComponent} from '../../components/Wave/wave.component.jsx'
 
 //config
 import { getColorSettings} from '../../config.jsx'
-
-//icons
-import { FaLaptopCode, FaDiceD20, FaBarsProgress, FaPaintbrush } from "react-icons/fa6";
+import { skillCards } from '../../data.jsx'
 
 export const CathContainer = ({ id }) => {
     const SkillCard = ({ Icon, title, description, color }) => {
@@ -48,33 +46,15 @@ export const CathContainer = ({ id }) => {
                 </div>
                 <div className="right">
                     <StyleCatch.CardList className="cardList">
-                        <SkillCard 
-                            Icon={FaLaptopCode} 
-                            title="Développement" 
-                            description="L'art de transformer des concepts abstraits en solutions logicielles performantes, évolutives et innovantes." 
-                            color="#0065a9" 
-                        />
-
-                        <SkillCard
-                            Icon={FaDiceD20}
-                            title="Création 3D"
-                            description="Intégration d'expériences immersives et de modèles 3D interactifs en temps réel directement sur le Web."
-                            color="#EA7600"
-                        />
-
-                        <SkillCard
-                            Icon={FaBarsProgress}
-                            title="Systèmes Électroniques"
-                            description="L'intelligence connectée : de l'IoT à l'intégration hardware-software pour des interactions physiques."
-                            color="#2ac703"
-                        />
-
-                        <SkillCard
-                            Icon={FaPaintbrush}
-                            title="Design & UX/UI"
-                            description="Conception d'interfaces intuitives et créatives qui captivent l'utilisateur et optimisent l'expérience."
-                            color="#E749A0"
-                        />
+                        {skillCards.map((card, index) => (
+                            <SkillCard 
+                                key={index}
+                                Icon={card.Icon} 
+                                title={card.title} 
+                                description={card.description} 
+                                color={card.color} 
+                            />
+                        ))}
                     </StyleCatch.CardList>
                 </div>
             </StyleCatch.Text>
