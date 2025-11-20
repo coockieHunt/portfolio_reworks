@@ -40,13 +40,18 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
 
-  html,
-  body {
+  html {
     overflow-x: hidden;
     overflow-y: auto;
     height: 100vh;
     width: 100%;
+  }
 
+  body {
+    overflow-x: hidden;
+    overflow-y: visible;
+    min-height: 100vh;
+    width: 100%;
   }
 `
 

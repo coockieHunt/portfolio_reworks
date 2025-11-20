@@ -1,4 +1,5 @@
 import { Mouse } from "./style/Mouse.style"
+import { getColorSettings, GetLightSetting } from "../../config"
 
 /**
  * MouseComponent
@@ -13,7 +14,14 @@ import { Mouse } from "./style/Mouse.style"
  * @returns {JSX.Element} React component.
  */
 export const MouseComponent = ({ type = "mouse" }) => {
+    const colorSettings = getColorSettings();
+    const lightSettings = GetLightSetting();
+    
     return (
-        <Mouse type={type} />
+        <Mouse 
+            type={type} 
+            $colorSettings={colorSettings}
+            $lightSettings={lightSettings}
+        />
     )
 }

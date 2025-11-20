@@ -1,7 +1,6 @@
 import { AiFillLayout, AiOutlineRise, AiOutlineAim } from "react-icons/ai";
-import { FaBoxesStacked , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaQuestion, FaLaptopCode, FaDiceD20, FaBarsProgress } from "react-icons/fa6";
-
-
+import { FaBoxesStacked , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaArrowsTurnToDots , FaLaptopCode, FaDiceD20, FaBarsProgress, FaGithub, FaLinkedinIn, FaDeviantart, FaRegUser } from "react-icons/fa6";
+import cv from './assets/pdf/cv_dev_JG.pdf'
 
 export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com'
 
@@ -102,7 +101,7 @@ export const benefitItems = [
         description: "Installation et configuration de votre serveur web pour une performance optimale."
     },
     {
-        icon: <FaQuestion />,
+        icon: <FaArrowsTurnToDots  />,
         title: "SUPPORT TECHNIQUE",
         description: "Support technique continu, assure le bon fonctionnement du site."
     }
@@ -171,5 +170,34 @@ export const skillCards = [
         title: "Design & UX/UI",
         description: "Conception d'interfaces intuitives et créatives qui captivent l'utilisateur et optimisent l'expérience.",
         color: "#E749A0"
+    }
+];
+
+export const socialLinks = [
+    {
+        icon: <FaGithub />,
+        color: "#6e5494",
+        url: URL.github,
+        text: "Github"
+    },
+    {
+        icon: <FaLinkedinIn />,
+        color: "#0e76a8",
+        url: URL.linkedin,
+        text: "Linkedin"
+    },
+    {
+        icon: <FaDeviantart />,
+        color: "#05cc46",
+        url: URL.DeviantArt,
+        text: "Deviantart"
+    },
+    {
+        icon: <FaRegUser />,
+        color: "#00ffc8",
+        url: cv,
+        text: "Curriculum vitae",
+        textX: "-90%",
+        isFile: true
     }
 ];

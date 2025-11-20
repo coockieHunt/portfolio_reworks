@@ -1,5 +1,4 @@
 import styled, { keyframes, css } from 'styled-components';
-import { getColorSettings, GetLightSetting } from '../../../config';
 
 
 const type_size = {
@@ -30,7 +29,7 @@ export const Mouse = styled.div`
     width: ${props => props.type == "mouse" ? type_size.mouse.width : type_size.phone.width};
     height: ${props => props.type == "mouse" ? type_size.mouse.height : type_size.phone.height};
     margin: 50px auto;
-    border: 2px solid ${props => GetLightSetting(props.light).font};
+    border: 2px solid ${props => props.$lightSettings.font};
     border-radius:  ${props => props.type == "mouse" ? type_size.mouse.border : type_size.phone.border};
 
   &:after {
@@ -40,7 +39,7 @@ export const Mouse = styled.div`
     top: ${props => props.type == "mouse" ? type_size.mouse.positonX : type_size.phone.positonX};
     left: ${props => props.type == "mouse" ? type_size.mouse.positonY : type_size.phone.positonY};
     transform: translate(-50%, 0);
-    border: 2px solid ${props => getColorSettings(props.theme).primary};
+    border: 2px solid ${props => props.$colorSettings.primary};
     border-radius: 100%;
     animation: ${scrollWheelAnimation} 1.4s infinite alternate ease-in-out;
 
@@ -56,8 +55,8 @@ export const Mouse = styled.div`
 			top: 15%;
 			left: calc(100% + 4px);
 			transform: translate(-50%, 0);
-			border: 1px solid ${props => getColorSettings(props.theme).primary};
-			background-color: ${props => getColorSettings(props.theme).primary};
+			border: 1px solid ${props => props.$colorSettings.primary};
+			background-color: ${props => props.$colorSettings.primary};
 			height: 15px;
 			width: 1px;
 			border-radius: 0 4px 4px 0;

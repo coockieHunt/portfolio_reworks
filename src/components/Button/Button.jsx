@@ -8,7 +8,7 @@ import { IconContainer } from './style/Icon.style';
 import { LinkContainer } from './style/link.style'
 
 //hook
-import { useScrollOffsetY as useScrollOffsetY } from '../../hooks/offsetScroll.hook';
+import { useScrollOffsetY } from '../../hooks/offsetScroll.hook';
 
 /**
  * Button Component

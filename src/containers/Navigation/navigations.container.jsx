@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from "react-scroll";
-import { URL } from '../../data.jsx'
-
+import { socialLinks } from '../../data.jsx'
 
 // hook
 import { useScrollbar } from "../../hooks/scrollBar.hook"
 import { useWindowSize } from "../../hooks/screenResize.hook"
+import { useScrollOffsetY } from '../../hooks/offsetScroll.hook';
 
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
@@ -13,34 +13,12 @@ import { IconButton } from "../../components/Button/Button"
 
 // assets
 import brand_logo from '../../assets/images/main_logo.svg'
-import cv from '../../assets/pdf/cv_dev_JG.pdf'
 
 //style
-import {
-    NavigationContainer,
-    Logo,
-    Nav,
-    BrandContainer
-} from './navigations.style';
+import * as Styled from './navigations.style';
 
-// icon
-import {
-    AiFillGithub,
-    AiFillLinkedin,
-} from 'react-icons/ai';
-import {
-    BiSolidUser
-} from 'react-icons/bi';
-
-import {
-    FaDeviantart
-} from 'react-icons/fa';
-
-import {
-    SCREEN_SIZE
-} from '../../config.jsx'
-
-
+// config
+import * as config from '../../config.jsx'
 
 const BuildNavigation = ({ menuItems, onClick }) => {
     return (
@@ -55,30 +33,25 @@ const BuildNavigation = ({ menuItems, onClick }) => {
     );
 };
 
-
 export const NavigationComponent = ({ navConfig }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const isMobile = useWindowSize(
-        SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2),
+        config.SCREEN_SIZE.mobile.substring(0, config.SCREEN_SIZE.mobile.length - 2),
     );
+
     useScrollbar(menuOpen);
-
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
-
-
+    const toggleMenu = () => {setMenuOpen(!menuOpen);};
+    
     return (
-        <NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"}>
-            <BrandContainer>
-                <Logo src={brand_logo}
+        <Styled.NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"} >
+            <Styled.BrandContainer>
+                <Styled.Logo src={brand_logo}
                     alt="brand_logo"
                 />
                 {isMobile ? <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} /> : null}
-            </BrandContainer>
-
-            <Nav className={menuOpen ? "NavOpen" : "NavClose"}>
+            </Styled.BrandContainer>
+            <Styled.Nav className={menuOpen ? "NavOpen" : "NavClose"}>
                 <ul>
                     <BuildNavigation
                         menuItems={navConfig}
@@ -86,35 +59,19 @@ export const NavigationComponent = ({ navConfig }) => {
                     />
                 </ul>
 
-                <div className="info">
-                    <IconButton
-                        icon={<AiFillGithub />}
-                        color="#6e5494"
-                        onClick={() => window.location.href = URL.github}
-                        text="Github"
-                    />
-                    <IconButton
-                        icon={<AiFillLinkedin />}
-                        color="#0e76a8"
-                        onClick={() => window.location.href = URL.linkedin}
-                        text="Linkedin"
-                    />
-                    <IconButton
-                        icon={<FaDeviantart />}
-                        color="#05cc46"
-                        onClick={() => window.location.href = URL.DeviantArt}
-                        text="Deviantart"
-                    />
-                    <IconButton
-                        icon={<BiSolidUser />}
-                        color="#00ffc8"
-                        onClick={() => window.open(cv, '_blank')}
-                        text="Curriculum vitae"
-                        textX="-90%"
-                    />
+                <div className="info" >
+                    {socialLinks.map((link, index) => (
+                        <IconButton
+                            key={index}
+                            icon={link.icon}
+                            color={link.color}
+                            onClick={() => link.isFile ? window.open(link.url, '_blank') : window.location.href = link.url}
+                            text={link.text}
+                            textX={link.textX}
+                        />
+                    ))}
                 </div>
-
-            </Nav>
-        </NavigationContainer>
+            </Styled.Nav>
+        </Styled.NavigationContainer>
     );
 }

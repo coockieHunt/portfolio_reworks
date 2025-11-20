@@ -3,6 +3,8 @@ import { SCREEN_SIZE, getColorSettings } from '../../config.jsx';
 
 export const Container = styled.div`
     padding: 30px 0;
+    padding-top: 90px;
+    margin-top: -60px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
