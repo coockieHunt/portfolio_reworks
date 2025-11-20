@@ -16,7 +16,6 @@ export const NavigationContainer = styled.div`
     &.NavOpen{background-color: ${props => getColorSettings(props.theme).background};}
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        position: fixed;
         z-index: 1000;
         flex-direction: column;
         height: 100vh;
