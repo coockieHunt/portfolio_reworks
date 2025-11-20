@@ -8,7 +8,7 @@ export const BurgerMenuContainer = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	cursor: pointer;
-
+	position: relative;
 	z-index: 1001;
 
 	div {

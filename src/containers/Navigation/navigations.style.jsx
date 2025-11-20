@@ -12,17 +12,21 @@ export const NavigationContainer = styled.div`
     left: 0;
     z-index: 15;
     background-color: transparent;
-
     transition: background-color 0.3s ease;
-
     &.NavOpen{background-color: ${props => getColorSettings(props.theme).background};}
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
+        position: fixed;
+        z-index: 1000;
         flex-direction: column;
-        height: 100vh;  
+        height: 100vh;
+        height: 100dvh;
         padding: 5px 10px;
         
-        &.NavClose{height: 5vh; transition: height 0.3s ease;}
+        &.NavClose{
+            height: 60px;
+            overflow: hidden;
+        }
     }
 `
 
@@ -93,7 +97,7 @@ export const Nav = styled.nav`
 
 
   @media (max-width: ${SCREEN_SIZE.mobile}) {
-    height: 95%;
+    height: calc(100% - 60px);
     width: 100%;
     ul {
         height: 100%;
@@ -116,7 +120,8 @@ export const Nav = styled.nav`
 `;
 
 export const BrandContainer = styled.div`
-    height: 5vh;
+    height: 60px;
+    min-height: 60px;
     padding: 0 20px;
     display: flex;
     justify-content: space-between;
@@ -124,6 +129,6 @@ export const BrandContainer = styled.div`
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
-        padding: 0;
+        padding: 0 10px;
     }
 `

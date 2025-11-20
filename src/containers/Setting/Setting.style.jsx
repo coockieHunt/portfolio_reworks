@@ -15,18 +15,23 @@ const rainbowShift = keyframes`
 
 export const ContainerSetting = styled.div`
     position: fixed;
-    z-index: 10;
+    z-index: 1100;
     color: white;
     right: 0;
+    top: 0;
     display: flex;
     transform: translateX(0%);
     transition: transform .5s ease-in-out;
-    height: 100vh; 
-	z-index: 1002;
+    height: 100vh;
+    height: 100dvh;
 
-    &.close{
-        transform: translateX(100%);
+    @media ( max-width: ${SCREEN_SIZE.mobile}) {
+        width: 100%;
+        z-index: 1200;
     }
+
+
+    &.close{transform: translateX(100%);}
 
     &.opened{
         & .Toggle{
@@ -35,6 +40,7 @@ export const ContainerSetting = styled.div`
             border-radius: 5px;
             border: 2px solid ${props => getColorSettings(props.theme).primary}
         }
+        transform: translateX(0%);
     }
 `
 
@@ -74,14 +80,16 @@ export const Title = styled.span`
     font-variation-settings: "wght" 300;
     width: 200px;
     height: 50px;
-
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0.7;
     color: ${props => getColorSettings(props.theme).font};
-
     font-size: 1em;
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        z-index: 50;
+    }
 
     & > span {
         display: flex;
@@ -197,7 +205,7 @@ export const OptionsList = styled.div`
     flex-direction: column;
     padding: 15px;
     width: 500px;
-    height: 100vh;
+    height: 100%;
     border-left: 3px solid ${props => getColorSettings(props.theme).background_secondary};
     padding: 30px 30px;
     position: relative;
