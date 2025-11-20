@@ -32,23 +32,35 @@ export const SettingContainer = () => {
     };
 
     const handleRandomThemeChange = () => {
-        const randHex = () => '#'+Math.floor(Math.random()*0xFFFFFF).toString(16).padStart(6,'0');
+        const randHex = () => {
+            const val = () => Math.floor(Math.random() * 150) + 50;
+            const r = val();
+            const g = val();
+            const b = val();
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        };
+
         const newKey = `random_${Date.now().toString(36)}`;
-        
         const newBackground = randHex(); 
 
-        const contrastPrimaryColor = getContrastTextColor(newBackground);
+        const randBright = () => {
+            const val = () => Math.floor(Math.random() * 100) + 155; 
+            const r = val();
+            const g = val();
+            const b = val();
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        };
 
         COLOR_SETTING[newKey] = {
             background: newBackground,
             background_secondary: randHex(), 
             background_tertiary: randHex(), 
-            primary: contrastPrimaryColor,
+            primary: randBright(),
             secondary: randHex(), 
             accentuate: randHex(), 
             border: randHex()
         };
-        handleThemeChange(newKey, "PAPUCHE !!!");
+        handleThemeChange(newKey, "🦄 PAPUCHE !!!");
     };
 
 
