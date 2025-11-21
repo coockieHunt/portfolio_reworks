@@ -26,7 +26,7 @@ export const Text = styled.span`
     text-align: center;
     width: 100%;
     display: inline-block;
-    color: ${props => GetLightSetting(props.light).font};
+    color: var(--font, ${props => GetLightSetting(props.light).font});
 
     padding: 0 25px;
 `;
@@ -84,12 +84,17 @@ export const Info = styled.div`
         align-items: center;
         gap: 20px;
         margin-bottom: 10px;
+        color: white;
+
+
+       
+
 
         & svg {
             font-size: 1.6em;
             height: auto;
             width: 35px;
-            border: 2px solid ${props => getColorSettings(props.theme).primary};
+            border: 2px solid var(--primary, ${props => getColorSettings(props.theme).primary});
             padding: 8px;
             border-radius: 8px;
             position: relative;
@@ -101,7 +106,7 @@ export const Info = styled.div`
         line-height: 2em;
         text-transform: uppercase;
         font-variation-settings: "wght" 500;
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary, ${props => getColorSettings(props.theme).primary});
         position: relative;
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -161,7 +166,7 @@ export const Img = styled.div`
         
         background: radial-gradient(
             circle,
-            ${props => getColorSettings(props.theme).primary} 10%, 
+            var(--primary, ${props => getColorSettings(props.theme).primary}) 10%, 
             transparent 60% 
         );
 
@@ -176,7 +181,7 @@ export const Img = styled.div`
         padding: 10px;
         width: 60%;
         height: auto;
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary, ${props => getColorSettings(props.theme).primary});
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}

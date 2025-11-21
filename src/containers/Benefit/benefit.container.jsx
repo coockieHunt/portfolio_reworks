@@ -13,6 +13,8 @@ import { benefitItems } from '../../data';
 // hooks
 import { useWindowSize } from "../../hooks/screenResize.hook"
 import { useInView } from 'react-intersection-observer';
+import { useSettingContext } from '../../context/Setting.context';
+import { getColorSettings, GetLightSetting } from '../../config.jsx';
 
 
 
@@ -64,17 +66,28 @@ export const BenefitContainer = ({ id }) => {
     const marginValues = [0, 20, 20, 0];
     const isMobile = useWindowSize(1400);
     
+    const { settings } = useSettingContext();
+    const themeProp = settings?.theme;
+    const lightProp = settings?.light;
+    const colorSettings = getColorSettings(themeProp);
+    const lightSettings = GetLightSetting(lightProp);
+
+    const cssVars = {
+        '--primary': colorSettings.primary,
+        '--font': lightSettings.font,
+    };
+
     return (
-        <Container>
+        <Container theme={themeProp} light={lightProp} style={cssVars}>
             <TitleTextComponent subtitle={"A PROPOS"}>Mes compétences</TitleTextComponent>
-            <Text>En constante amélioration, ce métier est en évolution constante. <br /> L'apprentissage continu est l'une des plus belles facettes de la programmation.<br /> Cette dynamique, que j'embrasse avec passion, me permet de proposer des solutions modernes et pérennes.</Text>
+            <Text light={lightProp}>En constante amélioration, ce métier est en évolution constante. <br /> L'apprentissage continu est l'une des plus belles facettes de la programmation.<br /> Cette dynamique, que j'embrasse avec passion, me permet de proposer des solutions modernes et pérennes.</Text>
             <TextContainer id={id}>
                 <motion.div
                     initial="left"
                     whileInView={{ x: 0 }}
                     $transition={{ type: 'spring' }}
                     variants={InfoVariants}>
-                    <Info className="start">
+                    <Info className="start" theme={themeProp}>
                         {benefitItems.slice(0, 4).map((item, index) => (
                             <div className="InfoElement" key={index} style={!isMobile ? { marginRight: `${marginValues[index]}px` } : {}}>
                                 <div className="title">
@@ -88,7 +101,7 @@ export const BenefitContainer = ({ id }) => {
                         ))}
                     </Info>
                 </motion.div>
-                <Img>
+                <Img theme={themeProp}>
                     <AnimateSvg/>
                 </Img>
                 <motion.div
@@ -96,7 +109,7 @@ export const BenefitContainer = ({ id }) => {
                     whileInView={{ x: 0 }}
                     $transition={{ type: 'spring' }}
                     variants={InfoVariants}>
-                    <Info className="end">
+                    <Info className="end" theme={themeProp}>
                         {benefitItems.slice(4, 8).map((item, index) => (
                             <div className= "InfoElement" key={index} style={!isMobile ? { marginLeft: `${marginValues[index]}px` } : {}}>
                                 <div className="title" style={{justifyContent: 'flex-start' }}>
