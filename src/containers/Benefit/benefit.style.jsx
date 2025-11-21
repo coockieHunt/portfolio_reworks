@@ -66,7 +66,8 @@ export const Info = styled.div`
     cursor: pointer;
 
     & .InfoElement {
-        &:hover {transform: scale(1.02);}}
+        &:hover {transform: scale(1.02);}
+    }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         gap: 40px;
@@ -75,7 +76,7 @@ export const Info = styled.div`
             border-bottom: 1px solid #ffffff32;
             padding-bottom: 30px;
 
-            &:hover {transform: scale(1);}}
+            &:hover {transform: scale(1);}
         }
     }
 
