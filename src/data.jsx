@@ -45,32 +45,113 @@ export const productList = [
     },
 ];
 
+import demoProjet from './assets/projetImg/test.png'
+
+// -- Projet List ---
+// column end row range from 1 to 2 
 export const projectList = [
     {
         id: 1,
-        title: 'React Hooks',
-        description: "Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace.",
+        title: 'projet 1',
+        description: "Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace. Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace. Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace.",
         url: URL.github_hook,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 1,
+        favorite: true
     },
     {
         id: 2,
-        title: 'Portfolio 1.0',
+        title: 'projet 2',
         description: "Mon premier portfolio en ligne, conçu pour présenter mes compétences et projets précédents. Il a été créé avec HTML, CSS et JavaScript. Bien que ce soit une version antérieure, il représente le début de mon voyage dans le développement web.",
         url: URL.ghithudb_portfolio,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 1,
+        favorite: true
+
     },
     {
         id: 3,
-        title: 'Portfolio 2.0',
+        title: 'projet 3',
         description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
         url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 2,
+        favorite: false
     },
     {
         id: 4,
-        title: 'Game Framework',
+        title: 'Projet 4',
         description: "Un projet passionnant axé sur le développement de mode jeux. crée à l'aide de technologies telles que Unity et lua html js. Ce framework a pour butte de possée le basse, permettant des expériences de jeu amusantes et interactives.",
         url: URL.ghithudb_game,
+        thumbnail: demoProjet,
+        column: 2,
+        row: 1,
+        favorite: true
+    },
+        {
+        id: 5,
+        title: 'projet 5',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 2,
+        favorite: true
+    },
+        {
+        id: 6,
+        title: 'projet 6',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 1,
+        favorite: false
+    },
+    {
+        id: 7,
+        title: 'projet 7',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 2,
+        favorite: false
+    },
+    {
+        id: 8,
+        title: 'projet 8',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 1,
+        favorite: false
     },
 
+        {
+        id: 9,
+        title: 'projet 9',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 2,
+        row: 1,
+        favorite: false
+    },
+    {
+        id: 10,
+        title: 'projet 10',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+        thumbnail: demoProjet,
+        column: 1,
+        row: 2,
+        favorite: false
+    },
 ];
 
 export const word_hero = [
