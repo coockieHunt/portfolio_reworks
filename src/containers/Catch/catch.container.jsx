@@ -9,10 +9,11 @@ import { AccentTextComponent } from '../../components/Text/Text.component'
 import {WaveComponent} from '../../components/Wave/wave.component.jsx'
 
 //config
-import { getColorSettings} from '../../config.jsx'
+import { useColorSettings} from '../../config.jsx'
 import { skillCards } from '../../data.jsx'
 
 export const CathContainer = ({ id }) => {
+    const colorSettings = useColorSettings();
     const SkillCard = ({ Icon, title, description, color }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -60,7 +61,7 @@ export const CathContainer = ({ id }) => {
             </StyleCatch.Text>
             
             <StyleCatch.WaveBackground>
-                <WaveComponent colorPrimary={getColorSettings().primary} colorAccent={getColorSettings().accent} />
+                <WaveComponent colorPrimary={colorSettings.primary} colorAccent={colorSettings.accent} />
             </StyleCatch.WaveBackground>
             
         </StyleCatch.Section>

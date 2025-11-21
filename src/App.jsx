@@ -1,4 +1,5 @@
 import {useSettingContext} from './context/Setting.context.jsx'
+import { ThemeProvider } from 'styled-components';
 // Import
 import GlobalStyle, { Content } from './styles/global.style.jsx';
 import { URL } from './data.jsx'
@@ -40,16 +41,21 @@ const navigation = [
     ['Contact', "contact"],
 ]
 
-const GlobalStyleTheme = () => {
+const ThemeWrapper = ({ children }) => {
     const { settings } = useSettingContext();
-    return(<GlobalStyle theme={settings} />)
-}
+    return (
+        <ThemeProvider theme={settings}>
+            <GlobalStyle theme={settings} />
+            {children}
+        </ThemeProvider>
+    );
+};
 
 function App() {
     return (
         <Content>
             <SettingProvider>
-                <GlobalStyleTheme/>
+                <ThemeWrapper>
                 {/* <Loading/> */}
                     <LoadingProvider>
                     <NavigationComponent navConfig={navigation} />
@@ -70,6 +76,7 @@ function App() {
                         <FooterContainer />
                     </AlertProvider>
                     </LoadingProvider>
+                </ThemeWrapper>
             </SettingProvider>
         </Content>
     );

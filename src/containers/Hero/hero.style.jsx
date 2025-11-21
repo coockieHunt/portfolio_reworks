@@ -1,5 +1,5 @@
 import styled, {keyframes} from 'styled-components';
-import { SCREEN_SIZE, getColorSettings } from '../../config.jsx';
+import { SCREEN_SIZE, getColorSettings, GetLightSetting } from '../../config.jsx';
 
 export const Container = styled.div`
     padding: 30px 0;
@@ -216,6 +216,7 @@ export const Action = styled.div`
     font-size: 1.5em;
     margin-bottom: 10px;
     font-variation-settings: "wght" 600;
+    color: ${props => GetLightSetting(props.theme).font};
   }
 
   & p {

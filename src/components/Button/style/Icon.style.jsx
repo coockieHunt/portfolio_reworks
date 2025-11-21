@@ -17,7 +17,7 @@ export const  IconContainer = styled.button`
     padding: 6px;
     
     &:hover{
-        background-color: ${props => GetLightSetting(props.light).background_secondary};
+        background-color: ${props => GetLightSetting(props.theme).background_secondary};
         border-radius: 100%;
         transition: all .3s ease;
     }

@@ -1,14 +1,26 @@
 import {useSettingContext} from "./context/Setting.context"
 
 //FUNCTION
-export const getColorSettings = () => {
+export const useColorSettings = () => {
     const { settings } = useSettingContext();
     return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
 };
 
-export const GetLightSetting = () => {
+export const getColorSettings = (theme) => {
+    if(!theme) return COLOR_SETTING.default;
+    const themeName = theme.theme || theme;
+    return COLOR_SETTING[themeName] || COLOR_SETTING.default;
+};
+
+export const useLightSettings = () => {
     const { settings } = useSettingContext();
     return LIGHT_SETTING[settings.light] || LIGHT_SETTING.dark;
+};
+
+export const GetLightSetting = (theme) => {
+    if(!theme) return LIGHT_SETTING.dark;
+    const lightName = theme.light || theme;
+    return LIGHT_SETTING[lightName] || LIGHT_SETTING.dark;
 };
 
 //CONSTANTS

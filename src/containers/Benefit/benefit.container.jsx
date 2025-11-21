@@ -15,6 +15,7 @@ import { useWindowSize } from "../../hooks/screenResize.hook"
 import { useInView } from 'react-intersection-observer';
 
 
+
 export const BenefitContainer = ({ id }) => {
     const InfoVariants = {
         left: { x: 100, opacity: 100 },

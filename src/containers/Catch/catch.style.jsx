@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, getColorSettings} from '../../config.jsx'
+import {SCREEN_SIZE, getColorSettings, GetLightSetting} from '../../config.jsx'
 
 export const Section = styled.div`
     position: relative;
@@ -48,6 +48,7 @@ export const Text = styled.div`
         & h3{
             font-size: 28px;
             margin-bottom: 20px;
+            color: ${props => GetLightSetting(props.theme).font};
         }
 
         & p{
@@ -106,8 +107,8 @@ export const CardList = styled.div`
 
     & .card{
         border-radius: 12px;
-        border: 1px solid ${props => getColorSettings().primary};
-        border-bottom: 4px solid ${props => getColorSettings().primary};
+        border: 1px solid ${props => getColorSettings(props.theme).primary};
+        border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
         
         display: flex;
         flex-direction: column;
@@ -122,8 +123,8 @@ export const CardList = styled.div`
 
         &:hover {
             transform: translateY(-5px);
-            border-color: ${props => getColorSettings().accent};
-            border-bottom-color: ${props => getColorSettings().accent};
+            border-color: ${props => getColorSettings(props.theme).accent};
+            border-bottom-color: ${props => getColorSettings(props.theme).accent};
         }
 
         & .header-card{
@@ -142,13 +143,13 @@ export const CardList = styled.div`
                 display: block;
                 width: 40px;
                 height: 0; 
-                border-bottom: 1px solid ${props => getColorSettings().accent};
+                border-bottom: 1px solid ${props => getColorSettings(props.theme).accent};
             }
 
             & h2{
                 margin: 0; 
                 line-height: 1.2; 
-                color: ${props => getColorSettings().accent};
+                color: ${props => getColorSettings(props.theme).accent};
                 font-size: 1.3em;
                 text-align: left;
             }

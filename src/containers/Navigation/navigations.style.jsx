@@ -30,12 +30,12 @@ export const NavigationContainer = styled.div`
 `
 
 export const Logo = styled.img`
-    max-width: 20px;
-    padding:  0 10px;
+    width: 25px;
+    height: auto;
     border-right: 1px solid #ffffff3b;
-
     box-sizing: content-box;
-    width: 100%;
+
+    color: red;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;

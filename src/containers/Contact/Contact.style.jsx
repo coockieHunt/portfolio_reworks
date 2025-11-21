@@ -4,7 +4,7 @@ import { getColorSettings, GetLightSetting } from '../../config.jsx';
 // Container
 export const Container = styled.div`
     display: flex;
-    background-color: ${props => GetLightSetting(props.ligh).background_secondary};
+    background-color: ${props => GetLightSetting(props.theme).background_secondary};
     width: 90vw;
     margin: 50px auto;
     padding: 8px;

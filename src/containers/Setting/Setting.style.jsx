@@ -46,7 +46,7 @@ export const ContainerSetting = styled.div`
             
             @media ( max-width: ${SCREEN_SIZE.mobile}) {
                 border: none;   
-                border-radius: inherit;
+                /* border-radius: inherit; */
             }
             
         }

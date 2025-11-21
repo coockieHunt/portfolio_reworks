@@ -11,14 +11,19 @@ import { useScrollOffsetY } from '../../hooks/offsetScroll.hook';
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
 import { IconButton } from "../../components/Button/Button"
 
-// assets
-import brand_logo from '../../assets/images/main_logo.svg'
+
 
 //style
 import * as Styled from './navigations.style';
 
 // config
 import * as config from '../../config.jsx'
+
+//logo
+import { LogoComponent } from '../../components/Logo/Logo.components.jsx';
+import { getColorSettings } from '../../config';
+import { useSettingContext } from '../../context/Setting.context';
+
 
 const BuildNavigation = ({ menuItems, onClick }) => {
     return (
@@ -42,13 +47,12 @@ export const NavigationComponent = ({ navConfig }) => {
 
     useScrollbar(menuOpen);
     const toggleMenu = () => {setMenuOpen(!menuOpen);};
+    const {settings} = useSettingContext();
     
     return (
         <Styled.NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"} >
             <Styled.BrandContainer>
-                <Styled.Logo src={brand_logo}
-                    alt="brand_logo"
-                />
+                <LogoComponent version="simple-full" style={{ width: "16px", height: "auto", color: getColorSettings(settings.theme).primary }} />
                 {isMobile ? <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} /> : null}
             </Styled.BrandContainer>
             <Styled.Nav className={menuOpen ? "NavOpen" : "NavClose"}>

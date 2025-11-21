@@ -14,7 +14,7 @@ export const BurgerMenuContainer = styled.div`
 	div {
 		width: 100%;
 		height: 2px;
-		background-color: ${props => GetLightSetting(props.light).font};
+		background-color: ${props => GetLightSetting(props.theme).font};
 		transition: all 0.3s ease;
 	}
 

@@ -45,6 +45,34 @@ export const productList = [
     },
 ];
 
+export const projectList = [
+    {
+        id: 1,
+        title: 'React Hooks',
+        description: "Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace.",
+        url: URL.github_hook,
+    },
+    {
+        id: 2,
+        title: 'Portfolio 1.0',
+        description: "Mon premier portfolio en ligne, conçu pour présenter mes compétences et projets précédents. Il a été créé avec HTML, CSS et JavaScript. Bien que ce soit une version antérieure, il représente le début de mon voyage dans le développement web.",
+        url: URL.ghithudb_portfolio,
+    },
+    {
+        id: 3,
+        title: 'Portfolio 2.0',
+        description: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
+        url: URL.ghithudb_portfolio_rework,
+    },
+    {
+        id: 4,
+        title: 'Game Framework',
+        description: "Un projet passionnant axé sur le développement de mode jeux. crée à l'aide de technologies telles que Unity et lua html js. Ce framework a pour butte de possée le basse, permettant des expériences de jeu amusantes et interactives.",
+        url: URL.ghithudb_game,
+    },
+
+];
+
 export const word_hero = [
     'idée',
     'projet',
