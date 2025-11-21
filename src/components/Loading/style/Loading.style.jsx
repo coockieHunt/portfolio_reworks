@@ -1,18 +1,10 @@
 import styled, { keyframes, css } from 'styled-components';
-import { GetLightSetting } from '../../../config';
 
 const complete = keyframes`
-    0% {
-        transform: scale(1)
-    }
-
-    50% {
-      transform: scale(400)
-    }
-
-    100% {
-      transform: scale(1)
-    }
+    0% { transform: scale(1); }
+    25% { transform: scale(400); }
+    75% { transform: scale(400); }
+    100% { transform: scale(1); }
 `;
 
 export const Container = styled.div`
@@ -24,23 +16,23 @@ export const Container = styled.div`
 
     & .frame{
         content: " ";
-         background-color:  ${({ color }) => color || 'white'};
+        background-color:  ${({ $color }) => $color || 'white'};
         position: fixed;
         border-radius: 50%;
-        bottom: 0px;
-        left: 0px; 
+        bottom: -150px;
+        left: -150px; 
 
-        height:10px;
-        width:10px;
+        height:100px;
+        width:100px;
 
         transform-origin: center; 
 
         animation: ${({ loading }) =>
-            loading
-            ? css`
-                  ${complete} 2s ease forwards
-              `
-            : 'none'};
+          loading
+          ? css`
+                ${complete} 4s infinite ease-in-out
+            `
+          : 'none'};
     }
 
 `;
