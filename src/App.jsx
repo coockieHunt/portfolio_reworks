@@ -56,7 +56,6 @@ function App() {
         <Content>
             <SettingProvider>
                 <ThemeWrapper>
-                {/* <Loading/> */}
                     <LoadingProvider>
                     <NavigationComponent navConfig={navigation} />
                     <AlertProvider>
