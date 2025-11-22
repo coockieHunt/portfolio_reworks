@@ -23,7 +23,7 @@ export const SettingContainer = () => {
     const {showLoading, hideLoading} = useLoading();
     const { addAlert } = useAlert();
     const [isOpen, setIsOpen] = useState(false)
-    const isMobile = useWindowSize(1200);
+    const isMobile = useWindowSize();
     const containerRef = useRef(null);
 
     const handleThemeChange = (NewTheme, DisplayName) => {
@@ -90,7 +90,6 @@ export const SettingContainer = () => {
     }, [containerRef]);
 
 
-    const ArrowIcon = isOpen ? FaCaretDown : FaCaretUp;
     return (
         <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
             <Styled.Toggle>
@@ -99,7 +98,7 @@ export const SettingContainer = () => {
                 >
                 <Styled.Title>
                     <span className="Toggle">
-                        {!isMobile ? 
+                        {isMobile >= parseInt(SCREEN_SIZE.mobile)? 
                             <>
                                 {isOpen ?  <span>Fermer</span> : <span>Apparence</span>}
                                 
