@@ -17,7 +17,7 @@ import { EmailTemplateContact } from '../../templates/mail.contact.mail'
 import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
 
 
-import * as FormComponent from "../../components/Form/From.component"
+import * as FormComponent from "../../components/Form/Form.component.jsx"
 import { Button } from "../../components/Button/Button"
 import { TitleTextComponent } from "../../components/Text/Text.component"
 import { Link } from '../../components/Button/Button';
