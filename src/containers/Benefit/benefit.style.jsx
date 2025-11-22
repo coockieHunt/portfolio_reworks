@@ -26,7 +26,7 @@ export const Text = styled.span`
     text-align: center;
     width: 100%;
     display: inline-block;
-    color: var(--font, ${props => GetLightSetting(props.light).font});
+    color: var(--font, ${props => GetLightSetting(props.$light).font});
 
     padding: 0 25px;
 `;

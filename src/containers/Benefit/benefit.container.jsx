@@ -78,9 +78,9 @@ export const BenefitContainer = ({ id }) => {
     };
 
     return (
-        <Container theme={themeProp} light={lightProp} style={cssVars}>
+        <Container theme={themeProp} $light={lightProp} style={cssVars}>
             <TitleTextComponent subtitle={"A PROPOS"}>Mes compétences</TitleTextComponent>
-            <Text light={lightProp}>En constante amélioration, ce métier est en évolution constante. <br /> L'apprentissage continu est l'une des plus belles facettes de la programmation.<br /> Cette dynamique, que j'embrasse avec passion, me permet de proposer des solutions modernes et pérennes.</Text>
+            <Text $light={lightProp}>En constante amélioration, ce métier est en évolution constante. <br /> L'apprentissage continu est l'une des plus belles facettes de la programmation.<br /> Cette dynamique, que j'embrasse avec passion, me permet de proposer des solutions modernes et pérennes.</Text>
             <TextContainer id={id}>
                 <motion.div
                     initial="left"

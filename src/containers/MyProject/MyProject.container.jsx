@@ -12,7 +12,7 @@ import { PaginatedGrid } from '../../components/PaginatedGrid/PaginatedGrid.comp
 import { projectList } from '../../data.jsx'
 
 // icon
-import { FaGithub, FaLink, FaArrowTrendUp, FaBarsStaggered, FaXmark, FaCircle   } from "react-icons/fa6";
+import { FaGithub, FaLink, FaXmark } from "react-icons/fa6";
 import { VscCheck, VscAdd, VscBookmark, VscRootFolderOpened   } from "react-icons/vsc";
 
 const BuildProjectCard = (project) => {
@@ -43,7 +43,7 @@ const BuildProjectCard = (project) => {
                         <li 
                             key={index} 
                             onClick={() => setCurrentTab(item.name)}
-                            className={CurrentTab === item.name && 'selected'}
+                            className={CurrentTab === item.name ? 'selected' : undefined}
                             role="tab"
                             aria-selected={CurrentTab === item.name}
                         >
@@ -106,7 +106,9 @@ const BuildProjectCard = (project) => {
         return (
             <div className="container_galery">
                 {project.galery.map((imgUrl, index) => (
-                    <img key={index} src={imgUrl} alt={`Galerie image ${index + 1}`} />
+                    <div key={index}>
+                        <img src={imgUrl} alt={`Galerie image ${index + 1}`}/>
+                    </div>
                 ))}
             </div>
         )
@@ -116,7 +118,7 @@ const BuildProjectCard = (project) => {
         <ProjectCard 
             key={project.id} 
             style={style}
-            className={project.favorite ? "favorite" : ""}
+            className={project.favorite ? "favorite" : undefined}
         >
             {BuildTab(project)}
             {(() => { 
@@ -136,17 +138,19 @@ const BuildProjectCard = (project) => {
 
 export const MyProjectContainer = ({id}) => {
     return(
-        <Container id={id}>
-            <TitleTextComponent
-                subtitle={"Une partie de mes"}
-                subtitleOpacity={0.3}
-            >MES PROJETS</TitleTextComponent>
-            <PaginatedGrid 
-                items={projectList} 
-                renderItem={BuildProjectCard} 
-                columns={3}
-                rows={2}
-            />
-        </Container>
+        <>
+            <Container id={id}>
+                <TitleTextComponent
+                    subtitle={"Une partie de mes"}
+                    subtitleOpacity={0.3}
+                >MES PROJETS</TitleTextComponent>
+                <PaginatedGrid 
+                    items={projectList} 
+                    renderItem={BuildProjectCard} 
+                    columns={3}
+                    rows={2}
+                />
+            </Container>
+        </>
     )
 }
