@@ -26,6 +26,7 @@ import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
 import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
 
 import { useAlert } from '../../context/alert.context';
+import { ApiBaseUrl, MailDefault } from '../../config.jsx';
 
 export const ContactContainer = ({ id }) => {
     //ALERT
@@ -33,9 +34,8 @@ export const ContactContainer = ({ id }) => {
 
     //REF FORM
     const captchaComponentRef = useRef();
-    let DefaultValue = { firstName: '', lastName: '', email: '', message: '' }
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
-    const [output, setOutput] = useState(DefaultValue)
+    const [output, setOutput] = useState(MailDefault)
 
     //CoolDown send
     const [IsCoolDown, SetIsCoolDown] = useState(false)
@@ -50,7 +50,7 @@ export const ContactContainer = ({ id }) => {
 
 
     const handleReset = (e) => {
-        setOutput(DefaultValue);
+        setOutput(MailDefault);
         captchaComponentRef.current.handleReset();
     }
 
@@ -61,7 +61,7 @@ export const ContactContainer = ({ id }) => {
 
     const SendEmail = async (content) => {
         try {
-            const response = await axios.post('https://api.jonathangleyze.fr/api/sendEmail', content);
+            const response = await axios.post(`${ApiBaseUrl}/api/sendEmail`, content);
 
             if (response.data.success) {
                 return true
