@@ -28,7 +28,7 @@ const BuildProjectCard = (project) => {
         style.gridRowStart = project.gridPos.rowStart;
     }
 
-    const BuildTab = (project) => {
+    const buildTab = (project) => {
         const [HoverCurrent, setHoverCurrent] = useState("");
         let Tab = [{name: "preview", label: project.fileName, icon: <VscBookmark /> }];
 
@@ -120,7 +120,7 @@ const BuildProjectCard = (project) => {
             style={style}
             className={project.favorite ? "favorite" : undefined}
         >
-            {BuildTab(project)}
+            {buildTab(project)}
             {(() => { 
                     switch (CurrentTab) {
                         case "preview":
