@@ -153,7 +153,10 @@ export const PaginatedGrid = ({ items, renderItem, columns = 4, rows = 2 }) => {
     return (
         <div className="listContainer">
             <GridContainer columns={isMobile ? 1 : columns} rows={isMobile ? 4 : rows}>
-                {currentItems.map(item => renderItem(item))}
+                {currentItems.map(item => {
+                    const RenderItem = renderItem;
+                    return <RenderItem key={item.id} {...item} />;
+                })}
             </GridContainer>
             <PaginationContainer>
                 <button 
