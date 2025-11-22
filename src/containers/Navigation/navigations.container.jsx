@@ -5,13 +5,10 @@ import { socialLinks } from '../../data.jsx'
 // hook
 import { useScrollbar } from "../../hooks/scrollBar.hook"
 import { useWindowSize } from "../../hooks/screenResize.hook"
-import { useScrollOffsetY } from '../../hooks/offsetScroll.hook';
 
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
 import { IconButton } from "../../components/Button/Button"
-
-
 
 //style
 import * as Styled from './navigations.style';
