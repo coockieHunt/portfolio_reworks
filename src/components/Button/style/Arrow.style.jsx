@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import { STYLE } from '../config/arrow';
 import { getColorSettings } from '../../../config';
 
 export const ArrowContainerFixed = styled.div`
     position: fixed;
-    bottom: ${STYLE.position.bottom};
-    right: ${STYLE.position.right};
+    bottom: 60px;
+    right: 25px;
     z-index: 20;
 
     width: 10px;
@@ -17,12 +16,12 @@ export const ArrowContainerFixed = styled.div`
 
     background-color: ${props => getColorSettings(props.theme).primary};
     padding: 15px;
-    border-radius: ${STYLE.border_radius};
+    border-radius: 5px;
     transform: rotate(-90deg);
     transition: all 0.3s ease;
     box-sizing: content-box;
 
-	border: ${STYLE.border && "1px solid #ffffff68"};
+	border: 1px solid #ffffff68;
 
     &:hover{
       box-shadow: 
@@ -43,7 +42,7 @@ export const ArrowContainerFixed = styled.div`
 
     div:last-child {transform: translateY(-1px) rotate(-45deg);}
 
-    &.hide{right: ${STYLE.hide_offset};}
+    &.hide{right: 60px;}
 `
 
 export const ArrowContainer = styled.div`
@@ -78,5 +77,5 @@ export const ArrowContainer = styled.div`
 
     div:first-child {transform: translateY(2px) rotate(45deg);}
     div:last-child {transform: translateY(-2px) rotate(-45deg);}
-    &.hide{right: ${STYLE.hide_offset};}
+    &.hide{right: -60px}
 `
