@@ -10,16 +10,14 @@ export const useScrollOffsetY = (pos) => {
     const [isScrolled, setIsScrolled] = useState(false);
   
     useEffect(() => {
-      const handleScroll = () => {
-        const currentScrollY = window.scrollY;
-        setIsScrolled(currentScrollY > pos);
-      };
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            setIsScrolled(currentScrollY > pos);
+        };
   
-      window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll);
   
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
+        return () => {window.removeEventListener('scroll', handleScroll);};
     }, [pos]);
   
     return isScrolled;

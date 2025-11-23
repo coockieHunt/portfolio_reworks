@@ -25,11 +25,8 @@ export const Content = styled.div`
     align-items: center;
     color: ${props => GetLightSetting(props.light).font};
     margin-top: 20px;
-
     text-align: center;
-
     gap: 0px;
-
     overflow-y: hidden;
     overflow-x: hidden;
 

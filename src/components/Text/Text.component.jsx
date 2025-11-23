@@ -3,8 +3,6 @@ import { Gradient } from "./style/GradientText.style"
 import { ToText } from "./style/LinkText.style"
 import chroma from 'chroma-js';
 import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
-
-
 import { useSettingContext, } from "../../context/Setting.context";
 import { COLOR_SETTING } from '../../config.jsx'
 
@@ -39,7 +37,6 @@ export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2 })
     )
 }
 
-
 /**
  * GradientTextContainer
  * 
@@ -60,9 +57,7 @@ export const GradientTextContainer = ({ children }) => {
         .hex()
     );
 
-    return (
-        <Gradient color={gradientColors}>{children}</Gradient>
-    );
+    return (<Gradient color={gradientColors}>{children}</Gradient>);
 }
 
 /**

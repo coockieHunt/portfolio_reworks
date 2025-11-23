@@ -19,7 +19,6 @@ export const Container = styled.div`
         width: 100%;
         height: 100%;
         z-index: 1;
-
         background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.5) 100%);  
     }
 
@@ -34,7 +33,6 @@ export const LabelWorld = styled.input`
     background: ${props => props.$backgroundCustom || 'transparent'};
     outline: transparent;
     color: white;
-
 
     &::placeholder{opacity: 0.9;}
     &&:hover, &&:focus{ border: 2px solid ${props => props.$borderColorCustom || 'black'};}
@@ -61,7 +59,6 @@ export const HeroText = styled.div`
     width: 70%;
     z-index: 2;
     height: 100%;
-
     text-align: center;
 
     @media (max-width:  ${SCREEN_SIZE.mobile}) {
@@ -71,16 +68,12 @@ export const HeroText = styled.div`
         top: 0;
         transform: translateX(-50%);
         text-align: center;
-
         display: flex;
         align-content: center;
         justify-content: center;
         flex-direction: column;
-
         padding: 20px;
         border-radius: 10px;
-
-        
     }
 
     & h1{
@@ -112,25 +105,21 @@ export const HeroText = styled.div`
             margin-top: 50px;
         }
 
-        @media (max-width:  ${SCREEN_SIZE.mobile}) {
-            font-size: 1.6em;
-        }
+        @media (max-width:  ${SCREEN_SIZE.mobile}) {font-size: 1.6em;}
    }
 
    .cta{
         display : flex;
         gap: 50px;
-
         justify-content: center;
+    }
 
-        }
-
-     	@media (max-width:  ${SCREEN_SIZE.mobile}) {
-        .cta{
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-        }
+	@media (max-width:  ${SCREEN_SIZE.mobile}) {
+		.cta{
+			flex-direction: column;
+			gap: 20px;
+			width: 100%;
+		}
     }
 `
 
@@ -149,12 +138,10 @@ export const Action = styled.div`
 	overflow: hidden; 
 
 	&.highlight {
-			border: 2px solid ${props => getColorSettings(props.theme).primary};
-			border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
-			height: 100%;
-		& .icon svg {
-			background-color: ${props => getColorSettings(props.theme).primary};
-		}
+		border: 2px solid ${props => getColorSettings(props.theme).primary};
+		border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+		height: 100%;
+		& .icon svg {background-color: ${props => getColorSettings(props.theme).primary};}
 	}
 
 	&:hover {
@@ -173,9 +160,9 @@ export const Action = styled.div`
 		transform: translate(-50%, -50%);
 		border-radius: 50%;
 		background: radial-gradient(
-      circle,
-      ${props => getColorSettings(props.theme).primary}40 0%,
-      transparent 80%
+			circle,
+			${props => getColorSettings(props.theme).primary}40 0%,
+			transparent 80%
 		);
 		opacity: 0;
 		animation: fadeIn 0.5s ease-out forwards;

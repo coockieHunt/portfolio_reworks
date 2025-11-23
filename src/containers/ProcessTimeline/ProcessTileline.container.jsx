@@ -71,7 +71,7 @@ export const ProcessTimeLine = ({ id }) => {
     const [hasBeenVisible, setHasBeenVisible] = useState(false);
     const {settings} = useSettingContext();
 
-    const TrigerHeightAnimation = 0.3; // 30% of the element is visible
+    const TrigerHeightAnimation = 0.3; 
     useEffect(() => {
         const timelineElement = document.getElementById(id);
         

@@ -23,7 +23,6 @@ export const Container = styled.div`
         margin: 0 0 60px 0;
         & svg {width: 300%;}
     }
-
 `;
 
 
@@ -34,7 +33,6 @@ export const TimeLineContainer = styled.div`
     position: relative;
     padding: 30px 0;
     overflow: visible;
-
     
     &::before {
         content: ''; 

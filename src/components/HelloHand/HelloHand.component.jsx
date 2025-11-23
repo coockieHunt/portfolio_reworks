@@ -26,7 +26,6 @@ export const HelloHandComponent = () => {
                     RandomHello();
                 }, 2500);
             }, randomDelay);
-
         }
 
         RandomHello();
@@ -42,7 +41,6 @@ export const HelloHandComponent = () => {
         if (isAnimating) return;
         setIsAnimating(true);
         setIsHello(true);
-
         setTimeout(() => {
             setIsHello(false);
             setIsAnimating(false);

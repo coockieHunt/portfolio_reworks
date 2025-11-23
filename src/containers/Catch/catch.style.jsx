@@ -5,9 +5,7 @@ export const Section = styled.div`
     position: relative;
     overflow: hidden;
     padding: 60px 100px;
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        padding: 60px 20px;
-    }
+    @media (max-width: ${SCREEN_SIZE.mobile}) {padding: 60px 20px;}
 `;
 
 export const SkillCard = styled.div`
@@ -34,7 +32,6 @@ export const Text = styled.div`
     align-items: flex-start;
     justify-content: center;
     gap: 50px;
-    
 
     & .left{
         display: flex;
@@ -83,10 +80,7 @@ export const Text = styled.div`
         
         & .left{
             align-items: flex-start; 
-
-            & h3{
-                font-size: 24px;
-            }
+            & h3{font-size: 24px;}
         }
     }
 `;
@@ -109,15 +103,12 @@ export const CardList = styled.div`
         border-radius: 12px;
         border: 1px solid ${props => getColorSettings(props.theme).primary};
         border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
-        
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         text-align: left;
-        
         width: 100%;
         min-height: 100px;
-
         transition: transform 0.3s ease, border-color 0.3s ease, border-bottom-color 0.3s ease; 
         padding: 25px 30px;
 
@@ -132,10 +123,8 @@ export const CardList = styled.div`
             flex-direction: column;
             align-items: flex-start; 
             justify-content: space-between;
-            
             margin-bottom: 15px;
             gap: 10px;
-
             min-height: 100px;
 
             &::after{

@@ -1,32 +1,37 @@
-import React, { useState, useRef } from 'react';
-
-import {
-    Container,
-    Info,
-    ContactForm,
-    ActionForm,
-} from "./Contact.style"
-
-import { CONTACT_EMAIL } from '../../data.jsx'
-
-import { useWindowSize } from "../../hooks/screenResize.hook"
+// react
+import { useState, useRef } from 'react';
 import axios from 'axios';
 import { renderToString } from 'react-dom/server';
 
+// style
+import * as styled from "./Contact.style"
+
+//hooks
+import { useWindowSize } from "../../hooks/screenResize.hook"
+
+// templates
 import { EmailTemplateContact } from '../../templates/mail.contact.mail'
 import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
 
 
+// components
 import * as FormComponent from "../../components/Form/Form.component.jsx"
-import { Button } from "../../components/Button/Button"
 import { TitleTextComponent } from "../../components/Text/Text.component"
+import { Button } from "../../components/Button/Button"
 import { Link } from '../../components/Button/Button';
 
+// icons
 import { AiOutlineMail, AiFillPhone, AiOutlineSend } from 'react-icons/ai';
 import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
 
+// context
 import { useAlert } from '../../context/alert.context';
+
+//config
 import { ApiBaseUrl, MailDefault } from '../../config.jsx';
+
+// data
+import { CONTACT_EMAIL } from '../../data.jsx'
 
 export const ContactContainer = ({ id }) => {
     //ALERT
@@ -77,20 +82,11 @@ export const ContactContainer = ({ id }) => {
     }
 
     const CheckData = (output) => {
-        if (!output.email || !isValidEmail(output.email)) {
-            addAlert('Veuillez saisir une adresse email valide.', "#cc3300", 4000);
-            return false;
-        }
+        if (!output.email || !isValidEmail(output.email)) {addAlert('Veuillez saisir une adresse email valide.', "#cc3300", 4000); return false;}
 
-        if (!output.firstName) {
-            addAlert('Veuillez saisir votre prénom.', "#cc3300", 4000);
-            return false;
-        }
+        if (!output.firstName) {addAlert('Veuillez saisir votre prénom.', "#cc3300", 4000);return false;}
 
-        if (!output.message) {
-            addAlert('Veuillez saisir votre message.', "#cc3300", 4000);
-            return false;
-        }
+        if (!output.message) {addAlert('Veuillez saisir votre message.', "#cc3300", 4000); return false;}
 
         return true
     }
@@ -98,17 +94,12 @@ export const ContactContainer = ({ id }) => {
 
     const handleSubmit = async (e) => {
 
-        if (!isCaptchaValid) {
-            addAlert('Captcha invalide.', "#cc3300", 4000);
-            return;
-        }
+        if (!isCaptchaValid) {addAlert('Captcha invalide.', "#cc3300", 4000); return false;}
 
         if (CheckData(output)) {
             let subjectFormat = 'Demande de contact de ';
 
-            if (output.firstName) {
-                subjectFormat += `${output.firstName}`;
-            }
+            if (output.firstName) {subjectFormat += `${output.firstName}`;}
 
             if (output.lastName) {
                 if (output.firstName) { subjectFormat += ' '; }
@@ -146,7 +137,6 @@ export const ContactContainer = ({ id }) => {
                     SetIsCoolDown(true);
                     SetCoolDownTime(10)
 
-
                     const CoolDownInterval = setInterval(() => {
                         SetCoolDownTime(prevCoolDownTime => {
 
@@ -173,8 +163,8 @@ export const ContactContainer = ({ id }) => {
             <TitleTextComponent
                 subtitle={"A votre service"}
             >Me contacter</TitleTextComponent>
-            <Container>
-                <Info>
+            <styled.Container>
+                <styled.Info>
                     <div className="info">
                         {!isMobile &&
                             <>
@@ -213,9 +203,9 @@ export const ContactContainer = ({ id }) => {
                     {!isMobile && <div className='bottom'>
                         <span>Les informations avec une * sont obligatoire</span>
                     </div>}
-                </Info>
+                </styled.Info>
 
-                <ContactForm>
+                <styled.ContactForm>
                     <FormComponent.Groupe >
                         <FormComponent.Inline>
                             <FormComponent.InputText
@@ -260,7 +250,7 @@ export const ContactContainer = ({ id }) => {
                         isCaptchaValid={isCaptchaValid}
                         setIsCaptchaValid={setIsCaptchaValid} />
 
-                    <ActionForm>
+                    <styled.ActionForm>
                         <span onClick={() => { handleReset() }}>Remettre a  zero</span>
                         {!IsCoolDown ? 
                             <Button
@@ -270,9 +260,9 @@ export const ContactContainer = ({ id }) => {
                             envoyer</Button> : 
                             <span className='colored'>{CoolDownTime}</span>
                         }
-                    </ActionForm>
-                </ContactForm>
-            </Container>
+                    </styled.ActionForm>
+                </styled.ContactForm>
+            </styled.Container>
         </div>
     )
 }

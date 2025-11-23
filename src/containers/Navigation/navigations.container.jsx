@@ -11,7 +11,6 @@ import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.comp
 import { IconButton } from "../../components/Button/Button"
 import { LogoComponent } from '../../components/Logo/Logo.components.jsx';
 
-
 //style
 import * as Styled from './navigations.style';
 

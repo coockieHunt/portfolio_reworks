@@ -43,17 +43,17 @@ const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
                 </div>
             </div>
             {isOpen &&
-            <div 
-                id={`terminal-content-${product.id}`}
-                className="content"
-                role="region"
-                aria-labelledby={`terminal-header-${product.id}`}
-            >
-                <div className="card">
-                    <span aria-hidden="true"><FaArrowRight /></span>
-                    <p>{product.description}</p>
+                <div 
+                    id={`terminal-content-${product.id}`}
+                    className="content"
+                    role="region"
+                    aria-labelledby={`terminal-header-${product.id}`}
+                >
+                    <div className="card">
+                        <span aria-hidden="true"><FaArrowRight /></span>
+                        <p>{product.description}</p>
+                    </div>
                 </div>
-            </div>
             }
         </styled.TerminalLine>
     );
@@ -68,13 +68,12 @@ export const TerminalComponent = ({ data, path = "jonathangleyze.fr/projets", co
     setOpenItemId(prevId => {
         const newId = prevId === id ? null : id;
 
-        if (newId === null) {
-            setTitle("/"); 
+        if (newId === null) {setTitle("/"); 
         } else {
-             const selectedProduct = data.find(p => p.id === newId);
-             if (selectedProduct) {
+            const selectedProduct = data.find(p => p.id === newId);
+            if (selectedProduct) {
                 setTitle("/" + selectedProduct.title);
-             }
+            }
         }
         return newId;
     });

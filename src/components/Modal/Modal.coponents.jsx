@@ -15,12 +15,12 @@ import { AiOutlineClose  } from 'react-icons/ai';
  * @returns {ReactNode} - Returns the modal component.
  */
 export const ModalComponent = ({ modals, onClose }) => {
+    // Handle key down events for accessibility
     const handleKeyDown = (event, index) => {
-        if (event.key === "Escape") {
-          onClose(index);
-        }
-      };
+        if (event.key === "Escape") {onClose(index);}
+    };
 
+    // Add global keydown listener to handle Escape key for closing modals end return on last opened modal
     useEffect(() => {
         const handleKeyDownGlobal = (event) => {
           const lastOpenedModalIndex = modals.findIndex((modal) => modal.isOpen);
@@ -45,9 +45,7 @@ export const ModalComponent = ({ modals, onClose }) => {
 
                 useEffect(() => {
                     if (isOpen) {
-                        setTimeout(() => {
-                            try { closeBtnRef.current && closeBtnRef.current.focus(); } catch (e) {}
-                        }, 0);
+                        setTimeout(() => {try { closeBtnRef.current && closeBtnRef.current.focus(); } catch (e) {}}, 0);
                     }
                 }, [isOpen]);
 

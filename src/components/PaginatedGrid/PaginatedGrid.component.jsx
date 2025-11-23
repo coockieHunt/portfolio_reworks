@@ -126,7 +126,6 @@ const calculatePages = (items, isMobile, columns, rows) => {
                 }
             }
         } 
-
         
         if (!placed) {
              if (currentPage.length > 0) {
@@ -142,9 +141,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
         }
     }
 
-    if (currentPage.length > 0) {
-        pages.push(currentPage);
-    }
+    if (currentPage.length > 0) {pages.push(currentPage);}
 
     return pages;
 };

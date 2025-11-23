@@ -20,7 +20,6 @@ import { word_hero } from '../../data.jsx'
 import { useSettingContext } from '../../context/Setting.context';
 import { GridEffect } from '../../styles/effect.jsx';
 
-
 export const HeroContainer = ({id}) => {
     const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
     const {settings} = useSettingContext();

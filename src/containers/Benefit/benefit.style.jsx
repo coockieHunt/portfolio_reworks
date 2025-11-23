@@ -87,10 +87,6 @@ export const Info = styled.div`
         margin-bottom: 10px;
         color: white;
 
-
-       
-
-
         & svg {
             font-size: 1.6em;
             height: auto;
@@ -110,9 +106,7 @@ export const Info = styled.div`
         color: var(--primary, ${props => getColorSettings(props.theme).primary});
         position: relative;
 
-        @media (max-width: ${SCREEN_SIZE.mobile}) {
-            font-size: 1em;
-        }
+        @media (max-width: ${SCREEN_SIZE.mobile}) {font-size: 1em;}
     }
 
     & p {

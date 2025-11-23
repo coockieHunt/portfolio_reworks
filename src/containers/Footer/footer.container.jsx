@@ -1,24 +1,23 @@
+//style
 import * as Footer from './footer.style'
+
+//components
+import { IconButton } from '../../components/Button/Button';
+import { ScrollToTop } from '../../components/Button/Button';
+
+//icon
+import {AiFillGithub, AiFillLinkedin} from 'react-icons/ai';
+import {BiSolidUser} from 'react-icons/bi';
+import {FaDeviantart} from 'react-icons/fa';
 import { SiReact } from 'react-icons/si';
 import { GiOutbackHat } from 'react-icons/gi';
 import { DiJavascript1 } from 'react-icons/di';
-import { IconButton } from '../../components/Button/Button';
+
+//pdf
 import cv from '../../assets/pdf/cv_dev_JG.pdf'
-import { ScrollToTop } from '../../components/Button/Button';
+
+//url
 import { URL } from '../../data.jsx'
-
-import {
-    AiFillGithub,
-    AiFillLinkedin,
-} from 'react-icons/ai';
-import {
-    BiSolidUser,
-} from 'react-icons/bi';
-
-import {
-    FaDeviantart, FaOtter
-} from 'react-icons/fa';
-
 
 export const FooterContainer = () => {
     return (

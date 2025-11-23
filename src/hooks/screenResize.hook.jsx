@@ -10,11 +10,8 @@ export const useWindowSize = (breakpoint_size) => {
 
     useEffect(() => {
         const handleResize = () => {
-            if(breakpoint_size !== undefined){
-                setWindowSize(window.innerWidth < breakpoint_size)
-            }else{
-                setWindowSize(window.innerWidth)
-            }
+            if(breakpoint_size !== undefined){setWindowSize(window.innerWidth < breakpoint_size)
+            }else{setWindowSize(window.innerWidth)}
         }
 
         window.addEventListener("resize", handleResize)
@@ -22,7 +19,6 @@ export const useWindowSize = (breakpoint_size) => {
 
         return() => window.removeEventListener("resize", handleResize);
     }, [breakpoint_size])
-
 
     return WindowSize;
 }

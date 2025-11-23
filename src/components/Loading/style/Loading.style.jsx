@@ -27,14 +27,8 @@ export const Container = styled.div`
 
         transform-origin: center; 
 
-        animation: ${({ loading }) =>
-          loading
-          ? css`
-                ${complete} 4s infinite ease-in-out
-            `
-          : 'none'};
+        animation: ${({ loading }) => loading ? css`${complete} 4s infinite ease-in-out`: 'none'};
     }
-
 `;
 
 

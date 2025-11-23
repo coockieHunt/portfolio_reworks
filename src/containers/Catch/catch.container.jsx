@@ -1,3 +1,4 @@
+// react
 import {useState} from 'react'
 
 // style
@@ -15,28 +16,28 @@ import { skillCards } from '../../data.jsx'
 export const CathContainer = ({ id }) => {
     const colorSettings = useColorSettings();
     const SkillCard = ({ Icon, title, description, color }) => {
-    const [isHovered, setIsHovered] = useState(false);
+        const [isHovered, setIsHovered] = useState(false);
 
-    return (
-        <StyleCatch.SkillCard
-        className="card"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}>
-            <DotGridEffect
-                $isHovered={true}
-                $DotColor="#fafeff14"
-                $Spacing="18px"
-                $DotSize="2px"/>
+        return (
+            <StyleCatch.SkillCard
+            className="card"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}>
+                <DotGridEffect
+                    $isHovered={true}
+                    $DotColor="#fafeff14"
+                    $Spacing="18px"
+                    $DotSize="2px"/>
 
-            <div style={{ position: "relative", zIndex: 2 }}>
-                <div className='header-card'>
-                    <Icon color={color} size={30} />
-                    <h2>{title}</h2>
+                <div style={{ position: "relative", zIndex: 2 }}>
+                    <div className='header-card'>
+                        <Icon color={color} size={30} />
+                        <h2>{title}</h2>
+                    </div>
+                    <p className='font_code'>{description}</p>
                 </div>
-                <p className='font_code'>{description}</p>
-            </div>
-        </StyleCatch.SkillCard>
-    );
+            </StyleCatch.SkillCard>
+        );
     };
     return (
         <StyleCatch.Section id={id}>
@@ -63,7 +64,6 @@ export const CathContainer = ({ id }) => {
             <StyleCatch.WaveBackground>
                 <WaveComponent colorPrimary={colorSettings.primary} colorAccent={colorSettings.accent} />
             </StyleCatch.WaveBackground>
-            
         </StyleCatch.Section>
     )
 }

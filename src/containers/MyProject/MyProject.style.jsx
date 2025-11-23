@@ -154,7 +154,6 @@ export const ProjectCard = styled.div`
                 border-radius: 5px;
                 line-height: 1.5em;
                 margin: 0;
-                /* prefer a sensible desktop height but allow responsiveness */
                 height: 270px;
                 overflow: auto;
             }

@@ -23,7 +23,6 @@ export const TerminalContainer = styled.div`
     border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
     
     @media ( max-width: ${SCREEN_SIZE.mobile}) {max-width: 90%;}
-
     
     &::before {
         content: '';
@@ -212,15 +211,10 @@ export const TerminalLine = styled.div`
         & .header{ 
             border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
 
-            & .left{
-                & svg {
-                    background-color: ${props => getColorSettings(props.theme).accentuate};}
-                }
+            & .left{& svg {background-color: ${props => getColorSettings(props.theme).accentuate};}}
         }
 
-        & .action svg {
-            transform: rotate(180deg);
-        }
+        & .action svg {transform: rotate(180deg);}
     }
 
 

@@ -10,7 +10,6 @@ export const ProductContainer = ({id}) => {
             <TitleTextComponent subtitle={"Faites votre choix"}>
                     Produits
             </TitleTextComponent>
-
             <TerminalComponent data={productList} />
         </div>
     );

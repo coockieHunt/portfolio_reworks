@@ -17,7 +17,6 @@ import { useSettingContext } from '../../context/Setting.context';
 import { getColorSettings, GetLightSetting } from '../../config.jsx';
 
 
-
 export const BenefitContainer = ({ id }) => {
     const InfoVariants = {
         left: { x: 100, opacity: 100 },
