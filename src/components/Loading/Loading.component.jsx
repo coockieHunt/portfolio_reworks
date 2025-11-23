@@ -1,6 +1,14 @@
 import {Container } from './style/Loading.style';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
+/**
+ * Loading component that displays an animated loading frame.
+ *
+ * @param {Object} props
+ * @param {boolean} props.$loading - Controls whether the loading animation is active.
+ * @param {string} [props.$color] - Optional color for the loading animation.
+ * @returns {JSX.Element}
+ */
 export const Loading = ({ $loading, $color }) => {
     const [playAnimation, setPlayAnimation] = useState(!!$loading);
     const timeoutRef = useRef();

@@ -2,6 +2,16 @@ import * as styled from "./style/Terminal.style";
 import { useState, useRef, useEffect } from "react";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
 
+/**
+ * TerminalComponent displays a terminal-like UI with expandable/collapsible items.
+ * 
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array<Object>} props.data - Array of product objects to display. Each object should have at least `id`, `title`, `subTitle`, `icon`, and `description` properties.
+ * @param {string} [props.path="jonathangleyze.fr/projets"] - The base path displayed in the terminal header.
+ * @param {string} [props.command="ls /projects --DDtree"] - The command string displayed in the terminal prompt.
+ * @returns {JSX.Element} The rendered TerminalComponent.
+ */
 const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
     const isOpen = openItemId === product.id;
     const IfSelectedClass = isOpen ? 'selected' : '';

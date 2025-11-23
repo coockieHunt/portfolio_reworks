@@ -1,8 +1,20 @@
+
 import { useState, useMemo } from "react";
 import { useWindowSize } from '../../hooks/screenResize.hook.jsx';
 import { SCREEN_SIZE } from '../../config.jsx';
-import { GridContainer, PaginationContainer } from "./PaginatedGrid.style";
+import { GridContainer, PaginationContainer } from "./style/PaginatedGrid.style.jsx";
 
+/**
+ * PaginatedGrid component displays a paginated grid of items, supporting custom row and column spans per item.
+ * It adapts the grid layout for mobile and desktop screens, and provides pagination controls.
+ *
+ * @component
+ * @param {Object[]} items - The array of items to display in the grid. Each item can have optional `column` and `row` properties for custom spans.
+ * @param {function} renderItem - A function or React component to render each item. Receives item props.
+ * @param {number} [columns=4] - Number of columns in the grid for desktop screens.
+ * @param {number} [rows=2] - Number of rows in the grid for desktop screens.
+ * @returns {JSX.Element} The rendered paginated grid component.
+ */
 const calculatePages = (items, isMobile, columns, rows) => {
     const COLS = isMobile ? 1 : columns;
     const ROWS = isMobile ? 4 : rows;

@@ -1,5 +1,16 @@
 import { motion } from "framer-motion";
 
+/**
+ * WaveComponent renders an animated SVG wave using Framer Motion.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {string} props.colorPrimary - The primary color used for the wave strokes.
+ * @returns {JSX.Element} Animated SVG wave component.
+ *
+ * @example
+ * <WaveComponent colorPrimary="#3498db" />
+ */
 export const WaveComponent = ({ colorPrimary }) => {
     // Wave paths starting positions and end variants
 

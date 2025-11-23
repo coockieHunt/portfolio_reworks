@@ -1,32 +1,17 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
-
-
-import {
-    FormInput,
-    FormTextArea,
-    FormElement,
-    FormLabel,
-    FormGroupe,
-    FormInline,
-    CaptchaContainer,
-    CaptchaInput,
-    CaptchaForm,
-    CaptchaMessage,
-    CaptchaLabel
-} from './style/Form.style';
-
+import { useState, useImperativeHandle, forwardRef } from 'react';
+import * as styled from './style/Form.style';
 import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 
 const renderLabel = (label, required, name) => {
     if (label !== undefined) {
         if (required) {
             return (
-                <FormLabel htmlFor={name}>
+                <styled.FormLabel htmlFor={name}>
                     {label} <span>*</span>
-                </FormLabel>
+                </styled.FormLabel>
             );
         }
-        return <FormLabel htmlFor={name}>{label}</FormLabel>;
+        return <styled.FormLabel htmlFor={name}>{label}</styled.FormLabel>;
     }
 
     return null;
@@ -48,9 +33,9 @@ const generateRandomNumber = () => {
  * @param children child form all input
  */
 export const Groupe = ({ children }) => (
-    <FormGroupe>
+    <styled.FormGroupe>
         {children}
-    </FormGroupe>
+    </styled.FormGroupe>
 );
 
 /**
@@ -59,9 +44,9 @@ export const Groupe = ({ children }) => (
  * @param children form element inline
  */
 export const Inline = ({ children }) => (
-    <FormInline>
+    <styled.FormInline>
         {children}
-    </FormInline>
+    </styled.FormInline>
 );
 
 /**
@@ -85,10 +70,10 @@ export const InputText = ({ name, value, onChange, label, placeHolder, required 
     }
 
     return (
-        <FormElement>
+        <styled.FormElement>
             {labelElement}
-            <FormInput name={name} id={name} type="text" placeholder={placeholderElement} value={value} onChange={onChange} />
-        </FormElement>
+            <styled.FormInput name={name} id={name} type="text" placeholder={placeholderElement} value={value} onChange={onChange} />
+        </styled.FormElement>
     );
 }
 
@@ -113,10 +98,10 @@ export const InputEmail = ({ name, value, onChange, label, placeHolder, required
     }
 
     return (
-        <FormElement>
+        <styled.FormElement>
             {labelElement}
-            <FormInput name={name} id={name} type="email" placeholder={placeholderElement} value={value} onChange={onChange}  autoComplete="email"/>
-        </FormElement>
+            <styled.FormInput name={name} id={name} type="email" placeholder={placeholderElement} value={value} onChange={onChange}  autoComplete="email"/>
+        </styled.FormElement>
     );
 };
 
@@ -136,9 +121,9 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
     const renderLabel = () => {
         if (label !== undefined) {
             return (
-                <FormLabel htmlFor={name}>
+                <styled.FormLabel htmlFor={name}>
                     {label} {required && <span>*</span>}
-                </FormLabel>
+                </styled.FormLabel>
             );
         }
         return null;
@@ -150,10 +135,10 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
     }
 
     return (
-        <FormElement>
+        <styled.FormElement>
             {renderLabel()}
-            <FormTextArea name={name} id={name} placeholder={placeholderElement} value={value} onChange={onChange} />
-        </FormElement>
+            <styled.FormTextArea name={name} id={name} placeholder={placeholderElement} value={value} onChange={onChange} />
+        </styled.FormElement>
     );
 };
 
@@ -188,12 +173,12 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
     }));
 
     return (
-        <CaptchaContainer>
-            <CaptchaLabel htmlFor="Captcha">Captcha <span>*</span></CaptchaLabel>
-            <CaptchaForm>
+        <styled.CaptchaContainer>
+            <styled.CaptchaLabel htmlFor="Captcha">Captcha <span>*</span></styled.CaptchaLabel>
+            <styled.CaptchaForm>
                 <span>{number1} + {number2} =</span>
 
-                <CaptchaInput
+                <styled.CaptchaInput
                     type="text"
                     value={userAnswer}
                     onChange={handleCaptchaChange}
@@ -202,11 +187,11 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
                     pattern="[0-9]*"
                 />
                 {isCaptchaValid ? (
-                    <CaptchaMessage style={{ color: "green" }}><AiOutlineCheck /></CaptchaMessage>
+                    <styled.CaptchaMessage style={{ color: "green" }}><AiOutlineCheck /></styled.CaptchaMessage>
                 ) : (
-                    <CaptchaMessage style={{ color: "red" }}><AiOutlineClose /></CaptchaMessage>
+                    <styled.CaptchaMessage style={{ color: "red" }}><AiOutlineClose /></styled.CaptchaMessage>
                 )}
-            </CaptchaForm>
-        </CaptchaContainer>
+            </styled.CaptchaForm>
+        </styled.CaptchaContainer>
     );
 });

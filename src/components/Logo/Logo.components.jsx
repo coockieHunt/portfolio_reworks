@@ -3,7 +3,13 @@ import LogoComponentDetailedMinimal from '../../assets/images/logo/logo-detailed
 import LogoComponentSimpleFull from '../../assets/images/logo/logo-simple-full.svg?react';
 import LogoComponentSimpleMinimal from '../../assets/images/logo/logo-simple-minimal.svg?react'; 
 
-
+/**
+ * Renders a logo SVG component based on the specified version.
+ *
+ * @param {Object} props
+ * @param {'detailed-full'|'detailed-minimal'|'simple-full'|'simple-minimal'} props.version - The logo version to render.
+ * @returns {JSX.Element} The selected logo component.
+ */
 export const LogoComponent = ({ version, ...rest }) => {
     let LogoToRender; 
 

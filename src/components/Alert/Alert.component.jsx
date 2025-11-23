@@ -1,4 +1,3 @@
-import React  from 'react';
 import { Container, AlertContainer } from './style/Alert.style';
 import { useAlert } from '../../context/alert.context';
 import {RxCross2} from 'react-icons/rx'
@@ -7,7 +6,12 @@ import { COLOR_SETTING } from '../../config.jsx';
 import { useSettingContext } from '../../context/Setting.context';
 
 /**
- * Represents a component for rendering alert containers.
+ * AlertContainerComponent displays a list of alert messages.
+ * 
+ * It retrieves alerts from the alert context and renders each alert with a close button.
+ * The alert color is determined by the alert's colorAlert property or the current theme's primary color.
+ * 
+ * @component
  * @returns {JSX.Element} The rendered alert container component.
  */
 export const AlertContainerComponent = () => {

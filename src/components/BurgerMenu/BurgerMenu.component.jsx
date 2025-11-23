@@ -1,6 +1,21 @@
-import React from 'react';
 import {BurgerMenuContainer} from './style/BurgerMenu.style'
 
+/**
+ * BurgerMenuComponent
+ *
+ * A stateless presentational component that renders a hamburger menu button.
+ * The component is accessible and keyboard-navigable; it delegates open/close
+ * behavior to the parent via the provided onClick handler.
+ *
+ * Props:
+ * @param {Object} props - Component props.
+ * @param {boolean} props.val - Whether the menu is open. When true, the 'open'
+ * @param {Function} props.onClick - Handler invoked when the user clicks or activates the control via keyboard (Enter or Space).
+ *
+ * @returns {JSX.Element} A focusable, clickable element styled as a hamburger
+ * Example:
+ * <BurgerMenuComponent val={isOpen} onClick={() => setIsOpen(!isOpen)} />
+ */
 export const BurgerMenuComponent = ({ val, onClick }) => {
   return (
     <BurgerMenuContainer
