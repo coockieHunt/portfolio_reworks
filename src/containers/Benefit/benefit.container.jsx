@@ -11,7 +11,7 @@ import { TitleTextComponent } from '../../components/Text/Text.component'
 import { benefitItems } from '../../data';
 
 // hooks
-import { useWindowSize } from "../../hooks/screenResize.hook"
+import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 import { useInView } from 'react-intersection-observer';
 import { useSettingContext } from '../../context/Setting.context';
 import { getColorSettings, GetLightSetting } from '../../config.jsx';

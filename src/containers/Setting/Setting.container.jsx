@@ -11,7 +11,7 @@ import * as Styled from "./Setting.style"
 import { COLOR_SETTING,SCREEN_SIZE } from '../../config.jsx';
 
 //Hooks
-import { useWindowSize } from "../../hooks/screenResize.hook"
+import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 //Context
 import { useAlert } from '../../context/alert.context';

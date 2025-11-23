@@ -10,7 +10,7 @@ import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.componen
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 
 //hook
-import { useWindowSize } from '../../hooks/screenResize.hook';
+import { useWindowSize } from '../../hooks/useScreenResize.hook.jsx';
 
 //config
 import { SCREEN_SIZE, COLOR_SETTING } from '../../config.jsx'

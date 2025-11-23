@@ -16,7 +16,7 @@ import { DotGridEffect } from '../../styles/effect.jsx';
 import { serviceModals } from '../../data.jsx'
 
 //import hook
-import { useScrollbar } from '../../hooks/scrollBar.hook';
+import { useScrollbar } from '../../hooks/useScrollBar.hook.jsx';
 
 //import component
 import { ModalComponent } from '../../components/Modal/Modal.coponents';

@@ -7,7 +7,7 @@ import { renderToString } from 'react-dom/server';
 import * as styled from "./Contact.style"
 
 //hooks
-import { useWindowSize } from "../../hooks/screenResize.hook"
+import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 // templates
 import { EmailTemplateContact } from '../../templates/mail.contact.mail'

@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { Link } from "react-scroll";
 
 // hook
-import { useScrollbar } from "../../hooks/scrollBar.hook"
-import { useWindowSize } from "../../hooks/screenResize.hook"
+import { useScrollbar } from "../../hooks/useScrollBar.hook.jsx"
+import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LightBoxComponent } from '../../../components/LightBox/LightBox.component';
-import { UseLightBox } from '../../../hooks/LightBox.hook';
+import { UseLightBox } from '../../../hooks/useLightBox.hook';
 
 const BuildGaleryBuild = ({ project }) => {
     const { 
