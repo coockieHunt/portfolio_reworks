@@ -91,7 +91,7 @@ export const ScrollToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
         }, []);
 
         return (
-            <button>
+            <button aria-label="Revenir en haut" title="Revenir en haut">
                 <ArrowContainerFixed 
                     onClick={scrollToTop} 
                     className={!scrollY || isFixed ? 'hide' : ''}
@@ -106,7 +106,7 @@ export const ScrollToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
 
     
     return (
-        <button>
+        <button aria-label="Revenir en haut" title="Revenir en haut">
             <ArrowContainer 
                 onClick={scrollToTop} 
             >
@@ -136,6 +136,8 @@ export const ScrollToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
  * @param iconSize - Size on icon (optional).
  */
 export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", textY = "120%", iconSize }) => {
+    const isExternal = to && to.startsWith('http');
+    const ariaLabel = text || (isExternal ? 'Lien externe' : 'Bouton');
     return (
         <IconContainer 
             color={color} 
@@ -143,11 +145,14 @@ export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", tex
             onClick={onClick} 
             $textX={textX} 
             $textY={textY}
-            target={to && to.startsWith('http') ? '_blank' : undefined}
-            rel={to && to.startsWith('http') ? 'noopener noreferrer' : undefined}
+            target={isExternal ? '_blank' : undefined}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            aria-label={ariaLabel}
+            title={ariaLabel}
+            role="link"
         >
-            {React.cloneElement(icon, { size: iconSize })}
-            <span>{text}</span>
+            {React.cloneElement(icon, { size: iconSize, 'aria-hidden': true, focusable: false })}
+            <span aria-hidden="true">{text}</span>
         </IconContainer>
     );
 };

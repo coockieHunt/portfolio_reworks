@@ -63,13 +63,17 @@ export const HeroContainer = ({id}) => {
     }
 
     const CtaAction = (to, icon, title, content, hightLight = false) => {
+        const ariaLabel = `${title} – ${content}`;
         return (
             <Link 
                 href={`${window.location.origin}/#${to}`} 
                 to={to} spy={true} smooth={true} offset={-70} duration={500} 
-                style={{textDecoration: "none", color: "inherit"}}>
+                style={{textDecoration: "none", color: "inherit"}}
+                aria-label={ariaLabel}
+                role="link"
+            >
                 <styled.Action className={hightLight ? 'highlight' : ''}>
-                    <div className="icon">{icon}</div>
+                    <div className="icon" aria-hidden="true">{icon}</div>
                     <h3>{title}</h3>
                     <p>{content}</p>
                 </styled.Action>

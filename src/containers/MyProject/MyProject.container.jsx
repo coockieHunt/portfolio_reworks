@@ -36,8 +36,24 @@ const BuildProjectCardComponent = (project) => {
             className={project.favorite ? "favorite" : undefined}
         >
             <BuildTab project={project} currentTab={CurrentTab} setCurrentTab={setCurrentTab} />
+            <div
+                id={`panel-preview-${project.id}`}
+                role="tabpanel"
+                aria-labelledby={`tab-preview-${project.id}`}
+                hidden={CurrentTab !== 'preview'}
+            >
             {CurrentTab === 'preview' && <BuildPreview project={project} />}
-            {CurrentTab === 'galerie' && <BuildGalery project={project} />}
+            </div>
+            {project.galery && project.galery.length > 0 && (
+                <div
+                    id={`panel-galerie-${project.id}`}
+                    role="tabpanel"
+                    aria-labelledby={`tab-galerie-${project.id}`}
+                    hidden={CurrentTab !== 'galerie'}
+                >
+                    {CurrentTab === 'galerie' && <BuildGalery project={project} />}
+                </div>
+            )}
         </ProjectCard>
     )
 }

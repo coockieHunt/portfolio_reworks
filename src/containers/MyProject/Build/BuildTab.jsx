@@ -12,19 +12,21 @@ const BuildTabBuild = ({ project, currentTab, setCurrentTab }) => {
     }
 
     return (
-        <div className="tab-content">
+        <div className="tab-content" role="tablist" aria-label={`Vues du projet ${project.title}`}>
             <ul>
                 {Tab.map((item, index) => (
                     <li
                         key={index}
+                        id={`tab-${item.name}-${project.id}`}
                         onClick={() => setCurrentTab(item.name)}
                         className={currentTab === item.name ? 'selected' : undefined}
                         role="tab"
                         aria-selected={currentTab === item.name}
-                        // no hover specific logic yet
+                        tabIndex={currentTab === item.name ? 0 : -1}
+                        aria-controls={`panel-${item.name}-${project.id}`}
                     >
                         {item.icon} {item.label}
-                        {(currentTab === item.name) && (
+                        {currentTab === item.name && (
                             <span className="icon icon-active"><FaXmark /></span>
                         )}
                     </li>

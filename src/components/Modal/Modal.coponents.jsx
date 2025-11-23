@@ -55,7 +55,14 @@ export const ModalComponent = ({ modals, onClose }) => {
                                 exit={{ y: 100, opacity: 0 }}
                             >
                                 <Top>
-                                    <AiOutlineClose onClick={() => onClose(index)} />
+                                    <button 
+                                        onClick={() => onClose(index)} 
+                                        aria-label="Fermer la fenêtre modale" 
+                                        title="Fermer"
+                                        style={{background:'transparent', border:'none', padding:0, cursor:'pointer'}}
+                                    >
+                                        <AiOutlineClose aria-hidden="true" focusable={false} />
+                                    </button>
                                 </Top>
                                 <Content>
                                     <h1>{modal.title}</h1>

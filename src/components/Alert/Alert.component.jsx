@@ -20,20 +20,30 @@ export const AlertContainerComponent = () => {
         <Container 
             style={DEBUG.container ? { backgroundColor: DEBUG.container_color } : {}
         }>
-        {alerts.map((alert) => (
-            <AlertContainer 
-                key={alert.id} 
-                style={{ pointerEvents: 'auto' }}
-                $coloralert={alert.colorAlert ? alert.colorAlert : COLOR_SETTING[theme.settings.theme].primary}
-            >
-                <div className="content">
-                    <div className="progress-bar" style={{ animationDuration: `${alert.delay}ms` }}></div>
-                    <span>{alert.message}</span>
-                </div>
+            <div aria-live="polite" aria-atomic="false">
+                {alerts.map((alert) => (
+                    <AlertContainer 
+                        key={alert.id} 
+                        style={{ pointerEvents: 'auto' }}
+                        $coloralert={alert.colorAlert ? alert.colorAlert : COLOR_SETTING[theme.settings.theme].primary}
+                        role="alert"
+                    >
+                        <div className="content">
+                            <div className="progress-bar" style={{ animationDuration: `${alert.delay}ms` }}></div>
+                            <span>{alert.message}</span>
+                        </div>
 
-                <button onClick={() => removeAlert(alert)}><RxCross2/></button>
-            </AlertContainer>
-        ))}
-    </Container>
+                        <button 
+                            onClick={() => removeAlert(alert)}
+                            aria-label="Fermer l'alerte"
+                            title="Fermer"
+                            style={{background:'transparent', border:'none', cursor:'pointer'}}
+                        >
+                            <RxCross2 aria-hidden="true" focusable={false} />
+                        </button>
+                    </AlertContainer>
+                ))}
+            </div>
+        </Container>
     );
 };

@@ -61,7 +61,12 @@ export const NavigationComponent = ({ navConfig }) => {
                 <LogoComponent version="simple-full" style={{ width: "16px", height: "auto", color: getColorSettings(settings.theme).primary }} />
                 {isMobile ? <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} /> : null}
             </Styled.BrandContainer>
-            <Styled.Nav className={menuOpen ? "NavOpen" : "NavClose"}>
+            <Styled.Nav 
+                id="primary-navigation"
+                className={menuOpen ? "NavOpen" : "NavClose"}
+                role="navigation"
+                aria-label="Navigation principale"
+            >
                 <ul>
                     <BuildNavigation
                         menuItems={navConfig}
