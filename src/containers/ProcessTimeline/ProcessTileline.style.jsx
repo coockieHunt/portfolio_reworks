@@ -183,6 +183,19 @@ export const TimeLineItemContainer = styled.div`
     border-bottom: 4px solid ${(props) => getColorSettings(props.theme).primary};
     z-index: 1; 
     will-change: transform;
+    position: relative;
+
+    &::after{
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform-origin: center;
+        background-color: ${(props) => getColorSettings(props.theme).background_secondary};
+        z-index: -1;
+        pointer-events: none;
+        opacity: .8;    
+    }
+
 
     & .DotBg {
         position: absolute;
@@ -223,7 +236,6 @@ export const TimeLineItemContainer = styled.div`
         box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary};
     }
 
-    /* Le pseudo-élément flou est maintenant dans .DotBg::before, on cible celui-ci au hover */
     &:hover { & .DotBg::before { opacity: 1; filter: blur(0px); } }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
