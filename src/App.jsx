@@ -23,6 +23,7 @@ import { LinkTextComponent } from './components/Text/Text.component.jsx'
 
 //Provider
 import { AlertProvider } from './context/alert.context.jsx';
+import { AlertContainerComponent } from './components/Alert/Alert.component';
 import {SettingProvider} from "./context/Setting.context.jsx";
 import { LoadingProvider } from './context/loading.context.jsx';
 
@@ -59,6 +60,7 @@ function App() {
                     <LoadingProvider>
                     <NavigationComponent navConfig={navigation} />
                     <AlertProvider>
+                        <AlertContainerComponent />
                         <SettingContainer/>
                         <HeroContainer id='hero' />
                         <CathContainer id='catch' />

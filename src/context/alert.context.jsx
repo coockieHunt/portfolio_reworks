@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useState } from 'react';
-import { AlertContainerComponent } from '../components/Alert/Alert.component';
-
 const AlertContext = createContext();
 
 /**
@@ -8,7 +6,21 @@ const AlertContext = createContext();
  * @returns {object} An object containing alerts and related functions.
  */
 export const useAlert = () => {
-  return useContext(AlertContext);
+    const ctx = useContext(AlertContext);
+    if (!ctx) {
+        // Guard: if hook is used outside provider, return safe no-op implementation
+        // This prevents runtime destructuring errors and makes the issue visible in the console.
+        if (typeof window !== 'undefined') {
+            // eslint-disable-next-line no-console
+            console.warn('useAlert called outside of AlertProvider. Returning no-op fallbacks.');
+        }
+        return {
+            alerts: [],
+            addAlert: () => {},
+            removeAlert: () => {}
+        };
+    }
+    return ctx;
 };
 
 /**
@@ -34,7 +46,6 @@ export const AlertProvider = ({ children, debug }) => {
 
     return (
         <AlertContext.Provider value={{ alerts, addAlert, removeAlert }}>
-            <AlertContainerComponent $view={debug}/>
             {children}
         </AlertContext.Provider>
     );
