@@ -1,6 +1,6 @@
+//react
 import { useState } from 'react';
 import { Link } from "react-scroll";
-import { socialLinks } from '../../data.jsx'
 
 // hook
 import { useScrollbar } from "../../hooks/scrollBar.hook"
@@ -9,24 +9,35 @@ import { useWindowSize } from "../../hooks/screenResize.hook"
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
 import { IconButton } from "../../components/Button/Button"
+import { LogoComponent } from '../../components/Logo/Logo.components.jsx';
+
 
 //style
 import * as Styled from './navigations.style';
 
 // config
-import * as config from '../../config.jsx'
+import { SCREEN_SIZE, getColorSettings } from '../../config'; 
 
-//logo
-import { LogoComponent } from '../../components/Logo/Logo.components.jsx';
-import { getColorSettings } from '../../config';
+// data
+import { socialLinks } from '../../data.jsx'
+
+//context
 import { useSettingContext } from '../../context/Setting.context';
-
 
 const BuildNavigation = ({ menuItems, onClick }) => {
     return (
         menuItems.map((item, index) => (
             <li key={index}>
-                <Link activeClass="active" to={item[1]} onClick={onClick} >
+                <Link 
+                    to={item[1]} 
+                    onClick={onClick} 
+                    href={`${window.location.origin}/#${item[1]}`} 
+                    spy={true} 
+                    smooth={true} 
+                    offset={-70} 
+                    duration={500} 
+                    style={{textDecoration: "none", color: "white"}}
+                >
                     <span>{index + 1} . </span>
                     {item[0]}
                 </Link>
@@ -38,9 +49,7 @@ const BuildNavigation = ({ menuItems, onClick }) => {
 export const NavigationComponent = ({ navConfig }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const isMobile = useWindowSize(
-        config.SCREEN_SIZE.mobile.substring(0, config.SCREEN_SIZE.mobile.length - 2),
-    );
+    const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2),);
 
     useScrollbar(menuOpen);
     const toggleMenu = () => {setMenuOpen(!menuOpen);};
