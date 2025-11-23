@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { STYLE } from "../config/main";
 import { getColorSettings, GetLightSetting } from '../../../config';
 
 
 // ? CONFIG STYLE FORM
 const LabelPadding = '10px';
-const BorderSize = STYLE.Border_size;
+const BorderSize = '1px';
 
 
 export const FormLabel = styled.label`
