@@ -8,25 +8,39 @@ const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
 
     return (
         <styled.TerminalLine className={IfSelectedClass}>
-            <div className="header" onClick={() => onItemClick(product.id)} aria-expanded={isOpen}>
-                <div className="left">
+            <div 
+                className="header" 
+                onClick={() => onItemClick(product.id)} 
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
+                aria-controls={`terminal-content-${product.id}`}
+                aria-label={`${product.title} - ${product.subTitle}`}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onItemClick(product.id); } }}
+            >
+                <div className="left" aria-hidden="true">
                     <span>{String(product.id).padStart(2, '0')}</span>
                     {product.icon}
                 </div>
 
-                <div className="info ">
+                <div className="info " aria-hidden="true">
                     <styled.LineTag className="title font_code">[{product.title}]</styled.LineTag>
                     <styled.LineTag className="subtitle font_code">{product.subTitle}</styled.LineTag>
                 </div>
 
-                <div className="action">
+                <div className="action" aria-hidden="true">
                     <styled.Separator aria-hidden="true"><FaArrowDown /></styled.Separator>
                 </div>
             </div>
             {isOpen &&
-            <div className="content">
+            <div 
+                id={`terminal-content-${product.id}`}
+                className="content"
+                role="region"
+                aria-labelledby={`terminal-header-${product.id}`}
+            >
                 <div className="card">
-                    <span><FaArrowRight /></span>
+                    <span aria-hidden="true"><FaArrowRight /></span>
                     <p>{product.description}</p>
                 </div>
             </div>
@@ -57,7 +71,6 @@ export const TerminalComponent = ({ data, path = "jonathangleyze.fr/projets", co
 };
 
     useEffect(() => {
-        //if click is outside of container close all
         const handleOutsideClick = (event) => {
             if (containerRef.current && !containerRef.current.contains(event.target)) {
                 setOpenItemId(null); 
@@ -65,7 +78,6 @@ export const TerminalComponent = ({ data, path = "jonathangleyze.fr/projets", co
             }
         };
 
-        //Click event
         document.addEventListener('mousedown', handleOutsideClick);
         return () => {document.removeEventListener('mousedown', handleOutsideClick);};
     }, [openItemId, containerRef]);

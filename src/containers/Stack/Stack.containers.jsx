@@ -1,21 +1,24 @@
 import React from 'react';
 import {Stack} from './Stack.style'
 
-import Node_mailer_logo from '../../assets/images/Node_mailer.webp'
-import Express_logo from '../../assets/images/Express.webp'
+import Node_mailer_logo from '../../assets/images/techno/Node_mailer.webp'
+import Express_logo from '../../assets/images/techno/Expressjs.svg'
+import Framer_logo from '../../assets/images/techno/Framer-motion-logo.svg'
+import NodeJs_logo from '../../assets/images/techno/node-js.svg'
+import React_logo from '../../assets/images/techno/react.svg'
 
 export const StackContainer = () =>{
       return (
         <Stack>
           <a href="https://fr.react.dev/">
             <img 
-              src="https://www.cdnlogo.com/logos/r/63/react.svg" 
+              src={React_logo} 
               alt="react technologie logo"
             />
           </a>
           <a href="https://www.framer.com/motion/">
             <img 
-              src="https://avatars.githubusercontent.com/u/42876?s=280&v=4"
+              src={Framer_logo}
               alt="framer technologie logo"
             />
           </a>
@@ -28,7 +31,7 @@ export const StackContainer = () =>{
             </a>
           <a href="https://nodejs.org/">
             <img 
-              src="https://www.cdnlogo.com/logos/n/79/node-js.svg"
+              src={NodeJs_logo}
               alt="Node js technologie logo"
             />
           </a>

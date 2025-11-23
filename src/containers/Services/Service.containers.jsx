@@ -20,6 +20,7 @@ import { useScrollbar } from '../../hooks/scrollBar.hook';
 
 //import component
 import { ModalComponent } from '../../components/Modal/Modal.coponents';
+import { useRef } from 'react';
 
 export const ServiceContainer = ({ id }) => {
 	const [modals, setModals] = useState(
@@ -49,7 +50,10 @@ export const ServiceContainer = ({ id }) => {
 		});
 	};
 
+	const lastFocusedRef = useRef(null);
+
 	const openModal = (index) => {
+		lastFocusedRef.current = document.activeElement;
 		scrollToElement();
 		const updatedModals = [...modals];
 		updatedModals[index].isOpen = true;
@@ -60,11 +64,20 @@ export const ServiceContainer = ({ id }) => {
 		const updatedModals = [...modals];
 		updatedModals[index].isOpen = false;
 		setModals(updatedModals);
+		setTimeout(() => {
+			try { lastFocusedRef.current && lastFocusedRef.current.focus(); } catch (e) {/* noop */}
+		}, 0);
 	};
 
 	const BuildFence = (icon, catchText, onClick) => {
 		return (
-			<Fence onClick={onClick}>
+			<Fence
+				onClick={onClick}
+				tabIndex={0}
+				role="button"
+				aria-label={`${catchText} - Voir plus`}
+				onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+			>
 				<DotGridEffect
 					$isHovered={true}
 					$DotColor="#fafeff6c"
@@ -93,7 +106,7 @@ export const ServiceContainer = ({ id }) => {
 					href={`${window.location.origin}/#contact`}
 					style={{color: "inherit", textDecoration: "none"}}
 				>
-					<Fence onClick={() => {}} className='HightLighting' style={{"opacity": "white"}}>
+					<Fence tabIndex={-1} className='HightLighting' style={{"opacity": "white"}} aria-hidden={true}>
 						<AiOutlineSend />
 						<p className='catch' style={{ whiteSpace: 'pre-line' }}>Me <br/>Contacter</p>
 						<span> Contacter<AiOutlineArrowRight /></span>

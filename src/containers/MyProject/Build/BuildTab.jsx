@@ -11,18 +11,40 @@ const BuildTabBuild = ({ project, currentTab, setCurrentTab }) => {
         Tab.push({ name: 'galerie', label: 'Galerie.jsx', icon: <VscRootFolderOpened /> });
     }
 
+    const handleKeyDown = (e, itemName, index) => {
+        let newIndex = index;
+        
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            newIndex = (index + 1) % Tab.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            newIndex = (index - 1 + Tab.length) % Tab.length;
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setCurrentTab(itemName);
+            return;
+        } else {
+            return;
+        }
+        
+        setCurrentTab(Tab[newIndex].name);
+        document.getElementById(`tab-${Tab[newIndex].name}-${project.id}`)?.focus();
+    };
+
     return (
-        <div className="tab-content" role="tablist" aria-label={`Vues du projet ${project.title}`}>
-            <ul>
+        <div className="tab-content">
+            <ul role="tablist" aria-label={`Vues du projet ${project.title}`}>
                 {Tab.map((item, index) => (
                     <li
                         key={index}
                         id={`tab-${item.name}-${project.id}`}
                         onClick={() => setCurrentTab(item.name)}
+                        onKeyDown={(e) => handleKeyDown(e, item.name, index)}
                         className={currentTab === item.name ? 'selected' : undefined}
                         role="tab"
                         aria-selected={currentTab === item.name}
-                        tabIndex={currentTab === item.name ? 0 : -1}
+                        tabIndex={0}
                         aria-controls={`panel-${item.name}-${project.id}`}
                     >
                         {item.icon} {item.label}

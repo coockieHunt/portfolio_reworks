@@ -41,10 +41,26 @@ export const Top = styled.div`
     display: flex;
     justify-content: end;
 
-    & > svg{
-        margin: 10px 20px 00;
+    & > svg,
+    & > button {
+        margin: 10px 20px 0;
         color: ${props => getColorSettings(props.theme).primary};
         cursor: pointer;
+        background: transparent;
+        border: none;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    & > button:focus {
+        outline: 2px solid ${props => getColorSettings(props.theme).primary};
+        outline-offset: 3px;
+    }
+
+    & > button > svg {
+        color: inherit;
     }
 `
 
