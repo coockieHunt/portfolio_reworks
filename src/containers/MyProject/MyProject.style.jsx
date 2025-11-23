@@ -118,6 +118,8 @@ export const ProjectCard = styled.div`
         flex-direction: column;
         height: 100%;
         box-sizing: border-box;
+        flex: 1 1 auto;
+        min-height: 0; 
 
         & .content{
             padding: 15px;
@@ -156,6 +158,22 @@ export const ProjectCard = styled.div`
                 margin: 0;
                 height: 270px;
                 overflow: auto;
+
+                // custom scrollbar small end remove background
+                scrollbar-width: thin;
+                scrollbar-color: ${props => getColorSettings(props.theme).primary} transparent;
+                scrollbar-width: thin;
+                
+                &::-webkit-scrollbar {
+                    width: 10px;
+                    height: 10px;
+                }
+                &::-webkit-scrollbar-track {background: transparent;}
+                &::-webkit-scrollbar-thumb {
+                    background-color: ${props => getColorSettings(props.theme).primary};
+                    border-radius: 6px;
+                    border: 2px solid transparent;
+                }
             }
 
             & ul{
@@ -238,39 +256,66 @@ export const ProjectCard = styled.div`
 
                 background-color: ${props => getColorSettings(props.theme).background_secondary};
 
-                &:hover{
-                    background-color: ${props => getColorSettings(props.theme).secondary};
-                }
+                &:hover{background-color: ${props => getColorSettings(props.theme).secondary};}
             }   
         }
 
         &.favorite{
-
-            & .content{
-                & .title{
-                    color: ${props => getColorSettings(props.theme).primary};
-                }
-            }
+            & .content{& .title{color: ${props => getColorSettings(props.theme).primary};}}
         }
     }
 
     & .container_galery{
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: auto;
         gap: 10px;
         padding: 15px;
-        justify-content: center;
-        align-items: center;
 
+        max-height: 550px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 8px;
+        background-color: transparent;
+        padding-bottom: 20px;
+
+        width: 100%;
+        margin: 0 auto;
+
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            grid-template-columns: repeat(1, 1fr);
+            max-height: 500px;
+        }
+        @media (max-width: ${SCREEN_SIZE.tablet}) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* custom scrollbar small end remove background*/
+        scrollbar-width: thin;
+        scrollbar-color: ${props => getColorSettings(props.theme).primary} transparent;
+
+        &::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        &::-webkit-scrollbar-track {background: transparent;}
+        &::-webkit-scrollbar-thumb {
+            background-color: ${props => getColorSettings(props.theme).primary};
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
         & img{
-            max-width: calc(33% - 10px);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
             border-radius: 5px;
             border: 1px solid #ffffff30;
             box-shadow: 0 0 10px #000000b0;
             cursor: pointer;
 
-            @media (max-width: ${SCREEN_SIZE.tablet}) {max-width: calc(50% - 10px);}
-            @media (max-width: ${SCREEN_SIZE.mobile}) {max-width: 100%;}
             &:hover{transform: scale(1.02);transition: all .3s ease;}
         }
     }
@@ -286,6 +331,5 @@ export const ProjectCard = styled.div`
             height: auto;
             max-height: none;
         }
-
     }
 `

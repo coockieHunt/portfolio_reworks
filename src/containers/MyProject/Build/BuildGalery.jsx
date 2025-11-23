@@ -5,7 +5,12 @@ const BuildGaleryBuild = ({ project }) => {
         <div className="container_galery">
             {project.galery && project.galery.map((imgUrl, index) => (
                 <div key={index}>
-                    <img src={imgUrl} alt={`Galerie image ${index + 1}`} />
+                    <img 
+                        src={imgUrl.img} 
+                        title={imgUrl.title != null ? imgUrl.title : `Galerie image ${index + 1}`} 
+                        alt={imgUrl.alt != null ? imgUrl.alt : `Galerie image ${index + 1}`} 
+                        loading="lazy"
+                    />
                 </div>
             ))}
         </div>

@@ -47,6 +47,7 @@ export const productList = [
 
 import demoProjet from './assets/projetImg/test.png'
 
+
 // -- Projet List ---
 // column end row range from 1 to 2 
 export const projectList = [
@@ -55,10 +56,18 @@ export const projectList = [
         title: 'projet 1',
         fileName: 'custom_hook.jsx',
         description: "Projet de création d'un ensemble de hooks personnalisés en React",
-        content: "Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace. Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace. Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace.",
+        content: "Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace. Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace. Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace.",
         webUrl: URL.github_hook,
         gitUrl: URL.github_hook,
-        galery: [demoProjet, demoProjet, demoProjet],
+        galery: [
+            {img: demoProjet, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image", alt:"altImage"}
+        ],
         techStack: ['react', 'hook', 'custom'],
         column: 1,
         row: 2,
@@ -90,7 +99,10 @@ export const projectList = [
         content: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
         webUrl: URL.github_hook,
         gitUrl: URL.github_hook,        
-        galery: [demoProjet, demoProjet, demoProjet],
+        galery: [
+            {img: demoProjet }, 
+            {img: demoProjet }
+        ],
         techStack: ['react', 'styled-components'],
         column: 1,
         row: 2,
