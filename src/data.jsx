@@ -46,6 +46,7 @@ export const productList = [
 ];
 
 import demoProjet from './assets/projetImg/test.png'
+import demoProjet2 from './assets/projetImg/image.png'
 
 
 // -- Projet List ---
@@ -61,12 +62,7 @@ export const projectList = [
         gitUrl: URL.github_hook,
         galery: [
             {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet, title:"titre image", alt:"altImage"}
+            {img: demoProjet2, title:"titre image", alt:"altImage"}, 
         ],
         techStack: ['react', 'hook', 'custom'],
         column: 1,
@@ -101,7 +97,8 @@ export const projectList = [
         gitUrl: URL.github_hook,        
         galery: [
             {img: demoProjet }, 
-            {img: demoProjet }
+            {img: demoProjet2 },
+            {img: demoProjet2 }
         ],
         techStack: ['react', 'styled-components'],
         column: 1,

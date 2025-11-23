@@ -1,8 +1,28 @@
 import React from 'react';
 
+import { LightBoxComponent } from '../../../components/LightBox/LightBox.component';
+import { UseLightBox } from '../../../hooks/LightBox.hook';
+
 const BuildGaleryBuild = ({ project }) => {
+    const { 
+        isLightBoxOpen,
+        currentImg,
+        ChangeLightBoxImg,
+        ToggleLightBox
+    } = UseLightBox();
+
+    const handleClickImg = (imgUrl) => {
+        ChangeLightBoxImg(imgUrl);
+        ToggleLightBox();
+    };
+
     return (
         <div className="container_galery">
+            <LightBoxComponent
+                isLightBoxOpen={isLightBoxOpen}
+                currentImg={currentImg}
+                closeLightBox={ToggleLightBox}
+            />
             {project.galery && project.galery.map((imgUrl, index) => (
                 <div key={index}>
                     <img 
@@ -10,6 +30,7 @@ const BuildGaleryBuild = ({ project }) => {
                         title={imgUrl.title != null ? imgUrl.title : `Galerie image ${index + 1}`} 
                         alt={imgUrl.alt != null ? imgUrl.alt : `Galerie image ${index + 1}`} 
                         loading="lazy"
+                        onClick={() => handleClickImg(imgUrl.img)}
                     />
                 </div>
             ))}
