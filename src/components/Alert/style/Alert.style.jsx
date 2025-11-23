@@ -1,18 +1,17 @@
 import styled from 'styled-components';
-import {STYLE} from '../config/main.js'
 
 export const Container = styled.div`
     position: absolute;
     position: fixed;
-    height: ${STYLE.height};
-    width: ${STYLE.width};
+    height: 100vh;
+    width: 400px;
     bottom: 5vh;
-    right: ${STYLE.position.right};
-    top: ${STYLE.position.top};
+    right: 0;
+    top: 0;
     display: flex;
     flex-direction: ${
-        STYLE.direction === "normal" ? "column" : 
-        STYLE.direction === "reverce" && "column-reverse"
+       'normal' === "normal" ? "column" : 
+       'normal' === "reverce" && "column-reverse"
     };
     gap: 10px;
     justify-content: start;
@@ -20,10 +19,7 @@ export const Container = styled.div`
     pointer-events: none;
     padding: 10px;
 
-
-    @media (max-width: 700px) {
-        width: 100%;
-    }
+    @media (max-width: 700px) {width: 100%;}
 `
 
 export const AlertContainer = styled.div`
@@ -35,10 +31,7 @@ export const AlertContainer = styled.div`
     overflow: hidden;
     animation: fadeIn 0.5s ease-in;
 
-    @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
+    @keyframes fadeIn {from {opacity: 0;} to {opacity: 1;}}
 
     & button {
         background-color: ${props => props.$coloralert};
@@ -55,7 +48,6 @@ export const AlertContainer = styled.div`
 
     .content {
         width: 80%;
-
         & span {
             margin-right: 0;
             margin-left: 0;
