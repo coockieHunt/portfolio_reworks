@@ -213,7 +213,7 @@ export const Action = styled.div`
     }
   }
 
-  & h3 {
+  & h2 {
     font-size: 1.5em;
     margin-bottom: 10px;
     font-variation-settings: "wght" 600;

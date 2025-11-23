@@ -102,8 +102,15 @@ export const ServiceContainer = ({ id }) => {
 				{BuildFence(<AiOutlineBuild />, 'Développement\nWeb', () => openModal(0))}
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
-				<Link to={'contact'} spy={true} smooth={true} offset={-70} duration={500} 
+				<Link 
+					to={'contact'} 
+					spy={true} 
+					smooth={true} 
+					offset={-70} 
+					duration={500} 
 					href={`${window.location.origin}/#contact`}
+					aria-label="Me contacter"
+					title="Me contacter"
 					style={{color: "inherit", textDecoration: "none"}}
 				>
 					<Fence tabIndex={-1} className='HightLighting' style={{"opacity": "white"}} aria-hidden={true}>
