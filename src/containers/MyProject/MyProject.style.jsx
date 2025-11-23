@@ -221,7 +221,7 @@ export const ProjectCard = styled.div`
                 }
             }
 
-            & button{
+            & button, & a.source_code, & a.project_code{
                 margin-right: 10px;
                 padding: 10px 15px;
                 font-size: 1em;
@@ -230,6 +230,7 @@ export const ProjectCard = styled.div`
                 border-radius: 5px;
                 cursor: pointer;
                 transition: all .3s ease;
+                text-decoration: none;
 
                 display: flex;
                 justify-content: center;

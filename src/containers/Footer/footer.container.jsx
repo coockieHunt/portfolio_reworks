@@ -30,22 +30,22 @@ export const FooterContainer = () => {
                 <Footer.Block style={{display: 'flex'}}>
                     <IconButton
                         icon={<AiFillGithub />}
-                        onClick={() => window.location.href = URL.github}
+                        to={URL.github}
                         iconSize={40} 
                     />
                     <IconButton
                         icon={<AiFillLinkedin />}
-                        onClick={() => window.location.href = URL.linkedin}
+                        to={URL.linkedin}
                         iconSize={40} 
                     />
                     <IconButton
                         icon={<FaDeviantart />}
-                        onClick={() => window.location.href = URL.DeviantArt}
+                        to={URL.DeviantArt}
                         iconSize={40} 
                     />
                     <IconButton
                         icon={<BiSolidUser />}
-                        onClick={() => window.open(cv, '_blank')}
+                        to={cv}
                         iconSize={40} 
                     />
                 </Footer.Block>

@@ -24,14 +24,24 @@ const BuildPreviewBuild = ({ project }) => {
                 <div className="footer">
                     <div className="cta">
                         {project.gitUrl !== null && (
-                            <button className="source_code" onClick={() => window.location.href = project.gitUrl}>
+                            <a 
+                                className="source_code" 
+                                href={project.gitUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 <FaGithub /> Code source
-                            </button>
+                            </a>
                         )}
                         {project.webUrl !== null && (
-                            <button className="project_code" onClick={() => window.location.href = project.webUrl}>
+                            <a 
+                                className="project_code" 
+                                href={project.webUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 <FaLink /> Voir le projet
-                            </button>
+                            </a>
                         )}
                     </div>
                     <div className="fenceFotter">

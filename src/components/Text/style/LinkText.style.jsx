@@ -6,6 +6,8 @@ export const ToText = styled.a`
     cursor: pointer;
     border-bottom: 2px solid currentColor;
     display: inline-block;
+    text-decoration: none;
+    color: inherit;
 
     &:hover{
         opacity: 0.8;

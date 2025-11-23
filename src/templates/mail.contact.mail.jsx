@@ -27,7 +27,7 @@ export const EmailTemplateContact = ({ content, title, email, FullName }) => {
                                     <td><span style={{ fontWeight: 'bold' }}>Nom prénom: </span>{FullName}</td>
                                 </tr>
                                 <tr>
-                                    <td ><span style={{ fontWeight: 'bold' }}>Mail: </span ><a style={linkStyle}>{email}</a></td>
+                                    <td ><span style={{ fontWeight: 'bold' }}>Mail: </span ><a style={linkStyle} >{email}</a></td>
                                 </tr>
                             </table>
                         </td>

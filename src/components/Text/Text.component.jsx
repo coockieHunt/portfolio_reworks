@@ -76,15 +76,13 @@ export const GradientTextContainer = ({ children }) => {
  * @example
  */
 export const LinkTextComponent = ({ children, to}) => {
-    const Redirect = () => {
-        try {
-            window.location.href = to
-        } catch (error) {
-            console.error("Invalid URL");
-        }
-    };
-
     return (
-        <ToText onClick={Redirect}>{children}</ToText>
+        <ToText 
+            href={to} 
+            target="_blank" 
+            rel="noopener noreferrer"
+        >
+            {children}
+        </ToText>
     );
 }

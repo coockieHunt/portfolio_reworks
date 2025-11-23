@@ -139,10 +139,12 @@ export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", tex
     return (
         <IconContainer 
             color={color} 
-            to={to} 
+            href={to || '#'}
             onClick={onClick} 
             $textX={textX} 
             $textY={textY}
+            target={to && to.startsWith('http') ? '_blank' : undefined}
+            rel={to && to.startsWith('http') ? 'noopener noreferrer' : undefined}
         >
             {React.cloneElement(icon, { size: iconSize })}
             <span>{text}</span>
@@ -157,12 +159,13 @@ export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", tex
  *
  * @param children - The content to be displayed inside the link.
  * @param onClick - The function to be executed when the link is clicked (optional).
+ * @param href - The URL to navigate to (optional).
  * @param className - ClassName on link
  * @returns {ReactNode} - A custom link element.
  */
-export const Link = ({ children, onClick, className }) => {
+export const Link = ({ children, onClick, href, className }) => {
     return (
-        <LinkContainer onClick={onClick} className={className}>
+        <LinkContainer href={href || '#'} onClick={onClick} className={className}>
             {children}
         </LinkContainer>
     )

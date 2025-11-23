@@ -122,16 +122,16 @@ export const HeroText = styled.div`
         gap: 50px;
 
         justify-content: center;
-   }
 
-     @media (max-width:  ${SCREEN_SIZE.mobile}) {
+        }
+
+     	@media (max-width:  ${SCREEN_SIZE.mobile}) {
         .cta{
             flex-direction: column;
             gap: 20px;
             width: 100%;
         }
-     }
-
+    }
 `
 
 export const Action = styled.div`
@@ -151,6 +151,7 @@ export const Action = styled.div`
 	&.highlight {
 			border: 2px solid ${props => getColorSettings(props.theme).primary};
 			border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
+			height: 100%;
 		& .icon svg {
 			background-color: ${props => getColorSettings(props.theme).primary};
 		}

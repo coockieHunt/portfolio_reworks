@@ -89,7 +89,10 @@ export const ServiceContainer = ({ id }) => {
 				{BuildFence(<AiOutlineBuild />, 'Développement\nWeb', () => openModal(0))}
 				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
 				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
-				<Link to={'contact'}>
+				<Link to={'contact'} spy={true} smooth={true} offset={-70} duration={500} 
+					href={`${window.location.origin}/#contact`}
+					style={{color: "inherit", textDecoration: "none"}}
+				>
 					<Fence onClick={() => {}} className='HightLighting' style={{"opacity": "white"}}>
 						<AiOutlineSend />
 						<p className='catch' style={{ whiteSpace: 'pre-line' }}>Me <br/>Contacter</p>

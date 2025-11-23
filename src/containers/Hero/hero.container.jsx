@@ -64,7 +64,10 @@ export const HeroContainer = ({id}) => {
 
     const CtaAction = (to, icon, title, content, hightLight = false) => {
         return (
-            <Link to={to}>
+            <Link 
+                href={`${window.location.origin}/#${to}`} 
+                to={to} spy={true} smooth={true} offset={-70} duration={500} 
+                style={{textDecoration: "none", color: "inherit"}}>
                 <styled.Action className={hightLight ? 'highlight' : ''}>
                     <div className="icon">{icon}</div>
                     <h3>{title}</h3>
@@ -100,7 +103,7 @@ export const HeroContainer = ({id}) => {
                                 <AiOutlineSend/>, 
                                 'Me contacter', 
                                 'Prêt à démarrer ? Envoyez-moi un message pour transformer votre idée en réalité numérique.',
-                                 true
+                                true
                             )}
                         </div>
                     </styled.HeroText>

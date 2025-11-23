@@ -36,7 +36,7 @@ const BuildNavigation = ({ menuItems, onClick }) => {
                     smooth={true} 
                     offset={-70} 
                     duration={500} 
-                    style={{textDecoration: "none", color: "white"}}
+                    style={{textDecoration: "none", color: "inherit"}}
                 >
                     <span>{index + 1} . </span>
                     {item[0]}
@@ -75,7 +75,7 @@ export const NavigationComponent = ({ navConfig }) => {
                             key={index}
                             icon={link.icon}
                             color={link.color}
-                            onClick={() => link.isFile ? window.open(link.url, '_blank') : window.location.href = link.url}
+                            to={link.url}
                             text={link.text}
                             textX={link.textX}
                         />

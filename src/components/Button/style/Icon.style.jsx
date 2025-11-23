@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { getColorSettings, GetLightSetting } from '../../../config';
 
-export const  IconContainer = styled.button`
+export const  IconContainer = styled.a`
     position: relative;
     color: ${props => props.color ? props.color : getColorSettings(props.theme).primary};
     background-color: transparent;
@@ -9,6 +9,8 @@ export const  IconContainer = styled.button`
     padding: 5px;
     transition: all .3s ease;
     cursor: pointer;
+    text-decoration: none;
+    border: none;
 
     display: flex;
     align-items: center;
