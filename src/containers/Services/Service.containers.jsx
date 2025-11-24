@@ -1,5 +1,5 @@
 // import library
-import { useState } from 'react';
+import { useRef } from 'react';
 import { scroller, Link } from "react-scroll";
 
 // import icon
@@ -17,28 +17,13 @@ import { serviceModals } from '../../data.jsx'
 
 //import hook
 import { useScrollbar } from '../../hooks/useScrollBar.hook.jsx';
+import { UseModal } from '../../hooks/useModal.hook.jsx';
 
 //import component
 import { ModalComponent } from '../../components/Modal/Modal.coponents';
-import { useRef } from 'react';
 
 export const ServiceContainer = ({ id }) => {
-	const [modals, setModals] = useState(
-		serviceModals.map(m => ({
-			isOpen: false,
-			title: m.title,
-			content: (
-				<>
-					<CatchModal>{m.catch}</CatchModal>
-					<ListModal>
-						{m.items.map((it, idx) => (
-							<li key={idx}><IconList><CiCircleCheck /></IconList> {it}</li>
-						))}
-					</ListModal>
-				</>
-			)
-		}))
-	);
+	const { modals, openModal, closeModal } = UseModal();
 	useScrollbar(modals.some(modal => modal.isOpen));
 
 	const scrollToElement = () => {
@@ -52,18 +37,25 @@ export const ServiceContainer = ({ id }) => {
 
 	const lastFocusedRef = useRef(null);
 
-	const openModal = (index) => {
+	const handleOpenModal = (index) => {
 		lastFocusedRef.current = document.activeElement;
 		scrollToElement();
-		const updatedModals = [...modals];
-		updatedModals[index].isOpen = true;
-		setModals(updatedModals);
+		const modalData = serviceModals[index];
+		openModal(
+			modalData.title,
+			<>
+				<CatchModal>{modalData.catch}</CatchModal>
+				<ListModal>
+					{modalData.items.map((it, idx) => (
+						<li key={idx}><IconList><CiCircleCheck /></IconList> {it}</li>
+					))}
+				</ListModal>
+			</>
+		);
 	};
 
-	const closeModal = (index) => {
-		const updatedModals = [...modals];
-		updatedModals[index].isOpen = false;
-		setModals(updatedModals);
+	const handleCloseModal = (index) => {
+		closeModal(index);
 		setTimeout(() => {
 			try { lastFocusedRef.current && lastFocusedRef.current.focus(); } catch (e) {/* noop */}
 		}, 0);
@@ -97,11 +89,11 @@ export const ServiceContainer = ({ id }) => {
 
 	return (
 		<div className={id}>
-			<ModalComponent modals={modals} onClose={closeModal} />
+			<ModalComponent modals={modals} onClose={handleCloseModal} />
 			<FenceContainer className='scrollTo'>
-				{BuildFence(<AiOutlineBuild />, 'Développement\nWeb', () => openModal(0))}
-				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => openModal(1))}
-				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => openModal(2))}
+				{BuildFence(<AiOutlineBuild />, 'Développement\nWeb', () => handleOpenModal(0))}
+				{BuildFence(<AiOutlineUnlock />, 'Consultant\nWeb', () => handleOpenModal(1))}
+				{BuildFence(<AiOutlineBgColors />, 'Conception\nGraphique', () => handleOpenModal(2))}
 				<Link 
 					to={'contact'} 
 					spy={true} 
