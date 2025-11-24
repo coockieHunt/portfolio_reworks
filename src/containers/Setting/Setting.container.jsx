@@ -126,7 +126,7 @@ export const SettingContainer = () => {
                         <ButtonTheme Name="yellow" Title="Jaune" />
                         <h3 className="titleOption">Mode fun</h3>
                         <div className="themeButton random" onClick={handleRandomThemeChange}>
-                            <p>⚠️ Le theme aleatoire peut causer de fort problèmes visuels ⚠️</p>
+                            <p>Le theme aleatoire peut causer de fort problèmes visuels</p>
                             <p>🔎 n'hesitez pas a re-charger la page si besoin 🔎</p>
                             <span>🦄Theme aléatoire 🦄</span>
                         </div>

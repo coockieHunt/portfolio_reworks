@@ -83,11 +83,13 @@ export const HeroText = styled.div`
         margin-bottom: 30px;
         font-variation-settings: "wght" 500;
         line-height: 1.2em;
+		margin-top: 15px;
 
         @media (max-width:  ${SCREEN_SIZE.mobile}) {
             font-size: 8vw;
             width: 100%;
             line-height: 1.3em;
+			margin-top: 20px;
         }
    }
 
@@ -106,6 +108,7 @@ export const HeroText = styled.div`
         }
 
         @media (max-width:  ${SCREEN_SIZE.mobile}) {font-size: 1.6em;}
+        @media (max-width:  ${SCREEN_SIZE.mobile}) { & .other{text-align: center; margin-top: 20px;}	}
    }
 
    .cta{
