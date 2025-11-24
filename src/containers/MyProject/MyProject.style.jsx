@@ -290,9 +290,15 @@ export const ProjectCard = styled.div`
             grid-template-columns: repeat(2, 1fr);
         }
 
-        /* custom scrollbar small end remove background*/
         scrollbar-width: thin;
         scrollbar-color: ${props => getColorSettings(props.theme).primary} transparent;
+
+        & .skeleton-wrapper{
+            background-color: #fcfcfc3b;
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+        }
 
         &::-webkit-scrollbar {
             width: 10px;
@@ -305,8 +311,8 @@ export const ProjectCard = styled.div`
             border: 2px solid transparent;
             background-clip: padding-box;
         }
-        
-        & img{
+
+        & .preview_img{
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -315,6 +321,7 @@ export const ProjectCard = styled.div`
             border: 1px solid #ffffff30;
             box-shadow: 0 0 10px #000000b0;
             cursor: pointer;
+
 
             &:hover{transform: scale(1.02);transition: all .3s ease;}
         }

@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { LightBoxComponent } from '../../../components/LightBox/LightBox.component';
 import { UseLightBox } from '../../../hooks/useLightBox.hook';
+import { ImageLazyLoad } from '../../../components/ImageLazyLoad/ImageLazyLoad.componenet';
 
 const BuildGaleryBuild = ({ project }) => {
     const { 
@@ -25,12 +25,12 @@ const BuildGaleryBuild = ({ project }) => {
             />
             {project.galery && project.galery.map((imgUrl, index) => (
                 <div key={index}>
-                    <img 
-                        src={imgUrl.img} 
+                    <ImageLazyLoad 
+                        url={imgUrl.img}
                         title={imgUrl.title != null ? imgUrl.title : `Galerie image ${index + 1}`} 
                         alt={imgUrl.alt != null ? imgUrl.alt : `Galerie image ${index + 1}`} 
-                        loading="lazy"
                         onClick={() => handleClickImg(imgUrl.img)}
+                        className="preview_img"
                     />
                 </div>
             ))}

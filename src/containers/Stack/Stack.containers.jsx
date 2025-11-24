@@ -1,4 +1,3 @@
-import React from 'react';
 import {Stack} from './Stack.style'
 
 import Node_mailer_logo from '../../assets/images/techno/Node_mailer.webp'

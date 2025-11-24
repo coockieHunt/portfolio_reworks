@@ -61,8 +61,8 @@ export const projectList = [
         webUrl: URL.github_hook,
         gitUrl: URL.github_hook,
         galery: [
-            {img: demoProjet, title:"titre image", alt:"altImage"}, 
-            {img: demoProjet2, title:"titre image", alt:"altImage"}, 
+            {img: demoProjet, title:"titre image demo 1 cust", alt:"altImage demo1"}, 
+            {img: demoProjet2, title:"titre image demo 2 cust", alt:"altImage demo2"}, 
         ],
         techStack: ['react', 'hook', 'custom'],
         column: 1,
