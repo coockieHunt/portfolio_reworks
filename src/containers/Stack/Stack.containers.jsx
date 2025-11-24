@@ -13,31 +13,35 @@ export const StackContainer = () =>{
             <img 
               src={React_logo} 
               alt="react technologie logo"
+              loading="lazy" decoding="async"
             />
           </a>
           <a href="https://www.framer.com/motion/">
             <img 
               src={Framer_logo}
               alt="framer technologie logo"
+              loading="lazy" decoding="async"
             />
           </a>
           <a href="https://nodemailer.com/">
               <img 
                 src={Node_mailer_logo}
                 alt="Node mailer technologie logo"
-
+                loading="lazy" decoding="async"
               />
             </a>
           <a href="https://nodejs.org/">
             <img 
               src={NodeJs_logo}
               alt="Node js technologie logo"
+              loading="lazy" decoding="async"
             />
           </a>
           <a href="https://expressjs.com/fr/">
             <img 
               src={Express_logo}
               alt="Express js technologie logo"
+              loading="lazy" decoding="async"
             />
           </a>
         </Stack>
