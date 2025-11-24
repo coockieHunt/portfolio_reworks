@@ -36,6 +36,12 @@ export const SettingContainer = () => {
     };
 
     const handleRandomThemeChange = () => {
+        Object.keys(COLOR_SETTING).forEach(key => {
+            if (key.startsWith('random_')) {
+                delete COLOR_SETTING[key];
+            }
+        });
+
         const randHex = () => {
             const val = () => Math.floor(Math.random() * 150) + 50;
             const r = val();
@@ -43,9 +49,6 @@ export const SettingContainer = () => {
             const b = val();
             return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         };
-
-        const newKey = `random_${Date.now().toString(36)}`;
-        const newBackground = randHex(); 
 
         const randBright = () => {
             const val = () => Math.floor(Math.random() * 100) + 155; 
@@ -55,7 +58,11 @@ export const SettingContainer = () => {
             return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         };
 
+        const newKey = `random_${Date.now().toString(36)}`;
+        const newBackground = randHex(); 
+
         COLOR_SETTING[newKey] = {
+            name: "🦄 Papuche",
             background: newBackground,
             background_secondary: randHex(), 
             background_tertiary: randHex(), 
@@ -68,16 +75,16 @@ export const SettingContainer = () => {
     };
 
 
-    const ButtonTheme = ({Name, Title}) => {
+    const ButtonTheme = ({Name}) => {
         const classNameCur = Name == settings.theme ? "current" : "";
 
         return (
-            <div className={`themeButton ${classNameCur}`}  onClick={() => handleThemeChange(Name, Title)} >
+            <div className={`themeButton ${classNameCur}`}  onClick={() => handleThemeChange(Name, COLOR_SETTING[Name].display_name)} >
                 <Styled.RoundColor 
                     $color={COLOR_SETTING[Name].primary}/>
                 <Styled.RoundColor 
                     $color={COLOR_SETTING[Name].secondary}/>
-                <span>{Title}</span>
+                <span>{COLOR_SETTING[Name].display_name}</span>
             </div>
         )
     }
@@ -120,10 +127,13 @@ export const SettingContainer = () => {
                 <Styled.Option>
                     <h3 className="titleOption">Thème de Couleur</h3>
                     <div className="ContainerButton" style={{marginTop: '10px'}}>
-                        <ButtonTheme Name="default" Title="Violet" />
-                        <ButtonTheme Name="red" Title="Rouge" />
-                        <ButtonTheme Name="green" Title="Vert" />
-                        <ButtonTheme Name="yellow" Title="Jaune" />
+                        <ButtonTheme Name="default"/>
+                        <ButtonTheme Name="red" />
+                        <ButtonTheme Name="green"/>
+                        <ButtonTheme Name="yellow"/>
+                        <ButtonTheme Name="cyan"/>
+                        <ButtonTheme Name="pink"/>
+                        <ButtonTheme Name="ice"/>
                         <h3 className="titleOption">Mode fun</h3>
                         <div className="themeButton random" onClick={handleRandomThemeChange}>
                             <p>Le theme aleatoire peut causer de fort problèmes visuels</p>

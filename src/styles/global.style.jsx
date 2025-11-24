@@ -12,6 +12,10 @@ const GlobalStyle = createGlobalStyle`
 		border:0px;
 	}
 
+	* {
+		transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+	}
+
 	body {
 		background-color: ${props => LIGHT_SETTING[props.theme.light].background};
 		background-repeat: no-repeat;

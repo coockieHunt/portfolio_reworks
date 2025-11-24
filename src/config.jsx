@@ -26,6 +26,7 @@ export const GetLightSetting = (theme) => {
 //CONSTANTS
 export const COLOR_SETTING = {
     default: {
+        display_name: "Nuit",
         background: '#303134',
         background_secondary: '#221f30',
         background_tertiary: '#1a1a1a',
@@ -38,6 +39,7 @@ export const COLOR_SETTING = {
     },
 
     red: {
+        display_name: "Magma",
         background: '#303134',
         background_secondary: '#2c1510',
         background_tertiary: '#4a1712',
@@ -50,6 +52,7 @@ export const COLOR_SETTING = {
     },
 
     green: {
+        display_name: "Matrix",
         background: '#303134',
         background_secondary: '#172419',
         background_tertiary: '#1f4224',
@@ -62,6 +65,7 @@ export const COLOR_SETTING = {
     },
 
     yellow: {
+        display_name: "Électrique",
         background: '#303134',
         background_secondary: '#2c2415',
         background_tertiary: '#4a3d17',
@@ -70,6 +74,45 @@ export const COLOR_SETTING = {
         secondary: "#b9770e",
         accentuate: '#ffbb59',
 
+        border: "#4a4b52"
+    },
+
+    cyan: {
+        display_name: "Cyber Wave",
+        background: '#303134',
+        background_secondary: '#0d2b2e',
+        background_tertiary: '#134147',
+        
+        primary: "#00d9ff",
+        secondary: "#008ba3",
+        accentuate: '#4dffff',
+        
+        border: "#4a4b52"
+    },
+
+    pink: {
+        display_name: "Dreams",
+        background: '#303134',
+        background_secondary: '#2a1525',
+        background_tertiary: '#4a1f3d',
+        
+        primary: "#e91e63",
+        secondary: "#ad1457",
+        accentuate: '#ff6090',
+        
+        border: "#4a4b52"
+    },
+
+    ice: {
+        display_name: "Frost ",
+        background: '#303134',
+        background_secondary: '#0f1c2e',
+        background_tertiary: '#1a2f4a',
+        
+        primary: "#3498db",
+        secondary: "#2471a3",
+        accentuate: '#5dade2',
+        
         border: "#4a4b52"
     }
 };
