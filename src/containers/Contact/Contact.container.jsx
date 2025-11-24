@@ -206,6 +206,7 @@ export const ContactContainer = ({ id }) => {
                 </styled.Info>
 
                 <styled.ContactForm>
+                    <h2>Envoyer un message</h2>
                     <FormComponent.Groupe >
                         <FormComponent.Inline>
                             <FormComponent.InputText

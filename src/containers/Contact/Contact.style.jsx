@@ -1,14 +1,31 @@
 import styled from 'styled-components';
 import { getColorSettings, GetLightSetting } from '../../config.jsx';
 
+
 // Container
 export const Container = styled.div`
     display: flex;
     background-color: ${props => GetLightSetting(props.theme).background_secondary};
     width: 90vw;
     margin: 50px auto;
-    padding: 8px;
+    padding: 15px;
     border-radius: 15px;
+
+    backdrop-filter: blur(30px);
+    box-shadow: 0 4px 40px ${props => getColorSettings(props.theme).primary};
+
+    animation: breathe 3s ease-in-out infinite;
+    @keyframes breathe {
+        0% {
+            box-shadow: 0 4px 40px ${props => getColorSettings(props.theme).primary};
+        }
+        50% {
+            box-shadow: 0 8px 60px ${props => getColorSettings(props.theme).primary};
+        }
+        100% {
+            box-shadow: 0 4px 40px ${props => getColorSettings(props.theme).primary};
+        }
+    }
     
     & * {
         box-sizing: border-box;
@@ -24,20 +41,38 @@ export const Container = styled.div`
 `;
 
 export const Info = styled.div`
-    background-color: ${props => getColorSettings(props.theme).primary};
     width: 30%;
     border-radius: 8px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    color: white;
+
+    position: relative;
+    isolation: isolate; 
+    background-color: ${props => getColorSettings(props.theme).background};
+
+    
+    &::after{
+        content: "";
+        position: absolute;
+        z-index: -1;
+        border-radius: 8px;
+        top: 0;
+        left: 0;
+        border: 1px dashed ${props => getColorSettings(props.theme).primary};
+        opacity: 0.8;
+        height: 100%;
+        width: 100%;
+    }
+
   
     & .info {
         & h2 {
-            font-size: 2em;
+            font-size: 1.8em;
             margin-bottom: 10px;
-            font-variation-settings: "wght" 600;
+            font-weight: 500;
+            color:  ${props => getColorSettings(props.theme).primary};
         }
 
         & p {
@@ -106,6 +141,13 @@ export const ContactForm = styled.div`
     padding: 5px 20px;
     margin: auto;
     width: 70%;
+
+    & h2 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        color:  ${props => getColorSettings(props.theme).primary};
+        font-weight: 600;
+    }
 
     @media (max-width: 1400px) {
         width: 100%;
