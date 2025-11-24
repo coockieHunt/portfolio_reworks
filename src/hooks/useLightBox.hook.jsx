@@ -5,7 +5,6 @@ export const UseLightBox = () => {
     const [currentImg, setCurrentImg] = useState(null);
 
     const ChangeLightBoxImg = useCallback((imgUrl) => {
-        console.log("ChangeLightBoxImg", imgUrl);
         setCurrentImg(imgUrl);
     }, []);
 
