@@ -63,7 +63,7 @@ export const Info = styled.div`
     justify-content: space-between;
     gap: 40px;
     transition: all 0.3s ease-in-out;
-    cursor: pointer;
+    cursor: default;
 
     & .InfoElement {
         &:hover {transform: scale(1.02);}

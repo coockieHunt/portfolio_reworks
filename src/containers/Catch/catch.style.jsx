@@ -16,6 +16,8 @@ export const SkillCard = styled.div`
     backdrop-filter: blur(15px);
     color: white;
     z-index: 1;
+
+    cursor: default;
 `;
 
 export const WaveBackground = styled.div`

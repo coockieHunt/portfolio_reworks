@@ -171,19 +171,17 @@ export const TimeLineItemContainer = styled.div`
     justify-content: center;
     flex-direction: column;
     gap: 10px;
-    min-height: 100px;
     padding: 15px 40px;
     margin: 5px 0;
-    cursor: pointer;
-    transition: transform 0.3s ease, border-radius 0.3s ease; 
     border-radius: 5px;
     width: 43%;
     position: relative;
     border: 1px solid ${(props) => getColorSettings(props.theme).primary};
     border-bottom: 4px solid ${(props) => getColorSettings(props.theme).primary};
-    z-index: 1; 
-    will-change: transform;
     position: relative;
+    
+    cursor: default;
+    transition: transform 0.3s ease, border-radius 0.3s ease; 
 
     &::after{
         content: '';
