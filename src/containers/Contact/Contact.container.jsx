@@ -32,6 +32,7 @@ import { ApiBaseUrl, MailDefault } from '../../config.jsx';
 
 // data
 import { CONTACT_EMAIL } from '../../data.jsx'
+import { color } from 'framer-motion';
 
 export const ContactContainer = ({ id }) => {
     //ALERT
@@ -162,6 +163,7 @@ export const ContactContainer = ({ id }) => {
         <div id={id}>
             <TitleTextComponent
                 subtitle={"A votre service"}
+                style={{ width: "100%" }}
             >Me contacter</TitleTextComponent>
             <styled.Container>
                 <styled.Info>
