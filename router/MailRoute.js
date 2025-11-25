@@ -1,6 +1,9 @@
 import express from 'express';
 const mailRouter = express.Router({ mergeParams: true });
 import sendmail from '../func/sendmail.js';
+import rateLimiter from '../middleware/rateLimiter.js';
+
+mailRouter.use(rateLimiter);
 
  /**
     * POST /sendEmail

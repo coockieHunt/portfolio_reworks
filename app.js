@@ -1,28 +1,38 @@
+// libraries
 import express from 'express';
+import { createClient } from 'redis';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import fs from 'fs';
 import path from 'path';
 import getConfig from 'config';
-import { allowOnlyFromIPs } from './middleware/whiteList.js';
-import { createClient } from 'redis';
-import { connectRedis } from './func/Redis.js';
-import sendmail from './func/sendmail.js';
 import chalk from 'chalk';
 
+// middleware
+import { allowOnlyFromIPs } from './middleware/whiteList.js';
+import { connectRedis } from './func/Redis.js';
 
+// constants
+import REDIS_KEYS from './constant/redisKey.js';
+
+//get package info
 const packageInfo = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf8'));
-const apiRoot = '/api';
+const apiRoot = getConfig.get('ApiRoot');
 
+//setup express end parssers
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+//setup router and port
 const router = express.Router();
-const port = process.env.PORT || getConfig.port;
+const port = process.env.PORT || getConfig.get('port');
+
+// Apply IP whitelist middleware
 app.use(allowOnlyFromIPs);
 
-const redisConfig = getConfig.redis;
+// Redis setup
+const redisConfig = getConfig.get('redis');
 const client = createClient({
     socket: {
         host: redisConfig.host,
@@ -30,7 +40,6 @@ const client = createClient({
     }
 });
 
-// Ensure redis connects before or during server start so endpoints are aware
 async function startServer() {
     const redisConnected = await connectRedis(client);
     if (!redisConnected) {
@@ -38,14 +47,15 @@ async function startServer() {
     }
 
     app.use(apiRoot, router);
+    try { logStartupInfo(redisConnected); } catch (e) {};
     app.listen(port, () => {
-        console.log(chalk.green(`api start at ${port} (redisConnected=${redisConnected})`));
+        console.log(chalk.green(`api listening on ${port}`));
     });
 }
-
 startServer();
 
-//route
+//Routes
+
 //default route
 router.get('/', (req, res) => {
     const response = {
@@ -59,36 +69,48 @@ router.get('/', (req, res) => {
 import counterRoute from './router/CounteurRoute.js';
 router.use('/counter', counterRoute);
 
+//import routes mail
 import mailRoute from './router/MailRoute.js';
 router.use('/mail', mailRoute);
 
+//import status route
+import statusRoute from './router/StatusRoute.js';
+router.use('/status', statusRoute);
 
-//Health Check Route
-router.get('/status', async (req, res) => {
-    const statusResponse = {
-        api: "ok",
-        version: packageInfo.version,
-        time: new Date().toISOString(),
-        service: {
-            redis: "nok",
-            mail: "wip"
-        }
-    };
+//log startup info
+function logStartupInfo(redisConnected) {
+    console.log(chalk.blue('\nConfigured Redis counters:'));
+    Object.keys(REDIS_KEYS).forEach(k => {
+        console.log(` - ${k} => ${REDIS_KEYS[k]}`);
+    });
 
     try {
-        const redisPing = await client.ping();
-        if (redisPing === 'PONG') {
-            statusResponse.service.redis = "ok";
-            return res.status(200).json(statusResponse);
-        }else{
-            statusResponse.redis = "nok";
-            return res.status(503).json(statusResponse);
+        const cfg = getConfig.has('rateLimiter') ? getConfig.get('rateLimiter') : null;
+        console.log(chalk.blue('\nRate limiter config:'));
+        if (!cfg) {
+            console.log(' - (no rateLimiter config found)');
+        } else {
+            const def = cfg.default || {};
+            console.log(` - enabled: ${cfg.enabled !== false}`);
+            console.log(` - default: ${def.maxRequests || '(unset)'} requests / ${def.windowSeconds || '(unset)'}s`);
+            if (cfg.routes) {
+                console.log(' - routes:');
+                Object.keys(cfg.routes).forEach(rk => {
+                    const r = cfg.routes[rk];
+                    console.log(`    - ${rk}: ${r.maxRequests}/${r.windowSeconds}s`);
+                });
+            } else {
+                console.log(' - routes: (none)');
+            }
         }
-    } catch (error) {
-        statusResponse.service.redis = 'down';
-        console.error(chalk.red(`Health Check: Redis connection error: ${error.message}`));
-        return res.status(503).json(statusResponse);
+    } catch (err) {
+        console.warn(chalk.yellow('Could not read rateLimiter config for startup log'));
     }
-});
+
+    console.log(chalk.green(`\nAPI start at ${port} (redisConnected=${redisConnected})`));
+}
+
+
+
 
 // server started in startServer()

@@ -9,6 +9,9 @@ import {
     RedisClient 
 } from '../func/Redis.js'; 
 import REDIS_KEYS from '../constant/redisKey.js'; 
+import rateLimiter from '../middleware/rateLimiter.js';
+
+counterRouter.use(rateLimiter);
 
 /**
  * Validates the provided name against REDIS_KEYS and returns the actual Redis key string.
