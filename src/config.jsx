@@ -151,7 +151,7 @@ export const SCREEN_SIZE = {
     tablet: '1150px'
 }
 
-export const ApiBaseUrl = "https://api.jonathan-portfolio.com";
+export const ApiBaseUrl = "localhost:3001/api";
 export const MailDefault =  { firstName: '', lastName: '', email: '', message: '' };
 
 // Alias exports for backward compatibility
