@@ -43,7 +43,6 @@ export const HeroContainer = ({id}) => {
         return () => {if (timerWorld) clearInterval(timerWorld);};
     }, [isInputFocused]);
 
-
     const lables = () => {
         return (
             <styled.LabelWorld
@@ -51,12 +50,9 @@ export const HeroContainer = ({id}) => {
                 name="name"
                 autoComplete="off"
                 autoCapitalize="true"
-                
                 placeholder={currentWord}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setIsInputFocused(false)}
-                $borderColorCustom={COLOR_SETTING[settings.theme].primary}
-                $backgroundCustom={COLOR_SETTING[settings.theme].background_secondary}
                 size="10" /> 
             )
     }

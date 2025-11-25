@@ -29,13 +29,17 @@ export const LabelWorld = styled.input`
     font-size: .7em;
     font-weight: bold;
     font-variation-settings: "wght" 600;
-    padding: 10px 15px;
-    background: ${props => props.$backgroundCustom || 'transparent'};
+    padding: 6px 15px;
+    background: ${props => getColorSettings(props.theme).secondary};
+    border: 2px solid ${props => getColorSettings(props.theme).primary};
     outline: transparent;
     color: white;
 
-    &::placeholder{opacity: 0.9;}
-    &&:hover, &&:focus{ border: 2px solid ${props => props.$borderColorCustom || 'black'};}
+    &::placeholder{
+      opacity: .6; 
+      color: #fffbfb;
+    }
+    &&:hover, &&:focus{ border: 2px solid ${props => getColorSettings(props.theme).primary};}
 `
 
 export const ButtonScroll = styled.div`
