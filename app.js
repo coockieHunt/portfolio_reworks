@@ -1,9 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const packageInfo = require('./package.json');
-const getConfig = require('config');
-const { allowOnlyFromIPs } = require('./middleware/whiteList');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import fs from 'fs';
+import path from 'path';
+const packageInfo = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf8'));
+import getConfig from 'config';
+import { allowOnlyFromIPs } from './middleware/whiteList.js';
 
 const apiRoot = '/api';
 
@@ -13,7 +15,7 @@ app.use(cors());
 
 const router = express.Router();
 const port = process.env.PORT || getConfig.port;
-app.use(allowOnlyFromIPs); 
+app.use(allowOnlyFromIPs);
 
 //ROUTE
 router.get('/', (req, res) => {
@@ -24,7 +26,7 @@ router.get('/', (req, res) => {
     res.json(response);
 });
 
-const sendmail = require('./func/sendmail');
+import sendmail from './func/sendmail.js';
 router.post('/sendEmail', async(req, res)=>{
     const { to, subject, content } = req.body;
 

@@ -1,7 +1,7 @@
-const config = require('config');
-const path = require('path');
-const LogConfig = config.get("Log")
-const fs = require('fs');
+import config from 'config';
+import path from 'path';
+import fs from 'fs';
+const LogConfig = config.get('Log');
 
 /**
  * Write a log entry to a log file.
@@ -10,7 +10,7 @@ const fs = require('fs');
  * @param {string} type - The type or category of the log message.
  */
 
-const writeToLog = (log, type) => {
+export const writeToLog = (log, type) => {
     const logDirectory = LogConfig.directory; 
     const logFilePath = path.join(logDirectory, LogConfig.name[type]); 
 
@@ -34,4 +34,4 @@ const writeToLog = (log, type) => {
     fs.writeFileSync(logFilePath, lines.join('\n'), 'utf8');
 }
 
-module.exports = { writeToLog };
+// (exported via named export above)

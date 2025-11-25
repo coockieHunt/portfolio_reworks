@@ -1,6 +1,6 @@
-const config = require('config');
-const allowedIPs = config.get("allowedIPs");
-const chalk = require('chalk');
+import config from 'config';
+import chalk from 'chalk';
+const allowedIPs = config.get('allowedIPs');
 
 /**
  * Middleware for allowing requests only from specified IP addresses.
@@ -9,7 +9,7 @@ const chalk = require('chalk');
  * @param {function} next - The next middleware function.
  */
 
-const allowOnlyFromIPs = (req, res, next) => {
+export const allowOnlyFromIPs = (req, res, next) => {
     const clientIP = req.ip;
 
     if (allowedIPs.includes(clientIP)) {
@@ -20,4 +20,4 @@ const allowOnlyFromIPs = (req, res, next) => {
     }
 };
 
-module.exports = { allowOnlyFromIPs };
+// (exported via named export above)

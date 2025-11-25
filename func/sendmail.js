@@ -1,10 +1,9 @@
-const nodemailer = require('nodemailer');
-const chalk = require('chalk');
-const { writeToLog } = require('../middleware/log');
+import nodemailer from 'nodemailer';
+import chalk from 'chalk';
+import { writeToLog } from '../middleware/log.js';
+import getConfig from 'config';
 
-const getConfig = require('config');
-
-const Mailer = getConfig.get("MailTransport");
+const Mailer = getConfig.get('MailTransport');
 const sender_email = Mailer.user;
 
 const transporter = nodemailer.createTransport({
@@ -44,4 +43,4 @@ async function sendmail(to, subject, content) {
     }
 }
 
-module.exports = sendmail;
+export default sendmail;
