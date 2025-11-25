@@ -10,6 +10,7 @@ import chalk from 'chalk';
 
 // middleware
 import { allowOnlyFromIPs } from './middleware/whiteList.js';
+import { trackApiCall } from './middleware/callApiCount.js';
 import { connectRedis } from './func/Redis.js';
 
 // constants
@@ -30,6 +31,9 @@ const port = process.env.PORT || getConfig.get('port');
 
 // Apply IP whitelist middleware
 app.use(allowOnlyFromIPs);
+
+// Track API calls
+app.use(trackApiCall);
 
 // Redis setup
 const redisConfig = getConfig.get('redis');
