@@ -20,4 +20,3 @@ export const allowOnlyFromIPs = (req, res, next) => {
     }
 };
 
-// (exported via named export above)

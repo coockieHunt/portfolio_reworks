@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+
 async function sendmail(to, subject, content) {
     try {
         const mailOptions = {
@@ -37,7 +38,7 @@ async function sendmail(to, subject, content) {
         return { success: true, message: 'Email sent successfully' };
     } catch (error) {
         console.error(chalk.red('An error occurred while sending the email:'));
-        console.error(error);
+        console.error(chalk.red(error.stack || error.message || error));
 
         return { success: false, message: 'An error occurred while sending the email' };
     }

@@ -33,5 +33,3 @@ export const writeToLog = (log, type) => {
 
     fs.writeFileSync(logFilePath, lines.join('\n'), 'utf8');
 }
-
-// (exported via named export above)
