@@ -6,8 +6,8 @@ import { sendEmail } from '../../api/mail.api';
 // style
 import * as styled from "./Contact.style"
 
-//hooks
-import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
+//Hooks
+// import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 // templates
 import { EmailTemplateContact } from '../../templates/mail.contact.mail'
@@ -48,7 +48,7 @@ export const ContactContainer = ({ id }) => {
     const [CoolDownTime, SetCoolDownTime] = useState(0)
 
     //WINDOWS
-    const isMobile = useWindowSize(1400);
+    // const isMobile = useWindowSize(1400);
 
     const handleChange = (e) => {
         setOutput(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -166,12 +166,10 @@ export const ContactContainer = ({ id }) => {
             <styled.Container>
                 <styled.Info>
                     <div className="info">
-                        {!isMobile &&
-                            <>
-                                <h2>Information</h2>
-                                <p>Une idée ? Un projet ? N'hésitez pas à demander un devis !</p>
-                            </>
-                        }
+                        <div className="desktop-info">
+                            <h2>Information</h2>
+                            <p>Une idée ? Un projet ? N'hésitez pas à demander un devis !</p>
+                        </div>
                         <div className="contact">
                             <Link className="info" >
                                 <AiFillPhone />
@@ -200,9 +198,9 @@ export const ContactContainer = ({ id }) => {
                         </div>
                     </div>
 
-                    {!isMobile && <div className='bottom'>
+                    <div className='bottom desktop-bottom'>
                         <span>Les informations avec une * sont obligatoire</span>
-                    </div>}
+                    </div>
                 </styled.Info>
 
                 <styled.ContactForm>

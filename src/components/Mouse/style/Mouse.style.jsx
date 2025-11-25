@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-
+import { SCREEN_SIZE } from '../../../config.jsx';
 
 const type_size = {
 	mouse: {
@@ -26,18 +26,24 @@ const scrollWheelAnimation = keyframes`
 
 export const Mouse = styled.div`
     position: relative;
-    width: ${props => props.type == "mouse" ? type_size.mouse.width : type_size.phone.width};
-    height: ${props => props.type == "mouse" ? type_size.mouse.height : type_size.phone.height};
+    width: ${type_size.mouse.width};
+    height: ${type_size.mouse.height};
     margin: 50px auto;
     border: 2px solid ${props => props.$lightSettings.font};
-    border-radius:  ${props => props.type == "mouse" ? type_size.mouse.border : type_size.phone.border};
+    border-radius: ${type_size.mouse.border};
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        width: ${type_size.phone.width};
+        height: ${type_size.phone.height};
+        border-radius: ${type_size.phone.border};
+    }
 
   &:after {
     content: '';
     display: block;
     position: absolute;
-    top: ${props => props.type == "mouse" ? type_size.mouse.positonX : type_size.phone.positonX};
-    left: ${props => props.type == "mouse" ? type_size.mouse.positonY : type_size.phone.positonY};
+    top: ${type_size.mouse.positonX};
+    left: ${type_size.mouse.positonY};
     transform: translate(-50%, 0);
     border: 2px solid ${props => props.$colorSettings.primary};
     border-radius: 100%;
@@ -45,9 +51,14 @@ export const Mouse = styled.div`
 
     width: 10PX;
     height: 10PX;
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        top: ${type_size.phone.positonX};
+        left: ${type_size.phone.positonY};
+    }
   }
 
-  ${props => props.type !== "mouse" && css`
+  @media (max-width: ${SCREEN_SIZE.mobile}) {
       &:before {
 			content: '';
 			display: block;
@@ -61,5 +72,5 @@ export const Mouse = styled.div`
 			width: 1px;
 			border-radius: 0 4px 4px 0;
       }
-  `}
+  }
 `;

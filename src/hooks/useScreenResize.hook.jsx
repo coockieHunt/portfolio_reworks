@@ -6,18 +6,33 @@ import { useState, useEffect } from "react";
  * @returns {number|boolean} - The window size or a boolean if breakpoint size is provided.
  */
 export const useWindowSize = (breakpoint_size) => {
-    const [WindowSize, setWindowSize] = useState(undefined)
+    const [WindowSize, setWindowSize] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return breakpoint_size !== undefined ? window.innerWidth < breakpoint_size : window.innerWidth;
+        }
+        return undefined;
+    });
 
+    //debounce resize event
     useEffect(() => {
+        let timeoutId;
         const handleResize = () => {
-            if(breakpoint_size !== undefined){setWindowSize(window.innerWidth < breakpoint_size)
-            }else{setWindowSize(window.innerWidth)}
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                if(breakpoint_size !== undefined){
+                    setWindowSize(window.innerWidth < breakpoint_size)
+                }else{
+                    setWindowSize(window.innerWidth)
+                }
+            }, 500);
         }
 
         window.addEventListener("resize", handleResize)
-        handleResize();
 
-        return() => window.removeEventListener("resize", handleResize);
+        return() => {
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(timeoutId);
+        };
     }, [breakpoint_size])
 
     return WindowSize;

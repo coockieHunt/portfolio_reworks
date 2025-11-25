@@ -98,10 +98,12 @@ export const Nav = styled.nav`
   @media (max-width: ${SCREEN_SIZE.mobile}) {
     height: calc(100% - 60px);
     width: 100%;
+    overflow-y: auto;
     ul {
-        height: 100%;
+        min-height: 100%;
         flex-direction: column;
         justify-content: space-around;
+        padding-bottom: 20px;
 
         & li{padding: 0;}
     }
@@ -129,5 +131,12 @@ export const BrandContainer = styled.div`
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
         padding: 0 10px;
+    }
+
+    & .burger-menu-wrapper {
+        display: none;
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            display: block;
+        }
     }
 `

@@ -4,7 +4,7 @@ import { Link } from "react-scroll";
 
 // hook
 import { useScrollbar } from "../../hooks/useScrollBar.hook.jsx"
-import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
+// import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
@@ -48,7 +48,7 @@ const BuildNavigation = ({ menuItems, onClick }) => {
 export const NavigationComponent = ({ navConfig }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2),);
+    // const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2),);
 
     useScrollbar(menuOpen);
     const toggleMenu = () => {setMenuOpen(!menuOpen);};
@@ -58,7 +58,9 @@ export const NavigationComponent = ({ navConfig }) => {
         <Styled.NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"} >
             <Styled.BrandContainer>
                 <LogoComponent version="simple-full" style={{ width: "16px", height: "auto", color: getColorSettings(settings.theme).primary }} />
-                {isMobile ? <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} /> : null}
+                <div className="burger-menu-wrapper">
+                    <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} />
+                </div>
             </Styled.BrandContainer>
             <Styled.Nav 
                 id="primary-navigation"

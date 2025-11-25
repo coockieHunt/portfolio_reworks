@@ -11,7 +11,7 @@ import * as Styled from "./Setting.style"
 import { COLOR_SETTING,SCREEN_SIZE } from '../../config.jsx';
 
 //Hooks
-import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
+// import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 //Context
 import { useAlert } from '../../context/alert.context';
@@ -26,7 +26,6 @@ export const SettingContainer = () => {
     const {showLoading, hideLoading} = useLoading();
     const { addAlert } = useAlert();
     const [isOpen, setIsOpen] = useState(false)
-    const isMobile = useWindowSize();
     const containerRef = useRef(null);
 
     //api counter for random theme activations
@@ -156,9 +155,8 @@ export const SettingContainer = () => {
                 >
                 <Styled.Title>
                     <span className="Toggle">
-                        {isMobile >= parseInt(SCREEN_SIZE.mobile)? 
-                            <>{isOpen ?  <span>Fermer</span> : <span>Apparence</span>}</> : <FaPalette />
-                        }
+                        <span className="desktop-text">{isOpen ? "Fermer" : "Apparence"}</span>
+                        <span className="mobile-icon"><FaPalette /></span>
                     </span>
                 </Styled.Title>
                 </Styled.Action>

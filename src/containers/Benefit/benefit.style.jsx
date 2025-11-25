@@ -66,6 +66,14 @@ export const Info = styled.div`
     cursor: default;
 
     & .InfoElement {
+        margin-right: var(--desktop-margin-right, 0);
+        margin-left: var(--desktop-margin-left, 0);
+
+        @media (max-width: 1400px) {
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
+
         &:hover {transform: scale(1.02);}
     }
 
@@ -86,6 +94,19 @@ export const Info = styled.div`
         gap: 20px;
         margin-bottom: 10px;
         color: white;
+
+        & .mobile-icon {
+            display: none;
+            @media (max-width: 1400px) {
+                display: block;
+            }
+        }
+        & .desktop-icon {
+            display: block;
+            @media (max-width: 1400px) {
+                display: none;
+            }
+        }
 
         & svg {
             font-size: 1.6em;

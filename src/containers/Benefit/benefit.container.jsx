@@ -10,8 +10,8 @@ import { TitleTextComponent } from '../../components/Text/Text.component'
 // data
 import { benefitItems } from '../../data';
 
-// hooks
-import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
+//Hooks
+// import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 import { useInView } from 'react-intersection-observer';
 import { useSettingContext } from '../../context/Setting.context';
 import { getColorSettings, GetLightSetting } from '../../config.jsx';
@@ -63,7 +63,7 @@ export const BenefitContainer = ({ id }) => {
     }
 
     const marginValues = [0, 20, 20, 0];
-    const isMobile = useWindowSize(1400);
+    // const isMobile = useWindowSize(1400);
     
     const { settings } = useSettingContext();
     const themeProp = settings?.theme;
@@ -88,11 +88,11 @@ export const BenefitContainer = ({ id }) => {
                     variants={InfoVariants}>
                     <Info className="start" theme={themeProp}>
                         {benefitItems.slice(0, 4).map((item, index) => (
-                            <div className="InfoElement" key={index} style={!isMobile ? { marginRight: `${marginValues[index]}px` } : {}}>
+                            <div className="InfoElement" key={index} style={{ '--desktop-margin-right': `${marginValues[index]}px` }}>
                                 <div className="title">
-                                    {isMobile && item.icon}
+                                    <span className="mobile-icon">{item.icon}</span>
                                     <h3>{item.title}</h3>
-                                    {!isMobile && item.icon}
+                                    <span className="desktop-icon">{item.icon}</span>
                                 </div>
 
                                 <p className="font_code">{item.description}</p>
@@ -110,7 +110,7 @@ export const BenefitContainer = ({ id }) => {
                     variants={InfoVariants}>
                     <Info className="end" theme={themeProp}>
                         {benefitItems.slice(4, 8).map((item, index) => (
-                            <div className= "InfoElement" key={index} style={!isMobile ? { marginLeft: `${marginValues[index]}px` } : {}}>
+                            <div className= "InfoElement" key={index} style={{ '--desktop-margin-left': `${marginValues[index]}px` }}>
                                 <div className="title" style={{justifyContent: 'flex-start' }}>
                                     {item.icon}
                                     <h3>{item.title}</h3>

@@ -129,6 +129,10 @@ export const Info = styled.div`
         padding: 0;
         overflow: hidden;
 
+        & .desktop-info, & .desktop-bottom {
+            display: none;
+        }
+
         & .contact {
             margin-top: 0px;
             flex-wrap: wrap;

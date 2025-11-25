@@ -10,7 +10,7 @@ import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.componen
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 
 //hook
-import { useWindowSize } from '../../hooks/useScreenResize.hook.jsx';
+// import { useWindowSize } from '../../hooks/useScreenResize.hook.jsx';
 
 //config
 import { SCREEN_SIZE, COLOR_SETTING } from '../../config.jsx'
@@ -21,7 +21,7 @@ import { useSettingContext } from '../../context/Setting.context';
 import { GridEffect } from '../../styles/effect.jsx';
 
 export const HeroContainer = ({id}) => {
-    const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
+    // const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
     const {settings} = useSettingContext();
 
     const [currentWord, setCurrentWord] = useState(() => {
@@ -109,9 +109,7 @@ export const HeroContainer = ({id}) => {
                 </styled.Top>
                 
                 <styled.ButtonScroll>
-                    <MouseComponent type={
-                        isMobile ? "phone" : "mouse"
-                    }/>
+                    <MouseComponent />
                 </styled.ButtonScroll>
             </styled.Container>
         </GridEffect>
