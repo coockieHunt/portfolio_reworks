@@ -25,6 +25,7 @@ export const ContainerSetting = styled.div`
     height: 100vh;
     height: 100dvh;
 
+
     @media ( max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
         z-index: 1200;
@@ -150,6 +151,24 @@ export const Option = styled.div`
         gap: 10px;
         flex-direction: column;
 
+
+       &  .defaultThemesContainer {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            flex-direction: column;
+
+        }
+
+
+        @media ( max-width: ${SCREEN_SIZE.mobile}) {
+             & .defaultThemesContainer {
+                flex-direction: row;
+            }
+        }
+
+
+
         & .counter {
             background-color: ${props => getColorSettings(props.theme).background_secondary};
             padding: 20px;
@@ -162,6 +181,11 @@ export const Option = styled.div`
             gap: 10px;
             font-size: 0.9em;
 
+            @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                padding: 10px;
+                gap: 5px;
+            }
+
             & .number {
                 display: flex;
                 flex-direction: column;
@@ -172,7 +196,9 @@ export const Option = styled.div`
                     font-weight: 800;
                     font-size: 2em;
                     color: ${props => getColorSettings(props.theme).primary};
-
+                    @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                        font-size: 1.5em;
+                    }
                 }
             }
 
@@ -185,6 +211,10 @@ export const Option = styled.div`
                 justify-content: center;
 
                 border-radius: 5px;
+                @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                    font-size: 2.5em;
+                    padding: 5px;
+                }
             }
 
         }
@@ -200,6 +230,12 @@ export const Option = styled.div`
 
             transition: all .3s ease-in-out;
 
+            @media ( max-width: ${SCREEN_SIZE.mobile}) {
+               width: 48%;
+               padding: 8px;
+               gap: 5px;
+            }
+
             &.current {border: 2px solid ${props => getColorSettings(props.theme).primary};}
 
             &:not(.current):hover {
@@ -212,9 +248,14 @@ export const Option = styled.div`
                 font-size: 1em;
 
                 margin-left: 20px;
+                @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                    margin-left: 5px;
+                    font-size: 0.85em;
+                }
             }
 
             &.random {
+                width: 100%;
                 background: linear-gradient(90deg,
                     #ff0040 0%,
                     #ff7a00 16%,
@@ -246,6 +287,12 @@ export const Option = styled.div`
                         1px -1px 2px #000000,
                         -1px 1px 2px #000000,
                         1px 1px 2px #000000;
+                    
+                    @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                        font-size: 0.75em;
+                        text-align: center;
+                        line-height: 1.2;
+                    }
                 }
 
 
@@ -259,6 +306,10 @@ export const Option = styled.div`
                         1px -1px 2px #000000,
                         -1px 1px 2px #000000,
                         1px 1px 2px #000000;
+                    
+                    @media ( max-width: ${SCREEN_SIZE.mobile}) {
+                        font-size: 1.2em;
+                    }
                 }
             }
         }
@@ -288,7 +339,11 @@ export const OptionsList = styled.div`
     position: relative;
     overflow: hidden;
 
-    @media ( max-width: ${SCREEN_SIZE.mobile}) {width: 100%;}
+    @media ( max-width: ${SCREEN_SIZE.mobile}) {
+        width: 100%;
+        padding: 30px 15px;
+        overflow-y: auto;
+    }
 
     & h3{
         font-variation-settings: "wght" 600;

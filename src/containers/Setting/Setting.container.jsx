@@ -174,13 +174,16 @@ export const SettingContainer = () => {
                 <Styled.Option>
                     <h3 className="titleOption">Thème de Couleur</h3>
                     <div className="ContainerButton" style={{marginTop: '10px'}}>
-                        <ButtonTheme Name="default"/>
-                        <ButtonTheme Name="red" />
-                        <ButtonTheme Name="green"/>
-                        <ButtonTheme Name="yellow"/>
-                        <ButtonTheme Name="cyan"/>
-                        <ButtonTheme Name="pink"/>
-                        <ButtonTheme Name="ice"/>
+                        <div className="defaultThemesContainer">
+                            <ButtonTheme Name="default"/>
+                            <ButtonTheme Name="red" />
+                            <ButtonTheme Name="green"/>
+                            <ButtonTheme Name="yellow"/>
+                            <ButtonTheme Name="cyan"/>
+                            <ButtonTheme Name="pink"/>
+                            <ButtonTheme Name="ice"/>
+                        </div>
+                      
                         <h3 className="titleOption">Mode fun</h3>
                         <div className="themeButton random" onClick={handleRandomThemeChange}>
                             <p>Le theme aleatoire peut causer de fort problèmes visuels</p>
