@@ -54,7 +54,7 @@ export const OptionsList = styled.div`
     
     &::after {
         content: "";
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
@@ -62,7 +62,7 @@ export const OptionsList = styled.div`
         background-color: ${props => getColorSettings(props.theme).background_tertiary};
         opacity: 0.95;
         z-index: -1;
-        filter: blur(5px);
+        backdrop-filter: blur(5px);
         pointer-events: none;
     }
 `
