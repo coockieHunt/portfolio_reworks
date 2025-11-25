@@ -150,6 +150,45 @@ export const Option = styled.div`
         gap: 10px;
         flex-direction: column;
 
+        & .counter {
+            background-color: ${props => getColorSettings(props.theme).background_secondary};
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dotted ${props => getColorSettings(props.theme).primary};
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 10px;
+            font-size: 0.9em;
+
+            & .number {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+
+                & .count {
+                    font-weight: 800;
+                    font-size: 2em;
+                    color: ${props => getColorSettings(props.theme).primary};
+
+                }
+            }
+
+            & .icon {
+                font-size: 3em;
+                padding: 10px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 5px;
+            }
+
+        }
+
         & .themeButton {
             background-color: ${props => getColorSettings(props.theme).background_secondary};
             display: flex;

@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 
 //Icons
-import { FaCaretUp, FaCaretDown, FaXmark, FaPalette, FaX    } from "react-icons/fa6";
+import { FaXmark, FaPalette } from "react-icons/fa6";
 
 //Styles
 import * as Styled from "./Setting.style"
@@ -18,6 +18,9 @@ import { useAlert } from '../../context/alert.context';
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
 
+//API
+import { getThemeRand, incrementThemeRand } from '../../api/counter.api';
+
 export const SettingContainer = () => {
     const {changeTheme, settings } = useSettingContext();
     const {showLoading, hideLoading} = useLoading();
@@ -25,6 +28,9 @@ export const SettingContainer = () => {
     const [isOpen, setIsOpen] = useState(false)
     const isMobile = useWindowSize();
     const containerRef = useRef(null);
+
+    //api counter for random theme activations
+    const [numberActivate, setNumberActivate] = useState(0);
 
     const handleThemeChange = (NewTheme, DisplayName) => {
         showLoading(COLOR_SETTING[NewTheme].background_secondary);
@@ -35,7 +41,7 @@ export const SettingContainer = () => {
         addAlert(`Votre thème est maintenant en mode ${DisplayName}.`, COLOR_SETTING[NewTheme].primary, 4000);
     };
 
-    const handleRandomThemeChange = () => {
+    const handleRandomThemeChange = async () => {
         Object.keys(COLOR_SETTING).forEach(key => {
             if (key.startsWith('random_')) {
                 delete COLOR_SETTING[key];
@@ -72,7 +78,42 @@ export const SettingContainer = () => {
             border: randHex()
         };
         handleThemeChange(newKey, "🦄 PAPUCHE !!!");
+        try {
+                await incrementNumberActivate();
+                await fetchNumberActivate();
+        } catch (err) {
+            console.warn('Failed to increment/fetch THEME_RAND after random theme change', err);
+        }
     };
+
+
+    async function fetchNumberActivate() {
+            try {
+                const data = await getThemeRand();
+                if (data && data.error && data.status === 429) {
+                    addAlert("Serveur surchargé. Veuillez réessayer dans quelques minutes.", "#ff9900", 5000);
+                    return;
+                }
+                if (data && data.success) {
+                    setNumberActivate(Number(data.counterValue || 0));
+                }
+            } catch (err) { console.warn('Failed to fetch THEME_RAND counter', err);}
+        }
+
+        async function incrementNumberActivate() {
+            try {
+                const data = await incrementThemeRand();
+                if (data && data.error && data.status === 429) {
+                    addAlert("Serveur surchargé. Veuillez réessayer dans quelques minutes.", "#ff9900", 5000);
+                    return;
+                }
+                if (data && data.success) {
+                    setNumberActivate(Number(data.newValue || data.counterValue || 0));
+                }
+            } catch (err) {
+                console.warn('Failed to increment THEME_RAND counter', err);
+            }
+        }
 
 
     const ButtonTheme = ({Name}) => {
@@ -91,14 +132,24 @@ export const SettingContainer = () => {
 
     useEffect(() => {
         function handleClickOutside(event) {if (containerRef.current && !containerRef.current.contains(event.target)) {setIsOpen(false); }}
-        
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);;
-    }, [containerRef]);
+
+        // Prevent double-fetch in React StrictMode (dev) by tracking if already fetched
+        let isMounted = true;
+        (async () => {
+            if (!isMounted) return;
+            try {await fetchNumberActivate();
+            } catch (err) {console.warn('Failed to fetch/increment THEME_RAND on mount', err); }
+        })();
+        return () => {
+            isMounted = false;
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
 
     return (
-        <Styled.ContainerSetting className={isOpen ? "opened" : "close"} ref={containerRef}>
+        <Styled.ContainerSetting className={isOpen ? "opened" : "close"}>
             <Styled.Toggle>
                 <Styled.Action className={isOpen ? "opened" : ""}
                     onClick={() => setIsOpen(!isOpen)} 
@@ -106,11 +157,7 @@ export const SettingContainer = () => {
                 <Styled.Title>
                     <span className="Toggle">
                         {isMobile >= parseInt(SCREEN_SIZE.mobile)? 
-                            <>
-                                {isOpen ?  <span>Fermer</span> : <span>Apparence</span>}
-                                
-                            </> 
-                            : <FaPalette />
+                            <>{isOpen ?  <span>Fermer</span> : <span>Apparence</span>}</> : <FaPalette />
                         }
                     </span>
                 </Styled.Title>
@@ -139,6 +186,15 @@ export const SettingContainer = () => {
                             <p>Le theme aleatoire peut causer de fort problèmes visuels</p>
                             <p>🔎 n'hesitez pas a re-charger la page si besoin 🔎</p>
                             <span>🦄Theme aléatoire 🦄</span>
+                        </div>
+                        <div className="counter">
+                            <span className="icon">🦄</span>
+                            <div className="number">
+                                <span>Ce mode a etais activer</span>
+                                <span className="count">{numberActivate}</span>
+                                <span>fois par des âmes courageuses</span>
+                            </div>
+                        
                         </div>
                     </div>
                 </Styled.Option>

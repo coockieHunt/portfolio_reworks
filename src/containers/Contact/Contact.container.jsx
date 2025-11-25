@@ -1,7 +1,7 @@
 // react
 import { useState, useRef } from 'react';
-import axios from 'axios';
 import { renderToString } from 'react-dom/server';
+import { sendEmail } from '../../api/mail.api';
 
 // style
 import * as styled from "./Contact.style"
@@ -28,7 +28,7 @@ import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
 import { useAlert } from '../../context/alert.context';
 
 //config
-import { ApiBaseUrl, MailDefault } from '../../config.jsx';
+import { MailDefault } from '../../config.jsx';
 
 // data
 import { CONTACT_EMAIL } from '../../data.jsx'
@@ -66,20 +66,18 @@ export const ContactContainer = ({ id }) => {
     }
 
     const SendEmail = async (content) => {
-        try {
-            const response = await axios.post(`${ApiBaseUrl}/api/sendEmail`, content);
-
-            if (response.data.success) {
-                return true
-            } else {
-                addAlert('Message non envoyer', "#ffcc00", 4000);
-                return false
-            }
-        } catch (error) {
-            console.error('Erreur lors de la requête POST vers le serveur:', error);
+        const data = await sendEmail(content);
+        if (!data) {
             addAlert("Une erreur s'est produite lors de l'envoi de l'e-mail.", "#cc3300", 4000);
-            return false
+            return false;
         }
+        if (data.error && data.status === 429) {
+            addAlert("Serveur surchargé. Veuillez réessayer dans quelques minutes.", "#ff9900", 5000);
+            return false;
+        }
+        if (data.success) return true;
+        addAlert('Message non envoyé', "#ffcc00", 4000);
+        return false;
     }
 
     const CheckData = (output) => {
