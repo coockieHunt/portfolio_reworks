@@ -12,24 +12,33 @@ export const Container = styled.div`
     border-radius: 15px;
 
     backdrop-filter: blur(30px);
-    box-shadow: 0 4px 40px ${props => getColorSettings(props.theme).primary};
+    --breath-color: ${props => getColorSettings(props.theme).primary};
+    --shadow-blur-min: 30px;
+    --shadow-blur-max: 50px;
+    --shadow-spread-min: 4px;
+    --shadow-spread-max: 10px;
+    
+    box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
+    transition: box-shadow 0.3s ease;
 
-    animation: breathe 3s ease-in-out infinite;
+    animation: breathe 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
     @keyframes breathe {
-        0% {
-            box-shadow: 0 4px 40px ${props => getColorSettings(props.theme).primary};
+        0%, 100% {
+            box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
+        }
+        25% {
+            box-shadow: 0 6px 37px var(--breath-color);
         }
         50% {
-            box-shadow: 0 8px 60px ${props => getColorSettings(props.theme).primary};
+            box-shadow: 0 var(--shadow-spread-max) var(--shadow-blur-max) var(--breath-color);
         }
-        100% {
-            box-shadow: 0 4px 40px ${props => getColorSettings(props.theme).primary};
+        75% {
+            box-shadow: 0 6px 37px var(--breath-color);
         }
     }
     
-    & * {
-        box-sizing: border-box;
-    }
+    
     @media (max-width: 1400px) {
         width: 99%;
         margin: 0 auto;
