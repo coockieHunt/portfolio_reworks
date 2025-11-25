@@ -8,7 +8,7 @@ It's configured using `config` and logs colored messages to the console using `c
 ## English
 
 ### Features
-- POST /api/sendEmail: Send an email using Nodemailer.
+- POST /api/sendEmail: Send email using Nodemailer.
 - Basic counters (GET/SET/INCREMENT) under `/api/counter` utilizing Redis for storage of a small set of keys.
 - Health check endpoint `/api/status` (reports Redis state).
 
@@ -166,12 +166,6 @@ Les clés autorisées pour les compteurs sont dans `constant/redisKey.js`. Exemp
   - Erreurs Redis : message rouge avec la stack trace.
   - Actions sur les compteurs : logs colorés pour GET/SET/INCREMENT.
 
----
 
-If you'd like, I can also:
-- Add a `logger` helper to standardize colors/levels across the app.
-- Add a small `./tests` script with a few curl checks ensuring endpoints behave when Redis is down/up.
-
-Contributions welcome!
 
  
