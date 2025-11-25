@@ -10,6 +10,7 @@ export const Stack = styled.div`
     gap: 30px;
     position: relative;
     background-color: ${props => getColorSettings(props.theme).primary};
+    transition: transform 0.3s ease;
 
     & a img{
         height: 80px;
@@ -20,10 +21,16 @@ export const Stack = styled.div`
         }
     }
 
+
+    @media (max-width: ${SCREEN_SIZE.tablet}) {
+        padding: 30px 60px;
+        gap: 25px;
+    }
+
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         padding: 30px 30px;   
-        & a img{
-            height: 50px;
-        }
+        gap: 25px;
+        
+        & a img { height: 50px;}
     }
 `

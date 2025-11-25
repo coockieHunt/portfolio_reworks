@@ -5,6 +5,7 @@ import Express_logo from '../../assets/images/techno/Expressjs.svg'
 import Framer_logo from '../../assets/images/techno/Framer-motion-logo.svg'
 import NodeJs_logo from '../../assets/images/techno/node-js.svg'
 import React_logo from '../../assets/images/techno/react.svg'
+import Redis_logo from '../../assets/images/techno/redis.svg'
 
 export const StackContainer = () =>{
       return (
@@ -41,6 +42,13 @@ export const StackContainer = () =>{
             <img 
               src={Express_logo}
               alt="Express js technologie logo"
+              loading="lazy" decoding="async"
+            />
+          </a>
+          <a href="https://redis.io/">
+            <img 
+              src={Redis_logo}
+              alt="Redis technologie logo"
               loading="lazy" decoding="async"
             />
           </a>
