@@ -10,8 +10,7 @@ export const Container = styled.div`
     margin: 50px auto;
     padding: 15px;
     border-radius: 15px;
-
-    backdrop-filter: blur(30px);
+    
     --breath-color: ${props => getColorSettings(props.theme).primary};
     --shadow-blur-min: 30px;
     --shadow-blur-max: 50px;
@@ -40,12 +39,12 @@ export const Container = styled.div`
     
     
     @media (max-width: 1400px) {
-        width: 99%;
+        width: 95%;
         margin: 0 auto;
-        border-radius: 0px;
         margin-bottom: 20px;
         flex-direction: column;
         background-color: transparent;
+        padding: 10px;
     }
 `;
 
@@ -73,6 +72,11 @@ export const Info = styled.div`
         opacity: 0.8;
         height: 100%;
         width: 100%;
+
+
+        @media (max-width: 1400px) {
+            border: 1px dashed transparent;
+        }
     }
 
   
@@ -164,6 +168,7 @@ export const ContactForm = styled.div`
 
     @media (max-width: 1400px) {
         width: 100%;
+        padding: 5px 15px;
     }
 `;
 
