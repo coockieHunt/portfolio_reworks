@@ -17,10 +17,10 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	body {
-		background-color: black;
+		background-color: #121212;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
-		color: white;
+		color: ${props => LIGHT_SETTING[props.theme.light].font};
 		margin: 0;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
