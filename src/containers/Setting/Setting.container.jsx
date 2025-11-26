@@ -25,6 +25,7 @@ export const SettingContainer = () => {
     const { addAlert } = useAlert();
     
     const [isOpen, setIsOpen] = useState(false);
+    const [hasFetched, setHasFetched] = useState(false); 
     
     const containerRef = useRef(null);
     const toggleRef = useRef(null);
@@ -43,7 +44,7 @@ export const SettingContainer = () => {
 
         setTimeout(() => { 
             hideLoading(); 
-            addAlert(`Thème changée : ${DisplayName}`, COLOR_SETTING[NewTheme].primary, 4000);
+            addAlert(`Thème changé : ${DisplayName}`, COLOR_SETTING[NewTheme].primary, 4000);
         }, TOTAL_DURATION);
     };
 
@@ -84,11 +85,11 @@ export const SettingContainer = () => {
             border: randHex()
         };
         handleThemeChange(newKey, "🦄 PAPUCHE !!!");
+        
         try {
-                await incrementNumberActivate();
-                await fetchNumberActivate();
+            await incrementNumberActivate();
         } catch (err) {
-            console.warn('Failed to increment/fetch THEME_RAND after random theme change', err);
+            console.warn('Failed to increment THEME_RAND', err);
         }
     };
 
@@ -122,9 +123,10 @@ export const SettingContainer = () => {
     }
 
     useEffect(() => {
+        if (!isOpen) return;
+
         function handleClickOutside(event) {
             if (
-                isOpen && 
                 containerRef.current && !containerRef.current.contains(event.target) &&
                 toggleRef.current && !toggleRef.current.contains(event.target)
             ) {
@@ -132,18 +134,25 @@ export const SettingContainer = () => {
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
-
-        let isMounted = true;
-        (async () => {
-            if (!isMounted) return;
-            try { await fetchNumberActivate(); } catch (err) { }
-        })();
-
+        
         return () => {
-            isMounted = false;
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
+
+    useEffect(() => {
+        if (isOpen && !hasFetched) {
+            let isMounted = true;
+            (async () => {
+                try { 
+                    await fetchNumberActivate(); 
+                    if (isMounted) setHasFetched(true); 
+                } catch (err) { }
+            })();
+
+            return () => { isMounted = false; };
+        }
+    }, [isOpen, hasFetched]);
 
     return (
         <>
@@ -187,14 +196,14 @@ export const SettingContainer = () => {
 
                             <h3 className="titleOption">Mode fun</h3>
                             <div className="themeButton random" onClick={handleRandomThemeChange}>
-                                <p>Le theme aleatoire peut causer de fort problèmes visuels</p>
-                                <p>🔎 n'hesitez pas a re-charger la page si besoin 🔎</p>
-                                <span>🦄Theme aléatoire 🦄</span>
+                                <p>Le thème aléatoire peut causer de forts problèmes visuels</p>
+                                <p>🔎 n'hésitez pas à recharger la page si besoin 🔎</p>
+                                <span>🦄 Thème aléatoire 🦄</span>
                             </div>
                             <div className="counter">
                                 <span className="icon">🦄</span>
                                 <div className="number">
-                                    <span>Ce mode a etais activer</span>
+                                    <span>Ce mode a été activé</span>
                                     <span className="count">{numberActivate}</span>
                                     <span>fois par des âmes courageuses</span>
                                 </div>

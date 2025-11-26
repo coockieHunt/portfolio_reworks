@@ -31,21 +31,25 @@ export const FooterContainer = () => {
                         icon={<AiFillGithub />}
                         to={URL.github}
                         iconSize={40} 
+                        ariaLabel="Mon profil GitHub"
                     />
                     <IconButton
                         icon={<AiFillLinkedin />}
                         to={URL.linkedin}
                         iconSize={40} 
+                        ariaLabel="Mon profil LinkedIn"
                     />
                     <IconButton
                         icon={<FaDeviantart />}
                         to={URL.DeviantArt}
                         iconSize={40} 
+                        ariaLabel="Mon profil DeviantArt"
                     />
                     <IconButton
                         icon={<BiSolidUser />}
                         to={cv}
                         iconSize={40} 
+                        ariaLabel="Mon CV"
                     />
                 </Footer.Block>
             </Footer.Header>

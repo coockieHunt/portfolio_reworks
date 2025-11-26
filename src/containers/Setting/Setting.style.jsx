@@ -292,6 +292,7 @@ export const Option = styled.div`
                     font-weight: 800; 
                     font-size: 2em;
                     color: ${props => getColorSettings(props.theme).primary};
+                    min-width: 3ch
                 }
             }
             & .icon { font-size: 3em; padding: 5px; }

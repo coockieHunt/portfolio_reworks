@@ -24,6 +24,7 @@ export const GetLightSetting = (theme) => {
 };
 
 //CONSTANTS
+// 6.94:1 global ~= themes scores for contrast accessibility end 2.16:1 minimum
 export const COLOR_SETTING = {
     default: {
         display_name: "Nuit",
@@ -31,11 +32,11 @@ export const COLOR_SETTING = {
         background_secondary: '#221f30',
         background_tertiary: '#1a1a1a',
 
-        primary: "#5943e4",
-        secondary: "#32256c",
-        accentuate: '#404ad6',
+        primary: "#8C7DFF", 
+        secondary: "#4F4398", 
+        accentuate: '#A594FF', 
 
-        border: "rgba(0, 0, 0, 0.16)"
+        border: "rgba(255, 255, 255, 0.12)"
     },
 
     red: {
@@ -44,11 +45,11 @@ export const COLOR_SETTING = {
         background_secondary: '#2c1510',
         background_tertiary: '#4a1712',
 
-        primary: "#e74c3c",
-        secondary: "#a0392c",
-        accentuate: '#ff7a6b',
+        primary: "#FF7B6E",
+        secondary: "#B03C2E",
+        accentuate: '#FFAFA3',
 
-        border: "#4a4b52"
+        border: "#FF7B6E" 
     },
 
     green: {
@@ -57,11 +58,11 @@ export const COLOR_SETTING = {
         background_secondary: '#172419',
         background_tertiary: '#1f4224',
 
-        primary: "#2ecc71",
-        secondary: "#1d6333",
-        accentuate: '#58d68e',
+        primary: "#4ADE80", 
+        secondary: "#166534",
+        accentuate: '#86EFAC',
 
-        border: "#4a4b52"
+        border: "#4ADE80"
     },
 
     yellow: {
@@ -70,11 +71,11 @@ export const COLOR_SETTING = {
         background_secondary: '#2c2415',
         background_tertiary: '#4a3d17',
 
-        primary: "#f39c12",
-        secondary: "#b9770e",
-        accentuate: '#ffbb59',
+        primary: "#FFB74D", 
+        secondary: "#B9770E",
+        accentuate: '#FFE082',
 
-        border: "#4a4b52"
+        border: "#FFB74D"
     },
 
     cyan: {
@@ -83,11 +84,11 @@ export const COLOR_SETTING = {
         background_secondary: '#0d2b2e',
         background_tertiary: '#134147',
         
-        primary: "#00d9ff",
-        secondary: "#008ba3",
-        accentuate: '#4dffff',
+        primary: "#22D3EE",
+        secondary: "#0E7490",
+        accentuate: '#67E8F9',
         
-        border: "#4a4b52"
+        border: "#22D3EE"
     },
 
     pink: {
@@ -96,24 +97,24 @@ export const COLOR_SETTING = {
         background_secondary: '#2a1525',
         background_tertiary: '#4a1f3d',
         
-        primary: "#e91e63",
-        secondary: "#ad1457",
-        accentuate: '#ff6090',
+        primary: "#FF6696", 
+        secondary: "#BE185D",
+        accentuate: '#FF9EBB',
         
-        border: "#4a4b52"
+        border: "#FF6696"
     },
 
     ice: {
-        display_name: "Frost ",
+        display_name: "Frost",
         background: '#303134',
         background_secondary: '#0f1c2e',
         background_tertiary: '#1a2f4a',
         
-        primary: "#3498db",
-        secondary: "#2471a3",
-        accentuate: '#5dade2',
+        primary: "#60A5FA", 
+        secondary: "#1D4ED8",
+        accentuate: '#93C5FD',
         
-        border: "#4a4b52"
+        border: "#60A5FA"
     }
 };
 

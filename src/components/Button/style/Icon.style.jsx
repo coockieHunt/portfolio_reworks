@@ -3,7 +3,7 @@ import { getColorSettings, GetLightSetting } from '../../../config';
 
 export const  IconContainer = styled.a`
     position: relative;
-    color: ${props => props.color ? props.color : getColorSettings(props.theme).primary};
+    color: ${props => props.$color ? props.$color : getColorSettings(props.theme).primary};
     background-color: transparent;
     font-size: 1em;
     padding: 5px;

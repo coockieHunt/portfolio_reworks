@@ -15,6 +15,7 @@ export const StackContainer = () =>{
               src={React_logo} 
               alt="react technologie logo"
               loading="lazy" decoding="async"
+              width="50" height="50"
             />
           </a>
           <a href="https://www.framer.com/motion/">
@@ -22,6 +23,7 @@ export const StackContainer = () =>{
               src={Framer_logo}
               alt="framer technologie logo"
               loading="lazy" decoding="async"
+              width="50" height="50"
             />
           </a>
           <a href="https://nodemailer.com/">
@@ -29,6 +31,7 @@ export const StackContainer = () =>{
                 src={Node_mailer_logo}
                 alt="Node mailer technologie logo"
                 loading="lazy" decoding="async"
+                width="50" height="50"
               />
             </a>
           <a href="https://nodejs.org/">
@@ -36,6 +39,7 @@ export const StackContainer = () =>{
               src={NodeJs_logo}
               alt="Node js technologie logo"
               loading="lazy" decoding="async"
+              width="50" height="50"
             />
           </a>
           <a href="https://expressjs.com/fr/">
@@ -43,6 +47,7 @@ export const StackContainer = () =>{
               src={Express_logo}
               alt="Express js technologie logo"
               loading="lazy" decoding="async"
+              width="50" height="50"
             />
           </a>
           <a href="https://redis.io/">
@@ -50,6 +55,7 @@ export const StackContainer = () =>{
               src={Redis_logo}
               alt="Redis technologie logo"
               loading="lazy" decoding="async"
+              width="50" height="50"
             />
           </a>
         </Stack>

@@ -135,20 +135,20 @@ export const ScrollToTop = ({ hide_top = 400, hide_bottom = 450, auto_hide= true
  * @param textY - Change text position on hover (optional).
  * @param iconSize - Size on icon (optional).
  */
-export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", textY = "120%", iconSize }) => {
+export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", textY = "120%", iconSize, ariaLabel }) => {
     const isExternal = to && to.startsWith('http');
-    const ariaLabel = text || (isExternal ? 'Lien externe' : 'Bouton');
+    const ariaLabelValue = ariaLabel || text || (isExternal ? ('lien externe ' + to) : ('lien interne ' + to));
     return (
         <IconContainer 
-            color={color} 
+            $color={color} 
             href={to || '#'}
             onClick={onClick} 
             $textX={textX} 
             $textY={textY}
             target={isExternal ? '_blank' : undefined}
             rel={isExternal ? 'noopener noreferrer' : undefined}
-            aria-label={ariaLabel}
-            title={ariaLabel}
+            aria-label={ariaLabelValue}
+            title={ariaLabelValue}
             role="link"
         >
             {React.cloneElement(icon, { size: iconSize, 'aria-hidden': true, focusable: false })}
