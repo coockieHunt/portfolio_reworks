@@ -146,7 +146,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
     return pages;
 };
 
-export const PaginatedGrid = ({ items, renderItem, columns = 4, rows = 2 }) => {
+export const PaginatedGrid = ({ items, renderItem, columns = 4, rows = 2,  gap_desktop = 10 , gap_mobile = 10 }) => {
     const isMobile = useWindowSize(parseInt(SCREEN_SIZE.mobile));
     const pages = useMemo(() => calculatePages(items, isMobile, columns, rows), [items, isMobile, columns, rows]);
     const pagesNumber = pages.length;
@@ -161,7 +161,7 @@ export const PaginatedGrid = ({ items, renderItem, columns = 4, rows = 2 }) => {
 
     return (
         <div className="listContainer">
-            <GridContainer $columns={isMobile ? 1 : columns} $rows={isMobile ? 4 : rows}>
+            <GridContainer $columns={isMobile ? 1 : columns} $rows={isMobile ? 4 : rows} $gap={isMobile ? gap_mobile : gap_desktop}>
                 {currentItems.map(item => {
                     const RenderItem = renderItem;
                     return <RenderItem key={item.id} {...item} />;

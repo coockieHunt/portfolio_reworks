@@ -73,6 +73,8 @@ export const MyProjectContainer = ({id}) => {
                     renderItem={BuildProjectCard} 
                     columns={3}
                     rows={2}
+                    gap_desktop={10}
+                    gap_mobile={25}
                 />
             </Container>
         </>

@@ -5,7 +5,7 @@ export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(${props => props.$columns || 4}, 1fr);
     grid-template-rows: repeat(${props => props.$rows || 2}, minmax(150px, 300px));
-    gap: 10px;
+    gap: ${props => props.$gap || 10}px;
     width: 100%;
 
     justify-items: stretch;
