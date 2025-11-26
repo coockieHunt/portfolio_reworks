@@ -18,6 +18,7 @@ import { useLoading } from "../../context/loading.context";
 //API
 import { getThemeRand, incrementThemeRand } from '../../api/counter.api';
 
+
 export const SettingContainer = () => {
     const { changeTheme, settings } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
@@ -31,12 +32,19 @@ export const SettingContainer = () => {
     const [numberActivate, setNumberActivate] = useState(0);
 
     const handleThemeChange = (NewTheme, DisplayName) => {
-        showLoading(COLOR_SETTING[NewTheme].background_secondary);
+        const TOTAL_DURATION = 2000; 
+        
+        showLoading(COLOR_SETTING[NewTheme].background_secondary, TOTAL_DURATION);
         setIsOpen(false);
-        setTimeout(() => { changeTheme(NewTheme); }, 500);
-        setTimeout(() => { hideLoading(); }, 2000);
 
-        addAlert(`Votre thème est maintenant en mode ${DisplayName}.`, COLOR_SETTING[NewTheme].primary, 4000);
+        setTimeout(() => { 
+            changeTheme(NewTheme); 
+        }, TOTAL_DURATION * 0.25);
+
+        setTimeout(() => { 
+            hideLoading(); 
+            addAlert(`Thème changée : ${DisplayName}`, COLOR_SETTING[NewTheme].primary, 4000);
+        }, TOTAL_DURATION);
     };
 
     const handleRandomThemeChange = async () => {
