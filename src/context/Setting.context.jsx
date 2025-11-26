@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
 
 const SettingContext = createContext();
 
@@ -12,16 +12,22 @@ export const SettingProvider = ({ children }) => {
         light: "dark"
     });
 
-    const changeTheme = (theme) => {
-        setSettings({ ...settings, theme });
-    };
+    const changeTheme = useCallback((theme) => {
+        setSettings(prev => ({ ...prev, theme }));
+    }, []);
 
-    const changeLight = (light) => {
-        setSettings({ ...settings, light });
-    };
+    const changeLight = useCallback((light) => {
+        setSettings(prev => ({ ...prev, light }));
+    }, []);
+
+    const value = useMemo(() => ({
+        settings,
+        changeTheme,
+        changeLight
+    }), [settings, changeTheme, changeLight]);
 
     return (
-        <SettingContext.Provider value={{ settings, changeTheme, changeLight }}>
+        <SettingContext.Provider value={value}>
             {children}
         </SettingContext.Provider>
     );
