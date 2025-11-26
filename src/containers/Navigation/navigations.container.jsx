@@ -1,10 +1,10 @@
 //react
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-scroll";
 
 // hook
 import { useScrollbar } from "../../hooks/useScrollBar.hook.jsx"
-// import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
+import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 //component
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component"
@@ -22,6 +22,7 @@ import { socialLinks } from '../../data.jsx'
 
 //context
 import { useSettingContext } from '../../context/Setting.context';
+
 
 const BuildNavigation = ({ menuItems, onClick }) => {
     return (
@@ -47,12 +48,21 @@ const BuildNavigation = ({ menuItems, onClick }) => {
 
 export const NavigationComponent = ({ navConfig }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-
-    // const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2),);
-
-    useScrollbar(menuOpen);
-    const toggleMenu = () => {setMenuOpen(!menuOpen);};
     const {settings} = useSettingContext();
+
+    const mobileBreakpoint = parseInt(SCREEN_SIZE.mobile.replace('px', ''));
+    
+    const isMobile = useWindowSize(mobileBreakpoint);
+
+    useScrollbar(menuOpen && isMobile);
+
+    const toggleMenu = () => { setMenuOpen(!menuOpen); };
+
+    useEffect(() => {
+        if (!isMobile && menuOpen) {
+            setMenuOpen(false);
+        }
+    }, [isMobile, menuOpen]);
     
     return (
         <Styled.NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"} >
@@ -62,6 +72,7 @@ export const NavigationComponent = ({ navConfig }) => {
                     <BurgerMenuComponent val={menuOpen} onClick={() => toggleMenu()} />
                 </div>
             </Styled.BrandContainer>
+            
             <Styled.Nav 
                 id="primary-navigation"
                 className={menuOpen ? "NavOpen" : "NavClose"}

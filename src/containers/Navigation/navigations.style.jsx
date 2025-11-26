@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {getColorSettings, GetLightSetting,  SCREEN_SIZE} from '../../config.jsx'
+import {getColorSettings,  SCREEN_SIZE} from '../../config.jsx'
 
 export const NavigationContainer = styled.div`
     display: flex;
@@ -11,9 +11,26 @@ export const NavigationContainer = styled.div`
     top: 0;
     left: 0;
     z-index: 15;
-    background-color: transparent;
     transition: background-color 0.3s ease;
-    &.NavOpen{background-color: ${props => getColorSettings(props.theme).background};}
+
+    &.NavOpen{
+        backdrop-filter: blur(10px);
+        height: 100dvh;
+        width: 100%;
+
+        &::after{
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: ${props => getColorSettings(props.theme).background_tertiary};
+            backdrop-filter: blur(5px);
+            opacity: .8;
+            z-index: -1;
+        }
+    }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         z-index: 1000;
@@ -35,15 +52,13 @@ export const Logo = styled.img`
     border-right: 1px solid #ffffff3b;
     box-sizing: content-box;
 
-    color: red;
-
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
         height: 100vh;  
         padding: 5px 10px;
         border: none;
         
-        &.NavClose{height: 5vh; transition: height 0.3s ease;}
+        &.NavClose{height: 5vh; transition: height .1s ease-in-out;}
     }
 `;
 
@@ -58,27 +73,37 @@ export const Nav = styled.nav`
         list-style: none;
         text-align: center;
         align-items: center;
+        padding: 0; 
+        margin: 0;
 
         li {
             padding: 0 10px;
+            &:hover{
+                color: ${props => getColorSettings(props.theme).primary}; 
+                transition: color .2s ease, transform .1s ease;
+                transform: scale(1.05);
+            }
+
             a {
                 text-decoration: none;
                 font-weight: bold;
-                transition: color 0.3s ease;
                 cursor: pointer;
-                &:hover{color: ${props => getColorSettings(props.theme).primary}; transition: color 0.3s ease;}
                 span{
                     color: ${props => getColorSettings(props.theme).primary};
                     font-variation-settings: "wght" 1000;
                 }
+
 
                 @media (max-width: ${SCREEN_SIZE.mobile}) {
                     font-size: 1.2em;
                     font-variation-settings: "wght" 800;
 
                     display: block;
-                    width: 100vw;
+                    width: 100%;
                     padding: 30px;
+
+                   
+
                 }
             }
         }
