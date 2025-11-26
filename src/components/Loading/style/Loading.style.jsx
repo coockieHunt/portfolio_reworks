@@ -13,7 +13,6 @@ export const Container = styled.div`
     width: 100vw;
     z-index: 999999;
 
-
     & .frame{
         content: " ";
         background-color:  ${({ $color }) => $color || 'white'};
@@ -27,7 +26,11 @@ export const Container = styled.div`
 
         transform-origin: center; 
 
-        animation: ${({ loading }) => loading ? css`${complete} 4s infinite ease-in-out`: 'none'};
+        animation: ${({ loading, $duration }) => loading ? 
+            css`${complete} ${$duration / 1000}s
+            infinite cubic-bezier(0.83, 0, 0.17, 1)`
+            : 'none'
+        };
     }
 `;
 
