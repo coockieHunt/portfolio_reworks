@@ -1,12 +1,33 @@
 import styled, { keyframes } from 'styled-components';
 import { getColorSettings, SCREEN_SIZE } from '../../config.jsx';
 
+
+// ANAMATIONS
+// Rainbow effect for random theme button 
 const rainbowShift = keyframes`
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 `;
 
+// Animated dots for loading text
+const dotAnimation = keyframes`
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+    100% { content: ''; }
+`;
+
+export const AnimatedDots = styled.span`
+    &::after {
+        content: '';
+        display: inline-block;
+        animation: ${dotAnimation} 1.5s infinite steps(1);
+        width: 1.5em; 
+        text-align: left;
+    }
+`;
 
 export const Toggle = styled.div`
     position: fixed;

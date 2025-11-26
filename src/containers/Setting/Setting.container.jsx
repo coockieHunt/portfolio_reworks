@@ -32,10 +32,18 @@ export const SettingContainer = () => {
 
     const [numberActivate, setNumberActivate] = useState(0);
 
-    const handleThemeChange = (NewTheme, DisplayName) => {
+ const handleThemeChange = (NewTheme, DisplayName) => {
         const TOTAL_DURATION = 2000; 
         
-        showLoading(COLOR_SETTING[NewTheme].background_secondary, TOTAL_DURATION);
+        showLoading(
+            COLOR_SETTING[NewTheme].background_secondary, 
+            TOTAL_DURATION,                               
+            <div>
+                <p>Changement de thème en cours<Styled.AnimatedDots /></p>
+                <strong style={{ color: COLOR_SETTING[NewTheme].primary, textAlign: 'center' }}>{DisplayName}</strong>
+            </div>                    
+        );
+        
         setIsOpen(false);
 
         setTimeout(() => { 

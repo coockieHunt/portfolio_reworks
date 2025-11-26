@@ -1,9 +1,16 @@
-import { Container } from './style/Loading.style';
+import React from 'react';
+import { Container, TopPanel, BottomPanel, Content } from './style/Loading.style';
 
-export const Loading = ({ $color, $duration = 4 }) => {
+export const Loading = ({ $color, $duration, text = "CHANGEMENT DE THÈME" }) => {
     return (
-        <Container loading={1} $color={$color} $duration={$duration}>
-            <div className="frame" />
+        <Container>
+            <TopPanel $color={$color} $duration={$duration} />
+            
+            <Content $duration={$duration} $textColor={"white" /* Ou dynamique */}>
+                {text}
+            </Content>
+            
+            <BottomPanel $color={$color} $duration={$duration} />
         </Container>
     );
 };
