@@ -1,18 +1,28 @@
-
 import { useState, useCallback } from "react";
+import { useScrollbar } from '../hooks/useScrollBar.hook'; 
 
 /**
- * Custom React hook to manage a lightbox component's open state and current image.
+ * Custom React hook to manage the state and behavior of a LightBox component.
  *
  * @returns {Object} An object containing:
- *   - {boolean} isLightBoxOpen - Indicates if the lightbox is open.
- *   - {string|null} currentImg - The URL of the currently displayed image, or null if none.
- *   - {function} ChangeLightBoxImg - Function to change the current image in the lightbox.
- *   - {function} ToggleLightBox - Function to toggle the lightbox's open state.
+ *   - {boolean} isLightBoxOpen - Indicates if the LightBox is currently open.
+ *   - {string|null} currentImg - The URL of the currently displayed image in the LightBox.
+ *   - {function} ChangeLightBoxImg - Function to change the currently displayed image.
+ *   - {function} ToggleLightBox - Function to toggle the LightBox open/closed state.
+ *
+ * @example
+ * const {
+ *   isLightBoxOpen,
+ *   currentImg,
+ *   ChangeLightBoxImg,
+ *   ToggleLightBox
+ * } = UseLightBox();
  */
 export const UseLightBox = () => {
     const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
     const [currentImg, setCurrentImg] = useState(null);
+
+    useScrollbar(isLightBoxOpen);
 
     const ChangeLightBoxImg = useCallback((imgUrl) => {
         setCurrentImg(imgUrl);

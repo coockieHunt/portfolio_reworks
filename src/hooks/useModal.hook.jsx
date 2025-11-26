@@ -1,19 +1,23 @@
+
 import { useState, useCallback } from "react";
+import { useScrollbar } from '../hooks/useScrollBar.hook';
 
 /**
  * Custom React hook for managing multiple modal dialogs.
  *
+ * This hook provides state and handlers for opening, closing, and tracking multiple modals.
+ * It also integrates with a scrollbar hook to manage scroll locking when modals are open.
+ *
  * @returns {Object} An object containing:
  *   - {Array} modals: Array of modal objects ({ isOpen, title, content }).
- *   - {Function} openModal: Opens a new modal with the specified title and content.
- *     @param {string} title - The title of the modal.
- *     @param {React.ReactNode} content - The content to display inside the modal.
- *   - {Function} closeModal: Closes a modal at the specified index.
- *     @param {number} index - The index of the modal to close.
- *   - {Function} closeAllModals: Closes all open modals.
+ *   - {Function} openModal: Function to open a new modal. Accepts (title: string, content: ReactNode).
+ *   - {Function} closeModal: Function to close a modal by its index. Accepts (index: number).
+ *   - {Function} closeAllModals: Function to close all open modals.
  */
 export const UseModal = () => {
     const [modals, setModals] = useState([]);
+
+    useScrollbar(modals.length > 0);
 
     const openModal = useCallback((title, content) => {
         setModals(prev => [...prev, { isOpen: true, title, content }]);
