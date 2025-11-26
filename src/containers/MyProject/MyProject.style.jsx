@@ -14,7 +14,7 @@ export const Container = styled.div`
     margin: 0 auto;
     color: white;
     width: 85%;
-
+    position: relative;
     @media (max-width: ${SCREEN_SIZE.mobile}) {width: 90%;}
 
     &::before,
@@ -30,12 +30,12 @@ export const Container = styled.div`
     }
 
     &::before {
-        left: -150px;
+        left: -300px;
         background: radial-gradient(circle, ${props => getColorSettings(props.theme).primary} 0%, rgba(147, 112, 219, 0) 70%); 
     }
 
     &::after {
-        right: -150px;
+        right: -300px;
         background: radial-gradient(circle, ${props => getColorSettings(props.theme).secondary} 0%, rgba(0, 255, 255, 0) 90%);
     }
 

@@ -106,7 +106,7 @@ export const ContainerSetting = styled.div`
     right: 0; top: 0;
     
     width: 500px;
-    height: 100vh; height: 100dvh;
+    height: 100dvh;
     border-left: 3px solid ${props => getColorSettings(props.theme).background_secondary};
     
     display: flex; flex-direction: column;
@@ -117,8 +117,7 @@ export const ContainerSetting = styled.div`
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         top: 10px; right: 10px;
-        height: calc(100vh - 30px); 
-        height: calc(100dvh -30px);
+        width: 90vw;
         border-radius: 15px;
         border: 1px solid ${props => getColorSettings(props.theme).primary};
         border-left: 1px solid ${props => getColorSettings(props.theme).primary};
@@ -193,8 +192,6 @@ export const ScrollableContent = styled.div`
         border-radius: 4px; 
     }
 `;
-
-
 
 export const CloseButton = styled.div`
     cursor: pointer; 
