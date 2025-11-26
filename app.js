@@ -113,8 +113,3 @@ function logStartupInfo(redisConnected) {
 
     console.log(chalk.green(`\nAPI start at ${port} (redisConnected=${redisConnected})`));
 }
-
-
-
-
-// server started in startServer()
