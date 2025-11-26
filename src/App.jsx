@@ -27,7 +27,6 @@ import { AlertContainerComponent } from './components/Alert/Alert.component';
 import {SettingProvider} from "./context/Setting.context.jsx";
 import { LoadingProvider } from './context/loading.context.jsx';
 
-
 //Icon
 import {
     BiSolidQuoteLeft,
