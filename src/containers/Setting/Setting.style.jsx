@@ -110,15 +110,16 @@ export const ContainerSetting = styled.div`
     border-left: 3px solid ${props => getColorSettings(props.theme).background_secondary};
     
     display: flex; flex-direction: column;
-    
-    transform: translateX(0%);
+
     transition: transform .5s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: -5px 0 25px rgba(0,0,0,0.5);
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        top: 10px; right: 10px;
+        top: 50%; right: 50%;
+        transform: translate(50%, -50%);
         width: 90vw;
-        border-radius: 15px;
+        height: 95dvh;
+        border-radius: 5px;
         border: 1px solid ${props => getColorSettings(props.theme).primary};
         border-left: 1px solid ${props => getColorSettings(props.theme).primary};
     }
@@ -126,8 +127,8 @@ export const ContainerSetting = styled.div`
     &.close { 
         transform: translateX(100%); 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
-             transform: translateX(calc(100% + 40px));
-             pointer-events: none;
+            top: 0%; right: -50%;
+            transform: translate(50%, -50%);
         }
     }
 
@@ -139,11 +140,9 @@ export const ContainerSetting = styled.div`
         width: 100%; 
         height: 100%;
         background-color: ${props => getColorSettings(props.theme).background_tertiary};
-        opacity: 0.95; 
         z-index: -1; 
         pointer-events: none; 
         border-radius: inherit;
-        backdrop-filter: blur(5px);
     }
 `
 
