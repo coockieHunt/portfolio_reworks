@@ -6,8 +6,6 @@ import { sendEmail } from '../../api/mail.api';
 // style
 import * as styled from "./Contact.style"
 
-//Hooks
-// import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 
 // templates
 import { EmailTemplateContact } from '../../templates/mail.contact.mail'
@@ -32,7 +30,8 @@ import { MailDefault } from '../../config.jsx';
 
 // data
 import { CONTACT_EMAIL } from '../../data.jsx'
-import { color } from 'framer-motion';
+
+import {DotGridEffect} from '../../styles/effect.jsx'
 
 export const ContactContainer = ({ id }) => {
     //ALERT
@@ -46,9 +45,7 @@ export const ContactContainer = ({ id }) => {
     //CoolDown send
     const [IsCoolDown, SetIsCoolDown] = useState(false)
     const [CoolDownTime, SetCoolDownTime] = useState(0)
-
-    //WINDOWS
-    // const isMobile = useWindowSize(1400);
+ 
 
     const handleChange = (e) => {
         setOutput(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -165,41 +162,51 @@ export const ContactContainer = ({ id }) => {
             >Me contacter</TitleTextComponent>
             <styled.Container>
                 <styled.Info>
-                    <div className="info">
-                        <div className="desktop-info">
+                <DotGridEffect
+                    $isHovered={true}
+                    $DotColor="#feffff5a"
+                    $Spacing="18px"
+                    $DotSize="2px"/>
+                    
+                    <div className="content">
+                        <div className="title">
                             <h2>Information</h2>
-                            <p>Une idée ? Un projet ? N'hésitez pas à demander un devis !</p>
+                            <span>Une idée ? Un projet ? N'hésitez pas à demander !</span>
                         </div>
-                        <div className="contact">
-                            <Link className="info" >
+                        <div className="container">
+                            <Link className="ItemInfo" href="tel:0603420204" >
                                 <AiFillPhone />
-                                <span
-                                    onClick={() => window.location.href = 'tel:0603420204'}
-                                >+33 6.03.42.02.04</span>
+                                <div >
+                                    <span className='name'>Telephone</span>
+                                    <span className='info'>+33 6.03.42.02.04</span>
+                                </div>
                             </Link>
-                            <Link className="info" >
+                            <Link className="ItemInfo" href="mailto:pro.jonathan.gleyze@gmail.com" >
                                 <AiOutlineMail />
-                                <span
-                                    onClick={() => window.location.replace('mailto:pro.jonathan.gleyze@gmail.com')}
-                                >pro.jonathan.gleyze@gmail.com</span>
+                                <div>
+                                    <span className='name'>Email</span>
+                                    <span className='info'>pro.jonathan.gleyze@gmail.com</span>
+                                </div>
                             </Link>
-                            <Link className="info" >
+                            <Link className="ItemInfo" >
                                 <BiSolidMap />
-                                <span
-                                    onClick={() => window.location.href = 'https://www.google.com/maps/place/N%C3%AEmes/'}
-                                >Nîmes (GARD)</span>
+                                <div>
+                                    <span className='name'>Location</span>
+                                    <span className='info'>Nîmes (GARD)</span>
+                                </div>
                             </Link>
-                            <Link className="info" >
+                            <Link className="ItemInfo" href="https://www.linkedin.com/in/jonathan-gleyze-173ab7239/" >
                                 <BiLogoLinkedin />
-                                <span
-                                    onClick={() => window.location.replace('https://www.linkedin.com/in/jonathan-gleyze-173ab7239/')}
-                                >Jonathan gleyze</span>
+                                <div>
+                                    <span className='name'>LinkedIn</span>
+                                    <span className='info'>Jonathan gleyze</span>
+                                </div>
                             </Link>
-                        </div>
-                    </div>
 
-                    <div className='bottom desktop-bottom'>
-                        <span>Les informations avec une * sont obligatoire</span>
+                        </div>
+                        <div className='bottom'>
+                            <span>Les informations avec une * sont obligatoire</span>
+                        </div>
                     </div>
                 </styled.Info>
 
@@ -250,12 +257,14 @@ export const ContactContainer = ({ id }) => {
                         setIsCaptchaValid={setIsCaptchaValid} />
 
                     <styled.ActionForm>
-                        <span onClick={() => { handleReset() }}>Remettre a  zero</span>
+                        <span className='resetForm' onClick={() => { handleReset() }}>Remettre a  zero</span>
                         {!IsCoolDown ? 
                             <Button
                                 onClick={() => { handleSubmit() }}
                                 icon={!IsCoolDown && <AiOutlineSend />}
-                                disabled={IsCoolDown}>
+                                disabled={IsCoolDown}
+                                className="sendButton"
+                            >
                             envoyer</Button> : 
                             <span className='colored'>{CoolDownTime}</span>
                         }

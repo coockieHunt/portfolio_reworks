@@ -2,15 +2,178 @@ import styled from 'styled-components';
 import { getColorSettings, GetLightSetting } from '../../config.jsx';
 
 
+import { SCREEN_SIZE } from '../../config.jsx';
+
 // Container
 export const Container = styled.div`
     display: flex;
-    background-color: ${props => GetLightSetting(props.theme).background_secondary};
     width: 90vw;
     margin: 50px auto;
-    padding: 15px;
     border-radius: 15px;
+
+    gap: 30px;
     
+    @media ( max-width: ${SCREEN_SIZE.mobile}){
+        width: 90%;
+        flex-direction: column;
+    }
+`;
+
+export const Info = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    width: 30%;
+    height: fit-content;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    border: 1px solid ${props => getColorSettings(props.theme).primary};
+    border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
+    position: relative;
+
+    & ::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: ${props => getColorSettings(props.theme).background_secondary};
+        opacity: 0.2;
+        z-index: -1;
+        inset: 0;
+        border-radius: 5px;
+        backdrop-filter: blur(5px);
+    }
+    
+    & .content {
+        display: flex;
+        flex-direction: column;
+
+        & .title {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+
+            padding: 10px 0 25px 0;
+            & h2 {
+                font-size: 1.5em;
+                color: ${props => getColorSettings(props.theme).primary};
+            }
+
+            & span{
+                font-size: 1em;
+                color: white;
+            }
+        }
+        
+        & .container {
+            display: flex;
+            flex-direction: column;
+
+            padding-bottom: 20px;
+
+
+            & .ItemInfo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                padding: 10px 0px;
+
+                & svg {
+                    height: 3em;
+                    width: auto;
+                    padding: 10px;
+                    background-color: ${props => getColorSettings(props.theme).primary};
+                    border-radius: 8px;
+
+                    z-index: 2;
+                }
+
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    cursor: pointer;
+                    & .name{
+                        color: #ffffffb3;
+                    }
+                }
+
+
+                &:hover {
+                   transform: scale(1.03);
+                   transition: transform .2s ease;
+                }
+            }
+        }
+
+        & .bottom {
+            display: block;
+            border-top: 1px solid #ffffff28;
+            line-height: 3em;
+        }
+    }
+
+
+
+    @media ( max-width: ${SCREEN_SIZE.mobile}){
+        width: 100%;
+
+        padding: 20px;
+
+        & .content {
+            & .container {
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-between;
+
+                & .info{
+                    display: none;
+                }
+
+                & .name{
+                    display: none;
+                }
+            }
+            & .title {
+                & h2 {
+                    font-size: 1.2em;
+                    text-align: center;
+                }
+
+                & span{
+                    font-size: 0.9em;
+                    text-align: center;
+                }
+            }
+
+            & .bottom {
+                text-align: center;
+                font-size: 0.9em;
+            }
+        }
+    }
+`;
+
+export const ContactForm = styled.div`
+    margin: auto;
+    width: 70%;
+    padding: 30px;
+
+    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    border: 1px solid ${props => getColorSettings(props.theme).primary};
+    border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
+
+
+    border-radius: 10px;
+
+        
     --breath-color: ${props => getColorSettings(props.theme).primary};
     --shadow-blur-min: 30px;
     --shadow-blur-max: 50px;
@@ -37,138 +200,22 @@ export const Container = styled.div`
         }
     }
     
-    
-    @media (max-width: 1400px) {
-        width: 95%;
-        margin: 0 auto;
-        margin-bottom: 20px;
-        flex-direction: column;
-        background-color: transparent;
-        padding: 10px;
-    }
-`;
-
-export const Info = styled.div`
-    width: 30%;
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    position: relative;
-    isolation: isolate; 
-    background-color: ${props => getColorSettings(props.theme).background};
-
-    
-    &::after{
-        content: "";
-        position: absolute;
-        z-index: -1;
-        border-radius: 8px;
-        top: 0;
-        left: 0;
-        border: 1px dashed ${props => getColorSettings(props.theme).primary};
-        opacity: 0.8;
-        height: 100%;
-        width: 100%;
-
-
-        @media (max-width: 1400px) {
-            border: 1px dashed transparent;
-        }
-    }
-
-  
-    & .info {
-        & h2 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color:  ${props => getColorSettings(props.theme).primary};
-        }
-
-        & p {
-            margin-bottom: 10px;
-        }
-    }
-
-    & .contact {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 50px;
-
-        & span {
-            line-height: 50px;
-            vertical-align: middle;
-            text-align: left;
-            padding-left: 20px;
-        }
-
-        & svg {
-            height: 50px;
-            width: 50px;
-            padding: 15px;
-            float: left;
-            border-radius: 50%;
-        }
-
-        & .info{
-            border-radius: 10px;
-            transition: all .3s ease-in-out;
-            &:hover{
-                background-color: ${props => getColorSettings(props.theme).secondary};
-            }
-        }
-    }
-
-    & .bottom {
-        justify-content: flex-end;
-    }
-
-    @media (max-width: 1400px) {
-        margin: 0 auto;
-        width: 95%;
-        padding: 0;
-        overflow: hidden;
-
-        & .desktop-info, & .desktop-bottom {
-            display: none;
-        }
-
-        & .contact {
-            margin-top: 0px;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            flex-direction: row;
-            padding: 0;
-            gap: 0;
-
-            & .info{
-                width: 100%;
-                border-radius: 0px;
-                padding: 5px;
-            }        
-        }
-    }
-`;
-
-export const ContactForm = styled.div`
-    padding: 5px 20px;
-    margin: auto;
-    width: 70%;
 
     & h2 {
-        font-size: 2.5em;
-        margin-bottom: 20px;
-        color:  ${props => getColorSettings(props.theme).primary};
+        font-size: 1.5em;
+        color: ${props => getColorSettings(props.theme).primary};
+
         font-weight: 600;
     }
 
-    @media (max-width: 1400px) {
+    @media ( max-width: ${SCREEN_SIZE.mobile}){
         width: 100%;
-        padding: 5px 15px;
+        padding: 20px;
+        
+        & h2 {
+            font-size: 1.8em;
+            line-height: 1.5em;
+        }
     }
 `;
 
@@ -188,6 +235,17 @@ export const ActionForm = styled.div`
 
     & > .colored{
         color: ${props => getColorSettings(props.theme).primary};
+    }
+
+    @media ( max-width: ${SCREEN_SIZE.mobile}){
+        & .resetForm {
+            display: none;
+        }
+
+        & button{
+            width: 50%;
+            margin: 0 auto;
+        }
     }
 `;
 

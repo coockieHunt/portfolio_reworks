@@ -15,14 +15,15 @@ export const FormLabel = styled.label`
 `;
 
 export const FormInput = styled.input `
-    padding: 10px 5px 10px 5px;
+    padding: 15px 10px;
     outline: none;
     border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
     width: 100%;
     background-color: ${props => GetLightSetting(props.light).background_tertiary};
     color: white;
+    font-size: 1em;
 
-    border-radius: 3px;
+    border-radius: 5px;
     &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary};}
     &:-webkit-autofill,
     &:-webkit-autofill:hover, 
@@ -35,14 +36,19 @@ export const FormInput = styled.input `
 `;
 
 export const FormTextArea = styled.textarea `
-    padding: 10px 5px 10px 5px;
+    padding: 15px 10px;
     resize: none;
     height: 400px;
     outline: none;
     border: ${BorderSize} solid ${props => getColorSettings(props.theme).border};
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: ${props => GetLightSetting(props.light).background_tertiary};
     color: white;
+    font-size: 1em;
+
+    @media (max-width: 850px) {
+        height: 200px;
+    }
 
     &:focus{border: ${BorderSize} solid ${props => getColorSettings(props.theme).primary};}
 `;
