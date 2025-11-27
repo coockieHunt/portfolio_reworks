@@ -30,7 +30,7 @@ export const COLOR_SETTING = {
         display_name: "Nuit",
         background: '#303134',
         background_secondary: '#221f30',
-        background_tertiary: '#1a1a1a',
+        background_tertiary: '#1c1933',
 
         primary: "#8C7DFF", 
         secondary: "#4F4398", 
