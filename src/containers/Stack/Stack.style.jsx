@@ -33,11 +33,10 @@ export const Stack = styled.div`
         justify-content: center;
         text-decoration: none;
         color: white; 
-
-
         padding: 10px;
-
         gap: 10px;
+
+        transition: transform 0.3s ease, color 0.3s ease;
 
         & svg {
             font-size: ${props => props.$iconSize || 30}px;
@@ -47,7 +46,7 @@ export const Stack = styled.div`
             transition: color 0.3s ease;
         }
         
-        &:hover svg {color: ${props => getColorSettings(props.theme).primary};}
+        &:hover svg {transform: scale(1.2); color: ${props => getColorSettings(props.theme).primary};}
     }
     
     h3 {

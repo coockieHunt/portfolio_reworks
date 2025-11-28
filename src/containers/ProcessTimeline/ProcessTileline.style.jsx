@@ -48,7 +48,6 @@ export const TimeLineContainer = styled.div`
     &.visible::before {height: 97%;}
     
     &::after {
-
         content: '';
         position: absolute;
         border-left: 3px solid ${(props) => getColorSettings(props.theme).primary};
@@ -183,15 +182,19 @@ export const TimeLineItemContainer = styled.div`
     cursor: default;
     transition: transform 0.3s ease, border-radius 0.3s ease; 
 
+    
+
+
     &::after{
         content: '';
         position: absolute;
         inset: 0;
         transform-origin: center;
-        background-color: ${(props) => getColorSettings(props.theme).background_secondary};
-        z-index: -1;
         pointer-events: none;
-        opacity: .8;    
+        opacity: .6;    
+        background-color: ${(props) => getColorSettings(props.theme).background_secondary};
+        filter: blur(8px);
+        z-index: -1;
     }
 
 
@@ -234,7 +237,13 @@ export const TimeLineItemContainer = styled.div`
         box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary};
     }
 
-    &:hover { & .DotBg::before { opacity: 1; filter: blur(0px); } }
+    &:hover { 
+        & .DotBg::before { opacity: 1; filter: blur(0px); } 
+        &::after {
+            opacity: .8; 
+            filter: blur(4px);
+        }
+    }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         min-height: 80px;
