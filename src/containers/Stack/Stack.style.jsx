@@ -1,36 +1,58 @@
-import styled from 'styled-components';
-import {getColorSettings, SCREEN_SIZE} from '../../config.jsx'
+import styled, { keyframes } from 'styled-components';
+import { getColorSettings } from '../../config.jsx';
+
+const scrollLeftToRight = keyframes`
+    0% { transform: translateX(-50%);}
+    100% { transform: translateX(0);}
+`;
+
+export const Container = styled.div`
+    width: 100%;
+    overflow: hidden; 
+    padding: 20px 0;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+`;
+
+export const Track = styled.div`
+    display: flex;
+    width: max-content;
+    gap: 60px; 
+    animation: ${scrollLeftToRight} 40s linear infinite;
+    &:hover {animation-play-state: paused;}
+`;
 
 export const Stack = styled.div`
-    padding: 30px 150px;   
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 30px;
-    position: relative;
-    background-color: ${props => getColorSettings(props.theme).primary};
-    transition: transform 0.3s ease;
+    flex-shrink: 0;
 
-    & a img{
-        height: 80px;
-        width: auto; 
+    & a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white; 
 
-        &:hover{
-            transform: scale(1.04);
+
+        padding: 10px;
+
+        gap: 10px;
+
+        & svg {
+            font-size: ${props => props.$iconSize || 30}px;
+            height: auto;
+            width: auto;
+            color: ${props => props.$iconColor || '#FFFFFF'};
+            transition: color 0.3s ease;
         }
-    }
-
-
-    @media (max-width: ${SCREEN_SIZE.tablet}) {
-        padding: 30px 60px;
-        gap: 25px;
-    }
-
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        padding: 30px 30px;   
-        gap: 25px;
         
-        & a img { height: 50px;}
+        &:hover svg {color: ${props => getColorSettings(props.theme).primary};}
     }
-`
+    
+    h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+`;

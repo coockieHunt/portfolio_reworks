@@ -1,5 +1,20 @@
 import {useSettingContext} from "./context/Setting.context"
 
+//Icon
+import { 
+    SiExpress,
+    SiFramer,
+    SiNodedotjs,
+    SiReact,
+    SiHtml5,
+    SiStyledcomponents,
+    SiUptimekuma,
+    SiRedis 
+} from "react-icons/si";
+import { AiOutlineApi, AiOutlineSend  } from "react-icons/ai";
+import { FaJs } from "react-icons/fa";
+
+
 //FUNCTION
 export const useColorSettings = () => {
     const { settings } = useSettingContext();
@@ -145,7 +160,85 @@ export const LIGHT_SETTING = {
     },
 };
 
-
+export const StackList = [
+	{
+		name: 'Uptime Kuma', 
+		icon: <SiUptimekuma />,
+		color: '#4CAF50',
+		link: 'https://uptime.kuma.pet/', 
+		width: 20
+	},
+	{
+		name: 'JavaScript', 
+		icon: <FaJs />,
+		color: '#F0DB4F',
+		link: 'https://developer.mozilla.org/fr/docs/Web/JavaScript', 
+		width: 20
+	},
+	{
+		name: 'Styled Components', 
+		icon: <SiStyledcomponents />,
+		color: '#d485c2',
+		link: 'https://styled-components.com/', 
+		width: 40
+	},
+	{
+		name: 'HTML5', 
+		icon: <	SiHtml5 />,
+		color: '#E34F26',
+		link: 'https://developer.mozilla.org/fr/docs/Web/Guide/HTML/HTML5', 
+		width: 20
+	},
+	{
+		name: 'API RESTful', 
+		icon: <AiOutlineApi />,
+		color: '#27ad0c',
+		link: 'https://restfulapi.net/', 
+		width:  20
+	},
+    { 
+		name: 'React Js', 
+		icon: <SiReact />,
+		color: '#61DAFB',
+		link: 'https://fr.react.dev/', 
+		width:  20
+	},
+    { 
+		name: 'Framer Motion', 
+		icon: <SiFramer />,
+		color: '#0055FF',
+		link: 'https://www.framer.com/motion/', 
+		width: 20 
+	},
+    { 
+		name: 'Node Js', 
+		icon: <SiNodedotjs />,
+		color: '#339933',
+		link: 'https://nodejs.org/', 
+		width: 20 
+	},
+    { 
+		name: 'Express', 
+		icon: <SiExpress />,
+		color: '#bdb43e',
+		link: 'https://expressjs.com/fr/', 
+		width: 20 
+	},
+    { 
+		name: 'Node Mailer', 
+		icon: <AiOutlineSend  />,
+		color: '#0f9dce',
+		link: 'https://nodemailer.com/about/', 
+		width: 20
+	},
+    { 
+		name: 'Redis', 
+		icon: <SiRedis />,
+		color: '#DC382D',
+		link: 'https://redis.com/', 
+		width: 20 
+	},
+];
 
 export const SCREEN_SIZE = {
     mobile: '850px',

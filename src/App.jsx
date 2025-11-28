@@ -70,9 +70,9 @@ function App() {
                         <QuoteContainer >
                             <BiSolidQuoteLeft /> Vous êtes un <span style={{fontStyle: "italic"}} className="fond_code">Techos</span> ? vous voulez voir comment le site est construit ? <br/> Il est en public ici <LinkTextComponent to={URL.github_portfolio_rework}> [Code Source Front-end] </LinkTextComponent> <LinkTextComponent to={URL.github_portfolio_rework_api}>[Code Source API]</LinkTextComponent> <BiSolidQuoteRight />
                         </QuoteContainer>
+                        <StackContainer />
                         <MyProjectContainer id='project' />  
                         <ContactContainer id='contact' />
-                        <StackContainer />
                         <FooterContainer />
                     </AlertProvider>
                     </LoadingProvider>
