@@ -9,9 +9,8 @@ import {
     RedisClient 
 } from '../func/Redis.js'; 
 import REDIS_KEYS from '../constant/redisKey.js'; 
-import rateLimiter from '../middleware/rateLimiter.js';
 
-counterRouter.use(rateLimiter);
+import { rateLimiter } from '../middleware/rateLimiter.js';
 
 /**
  * Validates the provided name against REDIS_KEYS and returns the actual Redis key string.
@@ -19,7 +18,7 @@ counterRouter.use(rateLimiter);
  * @returns {string|null} The Redis key string or null if invalid.
  */
 function getValidatedRedisKey(name) {
-    if (!name || typeof name !== 'string' || name.trim() === '') {return null; }
+    if (!name || typeof name !== 'string' || name.trim() === '') { return null; }
     const key = REDIS_KEYS[name.toUpperCase()];
     return key || null; 
 }
@@ -29,7 +28,7 @@ function getValidatedRedisKey(name) {
  * GET /get/:name
  * Retrieves the counter value. Creates and initializes to 0 if non-existent.
  */
-counterRouter.get('/get/:name', async (req, res) => {
+counterRouter.get('/get/:name', rateLimiter, async (req, res) => {
     const { name } = req.params; 
     const redisKey = getValidatedRedisKey(name);
 
@@ -43,7 +42,7 @@ counterRouter.get('/get/:name', async (req, res) => {
 
     try {
         const { value, exist } = await getCounter(redisKey); 
-        console.log(chalk.cyan(`[GET /get/${name}] redisKey=${redisKey} value=${value} exist=${exist}`));
+        console.log(chalk.blue(`[GET /get/${name}] redisKey=${redisKey} value=${value} exist=${exist}`));
 
         return res.json({ 
             success: true, 
@@ -64,7 +63,7 @@ counterRouter.get('/get/:name', async (req, res) => {
  * POST /set/:name
  * Sets the counter value. Restricted to keys in REDIS_KEYS.
  */
-counterRouter.post('/set/:name', async (req, res) => {
+counterRouter.post('/set/:name', rateLimiter, async (req, res) => {
     const { name } = req.params;
     const { value } = req.body;
     const redisKey = getValidatedRedisKey(name);
@@ -102,7 +101,7 @@ counterRouter.post('/set/:name', async (req, res) => {
  * POST /increment/:name
  * Increments the counter value. If non-existent, it is created and set to 1.
  */
-counterRouter.post('/increment/:name', async (req, res) => {
+counterRouter.post('/increment/:name', rateLimiter, async (req, res) => {
     const { name } = req.params;
     const redisKey = getValidatedRedisKey(name);
 
