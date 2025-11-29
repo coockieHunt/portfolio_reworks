@@ -81,6 +81,10 @@ router.use('/mail', mailRoute);
 import statusRoute from './router/StatusRoute.js';
 router.use('/status', statusRoute);
 
+//import guestbook route
+import guestBookRoute from './router/GuestBookRoute.js';
+router.use('/guestbook', guestBookRoute);
+
 //log startup info
 function logStartupInfo(redisConnected) {
     console.log(chalk.blue('\nConfigured Redis counters:'));
