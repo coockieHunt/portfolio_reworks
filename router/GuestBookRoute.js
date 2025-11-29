@@ -10,17 +10,17 @@ const secretConfig = getConfig.get('SecretSystem');
 guestBookRoute.use(express.json());
 
 // GET - Retrieve all guestbook entries
-guestBookRoute.get('/', rateLimiter, async (req, res) => {
+guestBookRoute.post('/read', rateLimiter, async (req, res) => {
     try {
         const { password } = req.body; 
 
         if (!password || password !== secretConfig.password) {
-            console.log(chalk.red('[GET /guestbook] access attempt'));
+            console.log(chalk.red('[GET(POST) /guestbook] access attempt'));
             return res.status(401).json({ success: false, message: 'Unauthorized' });
         }
 
         const entries = await getGuestBookEntries();
-        console.log(chalk.blue(`[GET /guestbook/]  Retrieved guestbook entries count=${entries.length}`));
+        console.log(chalk.blue(`[GET(POST) /guestbook/]  Retrieved guestbook entries count=${entries.length}`));
         res.json({ success: true, entries });
     } catch (error) {
         console.error(error);
@@ -29,7 +29,7 @@ guestBookRoute.get('/', rateLimiter, async (req, res) => {
 });
 
 // POST - Add new entry
-guestBookRoute.post('/', rateLimiter, async (req, res) => {
+guestBookRoute.post('/write', rateLimiter, async (req, res) => {
     try {
         const { password, name, message } = req.body;
 

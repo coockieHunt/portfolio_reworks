@@ -69,17 +69,17 @@
             },
             "guestbook.read": {
                 "windowSeconds": 60,
-                "maxRequests": 20,
+                "maxRequests": 7,
                 "match": {
-                    "url": "/api/guestbook",
-                    "method": "GET"
+                    "url": "/api/guestbook/read",
+                    "method": "POST"
                 }
             },
             "guestbook.write": {
-                "windowSeconds": 3600,
-                "maxRequests": 5,
+                "windowSeconds": 60,
+                "maxRequests": 6,
                 "match": {
-                    "url": "/api/guestbook",
+                    "url": "/api/guestbook/write",
                     "method": "POST"
                 }
             }
