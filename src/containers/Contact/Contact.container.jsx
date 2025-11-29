@@ -6,11 +6,9 @@ import { sendEmail } from '../../api/mail.api';
 // style
 import * as styled from "./Contact.style"
 
-
 // templates
 import { EmailTemplateContact } from '../../templates/mail.contact.mail'
 import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
-
 
 // components
 import * as FormComponent from "../../components/Form/Form.component.jsx"
@@ -160,6 +158,8 @@ export const ContactContainer = ({ id }) => {
                 subtitle={"A votre service"}
                 style={{ width: "100%" }}
             >Me contacter</TitleTextComponent>
+            <styled.Text>Prêt à passer à l’étape suivante ?<br /> Je reste à votre disposition pour toute question ou demande d’information. <br /> N’hésitez pas à me joindre !</styled.Text>
+            
             <styled.Container>
                 <styled.Info>
                 <DotGridEffect

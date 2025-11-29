@@ -8,7 +8,7 @@ import { SCREEN_SIZE } from '../../config.jsx';
 export const Container = styled.div`
     display: flex;
     width: 90vw;
-    margin: 50px auto;
+    margin: 50px auto 70px auto;
     border-radius: 15px;
 
     gap: 30px;
@@ -17,6 +17,16 @@ export const Container = styled.div`
         width: 90%;
         flex-direction: column;
     }
+`;
+
+export const Text = styled.span`
+    font-size: 1.2em;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    color: white;
+
+    padding: 0 25px;
 `;
 
 export const Info = styled.div`
