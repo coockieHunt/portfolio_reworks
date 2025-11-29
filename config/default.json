@@ -19,7 +19,8 @@
         "maxLine": 5000,
         "directory": "logs",
         "name": {
-            "mail": "mail_log.txt"
+            "mail": "mail_log.txt",
+            "secret": "secret_system_log.txt"
         }
     },
 
@@ -27,8 +28,14 @@
         "host": "localhost",
         "port": 6379,
         "password": ""  
-    }
-    ,
+    },
+
+    "SecretSystem": {
+        "password": "AZERTY123",
+        "maxDailyMessages": 5,
+        "redisListKey": "GUESTBOOK_LIST"
+    },
+
     "rateLimiter": {
         "enabled": true,
         "default": {
@@ -38,16 +45,43 @@
         "routes": {
             "mail.sendEmail": {
                 "windowSeconds": 60,
-                "maxRequests": 3
-            }
-            ,
+                "maxRequests": 3,
+                "match": {
+                    "url": "/api/mail/sendEmail",
+                    "method": "POST"
+                }
+            },
             "counter.get": {
                 "windowSeconds": 60,
-                "maxRequests": 40
+                "maxRequests": 40,
+                "match": {
+                    "url": "/api/counter/get",
+                    "method": "GET"
+                }
             },
             "counter.increment": {
                 "windowSeconds": 60,
-                "maxRequests": 40
+                "maxRequests": 40,
+                "match": {
+                    "url": "/api/counter/increment",
+                    "method": "POST"
+                }
+            },
+            "guestbook.read": {
+                "windowSeconds": 60,
+                "maxRequests": 5,
+                "match": {
+                    "url": "/api/guestbook",
+                    "method": "GET"
+                }
+            },
+            "guestbook.write": {
+                "windowSeconds": 3600,
+                "maxRequests": 5,
+                "match": {
+                    "url": "/api/guestbook",
+                    "method": "POST"
+                }
             }
         }
     }
