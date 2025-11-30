@@ -27,12 +27,12 @@ export const StyledAnimatedSvg = styled.svg`
         opacity: 0;
 
         animation: ${props => props.$isVisible ? css`${popIn} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards` : 'none'};
-        ${generateRulsDelays(30, 0.04)}
+        ${generateRulsDelays(30, 0.01)}
     }
 
     path {
         opacity: 0;
         animation: ${props => props.$isVisible ? css`${drawLine} 1.5s ease-out forwards`: 'none'};
-        animation-delay: 1.2s;
+        animation-delay: 0.5s;
     }
 `;
