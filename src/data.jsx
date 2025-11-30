@@ -138,9 +138,6 @@ export const word_hero = [
     'inspiration',
     'pensée',
     'passion',
-    'équilibre',
-    'quête',
-    'silence',
     'monde',
 ];
 
