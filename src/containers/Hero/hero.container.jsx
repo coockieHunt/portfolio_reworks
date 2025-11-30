@@ -9,20 +9,13 @@ import{ GradientTextContainer } from "../../components/Text/Text.component"
 import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.component'
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 
-//hook
-// import { useWindowSize } from '../../hooks/useScreenResize.hook.jsx';
-
 //config
-import { SCREEN_SIZE, COLOR_SETTING } from '../../config.jsx'
 import { word_hero } from '../../data.jsx'
 
 //context
-import { useSettingContext } from '../../context/Setting.context';
 import { GridEffect } from '../../styles/effect.jsx';
 
 export const HeroContainer = ({id}) => {
-    // const isMobile = useWindowSize(SCREEN_SIZE.mobile.substring(0, SCREEN_SIZE.mobile.length - 2));
-    const {settings} = useSettingContext();
 
     const [currentWord, setCurrentWord] = useState(() => {
         const randomIndex = Math.floor(Math.random() * word_hero.length);

@@ -5,7 +5,7 @@ import { StackList } from '../../config.jsx';
 const BuildStack = ({ data }) => {
     return (
         <Styled.Stack $iconSize={data.width} $iconColor={data.color} >
-			<a href={data.link} target="_blank" rel="noopener noreferrer">
+			<a href={data.link} target="_blank" rel="noopener noreferrer" tabIndex="-1">
 				<div className="icon">
 					{data.icon}
 				</div>
