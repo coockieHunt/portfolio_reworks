@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 /**
  * WaveComponent renders an animated SVG wave using Framer Motion.
@@ -29,7 +29,7 @@ export const WaveComponent = ({ colorPrimary }) => {
             preserveAspectRatio="none" 
             style={{ width: '100%', height: 'auto', display: 'block' }}
         >
-            <motion.path 
+            <m.path 
                 fill="none" 
                 stroke={colorPrimary} 
                 strokeOpacity="0.3" 
@@ -43,7 +43,7 @@ export const WaveComponent = ({ colorPrimary }) => {
                 }}
             />
 
-            <motion.path 
+            <m.path 
                 fill="none" 
                 stroke={colorPrimary} 
                 strokeOpacity="1" 

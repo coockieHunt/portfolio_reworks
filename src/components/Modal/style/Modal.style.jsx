@@ -1,10 +1,10 @@
 
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { getColorSettings, GetLightSetting } from '../../../config';
 
 
-export const ModalDiv = styled(motion.div)`
+export const ModalDiv = styled(m.div)`
     position: fixed;
     top: 50%;
     left: 50%;
@@ -64,7 +64,7 @@ export const Top = styled.div`
 `
 
 
-export const BackDrop = styled(motion.div)`
+export const BackDrop = styled(m.div)`
     background: #05030f63;
     width: 100%;
     height: 100%;

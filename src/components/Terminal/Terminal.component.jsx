@@ -59,7 +59,7 @@ const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
     );
 };
 
-export const TerminalComponent = ({ data, path = "jonathangleyze.fr/projets", command = "ls /projects --DDtree" }) => {
+export const TerminalComponent = ({ data, path = "jonathangleyze.fr/products", command = "ls /projects --DDtree" }) => {
     const [openItemId, setOpenItemId] = useState(null);
     const [Title, setTitle] = useState('/');
     const containerRef = useRef(null);

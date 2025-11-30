@@ -1,8 +1,14 @@
-import {useSettingContext} from './context/Setting.context.jsx'
+//library
+import { Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
+import { LazyMotion, domAnimation } from "framer-motion";
+
 // Import
 import GlobalStyle, { Content } from './styles/global.style.jsx';
 import { URL } from './data.jsx'
+
+//context
+import {useSettingContext} from './context/Setting.context.jsx'
 
 // Container
 import { NavigationComponent } from './containers/Navigation/navigations.container';
@@ -18,15 +24,14 @@ import { ServiceContainer } from './containers/Services/Service.containers.jsx';
 import { SettingContainer } from './containers/Setting/Setting.container.jsx';
 import { ProductContainer } from './containers/Product/product.container.jsx';
 import { ProcessTimeLine } from './containers/ProcessTimeline/ProcessTileline.container.jsx';
-//Hook
 import { LinkTextComponent } from './components/Text/Text.component.jsx'
+import {GlobalLoader} from './components/Loading/GlobalLoader.compenent.jsx' //loader leazy
 
 //Provider
 import { AlertProvider } from './context/alert.context.jsx';
 import { AlertContainerComponent } from './components/Alert/Alert.component';
 import {SettingProvider} from "./context/Setting.context.jsx";
 import { LoadingProvider } from './context/loading.context.jsx';
-
 
 //import ee
 import{ ConnectedToSecretSystem } from './utils/rb.jsx';
@@ -36,6 +41,16 @@ import {
     BiSolidQuoteLeft,
     BiSolidQuoteRight
 } from 'react-icons/bi';
+
+//font
+import "@fontsource/montserrat"; 
+import "@fontsource/montserrat/600.css"; 
+import "@fontsource/montserrat/700.css"; 
+
+import "@fontsource/source-code-pro"; 
+import "@fontsource/source-code-pro/700.css";
+import "@fontsource/source-code-pro/400-italic.css"; 
+import "@fontsource/source-code-pro/200.css"; 
 
 //Navbar
 const navigation = [
@@ -55,37 +70,39 @@ const ThemeWrapper = ({ children }) => {
     );
 };
 
-
-
 function App() {
     ConnectedToSecretSystem();
     return (
-        <Content>
-            <SettingProvider>
-                <ThemeWrapper>
-                    <LoadingProvider>
-                    <NavigationComponent navConfig={navigation} />
-                    <AlertProvider>
-                        <AlertContainerComponent />
-                        <SettingContainer/>
-                        <HeroContainer id='hero' />
-                        <CathContainer id='catch' />
-                        <ProductContainer id='product'/>
-                        <ServiceContainer id='service'/>
-                        <BenefitContainer id='benefit' />
-                        <ProcessTimeLine id='ProcessTimeline' />
-                        <QuoteContainer >
-                            <BiSolidQuoteLeft /> Vous êtes un <span style={{fontStyle: "italic"}} className="fond_code">Techos</span> ? vous voulez voir comment le site est construit ? <br/> Il est en public ici <LinkTextComponent to={URL.github_portfolio_rework}> [Code Source Front-end] </LinkTextComponent> <LinkTextComponent to={URL.github_portfolio_rework_api}>[Code Source API]</LinkTextComponent> <BiSolidQuoteRight />
-                        </QuoteContainer>
-                        <StackContainer />
-                        <MyProjectContainer id='project' />  
-                        <ContactContainer id='contact' />
-                        <FooterContainer />
-                    </AlertProvider>
-                    </LoadingProvider>
-                </ThemeWrapper>
-            </SettingProvider>
-        </Content>
+        <LazyMotion features={domAnimation}>
+            <Content>
+                <SettingProvider>
+                    <ThemeWrapper>
+                        <LoadingProvider>
+                        <NavigationComponent navConfig={navigation} />
+                        <AlertProvider>
+                            <AlertContainerComponent />
+                            <SettingContainer/>
+                            <HeroContainer id='hero' />
+                            <CathContainer id='catch' />
+                              <Suspense fallback={<GlobalLoader />}>
+                                <ProductContainer id='product'/>
+                                <ServiceContainer id='service'/>
+                                <BenefitContainer id='benefit' />
+                                <ProcessTimeLine id='ProcessTimeline' />
+                                <QuoteContainer >
+                                    <BiSolidQuoteLeft /> Vous êtes un <span style={{fontStyle: "italic"}} className="fond_code">Techos</span> ? vous voulez voir comment le site est construit ? <br/> Il est en public ici <LinkTextComponent to={URL.github_portfolio_rework}> [Code Source Front-end] </LinkTextComponent> <LinkTextComponent to={URL.github_portfolio_rework_api}>[Code Source API]</LinkTextComponent> <BiSolidQuoteRight />
+                                </QuoteContainer>
+                                <StackContainer />
+                                <MyProjectContainer id='project' />  
+                                <ContactContainer id='contact' />
+                            </Suspense>
+                            <FooterContainer />
+                        </AlertProvider>
+                        </LoadingProvider>
+                    </ThemeWrapper>
+                </SettingProvider>
+            </Content>
+        </LazyMotion>
     );
 }
 

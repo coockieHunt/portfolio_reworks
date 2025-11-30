@@ -174,28 +174,28 @@ export const ContactContainer = ({ id }) => {
                             <span>Une idée ? Un projet ? N'hésitez pas à demander !</span>
                         </div>
                         <div className="container">
-                            <Link className="ItemInfo" href="tel:0603420204" >
+                            <Link className="ItemInfo" href="tel:0603420204" ariaLabel="Call phone number +33 6.03.42.02.04" >
                                 <AiFillPhone />
                                 <div >
                                     <span className='name'>Telephone</span>
                                     <span className='info'>+33 6.03.42.02.04</span>
                                 </div>
                             </Link>
-                            <Link className="ItemInfo" href="mailto:pro.jonathan.gleyze@gmail.com" >
+                            <Link className="ItemInfo" href="mailto:pro.jonathan.gleyze@gmail.com" ariaLabel="Send email to pro.jonathan.gleyze@gmail.com" >
                                 <AiOutlineMail />
                                 <div>
                                     <span className='name'>Email</span>
                                     <span className='info'>pro.jonathan.gleyze@gmail.com</span>
                                 </div>
                             </Link>
-                            <Link className="ItemInfo" >
+                            <Link className="ItemInfo"  href="https://www.google.com/maps/place/N%C3%AEmes,+France/" ariaLabel="View location Nîmes on Google Maps" >
                                 <BiSolidMap />
                                 <div>
                                     <span className='name'>Location</span>
                                     <span className='info'>Nîmes (GARD)</span>
                                 </div>
                             </Link>
-                            <Link className="ItemInfo" href="https://www.linkedin.com/in/jonathan-gleyze-173ab7239/" >
+                            <Link className="ItemInfo" href="https://www.linkedin.com/in/jonathan-gleyze-173ab7239/" ariaLabel="Visit LinkedIn profile of Jonathan Gleyze" >
                                 <BiLogoLinkedin />
                                 <div>
                                     <span className='name'>LinkedIn</span>

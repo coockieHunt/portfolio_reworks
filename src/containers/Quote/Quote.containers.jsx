@@ -1,16 +1,16 @@
 import {Quoute} from './Quote.style.jsx'
-import { motion } from "framer-motion"
+import { m } from "framer-motion"
 
 
 export const QuoteContainer = ({children}) =>{
       return (
           <Quoute>
-            <motion.div 
+            <m.div 
               $initial={{ opacity: 0}} 
               whileInView={{ opacity: 1}}
             >
               <span>{children}</span>
-            </motion.div>
+            </m.div>
           </Quoute>
       );
   }

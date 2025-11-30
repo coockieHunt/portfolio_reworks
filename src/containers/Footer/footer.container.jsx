@@ -50,9 +50,7 @@ export const FooterContainer = () => {
     return (
         <Footer.Container>
             <Footer.Aurora />
-            
             <div className="content-wrapper">
-                
                 <div className="header-text">
                     <h3 className='catch'>
                         <div className="left">

@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 import { SCREEN_SIZE, getColorSettings, GetLightSetting } from '../../config.jsx';
 
 export const Container = styled.div`
@@ -21,14 +21,11 @@ export const Container = styled.div`
         z-index: 1;
         background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.5) 100%);  
     }
-
 `;
-
 
 export const LabelWorld = styled.input`
     font-size: .7em;
-    font-weight: bold;
-    font-variation-settings: "wght" 600;
+    font-weight: 600; 
     padding: 6px 15px;
     background: ${props => getColorSettings(props.theme).secondary};
     border: 2px solid ${props => getColorSettings(props.theme).primary};
@@ -71,21 +68,15 @@ export const HeroText = styled.div`
         left: 50%;
         top: 0;
         transform: translateX(-50%);
-        text-align: center;
-        display: flex;
-        align-content: center;
-        justify-content: center;
-        flex-direction: column;
         padding: 20px;
         border-radius: 10px;
     }
 
     & h1{
-        font-weight: bold;
         display: block;
         font-size: 3vw;
         margin-bottom: 30px;
-        font-variation-settings: "wght" 500;
+        font-weight: 500;
         line-height: 1.2em;
 		margin-top: 15px;
 
@@ -98,27 +89,28 @@ export const HeroText = styled.div`
    }
 
    & p{
-        font-size: 2em;
-        margin-bottom: 1em;
-        margin-top: 2px;
-        font-variation-settings: "wght" 150;
+		font-size: 2em;
+		margin-bottom: 1em;
+		margin-top: 2px;
+		font-weight: 200;
 
         & .other{
-            display: block;
-            font-variation-settings: "wght" 150;
-            font-size: .7em;
-            text-align: left;
-            margin-top: 50px;
+			display: block;
+			font-size: .7em;
+			text-align: left;
+			margin-top: 50px;
+			font-weight: 200;
         }
 
         @media (max-width:  ${SCREEN_SIZE.mobile}) {font-size: 1.6em;}
         @media (max-width:  ${SCREEN_SIZE.mobile}) { & .other{text-align: center; margin-top: 20px;}	}
    }
 
-   .cta{
+   .cta {
         display : flex;
         gap: 50px;
         justify-content: center;
+        min-height: 250px; 
     }
 
 	@media (max-width:  ${SCREEN_SIZE.mobile}) {
@@ -126,15 +118,25 @@ export const HeroText = styled.div`
 			flex-direction: column;
 			gap: 20px;
 			width: 100%;
+            min-height: auto; 
 		}
     }
 `
 
 export const Action = styled.div`
-	max-width: 300px;
+	max-width: 340px;
+	min-width: 300px;
+    height: 95%;
+
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
 	border: 2px solid #ffffff21;
 	border-radius: 10px;
-	padding: 10px;
+	padding: 15px 10px; 
 	cursor: pointer;
 	transition: border 0.3s ease-in-out;
 	border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
@@ -147,12 +149,10 @@ export const Action = styled.div`
 	&.highlight {
 		border: 2px solid ${props => getColorSettings(props.theme).primary};
 		border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
-		height: 100%;
 		& .icon svg {background-color: ${props => getColorSettings(props.theme).primary};}
 	}
 
 	&:hover {
-		border-style: inset;
 		border: 2px solid ${props => getColorSettings(props.theme).primary};
 		border-bottom: 5px solid ${props => getColorSettings(props.theme).primary};
 	}
@@ -190,17 +190,17 @@ export const Action = styled.div`
 
   & .icon {
     font-size: 2em;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 
     & svg {
-      font-variation-settings: "wght" 600;
       border: 2px solid ${props => getColorSettings(props.theme).primary};
-      height: 50px;
+      height: 50px; 
       width: 50px;
-      padding: 10px;
+      padding: 12px;
       border-radius: 25%;
       background-color: #111111;
       transition: background-color 0.3s;
@@ -209,17 +209,18 @@ export const Action = styled.div`
 
   & h2 {
     font-size: 1.5em;
-    margin-bottom: 10px;
-    font-variation-settings: "wght" 600;
+    margin-bottom: 15px;
     color: ${props => GetLightSetting(props.theme).font};
+    z-index: 1;
   }
 
   & p {
     font-size: 1em;
-    font-variation-settings: "wght" 200;
+    font-weight: 400; 
     color: #cccccc;
-    padding: 0 8px;
+    padding: 0 5px;
     text-align: center;
-    justify-content: center;
+    line-height: 1.4; 
+    z-index: 1;
   }
 `;
