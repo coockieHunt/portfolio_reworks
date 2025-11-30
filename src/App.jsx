@@ -27,6 +27,10 @@ import { AlertContainerComponent } from './components/Alert/Alert.component';
 import {SettingProvider} from "./context/Setting.context.jsx";
 import { LoadingProvider } from './context/loading.context.jsx';
 
+
+//import ee
+import{ ConnectedToSecretSystem } from './utils/rb.jsx';
+
 //Icon
 import {
     BiSolidQuoteLeft,
@@ -51,7 +55,10 @@ const ThemeWrapper = ({ children }) => {
     );
 };
 
+
+
 function App() {
+    ConnectedToSecretSystem();
     return (
         <Content>
             <SettingProvider>
