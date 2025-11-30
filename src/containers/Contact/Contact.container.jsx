@@ -164,7 +164,7 @@ export const ContactContainer = ({ id }) => {
                 <styled.Info>
                 <DotGridEffect
                     $isHovered={true}
-                    $DotColor="#feffff5a"
+                    $DotColor="#feffff22"
                     $Spacing="18px"
                     $DotSize="2px"/>
                     

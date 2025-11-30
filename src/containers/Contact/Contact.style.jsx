@@ -35,7 +35,6 @@ export const Info = styled.div`
     justify-content: space-between;
     gap: 20px;
     width: 30%;
-    height: fit-content;
     padding: 20px;
     box-sizing: border-box;
     border-radius: 5px;
@@ -51,17 +50,17 @@ export const Info = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: ${props => getColorSettings(props.theme).background_secondary};
+        background-color: #1d1d1d;
         opacity: 0.2;
         z-index: -1;
         inset: 0;
         border-radius: 5px;
-        backdrop-filter: blur(5px);
     }
     
     & .content {
         display: flex;
         flex-direction: column;
+        height: 100%;
 
         & .title {
             display: flex;
@@ -124,6 +123,7 @@ export const Info = styled.div`
         }
 
         & .bottom {
+            margin-top: auto;
             display: block;
             border-top: 1px solid #ffffff28;
             line-height: 3em;
@@ -181,14 +181,13 @@ export const ContactForm = styled.div`
     border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
 
 
-    border-radius: 10px;
-
+    border-radius: 5px;
         
     --breath-color: ${props => getColorSettings(props.theme).primary};
-    --shadow-blur-min: 30px;
-    --shadow-blur-max: 50px;
+    --shadow-blur-min: 10px;
+    --shadow-blur-max: 20px;
     --shadow-spread-min: 4px;
-    --shadow-spread-max: 10px;
+    --shadow-spread-max: 6px;
     
     box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
     transition: box-shadow 0.3s ease;
@@ -200,13 +199,13 @@ export const ContactForm = styled.div`
             box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
         }
         25% {
-            box-shadow: 0 6px 37px var(--breath-color);
+            box-shadow: 0 6px 20px var(--breath-color);
         }
         50% {
             box-shadow: 0 var(--shadow-spread-max) var(--shadow-blur-max) var(--breath-color);
         }
         75% {
-            box-shadow: 0 6px 37px var(--breath-color);
+            box-shadow: 0 6px 20px var(--breath-color);
         }
     }
     
