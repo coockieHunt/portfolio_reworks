@@ -2,6 +2,15 @@ import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING, LIGHT_SETTING } from '../config';
 
 const GlobalStyle = createGlobalStyle`
+    @font-face {
+        font-family: "Montserrat-Fallback";
+        size-adjust: 105%;   
+        ascent-override: 95%;
+        src: local("Arial");  
+		font-display: swap; 
+    }
+
+
 	*::-webkit-scrollbar {width: 10px;}
 	*::-webkit-scrollbar-track {background:  ${props => LIGHT_SETTING[props.theme.light].background_accentuated};}
 	* {scrollbar-width: auto;box-sizing: border-box;}
@@ -13,7 +22,6 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	* {
-		transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 	}
 
 	body {
@@ -34,7 +42,8 @@ const GlobalStyle = createGlobalStyle`
 		font-weight: normal;
 		font-style: normal;
 		text-decoration: none; 
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'Montserrat', 'Montserrat-Fallback', sans-serif;
+
 	}
 
 	.font_code {
