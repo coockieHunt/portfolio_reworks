@@ -168,9 +168,9 @@ export const IconButton = ({ color, icon, to, onClick, text, textX = "-50%", tex
  * @param className - ClassName on link
  * @returns {ReactNode} - A custom link element.
  */
-export const Link = ({ children, onClick, href, className }) => {
+export const Link = ({ children, onClick, href, className, ariaLabel }) => {
     return (
-        <LinkContainer href={href || '#'} onClick={onClick} className={className}>
+        <LinkContainer href={href || '#'} onClick={onClick} className={className} aria-label={ariaLabel} role="link">
             {children}
         </LinkContainer>
     )
