@@ -1,5 +1,5 @@
-import { getColorSettings, GetLightSetting, SCREEN_SIZE } from "../../config";
-import styled, { keyframes, css } from 'styled-components';
+import { getColorSettings, SCREEN_SIZE } from "../../config";
+import styled from 'styled-components';
 
 export const Container = styled.footer`
     position: relative;
@@ -11,16 +11,17 @@ export const Container = styled.footer`
     flex-direction: column;
     align-items: center;
 
+
     & .content-wrapper {
-        z-index: 1;
+        z-index: 2; 
         width: 70%;
-        padding: 0 20px;
+        padding: 10px 20px;
     }
 
     @media (max-width: ${SCREEN_SIZE.tablet}) {
         & .content-wrapper {
             width: 90%;
-            padding: 0px;
+            padding: 10px 0;
         }
     }
 
@@ -94,16 +95,19 @@ export const Container = styled.footer`
 
 export const Aurora = styled.div`
     position: absolute;
-    top: 0;
+    top: 0px;
     left: 0;
     right: 0;
     height: 100%; 
 
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+
 	background: radial-gradient(
-			ellipse 99% 100% at 50% -20%, 
+			ellipse 80% 75% at 50% -0%, 
 			${props => getColorSettings(props.theme).primary} 40%, 
 			${props => getColorSettings(props.theme).secondary} 4%, 
-			transparent 80% 
+			transparent 90% 
 	);
     
     filter: blur(60px);
@@ -130,6 +134,8 @@ export const BottomBar = styled.div`
     }
 
     .legal-links {
+        display: flex;
+        gap: 20px;
         button {
             background: none;
             border: none;
@@ -142,7 +148,7 @@ export const BottomBar = styled.div`
             align-items: flex-end;
             gap: 10px;
 
-            padding: 0;
+            padding: 10px 5px;
 
             &.backToTop{
                 color: ${props => getColorSettings(props.theme).primary};
@@ -162,11 +168,8 @@ export const BottomBar = styled.div`
                 transition: transform 0.3s ease;
 
             }
-
-            
         }
     }
-
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
@@ -175,9 +178,14 @@ export const BottomBar = styled.div`
         .social-links {
             order: 1; 
             margin-bottom: 10px;
+
         }
         .copyright { order: 2; }
-        .legal-links { order: 3; }
+        .legal-links { 
+            order: 3; 
+            flex-direction: column;
+            gap: 0px;
+        }
     }
 `;
 
@@ -186,8 +194,6 @@ export const LegalContent = styled.div`
     border-radius: 8px;
     color: #ccc;
     background-color: rgba(255, 255, 255, 0.05); 
-
-    
 
     transition: 
         padding 0.3s ease-in-out,

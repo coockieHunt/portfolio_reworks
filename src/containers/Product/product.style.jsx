@@ -260,6 +260,8 @@ export const CommandPromptWrapper = styled.div`
     color: white;
     padding: 15px 20px;
 
+    
+
     &::after {
         content: '_';
         color: white;
