@@ -188,7 +188,6 @@ export const FooterContainer = () => {
                             <ul>
                                 <li>React</li>
                                 <li>React Icons</li>
-                                <li>Axios (communication API)</li>
                                 <li>Web Vitals (mesures de performance)</li>
                                 <li>Polices hébergées en local</li>
                             </ul>
