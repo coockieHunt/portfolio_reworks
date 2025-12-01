@@ -134,11 +134,11 @@ export const FooterContainer = () => {
                     </div>
 
                     <div className="legal-links">
-                        <button 
+                        <Footer.BackToTop 
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             className='backToTop'
                             aria-label="Back to top">
-                            Retour haut de page</button>
+                            Retour haut de page</Footer.BackToTop>
                         <button 
                             onClick={() => handleOpenLegal()} 
                             aria-expanded={legalOpen} 
@@ -302,7 +302,15 @@ export const FooterContainer = () => {
                                 <li>Logo Node.js : marque de la Node.js Foundation</li>
                             </ul>
                         </section>
+
                     </Footer.LegalContent>
+
+                    
+                         <Footer.BackToTop 
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className='backToTop'
+                            aria-label="Back to top">
+                            Retour haut de page</Footer.BackToTop>
             </div>
         </Footer.Container>
     )

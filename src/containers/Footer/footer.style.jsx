@@ -94,6 +94,13 @@ export const Container = styled.footer`
     }
 `;
 
+export const BackToTop = styled.button`
+    color: ${props => getColorSettings(props.theme).primary};
+    font-weight: 600;
+    background: none;
+    cursor: pointer;
+`;
+
 export const Aurora = styled.div`
     position: absolute;
     top: 0px;
