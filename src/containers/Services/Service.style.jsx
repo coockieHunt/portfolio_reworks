@@ -9,7 +9,68 @@ export const FenceContainer = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     padding: 30px 19px;
+    position: relative;
+
+    & .desktop-contact-card {
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        padding: 30px 20px;
+        gap: 20px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        & .desktop-contact-card {
+            display: none;
+        }
+    }
 `
+
+export const ScrollIndicator = styled.div`
+    display: none;
+
+    @media (max-width: 768px) {
+        display: block;
+        position: relative;
+        margin: 0 auto;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            ${props => getColorSettings(props.theme).primary} 20%,
+            ${props => getColorSettings(props.theme).primary} 80%,
+            transparent 100%
+        );
+        border-radius: 2px;
+        opacity: 0.6;
+        animation: scrollHint 2s ease-in-out infinite;
+        pointer-events: none;
+
+        @keyframes scrollHint {
+            0%, 100% {
+                transform: translateX(-10px);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateX(10px);
+                opacity: 1;
+            }
+        }
+    }
+`;
+
 
 export const IconList = styled.span`
     & > svg{
@@ -55,6 +116,14 @@ export const Fence = styled.div`
     border-radius: ${BORDER_RADIUS.xlarge};
     border: 2px solid ${props => getColorSettings(props.theme).primary};
     position: relative;
+
+    @media (max-width: 768px) {
+        min-width: 280px;
+        max-width: 280px;
+        flex-shrink: 0;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
 
     &.HightLighting {box-shadow: 0 0 30px ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.6)};}
     & .catch{ font-variation-settings: "wght" 400;}

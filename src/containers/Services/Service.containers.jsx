@@ -7,7 +7,7 @@ import { AiOutlineBuild, AiOutlineArrowRight, AiOutlineBgColors , AiOutlineUnloc
 import {CiCircleCheck } from 'react-icons/ci'
 
 // import style
-import { Fence, FenceContainer, CatchModal, ListModal, IconList} from "./Service.style"
+import { Fence, FenceContainer, ScrollIndicator, CatchModal, ListModal, IconList} from "./Service.style"
 
 // import effect
 import { DotGridEffect } from '../../styles/effect.jsx';
@@ -104,6 +104,7 @@ export const ServiceContainer = ({ id }) => {
 					aria-label="Me contacter"
 					title="Me contacter"
 					style={{color: "inherit", textDecoration: "none"}}
+					className="desktop-contact-card"
 				>
 					<Fence tabIndex={-1} className='HightLighting' style={{"opacity": "white"}} aria-hidden={true}>
 						<AiOutlineSend />
@@ -111,8 +112,20 @@ export const ServiceContainer = ({ id }) => {
 						<span> Contacter<AiOutlineArrowRight /></span>
 					</Fence>
                 </Link>
-				
 			</FenceContainer>
+			<ScrollIndicator />
+			<Link 
+				to={'contact'} 
+				spy={true} 
+				smooth={true} 
+				offset={-70} 
+				duration={500} 
+				href={`${window.location.origin}/#contact`}
+				aria-label="Me contacter"
+				style={{color: "inherit", textDecoration: "none", display: "block", textAlign: "center", marginTop: "30px"}}
+				className="mobile-contact-cta"
+			>
+            </Link>
 		</div>
 	);
 }
