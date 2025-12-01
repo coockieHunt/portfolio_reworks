@@ -90,7 +90,7 @@ function App() {
                                 <BenefitContainer id='benefit' />
                                 <ProcessTimeLine id='ProcessTimeline' />
                                 <QuoteContainer >
-                                    <BiSolidQuoteLeft /> Vous êtes un <span style={{fontStyle: "italic"}} className="fond_code">Techos</span> ? vous voulez voir comment le site est construit ? <br/> Il est en public ici <LinkTextComponent to={URL.github_portfolio_rework}> [Code Source Front-end] </LinkTextComponent> <LinkTextComponent to={URL.github_portfolio_rework_api}>[Code Source API]</LinkTextComponent> <BiSolidQuoteRight />
+                                   <BiSolidQuoteLeft /> Vous êtes <span style={{fontStyle: "italic"}} className="fond_code">développeur</span> ? Découvrez les coulisses du projet ! <br/> Code source disponible : <LinkTextComponent to={URL.github_portfolio_rework}>Front-end</LinkTextComponent> | <LinkTextComponent to={URL.github_portfolio_rework_api}>API</LinkTextComponent> <BiSolidQuoteRight />
                                 </QuoteContainer>
                                 <StackContainer />
                                 <MyProjectContainer id='project' />  
