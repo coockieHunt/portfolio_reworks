@@ -1,8 +1,8 @@
 
 import styled from 'styled-components';
 import { m } from 'framer-motion';
-import { getColorSettings, GetLightSetting } from '../../../config';
-
+import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config';
+import { HexToRgbaConverter } from '../../../utils/HexToRgbaConverter'
 
 export const ModalDiv = styled(m.div)`
     position: fixed;
@@ -14,7 +14,7 @@ export const ModalDiv = styled(m.div)`
     width: 90%;
     max-width: 550px;
     background: ${props=> GetLightSetting(props.light).background_secondary}; 
-    border-radius: 10px;
+    border-radius: ${BORDER_RADIUS.xlarge};
 `;
 
 export const Content = styled.div`
@@ -51,11 +51,14 @@ export const Top = styled.div`
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        border-radius: ${BORDER_RADIUS.round};
     }
 
-    & > button:focus {
-        outline: 2px solid ${props => getColorSettings(props.theme).primary};
-        outline-offset: 3px;
+    & > button:focus { outline: none; }
+
+    & > button:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px ${props => getColorSettings(props.theme).primary};
     }
 
     & > button > svg {
@@ -65,7 +68,7 @@ export const Top = styled.div`
 
 
 export const BackDrop = styled(m.div)`
-    background: #05030f63;
+    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.8)};
     width: 100%;
     height: 100%;
     display: block;
@@ -73,6 +76,8 @@ export const BackDrop = styled(m.div)`
     top: 0;
     left: 0;
     z-index: 21;
+
+    filter: blur(50px);
 
     cursor: pointer;
 `

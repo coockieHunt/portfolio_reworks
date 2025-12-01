@@ -164,7 +164,7 @@ export const ContactContainer = ({ id }) => {
                 <styled.Info>
                 <DotGridEffect
                     $isHovered={true}
-                    $DotColor="#feffff22"
+                    $DotColor="#feffff11"
                     $Spacing="18px"
                     $DotSize="2px"/>
                     
@@ -204,14 +204,12 @@ export const ContactContainer = ({ id }) => {
                             </Link>
 
                         </div>
-                        <div className='bottom'>
-                            <span>Les informations avec une * sont obligatoire</span>
-                        </div>
                     </div>
                 </styled.Info>
 
                 <styled.ContactForm>
                     <h2>Envoyer un message</h2>
+                    <styled.FormInstruction>Les informations avec une * sont obligatoire</styled.FormInstruction>
                     <FormComponent.Groupe >
                         <FormComponent.Inline>
                             <FormComponent.InputText

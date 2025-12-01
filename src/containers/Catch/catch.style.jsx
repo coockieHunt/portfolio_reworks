@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, getColorSettings, GetLightSetting} from '../../config.jsx'
+import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting} from '../../config.jsx'
 
 export const Section = styled.div`
     position: relative;
@@ -11,7 +11,7 @@ export const Section = styled.div`
 export const SkillCard = styled.div`
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: ${BORDER_RADIUS.xxlarge};
     background: #1818184c;
     backdrop-filter: blur(15px);
     color: white;

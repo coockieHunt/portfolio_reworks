@@ -245,9 +245,20 @@ export const SCREEN_SIZE = {
     tablet: '1150px'
 }
 
+export const BORDER_RADIUS = {
+    small: '4px',       
+    medium: '6px',       
+    large: '8px',        
+    xlarge: '10px',     
+    xxlarge: '12px',     
+    xxxlarge: '15px',    
+    icon: '25%',        
+    round: '50%',       
+    full: '100%'  
+}
+
 export const ApiBaseUrl = "localhost:3001/api";
 export const MailDefault =  { firstName: '', lastName: '', email: '', message: '' };
 
-// Alias exports for backward compatibility
 export const COLOR = COLOR_SETTING;
 export const setting = LIGHT_SETTING;

@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { SCREEN_SIZE, getColorSettings } from '../../../config.jsx';
+import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../../config.jsx';
 
 const blink = keyframes`
     0%, 100% { opacity: 1; }
@@ -10,7 +10,7 @@ export const TerminalContainer = styled.div`
     backdrop-filter: blur(10px);
 
     border: 1px solid ${props => getColorSettings(props.theme).primary};
-    border-radius: 8px;
+    border-radius: ${BORDER_RADIUS.large};
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     font-family: 'Consolas', 'Monaco', monospace;
     color: ${props => getColorSettings(props.theme).primary};

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config';
+import { BORDER_RADIUS, getColorSettings } from '../../../config';
 
 export const ArrowContainerFixed = styled.div`
     position: fixed;
@@ -16,7 +16,7 @@ export const ArrowContainerFixed = styled.div`
 
     background-color: ${props => getColorSettings(props.theme).primary};
     padding: 15px;
-    border-radius: 5px;
+    border-radius: ${BORDER_RADIUS.medium};
     transform: rotate(-90deg);
     transition: all 0.3s ease;
     box-sizing: content-box;

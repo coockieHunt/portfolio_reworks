@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, GetLightSetting  } from '../../config.jsx';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting  } from '../../config.jsx';
 import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
 
 export const FenceContainer = styled.div`
@@ -52,7 +52,7 @@ export const Fence = styled.div`
     justify-content: end;
     flex-direction: column;
     gap: 15px;
-    border-radius: 10px;
+    border-radius: ${BORDER_RADIUS.xlarge};
     border: 2px solid ${props => getColorSettings(props.theme).primary};
     position: relative;
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, GetLightSetting } from '../../../config';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config';
 
 export const  IconContainer = styled.a`
     position: relative;
@@ -20,7 +20,7 @@ export const  IconContainer = styled.a`
     
     &:hover{
         background-color: ${props => GetLightSetting(props.theme).background_secondary};
-        border-radius: 100%;
+        border-radius: ${BORDER_RADIUS.full};
         transition: all .3s ease;
     }
 

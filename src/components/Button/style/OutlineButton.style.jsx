@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config';
+import { BORDER_RADIUS, getColorSettings } from '../../../config';
 
 export const OutileButtonContainer = styled.button`
     display: flex;
@@ -8,7 +8,7 @@ export const OutileButtonContainer = styled.button`
     background-color: transparent;
     border: 1px solid ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
     color: white;
-    border-radius: 5px;
+    border-radius: ${BORDER_RADIUS.medium};
     font-variation-settings: "wght" 600;
     font-size: .8em;
     white-space: nowrap;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, getColorSettings, GetLightSetting } from '../../config.jsx';
+import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.jsx';
 
 export const Container = styled.div`
     padding: 30px 0;
@@ -28,7 +28,7 @@ export const LabelWorld = styled.input`
     font-weight: 200; 
     padding: 3px 15px;
     background: #1f1e1e;
-	border: 1px solid #ffffff21;
+	  border: 1px solid #ffffff21;
     outline: transparent;
     color: white;
 
@@ -72,7 +72,7 @@ export const HeroText = styled.div`
         top: 0;
         transform: translateX(-50%);
         padding: 20px;
-        border-radius: 10px;
+        border-radius: ${BORDER_RADIUS.xlarge};
     }
 
     & h1{
@@ -139,7 +139,7 @@ export const Action = styled.div`
     justify-content: flex-start;
 
 	border: 2px solid #ffffff21;
-	border-radius: 10px;
+	border-radius: ${BORDER_RADIUS.xlarge};
 	padding: 15px 10px; 
 	cursor: pointer;
 	transition: border 0.3s ease-in-out;
@@ -168,8 +168,7 @@ export const Action = styled.div`
 		left: 50%;
 		width: 250px; 
 		height: 250px;
-		transform: translate(-50%, -50%);
-		border-radius: 50%;
+		border-radius: ${BORDER_RADIUS.round};
 		background: radial-gradient(
 			circle,
 			${props => getColorSettings(props.theme).primary}40 0%,
@@ -184,7 +183,7 @@ export const Action = styled.div`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translate(-50%, -50%) scale(0.9);
+      transform: translate(-50%, -50%) scale(0.8);
     }
     to {
       opacity: 1;
@@ -205,7 +204,7 @@ export const Action = styled.div`
       height: 50px; 
       width: 50px;
       padding: 12px;
-      border-radius: 25%;
+      border-radius: ${BORDER_RADIUS.icon};
       background-color: #111111;
       transition: background-color 0.3s;
     }

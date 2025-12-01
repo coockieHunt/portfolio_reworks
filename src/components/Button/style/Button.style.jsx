@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config';
+import { BORDER_RADIUS, getColorSettings } from '../../../config';
 
 export const ButtonContainer = styled.button`
     display: flex;
@@ -8,7 +8,7 @@ export const ButtonContainer = styled.button`
     background-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
     color: white;
     transition: all 0.6s ease;
-    border-radius: 5px;
+    border-radius: ${BORDER_RADIUS.medium};
     font-variation-settings: "wght" 500;
     font-size: .8em;
     white-space: nowrap;

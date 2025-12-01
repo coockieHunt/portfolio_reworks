@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, GetLightSetting } from '../../config.jsx';
-
-
+import { BORDER_RADIUS, getColorSettings } from '../../config.jsx';
 import { SCREEN_SIZE } from '../../config.jsx';
 
 // Container
@@ -9,11 +7,10 @@ export const Container = styled.div`
     display: flex;
     width: 90vw;
     margin: 50px auto 70px auto;
-    border-radius: 15px;
-
+    border-radius: ${BORDER_RADIUS.xxxlarge};
     gap: 30px;
     
-    @media ( max-width: ${SCREEN_SIZE.mobile}){
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 90%;
         flex-direction: column;
     }
@@ -25,7 +22,6 @@ export const Text = styled.span`
     width: 100%;
     display: inline-block;
     color: white;
-
     padding: 0 25px;
 `;
 
@@ -35,15 +31,16 @@ export const Info = styled.div`
     justify-content: space-between;
     gap: 20px;
     width: 30%;
-    padding: 20px;
+    padding: 25px;
     box-sizing: border-box;
-    border-radius: 5px;
-
+    border-radius: ${BORDER_RADIUS.xxlarge};
     border: 1px solid ${props => getColorSettings(props.theme).primary};
     border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
     position: relative;
+    background: linear-gradient(135deg, rgba(29, 29, 29, 0.4), rgba(29, 29, 29, 0.2));
+    backdrop-filter: blur(10px);
 
-    & ::before{
+    &::before {
         content: "";
         position: absolute;
         top: 0;
@@ -54,7 +51,7 @@ export const Info = styled.div`
         opacity: 0.2;
         z-index: -1;
         inset: 0;
-        border-radius: 5px;
+        border-radius: ${BORDER_RADIUS.xxlarge};
     }
     
     & .content {
@@ -66,58 +63,72 @@ export const Info = styled.div`
             display: flex;
             flex-direction: column;
             gap: 10px;
-
-
             padding: 10px 0 25px 0;
+            
             & h2 {
                 font-size: 1.5em;
                 color: ${props => getColorSettings(props.theme).primary};
+                font-weight: 600;
             }
 
-            & span{
+            & span {
                 font-size: 1em;
-                color: white;
+                color: rgba(255, 255, 255, 0.8);
             }
         }
         
         & .container {
             display: flex;
             flex-direction: column;
-
             padding-bottom: 20px;
-
 
             & .ItemInfo {
                 display: flex;
                 align-items: center;
                 gap: 15px;
-
-                padding: 10px 0px;
+                padding: 12px 8px;
+                border-radius: ${BORDER_RADIUS.xlarge};
+                transition: all 0.3s ease;
 
                 & svg {
                     height: 3em;
                     width: auto;
-                    padding: 10px;
+                    padding: 12px;
                     background-color: ${props => getColorSettings(props.theme).primary};
-                    border-radius: 8px;
-
+                    border-radius: ${BORDER_RADIUS.xlarge};
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
                     z-index: 2;
                 }
-
 
                 & > div {
                     display: flex;
                     flex-direction: column;
                     cursor: pointer;
-                    & .name{
+                    
+                    & .name {
                         color: #ffffffb3;
+                        font-size: 0.9em;
+                        transition: color 0.3s ease;
+                    }
+                    
+                    & .info {
+                        color: white;
+                        font-weight: 500;
                     }
                 }
 
-
                 &:hover {
-                   transform: scale(1.03);
-                   transition: transform .2s ease;
+                    transform: translateX(8px);
+                    background: rgba(255, 255, 255, 0.03);
+                    
+                    & svg {
+                        transform: scale(1.1);
+                        box-shadow: 0 4px 12px ${props => getColorSettings(props.theme).primary}40;
+                    }
+                    
+                    & .name {
+                        color: ${props => getColorSettings(props.theme).primary};
+                    }
                 }
             }
         }
@@ -127,14 +138,13 @@ export const Info = styled.div`
             display: block;
             border-top: 1px solid #ffffff28;
             line-height: 3em;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
         }
     }
 
-
-
-    @media ( max-width: ${SCREEN_SIZE.mobile}){
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
-
         padding: 20px;
 
         & .content {
@@ -143,21 +153,22 @@ export const Info = styled.div`
                 width: 100%;
                 justify-content: space-between;
 
-                & .info{
+                & .info {
                     display: none;
                 }
 
-                & .name{
+                & .name {
                     display: none;
                 }
             }
+            
             & .title {
                 & h2 {
                     font-size: 1.2em;
                     text-align: center;
                 }
 
-                & span{
+                & span {
                     font-size: 0.9em;
                     text-align: center;
                 }
@@ -174,14 +185,17 @@ export const Info = styled.div`
 export const ContactForm = styled.div`
     margin: auto;
     width: 70%;
-    padding: 30px;
-
-    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    padding: 35px;
+    background: linear-gradient(135deg, 
+        ${props => getColorSettings(props.theme).background_tertiary}dd,
+        ${props => getColorSettings(props.theme).background_tertiary}ee
+    );
+    backdrop-filter: blur(10px);
     border: 1px solid ${props => getColorSettings(props.theme).primary};
     border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
-
-
-    border-radius: 5px;
+    border-radius: ${BORDER_RADIUS.xxlarge};
+    position: relative;
+    overflow: hidden;
         
     --breath-color: ${props => getColorSettings(props.theme).primary};
     --shadow-blur-min: 10px;
@@ -191,8 +205,9 @@ export const ContactForm = styled.div`
     
     box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
     transition: box-shadow 0.3s ease;
-
     animation: breathe 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+
 
     @keyframes breathe {
         0%, 100% {
@@ -208,52 +223,64 @@ export const ContactForm = styled.div`
             box-shadow: 0 6px 20px var(--breath-color);
         }
     }
+
     
 
     & h2 {
-        font-size: 1.5em;
+        font-size: 1.8em;
         color: ${props => getColorSettings(props.theme).primary};
-
         font-weight: 600;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
     }
 
-    @media ( max-width: ${SCREEN_SIZE.mobile}){
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
-        padding: 20px;
+        padding: 25px;
         
         & h2 {
-            font-size: 1.8em;
-            line-height: 1.5em;
+            font-size: 1.6em;
+            line-height: 1.4em;
         }
     }
 `;
 
 export const ActionForm = styled.div`
-    height: 60px;
+    min-height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
 
     & > span {
-        color: #464646;
+        color: rgba(255, 255, 255, 0.4);
         cursor: pointer;
+        font-size: 0.95em;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: ${BORDER_RADIUS.medium};
+        
         &:hover {
             color: ${props => getColorSettings(props.theme).primary};
+            background: rgba(255, 255, 255, 0.05);
         }
     }
 
-    & > .colored{
+    & > .colored {
         color: ${props => getColorSettings(props.theme).primary};
     }
 
-    @media ( max-width: ${SCREEN_SIZE.mobile}){
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        flex-direction: column;
+        gap: 15px;
+        
         & .resetForm {
             display: none;
-        }
-
-        & button{
-            width: 50%;
-            margin: 0 auto;
         }
     }
 `;
@@ -262,4 +289,18 @@ export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
     padding: 20px;
+    color: white;
+    
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        font-size: 2em;
+    }
+`;
+
+export const FormInstruction = styled.span`
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85em;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-style: italic;
 `;

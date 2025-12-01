@@ -1,6 +1,5 @@
 import { useState, useImperativeHandle, forwardRef } from 'react';
 import * as styled from './style/Form.style';
-import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 
 const renderLabel = (label, required, name) => {
     if (label !== undefined) {
@@ -175,7 +174,7 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
     return (
         <styled.CaptchaContainer>
             <styled.CaptchaLabel htmlFor="Captcha">Captcha <span>*</span></styled.CaptchaLabel>
-            <styled.CaptchaForm>
+            <styled.CaptchaForm $isValid={isCaptchaValid} $hasValue={userAnswer !== ''}>
                 <span>{number1} + {number2} =</span>
 
                 <styled.CaptchaInput
@@ -186,11 +185,6 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
                     id="Captcha"
                     pattern="[0-9]*"
                 />
-                {isCaptchaValid ? (
-                    <styled.CaptchaMessage style={{ color: "green" }}><AiOutlineCheck /></styled.CaptchaMessage>
-                ) : (
-                    <styled.CaptchaMessage style={{ color: "red" }}><AiOutlineClose /></styled.CaptchaMessage>
-                )}
             </styled.CaptchaForm>
         </styled.CaptchaContainer>
     );
