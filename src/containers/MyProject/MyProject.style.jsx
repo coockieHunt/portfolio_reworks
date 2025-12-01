@@ -21,12 +21,14 @@ export const Container = styled.div`
     &::after {
         content: "";
         position: absolute;
-        width: 300px; 
-        height: 300px; 
+        width: 240px; 
+        height: 240px; 
         border-radius: ${BORDER_RADIUS.round};
-        filter: blur(80px); 
+        filter: blur(48px); 
         z-index: -1; 
         animation: ${breath} 3s ease-in-out infinite;
+        will-change: transform, filter;
+        contain: paint;
     }
 
     &::before {
@@ -62,9 +64,11 @@ export const ProjectCard = styled.div`
         transform-origin: center;
         background-color: #272727;
         opacity: 0.4;
-        filter: blur(100px);
+        filter: blur(28px);
         z-index: -1;
         pointer-events: none;
+        will-change: filter;
+        contain: paint;
     }
 
     & .tab-content{

@@ -7,7 +7,11 @@ const blink = keyframes`
 `;
 
 export const TerminalContainer = styled.div`
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(24, 24, 24, 0.35);
+    will-change: backdrop-filter;
+    isolation: isolate;
 
     border: 1px solid ${props => getColorSettings(props.theme).primary};
     border-radius: ${BORDER_RADIUS.large};
@@ -31,8 +35,8 @@ export const TerminalContainer = styled.div`
         left: 50%;       
 
       
-        height: 100px;   
-        width: 100px;      
+        height: 160px;   
+        width: 160px;      
 
         background-color: ${props => getColorSettings(props.theme).accentuate};
         opacity: 0.15;    
@@ -41,15 +45,15 @@ export const TerminalContainer = styled.div`
         transform: translate(-50%, -50%);
 
         border-radius: 50%;     
-        filter: blur(40px);     
-
-        transition: width 0.5s ease, height 0.5s ease;
+        filter: blur(24px);     
+        will-change: transform, filter;
+        contain: paint;
+        transition: transform 0.5s ease;
     }
 
     &:hover::before {
         animation: pulse 3s infinite;
-        height: 300px;   
-        width: 300px;  
+        transform: translate(-50%, -50%) scale(1.4);
     }
 `;
 

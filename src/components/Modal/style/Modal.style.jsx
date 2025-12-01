@@ -68,7 +68,7 @@ export const Top = styled.div`
 
 
 export const BackDrop = styled(m.div)`
-    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.8)};
+    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.65)};
     width: 100%;
     height: 100%;
     display: block;
@@ -76,9 +76,10 @@ export const BackDrop = styled(m.div)`
     top: 0;
     left: 0;
     z-index: 21;
-
-    filter: blur(50px);
-
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    will-change: backdrop-filter;
+    isolation: isolate;
     cursor: pointer;
 `
 

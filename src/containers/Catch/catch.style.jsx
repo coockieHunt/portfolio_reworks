@@ -13,7 +13,9 @@ export const SkillCard = styled.div`
     overflow: hidden;
     border-radius: ${BORDER_RADIUS.xxlarge};
     background: #1818184c;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    will-change: backdrop-filter;
     color: white;
     z-index: 1;
 
