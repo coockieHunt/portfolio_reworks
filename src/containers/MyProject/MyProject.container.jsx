@@ -40,18 +40,18 @@ const BuildProjectCardComponent = (project) => {
                 id={`panel-preview-${project.id}`}
                 role="tabpanel"
                 aria-labelledby={`tab-preview-${project.id}`}
-                hidden={CurrentTab !== 'preview'}
+                style={{ display: CurrentTab !== 'preview' ? 'none' : 'flex' }}
             >
-            {CurrentTab === 'preview' && <BuildPreview project={project} />}
+                <BuildPreview project={project} />
             </div>
             {project.galery && project.galery.length > 0 && (
                 <div
                     id={`panel-galerie-${project.id}`}
                     role="tabpanel"
                     aria-labelledby={`tab-galerie-${project.id}`}
-                    hidden={CurrentTab !== 'galerie'}
+                    style={{ display: CurrentTab !== 'galerie' ? 'none' : 'flex' }}
                 >
-                    {CurrentTab === 'galerie' && <BuildGalery project={project} />}
+                    <BuildGalery project={project} />
                 </div>
             )}
         </ProjectCard>
