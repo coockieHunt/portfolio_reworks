@@ -24,21 +24,89 @@ export const Container = styled.div`
     }
 `;
 
+export const InputWrapper = styled.div`
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+`;
+
 export const LabelWorld = styled.input`
     font-size: .7em;
     font-weight: 200; 
-    padding: 3px 15px;
+    padding: 3px 10px;
+    padding-right: 50px;
     background: #1f1e1e;
-	  border: 1px solid #ffffff21;
+	border: 1px solid #ffffff21;
     outline: transparent;
     color: white;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+	&:not(:focus,:hover){
+		border-bottom: 2px solid #ffffff21; 
+		animation: borderPulse 2s infinite;
+
+		@keyframes borderPulse {
+			0% { border-bottom-color: #ffffff21;}
+			50% { border-bottom-color:  #ffffff60;} 
+			100% { border-bottom-color: #ffffff21;}
+		}
+	}
 
     &::placeholder{
-		opacity: .6; 
+		opacity: 1; 
 		color: #fffbfb;
-
     }
+
     &&:hover, &&:focus{ border: 2px solid ${props => getColorSettings(props.theme).primary};}
+`;
+
+export const SendIcon = styled.div`
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${props => getColorSettings(props.theme).primary};
+    font-size: 0.60em;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 10;
+    padding: 10px;
+	padding-left: 4px;
+    border-radius: 2px;
+    transition: transform 0.2s ease, color 0.2s ease;
+    
+    animation: slideInFromRight 0.3s ease-out;
+    
+    @keyframes slideInFromRight {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%) translateX(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+    }
+
+    &:hover {
+        transform: translateY(-50%) scale(1.15);
+        color: ${props => getColorSettings(props.theme).accentuate};
+    }
+
+    &:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+
+    & svg {
+        filter: drop-shadow(0 0 3px ${props => getColorSettings(props.theme).primary}40);
+    }
 `
 
 export const ButtonScroll = styled.div`
