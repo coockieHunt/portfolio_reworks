@@ -218,10 +218,6 @@ export const SettingContainer = () => {
                             </div>
                         </div>
                     </Styled.Option>
-
-                    <Styled.infoText>
-                        <p><strong>WIP</strong> En développement <br /> Plus d'options arrivent bientôt !</p>
-                    </Styled.infoText>
                 </Styled.ScrollableContent>
 
                 <Styled.SettingFooter>
