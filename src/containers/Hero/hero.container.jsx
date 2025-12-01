@@ -19,7 +19,7 @@ export const HeroContainer = ({id}) => {
 
     const [currentWord, setCurrentWord] = useState(() => {
         const randomIndex = Math.floor(Math.random() * word_hero.length);
-        return word_hero[randomIndex];
+        return String(word_hero[randomIndex]).charAt(0).toUpperCase() + String(word_hero[randomIndex]).slice(1);
     });
     const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -29,7 +29,7 @@ export const HeroContainer = ({id}) => {
         if (!isInputFocused) {
             timerWorld = setInterval(() => {
                 const randomIndex = Math.floor(Math.random() * word_hero.length);
-                setCurrentWord(word_hero[randomIndex]);
+                setCurrentWord(String(word_hero[randomIndex]).charAt(0).toUpperCase() + String(word_hero[randomIndex]).slice(1));
             }, 2000);
         }
 
@@ -76,7 +76,7 @@ export const HeroContainer = ({id}) => {
                     <styled.HeroText>
                         <h1>Vous voulez transformer votre {lables()} en <GradientTextContainer>Site Web</GradientTextContainer>.</h1>
                         <p className="font_code">Bonjour, je suis Jonathan, développeur Web. Je développe vos plateformes numériques, rapides, pour atteindre vos objectifs.
-                        <HelloHandComponent/><br/><span className="font_code other">Choisissez votre prochaine étape :</span></p>
+                        <HelloHandComponent/></p>
                         <div className="cta">
                             {CtaAction(
                                 'service', 

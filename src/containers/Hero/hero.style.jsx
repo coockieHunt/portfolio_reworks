@@ -25,16 +25,17 @@ export const Container = styled.div`
 
 export const LabelWorld = styled.input`
     font-size: .7em;
-    font-weight: 600; 
-    padding: 6px 15px;
-    background: ${props => getColorSettings(props.theme).secondary};
-    border: 2px solid ${props => getColorSettings(props.theme).primary};
+    font-weight: 200; 
+    padding: 3px 15px;
+    background: #1f1e1e;
+	border: 1px solid #ffffff21;
     outline: transparent;
     color: white;
 
     &::placeholder{
-      opacity: .6; 
-      color: #fffbfb;
+		opacity: .6; 
+		color: #fffbfb;
+
     }
     &&:hover, &&:focus{ border: 2px solid ${props => getColorSettings(props.theme).primary};}
 `
@@ -49,6 +50,7 @@ export const Top = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
 `
 
 export const HeroText = styled.div`
@@ -62,6 +64,7 @@ export const HeroText = styled.div`
     height: 100%;
     text-align: center;
 
+
     @media (max-width:  ${SCREEN_SIZE.mobile}) {
         width: 100%;
         height: 100%;
@@ -74,11 +77,11 @@ export const HeroText = styled.div`
 
     & h1{
         display: block;
-        font-size: 3vw;
+        font-size: 3em;
         margin-bottom: 30px;
         font-weight: 500;
         line-height: 1.2em;
-		margin-top: 15px;
+		    margin-top: 15px;
 
         @media (max-width:  ${SCREEN_SIZE.mobile}) {
             font-size: 8vw;
@@ -89,10 +92,11 @@ export const HeroText = styled.div`
    }
 
    & p{
-		font-size: 2em;
-		margin-bottom: 1em;
+		font-size: 1.9em;
+		margin-bottom: 3em;
 		margin-top: 2px;
 		font-weight: 200;
+
 
         & .other{
 			display: block;
