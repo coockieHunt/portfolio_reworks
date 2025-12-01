@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 // style
 import * as Footer from './footer.style';
@@ -23,15 +23,35 @@ import { launchEasterEgg } from '../../utils/rb.jsx';
 export const FooterContainer = () => {
     const [legalOpen, setLegalOpen] = React.useState(false);
     const { addAlert } = useAlert();
+    const legalRef = useRef(null);
 
     useEffect(() => {
     if (legalOpen) {
         setTimeout(() => {
             const element = document.getElementById('LegalContent');
-            if (element) {element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });}
-        }, 500); 
+                const rect = element.getBoundingClientRect();
+                const offset = 200; 
+
+                window.scrollTo({
+                    top: window.pageYOffset + rect.top - offset,
+                    behavior: 'smooth'
+                });
+        }, 450); 
     }
     }, [legalOpen]); 
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+        (entries) => {
+            const isVisible = entries[0].isIntersecting;
+
+            if (!isVisible) {setLegalOpen(false);}
+        },{ threshold: 0.1, });
+
+        if (legalRef.current) {observer.observe(legalRef.current);}
+
+        return () => observer.disconnect();
+    }, []);
 
     const handleSecretClick = () => {
         launchEasterEgg();
@@ -116,7 +136,7 @@ export const FooterContainer = () => {
                     </div>
 
                 </Footer.BottomBar>
-                    <Footer.LegalContent id="LegalContent" className={legalOpen ? 'open' : 'closed'}>
+                    <Footer.LegalContent id="LegalContent" className={legalOpen ? 'open' : 'closed'} ref={legalRef}>
                         <h3>Mentions Légales</h3>
                         <p>WIP........</p>
                         <h4>subtitle</h4>
