@@ -8,7 +8,7 @@ const BuildTabBuild = ({ project, currentTab, setCurrentTab }) => {
     let Tab = [{ name: 'preview', label: project.fileName, icon: <VscBookmark /> }];
 
     if (project.galery && project.galery.length > 0) {
-        Tab.push({ name: 'galerie', label: 'Galerie.jsx', icon: <VscRootFolderOpened /> });
+        Tab.push({ name: 'galerie', label: 'Galerie', icon: <VscRootFolderOpened /> });
     }
 
     const handleKeyDown = (e, itemName, index) => {

@@ -24,15 +24,14 @@ const BuildGaleryBuild = ({ project }) => {
                 closeLightBox={ToggleLightBox}
             />
             {project.galery && project.galery.map((imgUrl, index) => (
-                <div key={index}>
-                    <ImageLazyLoad 
-                        url={imgUrl.img}
-                        title={imgUrl.title != null ? imgUrl.title : `Galerie image ${index + 1}`} 
-                        alt={imgUrl.alt != null ? imgUrl.alt : `Galerie image ${index + 1}`} 
-                        onClick={() => handleClickImg(imgUrl.img)}
-                        className="preview_img"
-                    />
-                </div>
+                <ImageLazyLoad 
+                    key={index}
+                    url={imgUrl.img}
+                    title={imgUrl.title != null ? imgUrl.title : `Galerie image ${index + 1}`} 
+                    alt={imgUrl.alt != null ? imgUrl.alt : `Galerie image ${index + 1}`} 
+                    onClick={() => handleClickImg(imgUrl.img)}
+                    className="preview_img"
+                />
             ))}
         </div>
     );
