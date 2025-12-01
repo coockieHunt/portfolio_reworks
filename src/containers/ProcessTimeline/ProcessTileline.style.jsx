@@ -133,7 +133,9 @@ export const TimeLineContainer = styled.div`
 
     @media (max-width: ${SCREEN_SIZE.tablet}) {
         & > div:nth-child(2n+1),
-        & > div:nth-child(2n) {width: 60%;}
+        & > div:nth-child(2n) {
+            width: 60%; 
+        }
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -182,9 +184,6 @@ export const TimeLineItemContainer = styled.div`
     cursor: default;
     transition: transform 0.3s ease, border-radius 0.3s ease; 
 
-    
-
-
     &::after{
         content: '';
         position: absolute;
@@ -193,7 +192,6 @@ export const TimeLineItemContainer = styled.div`
         pointer-events: none;
         opacity: .6;    
         background-color: ${(props) => getColorSettings(props.theme).background_secondary};
-        filter: blur(8px);
         z-index: -1;
     }
 
@@ -204,7 +202,6 @@ export const TimeLineItemContainer = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        /* border-radius: inherit; */
         z-index: 0;
         pointer-events: none;
         overflow: hidden; 
@@ -219,9 +216,9 @@ export const TimeLineItemContainer = styled.div`
             background-color: ${(props) => getColorSettings(props.theme).background_secondary};
             z-index: 0;
             opacity: 0.9;
-            filter: blur(5px);
-            transition: opacity 0.3s ease, filter 0.3s ease;
+            transition: opacity 0.3s ease;
             pointer-events: none;
+            will-change: opacity;
         }
     }
 
@@ -238,10 +235,9 @@ export const TimeLineItemContainer = styled.div`
     }
 
     &:hover { 
-        & .DotBg::before { opacity: 1; filter: blur(0px); } 
+        & .DotBg::before { opacity: 1; } 
         &::after {
-            opacity: .8; 
-            filter: blur(4px);
+            opacity: .8;
         }
     }
 
@@ -249,6 +245,10 @@ export const TimeLineItemContainer = styled.div`
         min-height: 80px;
         padding: 15px 25px;
         margin: 8px 0;
+
+        &::after {
+            opacity: 0.9;
+        }
     }
 
     @media (max-width: 600px) {
