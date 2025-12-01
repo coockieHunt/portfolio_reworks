@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.jsx';
+import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter.jsx';
 
 export const Container = styled.div`
     padding: 30px 0;
@@ -19,7 +20,7 @@ export const Container = styled.div`
         width: 100%;
         height: 100%;
         z-index: 1;
-        background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.5) 100%);  
+        background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.02)} 100%);  
     }
 `;
 
