@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config';
-import { SCREEN_SIZE } from '../../../config';
 
 // ? CONFIG STYLE FORM
 const LabelPadding = '10px';
@@ -215,7 +214,6 @@ export const CaptchaInput = styled.input`
         -webkit-appearance: none;
         margin: 0;
     }
-    -moz-appearance: textfield;
 `;
 
 export const CaptchaMessage = styled.span`
