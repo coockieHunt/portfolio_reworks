@@ -269,6 +269,7 @@ export const launchEasterEgg = async () => {
     await sleep(400);
 
     console.log(`%c> TIP: Use global function decrypt(string, key) to read the message.`, styles.grayItalic);
+    console.log(`%c> TIP: Use global function SecretSystem.help() for SUPERSECRET ULTRA KILL chat`, styles.grayItalic);
     await sleep(600);
     
     console.log(`%cSYSTEM://trace\n▒ Disconnecting...`, styles.red);
