@@ -11,7 +11,6 @@ import * as Styled from "./Setting.style"
 import { COLOR_SETTING } from '../../config.jsx';
 
 //Context
-import { useAlert } from '../../context/alert.context';
 import { useSettingContext } from "../../context/Setting.context";
 import { useLoading } from "../../context/loading.context";
 
@@ -22,7 +21,6 @@ import { getThemeRand, incrementThemeRand } from '../../api/counter.api';
 export const SettingContainer = () => {
     const { changeTheme, settings } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
-    const { addAlert } = useAlert();
     
     const [isOpen, setIsOpen] = useState(false);
     const [hasFetched, setHasFetched] = useState(false); 
@@ -52,7 +50,6 @@ export const SettingContainer = () => {
 
         setTimeout(() => { 
             hideLoading(); 
-            addAlert(`Thème changé : ${DisplayName}`, COLOR_SETTING[NewTheme].primary, 4000);
         }, TOTAL_DURATION);
     };
 
