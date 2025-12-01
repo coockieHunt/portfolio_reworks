@@ -23,6 +23,8 @@ import { socialLinks } from '../../data.jsx'
 //context
 import { useSettingContext } from '../../context/Setting.context';
 
+// assets
+import cv from '../../assets/pdf/cv_dev_JG.pdf';
 
 const BuildNavigation = ({ menuItems, onClick }) => {
     return (
@@ -97,7 +99,18 @@ export const NavigationComponent = ({ navConfig }) => {
                             textX={link.textX}
                         />
                     ))}
+
+                    <button 
+                        onClick={() => window.open(cv, '_blank')}
+                    >curiculum vitae</button>
                 </div>
+                
+                <button 
+                    className="cv-mobile-btn"
+                    type="button"
+                    aria-label="Ouvrir le CV (nouvelle fenêtre)"
+                    onClick={() => window.open(cv, '_blank')}
+                >curiculum vitae</button>
             </Styled.Nav>
         </Styled.NavigationContainer>
     );

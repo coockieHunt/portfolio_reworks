@@ -275,12 +275,12 @@ export const socialLinks = [
         url: URL.DeviantArt,
         text: "Deviantart"
     },
-    {
-        icon: <FaRegUser />,
-        color: "#00ffc8",
-        url: cv,
-        text: "Curriculum vitae",
-        textX: "-90%",
-        isFile: true
-    }
+    // {
+    //     icon: <FaRegUser />,
+    //     color: "#00ffc8",
+    //     url: cv,
+    //     text: "Curriculum vitae",
+    //     textX: "-90%",
+    //     isFile: true
+    // }
 ];

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {getColorSettings,  SCREEN_SIZE} from '../../config.jsx'
+import {getColorSettings,  SCREEN_SIZE, BORDER_RADIUS} from '../../config.jsx'
 
 export const NavigationContainer = styled.div`
     display: flex;
@@ -68,6 +68,9 @@ export const Nav = styled.nav`
     width: 100%;
     justify-content: space-between;
     z-index: 11;
+
+    .cv-mobile-btn {display: none;}
+    
     ul {
         display: flex;
         list-style: none;
@@ -142,6 +145,75 @@ export const Nav = styled.nav`
       display: block;
       transition: display 0.3s ease;
     }
+
+        .cv-mobile-btn {
+            display: block;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            text-align: center;
+        }
+  }
+
+  & button{
+    padding: 5px 10px;
+    border-radius: ${BORDER_RADIUS.small};
+    border: 1px solid ${props => getColorSettings(props.theme).primary};
+    font-size: .8rem;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: 600;
+        letter-spacing: .5px;
+        position: relative;
+        overflow: hidden;
+        color: ${props => getColorSettings(props.theme).primary};
+        transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .15s ease, box-shadow .25s ease;
+
+        &::before{
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, ${props => getColorSettings(props.theme).primary}33, transparent 70%);
+            opacity: 0;
+            transition: opacity .3s ease;
+            pointer-events: none;
+        }
+
+        &:hover{
+                background-color: ${props => getColorSettings(props.theme).primary};
+                color: ${props => getColorSettings(props.theme).background};
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px -4px ${props => getColorSettings(props.theme).primary}88;
+                &::before{opacity: .4;}
+        }
+
+        &:active{
+                transform: translateY(0);
+                box-shadow: inset 0 2px 6px -2px #00000055;
+        }
+
+        &:focus-visible{
+                outline: 2px solid ${props => getColorSettings(props.theme).primary};
+                outline-offset: 3px;
+        }
+
+        &.cv-mobile-btn{
+            font-size: .9rem;
+            padding: 12px 18px;
+            backdrop-filter: blur(6px);
+            border: 1px solid ${props => getColorSettings(props.theme).primary};
+            background: linear-gradient(145deg, ${props => getColorSettings(props.theme).background}99, ${props => getColorSettings(props.theme).background_secondary}aa);
+            color: ${props => getColorSettings(props.theme).primary};
+            transition: background .35s ease, color .25s ease, transform .15s ease, box-shadow .25s ease;
+            &:hover{
+                background: ${props => getColorSettings(props.theme).primary};
+                color: ${props => getColorSettings(props.theme).background};
+                box-shadow: 0 6px 18px -6px ${props => getColorSettings(props.theme).primary}aa;
+            }
+            &:active{box-shadow: inset 0 2px 6px -2px #00000055;}
+        }
   }
 `;
 
