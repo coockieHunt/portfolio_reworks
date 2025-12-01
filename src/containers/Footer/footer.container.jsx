@@ -302,15 +302,15 @@ export const FooterContainer = () => {
                                 <li>Logo Node.js : marque de la Node.js Foundation</li>
                             </ul>
                         </section>
-
+                        <Footer.BackToTop 
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className='backToTop '
+                            aria-label="Back to top">
+                        Retour haut de page</Footer.BackToTop>
                     </Footer.LegalContent>
 
                     
-                         <Footer.BackToTop 
-                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className='backToTop'
-                            aria-label="Back to top">
-                            Retour haut de page</Footer.BackToTop>
+
             </div>
         </Footer.Container>
     )
