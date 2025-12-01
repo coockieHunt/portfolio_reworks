@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {getColorSettings,  SCREEN_SIZE, BORDER_RADIUS} from '../../config.jsx'
+import { getColorSettings, SCREEN_SIZE, BORDER_RADIUS } from '../../config.jsx'
 
 export const NavigationContainer = styled.div`
     display: flex;
@@ -112,50 +112,48 @@ export const Nav = styled.nav`
         }
   }
 
-.info{
-    display: flex;
-    text-align: center;
-    align-items: center;
-    margin-left: 10px;
-    gap: 15px;
+    .info{
+        display: flex;
+        text-align: center;
+        align-items: center;
+        margin-left: 10px;
+        gap: 15px;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}
-  }
+        @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}
+    }
 
 
   @media (max-width: ${SCREEN_SIZE.mobile}) {
-    height: calc(100% - 60px);
-    width: 100%;
-    overflow-y: auto;
-    ul {
-        min-height: 100%;
+        height: calc(100% - 60px);
+        width: 100%;
+        display: flex;
         flex-direction: column;
-        justify-content: space-around;
-        padding-bottom: 20px;
+        justify-content: flex-start;
 
-        & li{padding: 0;}
-    }
+        &.NavClose { display: none; }
+        &.NavOpen { display: flex; }
 
-    &.NavClose {
-      display: none;
-      transition: display 0.3s ease;
-    }
-
-    &.NavOpen {
-      display: block;
-      transition: display 0.3s ease;
-    }
+        ul {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 30px 0 0 0;
+            margin: 0;
+            gap: 0;
+            & li { padding: 0; }
+        }
 
         .cv-mobile-btn {
             display: block;
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: static;
+            margin: 0 20px 25px 20px;
             width: calc(100% - 40px);
             text-align: center;
+            transform: none;
+            align-self: center;
         }
-  }
+    }
 
   & button{
     padding: 5px 10px;
@@ -207,12 +205,22 @@ export const Nav = styled.nav`
             background: linear-gradient(145deg, ${props => getColorSettings(props.theme).background}99, ${props => getColorSettings(props.theme).background_secondary}aa);
             color: ${props => getColorSettings(props.theme).primary};
             transition: background .35s ease, color .25s ease, transform .15s ease, box-shadow .25s ease;
+            transform: none; 
+            will-change: background, color, box-shadow;
             &:hover{
                 background: ${props => getColorSettings(props.theme).primary};
                 color: ${props => getColorSettings(props.theme).background};
                 box-shadow: 0 6px 18px -6px ${props => getColorSettings(props.theme).primary}aa;
+                transform: none; 
             }
-            &:active{box-shadow: inset 0 2px 6px -2px #00000055;}
+            &:active{
+                box-shadow: inset 0 2px 6px -2px #00000055;
+                transform: none; 
+            }
+            &:focus-visible{
+                outline: 2px solid ${props => getColorSettings(props.theme).primary};
+                outline-offset: 2px; 
+            }
         }
   }
 `;
