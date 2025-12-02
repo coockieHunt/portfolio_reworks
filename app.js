@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import getConfig from 'config';
 import chalk from 'chalk';
+import { writeToLog } from './middleware/log.js';
 
 // middleware
 import { allowOnlyFromIPs } from './middleware/whiteList.js';
@@ -48,12 +49,14 @@ async function startServer() {
     const redisConnected = await connectRedis(client);
     if (!redisConnected) {
         console.error(chalk.red('Warning: Redis is not connected. Counter endpoints will return 503 until Redis is available.'));
+        writeToLog('Startup: Redis not connected', 'status');
     }
 
     app.use(apiRoot, router);
     try { logStartupInfo(redisConnected); } catch (e) {};
     app.listen(port, () => {
         console.log(chalk.green(`api listening on ${port}`));
+        writeToLog(`Startup: API listening on port ${port}`, 'status');
     });
 }
 startServer();
@@ -113,7 +116,9 @@ function logStartupInfo(redisConnected) {
         }
     } catch (err) {
         console.warn(chalk.yellow('Could not read rateLimiter config for startup log'));
+        writeToLog('Startup: could not read rateLimiter config', 'status');
     }
 
     console.log(chalk.green(`\nAPI start at ${port} (redisConnected=${redisConnected})`));
+    writeToLog(`Startup: API started at port ${port} redisConnected=${redisConnected}`, 'status');
 }

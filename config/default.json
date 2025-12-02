@@ -20,7 +20,12 @@
         "directory": "logs",
         "name": {
             "mail": "mail_log.txt",
-            "secret": "secret_system_log.txt"
+            "secret": "secret_system_log",
+            "guestbook": "guestbook_log",
+            "redis": "redis_log",
+            "counter": "counter_log",
+            "status": "status_log",
+            "rateLimiter": "rate_limiter_log"
         }
     },
 
@@ -32,7 +37,6 @@
 
     "SecretSystem": {
         "password": "AZERTY123",
-        "maxDailyMessages": 5,
         "redisListKey": "GUESTBOOK_LIST"
     },
 
