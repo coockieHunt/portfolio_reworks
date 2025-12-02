@@ -20,7 +20,7 @@
     "dev:network": "USE_NETWORK=true vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "sh ./scripts/deploy.sh"   
+    "deploy": "bash ./scripts/deploy.sh"   
   },
   "browserslist": {
     "production": [
