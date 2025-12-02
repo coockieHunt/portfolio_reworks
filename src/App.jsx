@@ -121,8 +121,7 @@ function App() {
                         Vous êtes 
                         <span style={{ fontStyle: "italic" }} className="fond_code">
                             développeur
-                        </span> 
-                            ? Découvrez les coulisses du projet ! <br /> Code source disponible : 
+                        </span> ? Découvrez les coulisses du projet ! <br /> Code source disponible : 
                         <LinkTextComponent to={URL.github_portfolio_rework}>
                             Front-end
                         </LinkTextComponent> 
