@@ -1,0 +1,29 @@
+name: Deploy PROD
+
+on:
+  push:
+    branches:
+      - prod  # Le déploiement se lance uniquement sur un push vers 'prod'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connexion SSH et déploiement
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /var/www/www.demo.jonathangleyze.fr
+
+            git pull origin prod
+
+            npm install
+
+            npm run build
+
+            pm2 reload portfolio-d_3005
+            
