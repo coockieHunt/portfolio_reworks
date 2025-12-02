@@ -51,6 +51,26 @@ That's it! You can now browse my portfolio locally at `http://localhost:5173` �
 
 If you want to view my portfolio online without installing it locally, you can access it at [jonathangleyze.fr](https://www.jonathangleyze.fr).
 
+## 🔒 Privacy & Analytics
+
+Your privacy matters! This portfolio uses:
+
+- **Umami Analytics**: Privacy-focused, GDPR-compliant analytics that respects your data
+- **No reCAPTCHA**: Contact form uses a custom honeypot system instead of Google reCAPTCHA
+- **No Third-Party Tracking**: No cookies, no fingerprinting, no data selling
+- **Open Source**: Umami is self-hosted and fully transparent
+
+All analytics data is anonymized and stored securely on my own infrastructure.
+
+## 🖥️ Hosting & Infrastructure
+
+This portfolio is hosted on a self-managed infrastructure with:
+
+- **PM2**: Process manager ensuring 24/7 uptime and automatic restarts
+- **Uptime Kuma**: Real-time monitoring and health checks
+- **Automated Deployments**: CI/CD pipeline for seamless updates
+
+This setup ensures maximum reliability, performance, and data sovereignty.
 
 ## 🛠️ Tech Stack
 
@@ -139,6 +159,27 @@ C'est tout ! Vous pouvez maintenant parcourir mon portfolio localement sur `http
 ## 🌐 Portfolio en Ligne
 
 Si vous souhaitez consulter mon portfolio en ligne sans l'installer localement, vous pouvez y accéder sur [jonathangleyze.fr](https://www.jonathangleyze.fr).
+
+## 🔒 Confidentialité & Analytiques
+
+Votre vie privée compte ! Ce portfolio utilise :
+
+- **Umami Analytics** : Analytiques respectueuses de la vie privée, conformes RGPD
+- **Pas de reCAPTCHA** : Le formulaire de contact utilise un système honeypot personnalisé au lieu de Google reCAPTCHA
+- **Aucun Tracking Tiers** : Pas de cookies, pas d'empreinte digitale, pas de revente de données
+- **Open Source** : Umami est auto-hébergé et totalement transparent
+
+Toutes les données analytiques sont anonymisées et stockées en toute sécurité sur ma propre infrastructure.
+
+## 🖥️ Hébergement & Infrastructure
+
+Ce portfolio est hébergé sur une infrastructure auto-gérée avec :
+
+- **PM2** : Gestionnaire de processus assurant une disponibilité 24/7 et des redémarrages automatiques
+- **Uptime Kuma** : Surveillance en temps réel et vérifications de santé
+- **Déploiements Automatisés** : Pipeline CI/CD pour des mises à jour fluides
+
+Cette configuration garantit une fiabilité, performance et souveraineté des données maximales.
 
 ## 🛠️ Stack Technique
 
