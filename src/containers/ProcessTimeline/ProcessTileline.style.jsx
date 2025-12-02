@@ -261,7 +261,7 @@ export const TimeLineItemContainer = styled.div`
 
 export const TimeLineTitle = styled.h3`
     font-size: 1.2em;
-    font-variation-settings: "wght" 700;
+    font-weight: 600;
     color: ${(props) => getColorSettings(props.theme).primary}; 
     text-transform: uppercase;
     display: flex;

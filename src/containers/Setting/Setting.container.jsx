@@ -53,50 +53,103 @@ export const SettingContainer = () => {
         }, TOTAL_DURATION);
     };
 
-    const handleRandomThemeChange = async () => {
-        Object.keys(COLOR_SETTING).forEach(key => {
-            if (key.startsWith('random_')) {
-                delete COLOR_SETTING[key];
-            }
-        });
-
-        const randHex = () => {
-            const val = () => Math.floor(Math.random() * 150) + 50;
-            const r = val();
-            const g = val();
-            const b = val();
-            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        };
-
-        const randBright = () => {
-            const val = () => Math.floor(Math.random() * 100) + 155; 
-            const r = val();
-            const g = val();
-            const b = val();
-            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        };
-
-        const newKey = `random_${Date.now().toString(36)}`;
-        const newBackground = randHex(); 
-
-        COLOR_SETTING[newKey] = {
-            name: "🦄 Papuche",
-            background: newBackground,
-            background_secondary: randHex(), 
-            background_tertiary: randHex(), 
-            primary: randBright(),
-            secondary: randHex(), 
-            accentuate: randHex(), 
-            border: randHex()
-        };
-        handleThemeChange(newKey, "🦄 PAPUCHE !!!");
-        
-        try {
-            await incrementNumberActivate();
-        } catch (err) {
-            console.warn('Failed to increment THEME_RAND', err);
+const handleRandomThemeChange = async () => {
+    Object.keys(COLOR_SETTING).forEach(key => {
+        if (key.startsWith('random_')) {
+            delete COLOR_SETTING[key];
         }
+    });
+
+    const randHex = () => {
+        const val = () => Math.floor(Math.random() * 150) + 50;
+        const r = val();
+        const g = val();
+        const b = val();
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     };
+
+    const randVibrant = () => {
+        const val = () => Math.floor(Math.random() * 150) + 50;
+        const r = val();
+        const g = val();
+        const b = val();
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    };
+
+    const getContrastRatio = (hex1, hex2) => {
+        const getLuminance = (hex) => {
+            const rgb = parseInt(hex.slice(1), 16);
+            const r = ((rgb >> 16) & 0xff) / 255;
+            const g = ((rgb >> 8) & 0xff) / 255;
+            const b = (rgb & 0xff) / 255;
+            
+            const [rs, gs, bs] = [r, g, b].map(c => 
+                c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+            );
+            
+            return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+        };
+        
+        const l1 = getLuminance(hex1);
+        const l2 = getLuminance(hex2);
+        const lighter = Math.max(l1, l2);
+        const darker = Math.min(l1, l2);
+        
+        return (lighter + 0.05) / (darker + 0.05);
+    };
+
+    const randWithContrastWhite = (minContrast = 4.5) => {
+        let color;
+        let attempts = 0;
+        do {
+            color = randVibrant();
+            attempts++;
+        } while (getContrastRatio(color, '#ffffff') < minContrast && attempts < 50);
+        
+        return color;
+    };
+
+    const randWithContrastTo = (referenceColor, minContrast = 5) => {
+        let color;
+        let attempts = 0;
+        do {
+            color = randVibrant();
+            attempts++;
+        } while (
+            (getContrastRatio(color, '#ffffff') < 4.5 || 
+             getContrastRatio(color, referenceColor) < minContrast) && 
+            attempts < 100
+        );
+        
+        return color;
+    };
+
+    const newKey = `random_${Date.now().toString(36)}`;
+    const newBackground = randHex();
+    
+    const primaryColor = randWithContrastWhite(4.5);
+    
+    const secondaryColor = randWithContrastTo(primaryColor, 3);
+
+    COLOR_SETTING[newKey] = {
+        name: "🦄 Papuche",
+        background: newBackground,
+        background_secondary: randHex(), 
+        background_tertiary: randHex(), 
+        primary: primaryColor,
+        secondary: secondaryColor,
+        accentuate: randHex(), 
+        border: randHex()
+    };
+    
+    handleThemeChange(newKey, "🦄 PAPUCHE !!!");
+    
+    try {
+        await incrementNumberActivate();
+    } catch (err) {
+        console.warn('Failed to increment THEME_RAND', err);
+    }
+};
 
     async function fetchNumberActivate() {
         try {

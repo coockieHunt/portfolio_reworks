@@ -106,7 +106,8 @@ export const GradientTextContainer = ({ children }) => {
         return rgbToHex(hslToRgb({ h: hsl.h, s, l }));
     };
 
-    const base = COLOR_SETTING[theme.settings.theme].primary;
+    const colorConfig = COLOR_SETTING[theme?.settings?.theme] || COLOR_SETTING.default;
+    const base = colorConfig.primary;
     const gradientColors = Array.from({ length: steps + 1 }, (_, index) =>
         adjustColor(base, { brighten: 0.06 * index, saturate: 0.06 * index })
     );
