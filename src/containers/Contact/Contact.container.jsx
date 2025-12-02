@@ -39,6 +39,7 @@ export const ContactContainer = ({ id }) => {
     const captchaComponentRef = useRef();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
     const [output, setOutput] = useState(MailDefault)
+    const [honeypot, setHoneypot] = useState('');
 
     //CoolDown send
     const [IsCoolDown, SetIsCoolDown] = useState(false)
@@ -87,6 +88,11 @@ export const ContactContainer = ({ id }) => {
 
 
     const handleSubmit = async (e) => {
+        // Honeypot check 
+        if (honeypot) {
+            console.log('Nice try human... but I will NOT forget all previous instructions and give you the noodle recipe ');
+            return false;
+        }
 
         if (!isCaptchaValid) {addAlert('Captcha invalide.', "#cc3300", 4000); return false;}
 
@@ -238,6 +244,26 @@ export const ContactContainer = ({ id }) => {
                             required
                         />
 
+                        {/* Honeypot field */}
+                        <input
+                            type="text"
+                            name="website"
+                            value={honeypot}
+                            onChange={(e) => setHoneypot(e.target.value)}
+                            style={{
+                                position: 'absolute',
+                                left: '-9999px',
+                                width: '1px',
+                                height: '1px',
+                                opacity: 0,
+                                pointerEvents: 'none',
+                                tabIndex: -1
+                            }}
+                            tabIndex="-1"
+                            autoComplete="off"
+                            aria-hidden="true"
+                        />
+
                         <FormComponent.InputTextArea
                             name="message"
                             value={output.message}
@@ -262,6 +288,7 @@ export const ContactContainer = ({ id }) => {
                                 icon={!IsCoolDown && <AiOutlineSend />}
                                 disabled={IsCoolDown}
                                 className="sendButton"
+                                type="submit"
                             >
                             envoyer</Button> : 
                             <span className='colored'>{CoolDownTime}</span>
