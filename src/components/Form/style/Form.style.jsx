@@ -28,7 +28,7 @@ export const FormInput = styled.input`
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::placeholder {
-        color: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.507);
         transition: opacity 0.3s ease;
     }
 
@@ -74,7 +74,7 @@ export const FormTextArea = styled.textarea`
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::placeholder {
-        color: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.507);
         transition: opacity 0.3s ease;
     }
 
