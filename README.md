@@ -64,13 +64,29 @@ All analytics data is anonymized and stored securely on my own infrastructure.
 
 ## 🖥️ Hosting & Infrastructure
 
+> **Note:** This setup describes my live production environment. You do **not** need these tools to run the project locally.
+
 This portfolio is hosted on a self-managed infrastructure with:
 
 - **PM2**: Process manager ensuring 24/7 uptime and automatic restarts
 - **Uptime Kuma**: Real-time monitoring and health checks
+- **Umami Analytics**: Self-hosted instance for privacy-first tracking
 - **Automated Deployments**: CI/CD pipeline for seamless updates
 
 This setup ensures maximum reliability, performance, and data sovereignty.
+
+## 🔄 CI/CD Workflow
+
+I have implemented a robust automated deployment pipeline to ensure safe and fast updates:
+
+1. **Local Automation (`npm run deploy`)**: 
+   - A custom **Bash script** manages the git flow.
+   - It secures the `main` branch, validates changes, and requests **manual confirmation** before merging to `prod`.
+   
+2. **Remote Deployment (GitHub Actions)**:
+   - Detecting a push on `prod`, GitHub Actions triggers the deployment workflow.
+   - It connects securely to the VPS via SSH keys.
+   - It pulls the latest code, runs `npm run build`, and performs a **zero-downtime reload** via PM2.
 
 ## 🛠️ Tech Stack
 
@@ -173,13 +189,29 @@ Toutes les données analytiques sont anonymisées et stockées en toute sécurit
 
 ## 🖥️ Hébergement & Infrastructure
 
+> **Note :** Cette configuration concerne mon environnement de production en direct. Vous n'avez **pas** besoin de ces outils pour lancer le projet localement.
+
 Ce portfolio est hébergé sur une infrastructure auto-gérée avec :
 
 - **PM2** : Gestionnaire de processus assurant une disponibilité 24/7 et des redémarrages automatiques
 - **Uptime Kuma** : Surveillance en temps réel et vérifications de santé
+- **Umami Analytics** : Instance auto-hébergée pour un suivi respectueux de la vie privée
 - **Déploiements Automatisés** : Pipeline CI/CD pour des mises à jour fluides
 
 Cette configuration garantit une fiabilité, performance et souveraineté des données maximales.
+
+## 🔄 Workflow CI/CD
+
+J'ai mis en place un pipeline de déploiement automatisé robuste pour garantir des mises à jour rapides et sécurisées :
+
+1. **Automatisation Locale (`npm run deploy`)** :
+   - Un **script Bash** personnalisé gère le flux Git.
+   - Il sécurise la branche `main`, valide les changements, et demande une **confirmation manuelle** avant de fusionner vers `prod`.
+
+2. **Déploiement Distant (GitHub Actions)** :
+   - En détectant un push sur `prod`, GitHub Actions déclenche le workflow de déploiement.
+   - Il se connecte de manière sécurisée au VPS via des clés SSH.
+   - Il récupère le dernier code, lance `npm run build` et effectue un **rechargement à chaud** via PM2 (zéro temps d'arrêt).
 
 ## 🛠️ Stack Technique
 
@@ -214,4 +246,3 @@ Si vous avez des questions ou souhaitez me contacter, n'hésitez pas :
 - 💼 LinkedIn: [Jonathan Gleyze](https://www.linkedin.com/in/jonathan-gleyze-173ab7239/)
 - 🐙 GitHub: [@coockieHunt](https://github.com/coockieHunt)
 - 🎨 DeviantArt: [coockiehunt](https://www.deviantart.com/coockiehunt)
-
