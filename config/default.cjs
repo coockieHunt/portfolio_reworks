@@ -1,3 +1,6 @@
+const staticConfig = require('./static.config.json');
+
+// helper pars list whitelist from env variable
 const parseList = (val, fallback = []) => {
   if (!val || typeof val !== 'string') return fallback;
   return val
@@ -7,76 +10,49 @@ const parseList = (val, fallback = []) => {
 };
 
 module.exports = {
-  port: Number(process.env.PORT || 3001),
-  ApiRoot: process.env.API_ROOT || '/api',
+  port: Number(process.env.PORT || staticConfig.port),
+  ApiRoot: process.env.API_ROOT || staticConfig.apiRoot,
 
   MailTransport: {
-    host: process.env.MAIL_HOST || '',
-    port: Number(process.env.MAIL_PORT || 0),
-    secure: String(process.env.MAIL_SECURE || 'false').toLowerCase() === 'true',
-    user: process.env.MAIL_USER || '',
-    pass: process.env.MAIL_PASS || ''
+    host: process.env.MAIL_HOST || staticConfig.mail.host,
+    port: Number(process.env.MAIL_PORT || staticConfig.mail.port),
+    secure: String(process.env.MAIL_SECURE || staticConfig.mail.secure).toLowerCase() === 'true',
+    user: process.env.MAIL_USER || staticConfig.mail.user,
+    pass: process.env.MAIL_PASS || staticConfig.mail.pass
   },
 
-  allowedIPs: parseList(process.env.IP_WHITELIST, ['::1']),
+  allowedIPs: parseList(process.env.IP_WHITELIST, staticConfig.allowedIPs),
 
   Log: {
-    maxLine: 5000,
-    directory: process.env.LOG_DIR || 'logs',
+    maxLine: staticConfig.log.maxLine,
+    directory: process.env.LOG_DIR || staticConfig.log.directory,
     name: {
-      mail: 'mail_log.txt',
-      secret: 'secret_system_log',
-      guestbook: 'guestbook_log',
-      redis: 'redis_log',
-      counter: 'counter_log',
-      status: 'status_log',
-      rateLimiter: 'rate_limiter_log'
+      mail: staticConfig.log.names.mail,
+      secret: staticConfig.log.names.secret,
+      guestbook: staticConfig.log.names.guestbook,
+      redis: staticConfig.log.names.redis,
+      counter: staticConfig.log.names.counter,
+      status: staticConfig.log.names.status,
+      rateLimiter: staticConfig.log.names.rateLimiter
     }
   },
 
   redis: {
-    host: process.env.REDIS_HOST || 'localhost',
-    port: Number(process.env.REDIS_PORT || 6379),
-    password: process.env.REDIS_PASSWORD || ''
+    host: process.env.REDIS_HOST || staticConfig.redis.host,
+    port: Number(process.env.REDIS_PORT || staticConfig.redis.port),
+    password: process.env.REDIS_PASSWORD || staticConfig.redis.password
   },
 
   SecretSystem: {
-    password: process.env.SECRET_PASSWORD || 'AZERTY123',
-    redisListKey: process.env.REDIS_LIST_KEY || 'GUESTBOOK_LIST'
+    password: process.env.SECRET_PASSWORD || staticConfig.secretSystem.password,
   },
 
   rateLimiter: {
-    enabled: String(process.env.RATE_LIMITER_ENABLED || 'true').toLowerCase() === 'true',
+    enabled: String(process.env.RATE_LIMITER_ENABLED || staticConfig.rateLimiter.enabled).toLowerCase() === 'true',
     default: {
-      windowSeconds: Number(process.env.RATE_WINDOW_SECONDS || 60),
-      maxRequests: Number(process.env.RATE_MAX_REQUESTS || 10)
+      windowSeconds: staticConfig.rateLimiter.windowSeconds,
+      maxRequests: staticConfig.rateLimiter.maxRequests
     },
-    routes: {
-      'mail.sendEmail': {
-        windowSeconds: 60,
-        maxRequests: 3,
-        match: { url: '/api/mail/sendEmail', method: 'POST' }
-      },
-      'counter.get': {
-        windowSeconds: 60,
-        maxRequests: 40,
-        match: { url: '/api/counter/get', method: 'GET' }
-      },
-      'counter.increment': {
-        windowSeconds: 60,
-        maxRequests: 40,
-        match: { url: '/api/counter/increment', method: 'POST' }
-      },
-      'guestbook.read': {
-        windowSeconds: 60,
-        maxRequests: 7,
-        match: { url: '/api/guestbook/read', method: 'POST' }
-      },
-      'guestbook.write': {
-        windowSeconds: 60,
-        maxRequests: 6,
-        match: { url: '/api/guestbook/write', method: 'POST' }
-      }
-    }
+    routes: staticConfig.rateLimiter.routes
   }
 };

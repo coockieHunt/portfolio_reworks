@@ -13,22 +13,28 @@ It's configured using `config` and logs colored messages to the console using `c
 - Health check endpoint `/api/status` (reports Redis state).
 
 ### Configuration
-Local configuration is stored under `config/default.json`. Important fields include:
+Configuration is split into two parts:
 
-- `port` — API server port (default 3001).
-- `MailTransport` — SMTP details for sending e-mails (user, pass, host, port, secure).
-- `allowedIPs` — IPs allowed to access the API (used in `middleware/whiteList.js`).
-- `Log` — logging details (directory, limit lines, etc.).
-- `redis` — host, port, and optional password for Redis.
+- `config/static.config.json` — Default, static values used when no environment variables are set. This file includes server port, API root, mail defaults, log filenames, Redis defaults, and rate limiter routes.
+- `.env` — Optional environment variables to override defaults. See `.env.example` for all available keys.
 
-Open `config/default.json` and fill in `MailTransport` if you plan to send e-mails.
+Precedence: environment variables take priority; if a variable is not set, the app falls back to `static.config.json`.
+
+Key areas:
+- `port` and `apiRoot`
+- `mail` (SMTP host, port, secure, user, pass)
+- `allowedIPs` (whitelist used by `middleware/whiteList.js`, comma-separated)
+- `log` (directory and file names)
+- `redis` (host, port, password)
+- `secretSystem` (password, `redisListKey`)
+- `rateLimiter` (enabled, windowSeconds, maxRequests, and per-route settings)
 
 ### Installation
 1. Install dependencies
 ```bash
 npm install
 ```
-2. Create/update your configuration in `config/default.json`.
+2. Create/update your `.env` (based on `.env.example`). Defaults are in `config/static.config.json`.
 3. Start the app (dev or prod):
 ```bash
 # development (with nodemon)
@@ -90,7 +96,7 @@ Only keys defined in this mapping are allowed for the counter routes.
   - Counter actions have colored logs for retrieval/set/increment operations.
 
 ### Running atop Docker/Redis
-If you run Redis in a Docker container, ensure that the `redis.host` points to the correct hostname (for Docker networks). The default is `localhost:6379` in `config/default.json`.
+If you run Redis in a Docker container, ensure that `REDIS_HOST` points to the correct hostname (for Docker networks). The default is `localhost:6379` (see `config/static.config.json`).
 
 ---
 
@@ -102,23 +108,28 @@ If you run Redis in a Docker container, ensure that the `redis.host` points to t
 - Endpoint de vérification `GET /api/status` (déclare l'état de Redis).
 
 ### Configuration
-La configuration locale se trouve dans `config/default.json`.
-Champs importants:
+La configuration est séparée en deux parties :
 
-- `port` — port HTTP du serveur (par défaut `3001`).
-- `MailTransport` — détails SMTP pour l'envoi d'e-mails (utilisateur, password, host, port, secure).
-- `allowedIPs` — IPs autorisées à accéder à l'API (géré dans `middleware/whiteList.js`).
-- `Log` — détails des logs (dossier, limite de lignes, etc.).
-- `redis` — hôte, port et mot de passe pour Redis.
+- `config/static.config.json` — Valeurs par défaut utilisées quand les variables d'environnement ne sont pas définies. Ce fichier inclut le port serveur, la racine de l'API, les valeurs SMTP, les noms de fichiers de logs, les valeurs Redis et les routes du rate limiter.
+- `.env` — Variables d'environnement optionnelles pour surcharger les valeurs par défaut. Voir `.env.example` pour toutes les clés disponibles.
 
-Remplissez `MailTransport` si vous voulez envoyer des e-mails.
+Priorité : les variables d'environnement ont priorité; si une variable n'est pas définie, l'application utilise `static.config.json`.
+
+Éléments clés :
+- `port` et `apiRoot`
+- `mail` (host SMTP, port, secure, user, pass)
+- `allowedIPs` (liste blanche utilisée par `middleware/whiteList.js`, séparée par des virgules)
+- `log` (dossier et noms de fichiers)
+- `redis` (host, port, password)
+- `secretSystem` (password, `redisListKey`)
+- `rateLimiter` (enabled, windowSeconds, maxRequests, et configuration par route)
 
 ### Installation
 1. Installez les dépendances
 ```bash
 npm install
 ```
-2. Mettez à jour `config/default.json` avec vos paramètres
+2. Créez/Mettez à jour votre `.env` (basé sur `.env.example`). Les valeurs par défaut sont dans `config/static.config.json`.
 3. Lancez l'application :
 ```bash
 # développement (avec nodemon)

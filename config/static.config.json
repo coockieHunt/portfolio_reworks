@@ -1,0 +1,111 @@
+{
+  "//": "============================================",
+  "// CONFIGURATION FILE": "Default configuration values",
+  "//  ": "============================================",
+  "// NOTE": "These are default values that will be used if environment variables are not set",
+  "// PRIORITY": "1. Environment variables (.env) - 2. This config file (fallback)",
+  "//   ": " ",
+  "// ENVIRONMENT VARIABLES": "The following values can be overridden via .env:",
+  "// - PORT": "Server port number",
+  "// - API_ROOT": "API base path",
+  "// - MAIL_HOST": "SMTP server host",
+  "// - MAIL_PORT": "SMTP server port",
+  "// - MAIL_SECURE": "Use SSL/TLS (true/false)",
+  "// - MAIL_USER": "SMTP username",
+  "// - MAIL_PASS": "SMTP password",
+  "// - IP_WHITELIST": "Allowed IPs (comma-separated)",
+  "// - LOG_DIR": "Log files directory",
+  "// - REDIS_HOST": "Redis server host",
+  "// - REDIS_PORT": "Redis server port",
+  "// - REDIS_PASSWORD": "Redis password",
+  "// - SECRET_PASSWORD": "Secret system password",
+  "// - REDIS_LIST_KEY": "Redis list key for guestbook",
+  "// - RATE_LIMITER_ENABLED": "Enable/disable rate limiting (true/false)",
+
+
+  "port": 3001,
+  "apiRoot": "/api",
+
+  "mail": {
+    "host": "",
+    "port": 0,
+    "secure": false,
+    "user": "",
+    "pass": ""
+  },
+
+  "allowedIPs": ["::1"],
+
+  "log": {
+    "maxLine": 5000,
+    "directory": "logs",
+    "names": {
+      "mail": "mail_log.txt",
+      "secret": "secret_system_log",
+      "guestbook": "guestbook_log",
+      "redis": "redis_log",
+      "counter": "counter_log",
+      "status": "status_log",
+      "rateLimiter": "rate_limiter_log"
+    }
+  },
+
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "password": ""
+  },
+
+  "secretSystem": {
+    "password": "AZERTY123"
+  },
+
+  "rateLimiter": {
+    "enabled": true,
+    "windowSeconds": 60,
+    "maxRequests": 10,
+    
+    "routes": {
+      "mail.sendEmail": {
+        "windowSeconds": 60,
+        "maxRequests": 3,
+        "match": {
+          "url": "/api/mail/sendEmail",
+          "method": "POST"
+        }
+      },
+      "counter.get": {
+        "windowSeconds": 60,
+        "maxRequests": 40,
+        "match": {
+          "url": "/api/counter/get",
+          "method": "GET"
+        }
+      },
+      "counter.increment": {
+        "windowSeconds": 60,
+        "maxRequests": 40,
+        "match": {
+          "url": "/api/counter/increment",
+          "method": "POST"
+        }
+      },
+      "guestbook.read": {
+        "windowSeconds": 60,
+        "maxRequests": 7,
+        "match": {
+          "url": "/api/guestbook/read",
+          "method": "POST"
+        }
+      },
+      "guestbook.write": {
+        "windowSeconds": 60,
+        "maxRequests": 6,
+        "match": {
+          "url": "/api/guestbook/write",
+          "method": "POST"
+        }
+      }
+    }
+  }
+}
