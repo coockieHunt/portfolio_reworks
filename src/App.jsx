@@ -119,15 +119,13 @@ function App() {
                 <QuoteContainer>
                     <BiSolidQuoteLeft /> 
                         Vous êtes 
-                        <span style={{ fontStyle: "italic" }} className="fond_code">
-                            développeur
-                        </span> ? Découvrez les coulisses du projet ! <br /> Code source disponible : 
+                        <span  className="fond_code"> développeur </span> ? Découvrez les coulisses du projet ! <br /> Code source disponible :&nbsp;
                         <LinkTextComponent to={URL.github_portfolio_rework}>
-                            Front-end
+                        Front-end
                         </LinkTextComponent> 
-                        | 
+                        &nbsp;|&nbsp;
                         <LinkTextComponent to={URL.github_portfolio_rework_api}>
-                            API
+                        API
                         </LinkTextComponent> 
                     <BiSolidQuoteRight />
                 </QuoteContainer>
