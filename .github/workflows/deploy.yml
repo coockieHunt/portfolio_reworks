@@ -3,7 +3,7 @@ name: Deploy PROD
 on:
   push:
     branches:
-      - prod  # Le déploiement se lance uniquement sur un push vers 'prod'
+      - prod  
 
 jobs:
   deploy:
