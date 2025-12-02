@@ -1,8 +1,8 @@
-const API_URL = import.meta?.env?.VITE_API_URL || 'http://localhost:3001/api';
+import { ApiBaseUrl } from '../config.jsx';
 
 export async function GetGuestbookEntries(password) {
     try {
-        const resp = await fetch(`${API_URL}/guestbook/read`, {
+        const resp = await fetch(`${ApiBaseUrl}/guestbook/read`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
@@ -38,7 +38,7 @@ export async function GetGuestbookEntries(password) {
 
 export async function PostGuestbookEntry(password, name, message) {
     try {
-        const resp = await fetch(`${API_URL}/guestbook/write`, {
+        const resp = await fetch(`${ApiBaseUrl}/guestbook/write`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({password, name, message}) 

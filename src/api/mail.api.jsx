@@ -1,10 +1,8 @@
 import { ApiBaseUrl } from '../config.jsx';
 
-const API_URL = import.meta?.env?.VITE_API_URL || ApiBaseUrl || 'http://localhost:3001';
-
 export async function sendEmail(content) {
 	try {
-		const resp = await fetch(`${API_URL}/api/sendEmail`, {
+		const resp = await fetch(`${ApiBaseUrl}/api/sendEmail`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(content),

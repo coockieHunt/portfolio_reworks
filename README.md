@@ -45,6 +45,17 @@ To set up and run my portfolio locally, follow these steps:
    npm run build
    ```
 
+
+## API Configuration
+
+- Variable: `VITE_API_BASE_URL`
+- Purpose: Base URL the frontend uses to call the API.
+- How to set:
+   - Copy `.env.example` to `.env.local` (or `.env`) and edit the value.
+   - Example: `VITE_API_BASE_URL=http://localhost:3001/api`
+
+If not set, the app defaults to `http://localhost:3001/api`.
+
 That's it! You can now browse my portfolio locally at `http://localhost:5173` 🎉
 
 ## 🌐 Live Portfolio
@@ -170,7 +181,19 @@ Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
    ```bash
    npm run build
    ```
+
 C'est tout ! Vous pouvez maintenant parcourir mon portfolio localement sur `http://localhost:5173` 🎉
+
+
+## API Configuration
+
+- Variable: `VITE_API_BASE_URL`
+- Objectif : URL de base utilisée par le frontend (interface utilisateur) pour appeler l'API.
+- Comment la définir :
+      - Copiez le fichier .env.example vers .env.local (ou .env) et modifiez la valeur.
+      - Exemple : VITE_API_BASE_URL=http://localhost:3001/api
+
+Si elle n'est pas définie, l'URL sera : `http://localhost:3001/api`.
 
 ## 🌐 Portfolio en Ligne
 

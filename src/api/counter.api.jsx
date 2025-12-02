@@ -1,8 +1,8 @@
-const API_URL = import.meta?.env?.VITE_API_URL || 'http://localhost:3001/api';
+import { ApiBaseUrl } from '../config.jsx';
 
 export async function getThemeRand() {
 	try {
-		const resp = await fetch(`${API_URL}/counter/get/THEME_RAND`);
+		const resp = await fetch(`${ApiBaseUrl}/counter/get/THEME_RAND`);
 		if (!resp.ok) {
 			if (resp.status === 429) {
 				return {
@@ -23,7 +23,7 @@ export async function getThemeRand() {
 
 export async function incrementThemeRand() {
 	try {
-		const resp = await fetch(`${API_URL}/counter/increment/THEME_RAND`, { method: 'POST' });
+		const resp = await fetch(`${ApiBaseUrl}/counter/increment/THEME_RAND`, { method: 'POST' });
 		if (!resp.ok) {
 			if (resp.status === 429) {
 				return {

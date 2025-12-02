@@ -265,7 +265,10 @@ export const BORDER_RADIUS = {
     full: '100%'  
 }
 
-export const ApiBaseUrl = "localhost:3001/api";
+// API base URL can be configured via Vite env or falls back to default
+export const ApiBaseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+    ? import.meta.env.VITE_API_BASE_URL
+    : "http://localhost:3001/api";
 export const MailDefault =  { firstName: '', lastName: '', email: '', message: '' };
 
 export const COLOR = COLOR_SETTING;
