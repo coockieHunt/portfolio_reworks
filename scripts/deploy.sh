@@ -8,6 +8,7 @@ set -e
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 echo -e "${CYAN}--- 🚀 DÉMARRAGE DU DÉPLOIEMENT AUTOMATIQUE ---${NC}"
@@ -36,6 +37,18 @@ else
     echo -e "${GREEN}   ✅ No changes to commit on main.${NC}"
 fi
 
+# confirm deployment to prod
+echo -e "${RED}⚠️  Are you sure you want to deploy this to PROD? (y/n)${NC}"
+read -n 1 -r REPLY
+echo ""
+
+if [[ ! $REPLY =~ ^[YyOo]$ ]]; then
+    echo -e "${RED}🛑 Deployment CANCELLED.${NC}"
+    echo -e "${CYAN}Press any key to exit...${NC}"
+    read -n 1 -s -r
+    exit 1
+fi
+
 # switch to prod and merge
 echo -e "${YELLOW}2. Switching to PROD and merging...${NC}"
 git checkout prod
@@ -51,3 +64,7 @@ echo -e "${YELLOW}4. Returning to MAIN...${NC}"
 git checkout main
 
 echo -e "${GREEN}✅ DONE! Deployment is in progress on the server side.${NC}"
+
+# wait for user input before closing
+echo -e "${CYAN}Press any key to exit...${NC}"
+read -n 1 -s -r
