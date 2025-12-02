@@ -16,9 +16,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd /var/www/www.demo.jonathangleyze.fr
+            cd ${{ secrets.PROJECT_PATH }}
             git checkout prod
             git pull origin prod
             npm install
             npm run build
-            pm2 reload portfolio-d_3005
+            pm2 reload ${{ secrets.PM2_APP_NAME }}
