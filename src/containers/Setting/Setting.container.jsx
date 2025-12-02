@@ -254,8 +254,7 @@ const handleRandomThemeChange = async () => {
 
                             <h3 className="titleOption">Mode fun</h3>
                             <div className="themeButton random" onClick={handleRandomThemeChange}>
-                                <p>Le thème aléatoire peut causer de forts problèmes visuels</p>
-                                <p>🔎 n'hésitez pas à recharger la page si besoin 🔎</p>
+                                <p>Nous déclinons toute responsabilité en cas de <br />  <strong style={{textDecoration: "underline"}}> crise de couleur</strong></p> 
                                 <span>🦄 Thème aléatoire 🦄</span>
                             </div>
                             <div className="counter">
