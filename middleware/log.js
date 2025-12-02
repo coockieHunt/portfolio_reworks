@@ -1,35 +1,65 @@
 import config from 'config';
 import path from 'path';
 import fs from 'fs';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
+
 const LogConfig = config.get('Log');
+const loggersMap = new Map();
 
 /**
- * Write a log entry to a log file.
+ * create or retrieve a Winston logger for a specific log type.
+ * @param {string} type - The log type (e.g., 'error', 'info')
+ */
+const getLogger = (type) => {
+    if (loggersMap.has(type)) {
+        return loggersMap.get(type);
+    }
+
+    const logDirectory = LogConfig.directory;
+    const filename = LogConfig.name[type] || 'default.log';
+
+    // Ensure log directory exists
+    try {
+        const dirPath = path.resolve(logDirectory);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+    } catch (e) {
+        // If directory creation fails, fallback to current working directory
+    }
+
+    const transport = new winston.transports.DailyRotateFile({
+        dirname: logDirectory,
+        filename: filename, 
+        datePattern: 'YYYY-MM-DD', 
+        zippedArchive: true, 
+        maxSize: '5m',      
+        maxFiles: '14d'    
+    });
+
+    const logger = winston.createLogger({
+        level: 'info',
+        format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.printf(({ timestamp, message }) => {
+                return `${timestamp} - ${message}`;
+            })
+        ),
+        transports: [transport]
+    });
+
+    loggersMap.set(type, logger);
+    return logger;
+};
+
+/**
+ * Write a log entry using Winston.
  *
  * @param {string} log - The log message to be written.
- * @param {string} type - The type or category of the log message.
+ * @param {string} type - The type or category (used to select the file).
  */
-
 export const writeToLog = (log, type) => {
-    const logDirectory = LogConfig.directory; 
-    const logFilePath = path.join(logDirectory, LogConfig.name[type]); 
-
-    if (!fs.existsSync(logDirectory)) {
-        fs.mkdirSync(logDirectory);
-    }
-
-    let existingLog = '';
-    try {
-        existingLog = fs.readFileSync(logFilePath, 'utf8');
-    } catch (err) {}
-
-    const logEntry = `${new Date().toISOString()} - ${log}\n`;
-    const newLog = logEntry + existingLog;
-
-    const lines = newLog.split('\n');
-    if (lines.length > LogConfig.maxLine) {
-        lines.pop();
-    }
-
-    fs.writeFileSync(logFilePath, lines.join('\n'), 'utf8');
-}
+    const logger = getLogger(type);
+    logger.info(log);
+};

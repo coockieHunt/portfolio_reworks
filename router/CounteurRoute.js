@@ -1,6 +1,7 @@
 import express from 'express';
 const counterRouter = express.Router({ mergeParams: true });
 import chalk from 'chalk';
+import { writeToLog } from '../middleware/log.js';
 
 import { 
     getCounter, 
@@ -33,6 +34,7 @@ counterRouter.get('/get/:name', rateLimiter, async (req, res) => {
     const redisKey = getValidatedRedisKey(name);
 
     if (!redisKey) {
+        writeToLog(`Counter GET invalid name=${name}`, 'counter');
         return res.status(400).json({ 
             success: false, 
             message: `Counter name is required and must be one of: ${Object.keys(REDIS_KEYS).join(', ')}`,
@@ -43,6 +45,7 @@ counterRouter.get('/get/:name', rateLimiter, async (req, res) => {
     try {
         const { value, exist } = await getCounter(redisKey); 
         console.log(chalk.blue(`[GET /get/${name}] redisKey=${redisKey} value=${value} exist=${exist}`));
+        writeToLog(`Counter GET name=${name} key=${redisKey} value=${value} exist=${exist}`, 'counter');
 
         return res.json({ 
             success: true, 
@@ -54,6 +57,7 @@ counterRouter.get('/get/:name', rateLimiter, async (req, res) => {
 
     } catch (error) {
         console.error(chalk.red(`[GET /get/${name}] Error:`), chalk.red(error.stack || error.message || error));
+        writeToLog(`Counter GET error name=${name}: ${error.stack || error.message || error}`, 'counter');
         return res.status(500).json({ success: false, message: 'An error occurred while getting the counter value.' });
     }
 });
@@ -69,6 +73,7 @@ counterRouter.post('/set/:name', rateLimiter, async (req, res) => {
     const redisKey = getValidatedRedisKey(name);
 
     if (!redisKey) {
+        writeToLog(`Counter SET invalid name=${name}`, 'counter');
         return res.status(400).json({ 
             success: false, 
             message: `Counter name is required and must be one of: ${Object.keys(REDIS_KEYS).join(', ')}`,
@@ -78,12 +83,14 @@ counterRouter.post('/set/:name', rateLimiter, async (req, res) => {
 
     const numericValue = parseInt(value, 10);
     if (isNaN(numericValue)) {
+        writeToLog(`Counter SET non-numeric value name=${name} value=${value}`, 'counter');
         return res.status(400).json({ success: false, message: 'A valid numeric value is required in the request body.' });
     }
 
     try {
         await setCounter(redisKey, numericValue);
         console.log(chalk.yellow(`[POST /set/${name}] redisKey=${redisKey} set to ${numericValue}`));
+        writeToLog(`Counter SET name=${name} key=${redisKey} value=${numericValue}`, 'counter');
         return res.json({ 
             success: true, 
             counterName: name,
@@ -92,6 +99,7 @@ counterRouter.post('/set/:name', rateLimiter, async (req, res) => {
         });
     } catch (error) {
         console.error(chalk.red(`[POST /set/${name}] Error:`), chalk.red(error.stack || error.message || error));
+        writeToLog(`Counter SET error name=${name}: ${error.stack || error.message || error}`, 'counter');
         return res.status(500).json({ success: false, message: 'An error occurred while setting the counter value.' });
     }
 });
@@ -106,6 +114,7 @@ counterRouter.post('/increment/:name', rateLimiter, async (req, res) => {
     const redisKey = getValidatedRedisKey(name);
 
     if (!redisKey) {
+        writeToLog(`Counter INCR invalid name=${name}`, 'counter');
         return res.status(400).json({ 
             success: false, 
             message: `Counter name is required and must be one of: ${Object.keys(REDIS_KEYS).join(', ')}`,
@@ -115,6 +124,7 @@ counterRouter.post('/increment/:name', rateLimiter, async (req, res) => {
 
     if (!RedisClient || !RedisClient.isReady) {
         console.error(chalk.red("RedisClient is not initialized or ready in router."));
+        writeToLog('Counter INCR redis not connected', 'counter');
         return res.status(503).json({ success: false, message: 'Redis service is unavailable.' });
     }
     
@@ -124,6 +134,7 @@ counterRouter.post('/increment/:name', rateLimiter, async (req, res) => {
         const newValue = await incrementCounter(redisKey);
         const exist = existBefore === 1;
         console.log(chalk.magenta(`[POST /increment/${name}] redisKey=${redisKey} incremented to ${newValue} (existed before=${exist})`));
+        writeToLog(`Counter INCR name=${name} key=${redisKey} newValue=${newValue} existedBefore=${exist}`, 'counter');
 
         return res.json({ 
             success: true, 
@@ -136,8 +147,10 @@ counterRouter.post('/increment/:name', rateLimiter, async (req, res) => {
         console.error(chalk.red(`[POST /increment/${name}] Error:`), chalk.red(error.stack || error.message || error));
         const isRedisNotConnected = (error && error.message && error.message.includes('Redis client is not connected'));
         if (isRedisNotConnected) {
+            writeToLog(`Counter INCR not connected name=${name}`, 'counter');
             return res.status(503).json({ success: false, message: 'Redis client is not connected.' });
         }
+        writeToLog(`Counter INCR error name=${name}: ${error.stack || error.message || error}`, 'counter');
         return res.status(500).json({ success: false, message: 'An error occurred while incrementing the counter value.' });
     }
 });

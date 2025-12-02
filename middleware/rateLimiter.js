@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { RedisClient } from '../func/Redis.js';
 import getConfig from 'config';
+import { writeToLog } from './log.js';
 
 // get confg
 const rateConfig = (() => {
@@ -17,6 +18,7 @@ try {
     const defaultCfg = rateConfig && rateConfig.default ? rateConfig.default : { windowSeconds: 60, maxRequests: 5 };
     const routes = rateConfig && rateConfig.routes ? Object.keys(rateConfig.routes).join(', ') : '(none)';
     console.log(chalk.green(`RateLimiter loaded: enabled=${enabled} default=${defaultCfg.maxRequests}/${defaultCfg.windowSeconds}s routes=${routes}`));
+    writeToLog(`RateLimiter loaded enabled=${enabled} default=${defaultCfg.maxRequests}/${defaultCfg.windowSeconds}s routes=${routes}`, 'rateLimiter');
 } catch (e) { }
 
 //parse url if missed 
@@ -78,6 +80,7 @@ export async function rateLimiter(req, res, next) {
         const redis = RedisClient;
         if (!redis || !redis.isReady) {
             console.warn(chalk.yellow('RateLimiter: Redis not connected, skipping rate limiting.'));
+            writeToLog('RateLimiter skip: redis not connected', 'rateLimiter');
             return next();
         }
         const { key: routeKey, windowSeconds, maxRequests } = getLimitsContext(req);
@@ -88,11 +91,13 @@ export async function rateLimiter(req, res, next) {
         const color = isDefault ? chalk.gray : chalk.cyan; 
         
         console.log(color(`[RateLimit] name=${routeKey} method=${req.method} count=${current}/${maxRequests} window=${windowSeconds}s`));
+        writeToLog(`RateLimit name=${routeKey} method=${req.method} count=${current}/${maxRequests} window=${windowSeconds}s`, 'rateLimiter');
 
         if (current === 1) { await redis.expire(redisKey, windowSeconds);}
         if (current > maxRequests) {
             const ttl = await redis.ttl(redisKey);
             console.error(chalk.red(`[RateLimit] BLOCKED! key=${routeKey} count=${current}/${maxRequests} ip=${ip} retry_in=${ttl}s`));
+            writeToLog(`RateLimit BLOCKED key=${routeKey} count=${current}/${maxRequests} ip=${ip} retry_in=${ttl}s`, 'rateLimiter');
             res.set('Retry-After', String(ttl > 0 ? ttl : windowSeconds));
             return res.status(429).json({ success: false, message: 'Too many requests, please retry later.', retryAfter: ttl });
         }
@@ -103,6 +108,7 @@ export async function rateLimiter(req, res, next) {
         return next();
     } catch (err) {
         console.error(chalk.red('RateLimiter error:'), err.stack || err.message || err);
+        writeToLog(`RateLimiter error: ${err.stack || err.message || err}`, 'rateLimiter');
         return next();
     }
 }

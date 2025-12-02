@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import getConfig from 'config';
 import { RedisClient } from '../func/Redis.js';
+import { writeToLog } from '../middleware/log.js';
 
 const statusRoute = express.Router({ mergeParams: true });
 const packageInfo = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf8'));
@@ -41,20 +42,24 @@ statusRoute.get('/', async (req, res) => {
         const client = RedisClient;
         if (!client || !client.isReady) {
             statusResponse.service.redis = 'down';
+            writeToLog('Status health: redis down', 'status');
             return res.status(503).json(statusResponse);
         }
         
         const redisPing = await client.ping();
         if (redisPing === 'PONG') {
             statusResponse.service.redis = "ok";
+            writeToLog('Status health: redis ok', 'status');
             return res.status(200).json(statusResponse);
         } else {
             statusResponse.service.redis = "nok";
+            writeToLog('Status health: redis nok', 'status');
             return res.status(503).json(statusResponse);
         }
     } catch (error) {
         statusResponse.service.redis = 'down';
         console.error(chalk.red(`Health Check: Redis connection error: ${error.message}`));
+        writeToLog(`Status health error: ${error.stack || error.message || error}`, 'status');
         return res.status(503).json(statusResponse);
     }
 });

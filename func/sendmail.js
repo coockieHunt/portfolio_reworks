@@ -19,6 +19,7 @@ const transporter = nodemailer.createTransport({
 
 async function sendmail(to, subject, content) {
     try {
+        writeToLog(`Mail SEND start to=${to} subject=${subject}`, 'mail');
         const mailOptions = {
             from: sender_email,
             to: to,
@@ -39,6 +40,7 @@ async function sendmail(to, subject, content) {
     } catch (error) {
         console.error(chalk.red('An error occurred while sending the email:'));
         console.error(chalk.red(error.stack || error.message || error));
+        writeToLog(`Mail SEND error: ${error.stack || error.message || error}`, 'mail');
 
         return { success: false, message: 'An error occurred while sending the email' };
     }

@@ -1,6 +1,7 @@
 import { RedisClient } from './Redis.js';
 import REDIS_KEYS from '../constant/redisKey.js';
 import chalk from 'chalk';
+import { writeToLog } from '../middleware/log.js';
 
 /**
  * Retrieves all guestbook entries from Redis.
@@ -11,10 +12,14 @@ export async function getGuestBookEntries() {
         throw new Error("Redis client is not connected.");
     }
     try {
+        writeToLog('GuestBook READ start', 'guestbook');
         const entries = await RedisClient.lRange(REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
-        return entries.map(entry => JSON.parse(entry));
+        const parsed = entries.map(entry => JSON.parse(entry));
+        writeToLog(`GuestBook READ count=${parsed.length}`, 'guestbook');
+        return parsed;
     } catch (error) {
         console.error(chalk.red('Error getting guestbook entries:'), error);
+        writeToLog(`GuestBook READ error: ${error.stack || error.message || error}`, 'guestbook');
         throw error;
     }
 }
@@ -31,6 +36,7 @@ export async function addGuestBookEntry(name, message) {
     }
 
     if (!name || !message || name.trim().length === 0 || message.trim().length === 0) {
+        writeToLog('GuestBook WRITE validation failed: empty name/message', 'guestbook');
         throw new Error("Name and message cannot be empty.");
     }
 
@@ -40,12 +46,14 @@ export async function addGuestBookEntry(name, message) {
     const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9]+\.[a-zA-Z]{2,}\/?)/i;
     
     if (urlRegex.test(name) || urlRegex.test(message)) {
+        writeToLog('GuestBook WRITE validation failed: URL detected', 'guestbook');
         throw new Error("URLs and links are not allowed.");
     }
 
     const htmlRegex = /<[^>]*>/;
     
     if (htmlRegex.test(name) || htmlRegex.test(message)) {
+        writeToLog('GuestBook WRITE validation failed: HTML tags detected', 'guestbook');
         throw new Error("Invalid characters: HTML tags are not allowed.");
     }
 
@@ -57,9 +65,11 @@ export async function addGuestBookEntry(name, message) {
             date: new Date().toISOString()
         });
         await RedisClient.lPush(REDIS_KEYS.GUESTBOOK_ENTRIES, entry);
+        writeToLog(`GuestBook WRITE success: by=${name.trim()} length=${message.trim().length}`, 'guestbook');
         return true;
     } catch (error) {
         console.error(chalk.red('Error adding guestbook entry:'), error);
+        writeToLog(`GuestBook WRITE error: ${error.stack || error.message || error}`, 'guestbook');
         throw error;
     }
 }
