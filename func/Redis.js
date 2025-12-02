@@ -1,4 +1,3 @@
-
 import chalk from 'chalk';
 import { writeToLog } from '../middleware/log.js';
 
