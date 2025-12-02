@@ -1,12 +1,12 @@
 import express from 'express';
-import getConfig from 'config';
+import cfg from '../config/default.cjs';
 import { rateLimiter } from '../middleware/rateLimiter.js';
 import { getGuestBookEntries, addGuestBookEntry } from '../func/GuestBook.js';
 import chalk from 'chalk';
 import { writeToLog } from '../middleware/log.js';
 
 const guestBookRoute = express.Router();
-const secretConfig = getConfig.get('SecretSystem');
+const secretConfig = cfg.SecretSystem;
 
 guestBookRoute.use(express.json());
 

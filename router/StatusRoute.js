@@ -2,7 +2,7 @@ import express from 'express';
 import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
-import getConfig from 'config';
+import cfg from '../config/default.cjs';
 import { RedisClient } from '../func/Redis.js';
 import { writeToLog } from '../middleware/log.js';
 
@@ -28,7 +28,7 @@ statusRoute.get('/', async (req, res) => {
 
     // Get rate limiter config
     try {
-        const rateLimiterConfig = getConfig.has('rateLimiter') ? getConfig.get('rateLimiter') : null;
+        const rateLimiterConfig = cfg.rateLimiter || null;
         if (rateLimiterConfig) {
             statusResponse.rateLimiter.enabled = rateLimiterConfig.enabled !== false;
             statusResponse.rateLimiter.default = rateLimiterConfig.default || {};

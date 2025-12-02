@@ -1,4 +1,4 @@
-import config from 'config';
+import cfg from '../config/default.cjs';
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
@@ -6,7 +6,7 @@ import winston from 'winston';
 import 'winston-daily-rotate-file';
 
 dotenv.config();
-const LogConfig = config.get('Log');
+const LogConfig = cfg.Log;
 const loggersMap = new Map();
 
 /**

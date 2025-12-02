@@ -1,7 +1,7 @@
 import { createClient } from 'redis';
 import { connectRedis } from '../func/Redis.js';
 import { rateLimiter } from '../middleware/rateLimiter.js';
-import getConfig from 'config';
+import cfg from '../config/default.cjs';
 import chalk from 'chalk';
 
 const originalLog = console.log;
@@ -23,7 +23,7 @@ console.error = (...args) => {
 };
 
 async function runTest() {
-    const redisConfig = getConfig.get('redis');
+    const redisConfig = cfg.redis;
     const client = createClient({
         socket: {
             host: redisConfig.host,
@@ -38,7 +38,7 @@ async function runTest() {
         process.exit(1);
     }
 
-    const rateConfig = getConfig.get('rateLimiter');
+    const rateConfig = cfg.rateLimiter;
     const routesToTest = [];
 
     if (rateConfig.routes) {

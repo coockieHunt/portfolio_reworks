@@ -5,7 +5,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import fs from 'fs';
 import path from 'path';
-import getConfig from 'config';
+import cfg from './config/default.cjs';
 import chalk from 'chalk';
 import dotenv from 'dotenv';
 // Load environment variables from .env if present
@@ -22,7 +22,7 @@ import REDIS_KEYS from './constant/redisKey.js';
 
 //get package info
 const packageInfo = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf8'));
-const apiRoot = getConfig.get('ApiRoot');
+const apiRoot = cfg.ApiRoot;
 
 //setup express end parssers
 const app = express();
@@ -31,7 +31,7 @@ app.use(cors());
 
 //setup router and port
 const router = express.Router();
-const port = process.env.PORT || getConfig.get('port');
+const port = process.env.PORT || cfg.port;
 
 // Apply IP whitelist middleware
 app.use(allowOnlyFromIPs);
@@ -40,7 +40,7 @@ app.use(allowOnlyFromIPs);
 app.use(trackApiCall);
 
 // Redis setup
-const redisConfig = getConfig.get('redis');
+const redisConfig = cfg.redis;
 const client = createClient({
     socket: {
         host: process.env.REDIS_HOST || redisConfig.host,
@@ -100,18 +100,18 @@ function logStartupInfo(redisConnected) {
     });
 
     try {
-        const cfg = getConfig.has('rateLimiter') ? getConfig.get('rateLimiter') : null;
+        const rateCfg = cfg.rateLimiter || null;
         console.log(chalk.blue('\nRate limiter config:'));
-        if (!cfg) {
+        if (!rateCfg) {
             console.log(' - (no rateLimiter config found)');
         } else {
-            const def = cfg.default || {};
-            console.log(` - enabled: ${cfg.enabled !== false}`);
+            const def = rateCfg.default || {};
+            console.log(` - enabled: ${rateCfg.enabled !== false}`);
             console.log(` - default: ${def.maxRequests || '(unset)'} requests / ${def.windowSeconds || '(unset)'}s`);
-            if (cfg.routes) {
+            if (rateCfg.routes) {
                 console.log(' - routes:');
-                Object.keys(cfg.routes).forEach(rk => {
-                    const r = cfg.routes[rk];
+                Object.keys(rateCfg.routes).forEach(rk => {
+                    const r = rateCfg.routes[rk];
                     console.log(`    - ${rk}: ${r.maxRequests}/${r.windowSeconds}s`);
                 });
             } else {

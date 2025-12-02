@@ -1,12 +1,12 @@
 import chalk from 'chalk';
 import { RedisClient } from '../func/Redis.js';
-import getConfig from 'config';
+import cfg from '../config/default.cjs';
 import { writeToLog } from './log.js';
 
 // get confg
 const rateConfig = (() => {
-    try {return getConfig.has('rateLimiter') ? getConfig.get('rateLimiter') : null;
-    } catch (err) {
+    try { return cfg.rateLimiter || null; }
+    catch (err) {
         console.warn(chalk.yellow('RateLimiter: unable to read config.rateLimiter, falling back to env/defaults'));
         return null;
     }

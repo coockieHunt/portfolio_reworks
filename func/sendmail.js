@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 import chalk from 'chalk';
 import { writeToLog } from '../middleware/log.js';
-import getConfig from 'config';
+import cfg from '../config/default.cjs';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const Mailer = getConfig.get('MailTransport');
+const Mailer = cfg.MailTransport;
 const mailHost = process.env.MAIL_HOST || Mailer.host;
 const mailPort = parseInt(process.env.MAIL_PORT || String(Mailer.port || 0), 10);
 const mailSecure = (process.env.MAIL_SECURE || String(Mailer.secure || false)).toLowerCase() === 'true';
