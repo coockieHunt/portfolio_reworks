@@ -64,6 +64,8 @@ const navigation = [
     ['Contact', "contact"],
 ]
 
+//tracking
+import { UmamiTracker } from './components/umami/umami.components.jsx';
 const ThemeWrapper = ({ children }) => {
     const { settings } = useSettingContext();
     return (
@@ -94,10 +96,13 @@ const AppProviders = ({ children }) => {
 
 
 function App() {
-    useEffect(() => {ConnectedToSecretSystem();}, []); // Run after initial render not on updates re render
+    useEffect(() => {
+        ConnectedToSecretSystem();
+    }, []); // Run after initial render not on updates re render
 
     return (
         <AppProviders>
+            <UmamiTracker />
             {/* no Lazy for cretical content */}
             <NavigationComponent navConfig={navigation} />
             <AlertContainerComponent />
