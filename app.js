@@ -29,6 +29,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+const parseList = (val, fallback = []) => {
+  if (!val || typeof val !== 'string') return fallback;
+  return val
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+};
+
+
+const ipList = parseList(process.env.IP_WHITELIST, ['::1']);
+console.log('Parsed IP List:', ipList);
+
 //setup router and port
 const router = express.Router();
 const port = process.env.PORT || cfg.port;
