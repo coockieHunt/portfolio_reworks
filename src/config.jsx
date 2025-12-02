@@ -9,7 +9,8 @@ import {
     SiHtml5,
     SiStyledcomponents,
     SiUptimekuma,
-    SiRedis 
+    SiRedis,
+    SiUmami
 } from "react-icons/si";
 import { AiOutlineApi, AiOutlineSend  } from "react-icons/ai";
 import { FaJs } from "react-icons/fa";
@@ -236,6 +237,13 @@ export const StackList = [
 		icon: <SiRedis />,
 		color: '#DC382D',
 		link: 'https://redis.com/', 
+		width: 20 
+	},
+    { 
+		name: 'Umami', 
+		icon: <SiUmami  />,
+		color: '#bdbdbd',
+		link: 'https://umami.is/', 
 		width: 20 
 	},
 ];
