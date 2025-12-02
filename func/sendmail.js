@@ -2,17 +2,23 @@ import nodemailer from 'nodemailer';
 import chalk from 'chalk';
 import { writeToLog } from '../middleware/log.js';
 import getConfig from 'config';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const Mailer = getConfig.get('MailTransport');
-const sender_email = Mailer.user;
+const mailHost = process.env.MAIL_HOST || Mailer.host;
+const mailPort = parseInt(process.env.MAIL_PORT || String(Mailer.port || 0), 10);
+const mailSecure = (process.env.MAIL_SECURE || String(Mailer.secure || false)).toLowerCase() === 'true';
+const sender_email = process.env.MAIL_USER || Mailer.user;
+const sender_pass = process.env.MAIL_PASS || Mailer.pass;
 
 const transporter = nodemailer.createTransport({
-    host: Mailer.host,
-    port: Mailer.port,
-    secure: Mailer.secure,
+    host: mailHost,
+    port: mailPort,
+    secure: mailSecure,
     auth: {
         user: sender_email,
-        pass: Mailer.pass,
+        pass: sender_pass,
     },
 });
 

@@ -7,6 +7,9 @@ import fs from 'fs';
 import path from 'path';
 import getConfig from 'config';
 import chalk from 'chalk';
+import dotenv from 'dotenv';
+// Load environment variables from .env if present
+dotenv.config();
 import { writeToLog } from './middleware/log.js';
 
 // middleware
@@ -40,9 +43,10 @@ app.use(trackApiCall);
 const redisConfig = getConfig.get('redis');
 const client = createClient({
     socket: {
-        host: redisConfig.host,
-        port: redisConfig.port
-    }
+        host: process.env.REDIS_HOST || redisConfig.host,
+        port: parseInt(process.env.REDIS_PORT || String(redisConfig.port), 10)
+    },
+    password: process.env.REDIS_PASSWORD || redisConfig.password || undefined
 });
 
 async function startServer() {

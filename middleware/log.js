@@ -1,9 +1,11 @@
 import config from 'config';
 import path from 'path';
 import fs from 'fs';
+import dotenv from 'dotenv';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
 
+dotenv.config();
 const LogConfig = config.get('Log');
 const loggersMap = new Map();
 
@@ -16,7 +18,7 @@ const getLogger = (type) => {
         return loggersMap.get(type);
     }
 
-    const logDirectory = LogConfig.directory;
+    const logDirectory = process.env.LOG_DIR || LogConfig.directory;
     const filename = LogConfig.name[type] || 'default.log';
 
     // Ensure log directory exists
