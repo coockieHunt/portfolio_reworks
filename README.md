@@ -6,6 +6,7 @@ Welcome to my portfolio repository! This repository contains the source code for
 [![Website](https://img.shields.io/website?label=jonathangleyze.fr&style=for-the-badge&url=https%3A%2F%2Fwww.jonathangleyze.fr)](https://www.jonathangleyze.fr)
 [![Deployment](https://img.shields.io/badge/Deploy-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/coockieHunt/portfolio_reworks/actions)
 [![Uptime](https://img.shields.io/badge/Uptime-Monitored%20by%20Kuma-00B27A?style=for-the-badge&logo=uptime-kuma&logoColor=white)](https://www.jonathangleyze.fr)
+[![License](https://img.shields.io/badge/License-Mixed-blue?style=for-the-badge)](./LICENSE.md)
 
 <!-- TECH STACK FRONT -->
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -19,6 +20,23 @@ Welcome to my portfolio repository! This repository contains the source code for
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+---
+
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Live Demo](#-live-portfolio)
+- [Installation](#-installation)
+- [API Configuration](#-api-configuration)
+- [Tech Stack](#️-tech-stack)
+- [Project Structure](#-project-structure)
+- [Infrastructure](#️-hosting--infrastructure)
+- [CI/CD Workflow](#-cicd-workflow)
+- [Privacy & Analytics](#-privacy--analytics)
+- [License](#-license)
+- [Contact](#-contact)
+
+---
 
 ## ✨ Features
 
@@ -28,10 +46,25 @@ Welcome to my portfolio repository! This repository contains the source code for
 - **Dynamic Content**: Centralized data management for easy content updates
 - **Interactive Components**: Custom-built components including animated SVGs, scroll effects, and more
 - **Optimized Performance**: Code splitting and lazy loading for optimal load times
+- **Privacy-First**: Self-hosted analytics with no third-party tracking
+- **Production-Ready**: Complete CI/CD pipeline with automated deployments
+
+---
+
+## 🌐 Live Portfolio
+
+View my portfolio online at **[jonathangleyze.fr](https://www.jonathangleyze.fr)**
+
+---
 
 ## 🚀 Installation
 
-To set up and run my portfolio locally, follow these steps:
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Setup Steps
 
 1. **Clone the repository**:
    ```bash
@@ -48,83 +81,71 @@ To set up and run my portfolio locally, follow these steps:
    npm install
    ```
 
-4. **Start the development server**:
+4. **Configure environment variables** (see [API Configuration](#-api-configuration))
+
+5. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-   To run the server with network access (accessible from other devices on your network):
+   For network access (accessible from other devices):
    ```bash
    npm run dev:network
    ```
 
-5. **Build for production (read license)**:
+6. **Build for production**:
    ```bash
    npm run build
    ```
-
-
-## API Configuration
-
-- Variable: `VITE_API_BASE_URL`
-- Purpose: Base URL the frontend uses to call the API.
-- How to set:
-   - Copy `.env.example` to `.env.local` (or `.env`) and edit the value.
-   - Example: `VITE_API_BASE_URL=http://localhost:3001/api`
-
-If not set, the app defaults to `http://localhost:3001/api`.
-
-That's it! You can now browse my portfolio locally at `http://localhost:5173` 🎉
-
-## 🌐 Live Portfolio
-
-If you want to view my portfolio online without installing it locally, you can access it at [jonathangleyze.fr](https://www.jonathangleyze.fr).
-
-## 🔒 Privacy & Analytics
-
-Your privacy matters! This portfolio uses:
-
-- **Umami Analytics**: Privacy-focused, GDPR-compliant analytics that respects your data
-- **No reCAPTCHA**: Contact form uses a custom honeypot system instead of Google reCAPTCHA
-- **No Third-Party Tracking**: No cookies, no fingerprinting, no data selling
-- **Open Source**: Umami is self-hosted and fully transparent
-
-All analytics data is anonymized and stored securely on my own infrastructure.
-
-## 🖥️ Hosting & Infrastructure
-
-> **Note:** This setup describes my live production environment. You do **not** need these tools to run the project locally.
-
-This portfolio is hosted on a self-managed infrastructure with:
-
-- **PM2**: Process manager ensuring 24/7 uptime and automatic restarts
-- **Uptime Kuma**: Real-time monitoring and health checks
-- **Umami Analytics**: Self-hosted instance for privacy-first tracking
-- **Automated Deployments**: CI/CD pipeline for seamless updates
-
-This setup ensures maximum reliability, performance, and data sovereignty.
-
-## 🔄 CI/CD Workflow
-
-I have implemented a robust automated deployment pipeline to ensure safe and fast updates:
-
-1. **Local Automation (`npm run deploy`)**: 
-   - A custom **Bash script** manages the git flow.
-   - It secures the `main` branch, validates changes, and requests **manual confirmation** before merging to `prod`.
    
-2. **Remote Deployment (GitHub Actions)**:
-   - Detecting a push on `prod`, GitHub Actions triggers the deployment workflow.
-   - It connects securely to the VPS via SSH keys.
-   - It pulls the latest code, runs `npm run build`, and performs a **zero-downtime reload** via PM2.
+   ⚠️ **Important**: Read the [LICENSE.md](./LICENSE.md) before deploying or using this code in production.
+
+The development server will be available at `http://localhost:5173` 🎉
+
+---
+
+## 🔧 API Configuration
+
+Configure the API endpoint by setting the `VITE_API_BASE_URL` environment variable:
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Edit `.env.local` and set your API URL:
+   ```env
+   VITE_API_BASE_URL=http://localhost:3001/api
+   ```
+
+**Default value**: If not set, defaults to `http://localhost:3001/api`
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, Vite
+### Frontend
+- **Framework**: React 18
+- **Build Tool**: Vite
 - **Styling**: Styled Components
 - **Animations**: Framer Motion
 - **Icons**: React Icons
-- **Build Tool**: Vite
-- **Package Manager**: npm
+
+### Backend & Infrastructure
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Cache**: Redis
+- **Containerization**: Docker
+- **Process Manager**: PM2
+- **Monitoring**: Uptime Kuma
+- **Analytics**: Umami (self-hosted)
+
+### DevOps
+- **CI/CD**: GitHub Actions
+- **Deployment**: Automated via SSH
+- **Version Control**: Git
+
+---
 
 ## 📂 Project Structure
 
@@ -142,15 +163,104 @@ src/
 └── config.jsx      # App configuration
 ```
 
+---
+
+## 🖥️ Hosting & Infrastructure
+
+> **Note**: This setup describes my live production environment. You do **not** need these tools to run the project locally.
+
+### Production Stack
+
+- **PM2**: Process manager ensuring 24/7 uptime and automatic restarts
+- **Uptime Kuma**: Real-time monitoring and health checks
+- **Umami Analytics**: Self-hosted instance for privacy-first tracking
+- **Automated Deployments**: CI/CD pipeline for seamless updates
+
+This setup ensures maximum reliability, performance, and data sovereignty.
+
+---
+
+## 🔄 CI/CD Workflow
+
+### Automated Deployment Pipeline
+
+#### 1. Local Automation (`npm run deploy`)
+- Custom **Bash script** manages the Git workflow
+- Secures the `main` branch
+- Validates changes
+- Requests **manual confirmation** before merging to `prod`
+
+#### 2. Remote Deployment (GitHub Actions)
+- Triggered automatically on push to `prod` branch
+- Secure SSH connection to VPS
+- Pulls latest code
+- Runs `npm run build`
+- Performs **zero-downtime reload** via PM2
+
+### Workflow Steps
+```
+Local Changes → main branch → Manual approval → prod branch → GitHub Actions → VPS Deployment
+```
+
+---
+
+## 🔒 Privacy & Analytics
+
+Your privacy is a priority! This portfolio implements:
+
+### Features
+- ✅ **Umami Analytics**: Privacy-focused, GDPR-compliant analytics
+- ✅ **No reCAPTCHA**: Custom honeypot system for contact form
+- ✅ **No Third-Party Tracking**: No cookies, no fingerprinting, no data selling
+- ✅ **Open Source**: Self-hosted and fully transparent
+- ✅ **Anonymized Data**: All analytics data is anonymized
+
+All data is stored securely on my own infrastructure.
+
+---
+
+## 📜 License
+
+This project uses a **mixed license model**:
+
+- **Code**: Open source (see [LICENSE.md](./LICENSE.md))
+- **Design & Assets**: Proprietary - © 2025 Jonathan Gleyze
+
+### What you CAN do:
+✅ Use the code to learn and build your own projects  
+✅ Modify and adapt the code for your needs  
+✅ Use as a reference for your own portfolio
+
+### What you CANNOT do:
+❌ Clone this repository and use it as-is for your portfolio  
+❌ Use the design, graphics, or content without permission  
+❌ Use for commercial purposes without explicit authorization
+
+**📖 Read the full license**: [LICENSE.md](./LICENSE.md)
+
+---
+
 ## 📧 Contact
 
-If you have any questions or would like to get in touch with me, please feel free to reach out:
+Feel free to reach out if you have any questions:
 
-- 📧 Email: [pro.jonathan.gleyze@gmail.com](mailto:pro.jonathan.gleyze@gmail.com)
-- 💼 LinkedIn: [Jonathan Gleyze](https://www.linkedin.com/in/jonathan-gleyze-173ab7239/)
-- 🐙 GitHub: [@coockieHunt](https://github.com/coockieHunt)
-- 🎨 DeviantArt: [coockiehunt](https://www.deviantart.com/coockiehunt)
+- 📧 **Email**: [pro.jonathan.gleyze@gmail.com](mailto:pro.jonathan.gleyze@gmail.com)
+- 💼 **LinkedIn**: [Jonathan Gleyze](https://www.linkedin.com/in/jonathan-gleyze-173ab7239/)
+- 🐙 **GitHub**: [@coockieHunt](https://github.com/coockieHunt)
+- 🎨 **DeviantArt**: [coockiehunt](https://www.deviantart.com/coockiehunt)
 
+---
+
+<div align="center">
+
+Made with ❤️ by Jonathan Gleyze
+
+[⬆ Back to top](#-portfolio-repository-eng)
+
+</div>
+
+---
+---
 ---
 
 # 🌟 Portfolio Repository [FR]
@@ -161,6 +271,7 @@ Bienvenue dans mon référentiel de portfolio ! Ce référentiel contient le cod
 [![Website](https://img.shields.io/website?label=jonathangleyze.fr&style=for-the-badge&url=https%3A%2F%2Fwww.jonathangleyze.fr)](https://www.jonathangleyze.fr)
 [![Deployment](https://img.shields.io/badge/Deploy-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/coockieHunt/portfolio_reworks/actions)
 [![Uptime](https://img.shields.io/badge/Uptime-Monitored%20by%20Kuma-00B27A?style=for-the-badge&logo=uptime-kuma&logoColor=white)](https://www.jonathangleyze.fr)
+[![License](https://img.shields.io/badge/License-Mixte-blue?style=for-the-badge)](./LICENSE.md)
 
 <!-- TECH STACK FRONT -->
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -174,6 +285,24 @@ Bienvenue dans mon référentiel de portfolio ! Ce référentiel contient le cod
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+---
+
+## 📋 Table des Matières
+
+- [Fonctionnalités](#-fonctionnalités)
+- [Démo en Ligne](#-portfolio-en-ligne)
+- [Installation](#-installation)
+- [Configuration API](#-configuration-api)
+- [Stack Technique](#️-stack-technique)
+- [Structure du Projet](#-structure-du-projet)
+- [Infrastructure](#️-hébergement--infrastructure)
+- [Workflow CI/CD](#-workflow-cicd)
+- [Confidentialité & Analytiques](#-confidentialité--analytiques)
+- [Licence](#-licence)
+- [Contact](#-contact)
+
+---
+
 ## ✨ Fonctionnalités
 
 - **Architecture React Moderne**: Construit avec React 18 et Vite pour des performances ultra-rapides
@@ -182,10 +311,25 @@ Bienvenue dans mon référentiel de portfolio ! Ce référentiel contient le cod
 - **Contenu Dynamique**: Gestion centralisée des données pour des mises à jour faciles
 - **Composants Interactifs**: Composants personnalisés incluant des SVG animés, effets de scroll, et plus
 - **Performance Optimisée**: Code splitting et lazy loading pour des temps de chargement optimaux
+- **Respect de la Vie Privée**: Analytiques auto-hébergées sans tracking tiers
+- **Production Ready**: Pipeline CI/CD complet avec déploiements automatisés
+
+---
+
+## 🌐 Portfolio en Ligne
+
+Consultez mon portfolio en ligne sur **[jonathangleyze.fr](https://www.jonathangleyze.fr)**
+
+---
 
 ## 🚀 Installation
 
-Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
+### Prérequis
+
+- Node.js (v16 ou supérieur)
+- npm ou yarn
+
+### Étapes d'Installation
 
 1. **Cloner le référentiel**:
    ```bash
@@ -202,83 +346,71 @@ Pour configurer et exécuter mon portfolio localement, suivez ces étapes :
    npm install
    ```
 
-4. **Démarrer le serveur de développement**:
+4. **Configurer les variables d'environnement** (voir [Configuration API](#-configuration-api))
+
+5. **Démarrer le serveur de développement**:
    ```bash
    npm run dev
    ```
 
-   Pour lancer le serveur avec accès réseau (accessible depuis d'autres appareils sur votre réseau) :
+   Pour l'accès réseau (accessible depuis d'autres appareils):
    ```bash
    npm run dev:network
    ```
 
-5. **Compiler pour la production (lire la license)**:
+6. **Compiler pour la production**:
    ```bash
    npm run build
    ```
+   
+   ⚠️ **Important**: Lisez le [LICENSE.md](./LICENSE.md) avant de déployer ou d'utiliser ce code en production.
 
-C'est tout ! Vous pouvez maintenant parcourir mon portfolio localement sur `http://localhost:5173` 🎉
+Le serveur de développement sera disponible sur `http://localhost:5173` 🎉
 
+---
 
-## API Configuration
+## 🔧 Configuration API
 
-- Variable: `VITE_API_BASE_URL`
-- Objectif : URL de base utilisée par le frontend (interface utilisateur) pour appeler l'API.
-- Comment la définir :
-      - Copiez le fichier .env.example vers .env.local (ou .env) et modifiez la valeur.
-      - Exemple : VITE_API_BASE_URL=http://localhost:3001/api
+Configurez l'URL de l'API en définissant la variable d'environnement `VITE_API_BASE_URL`:
 
-Si elle n'est pas définie, l'URL sera : `http://localhost:3001/api`.
+1. Copiez le fichier d'exemple:
+   ```bash
+   cp .env.example .env.local
+   ```
 
-## 🌐 Portfolio en Ligne
+2. Éditez `.env.local` et définissez votre URL API:
+   ```env
+   VITE_API_BASE_URL=http://localhost:3001/api
+   ```
 
-Si vous souhaitez consulter mon portfolio en ligne sans l'installer localement, vous pouvez y accéder sur [jonathangleyze.fr](https://www.jonathangleyze.fr).
+**Valeur par défaut**: Si non définie, l'URL sera `http://localhost:3001/api`
 
-## 🔒 Confidentialité & Analytiques
-
-Votre vie privée compte ! Ce portfolio utilise :
-
-- **Umami Analytics** : Analytiques respectueuses de la vie privée, conformes RGPD
-- **Pas de reCAPTCHA** : Le formulaire de contact utilise un système honeypot personnalisé au lieu de Google reCAPTCHA
-- **Aucun Tracking Tiers** : Pas de cookies, pas d'empreinte digitale, pas de revente de données
-- **Open Source** : Umami est auto-hébergé et totalement transparent
-
-Toutes les données analytiques sont anonymisées et stockées en toute sécurité sur ma propre infrastructure.
-
-## 🖥️ Hébergement & Infrastructure
-
-> **Note :** Cette configuration concerne mon environnement de production en direct. Vous n'avez **pas** besoin de ces outils pour lancer le projet localement.
-
-Ce portfolio est hébergé sur une infrastructure auto-gérée avec :
-
-- **PM2** : Gestionnaire de processus assurant une disponibilité 24/7 et des redémarrages automatiques
-- **Uptime Kuma** : Surveillance en temps réel et vérifications de santé
-- **Umami Analytics** : Instance auto-hébergée pour un suivi respectueux de la vie privée
-- **Déploiements Automatisés** : Pipeline CI/CD pour des mises à jour fluides
-
-Cette configuration garantit une fiabilité, performance et souveraineté des données maximales.
-
-## 🔄 Workflow CI/CD
-
-J'ai mis en place un pipeline de déploiement automatisé robuste pour garantir des mises à jour rapides et sécurisées :
-
-1. **Automatisation Locale (`npm run deploy`)** :
-   - Un **script Bash** personnalisé gère le flux Git.
-   - Il sécurise la branche `main`, valide les changements, et demande une **confirmation manuelle** avant de fusionner vers `prod`.
-
-2. **Déploiement Distant (GitHub Actions)** :
-   - En détectant un push sur `prod`, GitHub Actions déclenche le workflow de déploiement.
-   - Il se connecte de manière sécurisée au VPS via des clés SSH.
-   - Il récupère le dernier code, lance `npm run build` et effectue un **rechargement à chaud** via PM2 (zéro temps d'arrêt).
+---
 
 ## 🛠️ Stack Technique
 
-- **Frontend**: React, Vite
+### Frontend
+- **Framework**: React 18
+- **Outil de Build**: Vite
 - **Styling**: Styled Components
 - **Animations**: Framer Motion
 - **Icônes**: React Icons
-- **Outil de Build**: Vite
-- **Gestionnaire de Paquets**: npm
+
+### Backend & Infrastructure
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Cache**: Redis
+- **Containerisation**: Docker
+- **Gestionnaire de Processus**: PM2
+- **Surveillance**: Uptime Kuma
+- **Analytiques**: Umami (auto-hébergé)
+
+### DevOps
+- **CI/CD**: GitHub Actions
+- **Déploiement**: Automatisé via SSH
+- **Contrôle de Version**: Git
+
+---
 
 ## 📂 Structure du Projet
 
@@ -296,11 +428,104 @@ src/
 └── config.jsx      # Configuration de l'application
 ```
 
+---
+
+## 🖥️ Hébergement & Infrastructure
+
+> **Note**: Cette configuration concerne mon environnement de production en direct. Vous n'avez **pas** besoin de ces outils pour lancer le projet localement.
+
+### Stack de Production
+
+- **PM2**: Gestionnaire de processus assurant une disponibilité 24/7 et des redémarrages automatiques
+- **Uptime Kuma**: Surveillance en temps réel et vérifications de santé
+- **Umami Analytics**: Instance auto-hébergée pour un suivi respectueux de la vie privée
+- **Déploiements Automatisés**: Pipeline CI/CD pour des mises à jour fluides
+
+Cette configuration garantit une fiabilité, performance et souveraineté des données maximales.
+
+---
+
+## 🔄 Workflow CI/CD
+
+### Pipeline de Déploiement Automatisé
+
+#### 1. Automatisation Locale (`npm run deploy`)
+- **Script Bash** personnalisé gérant le workflow Git
+- Sécurise la branche `main`
+- Valide les changements
+- Demande une **confirmation manuelle** avant fusion vers `prod`
+
+#### 2. Déploiement Distant (GitHub Actions)
+- Déclenché automatiquement lors d'un push sur `prod`
+- Connexion SSH sécurisée au VPS
+- Récupération du dernier code
+- Exécution de `npm run build`
+- **Rechargement sans temps d'arrêt** via PM2
+
+### Étapes du Workflow
+```
+Changements Locaux → branche main → Approbation manuelle → branche prod → GitHub Actions → Déploiement VPS
+```
+
+---
+
+## 🔒 Confidentialité & Analytiques
+
+Votre vie privée est une priorité ! Ce portfolio implémente:
+
+### Fonctionnalités
+- ✅ **Umami Analytics**: Analytiques respectueuses de la vie privée, conformes RGPD
+- ✅ **Pas de reCAPTCHA**: Système honeypot personnalisé pour le formulaire de contact
+- ✅ **Aucun Tracking Tiers**: Pas de cookies, pas d'empreinte digitale, pas de revente de données
+- ✅ **Open Source**: Auto-hébergé et totalement transparent
+- ✅ **Données Anonymisées**: Toutes les données analytiques sont anonymisées
+
+Toutes les données sont stockées en sécurité sur ma propre infrastructure.
+
+---
+
+## 📜 Licence
+
+Ce projet utilise un **modèle de licence mixte**:
+
+- **Code**: Open source (voir [LICENSE.md](./LICENSE.md))
+- **Design & Assets**: Propriétaire - © 2025 Jonathan Gleyze
+
+### Ce que vous POUVEZ faire:
+✅ Utiliser le code pour apprendre et construire vos propres projets  
+✅ Modifier et adapter le code pour vos besoins  
+✅ Utiliser comme référence pour votre propre portfolio
+
+### Ce que vous NE POUVEZ PAS faire:
+❌ Cloner ce dépôt et l'utiliser tel quel pour votre portfolio  
+❌ Utiliser le design, les graphiques ou le contenu sans permission  
+❌ Utiliser à des fins commerciales sans autorisation explicite
+
+**📖 Lire la licence complète**: [LICENSE.md](./LICENSE.md)
+
+---
+
 ## 📧 Contact
 
-Si vous avez des questions ou souhaitez me contacter, n'hésitez pas :
+N'hésitez pas à me contacter si vous avez des questions:
 
-- 📧 Email: [pro.jonathan.gleyze@gmail.com](mailto:pro.jonathan.gleyze@gmail.com)
-- 💼 LinkedIn: [Jonathan Gleyze](https://www.linkedin.com/in/jonathan-gleyze-173ab7239/)
-- 🐙 GitHub: [@coockieHunt](https://github.com/coockieHunt)
-- 🎨 DeviantArt: [coockiehunt](https://www.deviantart.com/coockiehunt)
+- 📧 **Email**: [pro.jonathan.gleyze@gmail.com](mailto:pro.jonathan.gleyze@gmail.com)
+- 💼 **LinkedIn**: [Jonathan Gleyze](https://www.linkedin.com/in/jonathan-gleyze-173ab7239/)
+- 🐙 **GitHub**: [@coockieHunt](https://github.com/coockieHunt)
+- 🎨 **DeviantArt**: [coockiehunt](https://www.deviantart.com/coockiehunt)
+
+---
+
+<div align="center">
+
+Fait avec ❤️ par Jonathan Gleyze
+
+[⬆ Retour en haut](#-portfolio-repository-fr)
+
+</div>
+
+---
+
+## 🌍 English Version
+
+[Read this README in English](#-portfolio-repository-eng)
