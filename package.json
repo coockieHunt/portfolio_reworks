@@ -40,6 +40,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^5.1.1",
     "vite": "latest",
+    "vite-plugin-html": "^3.2.2",
     "vite-plugin-svgr": "^4.5.0"
   }
 }

@@ -3,17 +3,17 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [svgr(), react()],
-  esbuild: {
-    loader: 'jsx',
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
-  },
+    plugins: [
+      svgr(), 
+      react(),
+      createHtmlPlugin({
+        inject: {
+          data: {
+            siteUrl: env.VITE_OG_IMAGE_URL || 'http://localhost:3000',
+          },
+        },
+      }),
+    ],
   server: {
     port: 3000,
     open: true,
