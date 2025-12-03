@@ -2,6 +2,24 @@
 
 Welcome to my portfolio repository! This repository contains the source code for my public portfolio, which showcases my skills and projects. Feel free to explore the code and projects to get a better understanding of my work.
 
+<!-- STATUS & LINKS -->
+[![Website](https://img.shields.io/website?label=jonathangleyze.fr&style=for-the-badge&url=https%3A%2F%2Fwww.jonathangleyze.fr)](https://www.jonathangleyze.fr)
+[![Deployment](https://img.shields.io/badge/Deploy-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/coockieHunt/portfolio_reworks/actions)
+[![Uptime](https://img.shields.io/badge/Uptime-Monitored%20by%20Kuma-00B27A?style=for-the-badge&logo=uptime-kuma&logoColor=white)](https://www.jonathangleyze.fr)
+
+<!-- TECH STACK FRONT -->
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue)
+
+<!-- TECH STACK BACK & OPS -->
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+
 ## ✨ Features
 
 - **Modern React Architecture**: Built with React 18 and Vite for lightning-fast performance
@@ -138,6 +156,23 @@ If you have any questions or would like to get in touch with me, please feel fre
 # 🌟 Portfolio Repository [FR]
 
 Bienvenue dans mon référentiel de portfolio ! Ce référentiel contient le code source de mon portfolio public, qui met en valeur mes compétences et mes projets. N'hésitez pas à explorer le code et les projets pour mieux comprendre mon travail.
+
+<!-- STATUS & LINKS -->
+[![Website](https://img.shields.io/website?label=jonathangleyze.fr&style=for-the-badge&url=https%3A%2F%2Fwww.jonathangleyze.fr)](https://www.jonathangleyze.fr)
+[![Deployment](https://img.shields.io/badge/Deploy-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/coockieHunt/portfolio_reworks/actions)
+[![Uptime](https://img.shields.io/badge/Uptime-Monitored%20by%20Kuma-00B27A?style=for-the-badge&logo=uptime-kuma&logoColor=white)](https://www.jonathangleyze.fr)
+
+<!-- TECH STACK FRONT -->
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue)
+
+<!-- TECH STACK BACK & OPS -->
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ## ✨ Fonctionnalités
 
