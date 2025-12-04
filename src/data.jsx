@@ -13,6 +13,11 @@ export const URL = {
     github_portfolio_rework: 'https://github.com/coockieHunt/portfolio_reworks',
     github_portfolio_rework_api: 'https://github.com/coockieHunt/api-mail/tree/master',
     github_game: 'https://github.com/coockieHunt/ck_rp',
+
+
+    projectQuoteSend: 'https://github.com/coockieHunt/quoteViewerSkull',
+    FirstPortfolio: 'https://github.com/coockieHunt/portfolio',
+    onset: 'https://github.com/coockieHunt/onsetrp'
 }
 
 export const productList = [
@@ -39,8 +44,9 @@ export const productList = [
     },
 ];
 
-import demoProjet from './assets/projetImg/test.png'
-import demoProjet2 from './assets/projetImg/image.png'
+import QuoteImage from './assets/projetImg/Quote-send_1.webp';
+import QuoteImage1 from './assets/projetImg/Quote-send_2.webp';
+import OnsetImage from './assets/projetImg/onset_1.webp';
 
 
 // -- Projet List ---
@@ -48,33 +54,33 @@ import demoProjet2 from './assets/projetImg/image.png'
 export const projectList = [
     {
         id: 1,
-        title: 'Projet 1',
-        fileName: 'custom_hook.jsx',
-        description: "Projet de création d'un ensemble de hooks personnalisés en React",
-        content: "Ce projet met en œuvre des composants fonctionnels pour gérer l'état et les effets de manière élégante, rendant le développement d'applications web plus fluide et efficace.",
-        webUrl: URL.github_hook,
-        gitUrl: URL.github_hook,
+        title: 'Quote Send',
+        fileName: 'quote_send.jsx',
+        description: "Un projet d'affichage de citations avec interface d'administration",
+        content: "Quote Send est un projet personnel qui affiche des citations de manière élégante. Il dispose d\'un menu d\'administration sécurisé avec Firebase pour gérer les citations. Ce projet reflète mon aspiration pour les textes inspirants, en offrant une plateforme simple mais efficace pour les partager.",
+        webUrl: 'https://quote.jonathangleyze.fr',
+        gitUrl: URL.projectQuoteSend,
         galery: [
-            {img: demoProjet, title:"Titre image démo 1 custom", alt:"Image démo 1"}, 
-            {img: demoProjet2, title:"Titre image démo 2 custom", alt:"Image démo 2"}, 
+            {img: QuoteImage, title:"Quote send affichage quote simple", alt:"quote send image démo short"}, 
+            {img: QuoteImage1, title:"Quote send affichage quote longue", alt:"quote send image démo long"}, 
         ],
-        techStack: ['react', 'hook', 'custom'],
+        techStack: ['react', 'supabase'],
         column: 1,
         row: 2,
         favorite: true,
-        date: '2023-11-01',
+        date: '2024-12-04',
         complete: true
     },
     {
         id: 2,
-        title: 'Projet 2 - Sans galerie',
+        title: 'Premier Portfolio',
         fileName: 'portfolio_v1.jsx',
         description: "Mon premier portfolio en ligne",
         content: "Mon premier portfolio en ligne, conçu pour présenter mes compétences et projets précédents. Il a été créé avec HTML, CSS et JavaScript. Bien que ce soit une version antérieure, il représente le début de mon voyage dans le développement web.",
         webUrl: null,
-        gitUrl: URL.github_hook,
+        gitUrl: URL.FirstPortfolio,
         galery: [],
-        techStack: ['html', 'css', 'javascript'],
+        techStack: ['html', 'css', 'javascript', "react"],
         column: 1,
         row: 2,
         favorite: false,
@@ -82,38 +88,20 @@ export const projectList = [
         complete: false
     },
     {
-        id: 3,
-        title: 'Projet 3',
-        fileName: 'portfolio_v2.jsx',
-        description: "La deuxième itération de mon portfolio",
-        content: "La deuxième itération de mon portfolio, qui montre ma progression dans le développement web. Ce portfolio est plus avancé, utilisant des technologies modernes telles que React et Styled Components. Il offre une expérience utilisateur améliorée et une meilleure présentation de mes projets.",
-        webUrl: URL.github_hook,
-        gitUrl: URL.github_hook,        
-        galery: [
-            {img: demoProjet }, 
-            {img: demoProjet2 },
-            {img: demoProjet2 }
-        ],
-        techStack: ['react', 'styled-components'],
-        column: 1,
-        row: 2,
-        favorite: false,
-        date: '2023-11-01',
-        complete: true
-    },
-    {
-        id: 4,
-        title: 'Projet 4',
-        fileName: 'projet_4.jsx',
+        id: 5,
+        title: 'Framework mods de jeux',
+        fileName: 'Framework.jsx',
         description: "Un projet passionnant axé sur le développement de mods de jeux",
         content: "Un projet passionnant axé sur le développement de mods de jeux, créé à l'aide de technologies telles que Unity, Lua, HTML et JS. Ce framework a pour but de poser les bases, permettant des expériences de jeu amusantes et interactives.",
-        webUrl: URL.github_hook,
-        gitUrl: URL.github_hook,
-        galery: [],
+        gitUrl: URL.onset,
+        webUrl: null,
+        galery: [
+            {img: OnsetImage, title:"Image of onset", alt:"onset image"}, 
+        ],
         techStack: ['unity', 'lua', 'html', 'js'],
         column: 1,
         row: 2,
-        favorite: true,
+        favorite: false,
         date: '2023-11-01',
         complete: true
     },
