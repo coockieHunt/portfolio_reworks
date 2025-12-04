@@ -7,8 +7,8 @@ import { TerminalComponent } from "../../components/Terminal/Terminal.component"
 export const ProductContainer = ({id}) => {
     return (
         <div id={id}>
-            <TitleTextComponent subtitle={"Faites votre choix"}>
-                    Produits
+            <TitleTextComponent subtitle={"Je vous propose"} >
+                    Solutions
             </TitleTextComponent>
             <TerminalComponent data={productList} />
         </div>

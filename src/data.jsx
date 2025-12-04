@@ -1,7 +1,6 @@
-import { AiFillLayout, AiOutlineRise, AiOutlineAim } from "react-icons/ai";
-import { FaBoxesStacked , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaArrowsTurnToDots , FaLaptopCode, FaDiceD20, FaBarsProgress, FaGithub, FaLinkedinIn, FaDeviantart, FaRegUser } from "react-icons/fa6";
-import cv from './assets/pdf/cv_dev_JG.pdf'
+import { AiFillLayout, AiOutlineRise, AiOutlineAim, AiOutlineShopping } from "react-icons/ai";
 
+import {  FaHandshake , FaComments , FaBoxesStacked , FaLightbulb , FaGem , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaArrowsTurnToDots , FaLaptopCode, FaDiceD20, FaBarsProgress, FaGithub, FaLinkedinIn, FaDeviantart, FaRegUser } from "react-icons/fa6";
 export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com'
 
 export const URL = {
@@ -20,29 +19,7 @@ export const URL = {
     onset: 'https://github.com/coockieHunt/onsetrp'
 }
 
-export const productList = [
-    { 
-        id: 1, 
-        title: "Gestion de contenu", 
-        icon: <AiFillLayout/>, 
-        subTitle: 'WordPress, e-commerce, Vitrine',
-        description: "La flexibilité est le mot d'ordre. Que vous soyez un entrepreneur en herbe ou une grande entreprise, un CMS s'adapte à vos besoins. Mettez à jour votre site en temps réel sans attendre un développeur. Collaborez facilement avec votre équipe grâce à une interface intuitive. La sécurité est notre priorité, assurant la protection de votre contenu contre les menaces potentielles.",
-    },
-    { 
-        id: 2, 
-        title: "Application web", 
-        icon: <AiOutlineRise/>,
-        subTitle: 'Application métier',
-        description: "Que vous soyez un particulier cherchant à marquer sa présence en ligne ou une entreprise en quête d'innovation, je m'adapte à vos besoins spécifiques. La mise en place d'une interface intuitive permet une gestion fluide du contenu, et les mises à jour se font sans difficulté.",
-    },
-    { 
-        id: 3, 
-        title: "Consulting", 
-        icon: <AiOutlineAim/>,
-        subTitle: 'Audit Web',
-        description: "Un audit approfondi de votre site web, évaluant chaque aspect de sa performance. De l'expérience utilisateur à la structure technique, identifions les opportunités d'optimisation pour renforcer votre impact en ligne.",
-    },
-];
+
 
 import QuoteImage from './assets/projetImg/Quote-send_1.webp';
 import QuoteImage1 from './assets/projetImg/Quote-send_2.webp';
@@ -57,7 +34,7 @@ export const projectList = [
         title: 'Quote Send',
         fileName: 'quote_send.jsx',
         description: "Un projet d'affichage de citations avec interface d'administration",
-        content: "Quote Send est un projet personnel qui affiche des citations de manière élégante. Il dispose d\'un menu d\'administration sécurisé avec Firebase pour gérer les citations. Ce projet reflète mon aspiration pour les textes inspirants, en offrant une plateforme simple mais efficace pour les partager.",
+        content: "Quote Send est un projet personnel qui affiche des citations de manière élégante. Il dispose d\'un menu d\'administration sécurisé avec supabase pour gérer les citations. Ce projet reflète mon aspiration pour les textes inspirants, en offrant une plateforme simple mais efficace pour les partager.",
         webUrl: 'https://quote.jonathangleyze.fr',
         gitUrl: URL.projectQuoteSend,
         galery: [
@@ -76,7 +53,7 @@ export const projectList = [
         title: 'Premier Portfolio',
         fileName: 'portfolio_v1.jsx',
         description: "Premier portfolio en ligne, beaucoup plus simple à l'époque la toute première itération de la version actuelle",
-        content: "Mon premier portfolio en ligne, conçu pour présenter mes compétences et projets précédents. Il a été créé avec HTML, CSS et JavaScript. Bien que ce soit une version antérieure, il représente le début de mon voyage dans le développement web.",
+        content: "Mon premier portfolio en ligne, développé avec HTML, CSS et JavaScript, marque le début de mon parcours en développement web. Il met en avant mes compétences et projets passés, reflétant mes premières réalisations dans ce domaine.",
         webUrl: null,
         gitUrl: URL.FirstPortfolio,
         galery: [],
@@ -98,7 +75,7 @@ export const projectList = [
         galery: [
             {img: OnsetImage, title:"Image of onset", alt:"onset image"}, 
         ],
-        techStack: ['unity', 'lua', 'html', 'js'],
+        techStack: ['unity', 'lua', 'html', 'js' , "mysql"],
         column: 1,
         row: 2,
         favorite: false,
@@ -123,6 +100,73 @@ export const word_hero = [
     'monde',
 ];
 
+export const productList = [
+    { 
+        id: 1, 
+        title: "Sites WordPress", 
+        icon: <AiFillLayout/>, 
+        subTitle: 'Gestion de contenu, Corporate & Blog',
+        description: "L'essentiel pour être visible. Je conçois des sites modernes sous WordPress qui présentent votre activité avec élégance. L'atout majeur ? Vous êtes 100% autonome pour modifier vos textes et images grâce à une interface d'administration simplifiée.",
+    },
+    { 
+        id: 2, 
+        title: "Site Vitrine Sur-mesure", 
+        icon: <FaPaintbrush/>, 
+        subTitle: 'Design unique, Animations & Responsive',
+        description: "Votre identité numérique mérite mieux qu'un modèle standard. Je développe des sites uniques qui respectent votre charte graphique au pixel près. La performance, la fluidité des animations et le respect des standards web sont au cœur de mon processus.",
+    },
+    { 
+        id: 3, 
+        title: "E-commerce", 
+        icon: <AiOutlineShopping/>,
+        subTitle: 'Shopify, WooCommerce',
+        description: "Transformez vos visiteurs en clients. Que ce soit sur Shopify ou WordPress (WooCommerce), je crée des boutiques en ligne performantes, sécurisées et optimisées pour la vente, avec une gestion de catalogue fluide.",
+    },
+    { 
+        id: 4, 
+        title: "Application Métier", 
+        icon: <AiOutlineRise/>,
+        subTitle: 'Solutions sur-mesure, SaaS, Tableaux de bord',
+        description: "Quand un site standard ne suffit plus. Je développe des outils web spécifiques (React/Next.js) connectés à votre activité pour automatiser vos tâches, gérer vos données internes ou offrir un service innovant à vos utilisateurs.",
+    },
+    { 
+        id: 5, 
+        title: "Consulting", 
+        icon: <AiOutlineAim/>,
+        subTitle: 'Audit Web & Stratégie',
+        description: "Un regard d'expert sur l'existant. Je réalise un audit approfondi de votre site web pour évaluer sa performance technique, sa sécurité et son expérience utilisateur, suivi de recommandations concrètes et applicables.",
+    },
+];
+
+export const serviceModals = [
+    {
+        title: 'Développement Web',
+        catch: "Plus qu'un exécutant, je suis un partenaire technique investi dans la réussite de votre projet sur le long terme.",
+        items: [
+            'Curiosité & Veille : Toujours à l\'affût des dernières technologies pour vous proposer les solutions les plus pérennes.',
+            'Résolution de problèmes : Je transforme les complexités techniques en solutions simples et fluides.',
+            'Code Clean & Documenté : Je travaille avec rigueur pour que votre projet soit maintenable et évolutif.',
+        ],
+    },
+    {
+        title: 'Accompagnement',
+        catch: "La technique ne doit pas être une boîte noire. Je privilégie la pédagogie et la transparence dans nos échanges.",
+        items: [
+            'Écoute active : Je prends le temps de comprendre vos enjeux business avant de proposer une ligne de code.',
+            'Vulgarisation : J\'explique les choix techniques avec des mots simples pour que vous restiez maître de votre projet.',
+            'Force de proposition : Je ne me contente pas de dire "oui", je vous conseille pour optimiser vos coûts et vos résultats.',
+        ],
+    },
+    {
+        title: 'Sensibilité Créative',
+        catch: "Ma double casquette technique et créative me permet de faire le pont entre le design et le développement.",
+        items: [
+            'Empathie Utilisateur (UX) : Je conçois les interfaces en me mettant systématiquement à la place de vos clients.',
+            'Sens du détail : Des animations fluides aux alignements parfaits, je soigne les finitions qui font la différence.',
+            'Adaptabilité : Je sais m\'intégrer à une équipe existante ou respecter scrupuleusement une maquette fournie.',
+        ],
+    },
+];
 export const benefitItems = [
     {
         icon: <FaEarthEurope/>,
@@ -166,38 +210,6 @@ export const benefitItems = [
     }
 ];
 
-export const serviceModals = [
-    {
-        title: 'Développement Web',
-        catch: "Avec une riche expérience et une expertise pointue dans les nouvelles technologies, je relève les défis émergents et propose des solutions innovantes.",
-        items: [
-            'Sites vitrines, corporate, événementiels, e-commerce.',
-            'Intégrations HTML/CSS respectueuses des standards du Web.',
-            "Outils adaptés à votre cœur de métier, applications et solutions personnalisées.",
-        ],
-    },
-    {
-        title: 'Consultant Web',
-        catch: "En tant que consultant web, je donne vie à vos idées en créant des solutions en ligne innovantes.",
-        items: [
-            'Architecture web.',
-            'Stratégie digitale.',
-            'Sécurité web.',
-            'Accessibilité web.',
-        ],
-    },
-    {
-        title: 'Conception Graphique & WebDesign',
-        catch: "Fort d'une expérience en tant qu'assistant de communication.",
-        items: [
-            'Logos, templates web, plaquettes publicitaires, cartes de visite, newsletters...',
-            'Animations de contenu non intrusives pour embellir votre projet.',
-            'Compatible tous supports : tablettes et applications mobiles.',
-        ],
-    },
-];
-
-
 export const TimeLine = [
     { 
         title: "Premier échange 🔗", 
@@ -217,30 +229,36 @@ export const TimeLine = [
     },
 ];
 
+
+export const catchText = {
+    intro: "Ce n'est pas simplement du code, j'apporte une méthodologie et un état d'esprit qui transforment les contraintes en opportunités.",
+    extra: "Mes 4 piliers d'engagement :"
+};
+
 export const skillCards = [
     {
-        Icon: FaLaptopCode,
-        title: "Développement",
-        description: "L'art de transformer des concepts abstraits en solutions logicielles performantes, évolutives et innovantes.",
-        color: "#0065a9"
+        Icon: FaHandshake,
+        title: "Partenaire Impliqué",
+        description: "Plus qu'un simple exécutant, je m'immerge dans votre vision. Je considère votre projet comme le mien, avec un engagement total vers votre réussite.",
+        color: "#3B82F6" // Bleu (Confiance)
     },
     {
-        Icon: FaDiceD20,
-        title: "Création 3D",
-        description: "Intégration d'expériences immersives et de modèles 3D interactifs en temps réel directement sur le Web.",
-        color: "#EA7600"
+        Icon: FaComments,
+        title: "Pédagogie & Clarté",
+        description: "La technique ne doit pas être une boîte noire. Je traduis la complexité en langage clair pour que vous restiez toujours maître des décisions stratégiques.",
+        color: "#10B981" // Vert (Accessibilité/Validation)
     },
     {
-        Icon: FaBarsProgress,
-        title: "Systèmes Électroniques",
-        description: "L'intelligence connectée : de l'IoT à l'intégration hardware-software pour des interactions physiques.",
-        color: "#2ac703"
+        Icon: FaLightbulb,
+        title: "Résolution Créative",
+        description: "Là où d'autres voient des problèmes, je vois des solutions. Ma curiosité me pousse à contourner les obstacles techniques par l'innovation.",
+        color: "#8B5CF6" // Violet (Intelligence/Créativité)
     },
     {
-        Icon: FaPaintbrush,
-        title: "Design & UX/UI",
-        description: "Conception d'interfaces intuitives et créatives qui captivent l'utilisateur et optimisent l'expérience.",
-        color: "#E749A0"
+        Icon: FaGem,
+        title: "Souci du Détail",
+        description: "L'excellence se niche dans les finitions. Du code propre à l'alignement au pixel près, je cultive une exigence d'artisan pour un rendu final impeccable.",
+        color: "#EA7600" // Orange (Qualité/Prestige - remplace la case 3D)
     }
 ];
 

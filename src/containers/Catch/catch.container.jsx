@@ -11,7 +11,7 @@ import {WaveComponent} from '../../components/Wave/wave.component.jsx'
 
 //config
 import { useColorSettings} from '../../config.jsx'
-import { skillCards } from '../../data.jsx'
+import { skillCards, catchText } from '../../data.jsx'
 
 export const CathContainer = ({ id }) => {
     const colorSettings = useColorSettings();
@@ -44,7 +44,7 @@ export const CathContainer = ({ id }) => {
             <StyleCatch.Text>
                 <div className="left">
                     <h3><AccentTextComponent>DÉPASSER</AccentTextComponent> les limites du technique</h3>
-                    <p className=''>Je construis des mondes numériques où chaque ligne de code cherche le sens derrière la forme.<br/> Voici mes quatre piliers d'expertise :</p>
+                    <p className=''>{catchText.intro}<br/>{catchText.extra}</p>
                 </div>
                 <div className="right">
                     <StyleCatch.CardList className="cardList">
