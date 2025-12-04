@@ -75,7 +75,7 @@ export const projectList = [
         id: 2,
         title: 'Premier Portfolio',
         fileName: 'portfolio_v1.jsx',
-        description: "Mon premier portfolio en ligne",
+        description: "Premier portfolio en ligne, beaucoup plus simple à l'époque la toute première itération de la version actuelle",
         content: "Mon premier portfolio en ligne, conçu pour présenter mes compétences et projets précédents. Il a été créé avec HTML, CSS et JavaScript. Bien que ce soit une version antérieure, il représente le début de mon voyage dans le développement web.",
         webUrl: null,
         gitUrl: URL.FirstPortfolio,
