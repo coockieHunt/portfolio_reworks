@@ -13,27 +13,25 @@ let RedisClient = null;
  */
 async function connectRedis(client) {
     if (RedisClient && RedisClient.isReady) return true; 
+    
     RedisClient = client; 
-    RedisClient = client; 
+
     RedisClient.on('error', (err) => {
-        console.error(chalk.red('Redis Client Error:'), chalk.red(err.stack || err.message || err));
-        writeToLog(`Redis Client Error: ${err.stack || err.message || err}`, 'redis');
+        console.error(chalk.red(`❌ Redis Client Error: ${err.message}`));
+        writeToLog(`Redis Client Error: ${err.stack || err.message}`, 'redis');
     });
     
     try {
-        writeToLog('Attempting Redis connection...', 'redis');
         await RedisClient.connect();
-        console.log(chalk.green('Connected to Redis!'));
-        writeToLog('Connected to Redis', 'redis');
+        console.log(chalk.blue('✅ Redis Ready: Connected successfully'));
+        writeToLog('Redis connection established', 'redis');
         return true;
     } catch (error) {
-        console.error(chalk.red('An error occurred while connecting to Redis:'));
-        console.error(chalk.red(error.stack || error.message || error));
-        writeToLog(`Redis connection failed: ${error.stack || error.message || error}`, 'redis');
+        console.error(chalk.red(`❌ Redis Connection Failed: ${error.message}`));
+        writeToLog(`Redis connection failed: ${error.stack || error.message}`, 'redis');
         return false;
     }
 }
-
 
 /**
  * Retrieves the counter value from Redis, initializing it to 0 if it does not exist.
@@ -41,10 +39,12 @@ async function connectRedis(client) {
  * @returns {Promise<{value: number, exist: boolean}>} The counter value and its initial existence status.
  */
 async function getCounter(counterName) {
-    if (!RedisClient || !RedisClient.isReady) {throw new Error("Redis client is not connected."); }
+    if (!RedisClient || !RedisClient.isReady) {
+        writeToLog(`Error: Redis not ready for getCounter(${counterName})`, 'redis');
+        throw new Error("Redis client is not connected."); 
+    }
     
     try {
-        writeToLog(`GET counter ${counterName} start`, 'redis');
         const value = await RedisClient.get(counterName); 
         let numericValue;
         let exist;
@@ -57,13 +57,14 @@ async function getCounter(counterName) {
             numericValue = parseInt(value, 10);
             exist = true;
         }
+
         writeToLog(`GET counter ${counterName} -> value=${numericValue} exist=${exist}`, 'redis');
         return { value: numericValue, exist: exist };
 
     } catch (error) {
-        console.error(chalk.red(`An error occurred while getting/initializing counter ${counterName}:`), chalk.red(error.stack || error.message || error));
-        writeToLog(`Error GET counter ${counterName}: ${error.stack || error.message || error}`, 'redis');
-        throw new Error('Redis GET/SET operation failed'); 
+        console.error(chalk.red(`⚠️ Redis GET Error (${counterName}): ${error.message}`));
+        writeToLog(`Error GET counter ${counterName}: ${error.stack || error.message}`, 'redis');
+        throw error; 
     }
 }
 
@@ -73,9 +74,16 @@ async function getCounter(counterName) {
  * @param {number} value - The value to set.
  */
 async function setCounter(counterName, value) {
-    if (!RedisClient || !RedisClient.isReady) {throw new Error("Redis client is not connected."); }
-    writeToLog(`SET counter ${counterName} = ${value}`, 'redis');
-    await RedisClient.set(counterName, value); 
+    if (!RedisClient || !RedisClient.isReady) throw new Error("Redis client is not connected."); 
+    
+    try {
+        await RedisClient.set(counterName, value); 
+        writeToLog(`SET counter ${counterName} = ${value}`, 'redis');
+    } catch (error) {
+        console.error(chalk.red(`⚠️ Redis SET Error (${counterName}): ${error.message}`));
+        writeToLog(`Error SET counter ${counterName}: ${error.stack || error.message}`, 'redis');
+        throw error;
+    }
 }
 
 /**
@@ -84,11 +92,17 @@ async function setCounter(counterName, value) {
  * @returns {Promise<number>} The new value of the counter.
  */
 async function incrementCounter(counterName) {
-    if (!RedisClient || !RedisClient.isReady) {throw new Error("Redis client is not connected."); }
-    const newVal = await RedisClient.incr(counterName);
-    writeToLog(`INCR counter ${counterName} -> ${newVal}`, 'redis');
-    return newVal;
+    if (!RedisClient || !RedisClient.isReady) throw new Error("Redis client is not connected."); 
+    
+    try {
+        const newVal = await RedisClient.incr(counterName);
+        writeToLog(`INCR counter ${counterName} -> ${newVal}`, 'redis');
+        return newVal;
+    } catch (error) {
+        console.error(chalk.red(`⚠️ Redis INCR Error (${counterName}): ${error.message}`));
+        writeToLog(`Error INCR counter ${counterName}: ${error.stack || error.message}`, 'redis');
+        throw error;
+    }
 }
-
 
 export { getCounter, setCounter, incrementCounter, connectRedis, RedisClient };
