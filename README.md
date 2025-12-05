@@ -124,9 +124,12 @@ Configure the API endpoint by setting the `VITE_API_BASE_URL` environment variab
 
 ## 🛠️ Tech Stack
 
+> ⚠️ **Note**: The codebase is currently being migrated from JSX to TypeScript. Some files may still use `.jsx` extension while the conversion is ongoing.
+
 ### Frontend
 - **Framework**: React 18
 - **Build Tool**: Vite
+- **Language**: jsx (migration in progress to ts)
 - **Styling**: Styled Components
 - **Animations**: Framer Motion
 - **Icons**: React Icons
@@ -388,9 +391,12 @@ Configurez l'URL de l'API en définissant la variable d'environnement `VITE_API_
 
 ## 🛠️ Stack Technique
 
+> ⚠️ **Note**: La codebase est actuellement en cours de migration de JSX vers TypeScript. Certains fichiers peuvent encore utiliser l'extension `.jsx` pendant la conversion.
+
 ### Frontend
 - **Framework**: React 18
 - **Outil de Build**: Vite
+- **Langage**: jsx (migration en cours depuis tsx)
 - **Styling**: Styled Components
 - **Animations**: Framer Motion
 - **Icônes**: React Icons
