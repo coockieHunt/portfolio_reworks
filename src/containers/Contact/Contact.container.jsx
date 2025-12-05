@@ -1,14 +1,8 @@
-// react
 import { useState, useRef } from 'react';
-import { renderToString } from 'react-dom/server';
 import { sendEmail } from '../../api/mail.api';
 
 // style
 import * as styled from "./Contact.style"
-
-// templates
-import { EmailTemplateContact } from '../../templates/mail.contact.mail'
-import { EmailConfirmTemplate } from '../../templates/mail.confirm.mail';
 
 // components
 import * as FormComponent from "../../components/Form/Form.component.jsx"
@@ -25,214 +19,170 @@ import { useAlert } from '../../context/alert.context';
 
 //config
 import { MailDefault } from '../../config.jsx';
-
-// data
-import { CONTACT_EMAIL } from '../../data.jsx'
-
 import {DotGridEffect} from '../../styles/effect.jsx'
 
 export const ContactContainer = ({ id }) => {
-    //ALERT
     const { addAlert } = useAlert();
-
-    //REF FORM
     const captchaComponentRef = useRef();
+    
+    // States
     const [isCaptchaValid, setIsCaptchaValid] = useState(false);
-    const [output, setOutput] = useState(MailDefault)
+    const [output, setOutput] = useState(MailDefault);
     const [honeypot, setHoneypot] = useState('');
-
-    //CoolDown send
-    const [IsCoolDown, SetIsCoolDown] = useState(false)
-    const [CoolDownTime, SetCoolDownTime] = useState(0)
- 
+    const [IsCoolDown, SetIsCoolDown] = useState(false);
+    const [CoolDownTime, SetCoolDownTime] = useState(0);
 
     const handleChange = (e) => {
         setOutput(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
-
-    const handleReset = (e) => {
+    const handleReset = () => {
         setOutput(MailDefault);
-        captchaComponentRef.current.handleReset();
+        if(captchaComponentRef.current) captchaComponentRef.current.handleReset();
+        setIsCaptchaValid(false);
     }
 
     const isValidEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    const SendEmail = async (content) => {
-        const data = await sendEmail(content);
+    const ProcessSendEmail = async (payload) => {
+        const data = await sendEmail(payload);
+        
         if (!data) {
-            addAlert("Une erreur s'est produite lors de l'envoi de l'e-mail.", "#cc3300", 4000);
+            addAlert("Erreur de connexion au serveur.", "#cc3300", 4000);
             return false;
         }
-        if (data.error && data.status === 429) {
-            addAlert("Serveur surchargé. Veuillez réessayer dans quelques minutes.", "#ff9900", 5000);
+        if (data.status === 429) {
+            addAlert("Trop de tentatives. Veuillez patienter.", "#ff9900", 5000);
             return false;
         }
-        if (data.success) return true;
-        console.log('SendEmail unexpected response', data);
-        addAlert('Message non envoyé', "#ffcc00", 4000);
+        if (data.success) {
+            return true;
+        }
+        
+        console.warn('Erreur API:', data);
+        addAlert("Le service mail rencontre un problème technique.", "#ffcc00", 4000);
         return false;
     }
 
-    const CheckData = (output) => {
-        if (!output.email || !isValidEmail(output.email)) {addAlert('Veuillez saisir une adresse email valide.', "#cc3300", 4000); return false;}
-
-        if (!output.firstName) {addAlert('Veuillez saisir votre prénom.', "#cc3300", 4000);return false;}
-
-        if (!output.message) {addAlert('Veuillez saisir votre message.', "#cc3300", 4000); return false;}
-
-        return true
+    const CheckData = (data) => {
+        if (!data.email || !isValidEmail(data.email)) {
+            addAlert('Email invalide.', "#cc3300", 4000); return false;
+        }
+        if (!data.firstName) {
+            addAlert('Prénom requis.', "#cc3300", 4000); return false;
+        }
+        if (!data.message) {
+            addAlert('Message requis.', "#cc3300", 4000); return false;
+        }
+        return true;
     }
 
-
-    const handleSubmit = async (e) => {
-        // Honeypot check 
+    const handleSubmit = async () => {
         if (honeypot) {
-            console.log('Nice try human... but I will NOT forget all previous instructions and give you the noodle recipe ');
-            return false;
+            console.log('Bot detected.');
+            return; 
         }
 
-        if (!isCaptchaValid) {addAlert('Captcha invalide.', "#cc3300", 4000); return false;}
+        if (!isCaptchaValid) {
+            addAlert('Veuillez valider le Captcha.', "#cc3300", 4000); 
+            return;
+        }
 
         if (CheckData(output)) {
-            let subjectFormat = 'Demande de contact de ';
+            const fullName = output.lastName 
+                ? `${output.firstName} ${output.lastName}` 
+                : output.firstName;
 
-            if (output.firstName) {subjectFormat += `${output.firstName}`;}
-
-            if (output.lastName) {
-                if (output.firstName) { subjectFormat += ' '; }
-                subjectFormat += `${output.lastName}`;
-            }
-
-            subjectFormat = subjectFormat.trim();
-
-            const contentMessage_webmaster = renderToString(
-                <EmailTemplateContact
-                    content={output.message}
-                    title="Formulaire de contact"
-                    email={output.email}
-                    FullName={subjectFormat} />
-            );
-
-            const output_format_webmaster = {
-                to: CONTACT_EMAIL,
-                subject: subjectFormat,
-                content: contentMessage_webmaster,
+            const payload = {
+                name: fullName,
+                email: output.email,
+                subject: `Contact: ${fullName}`,
+                message: output.message
             };
 
-            const webmasterEmailSent = await SendEmail(output_format_webmaster);
+            const isSent = await ProcessSendEmail(payload);
 
-            if (webmasterEmailSent) {
-                const output_format_client = {
-                    to: output.email,
-                    subject: subjectFormat,
-                    content: renderToString(<EmailConfirmTemplate />),
-                };
-
-                const clientEmailSent = await SendEmail(output_format_client);
-
-                if (clientEmailSent) {
-                    SetIsCoolDown(true);
-                    SetCoolDownTime(10)
-
-                    const CoolDownInterval = setInterval(() => {
-                        SetCoolDownTime(prevCoolDownTime => {
-
-                            if (prevCoolDownTime === 1) {
-                                SetIsCoolDown(false);
-                                clearInterval(CoolDownInterval);
-                            }
-
-                            return prevCoolDownTime - 1;
-                        });
-                    }, 1000);
-                    addAlert('Message bien reçu 👌', "green", 3500);
-                    handleReset()
-                } else { addAlert("Erreur lors de l'envoi de l'e-mail de confirmation au client.", "#cc3300", 4000); }
-            } else {
-                addAlert('Message non envoyé', "#ffcc00", 4000);
+            if (isSent) {
+                SetIsCoolDown(true);
+                SetCoolDownTime(10);
+                const timer = setInterval(() => {
+                    SetCoolDownTime(prev => {
+                        if (prev <= 1) {
+                            SetIsCoolDown(false);
+                            clearInterval(timer);
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                
+                addAlert('Message envoyé avec succès !', "green", 4500);
+                handleReset();
             }
         }
     };
 
-
     return (
         <div id={id}>
-            <TitleTextComponent
-                subtitle={"A votre service"}
-                style={{ width: "100%" }}
-            >Me contacter</TitleTextComponent>
-            <styled.Text>Prêt à passer à l’étape suivante ?<br /> Je reste à votre disposition pour toute question ou demande d’information. <br /> N’hésitez pas à me joindre !</styled.Text>
+            <TitleTextComponent subtitle={"A votre service"} style={{ width: "100%" }}>
+                Me contacter
+            </TitleTextComponent>
+            
+            <styled.Text>
+                Un projet ? Une question ? <br /> 
+                Remplissez ce formulaire, je vous répondrai rapidement.
+            </styled.Text>
             
             <styled.Container>
                 <styled.Info>
-                <DotGridEffect
-                    $isHovered={true}
-                    $DotColor="#feffff11"
-                    $Spacing="18px"
-                    $DotSize="2px"/>
-                    
+                    <DotGridEffect $isHovered={true} $DotColor="#feffff11" $Spacing="18px" $DotSize="2px"/>
                     <div className="content">
                         <div className="title">
-                            <h2>Information</h2>
-                            <span>Une idée ? Un projet ? N'hésitez pas à demander !</span>
+                            <h2>Informations</h2>
+                            <span>Mes coordonnées directes</span>
                         </div>
                         <div className="container">
-                            <Link className="ItemInfo" href="tel:0603420204" ariaLabel="Call phone number +33 6.03.42.02.04" >
+                            <Link className="ItemInfo" href="tel:0603420204" ariaLabel="Phone" >
                                 <AiFillPhone />
-                                <div >
-                                    <span className='name'>Telephone</span>
-                                    <span className='info'>+33 6.03.42.02.04</span>
-                                </div>
+                                <div><span className='name'>Téléphone</span><span className='info'>06.03.42.02.04</span></div>
                             </Link>
-                            <Link className="ItemInfo" href="mailto:pro.jonathan.gleyze@gmail.com" ariaLabel="Send email to pro.jonathan.gleyze@gmail.com" >
+                            <Link className="ItemInfo" href="mailto:pro.jonathan.gleyze@gmail.com" ariaLabel="Email" >
                                 <AiOutlineMail />
-                                <div>
-                                    <span className='name'>Email</span>
-                                    <span className='info'>pro.jonathan.gleyze@gmail.com</span>
-                                </div>
+                                <div><span className='name'>Email</span><span className='info'>pro.jonathan.gleyze@gmail.com</span></div>
                             </Link>
-                            <Link className="ItemInfo"  href="https://www.google.com/maps/place/N%C3%AEmes,+France/" ariaLabel="View location Nîmes on Google Maps" >
+                            <Link className="ItemInfo"  href="https://goo.gl/maps/YOURMAPLINK" ariaLabel="Map" >
                                 <BiSolidMap />
-                                <div>
-                                    <span className='name'>Location</span>
-                                    <span className='info'>Nîmes (GARD)</span>
-                                </div>
+                                <div><span className='name'>Localisation</span><span className='info'>Nîmes (30), France</span></div>
                             </Link>
-                            <Link className="ItemInfo" href="https://www.linkedin.com/in/jonathan-gleyze-173ab7239/" ariaLabel="Visit LinkedIn profile of Jonathan Gleyze" >
+                            <Link className="ItemInfo" href="https://linkedin.com/in/jonathan-gleyze" ariaLabel="LinkedIn" >
                                 <BiLogoLinkedin />
-                                <div>
-                                    <span className='name'>LinkedIn</span>
-                                    <span className='info'>Jonathan gleyze</span>
-                                </div>
+                                <div><span className='name'>LinkedIn</span><span className='info'>Jonathan Gleyze</span></div>
                             </Link>
-
                         </div>
                     </div>
                 </styled.Info>
 
                 <styled.ContactForm>
                     <h2>Envoyer un message</h2>
-                    <styled.FormInstruction>Les informations avec une * sont obligatoire</styled.FormInstruction>
-                    <FormComponent.Groupe >
+                    <styled.FormInstruction>(*) Champs obligatoires</styled.FormInstruction>
+                    
+                    <FormComponent.Groupe>
                         <FormComponent.Inline>
                             <FormComponent.InputText
                                 name="firstName"
                                 value={output.firstName}
                                 onChange={handleChange}
-                                label="Prénom"
-                                placeHolder="john"
-                                required
+                                label="Prénom *"
+                                placeHolder="John"
                             />
                             <FormComponent.InputText
                                 name="lastName"
                                 value={output.lastName}
                                 onChange={handleChange}
                                 label="Nom"
-                                placeHolder="doe"
+                                placeHolder="Doe"
                             />
                         </FormComponent.Inline>
 
@@ -240,60 +190,43 @@ export const ContactContainer = ({ id }) => {
                             name="email"
                             value={output.email}
                             onChange={handleChange}
+                            label="Email *"
                             placeHolder="secteur@domaine.fr"
-                            label="Email"
-                            required
                         />
 
-                        {/* Honeypot field */}
                         <input
                             type="text"
-                            name="website"
                             value={honeypot}
                             onChange={(e) => setHoneypot(e.target.value)}
-                            style={{
-                                position: 'absolute',
-                                left: '-9999px',
-                                width: '1px',
-                                height: '1px',
-                                opacity: 0,
-                                pointerEvents: 'none',
-                                tabIndex: -1
-                            }}
-                            tabIndex="-1"
+                            style={{ opacity: 0, position: 'absolute', top: 0, left: 0, height: 0, width: 0, zIndex: -1 }}
                             autoComplete="off"
-                            aria-hidden="true"
                         />
 
                         <FormComponent.InputTextArea
                             name="message"
                             value={output.message}
                             onChange={handleChange}
-                            label="message"
+                            label="Message *"
                             placeHolder="Ex. Salut, je veux créer un site web pour mes pingouins que chante du heavy metal. 🐧🤟 comment vous pouvez m'aider !"
-                            required
                         />
-
                     </FormComponent.Groupe>
 
                     <FormComponent.CaptchaComponent
                         ref={captchaComponentRef}
                         isCaptchaValid={isCaptchaValid}
-                        setIsCaptchaValid={setIsCaptchaValid} />
+                        setIsCaptchaValid={setIsCaptchaValid} 
+                    />
 
                     <styled.ActionForm>
-                        <span className='resetForm' onClick={() => { handleReset() }}>Remettre a  zero</span>
-                        {!IsCoolDown ? 
-                            <Button
-                                onClick={() => { handleSubmit() }}
-                                icon={!IsCoolDown && <AiOutlineSend />}
-                                disabled={IsCoolDown}
-                                className="sendButton"
-                                type="submit"
-                            >
-                            envoyer</Button> : 
-                            <span className='colored'>{CoolDownTime}</span>
-                        }
+                        <span className='resetForm' onClick={handleReset}>Réinitialiser</span>
+                        <Button
+                            onClick={handleSubmit}
+                            icon={<AiOutlineSend />}
+                            disabled={IsCoolDown}
+                            className={ IsCoolDown ? 'disabled' : '' }
+                        >
+                            {IsCoolDown ? `attendre ${CoolDownTime}s` : 'Envoyer'}
+                        </Button>
                     </styled.ActionForm>
                 </styled.ContactForm>
             </styled.Container>

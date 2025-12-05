@@ -1,30 +1,23 @@
 import { ApiBaseUrl } from '../config.jsx';
 
-export async function sendEmail(content) {
+export async function sendEmail(formData) {
 	try {
 		const resp = await fetch(`${ApiBaseUrl}/mail/sendEmail`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(content),
+			body: JSON.stringify(formData),
 		});
 
 		if (!resp.ok) {
 			if (resp.status === 429) {
-				return {
-					error: true,
-					message: 'Serveur surchargé. Veuillez réessayer dans quelques minutes.',
-					status: 429
-				};
+				return { error: true, message: 'Trop de tentatives. Réessayez plus tard.' };
 			}
-			const txt = await resp.text().catch(() => null);
-			console.warn('sendEmail non-ok response', resp.status, txt);
-			return null;
+			return { error: true, message: 'Erreur serveur.' };
 		}
 
-		const data = await resp.json().catch(() => null);
-		return data;
+		return await resp.json();
 	} catch (err) {
 		console.error('sendEmail error', err);
-		return null;
+		return { error: true, message: 'Erreur de connexion.' };
 	}
 }

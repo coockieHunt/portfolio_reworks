@@ -27,7 +27,7 @@ export const ButtonContainer = styled.button`
     & span{
         width: 100%;
         height: 100%;
-        padding: 0 10px;
+        padding: 10px;
         color: white;
     }
 
@@ -42,8 +42,12 @@ export const ButtonContainer = styled.button`
     }
 
     &.disabled{
-        background-color: #1b171b;
-        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
         cursor: not-allowed;
+        
+        &:hover{
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
     }
 `;

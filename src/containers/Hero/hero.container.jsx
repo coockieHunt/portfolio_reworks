@@ -26,19 +26,22 @@ export const HeroContainer = ({id}) => {
         if (FormData.trim().length >= 1) {
             const contactSection = document.getElementById('contact');
             if (contactSection) {
+                const messageText = "bonjour, je souhaite discuter de mon projet : " + FormData;
                 contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 
                 setTimeout(() => {
                     const messageField = document.querySelector('textarea[name="message"]')
                     if (messageField) {
-                        messageField.value = "bonjour, je souhaite discuter de mon projet : " + FormData;
-                        messageField.focus();
+                        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value').set;
+                        nativeInputValueSetter.call(messageField, messageText);
+                        
                         const event = new Event('input', { bubbles: true });
                         messageField.dispatchEvent(event);
+                        messageField.focus();
                     }
                 }, 800);
 
-                setTimeout(() => {setFormData('');}, 150);
+                setTimeout(() => {setFormData('');}, 1000);
 
             }
         }
