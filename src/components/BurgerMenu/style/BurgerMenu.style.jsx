@@ -13,6 +13,7 @@ export const BurgerMenuContainer = styled.div`
 	div {
 		width: 100%;
 		height: 2px;
+		background-color: white;
 		transition: all 0.3s ease;
 	}
 

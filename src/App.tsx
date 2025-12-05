@@ -8,7 +8,7 @@ import GlobalStyle, { Content } from './styles/global.style.jsx';
 import { URL } from './data'
 
 //context
-import { useSettingContext } from './context/Setting.context.jsx'
+import { useSettingContext } from './context/Setting.context'
 import { HeroContainer } from './containers/Hero/hero.container.jsx';
 import { CathContainer } from './containers/Catch/catch.container.jsx';
 import { SettingContainer } from './containers/Setting/Setting.container.jsx';
@@ -32,10 +32,10 @@ import { GlobalLoader } from './components/Loading/GlobalLoader.compenent.jsx'
 
 
 //Provider
-import { AlertProvider } from './context/alert.context.jsx';
+import { AlertProvider } from './context/alert.context';
 import { AlertContainerComponent } from './components/Alert/Alert.component.jsx';
-import { SettingProvider } from "./context/Setting.context.jsx";
-import { LoadingProvider } from './context/loading.context.jsx';
+import { SettingProvider } from "./context/Setting.context";
+import { LoadingProvider } from './context/loading.context';
 
 //import ee
 import { ConnectedToSecretSystem } from './utils/rb.jsx';

@@ -1,6 +1,6 @@
 
 import { useState, useMemo } from "react";
-import { useWindowSize } from '../../hooks/useScreenResize.hook.jsx';
+import { useWindowSize } from '../../hooks/useScreenResize.hook';
 import { SCREEN_SIZE } from '../../config.tsx';
 import { GridContainer, PaginationContainer } from "./style/PaginatedGrid.style.jsx";
 

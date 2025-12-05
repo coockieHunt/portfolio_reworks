@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { getColorSettings } from '../../config.tsx';
-import { useSettingContext } from '../../context/Setting.context.jsx';
+import { useSettingContext } from '../../context/Setting.context';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
