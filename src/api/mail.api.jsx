@@ -2,7 +2,7 @@ import { ApiBaseUrl } from '../config.jsx';
 
 export async function sendEmail(content) {
 	try {
-		const resp = await fetch(`${ApiBaseUrl}/api/sendEmail`, {
+		const resp = await fetch(`${ApiBaseUrl}/mail/sendEmail`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(content),

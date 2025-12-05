@@ -13,7 +13,7 @@ export const EmailTemplateContact = ({ content, title, email, FullName }) => {
                 <title>{title}</title>
             </head>
             <body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4', margin: 0, padding: 0 }}>
-                <table role="presentation" align="center" cellpadding="0" cellspacing="0" style={{paddingTop: "20px", margin: 'auto', backgroundColor: '#121212', color: '#fff', width: '600px' }}>
+                <table role="presentation" align="center" cellPadding="0" cellSpacing="0" style={{paddingTop: "20px", margin: 'auto', backgroundColor: '#121212', color: '#fff', width: '600px' }}>
                     <tr>
                         <td className="header" style={{textAlign: 'center', color: '#fff', padding: '10px 30px', borderBottom: '1px solid rgba(255, 255, 255, 0.315)' }}>
                             <img className="logo" src="https://jonathangleyze.fr/src/main_logo.png" style={{ height: '50px' }} alt="Logo" />
