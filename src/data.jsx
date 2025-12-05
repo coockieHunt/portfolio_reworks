@@ -231,7 +231,6 @@ export const TimeLine = [
     },
 ];
 
-
 export const catchText = {
     intro: "Ce n'est pas simplement du code, j'apporte une méthodologie et un état d'esprit qui transforment les contraintes en opportunités.",
     extra: "Mes 4 piliers d'engagement :"
