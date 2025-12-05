@@ -16,7 +16,7 @@ export const URL = {
 
     projectQuoteSend: 'https://github.com/coockieHunt/quoteViewerSkull',
     FirstPortfolio: 'https://github.com/coockieHunt/portfolio',
-    onset: 'https://github.com/coockieHunt/onsetrp'
+    onset: 'https://github.com/coockieHunt/ck_rp',
 }
 
 
@@ -24,6 +24,7 @@ export const URL = {
 import QuoteImage from './assets/projetImg/Quote-send_1.webp';
 import QuoteImage1 from './assets/projetImg/Quote-send_2.webp';
 import OnsetImage from './assets/projetImg/onset_1.webp';
+import OnsetImage1 from './assets/projetImg/onset_2.webp';
 
 
 // -- Projet List ---
@@ -73,7 +74,8 @@ export const projectList = [
         gitUrl: URL.onset,
         webUrl: null,
         galery: [
-            {img: OnsetImage, title:"Image of onset", alt:"onset image"}, 
+            {img: OnsetImage1, title:"Logo projet onset rp", alt:"onset image"}, 
+            {img: OnsetImage, title:"Image of onset", alt:"onset image"},
         ],
         techStack: ['unity', 'lua', 'html', 'js' , "mysql"],
         column: 1,
@@ -240,25 +242,25 @@ export const skillCards = [
         Icon: FaHandshake,
         title: "Partenaire Impliqué",
         description: "Plus qu'un simple exécutant, je m'immerge dans votre vision. Je considère votre projet comme le mien, avec un engagement total vers votre réussite.",
-        color: "#3B82F6" // Bleu (Confiance)
+        color: "#3B82F6" 
     },
     {
         Icon: FaComments,
         title: "Pédagogie & Clarté",
         description: "La technique ne doit pas être une boîte noire. Je traduis la complexité en langage clair pour que vous restiez toujours maître des décisions stratégiques.",
-        color: "#10B981" // Vert (Accessibilité/Validation)
+        color: "#10B981"
     },
     {
         Icon: FaLightbulb,
         title: "Résolution Créative",
         description: "Là où d'autres voient des problèmes, je vois des solutions. Ma curiosité me pousse à contourner les obstacles techniques par l'innovation.",
-        color: "#8B5CF6" // Violet (Intelligence/Créativité)
+        color: "#8B5CF6" 
     },
     {
         Icon: FaGem,
         title: "Souci du Détail",
         description: "L'excellence se niche dans les finitions. Du code propre à l'alignement au pixel près, je cultive une exigence d'artisan pour un rendu final impeccable.",
-        color: "#EA7600" // Orange (Qualité/Prestige - remplace la case 3D)
+        color: "#EA7600"
     }
 ];
 
@@ -280,13 +282,5 @@ export const socialLinks = [
         color: "#05cc46",
         url: URL.DeviantArt,
         text: "Deviantart"
-    },
-    // {
-    //     icon: <FaRegUser />,
-    //     color: "#00ffc8",
-    //     url: cv,
-    //     text: "Curriculum vitae",
-    //     textX: "-90%",
-    //     isFile: true
-    // }
+    }
 ];
