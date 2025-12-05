@@ -156,7 +156,6 @@ src/
 ├── context/        # React context providers
 ├── hooks/          # Custom React hooks
 ├── styles/         # Global styles & effects
-├── templates/      # Email templates
 ├── utils/          # Helper functions
 ├── assets/         # Images, PDFs, and static files
 ├── data.jsx        # Centralized content data
@@ -421,7 +420,6 @@ src/
 ├── context/        # Providers de contexte React
 ├── hooks/          # Hooks React personnalisés
 ├── styles/         # Styles globaux & effets
-├── templates/      # Templates d'emails
 ├── utils/          # Fonctions utilitaires
 ├── assets/         # Images, PDFs et fichiers statiques
 ├── data.jsx        # Données de contenu centralisées
