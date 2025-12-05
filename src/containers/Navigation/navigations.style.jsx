@@ -94,6 +94,7 @@ export const Nav = styled.nav`
                 span{
                     color: ${props => getColorSettings(props.theme).primary};
                     font-variation-settings: "wght" 1000;
+                    
                 }
 
 
@@ -181,7 +182,7 @@ export const Nav = styled.nav`
 
         &:hover{
                 background-color: ${props => getColorSettings(props.theme).primary};
-                color: ${props => getColorSettings(props.theme).background};
+                color: white;
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px -4px ${props => getColorSettings(props.theme).primary}88;
                 &::before{opacity: .4;}
