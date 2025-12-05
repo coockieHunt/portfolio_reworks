@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 
+interface MousePosition {
+	x: number;
+	y: number;
+}
+
 /**
  * Custom hook to track mouse position.
  * @returns {{x: number, y: number}} mousePosition - The current mouse coordinates.
  */
-export const useMousePosition = () => {
+export const useMousePosition = () : MousePosition => {
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
 	useEffect(() => {

@@ -1,6 +1,15 @@
 import { useEffect } from 'react';
 
-export const useScrollbar = (disable) => {
+interface IUseScrollbar {
+    disable: boolean;
+}
+
+/**
+ * Custom React hook to enable or disable the scrollbar on the document body.
+ *
+ * @param {boolean} disable - If true, disables the scrollbar; if false, enables it.
+ */
+export const useScrollbar = (disable: boolean) : IUseScrollbar  => {
   useEffect(() => {
     if (disable) {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -20,4 +29,7 @@ export const useScrollbar = (disable) => {
       document.documentElement.style.overflow = '';
     };
   }, [disable]);
+
+
+  return { disable };
 };

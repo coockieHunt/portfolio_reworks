@@ -1,6 +1,19 @@
 
 import { useState, useCallback } from "react";
-import { useScrollbar } from '../hooks/useScrollBar.hook';
+import { useScrollbar } from './useScrollBar.hook';
+
+interface IModal {
+    isOpen: boolean;
+    title: string;
+    content: React.ReactNode;
+}
+
+interface IUseModal {
+    modals: Array<IModal>;
+    openModal: (title: string, content: React.ReactNode) => void;
+    closeModal: (index: number) => void;
+    closeAllModals: () => void;
+}
 
 /**
  * Custom React hook for managing multiple modal dialogs.
@@ -14,16 +27,16 @@ import { useScrollbar } from '../hooks/useScrollBar.hook';
  *   - {Function} closeModal: Function to close a modal by its index. Accepts (index: number).
  *   - {Function} closeAllModals: Function to close all open modals.
  */
-export const UseModal = () => {
-    const [modals, setModals] = useState([]);
+export const UseModal = (): IUseModal => {
+    const [modals, setModals] = useState<IModal[]>([]);
 
     useScrollbar(modals.length > 0);
 
-    const openModal = useCallback((title, content) => {
+    const openModal = useCallback((title: string, content: React.ReactNode) => {
         setModals(prev => [...prev, { isOpen: true, title, content }]);
     }, []);
 
-    const closeModal = useCallback((index) => {
+    const closeModal = useCallback((index: number) => {
         setModals(prev => prev.filter((_, i) => i !== index));
     }, []);
 

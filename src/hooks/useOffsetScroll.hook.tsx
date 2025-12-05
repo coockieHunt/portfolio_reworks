@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 
+interface ScrollOffsetY {
+    isScrolled: boolean;
+}
+
 /**
  * Custom React hook to check if the current vertical scroll offset (Y) exceeds a given position.
  * 
  * @param {number} pos - The position to check against.
  * @returns {boolean} - `true` if the current scroll position exceeds `pos`, otherwise `false`.
  */
-export const useScrollOffsetY = (pos) => {
+export const useScrollOffsetY = (pos: number) : boolean => {
     const [isScrolled, setIsScrolled] = useState(false);
   
     useEffect(() => {

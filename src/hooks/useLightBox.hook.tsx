@@ -1,5 +1,12 @@
 import { useState, useCallback } from "react";
-import { useScrollbar } from '../hooks/useScrollBar.hook'; 
+import { useScrollbar } from './useScrollBar.hook'; 
+
+interface IUseLightBox {
+    isLightBoxOpen: boolean;
+    currentImg: string | null;
+    ChangeLightBoxImg: (imgUrl: string) => void;
+    ToggleLightBox: () => void;
+}
 
 /**
  * Custom React hook to manage the state and behavior of a LightBox component.
@@ -18,7 +25,7 @@ import { useScrollbar } from '../hooks/useScrollBar.hook';
  *   ToggleLightBox
  * } = UseLightBox();
  */
-export const UseLightBox = () => {
+export const UseLightBox = (): IUseLightBox => {
     const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
     const [currentImg, setCurrentImg] = useState(null);
 

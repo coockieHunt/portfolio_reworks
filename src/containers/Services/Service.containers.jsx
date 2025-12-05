@@ -17,7 +17,7 @@ import { serviceModals } from '../../data.tsx'
 
 //import hook
 import { useScrollbar } from '../../hooks/useScrollBar.hook.jsx';
-import { UseModal } from '../../hooks/useModal.hook.jsx';
+import { UseModal } from '../../hooks/useModal.hook';
 
 //import component
 import { ModalComponent } from '../../components/Modal/Modal.coponents';
