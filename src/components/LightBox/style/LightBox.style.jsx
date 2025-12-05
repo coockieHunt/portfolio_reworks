@@ -22,6 +22,7 @@ export const LightBoxContainer = styled.div`
         border-radius: ${BORDER_RADIUS.xlarge};
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         cursor: default;
+        background-color: ${props => getColorSettings(props.theme).background_secondary};
     }
 `;
 

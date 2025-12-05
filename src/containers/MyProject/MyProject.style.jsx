@@ -379,6 +379,8 @@ export const ProjectCard = styled.div`
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+            background-color: ${props => GetLightSetting(props.theme).background_secondary};
             
             &:hover{
                 transform: scale(1.05);
