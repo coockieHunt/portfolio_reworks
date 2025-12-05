@@ -13,7 +13,7 @@ import { Fence, FenceContainer, ScrollIndicator, CatchModal, ListModal, IconList
 import { DotGridEffect } from '../../styles/effect.jsx';
 
 // import data
-import { serviceModals } from '../../data.jsx'
+import { serviceModals } from '../../data.tsx'
 
 //import hook
 import { useScrollbar } from '../../hooks/useScrollBar.hook.jsx';

@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { SCREEN_SIZE } from '../../../config.jsx';
+import { SCREEN_SIZE } from '../../../config.tsx';
 
 const fadeIn = keyframes`
     0% { opacity: 0; }

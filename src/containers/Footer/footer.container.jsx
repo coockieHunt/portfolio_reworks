@@ -13,7 +13,7 @@ import { AiFillGithub, AiFillLinkedin, AiFillCaretDown  } from 'react-icons/ai';
 import { FaDeviantart } from 'react-icons/fa';
 
 // url
-import { URL } from '../../data.jsx';
+import { URL } from '../../data.tsx';
 
 // context
 import { useAlert } from '../../context/alert.context';

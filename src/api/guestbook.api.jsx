@@ -1,4 +1,4 @@
-import { ApiBaseUrl } from '../config.jsx';
+import { ApiBaseUrl } from '../config.tsx';
 
 export async function GetGuestbookEntries(password) {
     try {

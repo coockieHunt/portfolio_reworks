@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config';
 
 export const ToText = styled.a`
     font-variation-settings: "wght" 700;

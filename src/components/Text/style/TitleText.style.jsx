@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config';
+import { getColorSettings } from '../../../config.jsx';
 
 export const TitleContainer = styled.div`
     position: relative;

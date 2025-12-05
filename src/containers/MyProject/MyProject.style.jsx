@@ -1,5 +1,5 @@
 import styled, {keyframes} from 'styled-components';
-import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.jsx';
+import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.tsx';
 
 const breath = keyframes`
     0%, 100% { transform: scale(1); opacity: 1; }

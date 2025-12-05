@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { SCREEN_SIZE } from '../../../config.jsx';
+import { SCREEN_SIZE } from '../../../config.tsx';
 
 const type_size = {
 	mouse: {

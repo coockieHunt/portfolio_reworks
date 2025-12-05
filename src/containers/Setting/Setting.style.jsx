@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings, SCREEN_SIZE } from '../../config.jsx';
+import { getColorSettings, SCREEN_SIZE } from '../../config.tsx';
 
 
 // ANAMATIONS

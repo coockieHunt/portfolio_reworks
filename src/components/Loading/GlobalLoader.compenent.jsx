@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings } from '../../config'; // Adapte le chemin selon ta structure
+import { getColorSettings } from '../../config.tsx';
+import { useSettingContext } from '../../context/Setting.context.jsx';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -83,7 +84,10 @@ const LogoContainer = styled.div`
 `;
 
 
-export const GlobalLoader = ({ theme }) => {
+export const GlobalLoader = () => {
+  const { settings } = useSettingContext();
+  const theme = settings;
+  
   return (
     <LoaderWrapper theme={theme}>
       <div style={{ position: 'relative' }}>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting} from '../../config.jsx'
+import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting} from '../../config.tsx'
 
 export const Section = styled.div`
     position: relative;

@@ -10,8 +10,8 @@ import { AccentTextComponent } from '../../components/Text/Text.component'
 import {WaveComponent} from '../../components/Wave/wave.component.jsx'
 
 //config
-import { useColorSettings} from '../../config.jsx'
-import { skillCards, catchText } from '../../data.jsx'
+import { useColorSettings} from '../../config.tsx'
+import { skillCards, catchText } from '../../data.tsx'
 
 export const CathContainer = ({ id }) => {
     const colorSettings = useColorSettings();

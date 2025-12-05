@@ -1,5 +1,4 @@
 import { AiFillLayout, AiOutlineRise, AiOutlineAim, AiOutlineShopping } from "react-icons/ai";
-
 import {  FaHandshake , FaComments , FaBoxesStacked , FaLightbulb , FaGem , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaArrowsTurnToDots , FaLaptopCode, FaDiceD20, FaBarsProgress, FaGithub, FaLinkedinIn, FaDeviantart, FaRegUser } from "react-icons/fa6";
 export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com'
 

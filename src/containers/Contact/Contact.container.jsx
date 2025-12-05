@@ -18,7 +18,7 @@ import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
 import { useAlert } from '../../context/alert.context';
 
 //config
-import { MailDefault } from '../../config.jsx';
+import { MailDefault } from '../../config.tsx';
 import {DotGridEffect} from '../../styles/effect.jsx'
 
 export const ContactContainer = ({ id }) => {

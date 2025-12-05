@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings, GetLightSetting, SCREEN_SIZE } from '../../config.jsx';
+import { getColorSettings, GetLightSetting, SCREEN_SIZE } from '../../config.tsx';
 
 const AuraBreath = keyframes`
     0% { 

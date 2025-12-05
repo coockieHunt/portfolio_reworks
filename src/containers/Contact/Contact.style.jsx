@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../config.jsx';
-import { SCREEN_SIZE } from '../../config.jsx';
+import { BORDER_RADIUS, getColorSettings, SCREEN_SIZE } from '../../config.tsx';
 
 // Container
 export const Container = styled.div`

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.jsx';
+import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.tsx';
 import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter.jsx';
 
 export const Container = styled.div`

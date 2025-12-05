@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, getColorSettings } from '../../../config.jsx';
+import { SCREEN_SIZE, getColorSettings } from '../../../config.tsx';
 
 export const GridContainer = styled.div`
     display: grid;

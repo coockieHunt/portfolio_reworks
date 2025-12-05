@@ -1,5 +1,5 @@
 import { createGlobalStyle, styled } from 'styled-components';
-import { COLOR_SETTING, LIGHT_SETTING } from '../config';
+import { COLOR_SETTING } from '../config';
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 
 
 	*::-webkit-scrollbar {width: 10px;}
-	*::-webkit-scrollbar-track {background:  ${props => LIGHT_SETTING[props.theme.light].background_accentuated};}
+	
 	* {scrollbar-width: auto;box-sizing: border-box;}
 
 	*::-webkit-scrollbar-thumb {
@@ -28,10 +28,10 @@ const GlobalStyle = createGlobalStyle`
 		background-color: #121212;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
-		color: ${props => LIGHT_SETTING[props.theme.light].font};
 		margin: 0;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+		color: white;
 	}
 
 	* {

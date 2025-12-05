@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config';
+import { BORDER_RADIUS, getColorSettings } from '../../../config.tsx';
 
 export const OutileButtonContainer = styled.button`
     display: flex;

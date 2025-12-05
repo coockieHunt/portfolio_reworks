@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { GetLightSetting } from '../../../config';
 
 export const BurgerMenuContainer = styled.div`
 	width: 30px;
@@ -14,7 +13,6 @@ export const BurgerMenuContainer = styled.div`
 	div {
 		width: 100%;
 		height: 2px;
-		background-color: ${props => GetLightSetting(props.theme).font};
 		transition: all 0.3s ease;
 	}
 

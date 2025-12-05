@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config.tsx';
 
 export const  IconContainer = styled.a`
     position: relative;

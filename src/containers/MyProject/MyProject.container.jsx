@@ -14,7 +14,7 @@ import { BuildGalery } from './Build/BuildGalery.jsx';
 import { BuildTab } from './Build/BuildTab.jsx';
 
 // data config
-import { projectList } from '../../data.jsx'
+import { projectList } from '../../data.tsx'
 
 const BuildProjectCardComponent = (project) => {
     const [CurrentTab, setCurrentTab] = useState("preview");

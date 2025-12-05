@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, SCREEN_SIZE, BORDER_RADIUS } from '../../config.jsx'
+import { getColorSettings, SCREEN_SIZE, BORDER_RADIUS } from '../../config.tsx'
 
 export const NavigationContainer = styled.div`
     display: flex;

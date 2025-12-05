@@ -12,7 +12,7 @@ import{ HelloHandComponent } from '../../components/HelloHand/HelloHand.componen
 import { MouseComponent } from '../../components/Mouse/Mouse.component';
 
 //config
-import { word_hero } from '../../data.jsx'
+import { word_hero } from '../../data.tsx'
 
 //context
 import { GridEffect } from '../../styles/effect.jsx';

@@ -8,7 +8,7 @@ import { FaXmark, FaPalette } from "react-icons/fa6";
 import * as Styled from "./Setting.style"
 
 //Config
-import { COLOR_SETTING } from '../../config.jsx';
+import { COLOR_SETTING } from '../../config.tsx';
 
 //Context
 import { useSettingContext } from "../../context/Setting.context";

@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {useSettingContext} from "./context/Setting.context"
 
 //Icon
@@ -16,32 +17,44 @@ import { AiOutlineApi, AiOutlineSend  } from "react-icons/ai";
 import { FaJs } from "react-icons/fa";
 
 
-//FUNCTION
-export const useColorSettings = () => {
-    const { settings } = useSettingContext();
-    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
-};
+// interface
+export interface iColorSettings {
+    display_name: string;
+    background: string;
+    background_secondary: string;
+    background_tertiary: string;
 
-export const getColorSettings = (theme) => {
-    if(!theme) return COLOR_SETTING.default;
-    const themeName = theme.theme || theme;
-    return COLOR_SETTING[themeName] || COLOR_SETTING.default;
-};
+    primary: string;
+    secondary: string;
+    accentuate: string;
 
-export const useLightSettings = () => {
-    const { settings } = useSettingContext();
-    return LIGHT_SETTING[settings.light] || LIGHT_SETTING.dark;
-};
+    border: string;
+}
 
-export const GetLightSetting = (theme) => {
-    if(!theme) return LIGHT_SETTING.dark;
-    const lightName = theme.light || theme;
-    return LIGHT_SETTING[lightName] || LIGHT_SETTING.dark;
+export interface iLightSettings {
+    background: string;
+    background_secondary: string;
+    background_tertiary: string;
+
+    background_accentuated: string;
+
+    background_alpha : number;
+
+    font: string;
+}
+
+
+export interface iStackItem {
+    name: string, 
+    icon: ReactNode,
+    color: string,
+    link: string, 
+    width: number
 };
 
 //CONSTANTS
 // 6.94:1 global ~= themes scores for contrast accessibility end 2.16:1 minimum
-export const COLOR_SETTING = {
+export const COLOR_SETTING: Record<string, iColorSettings> = {
     default: {
         display_name: "Nuit",
         background: '#303134',
@@ -134,7 +147,8 @@ export const COLOR_SETTING = {
     }
 };
 
-export const LIGHT_SETTING = {
+
+export const LIGHT_SETTING: Record<string, iLightSettings> = {
     light:{
         background: 'white',
         background_secondary: '#d7d7db',
@@ -161,7 +175,8 @@ export const LIGHT_SETTING = {
     },
 };
 
-export const StackList = [
+
+export const StackList: iStackItem[] = [
 	{
 		name: 'Uptime Kuma', 
 		icon: <SiUptimekuma />,
@@ -265,10 +280,29 @@ export const BORDER_RADIUS = {
     full: '100%'  
 }
 
-// API base URL can be configured via Vite env or falls back to default
-export const ApiBaseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
-    ? import.meta.env.VITE_API_BASE_URL
-    : "http://localhost:3001/api";
+export const useColorSettings = (): iColorSettings => {
+    const { settings } = useSettingContext() as any; 
+    return COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
+};
+
+export const getColorSettings = (theme: any): iColorSettings => {
+    if(!theme) return COLOR_SETTING.default;
+    const themeName = theme.theme || theme;
+    return COLOR_SETTING[themeName as string] || COLOR_SETTING.default;
+};
+
+export const useLightSettings = (): iLightSettings => {
+    const { settings } = useSettingContext() as any;
+    return LIGHT_SETTING[settings.light] || LIGHT_SETTING.dark;
+};
+
+export const GetLightSetting = (theme: any): iLightSettings => {
+    if(!theme) return LIGHT_SETTING.dark;
+    const lightName = theme.light || theme;
+    return LIGHT_SETTING[lightName as string] || LIGHT_SETTING.dark;
+};
+
+export const ApiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
 export const MailDefault =  { firstName: '', lastName: '', email: '', message: '' };
 
 export const COLOR = COLOR_SETTING;

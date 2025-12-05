@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Container, TimeLineContainer, TimeLineItemContainer, TimeLineTitle, TimeLineContent } from './ProcessTileline.style'; 
 import { TitleTextComponent } from '../../components/Text/Text.component';
-import { getColorSettings } from '../../config';
+import { getColorSettings } from '../../config.tsx';
 import { useSettingContext } from '../../context/Setting.context';
 import { DotGridEffect } from '../../styles/effect.jsx';
-import { TimeLine } from '../../data.jsx';
+import { TimeLine } from '../../data.tsx';
 
 const TimeLineItem = ({ step, title, content }) => {
     return (

@@ -8,13 +8,13 @@ import { Container, TextContainer, Info, Img, Text } from "./benefit.style";
 import { TitleTextComponent } from '../../components/Text/Text.component'
 
 // data
-import { benefitItems } from '../../data';
+import { benefitItems } from '../../data.tsx';
 
 //Hooks
 // import { useWindowSize } from "../../hooks/useScreenResize.hook.jsx"
 import { useInView } from 'react-intersection-observer';
 import { useSettingContext } from '../../context/Setting.context';
-import { getColorSettings, GetLightSetting } from '../../config.jsx';
+import { getColorSettings, GetLightSetting } from '../../config.tsx';
 
 
 export const BenefitContainer = ({ id }) => {

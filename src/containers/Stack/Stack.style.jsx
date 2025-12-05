@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings } from '../../config.jsx';
+import { getColorSettings } from '../../config.tsx';
 
 const scrollLeftToRight = keyframes`
     0% { transform: translateX(-50%);}

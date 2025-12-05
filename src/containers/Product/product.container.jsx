@@ -1,5 +1,5 @@
 // data
-import { productList } from "../../data"; 
+import { productList } from "../../data.tsx"; 
 // components
 import { TitleTextComponent } from "../../components/Text/Text.component"
 import { TerminalComponent } from "../../components/Terminal/Terminal.component";

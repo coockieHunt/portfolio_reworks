@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings, GetLightSetting } from '../../../config';
+import { getColorSettings, GetLightSetting } from '../../../config.tsx';
 
 const Loop = keyframes`
   0% {transform: translateX(0);}

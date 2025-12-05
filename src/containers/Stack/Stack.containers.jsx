@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import * as Styled from './Stack.style';
-import { StackList } from '../../config.jsx';
+import { StackList } from '../../config.tsx';
 
 const BuildStack = ({ data }) => {
     return (

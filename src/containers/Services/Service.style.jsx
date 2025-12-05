@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings, GetLightSetting  } from '../../config.jsx';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting  } from '../../config.tsx';
 import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
 
 export const FenceContainer = styled.div`

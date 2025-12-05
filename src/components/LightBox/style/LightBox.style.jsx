@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { BORDER_RADIUS } from '../../../config';
 import { HexToRgbaConverter } from '../../../utils/HexToRgbaConverter'
-import { getColorSettings } from '../../../config';
+import { getColorSettings, BORDER_RADIUS } from '../../../config.tsx';
 
 export const LightBoxContainer = styled.div`
     position: fixed;

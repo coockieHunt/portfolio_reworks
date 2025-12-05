@@ -1,5 +1,5 @@
 import styled, { keyframes,  } from "styled-components";
-import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../config.jsx';
+import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../config.tsx';
 
 const blink = keyframes`
     0%, 100% { opacity: 1; }

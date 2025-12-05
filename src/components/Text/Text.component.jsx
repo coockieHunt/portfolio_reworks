@@ -3,7 +3,7 @@ import { Gradient } from "./style/GradientText.style"
 import { ToText } from "./style/LinkText.style"
 import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
 import { useSettingContext, } from "../../context/Setting.context";
-import { COLOR_SETTING } from '../../config.jsx'
+import { COLOR_SETTING } from '../../config.tsx'
 
 /**
  * AccentTextComponent

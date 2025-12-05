@@ -158,8 +158,8 @@ src/
 ├── styles/         # Global styles & effects
 ├── utils/          # Helper functions
 ├── assets/         # Images, PDFs, and static files
-├── data.jsx        # Centralized content data
-└── config.jsx      # App configuration
+├── data.tsx        # Centralized content data
+└── config.tsx      # App configuration
 ```
 
 ---
@@ -422,8 +422,8 @@ src/
 ├── styles/         # Styles globaux & effets
 ├── utils/          # Fonctions utilitaires
 ├── assets/         # Images, PDFs et fichiers statiques
-├── data.jsx        # Données de contenu centralisées
-└── config.jsx      # Configuration de l'application
+├── data.tsx        # Données de contenu centralisées
+└── config.tsx      # Configuration de l'application
 ```
 
 ---

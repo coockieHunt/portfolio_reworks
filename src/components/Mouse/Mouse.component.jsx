@@ -1,5 +1,5 @@
 import { Mouse } from "./style/Mouse.style"
-import { useColorSettings, useLightSettings } from "../../config"
+import { useColorSettings, useLightSettings } from "../../config.tsx"
 
 /**
  * MouseComponent

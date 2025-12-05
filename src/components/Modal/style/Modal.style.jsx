@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import { m } from 'framer-motion';
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config.tsx';
 import { HexToRgbaConverter } from '../../../utils/HexToRgbaConverter'
 
 export const ModalDiv = styled(m.div)`

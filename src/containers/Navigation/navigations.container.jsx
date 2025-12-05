@@ -15,10 +15,10 @@ import { LogoComponent } from '../../components/Logo/Logo.components.jsx';
 import * as Styled from './navigations.style';
 
 // config
-import { SCREEN_SIZE, getColorSettings } from '../../config'; 
+import { SCREEN_SIZE, getColorSettings } from '../../config.tsx'; 
 
 // data
-import { socialLinks } from '../../data.jsx'
+import { socialLinks } from '../../data.tsx'
 
 //context
 import { useSettingContext } from '../../context/Setting.context';

@@ -5,21 +5,21 @@ import { LazyMotion, domAnimation } from "framer-motion";
 
 // Import
 import GlobalStyle, { Content } from './styles/global.style.jsx';
-import { URL } from './data.jsx'
+import { URL } from './data'
 
 //context
 import { useSettingContext } from './context/Setting.context.jsx'
-import { HeroContainer } from './containers/Hero/hero.container';
-import { CathContainer } from './containers/Catch/catch.container';
+import { HeroContainer } from './containers/Hero/hero.container.jsx';
+import { CathContainer } from './containers/Catch/catch.container.jsx';
 import { SettingContainer } from './containers/Setting/Setting.container.jsx';
-import { NavigationComponent } from './containers/Navigation/navigations.container';
+import { NavigationComponent } from './containers/Navigation/navigations.container.jsx';
 
 
 // Container lazy loaded
-const FooterContainer = lazy(() => import('./containers/Footer/footer.container').then(module => ({ default: module.FooterContainer })));
-const ContactContainer = lazy(() => import('./containers/Contact/Contact.container').then(module => ({ default: module.ContactContainer })));
-const MyProjectContainer = lazy(() => import('./containers/MyProject/MyProject.container').then(module => ({ default: module.MyProjectContainer })));
-const BenefitContainer = lazy(() => import('./containers/Benefit/benefit.container').then(module => ({ default: module.BenefitContainer })));
+const FooterContainer = lazy(() => import('./containers/Footer/footer.container.jsx').then(module => ({ default: module.FooterContainer })));
+const ContactContainer = lazy(() => import('./containers/Contact/Contact.container.jsx').then(module => ({ default: module.ContactContainer })));
+const MyProjectContainer = lazy(() => import('./containers/MyProject/MyProject.container.jsx').then(module => ({ default: module.MyProjectContainer })));
+const BenefitContainer = lazy(() => import('./containers/Benefit/benefit.container.jsx').then(module => ({ default: module.BenefitContainer })));
 const QuoteContainer = lazy(() => import('./containers/Quote/Quote.containers.jsx').then(module => ({ default: module.QuoteContainer })));
 const StackContainer = lazy(() => import('./containers/Stack/Stack.containers.jsx').then(module => ({ default: module.StackContainer })));
 const ServiceContainer = lazy(() => import('./containers/Services/Service.containers.jsx').then(module => ({ default: module.ServiceContainer })));
@@ -33,7 +33,7 @@ import { GlobalLoader } from './components/Loading/GlobalLoader.compenent.jsx'
 
 //Provider
 import { AlertProvider } from './context/alert.context.jsx';
-import { AlertContainerComponent } from './components/Alert/Alert.component';
+import { AlertContainerComponent } from './components/Alert/Alert.component.jsx';
 import { SettingProvider } from "./context/Setting.context.jsx";
 import { LoadingProvider } from './context/loading.context.jsx';
 
@@ -103,14 +103,13 @@ function App() {
     return (
         <AppProviders>
             <UmamiTracker />
-            {/* no Lazy for cretical content */}
             <NavigationComponent navConfig={navigation} />
             <AlertContainerComponent />
             <SettingContainer />
             <HeroContainer id='hero' />
             <CathContainer id='catch' />
 
-            <Suspense fallback={<GlobalLoader />}> {/* lazy load for non critical content */}
+            <Suspense fallback={<GlobalLoader />}> 
                 <ProductContainer id='product' />
                 <ServiceContainer id='service' />
                 <BenefitContainer id='benefit' />
