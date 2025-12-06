@@ -16,7 +16,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     
-    "noImplicitAny": false 
+    "noImplicitAny": false,
+    "checkJs": false 
   },
-  "include": ["src/types/vite-env.d.ts", "src/types/global.d.ts", "src"],
+  "include": ["src"],
 }

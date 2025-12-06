@@ -18,7 +18,9 @@
   "scripts": {
     "dev": "vite",
     "dev:network": "USE_NETWORK=true vite",
+    "check": "tsc --noEmit",
     "build": "vite build",
+    "build:strict": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "deploy": "bash ./scripts/deploy.sh"
   },
