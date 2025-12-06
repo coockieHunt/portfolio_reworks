@@ -4,7 +4,11 @@ import { m } from 'framer-motion';
 import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config';
 import { HexToRgbaConverter } from '../../../utils/HexToRgbaConverter'
 
-export const ModalDiv = styled(m.div)`
+interface ModalStyleProps {
+    light: 'light' | 'dark';
+}
+
+export const ModalDiv = styled(m.div)<ModalStyleProps>`
     position: fixed;
     top: 50%;
     left: 50%;
@@ -17,7 +21,7 @@ export const ModalDiv = styled(m.div)`
     border-radius: ${BORDER_RADIUS.xlarge};
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<ModalStyleProps>`
     padding: 25px;
     font-variation-settings: "wght" 300;
     font-size: 1em;
@@ -65,7 +69,6 @@ export const Top = styled.div`
         color: inherit;
     }
 `
-
 
 export const BackDrop = styled(m.div)`
     background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.65)};

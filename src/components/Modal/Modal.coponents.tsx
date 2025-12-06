@@ -4,6 +4,8 @@ import { AnimatePresence } from 'framer-motion';
 import { ModalDiv, BackDrop, Top, Content } from "./style/Modal.style";
 import { AiOutlineClose  } from 'react-icons/ai';
 
+import { JSX } from "react";
+
 /**
  * ModalComponent is a React component that renders a modal.
  *
@@ -15,8 +17,21 @@ import { AiOutlineClose  } from 'react-icons/ai';
  * @param {function} onClose - A function to close the modal.
  * @returns {ReactNode} - Returns the modal component.
  */
-const ModalItem = ({ modal, index, onClose }) => {
-    const closeBtnRef = React.useRef(null);
+
+interface ModalItemProps {
+    modal: {
+        isOpen: boolean;
+        title: string;
+        content: React.ReactNode;
+        light: 'light' | 'dark';
+    };
+    index: number;
+    onClose: (index: number) => void;
+    container?: HTMLElement;
+}
+
+const ModalItem = ({ modal, index, onClose }: ModalItemProps): JSX.Element => {
+    const closeBtnRef = React.useRef<HTMLButtonElement>(null);
     const modalDivRef = React.useRef(null);
 
     useEffect(() => {
@@ -39,6 +54,7 @@ const ModalItem = ({ modal, index, onClose }) => {
                 onClick={() => onClose(index)}
             />
             <ModalDiv
+                light={modal.light}
                 ref={modalDivRef}
                 role="dialog"
                 aria-modal="true"
@@ -60,7 +76,7 @@ const ModalItem = ({ modal, index, onClose }) => {
                         <AiOutlineClose aria-hidden="true" focusable={false} />
                     </button>
                 </Top>
-                <Content>
+                <Content light={modal.light}>
                     <h1 id={`modal-title-${index}`}>{modal.title}</h1>
                     {modal.content}
                 </Content>
@@ -69,7 +85,18 @@ const ModalItem = ({ modal, index, onClose }) => {
     );
 };
 
-export const ModalComponent = ({ modals, onClose }) => {
+
+interface ModalComponentProps {
+    modals: {
+        isOpen: boolean;
+        title: string;
+        content: React.ReactNode;
+        light: 'light' | 'dark';
+    }[];
+    onClose: (index: number) => void;
+}
+
+export const ModalComponent = ({ modals, onClose }: ModalComponentProps): JSX.Element => {
     // Handle key down events for accessibility
     const handleKeyDown = (event, index) => {
         if (event.key === "Escape") {onClose(index);}
