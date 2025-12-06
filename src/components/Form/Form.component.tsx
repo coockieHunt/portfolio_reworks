@@ -148,7 +148,14 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
  * @param {function} setIsCaptchaValid - A function to set the captcha validity.
  * @returns {JSX.Element} The rendered captcha component.
  */
-export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid }, ref) => {
+
+interface CaptchaComponentProps {
+    isCaptchaValid: boolean;
+    setIsCaptchaValid: (isValid: boolean) => void;
+}   
+
+
+export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid }: CaptchaComponentProps, ref) => {
     const [number1, setNumber1] = useState(generateRandomNumber());
     const [number2, setNumber2] = useState(generateRandomNumber());
     const [userAnswer, setUserAnswer] = useState('');

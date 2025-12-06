@@ -1,11 +1,33 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config.tsx';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config.js';
 
 // ? CONFIG STYLE FORM
 const LabelPadding = '10px';
 const BorderSize = '1.5px';
 
-export const FormLabel = styled.label`
+interface FormLabelProps {
+    light?: boolean;
+}
+
+interface FormInputProps {
+    light?: boolean;
+}
+
+interface CaptchaFormProps {
+    $hasValue: boolean;
+    $isValid: boolean;
+}
+
+interface CaptchaInputProps {
+    light?: boolean;
+}
+
+interface FormSubmitProps {
+    light?: boolean;
+}
+
+
+export const FormLabel = styled.label<FormLabelProps>`
     padding: ${LabelPadding} 0 8px 0;
     font-size: 0.95em;
     color: rgba(255, 255, 255, 0.8);
@@ -16,7 +38,7 @@ export const FormLabel = styled.label`
     & span { color: ${props => getColorSettings(props.theme).primary}; }
 `;
 
-export const FormInput = styled.input`
+export const FormInput = styled.input<FormInputProps>`
     padding: 14px 18px;
     outline: none;
     border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
@@ -101,7 +123,7 @@ export const FormTextArea = styled.textarea`
     }
 `;
 
-export const FormSubmit = styled.input`
+export const FormSubmit = styled.input<FormSubmitProps>`
     padding: 15px;
     margin-top: 15px;
     background-color: ${props => GetLightSetting(props.light).background_tertiary};
@@ -158,7 +180,7 @@ export const CaptchaLabel = styled.label`
     }
 `;
 
-export const CaptchaForm = styled.div`
+export const CaptchaForm = styled.div<CaptchaFormProps>`
     display: flex;
     align-items: center;
     gap: 12px;
@@ -192,7 +214,7 @@ export const CaptchaForm = styled.div`
     }
 `;
 
-export const CaptchaInput = styled.input`
+export const CaptchaInput = styled.input<CaptchaInputProps>`
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: ${BORDER_RADIUS.large};
