@@ -32,7 +32,7 @@ export const FooterContainer = () => {
     if (legalOpen) {
         setTimeout(() => {
             const element = document.getElementById('LegalContent');
-            if(element) { // Petit check de sécurité
+            if(element) { 
                 const rect = element.getBoundingClientRect();
                 const offset = 200; 
 

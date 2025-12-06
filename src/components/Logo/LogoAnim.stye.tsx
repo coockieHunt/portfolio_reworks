@@ -1,7 +1,11 @@
 import styled, { keyframes, css } from 'styled-components';
 
+interface StyledAnimatedSvgProps {
+    $isVisible: boolean;
+}
+
 // Function to generate nth-child rules for animation delays
-const generateRulsDelays = (count, delay) => {
+const generateRulsDelays = (count: number, delay: number) => {
     let styles = '';
     for (let i = 1; i <= count; i++) {styles += `&:nth-child(${i}) { animation-delay: ${i * delay}s; }`;}
     return css`${styles}`;
@@ -20,7 +24,7 @@ const drawLine = keyframes`
     100% { opacity: 1; stroke-dasharray: 1000; stroke-dashoffset: 0; }
 `;
 
-export const StyledAnimatedSvg = styled.svg`
+export const StyledAnimatedSvg = styled.svg<StyledAnimatedSvgProps>`
     g circle {
         transform-box: fill-box;
         transform-origin: center;
