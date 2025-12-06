@@ -8,12 +8,16 @@
  * @example
  * const rgbaValue = HexToRgbaConverter("#3498db", 0.7);
  */
-export const HexToRgbaConverter = (hexCode, alpha) => {
+
+interface IHexToRgbaConverter {
+    hexCode: string;
+    alpha: number;
+}
+
+export const HexToRgbaConverter = ({ hexCode, alpha }: IHexToRgbaConverter) : string | null => {
     const hexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
   
-    if (!hexRegex.test(hexCode)) {
-      return null;
-    }
+    if (!hexRegex.test(hexCode)) {return null;}
   
     const hexValue = hexCode.replace(/^#/, '');
     const bigint = parseInt(hexValue, 16);

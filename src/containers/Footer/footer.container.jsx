@@ -19,7 +19,7 @@ import { URL } from '../../data.tsx';
 import { useAlert } from '../../context/alert.context';
 
 // utils
-import { launchEasterEgg } from '../../utils/rb.jsx';
+import { launchEasterEgg } from '../../utils/rb';
 
 export const FooterContainer = () => {
     const [legalOpen, setLegalOpen] = React.useState(false);

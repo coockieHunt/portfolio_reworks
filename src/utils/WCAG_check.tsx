@@ -1,4 +1,3 @@
-
 /**
  * Converts a hex color string to an RGB object.
  *
@@ -8,15 +7,9 @@
  * @returns {{r: number, g: number, b: number}} An object with r, g, b values (0-255).
  */
 
-/**
- * Determines whether black or white text has better contrast on a given hex background color.
- *
- * Uses the luminance formula to calculate brightness and returns the appropriate text color.
- *
- * @param {string} hexBackground - The hex color string for the background (e.g., "#fff" or "#ffffff").
- * @returns {string} The hex color string for the text ("#000000" for black or "#FFFFFF" for white).
- */
-export const hexToRgb = (hex) => {
+interface IRgb {r: number; g: number; b: number;}
+
+export const hexToRgb = (hex: string): IRgb => {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, function(m, r, g, b) {
         return r + r + g + g + b + b;
@@ -31,7 +24,18 @@ export const hexToRgb = (hex) => {
     } : {r: 0, g: 0, b: 0}; 
 };
 
-export const getContrastTextColor = (hexBackground) => {
+/**
+ * Determines whether black or white text has better contrast on a given hex background color.
+ *
+ * Uses the luminance formula to calculate brightness and returns the appropriate text color.
+ *
+ * @param {string} hexBackground - The hex color string for the background (e.g., "#fff" or "#ffffff").
+ * @returns {string} The hex color string for the text ("#000000" for black or "#FFFFFF" for white).
+ */
+interface IGetContrastTextColor {
+    hexBackground: string;
+}
+export const getContrastTextColor = ({ hexBackground }: IGetContrastTextColor): string => {
     const {r, g, b} = hexToRgb(hexBackground);
     
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;

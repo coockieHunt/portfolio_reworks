@@ -1,6 +1,15 @@
 import { PostGuestbookEntry, GetGuestbookEntries } from '../api/guestbook.api.jsx';
 
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+declare global {
+    interface Window {
+        isEasterEggPlaying?: boolean;
+        hasKonamiListener?: boolean;
+        SecretSystem?: any;
+        decrypt?: (text: string, shift: string | number) => string;
+    }
+}
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const SUPERSECRET_PASSWORD = "AZERTY123";
 
@@ -46,7 +55,7 @@ export const ConnectedToSecretSystem = () => {
     ];
     let konamiCursor = 0;
 
-    const onKeydown = (e) => {
+    const onKeydown = (e: KeyboardEvent) => {
         if (e.key !== konamiCode[konamiCursor]) {
             konamiCursor = 0;
             if (e.key === "ArrowUp") konamiCursor = 1;
@@ -214,7 +223,7 @@ export const launchEasterEgg = async () => {
 
     if (!window.decrypt) {
         window.decrypt = (text, shift) => {
-            const s = parseInt(shift, 10);
+            const s = parseInt(String(shift), 10);
             return text.split('').map(char => {
                 const code = char.charCodeAt(0);
                 if (code >= 97 && code <= 122) return String.fromCharCode(((code - 97 - s + 26) % 26) + 97);

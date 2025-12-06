@@ -38,7 +38,7 @@ import { SettingProvider } from "./context/Setting.context";
 import { LoadingProvider } from './context/loading.context';
 
 //import ee
-import { ConnectedToSecretSystem } from './utils/rb.jsx';
+import { ConnectedToSecretSystem } from './utils/rb';
 
 //Icon
 import {

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.tsx';
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter.jsx';
+import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
 
 export const Container = styled.div`
     padding: 30px 0;
