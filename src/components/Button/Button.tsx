@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 //style
-import { ButtonContainer } from './style/Button.style';
 import { OutileButtonContainer } from './style/OutlineButton.style';
 import { ArrowContainerFixed, ArrowContainer } from './style/Arrow.style';
 import { IconContainer } from './style/Icon.style';
 import { LinkContainer } from './style/link.style'
+import { ButtonContainer } from './style/Button.style';
 
 //hook
 import { useScrollOffsetY } from '../../hooks/useOffsetScroll.hook';
@@ -25,7 +25,7 @@ import { useScrollOffsetY } from '../../hooks/useOffsetScroll.hook';
 
 export const Button = ({ onClick, color, children, icon, icon_right, disabled }) => {
     return (
-        <ButtonContainer onClick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled bg_color_primary" : "bg_color_primary"}>
+        <ButtonContainer onClick={!disabled ? onClick : null} $colorLine={color} className={disabled ? "disabled bg_color_primary" : "bg_color_primary"}>
             {icon_right ? 
                 <><div className="icon">{icon}</div> <span>{children}</span></> :
                 <><span>{children}</span> <div className="icon">{icon}</div></>
@@ -48,7 +48,7 @@ export const Button = ({ onClick, color, children, icon, icon_right, disabled })
  */
 export const OutlineButton = ({ onClick, color, children, icon, icon_right, disabled }) => {
     return (
-        <OutileButtonContainer onClick={!disabled ? onClick : null} colorLine={color} className={disabled ? "disabled" : null}>
+        <OutileButtonContainer onClick={!disabled ? onClick : null} $colorLine={color} className={disabled ? "disabled" : undefined}>
             {icon_right ? 
                 <><div className="icon">{icon}</div> <span>{children}</span></> :
                 <><span>{children}</span> <div className="icon">{icon}</div></>

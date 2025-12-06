@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config.tsx';
+import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../../config.js';
 
-export const  IconContainer = styled.a`
+interface IconContainerProps {
+    $color?: string;
+    $textX?: string;
+    $textY?: string;
+}
+
+export const  IconContainer = styled.a<IconContainerProps>`
     position: relative;
     color: ${props => props.$color ? props.$color : getColorSettings(props.theme).primary};
     background-color: transparent;

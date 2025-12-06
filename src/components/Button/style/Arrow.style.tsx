@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config.tsx';
+import { BORDER_RADIUS, getColorSettings } from '../../../config.js';
 
 export const ArrowContainerFixed = styled.div`
     position: fixed;

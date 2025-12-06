@@ -1,12 +1,16 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config.tsx';
+import { BORDER_RADIUS, getColorSettings } from '../../../config.js';
 
-export const OutileButtonContainer = styled.button`
+interface OutileButtonContainerProps {
+    $colorLine?: string;
+}
+
+export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
     display: flex;
     cursor: pointer;
     text-transform: uppercase;
     background-color: transparent;
-    border: 1px solid ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
+    border: 1px solid ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
     color: white;
     border-radius: ${BORDER_RADIUS.medium};
     font-variation-settings: "wght" 600;
@@ -23,13 +27,13 @@ export const OutileButtonContainer = styled.button`
         display: block;
         flex: 1;
         padding: 10px;
-        background-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
+        background-color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
     }
 
     & span {
         display: block;
         padding: 0 15px;
-        color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
+        color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
         
         &:after{
             transition: width .3s ease-in-out;
@@ -42,7 +46,7 @@ export const OutileButtonContainer = styled.button`
             width: 0%;
             z-index: -1;
 
-            background-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
+            background-color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
         }
     }
 

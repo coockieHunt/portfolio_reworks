@@ -1,11 +1,14 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config.tsx';
+import { BORDER_RADIUS, getColorSettings } from '../../../config.js';
 
-export const ButtonContainer = styled.button`
+interface ButtonContainerProps {
+    $colorLine?: string;
+}
+export const ButtonContainer = styled.button<ButtonContainerProps>`
     display: flex;
     cursor: pointer;
     text-transform: uppercase;
-    background-color: ${props => props.colorLine ? props.colorLine :  getColorSettings(props.theme).primary};
+    background-color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
     color: white;
     transition: all 0.6s ease;
     border-radius: ${BORDER_RADIUS.medium};
@@ -35,7 +38,7 @@ export const ButtonContainer = styled.button`
 
     &:hover{
         color: white;
-        background-color:  ${props => props.colorLine ? props.colorLine : getColorSettings(props.theme).primary};
+        background-color:  ${props => props.$colorLine ? props.$colorLine : getColorSettings(props.theme).primary};
         transition: all 0.6s ease;
         box-shadow: inset 0 0 20px .5em #0000005c;
         & span{color: white;}
