@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, getColorSettings } from '../../../config.tsx';
+import { SCREEN_SIZE, getColorSettings } from '../../../config.js';
 
-export const GridContainer = styled.div`
+interface GridContainerProps {
+    $columns?: number;
+    $rows?: number;
+    $gap?: number;
+}
+
+export const GridContainer = styled.div<GridContainerProps>`
     display: grid;
     grid-template-columns: repeat(${props => props.$columns || 4}, 1fr);
     grid-template-rows: repeat(${props => props.$rows || 2}, minmax(150px, 300px));

@@ -1,7 +1,7 @@
 
 import { useState, useMemo } from "react";
 import { useWindowSize } from '../../hooks/useScreenResize.hook';
-import { SCREEN_SIZE } from '../../config.tsx';
+import { SCREEN_SIZE } from '../../config';
 import { GridContainer, PaginationContainer } from "./style/PaginatedGrid.style.jsx";
 
 /**
@@ -15,15 +15,51 @@ import { GridContainer, PaginationContainer } from "./style/PaginatedGrid.style.
  * @param {number} [rows=2] - Number of rows in the grid for desktop screens.
  * @returns {JSX.Element} The rendered paginated grid component.
  */
-const calculatePages = (items, isMobile, columns, rows) => {
+
+interface PaginatedGridProps {
+    items: Array<{
+        id: string | number;
+        column?: number;
+        row?: number;
+        [key: string]: any;
+    }>;
+    renderItem: React.ComponentType<any>;
+    columns?: number;
+    rows?: number;
+    gap_desktop?: number;
+    gap_mobile?: number;
+}
+
+interface GridItem {
+    id: string | number;
+    column: number;
+    row: number;
+    gridPos: {
+        rowStart: number;
+        colStart: number;
+    };
+    [key: string]: any;
+}
+
+const calculatePages = (
+    items: Array<{
+        id: string | number;
+        column?: number;
+        row?: number;
+        [key: string]: any;
+    }>,
+    isMobile: boolean,
+    columns: number,
+    rows: number
+) => {
     const COLS = isMobile ? 1 : columns;
     const ROWS = isMobile ? 4 : rows;
-    const pages = [];
+    const pages: GridItem[][] = [];
     
-    let currentPage = [];
+    let currentPage: GridItem[] = [];
 
     // grid occupation
-    let grid = Array(ROWS).fill().map(() => Array(COLS).fill(false));
+    let grid = Array(ROWS).fill(false).map(() => Array(COLS).fill(false));
 
     //if grid spot is free
     const isSpotFree = (r, c, rSpan, cSpan) => {
@@ -49,7 +85,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
     // fill pages
     while (queue.length > 0) {
         let placed = false;
-        let firstFreeSpot = null;
+        let firstFreeSpot: { r: number; c: number } | null = null;
 
         for (let c = 0; c < COLS; c++) {
             for (let r = 0; r < ROWS; r++) {
@@ -84,6 +120,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
                 currentPage.push({
                     ...item,
                     column: cSpan,
+                    row: item.row ?? 1,
                     gridPos: {
                         rowStart: firstFreeSpot.r + 1,
                         colStart: firstFreeSpot.c + 1
@@ -98,7 +135,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
                     const cSpan = isMobile ? 1 : Math.min(item.column || 1, COLS);
                     const rSpan = item.row || 1;
 
-                    let spotFound = null;
+                    let spotFound: { r: number; c: number } | null = null;
                     for (let c = 0; c < COLS; c++) {
                         for (let r = 0; r < ROWS; r++) {
                             if (isSpotFree(r, c, rSpan, cSpan)) {
@@ -114,6 +151,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
                         currentPage.push({
                             ...item,
                             column: cSpan,
+                            row: item.row ?? 1,
                             gridPos: {
                                 rowStart: spotFound.r + 1,
                                 colStart: spotFound.c + 1
@@ -131,7 +169,7 @@ const calculatePages = (items, isMobile, columns, rows) => {
              if (currentPage.length > 0) {
                 pages.push(currentPage);
                 currentPage = [];
-                grid = Array(ROWS).fill().map(() => Array(COLS).fill(false));
+                grid = Array(ROWS).fill(false).map(() => Array(COLS).fill(false));
             } else {
                  if (queue.length > 0) {
                      console.error("Item too big for grid:", queue[0]);
@@ -146,8 +184,15 @@ const calculatePages = (items, isMobile, columns, rows) => {
     return pages;
 };
 
-export const PaginatedGrid = ({ items, renderItem, columns = 4, rows = 2,  gap_desktop = 10 , gap_mobile = 10 }) => {
-    const isMobile = useWindowSize(parseInt(SCREEN_SIZE.mobile));
+export const PaginatedGrid = ({ 
+        items, 
+        renderItem, 
+        columns = 4, 
+        rows = 2,  
+        gap_desktop = 10 , 
+        gap_mobile = 10 
+    }: PaginatedGridProps) => {
+    const isMobile = !!useWindowSize(parseInt(SCREEN_SIZE.mobile));
     const pages = useMemo(() => calculatePages(items, isMobile, columns, rows), [items, isMobile, columns, rows]);
     const pagesNumber = pages.length;
     const [currentPage, setCurrentPage] = useState(1);
