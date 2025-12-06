@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface IAlertContainerProps {
+    $coloralert: string;
+    $timer_bar: string;
+}
+
+interface IContainerProps {
+    $direction: 'column' | 'column-reverse';
+}
+
+
+export const Container = styled.div<IContainerProps>`
     position: absolute;
     position: fixed;
     height: 100vh;
@@ -9,20 +19,18 @@ export const Container = styled.div`
     right: 0;
     top: 0;
     display: flex;
-    flex-direction: ${
-       'normal' === "normal" ? "column" : 
-       'normal' === "reverce" && "column-reverse"
-    };
     gap: 10px;
     justify-content: start;
     z-index: 10000;
     pointer-events: none;
     padding: 10px;
 
+    flex-direction: ${props => props.$direction};
+
     @media (max-width: 700px) {width: 100%;}
 `
 
-export const AlertContainer = styled.div`
+export const AlertContainer = styled.div <IAlertContainerProps>`
     background-color: ${props => props.$coloralert};
     box-shadow: 0 0 100px rgba(5, 0, 0, 0.336) inset;
     border-radius: 2px;
@@ -68,7 +76,7 @@ export const AlertContainer = styled.div`
         width: 100%;
         background-color: #f9fdff;
         animation: progressAnimation linear forwards;
-        display: ${props => props.timer_bar};
+        display: ${props => props.$timer_bar};
     }
 
     @keyframes progressAnimation {

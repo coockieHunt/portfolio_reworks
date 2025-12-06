@@ -1,8 +1,10 @@
 import { Container, AlertContainer } from './style/Alert.style';
 import { useAlert } from '../../context/alert.context';
 import {RxCross2} from 'react-icons/rx'
-import { COLOR_SETTING } from '../../config.tsx';
+import { COLOR_SETTING } from '../../config';
 import { useSettingContext } from '../../context/Setting.context';
+
+import { JSX } from 'react';
 
 /**
  * AlertContainerComponent displays a list of alert messages.
@@ -13,17 +15,22 @@ import { useSettingContext } from '../../context/Setting.context';
  * @component
  * @returns {JSX.Element} The rendered alert container component.
  */
-export const AlertContainerComponent = () => {
+
+interface IContainerProps {
+    $direction?: 'column' | 'column-reverse';
+}
+
+export const AlertContainerComponent = ({ $direction = 'column-reverse' }: IContainerProps) : JSX.Element => {
     const { alerts, removeAlert } = useAlert();
     const theme = useSettingContext();
-
     return (
-        <Container >
+        <Container $direction={$direction}>
             {alerts.map((alert) => (
-                <AlertContainer 
+                <AlertContainer  
                     key={alert.id} 
                     style={{ pointerEvents: 'auto' }}
                     $coloralert={alert.colorAlert ? alert.colorAlert : COLOR_SETTING[theme.settings.theme].primary}
+                    $timer_bar={alert.delay ? "block" : "none"}
                 >
                     <div className="content">
                         <div className="progress-bar" style={{ animationDuration: `${alert.delay}ms` }}></div>
