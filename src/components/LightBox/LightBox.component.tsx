@@ -1,7 +1,13 @@
 import { createPortal } from 'react-dom';
-import * as Styled from "./style/LightBox.style.jsx";
+import * as Styled from "./style/LightBox.style.js";
 
-export const LightBoxComponent = ({ isLightBoxOpen, currentImg, closeLightBox }) => {
+interface ILightBoxProps {
+    isLightBoxOpen: boolean;
+    currentImg: string;
+    closeLightBox: () => void;
+}
+
+export const LightBoxComponent = ({ isLightBoxOpen, currentImg, closeLightBox }: ILightBoxProps) => {
     if (!isLightBoxOpen) return null;
 
     return createPortal(
