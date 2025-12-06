@@ -1,6 +1,12 @@
-import { ApiBaseUrl } from '../config.tsx';
+import { ApiBaseUrl } from '../config.js';
 
-export async function sendEmail(formData) {
+interface IApiResponse {
+	error?: boolean;
+	message?: string;
+	[key: string]: any;
+}
+
+export async function sendEmail(formData : any): Promise<IApiResponse | null> {
 	try {
 		const resp = await fetch(`${ApiBaseUrl}/mail/sendEmail`, {
 			method: 'POST',

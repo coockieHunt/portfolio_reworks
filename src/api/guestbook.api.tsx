@@ -1,6 +1,13 @@
-import { ApiBaseUrl } from '../config.tsx';
+import { ApiBaseUrl } from '../config.js';
 
-export async function GetGuestbookEntries(password) {
+interface IApiResponse {
+	error?: boolean;
+	message?: string;
+	status?: number;
+	[key: string]: any;
+}
+
+export async function GetGuestbookEntries(password : string): Promise<IApiResponse | null> {
     try {
         const resp = await fetch(`${ApiBaseUrl}/guestbook/read`, {
             method: 'POST',
@@ -36,7 +43,7 @@ export async function GetGuestbookEntries(password) {
     }
 }
 
-export async function PostGuestbookEntry(password, name, message) {
+export async function PostGuestbookEntry(password: string, name: string, message: string): Promise<IApiResponse | null> {
     try {
         const resp = await fetch(`${ApiBaseUrl}/guestbook/write`, {
             method: 'POST',

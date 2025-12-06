@@ -1,4 +1,4 @@
-import { PostGuestbookEntry, GetGuestbookEntries } from '../api/guestbook.api.jsx';
+import { PostGuestbookEntry, GetGuestbookEntries } from '../api/guestbook.api';
 
 declare global {
     interface Window {

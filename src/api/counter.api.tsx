@@ -1,6 +1,13 @@
-import { ApiBaseUrl } from '../config.tsx';
+import { ApiBaseUrl } from '../config';
 
-export async function getThemeRand() {
+interface IApiResponse {
+	error?: boolean;
+	message?: string;
+	status?: number;
+	[key: string]: any;
+}
+
+export async function getThemeRand() : Promise<IApiResponse | null> {
 	try {
 		const resp = await fetch(`${ApiBaseUrl}/counter/get/THEME_RAND`);
 		if (!resp.ok) {
@@ -21,7 +28,7 @@ export async function getThemeRand() {
 	}
 }
 
-export async function incrementThemeRand() {
+export async function incrementThemeRand() : Promise<IApiResponse | null> {
 	try {
 		const resp = await fetch(`${ApiBaseUrl}/counter/increment/THEME_RAND`, { method: 'POST' });
 		if (!resp.ok) {
