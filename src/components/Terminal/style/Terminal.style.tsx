@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../../config.tsx';
+import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../../config';
 
 const blink = keyframes`
     0%, 100% { opacity: 1; }
@@ -171,7 +171,7 @@ export const TerminalLine = styled.div`
             border: 1px solid #f0f0f032;
             width: 60%;
             padding: 15px;
-            background-color: ${props => getColorSettings(props.theme).background_t}; 
+            background-color: ${props => getColorSettings(props.theme).background_tertiary}; 
             display: flex;
             flex-direction: row;
             align-items: stretch;

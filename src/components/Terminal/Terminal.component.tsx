@@ -1,5 +1,5 @@
 import * as styled from "./style/Terminal.style";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, JSX } from "react";
 import { FaArrowDown, FaArrowRight } from "react-icons/fa";
 
 /**
@@ -12,7 +12,21 @@ import { FaArrowDown, FaArrowRight } from "react-icons/fa";
  * @param {string} [props.command="ls /projects --DDtree"] - The command string displayed in the terminal prompt.
  * @returns {JSX.Element} The rendered TerminalComponent.
  */
-const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
+
+interface TerminalLineItemProps {
+    product: {
+        id: number;
+        title: string;
+        subTitle: string;
+        icon: JSX.Element;
+        description: string;
+    };
+    openItemId: number | null;
+    onItemClick: (id: number) => void;
+}
+
+
+const TerminalLineItem = ({ product, openItemId, onItemClick }: TerminalLineItemProps) => {
     const isOpen = openItemId === product.id;
     const IfSelectedClass = isOpen ? 'selected' : '';
 
@@ -62,7 +76,7 @@ const TerminalLineItem = ({ product, openItemId, onItemClick }) => {
 export const TerminalComponent = ({ data, path = "jonathangleyze.fr/products", command = "ls /projects --DDtree" }) => {
     const [openItemId, setOpenItemId] = useState(null);
     const [Title, setTitle] = useState('/');
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
    const handleItemClick = (id) => {
     setOpenItemId(prevId => {
