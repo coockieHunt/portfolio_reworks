@@ -1,5 +1,16 @@
 import styled, { keyframes, css } from 'styled-components';
-import { SCREEN_SIZE } from '../../../config.tsx';
+import { SCREEN_SIZE } from '../../../config.js';
+
+interface MouseProps {
+    $lightSettings: {
+        font: string;
+    };
+    $colorSettings: {
+        primary: string;
+    };
+    $type: 'mouse' | 'phone';
+}
+
 
 const type_size = {
 	mouse: {
@@ -24,7 +35,7 @@ const scrollWheelAnimation = keyframes`
 	100% {transform: translate(-50%, 30%);}
 `;
 
-export const Mouse = styled.div`
+export const Mouse = styled.div<MouseProps>`
     position: relative;
     width: ${type_size.mouse.width};
     height: ${type_size.mouse.height};
