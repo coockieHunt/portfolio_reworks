@@ -1,7 +1,12 @@
-import React from 'react';
 import { Container, TopPanel, BottomPanel, Content } from './style/Loading.style';
 
-export const Loading = ({ $color, $duration, text = "CHANGEMENT DE THÈME" }) => {
+interface ILoadingProps {
+    $color: string;
+    $duration: number;
+    text?: string;
+}
+
+export const Loading = ({ $color, $duration, text = "CHANGEMENT DE THÈME" }: ILoadingProps) => {
     return (
         <Container>
             <TopPanel $color={$color} $duration={$duration} />

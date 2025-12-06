@@ -1,7 +1,5 @@
-import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings } from '../../config.tsx';
-import { useSettingContext } from '../../context/Setting.context';
+import { getColorSettings } from '../../../config.js';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -19,7 +17,7 @@ const textBlink = keyframes`
   50% { opacity: 0.5; }
 `;
 
-const LoaderWrapper = styled.div`
+export const LoaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,7 +31,7 @@ const LoaderWrapper = styled.div`
   z-index: 9999;
 `;
 
-const NeonRing = styled.div`
+export const NeonRing = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -46,9 +44,8 @@ const NeonRing = styled.div`
   animation: ${spin} 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; 
 `;
 
-const LoadingText = styled.p`
+export const LoadingText = styled.p`
   margin-top: 20px;
-  font-family: 'Source Code Pro', monospace; /* Ta police code */
   font-size: 1rem;
   color: #cccccc;
   letter-spacing: 2px;
@@ -82,18 +79,3 @@ const LogoContainer = styled.div`
         height: auto;
     }
 `;
-
-
-export const GlobalLoader = () => {
-  const { settings } = useSettingContext();
-  const theme = settings;
-  
-  return (
-    <LoaderWrapper theme={theme}>
-      <div style={{ position: 'relative' }}>
-        <NeonRing theme={theme} />
-      </div>
-      <LoadingText>Initialisation</LoadingText>
-    </LoaderWrapper>
-  );
-};

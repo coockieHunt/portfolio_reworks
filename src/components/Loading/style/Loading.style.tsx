@@ -1,5 +1,16 @@
 import styled, { keyframes } from 'styled-components';
-import { SCREEN_SIZE } from '../../../config.tsx';
+import { SCREEN_SIZE } from '../../../config.js';
+
+interface ContentProps {
+    $textColor?: string;
+    $duration: number;
+}
+
+interface PanelProps {
+    $color: string;
+    $duration: number;
+}
+
 
 const fadeIn = keyframes`
     0% { opacity: 0; }
@@ -31,7 +42,7 @@ export const Container = styled.div`
     pointer-events: none; 
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<ContentProps>`
     display: inline-flex;
     justify-content: center;
     z-index: 1000001;
@@ -54,7 +65,7 @@ export const Content = styled.div`
     animation: ${fadeIn} ${({ $duration }) => $duration - 300}ms ease-in-out forwards;
 `;
 
-const Panel = styled.div`
+const Panel = styled.div<PanelProps>`
     position: absolute;
     left: 0;
     width: 100%;

@@ -29,7 +29,7 @@ const ProcessTimeLine = lazy(() => import('./containers/ProcessTimeline/ProcessT
 const LinkTextComponent = lazy(() => import('./components/Text/Text.component.jsx').then(module => ({ default: module.LinkTextComponent })));
 
 //components loaded default
-import { GlobalLoader } from './components/Loading/GlobalLoader.compenent.jsx'
+import { GlobalLoader } from './components/Loading/GlobalLoader.compenent'
 
 
 //Provider
