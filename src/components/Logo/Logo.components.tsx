@@ -9,7 +9,7 @@ import LogoComponentSimpleMinimal from '../../assets/images/logo/logo-simple-min
 import {StyledAnimatedSvg} from './LogoAnim.stye.jsx';
 
 // Animated Logo Component with Intersection Observer
-const AnimatedLogo = (props) => {
+const AnimatedLogo = (props: React.SVGProps<SVGSVGElement>) => {
     const [isVisible, setIsVisible] = useState(false);
     const logoRef = useRef(null);
 
@@ -90,8 +90,13 @@ const AnimatedLogo = (props) => {
  * @param {object} rest - Additional props passed to the logo component.
  * @returns {JSX.Element} The selected logo component.
  */
-export const LogoComponent = ({ version, ...rest }) => {
-    let LogoToRender;
+
+interface ILogoComponentProps extends React.SVGProps<SVGSVGElement> {
+    version: 'animated' | 'detailed-full' | 'detailed-minimal' | 'simple-full' | 'simple-minimal';
+}
+
+export const LogoComponent = ({ version, ...rest }: ILogoComponentProps) => {
+    let LogoToRender: React.FC<React.SVGProps<SVGSVGElement>>;
 
     switch (version) {
         case 'animated':
