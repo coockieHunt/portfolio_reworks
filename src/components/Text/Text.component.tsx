@@ -3,7 +3,9 @@ import { Gradient } from "./style/GradientText.style"
 import { ToText } from "./style/LinkText.style"
 import { TitleContainer, Title, BackTitle } from "./style/TitleText.style"
 import { useSettingContext, } from "../../context/Setting.context";
-import { COLOR_SETTING } from '../../config.tsx'
+import { COLOR_SETTING } from '../../config'
+
+import { ReactNode, JSX } from "react";
 
 /**
  * AccentTextComponent
@@ -12,7 +14,11 @@ import { COLOR_SETTING } from '../../config.tsx'
  * 
  * @param children {ReactNode} - The text content to be displayed on top of other content.
  */
-export const AccentTextComponent = ({ children, className }) => {
+interface AccentTextComponentProps {
+    children: React.ReactNode;
+    className?: string;
+}
+export const AccentTextComponent = ({ children, className }: AccentTextComponentProps): JSX.Element => {
     return(
         <Text className={className}>{children}</Text>
     )
@@ -27,7 +33,7 @@ export const AccentTextComponent = ({ children, className }) => {
  * @param subtitle - Subtitle of the component.
  * @param subtitleOpacity - Subtitle opacity (default value: 0.2).
  */ 
-export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2, style }) => {
+export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2, style }): JSX.Element => {
     return(
         <TitleContainer style={style}>
             <Title>{children}</Title>
@@ -43,13 +49,17 @@ export const TitleTextComponent = ({ children, subtitle, subtitleOpacity= 0.2, s
  * 
  * @param children {ReactNode} - The content to be displayed within the gradient container.
  */
-export const GradientTextContainer = ({ children }) => {
+
+interface GradientTextContainerProps {
+    children: React.ReactNode;
+}
+export const GradientTextContainer = ({ children }: GradientTextContainerProps): JSX.Element => {
     const theme = useSettingContext();
     const steps = 5;
 
     // Lightweight color helpers (Hex <-> HSL) to replace chroma-js
-    const clamp01 = (v) => Math.max(0, Math.min(1, v));
-    const hexToRgb = (hex) => {
+    const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+    const hexToRgb = (hex: string) => {
         const h = hex.replace('#', '');
         const bigint = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
         const r = (bigint >> 16) & 255;
@@ -57,8 +67,8 @@ export const GradientTextContainer = ({ children }) => {
         const b = bigint & 255;
         return { r, g, b };
     };
-    const rgbToHex = ({ r, g, b }) => {
-        const toHex = (n) => n.toString(16).padStart(2, '0');
+    const rgbToHex = ({ r, g, b }: { r: number; g: number; b: number }) => {
+        const toHex = (n: number) => n.toString(16).padStart(2, '0');
         return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
     };
     const rgbToHsl = ({ r, g, b }) => {
@@ -82,7 +92,7 @@ export const GradientTextContainer = ({ children }) => {
         let r, g, b;
         if (s === 0) { r = g = b = l; }
         else {
-            const hue2rgb = (p, q, t) => {
+            const hue2rgb = (p: number, q: number, t: number) => {
                 if (t < 0) t += 1;
                 if (t > 1) t -= 1;
                 if (t < 1/6) return p + (q - p) * 6 * t;
@@ -99,7 +109,7 @@ export const GradientTextContainer = ({ children }) => {
         return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
     };
 
-    const adjustColor = (hex, { brighten = 0, saturate = 0 }) => {
+    const adjustColor = (hex: string, { brighten = 0, saturate = 0 }: { brighten?: number; saturate?: number }) => {
         const hsl = rgbToHsl(hexToRgb(hex));
         const l = clamp01(hsl.l + brighten);
         const s = clamp01(hsl.s + saturate);
@@ -112,7 +122,7 @@ export const GradientTextContainer = ({ children }) => {
         adjustColor(base, { brighten: 0.06 * index, saturate: 0.06 * index })
     );
 
-    return (<Gradient color={gradientColors}>{children}</Gradient>);
+    return (<Gradient $color={gradientColors}>{children}</Gradient>);
 }
 
 /**
@@ -125,7 +135,7 @@ export const GradientTextContainer = ({ children }) => {
  *
  * @example
  */
-export const LinkTextComponent = ({ children, to}) => {
+export const LinkTextComponent = ({ children, to}: { children: string; to: string; }): JSX.Element => {
     return (
         <ToText 
             href={to} 

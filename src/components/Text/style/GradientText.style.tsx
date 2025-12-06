@@ -1,13 +1,17 @@
 import styled, { keyframes } from 'styled-components';
 
+interface GradientProps {
+    $color: string[];
+}
+
 const moveGradient = keyframes`
     0% {background-position: 0% center;}
     50% {background-position: 100% center;}
     100% {background-position: 0% center;}
 `;
 
-export const Gradient = styled.span`
-    background: linear-gradient(to right, ${(props) => props.color.join(', ')});
+export const Gradient = styled.span<GradientProps>`
+    background: linear-gradient(to right, ${(props) => props.$color.join(', ')});
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
