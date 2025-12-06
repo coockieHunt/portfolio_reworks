@@ -1,5 +1,9 @@
 import styled, { keyframes, css } from 'styled-components';
 
+interface HandProps {
+    $IsRandHello: boolean;
+}
+
 const Hand_hello = keyframes`
     0%, 60%, 100% { transform: rotate(0deg); }
     10%, 30% { transform: rotate(14deg); }
@@ -8,7 +12,7 @@ const Hand_hello = keyframes`
     50% { transform: rotate(10deg); }
 `;
 
-export const Hand = styled.span`
+export const Hand  = styled.span<HandProps>`
     cursor: pointer;
     display: inline-block;
     transform-origin: bottom center;

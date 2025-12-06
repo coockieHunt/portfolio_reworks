@@ -1,5 +1,7 @@
 import { Hand } from "./style/HellowHand.style"
-import React, {useState, useEffect} from "react"
+import  {useState, useEffect} from "react"
+
+import { JSX } from "react";
 
 /**
  * HelloHandComponent
@@ -8,13 +10,14 @@ import React, {useState, useEffect} from "react"
  * It also randomly waves every 2 to 5 seconds.
  * 
  */
-export const HelloHandComponent = () => {
-    const [isHello, setIsHello] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false);
+
+export const HelloHandComponent = () : JSX.Element => {
+    let [isHello, setIsHello] = useState<boolean>(false);
+    let [isAnimating, setIsAnimating] = useState<boolean>(false);
 
     useEffect(() => {
-        let timer;
-        let animationTimeOut;
+        let timer: ReturnType<typeof setTimeout>;
+        let animationTimeOut: ReturnType<typeof setTimeout>;
 
         const RandomHello  = () => {
             const randomDelay = Math.floor(Math.random() * 3000) + 2000; // Random delay between 2s and 5s
