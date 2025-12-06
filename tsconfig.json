@@ -18,5 +18,5 @@
     
     "noImplicitAny": false 
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.jsx", "vite-env.d.ts"]
+  "include": ["src/types/vite-env.d.ts", "src/types/global.d.ts", "src"],
 }

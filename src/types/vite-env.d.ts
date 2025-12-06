@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 
+// Image module declarations
 declare module '*.webp';
 declare module '*.png';
 declare module '*.jpg';

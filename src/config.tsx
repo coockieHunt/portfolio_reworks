@@ -54,7 +54,7 @@ export interface iStackItem {
 
 //CONSTANTS
 // 6.94:1 global ~= themes scores for contrast accessibility end 2.16:1 minimum
-export const COLOR_SETTING: Record<string, iColorSettings> = {
+export const COLOR_SETTING = {
     default: {
         display_name: "Nuit",
         background: '#303134',
@@ -148,7 +148,7 @@ export const COLOR_SETTING: Record<string, iColorSettings> = {
 };
 
 
-export const LIGHT_SETTING: Record<string, iLightSettings> = {
+export const LIGHT_SETTING = {
     light:{
         background: 'white',
         background_secondary: '#d7d7db',

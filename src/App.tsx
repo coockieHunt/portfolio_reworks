@@ -4,8 +4,9 @@ import { ThemeProvider } from 'styled-components';
 import { LazyMotion, domAnimation } from "framer-motion";
 
 // Import
-import GlobalStyle, { Content } from './styles/global.style.jsx';
+import GlobalStyle, { Content } from './styles/global.style';
 import { URL } from './data'
+import { ReactNode } from 'react';
 
 //context
 import { useSettingContext } from './context/Setting.context'
@@ -66,15 +67,21 @@ const navigation = [
 
 //tracking
 import { UmamiTracker } from './components/umami/umami.components.jsx';
-const ThemeWrapper = ({ children }) => {
+interface ThemeWrapperProps {
+    children: ReactNode;
+}
+
+const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
     const { settings } = useSettingContext();
+
     return (
         <ThemeProvider theme={settings}>
-            <GlobalStyle theme={settings} />
+            <GlobalStyle />
             {children}
         </ThemeProvider>
     );
 };
+
 
 const AppProviders = ({ children }) => {
     return (
