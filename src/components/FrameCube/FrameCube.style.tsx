@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { SCREEN_SIZE } from "../../config.js"; 
 
 const CUBE_SIZE = 60;
 const HALF_SIZE = CUBE_SIZE / 2; 
@@ -8,44 +7,12 @@ const HALF_SIZE = CUBE_SIZE / 2;
 export const FrameCubeScene = styled.div`
     width: 100%;
     height: 100%;
-    min-height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
     perspective: 1200px;
-    overflow: hidden;
     position: relative;
     background: transparent;
-`;
-
-export const FrameCubeContainer = styled.div`
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-family: monospace;
-    z-index: 9;
-    display: flex;          
-    gap: 15px;
-    background-color: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-
-    & button {
-        pointer-events: auto; 
-        cursor: pointer; 
-        background: transparent; 
-        border: none; 
-        color: white; 
-        margin-top: -2px; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}
-
 `;
 
 export const CubeGroup = styled(motion.div)`
@@ -72,4 +39,45 @@ export const CubeFace = styled.div<{ $color: string; $rotateX: number; $rotateY:
     backface-visibility: visible;
     transform: rotateX(${p => p.$rotateX}deg) rotateY(${p => p.$rotateY}deg) translateZ(${p => p.$translateZ}px);
     pointer-events: none;
+`;
+
+export const SliderOffset = styled.input<{ color?: string }>`
+    appearance: none;
+    -webkit-appearance: none; 
+    width: 100%; 
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 2px;
+    outline: none;
+    margin-top: 5px;
+    opacity: 0.8;
+    cursor: grab;
+
+    &:hover {opacity: 1;}
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: ${props => props.color || '#4f46e5'};
+        border: 2px solid white;
+        cursor: pointer;
+        margin-top: -5px; 
+    }
+
+    &::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 2px;
+    }
+
+    &::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #4f46e5;
+        border: 2px solid white;
+        cursor: pointer;
+    }
 `;

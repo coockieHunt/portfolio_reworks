@@ -72,10 +72,9 @@ export const Container = styled.div`
             align-items: center;
             justify-content: center;
             position: relative;
-
             & .scene {
-                width: 60%;
-                height: 60%;
+                width: 90%;
+                height: 70%;
             }
         }
 
