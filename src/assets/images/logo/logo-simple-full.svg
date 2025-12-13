@@ -1,0 +1,28 @@
+<svg width="218" height="322" viewBox="0 0 218 322" xmlns="http://www.w3.org/2000/svg">
+  <g fill="currentColor">
+    <circle cx="52" cy="206" r="14"/>
+    <circle cx="51" cy="242" r="14"/>
+    <circle cx="52" cy="278" r="14"/>
+    <circle cx="88" cy="242" r="14"/>
+    <circle cx="91" cy="206" r="14"/>
+    <circle cx="129" cy="134" r="14"/>
+    <circle cx="127" cy="98" r="14"/>
+    <circle cx="129" cy="170" r="14"/>
+    <circle cx="129" cy="206" r="14"/>
+    <circle cx="167" cy="156" r="14"/>
+    <circle cx="89" cy="98" r="14"/>
+    <circle cx="91" cy="134" r="14"/>
+    <circle cx="89" cy="170" r="14"/>
+    <circle cx="52" cy="62" r="14"/>
+    <circle cx="91" cy="62" r="14"/>
+    <circle cx="52" cy="26" r="14"/>
+    <circle cx="14" cy="242" r="14"/>
+    <circle cx="15" cy="278" r="14"/>
+    <circle cx="15" cy="62" r="14"/>
+    <circle cx="15" cy="26" r="14"/>
+    <circle cx="51" cy="98" r="14"/>
+  </g>
+
+  <path d="M151 314H183.568L199 301V262" stroke="currentColor" stroke-width="16" fill="none"/>
+  <path d="M210 56V23.432L197 8H158" stroke="currentColor" stroke-width="16" fill="none"/>
+</svg>

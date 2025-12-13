@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+
+		<link rel="preconnect" href="https://demo.jonathangleyze.fr" crossorigin>
+
+		<title>Jonathan Gleyze - Développeur Web & Mobile (Portfolio)</title>
+		<meta name="description" content="Jonathan Gleyze, développeur web créatif expert en Node.js, React, et API REST. Découvrez mon portfolio et mes solutions numériques sur mesure.">
+
+		<meta property="og:title" content="Jonathan Gleyze - Développeur Web & Mobile">
+		<meta property="og:description" content="Expertise en Node.js, React, Express. Solutions numériques sur mesure.">
+		<meta property="og:image" content="<%= siteUrl %>/og_image.jpg">
+		<meta property="og:url" content="<%= siteUrl %>/">
+		<meta property="og:logo" content="<%= siteUrl %>/favicon/favicon.ico" />
+		<meta property="og:type" content="website">
+
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "Jonathan Gleyze - Portfolio",
+			"url": "https://jonathangleyze.fr",
+			"description": "Développeur web créatif et passionné, spécialisé en Node.js, React, et API REST. Solutions numériques sur mesure.",
+			"author": {
+				"@type": "Person",
+				"name": "Jonathan Gleyze",
+				"jobTitle": "Développeur Web",
+				"email": "contacts@jonathangleyze.fr"
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="root"></div>
+		<script type="module" src="/src/index.tsx" defer></script>
+	</body>
+</html>
