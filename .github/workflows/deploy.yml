@@ -1,0 +1,92 @@
+name: Deploy PROD
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Vérification des secrets
+        run: |
+          if [ -z "${{ secrets.HOST }}" ] || [ -z "${{ secrets.USERNAME }}" ] || [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "❌ Secrets manquants"
+            exit 1
+          fi
+          echo "✅ Tous les secrets sont configurés"
+      
+      - name: Connexion SSH et déploiement
+        id: deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          command_timeout: 30m
+          script: |
+            set -e
+            echo "📁 Navigation vers le projet..."
+            cd ${{ secrets.PROJECT_PATH }}
+            
+            echo "🔄 Mise à jour du code..."
+            git checkout prod
+            git pull origin prod
+            
+            echo "📦 Installation des dépendances..."
+            npm install
+            
+            echo "🔨 Build de l'application..."
+            npm run build
+            
+            echo "🔄 Redémarrage PM2..."
+            pm2 reload ${{ secrets.PM2_APP_NAME }} --update-env
+            
+            echo "✅ Déploiement terminé avec succès!"
+      
+      - name: Afficher le résultat du déploiement
+        if: always()
+        run: |
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
+            echo "✅ Déploiement réussi !"
+            echo "Status: SUCCESS"
+          else
+            echo "❌ Échec du déploiement"
+            echo "Status: FAILURE"
+            exit 1
+          fi
+      
+      - name: Notification de succès
+        if: success()
+        run: |
+          echo "🎉 Le déploiement en production s'est terminé avec succès"
+          echo "Branch: prod"
+          echo "Commit: ${{ github.sha }}"
+          echo "Auteur: ${{ github.actor }}"
+          echo "Message: ${{ github.event.head_commit.message }}"
+      
+      - name: Notification d'échec
+        if: failure()
+        run: |
+          echo "⚠️ Le déploiement en production a échoué"
+          echo "Branch: prod"
+          echo "Commit: ${{ github.sha }}"
+          echo "Auteur: ${{ github.actor }}"
+          echo "Veuillez vérifier les logs ci-dessus"
+      
+      - name: Résumé du déploiement
+        if: always()
+        run: |
+          echo "## 📊 Résumé du Déploiement" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ steps.deploy.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: prod" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Auteur**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Heure**: $(date)" >> $GITHUB_STEP_SUMMARY
