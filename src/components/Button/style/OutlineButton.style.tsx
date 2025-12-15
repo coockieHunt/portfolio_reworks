@@ -11,7 +11,6 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
     text-transform: uppercase;
     background-color: transparent;
     border: 1px solid ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
-    color: white;
     border-radius: ${BORDER_RADIUS.medium};
     font-variation-settings: "wght" 600;
     font-size: .8em;
@@ -52,20 +51,17 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
 
     & svg{
         font-size: 16px; 
-        color: white;
     }
 
     &:hover{
         & span{
             transition: all .3s ease;
-            color: white;
             &::after{width: 100%;}
         }
     }
 
     &.disabled{
         background-color: #1b171b;
-        color: white;
         cursor: not-allowed;
     }
 `;

@@ -14,7 +14,6 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     padding: 15px 20px;
     
     background-color: ${props => props.$colorLine ? props.$colorLine : getColorSettings(props.theme).primary};
-    color: white;
     border: none;
     border-radius: ${BORDER_RADIUS.small};
     text-transform: uppercase;
@@ -25,6 +24,8 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     cursor: pointer;
     transition: all 0.6s ease;
 
+    color: ${props => getColorSettings(props.theme).font_on_primary};
+
     gap: 15px;
 
     & .icon {
@@ -33,16 +34,14 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
         justify-content: center;
     }
 
-    & span {
-        color: white; 
-    }
+
 
     & svg {
         font-size: 16px;
     }
 
     &:hover {
-       transform: translateY(-2px);
+        transform: translateY(-2px);
     }
 
     &.disabled {

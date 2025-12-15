@@ -97,7 +97,6 @@ export const Title = styled.span`
 export const ContainerSetting = styled.div`
     position: fixed;
     z-index: 1200;
-    color: white;
     right: 0; top: 0;
     
     width: 500px;
@@ -154,7 +153,6 @@ export const SettingHeader = styled.div`
     & h3 { 
         margin: 0; 
         font-size: 1.2em; 
-        color: white; 
         font-variation-settings: "wght" 600;
     }
 `;
@@ -170,7 +168,7 @@ export const SettingFooter = styled.div`
     & p { 
         margin: 0; 
         font-size: 0.9em; 
-        color: #b0b0b0; 
+        color: ${props => getColorSettings(props.theme).font_subtle};
         opacity: 0.7; 
         font-variation-settings: "wght" 300;
     }
@@ -205,7 +203,6 @@ export const Option = styled.div`
         font-variation-settings: "wght" 600;
         margin: 15px 0;
         font-size: 1.2em;
-        color: white;
     }
 
     & .ContainerButton {
@@ -250,7 +247,6 @@ export const Option = styled.div`
                 background: linear-gradient(90deg, #ff0040 0%, #ff7a00 16%, #ffd400 32%, #33cc33 48%, #334acc 64%, #3366ff 80%, #a833ff 100%, #ff0040 116%);
                 background-size: 200% 200%;
                 animation: ${rainbowShift} 4s ease infinite;
-                color: #000000; 
                 font-size: 1em;
                 justify-content: center; 
                 display: flex; 
@@ -263,7 +259,6 @@ export const Option = styled.div`
                 & p {
                     margin: 0; 
                     font-size: .85em; 
-                    color: #FFFFFF;
                     text-shadow: -1px -1px 2px #000000, 1px -1px 2px #000000, -1px 1px 2px #000000, 1px 1px 2px #000000;
                     text-align: center;
                 }
@@ -271,7 +266,6 @@ export const Option = styled.div`
                 & span {
                     margin-left: 0; 
                     font-variation-settings: "wght" 600; 
-                    color: #FFFFFF; 
                     font-size: 1.3em;
                     text-shadow: -1px -1px 2px #000000, 1px -1px 2px #000000, -1px 1px 2px #000000, 1px 1px 2px #000000;
                     text-align: center;
@@ -333,7 +327,6 @@ export const infoText = styled.div`
         font-size: 0.9em; 
         font-variation-settings: "wght" 300;
         text-align: left;
-        color: #ffffff;
         background-color: ${props => getColorSettings(props.theme).background_secondary};
         padding: 15px;
         border-radius: 5px;

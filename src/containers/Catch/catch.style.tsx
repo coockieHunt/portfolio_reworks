@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings, GetLightSetting} from '../../config.js'
+import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings} from '../../config.js'
 
 export const Section = styled.div`
     position: relative;
@@ -16,7 +16,6 @@ export const SkillCard = styled.div`
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     will-change: backdrop-filter;
-    color: white;
     z-index: 1;
 
     cursor: default;
@@ -55,7 +54,6 @@ export const Text = styled.div`
         & h3{
             font-size: 28px;
             margin-bottom: 20px;
-            color: ${props => GetLightSetting(props.theme).font};
         }
 
         & p{
@@ -147,7 +145,6 @@ export const CardList = styled.div`
             & h2{
                 margin: 0; 
                 line-height: 1.2; 
-                color: #ffffff;
                 font-size: 1.3em;
                 text-align: left;
             }

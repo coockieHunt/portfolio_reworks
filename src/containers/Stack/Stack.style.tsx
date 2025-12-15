@@ -32,7 +32,6 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        color: white; 
         padding: 10px;
         gap: 10px;
 

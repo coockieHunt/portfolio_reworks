@@ -10,6 +10,14 @@ const GlobalStyle = createGlobalStyle`
         font-display: swap; 
     }
 
+    /* gloabl wraper */
+    .font_code {
+        font-family: "Source Code Pro", monospace;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
+
     *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
@@ -38,7 +46,7 @@ const GlobalStyle = createGlobalStyle`
 
     body {
         background-color: #121212;
-        color: white;
+        color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
         font-family: 'Montserrat', 'Montserrat-Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         font-size: 100%;
         line-height: 1.5;
@@ -52,16 +60,15 @@ const GlobalStyle = createGlobalStyle`
         width: 100%;
     }
 
-    .font_code {
-        font-family: "Source Code Pro", monospace;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-style: normal;
-    }
+
 
     a {
         text-decoration: none;
         color: inherit;
+    }
+
+    input, textarea{
+        color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
     }
 `;
 

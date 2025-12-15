@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IAlertContainerProps, IContainerProps } from './Alert.interfaces';
 
 import { fadeIn } from '../../styles/utils.style'
+import { getColorSettings } from '../../config';
 
 export const Container = styled.div<IContainerProps>`
     position: absolute;
@@ -33,17 +34,20 @@ export const AlertContainer = styled.div <IAlertContainerProps>`
     overflow: hidden;
     animation: ${fadeIn} 0.5s ease-in;
 
+    color: white;
+
+
+
     & button {
         background-color: ${props => props.$coloralert};
         box-shadow: 0 0 100px rgba(5, 0, 0, 0.336) inset;
-        color: white;
         text-align: center;
         width: 20%;
         margin-left: auto;
         overflow: hidden;
         cursor: pointer;
 
-        & svg {font-size: 1.3em;}
+        & svg {font-size: 1.3em; color: white}   
     }
 
     .content {
@@ -66,7 +70,6 @@ export const AlertContainer = styled.div <IAlertContainerProps>`
     .progress-bar {
         height: 3px;
         width: 100%;
-        background-color: #f9fdff;
         animation: progressAnimation linear forwards;
         display: ${props => props.$timer_bar};
     }

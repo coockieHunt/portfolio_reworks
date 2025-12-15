@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config';
+import { BORDER_RADIUS, getColorSettings } from '../../config';
 import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
 
 export const FenceContainer = styled.div`
@@ -133,7 +133,7 @@ export const Fence = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, GetLightSetting(props.theme) ? 0.05 : 0.1)};
+        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.03)};
         z-index: -1;
     }
 
@@ -154,7 +154,7 @@ export const Fence = styled.div`
     }
 
     &:hover{
-        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, GetLightSetting(props.theme) ? 0.1 : 0.2)};
+        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.03)};
         & > span > svg{
             transition: all .3s ease-in-out;
             margin-left: 10px

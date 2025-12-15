@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { getColorSettings } from '../../config';
 
 export const Quoute = styled.h2`
-    color: white;
     text-align: center;
     padding: 50px;
     font-size: 2em;

@@ -31,7 +31,6 @@ export const CloseButton = styled.button`
     right: 20px;
     background: transparent;
     border: none;
-    color: white;
     font-size: 2em;
     cursor: pointer;
 `;

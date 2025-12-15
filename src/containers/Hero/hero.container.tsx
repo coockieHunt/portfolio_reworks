@@ -34,12 +34,7 @@ interface CtaLinkProps {
 const CtaLink = ({ to, title, description, isHighlight = false }: CtaLinkProps) => {
     const { settings } = useSettingContext();
 
-    const hc = GetHightContrastSetting(settings);
-    const isHighContrast = Boolean(settings?.highContrast);
     const ariaLabel = `${title} – ${description}`;
-    const actionStyle = isHighContrast && isHighlight
-        ? { color: hc.font_color_on_primary }
-        : undefined;
 
     return (
         <Link
@@ -55,7 +50,6 @@ const CtaLink = ({ to, title, description, isHighlight = false }: CtaLinkProps) 
         >
             <styled.Action 
                 className={isHighlight ? 'highlight' : ''}
-                style={actionStyle}
             >
                 <h2>{title}</h2>
             </styled.Action>
@@ -68,7 +62,6 @@ export const HeroContainer = ({ id }: HeroContainerProps): JSX.Element => {
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [showCursor, setShowCursor] = useState(true);
     const { settings } = useSettingContext();
-    const hc = GetHightContrastSetting(settings);
     
     const [currentWord, setCurrentWord] = useState(() => {
         const randomIndex = Math.floor(Math.random() * word_hero.length);
@@ -181,7 +174,7 @@ export const HeroContainer = ({ id }: HeroContainerProps): JSX.Element => {
                             </span>
                         </h1>
                         
-                        <p className="font_code" style={settings['highContrast'] ? {opacity: 1, color: hc.font_color_full_contrast } : {}}>
+                        <p className="font_code">
                             Bonjour, je suis Jonathan, développeur Web. Je développe vos plateformes numériques, rapides, pour atteindre vos objectifs.
                             <HelloHandComponent />
                         </p>

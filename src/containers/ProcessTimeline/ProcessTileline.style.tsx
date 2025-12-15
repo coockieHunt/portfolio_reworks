@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { getColorSettings, GetLightSetting, SCREEN_SIZE } from "../../config";
+import { getColorSettings, SCREEN_SIZE } from "../../config";
 
 export const Container = styled.div`
     margin: 0 0 100px 0;
-    color: ${(props) => GetLightSetting(props.color).font}; 
     position: relative;
 
     & svg {

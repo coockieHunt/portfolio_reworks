@@ -2,9 +2,6 @@ import styled, { keyframes, css } from 'styled-components';
 import { SCREEN_SIZE } from '../../config.js';
 
 export interface IMouseProps {
-    $lightSettings: {
-        font: string;
-    };
     $colorSettings: {
         primary: string;
     };
@@ -39,7 +36,7 @@ export const Mouse = styled.div<IMouseProps>`
     position: relative;
     width: ${type_size.mouse.width};
     height: ${type_size.mouse.height};
-    border: 2px solid ${props => props.$lightSettings.font};
+    border: 2px solid white;
     border-radius: ${type_size.mouse.border};
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {

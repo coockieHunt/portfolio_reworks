@@ -94,9 +94,9 @@ export const SettingContainer: React.FC = () => {
         }
     };
 
-    const applyThemeChange = (newTheme: ThemeName, displayName: string) => {
-        const TOTAL_DURATION = 2000;
-        
+    const applyThemeChange = (newTheme: ThemeName, displayName: string, AddedTime: number = 0) => {
+        const TOTAL_DURATION = 2000 + AddedTime;
+        console.log('Applying theme change to', TOTAL_DURATION);
         showLoading(
             COLOR_SETTING[newTheme].background_secondary,
             TOTAL_DURATION,
@@ -107,13 +107,16 @@ export const SettingContainer: React.FC = () => {
                 </strong>
             </>
         );
+    
+        setTimeout(() => {
+            changeTheme(newTheme);
+        }, 0);
 
         setIsOpen(false);
-        setTimeout(() => changeTheme(newTheme), TOTAL_DURATION * 0.25);
+
         setTimeout(() => hideLoading(), TOTAL_DURATION);
     };
 
-    // High-contrast toggle removed from UI temporarily.
 
     const handleRandomTheme = async () => {
         Object.keys(COLOR_SETTING).forEach(key => {
@@ -121,21 +124,42 @@ export const SettingContainer: React.FC = () => {
         });
 
         const newKey = `random_${Date.now().toString(36)}`;
-        const primaryColor = generateRandomColorWithContrast('#ffffff', 4.5);
-        const secondaryColor = generateRandomColorWithContrast(primaryColor, 3);
+        
+        const background = generateRandomColorWithContrast('#ffffff', 4.5);
+        
+        // Génère une couleur très proche du blanc (240-255) pour avoir une "nuance" mais rester blanc/lisible
+        const valNuance = () => Math.floor(Math.random() * 16) + 240;
+        const font = '#' + ((1 << 24) + (valNuance() << 16) + (valNuance() << 8) + valNuance()).toString(16).slice(1);
+        
+        const fontSubtle = font + 'cc';
+        const fontHint = font + '99';
+
+        const bgSecondary = generateRandomColorWithContrast(font, 4.5);
+        const bgTertiary = generateRandomColorWithContrast(font, 4.5);
+
+        const primary = generateRandomColorWithContrast(background, 3);
+        const fontOnPrimary = getContrastRatio(primary, '#ffffff') >= 3 ? '#ffffff' : '#000000';
+        
+        const secondary = generateRandomColorWithContrast(background, 3);
+        const accentuate = generateRandomColorWithContrast(background, 3);
+        const border = generateRandomColorWithContrast(background, 3);
 
         COLOR_SETTING[newKey] = {
             display_name: "🦄 Papuche",
-            background: getRandomHex(),
-            background_secondary: getRandomHex(),
-            background_tertiary: getRandomHex(),
-            primary: primaryColor,
-            secondary: secondaryColor,
-            accentuate: getRandomHex(),
-            border: getRandomHex(),
+            background: background,
+            background_secondary: bgSecondary,
+            background_tertiary: bgTertiary,
+            primary: primary,
+            secondary: secondary,
+            accentuate: accentuate,
+            border: border,
+            font: font,
+            font_on_primary: fontOnPrimary,
+            font_subtle: fontSubtle,
+            font_hint: fontHint,
         };
 
-        applyThemeChange(newKey as ThemeName, "🦄 PAPUCHE !!!");
+        applyThemeChange(newKey as ThemeName, "🦄 PAPUCHE !!!" , 500);
         await incrementCounter();
     };
 

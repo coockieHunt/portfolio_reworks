@@ -13,7 +13,6 @@ export const CubeParamsContainer = styled.div`
     flex-direction: column;
     gap: 12px;
     
-    color: white;
     background-color: rgba(10, 10, 10, 0.6); 
     border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 15px;
@@ -38,7 +37,6 @@ export const ControlRow = styled.div`
     justify-content: space-between;
     align-items: center;
     font-size: 0.8rem;
-    color: #ccc;
 `;
 
 export const ControlLabel = styled.span`

@@ -8,7 +8,6 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
-    color: white;
     position: relative;
     width: 85%;
 
@@ -53,11 +52,10 @@ export const ProjectCard = styled.div`
                 transition: all 0.3s ease;
                 font-weight: 600;
                 font-size: 0.95em;
-                color: rgba(255, 255, 255, 0.6);
+                color: ${props => getColorSettings(props.theme).font_subtle};
                 border-bottom: 2px solid transparent;
 
                 &:hover {
-                    color: white;
                     background: rgba(255, 255, 255, 0.03);
                 }
 
@@ -115,7 +113,6 @@ export const ProjectCard = styled.div`
 
             & span {
                 font-size: 0.9em;
-                color: white;
                 font-weight: 500;
                 opacity: 0.9;
                 text-transform: uppercase;
@@ -132,7 +129,7 @@ export const ProjectCard = styled.div`
                 flex: 1;
                 max-height: 250px; 
                 min-height: 100px;
-                color: rgba(255, 255, 255, 0.85);
+                color: ${props => getColorSettings(props.theme).font_subtle};
                 overflow-y: auto;
                 
                 ${ThinScroolBar}
@@ -152,7 +149,7 @@ export const ProjectCard = styled.div`
                 gap: 8px;
 
                 & li {
-                    color: rgba(255,255,255,0.9);
+                    color: ${props => getColorSettings(props.theme).font_subtle};
                     padding: 10px 15px;
                     border-radius: ${BORDER_RADIUS.medium}; 
                     font-size: 0.8em;
@@ -184,7 +181,6 @@ export const ProjectCard = styled.div`
                 & .project_code {
                     background: ${props => getColorSettings(props.theme).primary};
                     border-color: ${props => getColorSettings(props.theme).primary};
-                    color: #fff; 
                     
                     &:hover {
                         background: ${props => getColorSettings(props.theme).primary};
@@ -195,7 +191,6 @@ export const ProjectCard = styled.div`
 
             & .fenceFotter {
                 background: ${props => getColorSettings(props.theme).primary};
-                color: white; 
                 font-size: 0.85em;
                 font-weight: 700;
                 padding: 8px 20px;
@@ -203,6 +198,7 @@ export const ProjectCard = styled.div`
                 align-items: center;
                 letter-spacing: 0.5px;
                 text-transform: uppercase;
+                color: ${props => getColorSettings(props.theme).font_on_primary};
 
                 & span {
                     display: flex;

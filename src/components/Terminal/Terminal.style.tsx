@@ -37,7 +37,6 @@ export const TerminalContainer = styled.div`
         top: 50%;        
         left: 50%;       
 
-      
         height: 160px;   
         width: 160px;      
 
@@ -67,14 +66,12 @@ export const TerminalHeader = styled.div`
     padding: 8px 15px;
     background-color: ${props => getColorSettings(props.theme).primary};
     border-bottom: 1px solid ${props => getColorSettings(props.theme).primary};
-    color: white;
 `;
 
 export const TerminalLine = styled.div`
     cursor: pointer;
 
     & p{
-        color: #f0f0f0;
         margin: 10px 0 20px 0;
     }
 
@@ -90,9 +87,7 @@ export const TerminalLine = styled.div`
             border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
             & .left{
                 scale: 1.05;
-                & svg {
-                    background-color: ${props => getColorSettings(props.theme).accentuate};}
-                }
+            }
         }
 
         & .left {
@@ -115,8 +110,6 @@ export const TerminalLine = styled.div`
                 border-radius: 8px;
                 padding: 10px;
 
-                color: white;
-
                 transform: rotate(0deg);
 
                 transition: all 0.3s ease;
@@ -134,7 +127,7 @@ export const TerminalLine = styled.div`
             & .title{color: ${props => getColorSettings(props.theme).primary};}
 
             & .subtitle{
-                color: #aaaaaa;
+                color: ${props => getColorSettings(props.theme).font_subtle};
                 font-size: 13px;
             }
         }
@@ -193,7 +186,6 @@ export const TerminalLine = styled.div`
             & p {
                 flex-grow: 1; 
                 margin: 0; 
-                color: #f0f0f0;
             }
         }
 
@@ -220,12 +212,14 @@ export const TerminalLine = styled.div`
 
             & .left{
                 & svg {
-                    background-color: ${props => getColorSettings(props.theme).accentuate};}
+                    color: ${props => getColorSettings(props.theme).accentuate};
+                    border-color: ${props => getColorSettings(props.theme).accentuate};
                 }
-        }
+            }
 
-        & .action svg {
-            transform: rotate(180deg);
+            & .action svg {
+                transform: rotate(180deg);
+            }
         }
     }
 
@@ -257,7 +251,7 @@ export const TerminalLine = styled.div`
         & .content {
             &::after{border-left: 4px solid transparent;}
             & .card {width: 100%;}
-             & .card::before {
+            & .card::before {
                 border-left: 2px dashed transparent;
                 border-bottom: 2px dashed transparent;
             }
@@ -269,12 +263,10 @@ export const TerminalLine = styled.div`
 export const CommandPromptWrapper = styled.div`
     display: flex;
     align-items: center;
-    color: white;
     padding: 15px 20px;
 
     &::after {
         content: '_';
-        color: white;
         margin-left: 5px;
         animation: ${blink} 1s step-end infinite;
     }
@@ -286,15 +278,19 @@ export const ServicesListWrapper = styled.div`
     padding: 5px 30px;
 
     span {
-        color: #f0f0f0;
         white-space: nowrap; 
         overflow: hidden;
         text-overflow: ellipsis;
     }
 `;
 
+export const TerminalPath = styled.span`
+    margin-right: 5px;
+    color: ${props => getColorSettings(props.theme).font_on_primary};
+`;
+
+
 export const Separator = styled.span`margin: 0 5px;`;
 export const LineTag = styled.span`font-weight: bold;`;
 export const LineName = styled.span`font-weight: bold;`;
-export const TerminalPath = styled.span`margin-right: 5px;`;
 export const TerminalBody = styled.div`line-height: 1.5;`;

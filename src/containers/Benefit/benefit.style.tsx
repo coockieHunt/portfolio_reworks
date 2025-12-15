@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings, GetLightSetting, SCREEN_SIZE } from '../../config.js';
+import { getColorSettings, SCREEN_SIZE } from '../../config.js';
 
 
 
@@ -28,7 +28,6 @@ export const Text = styled.span`
     text-align: center;
     width: 100%;
     display: inline-block;
-    color: white;
 
     padding: 0 25px;
 `;
@@ -97,7 +96,6 @@ export const Info = styled.div`
         align-items: center;
         gap: 20px;
         margin-bottom: 10px;
-        color: white;
 
         & .mobile-icon {
             display: none;

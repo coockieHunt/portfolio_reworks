@@ -20,7 +20,6 @@ export const Text = styled.span`
     text-align: center;
     width: 100%;
     display: inline-block;
-    color: white;
     padding: 0 25px;
 `;
 
@@ -72,7 +71,7 @@ export const Info = styled.div`
 
             & span {
                 font-size: 1em;
-                color: rgba(255, 255, 255, 0.8);
+                color: ${props => getColorSettings(props.theme).font_subtle};
             }
         }
         
@@ -105,13 +104,12 @@ export const Info = styled.div`
                     cursor: pointer;
                     
                     & .name {
-                        color: #ffffffb3;
+                        color: ${props => getColorSettings(props.theme).font_subtle};
                         font-size: 0.9em;
                         transition: color 0.3s ease;
                     }
                     
                     & .info {
-                        color: white;
                         font-weight: 500;
                     }
                 }
@@ -137,7 +135,7 @@ export const Info = styled.div`
             display: block;
             border-top: 1px solid #ffffff28;
             line-height: 3em;
-            color: rgba(255, 255, 255, 0.7);
+            color: ${props => getColorSettings(props.theme).font_subtle};
             font-size: 0.9em;
         }
     }
@@ -253,7 +251,7 @@ export const ActionForm = styled.div`
     z-index: 1;
 
     & > span {
-        color: rgba(255, 255, 255, 0.4);
+        color: ${props => getColorSettings(props.theme).font_subtle};
         cursor: pointer;
         font-size: 0.95em;
         transition: all 0.3s ease;
@@ -284,7 +282,6 @@ export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
     padding: 20px;
-    color: white;
     
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         font-size: 2em;
@@ -293,7 +290,7 @@ export const Title = styled.h2`
 
 export const FormInstruction = styled.span`
     display: block;
-    color: rgba(255, 255, 255, 0.6);
+    color: ${props => getColorSettings(props.theme).font_subtle};
     font-size: 0.85em;
     margin-top: -10px;
     margin-bottom: 20px;

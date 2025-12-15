@@ -57,7 +57,7 @@ export const Container = styled.div`
                 font-size: 1.3em;
                 line-height: 1.6;
                 max-width: 550px; 
-                color: #ccc;
+                color: ${props => getColorSettings(props.theme).font_subtle};
                 margin-bottom: 40px;
             }
 
@@ -151,7 +151,6 @@ export const LabelWorld = styled.input`
     background: #1f1e1e;
 	border: 1px solid #ffffff21;
     outline: transparent;
-    color: white;
     box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -164,7 +163,7 @@ export const LabelWorld = styled.input`
 
     &::placeholder{
 		opacity: 1; 
-		color: #fffbfb;
+		color: ${props => getColorSettings(props.theme).font_hint};
     }
 
     &&:hover, &&:focus{ border: 2px solid ${props => getColorSettings(props.theme).primary};}
@@ -223,19 +222,17 @@ export const Action = styled.div`
     transition: all 0.3s ease-in-out;
 
     background: transparent;
-    color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.3); 
 
     &:hover {
-        border-color: #ffffff;                
         transform: translateY(-2px);           
     }
 
     &.highlight {
         background-color: ${props => getColorSettings(props.theme).primary};
         border: 1px solid ${props => getColorSettings(props.theme).primary};
-        color: #ffffff; 
         box-shadow: 0 0 15px ${props => getColorSettings(props.theme).primary}40;
+        color: ${props => getColorSettings(props.theme).font_on_primary};
         &:hover {background-color: ${props => getColorSettings(props.theme).primary}; }
     }
 

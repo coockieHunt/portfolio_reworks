@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config.js';
+import { BORDER_RADIUS, getColorSettings } from '../../config.js';
 
 export interface FormLabelProps {
     light?: boolean;
@@ -29,7 +29,6 @@ const BorderSize = '1.5px';
 export const FormLabel = styled.label<FormLabelProps>`
     padding: ${LabelPadding} 0 8px 0;
     font-size: 0.95em;
-    color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
     transition: color 0.3s ease;
 
@@ -43,13 +42,13 @@ export const FormInput = styled.input<FormInputProps>`
     border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
     width: 100%;
     background-color: rgba(255, 255, 255, 0.03);
-    color: white;
     font-size: 1em;
     border-radius: ${BORDER_RADIUS.xlarge};
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+
     &::placeholder {
-        color: rgba(255, 255, 255, 0.507);
+        color: ${props => getColorSettings(props.theme).font_subtle};
         transition: opacity 0.3s ease;
     }
 
@@ -75,9 +74,8 @@ export const FormInput = styled.input<FormInputProps>`
     &:-webkit-autofill:hover, 
     &:-webkit-autofill:focus, 
     &:-webkit-autofill:active {
-        -webkit-text-fill-color: #ffffff;
         transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px ${props => GetLightSetting(props.light).background_tertiary};
+        box-shadow: inset 0 0 20px 20px ${props => getColorSettings(props.theme).background_tertiary};
     }
 `;
 
@@ -89,13 +87,12 @@ export const FormTextArea = styled.textarea`
     border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
     border-radius: ${BORDER_RADIUS.xlarge};
     background-color: rgba(255, 255, 255, 0.03);
-    color: white;
     font-size: 1em;
     font-family: inherit;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::placeholder {
-        color: rgba(255, 255, 255, 0.507);
+        color: ${props => getColorSettings(props.theme).font_subtle};
         transition: opacity 0.3s ease;
     }
 
@@ -125,9 +122,8 @@ export const FormTextArea = styled.textarea`
 export const FormSubmit = styled.input<FormSubmitProps>`
     padding: 15px;
     margin-top: 15px;
-    background-color: ${props => GetLightSetting(props.light).background_tertiary};
+    background-color: ${props => getColorSettings(props.theme).background_tertiary};
     border: none;
-    color: white;
     text-transform: uppercase;
     border-radius: ${BORDER_RADIUS.small};
     cursor: pointer;
@@ -171,7 +167,6 @@ export const CaptchaContainer = styled.div`
 
 export const CaptchaLabel = styled.label`
     font-size: 0.95em;
-    color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
 
     & span {
@@ -218,7 +213,6 @@ export const CaptchaInput = styled.input<CaptchaInputProps>`
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: ${BORDER_RADIUS.large};
     padding: 10px 14px;
-    color: white;
     width: 80px;
     text-align: center;
     font-size: 1em;
@@ -234,17 +228,5 @@ export const CaptchaInput = styled.input<CaptchaInputProps>`
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
-    }
-`;
-
-export const CaptchaMessage = styled.span`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4em;
-    margin-left: auto;
-    
-    & svg {
-        filter: drop-shadow(0 2px 4px currentColor);
     }
 `;

@@ -32,7 +32,6 @@ export const Container = styled.footer`
         & .catch {
             font-size: 3rem;
             line-height: 1.1;
-            color: #fff;
 
             & .left, & .right {
                 display: inline-block;     
@@ -78,7 +77,7 @@ export const Container = styled.footer`
     .josbnfgbhibc {
         margin-bottom: 20px;
         opacity: 0.01;
-        color: #ececec;
+        color: ${(props) => getColorSettings(props.theme).font_subtle};
         cursor: default;
         text-align: center;
         position: relative;
@@ -133,7 +132,7 @@ export const BottomBar = styled.div`
 
     .copyright {
         font-size: 0.85rem;
-        color: #888;
+        color: ${props => getColorSettings(props.theme).font_subtle};
     }
 
     .social-links {
@@ -147,7 +146,7 @@ export const BottomBar = styled.div`
         button {
             background: none;
             border: none;
-            color: #888;
+            color: ${props => getColorSettings(props.theme).font_subtle};
             font-size: 0.85rem;
             cursor: pointer;
             transition: color 0.3s ease;
@@ -203,7 +202,7 @@ export const LegalContent = styled.div`
     
     background-color: #141414; 
     border: 1px solid rgba(255, 255, 255, 0.1); 
-    color: #d1d5db; 
+    color: ${props => getColorSettings(props.theme).font_subtle};
 
     transition: 
         padding 0.3s ease-in-out,
@@ -231,7 +230,6 @@ export const LegalContent = styled.div`
         margin-bottom: 25px;
         font-size: 1.8rem;
         font-weight: 700;
-        color: #ffffff;
         text-align: center;
         letter-spacing: 1px;
         text-transform: uppercase;
@@ -252,7 +250,6 @@ export const LegalContent = styled.div`
         margin-top: 30px;
         margin-bottom: 15px;
         font-weight: 600;
-        color: #f3f4f6;
         border-left: 4px solid ${props => getColorSettings(props.theme).primary};
         padding-left: 12px;
     }
@@ -262,7 +259,8 @@ export const LegalContent = styled.div`
         margin-top: 20px;
         margin-bottom: 10px;
         font-weight: 600;
-        color: #e5e7eb;
+        color: ${props => getColorSettings(props.theme).font_subtle};
+
     }
 
     & h6{
@@ -270,7 +268,7 @@ export const LegalContent = styled.div`
         margin-top: 15px;
         margin-bottom: 8px;
         font-weight: 600;
-        color: #d1d5db;
+        color: ${props => getColorSettings(props.theme).font_subtle};
     }
 
     & p {
@@ -279,7 +277,6 @@ export const LegalContent = styled.div`
         margin-bottom: 12px;
         
         & strong {
-            color: #fff;
             font-weight: 600;
         }
     }

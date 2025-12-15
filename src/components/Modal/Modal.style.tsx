@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import { m } from 'framer-motion';
-import { BORDER_RADIUS, getColorSettings, GetLightSetting } from '../../config';
+import { BORDER_RADIUS, getColorSettings } from '../../config';
 import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter'
 
 export interface IModalStyleProps {
@@ -17,7 +17,7 @@ export const ModalDiv = styled(m.div)<IModalStyleProps>`
     flex-direction: column;
     width: 90%;
     max-width: 550px;
-    background: ${props=> GetLightSetting(props.$light).background_secondary}; 
+    background: ${props=> getColorSettings(props.theme).background_secondary}; 
     border-radius: ${BORDER_RADIUS.xlarge};
 `;
 

@@ -47,7 +47,7 @@ export const NeonRing = styled.div`
 export const LoadingText = styled.p`
   margin-top: 20px;
   font-size: 1rem;
-  color: #cccccc;
+  color: ${props => getColorSettings(props.theme).font_subtle || '#cccccc'};
   letter-spacing: 2px;
   text-transform: uppercase;
   animation: ${textBlink} 2s ease-in-out infinite;

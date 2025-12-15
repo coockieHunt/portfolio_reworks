@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import {useSettingContext} from "./context/Setting.context"
 
 //Icon
 import { 
@@ -23,23 +22,16 @@ export interface iColorSettings {
     background_secondary: string;
     background_tertiary: string;
 
+    font: string;
+    font_on_primary: string;
+    font_subtle: string;
+    font_hint: string;
+
     primary: string;
     secondary: string;
     accentuate: string;
 
     border: string;
-}
-
-export interface iLightSettings {
-    background: string;
-    background_secondary: string;
-    background_tertiary: string;
-
-    background_accentuated: string;
-
-    background_alpha : number;
-
-    font: string;
 }
 
 export interface iStackItem {
@@ -61,6 +53,11 @@ export const COLOR_SETTING = {
         background_secondary: '#221f30',
         background_tertiary: '#1c1933',
 
+        font: '#ddd9f7',
+        font_subtle: '#eeebffc0',
+        font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
+
         primary: "#8C7DFF", 
         secondary: "#4F4398", 
         accentuate: '#A594FF', 
@@ -73,6 +70,12 @@ export const COLOR_SETTING = {
         background: '#303134',
         background_secondary: '#2c1510',
         background_tertiary: '#4a1712',
+
+        font: '#f7e3e0',
+        font_subtle: '#ffebe8c0',
+        font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
+
 
         primary: "#FF7B6E",
         secondary: "#B03C2E",
@@ -87,6 +90,11 @@ export const COLOR_SETTING = {
         background_secondary: '#172419',
         background_tertiary: '#1f4224',
 
+        font: '#e8ffed',
+        font_subtle: '#e8ffedC0',
+        font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
+
         primary: "#4ADE80", 
         secondary: "#166534",
         accentuate: '#86EFAC',
@@ -100,6 +108,11 @@ export const COLOR_SETTING = {
         background_secondary: '#2c2415',
         background_tertiary: '#4a3d17',
 
+        font: '#fff8e8',
+        font_subtle: '#fff8e8c0',
+        font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
+
         primary: "#FFB74D", 
         secondary: "#B9770E",
         accentuate: '#FFE082',
@@ -112,7 +125,12 @@ export const COLOR_SETTING = {
         background: '#303134',
         background_secondary: '#0d2b2e',
         background_tertiary: '#134147',
-        
+
+        font: '#e8fbff',
+        font_subtle: '#e8fbffc0',
+        font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
+
         primary: "#22D3EE",
         secondary: "#0E7490",
         accentuate: '#67E8F9',
@@ -126,6 +144,11 @@ export const COLOR_SETTING = {
         background_secondary: '#2a1525',
         background_tertiary: '#4a1f3d',
         
+        font: '#ffebf3',
+        font_subtle: '#ffebf3c0',
+        font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
+
         primary: "#FF6696", 
         secondary: "#BE185D",
         accentuate: '#FF9EBB',
@@ -138,6 +161,10 @@ export const COLOR_SETTING = {
         background: '#303134',
         background_secondary: '#0f1c2e',
         background_tertiary: '#1a2f4a',
+
+        font: '#ebf3ff',
+        font_subtle: '#ebf3ffc0',
+        font_on_primary: '#ffffff',
         
         primary: "#60A5FA", 
         secondary: "#1D4ED8",
@@ -148,15 +175,19 @@ export const COLOR_SETTING = {
 
     HightContrast: {
         display_name: "Haut Contraste",
-        background: '#ffee00',
-        background_secondary: '#0f1c2e',
-        background_tertiary: '#1a2f4a',
+        background: '#000000',
+        background_secondary: '#1a1a1a',
+        background_tertiary: '#2a2a2a',
+
+        font: '#ffffff',
+        font_subtle: '#ffffffd0',
+        font_on_primary: '#000000',
         
         primary: "#ffee00", 
-        secondary: "#1D4ED8",
-        accentuate: '#93C5FD',
+        secondary: "#b8a800",
+        accentuate: '#fff566',
         
-        border: "#60A5FA"
+        border: "#ffee00"
     }
 };
 
@@ -301,12 +332,6 @@ export const getColorSettings = (theme: any): iColorSettings => {
     if(!theme) return COLOR_SETTING.default;
     const themeName = theme.theme || theme;
     return COLOR_SETTING[themeName as string] || COLOR_SETTING.default;
-};
-
-export const GetLightSetting = (theme: any): iLightSettings => {
-    if(!theme) return LIGHT_SETTING.dark;
-    const lightName = theme.light || theme;
-    return LIGHT_SETTING[lightName as string] || LIGHT_SETTING.dark;
 };
 
 export const GetHightContrastSetting = (theme: any) => {
