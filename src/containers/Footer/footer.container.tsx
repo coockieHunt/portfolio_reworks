@@ -33,47 +33,36 @@ export const FooterContainer = ({ id }): JSX.Element => {
 
     useEffect(() => {
         if (!legalOpen) return;
-
+        let observer: IntersectionObserver | null = null;
         const timer = setTimeout(() => {
-            if (legalContentRef.current) { 
+            if (legalContentRef.current) {
+                
                 const rect = legalContentRef.current.getBoundingClientRect();
-                const offset = 200; 
+                const offset = 200;
 
                 window.scrollTo({
-                    top: window.scrollY + rect.top - offset, 
+                    top: window.scrollY + rect.top - offset,
                     behavior: 'smooth'
                 });
+
+                observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (!entry.isIntersecting) {
+                            setLegalOpen(false);
+                        }
+                    },
+                    { threshold: 0 }
+                );
+
+                observer.observe(legalContentRef.current);
             }
         }, SCROLL_DELAY);
 
-        return () => clearTimeout(timer);
-    }, [legalOpen]); 
-
-    useEffect(() => {
-        if (!legalOpen) return;
-
-        let observer: IntersectionObserver | null = null;
-        
-        const timer = setTimeout(() => {
-            observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (!entry.isIntersecting) { 
-                        setLegalOpen(false);
-                    }
-                },
-                { threshold: 0 } 
-            );
-
-            if (legalContentRef.current) {
-                observer.observe(legalContentRef.current);
-            }
-        }, SCROLL_DELAY); 
-
         return () => {
-            observer?.disconnect();
             clearTimeout(timer);
+            observer?.disconnect(); 
         };
-    }, [legalOpen]); 
+    }, [legalOpen]);
 
     const handleSecretClick = () => {
         launchEasterEgg();
