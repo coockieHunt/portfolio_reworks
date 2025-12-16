@@ -128,9 +128,6 @@ export const FormSubmit = styled.input<FormSubmitProps>`
     border-radius: ${BORDER_RADIUS.small};
     cursor: pointer;
 
-    &:hover {
-        background-color: red;
-    }
 `;
 
 export const FormElement = styled.div`

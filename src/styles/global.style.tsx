@@ -60,15 +60,24 @@ const GlobalStyle = createGlobalStyle`
         width: 100%;
     }
 
-
-
     a {
         text-decoration: none;
         color: inherit;
     }
 
-    input, textarea{
+    input, textarea {
         color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus {
+        -webkit-text-fill-color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
+        -webkit-box-shadow: none !important;
+        caret-color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
     }
 `;
 

@@ -1,5 +1,6 @@
 import { useState, useImperativeHandle, forwardRef } from 'react';
 import * as styled from './Form.style';
+import { GenerateRandomNumber } from '../../utils/number';
 
 export interface CaptchaComponentProps {
     isCaptchaValid: boolean;
@@ -20,16 +21,6 @@ const renderLabel = (label, required, name) => {
 
     return null;
 };
-
-
-/**
- * * Generates a random number between 1 and 10.
- * 
- * @returns {number} A random number.
- */
-const generateRandomNumber = () => {
-    return Math.floor(Math.random() * 10) + 1;
-  };
 
 /**
  * * Parent Form
@@ -156,8 +147,8 @@ export const InputTextArea = ({ name, value, onChange, label, placeHolder, requi
 
 
 export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid }: CaptchaComponentProps, ref) => {
-    const [number1, setNumber1] = useState(generateRandomNumber());
-    const [number2, setNumber2] = useState(generateRandomNumber());
+    const [number1, setNumber1] = useState(GenerateRandomNumber(1, 10));
+    const [number2, setNumber2] = useState(GenerateRandomNumber(1, 10));
     const [userAnswer, setUserAnswer] = useState('');
 
     const handleCaptchaChange = (e) => {
@@ -168,8 +159,8 @@ export const CaptchaComponent = forwardRef(({ isCaptchaValid, setIsCaptchaValid 
     };
 
     const handleReset = () => {
-        setNumber1(generateRandomNumber());
-        setNumber2(generateRandomNumber());
+        setNumber1(GenerateRandomNumber(1, 10));
+        setNumber2(GenerateRandomNumber(1, 10));
         setUserAnswer('');
         setIsCaptchaValid(false);
     };
