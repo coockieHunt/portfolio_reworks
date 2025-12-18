@@ -7,7 +7,7 @@ import { getThemeRand, incrementThemeRand } from '../api/counter.api';
 import { generatePapucheTheme } from '../utils/colorGenerator';
 
 export const useThemeManager = () => {
-    const { changeTheme } = useSettingContext();
+    const { changeTheme, changeHighContrast } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
 
@@ -61,10 +61,20 @@ export const useThemeManager = () => {
         }
     };
 
+    const ChangeHightContrast = (isHighContrast: boolean) => {
+        if (isHighContrast) {
+            applyTheme("HighContrast", "Contraste Élevé", 500);
+        } else {
+            applyTheme("default", "Nuit", 500);
+        }
+        changeHighContrast(isHighContrast);
+    };
+
     return {
         randomThemeCount,
         fetchThemeCount,
         applyTheme,
-        activateRandomTheme
+        activateRandomTheme,
+        ChangeHightContrast
     };
 };

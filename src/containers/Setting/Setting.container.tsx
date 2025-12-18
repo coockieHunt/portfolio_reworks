@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaXmark, FaPalette } from "react-icons/fa6";
+import { FaXmark, FaPalette, FaEye, FaEyeSlash  } from "react-icons/fa6";
 
 // Styles & Config
 import * as Styled from "./Setting.style";
@@ -20,16 +20,17 @@ interface ThemeButtonProps {
 }
 
 const ThemeButton: React.FC<ThemeButtonProps> = ({ displayName, isActive, primaryColor, secondaryColor, onClick }) => (
-    <div
+    <button
+        type="button"
         className={`themeButton ${isActive ? "current" : ""}`}
         onClick={onClick}
-        role="button"
         aria-label={`Activer le thème ${displayName}`}
+        aria-pressed={isActive}
     >
         <Styled.RoundColor $color={primaryColor} />
         <Styled.RoundColor $color={secondaryColor} />
         <span>{displayName}</span>
-    </div>
+    </button>
 );
 
 export const SettingContainer: React.FC = () => {
@@ -39,25 +40,30 @@ export const SettingContainer: React.FC = () => {
         randomThemeCount, 
         fetchThemeCount, 
         applyTheme, 
-        activateRandomTheme 
+        activateRandomTheme,
+        ChangeHightContrast
     } = useThemeManager();
     
     const [isOpen, setIsOpen] = useState(false);
     const [hasFetched, setHasFetched] = useState(false);
+    const [isHighContrast, setIsHighContrast] = useState(false);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const toggleRef = useRef<HTMLDivElement | null>(null);
+    const toggleRef = useRef<HTMLButtonElement | null>(null);
 
     const defaultThemes: ThemeName[] = ["default", "red", "green", "yellow", "cyan", "pink", "ice"];
 
     const handleThemeClick = (themeKey: string) => {
         applyTheme(themeKey, COLOR_SETTING[themeKey].display_name);
-        setIsOpen(false);
     };
 
     const handleRandomClick = () => {
         activateRandomTheme();
-        setIsOpen(false);
+    };
+    
+    const handleContrastClick = () => {
+        ChangeHightContrast(!isHighContrast);
+        setIsHighContrast(prev => !prev);
     };
 
     useEffect(() => {
@@ -66,8 +72,10 @@ export const SettingContainer: React.FC = () => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node;
             if (
-                containerRef.current && !containerRef.current.contains(target) &&
-                toggleRef.current && !toggleRef.current.contains(target)
+                containerRef.current && 
+                !containerRef.current.contains(target) &&
+                toggleRef.current && 
+                !toggleRef.current.contains(target)
             ) {
                 setIsOpen(false);
             }
@@ -79,7 +87,9 @@ export const SettingContainer: React.FC = () => {
 
     useEffect(() => {
         if (isOpen && !hasFetched) {
-            fetchThemeCount().then(() => setHasFetched(true));
+            fetchThemeCount()
+                .then(() => setHasFetched(true))
+                .catch(err => console.error("Failed to fetch count", err));
         }
     }, [isOpen, hasFetched, fetchThemeCount]);
 
@@ -89,9 +99,9 @@ export const SettingContainer: React.FC = () => {
                 ref={toggleRef}
                 $isOpen={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
-                role="button" 
-                tabIndex={0} 
+                aria-expanded={isOpen}
                 aria-label={isOpen ? "Fermer les paramètres" : "Ouvrir les paramètres"}
+                type="button"
             >
                 <Styled.Action className={isOpen ? "opened" : ""}>
                     <Styled.Title>
@@ -106,7 +116,7 @@ export const SettingContainer: React.FC = () => {
             <Styled.ContainerSetting ref={containerRef} className={isOpen ? "opened" : "close"}>
                 <Styled.SettingHeader>
                     <h3 className="font_code">Apparence</h3>
-                    <Styled.CloseButton onClick={() => setIsOpen(false)}>
+                    <Styled.CloseButton onClick={() => setIsOpen(false)} aria-label="Fermer">
                         <FaXmark />
                     </Styled.CloseButton>
                 </Styled.SettingHeader>
@@ -129,25 +139,58 @@ export const SettingContainer: React.FC = () => {
                                 ))}
                             </div>
 
-                            <h3 className="titleOption">Mode fun</h3>
-                            <div 
+<h3 className="titleOption">Accessibilité</h3>
+
+<Styled.ContrastWrapper>
+    <Styled.ContrastDescription>
+        Conçue pour améliorer la visibilité des éléments
+        et faciliter la lecture pour les personnes ayant des
+        déficiences visuelles.
+    </Styled.ContrastDescription>
+
+    <button 
+        className={`themeButton contrast ${isHighContrast ? 'active' : ''}`}
+        onClick={handleContrastClick}
+        type="button"
+    >
+        {isHighContrast ? 
+            (
+                <>
+                    <FaEyeSlash/>
+                    <span>Désactiver le contraste</span>
+                </>
+            )
+            :
+            (
+                <>
+                    <FaEye /> 
+                    <span>Activer Contraste Élevé</span>
+                </>
+            )
+        }
+    </button>
+</Styled.ContrastWrapper>
+
+                            <h3 className="titleOption">Mode Fun</h3>
+                            <button 
                                 className="themeButton random" 
                                 onClick={handleRandomClick} 
-                                role="button" 
-                                tabIndex={0}
+                                type="button"
                             >
                                 <p>
                                     Nous déclinons toute responsabilité en cas de <br />
                                     <strong style={{ textDecoration: "underline" }}>crise de couleur</strong>
                                 </p>
                                 <span>🦄 Thème aléatoire 🦄</span>
-                            </div>
+                            </button>
 
                             <div className="counter">
                                 <span className="icon">🦄</span>
                                 <div className="number">
                                     <span>Ce mode a été activé</span>
-                                    <span className="count">{randomThemeCount}</span>
+                                    <span className="count">
+                                        {hasFetched ? randomThemeCount : "..."}
+                                    </span>
                                     <span>fois par des âmes courageuses</span>
                                 </div>
                             </div>

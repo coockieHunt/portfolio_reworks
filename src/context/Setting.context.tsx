@@ -29,11 +29,8 @@ export const SettingProvider: React.FC<ISettingProviderProps> = ({ children }) =
         setSettings(prev => ({ ...prev, light }));
     }, []);
 
-    // Temporarily disable toggling of high-contrast while fixing getter/call issues.
-    // This makes `changeHighContrast` a no-op so the app behaves as if the
-    // high-contrast mode is always off. Revert this change to re-enable.
-    const changeHighContrast = useCallback((_highContrast: boolean): void => {
-        // no-op (temporarily disabled)
+    const changeHighContrast = useCallback((highContrast: boolean): void => {
+        setSettings(prev => ({ ...prev, highContrast }));
     }, []);
 
     const value = useMemo(() => ({

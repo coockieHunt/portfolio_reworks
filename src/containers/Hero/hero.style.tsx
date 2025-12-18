@@ -154,7 +154,6 @@ export const Action = styled.div`
     align-items: center;
     justify-content: center;
     padding: 12px 28px;        
-    margin-right: 15px;         
     
     font-weight: 600;          
     font-size: 1rem;            
@@ -164,6 +163,12 @@ export const Action = styled.div`
 
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.3); 
+
+
+    & a {
+        width: 100%;
+        height: 100%;
+    }
 
     &:hover {
         transform: translateY(-2px);           

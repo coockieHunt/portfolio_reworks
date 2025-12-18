@@ -17,15 +17,15 @@ export const ContactInfo = () => {
                 <div className="container">
                     <Link className="ItemInfo" href={`mailto:${ContactEmail}`} ariaLabel="Email" >
                         <AiOutlineMail />
-                        <div><span className='name'>Email</span><span className='info'>{ContactEmail}</span></div>
+                        <div className="textInfo"><span className='name'>Email</span><span className='info'>{ContactEmail}</span></div>
                     </Link>
                     <Link className="ItemInfo"  href="https://maps.app.goo.gl/jVRCWUaxotidE7cx8" ariaLabel="Map" >
                         <BiSolidMap />
-                        <div><span className='name'>Localisation</span><span className='info'>Nîmes (30), France</span></div>
+                        <div className="textInfo"><span className='name'>Localisation</span><span className='info'>Nîmes (30), France</span></div>
                     </Link>
                     <Link className="ItemInfo" href="https://linkedin.com/in/jonathan-gleyze" ariaLabel="LinkedIn" >
                         <BiLogoLinkedin />
-                        <div><span className='name'>LinkedIn</span><span className='info'>Jonathan Gleyze</span></div>
+                        <div className="textInfo"><span className='name'>LinkedIn</span><span className='info'>Jonathan Gleyze</span></div>
                     </Link>
                 </div>
             </div>

@@ -160,18 +160,7 @@ export const ServiceContainer = ({ id }) => {
 
             <ScrollIndicator />
             
-            <Link
-                to={'contact'}
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration={500}
-                href={`${window.location.origin}/#contact`}
-                aria-label="Me contacter"
-                style={{ color: "inherit", textDecoration: "none", display: "block", textAlign: "center", marginTop: "30px" }}
-                className="mobile-contact-cta"
-            >
-            </Link>
+         
         </div>
     );
 };

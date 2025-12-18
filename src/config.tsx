@@ -173,18 +173,18 @@ export const COLOR_SETTING = {
         border: "#60A5FA"
     },
 
-    HightContrast: {
+    HighContrast: {
         display_name: "Haut Contraste",
         background: '#000000',
         background_secondary: '#1a1a1a',
         background_tertiary: '#2a2a2a',
 
         font: '#ffffff',
-        font_subtle: '#ffffffd0',
+        font_subtle: '#fdf6f6d0',
         font_on_primary: '#000000',
         
         primary: "#ffee00", 
-        secondary: "#b8a800",
+        secondary: "#2600ff",
         accentuate: '#fff566',
         
         border: "#ffee00"
@@ -192,8 +192,7 @@ export const COLOR_SETTING = {
 };
 
 export const HightContrastColorSetting = {
-    font_color_on_primary: '#000000',
-    font_color_full_contrast: '#fffefe'
+    theme_id: 'HightContrast'
 };
 
 export const LIGHT_SETTING = {
@@ -337,6 +336,7 @@ export const getColorSettings = (theme: any): iColorSettings => {
 export const GetHightContrastSetting = (theme: any) => {
     return HightContrastColorSetting;
 };
+
 
 export const ApiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
 export const MailDefault =  { firstName: '', lastName: '', email: '', message: '' };

@@ -68,6 +68,17 @@ interface ThemeWrapperProps {
 
 const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
     const { settings } = useSettingContext();
+    useEffect(() => {
+        const body = document.body;
+        
+        if (settings.highContrast) {
+            body.classList.add('high-contrast');
+        } else {
+            body.classList.remove('high-contrast');
+        }
+
+        return () => body.classList.remove('high-contrast');
+    }, [settings.highContrast]);
 
     return (
         <ThemeProvider theme={settings}>

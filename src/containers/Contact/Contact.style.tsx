@@ -87,7 +87,7 @@ export const Info = styled.div`
                 padding: 12px 8px;
                 border-radius: ${BORDER_RADIUS.xlarge};
                 transition: all 0.3s ease;
-
+                
                 & svg {
                     height: 3em;
                     width: auto;
@@ -150,13 +150,9 @@ export const Info = styled.div`
                 width: 100%;
                 justify-content: space-between;
 
-                & .info {
-                    display: none;
-                }
-
-                & .name {
-                    display: none;
-                }
+                & .info {display: none;}
+                & .name {display: none;}
+                & a .textInfo {display: none;}   
             }
             
             & .title {

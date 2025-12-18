@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { GetHightContrastSetting } from '../config';
 
 interface IGridEffectProps {
 	$bigColor?: string;

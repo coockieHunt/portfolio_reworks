@@ -31,10 +31,10 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
         display: flex;
         align-items: center;
         justify-content: center;
+        
         text-decoration: none;
         padding: 10px;
         gap: 10px;
-
         transition: transform 0.3s ease, color 0.3s ease;
 
         & svg {
@@ -43,6 +43,7 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
             width: auto;
             color: ${props => props.$iconColor || '#FFFFFF'};
             transition: color 0.3s ease;
+            display: block; 
         }
         
         &:hover svg {transform: scale(1.2); color: ${props => getColorSettings(props.theme).primary};}
@@ -50,7 +51,8 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
     
     h3 {
         margin: 0;
-        font-size: 1.2rem;
-        margin-bottom: 5px;
+        line-height: 1; 
+        
+        transform: translateY(5px); 
     }
 `;

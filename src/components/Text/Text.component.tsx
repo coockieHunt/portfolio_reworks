@@ -21,15 +21,11 @@ export interface IGradientTextContainerProps {
     children?: React.ReactNode;
 }
 
-
-
 export interface ILinkTextComponentProps {
     children: string;
     to: string;
     onClick?: () => void;
 }
-
-
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 
@@ -110,7 +106,7 @@ export const TitleTextComponent = ({
     return (
         <TitleContainer style={style}>
             <Title>{children}</Title>
-            <BackTitle style={{ opacity: subtitleOpacity }}>{subtitle}</BackTitle>   
+            <BackTitle style={{ opacity: subtitleOpacity }} className="BackSubtitle">{subtitle}</BackTitle>   
         </TitleContainer>
     );
 };

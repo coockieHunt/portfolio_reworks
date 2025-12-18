@@ -1,5 +1,5 @@
 import { createGlobalStyle, styled } from 'styled-components';
-import { COLOR_SETTING } from '../config';
+import { COLOR_SETTING, GetHightContrastSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -79,6 +79,118 @@ const GlobalStyle = createGlobalStyle`
         -webkit-box-shadow: none !important;
         caret-color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
     }
+
+    ${props => {
+        const hcConfig = GetHightContrastSetting(props.theme.theme);
+
+        return `
+            body.high-contrast {
+
+                // reset
+                &, & * {
+                    background-image: linear-gradient(transparent, transparent) !important;
+                    box-shadow: none !important;
+                    text-shadow: none !important;
+
+                }
+
+                & h1, & h2, & h3 {
+                    color: white !important;
+                    margin-bottom: 1rem !important;
+                    line-height: 1.3 !important;
+                }
+
+                & h1 { font-size: 2.5rem !important; font-weight: 700 !important; }
+                & h2 { font-size: 2rem !important; font-weight: 700 !important; }
+                & h3 { font-size: 1.5rem !important; font-weight: 600 !important; }
+                
+                & p, & li, & a, & div, & input, & textarea, & button {
+                    font-weight: 600 !important;
+                    color: white!important;
+                }
+
+                & nav, & header, & footer, & section, & article, & main {
+                    & a {
+                        text-decoration: underline !important;
+                        border: none !important;
+                    }
+                    background-color: black !important;
+                    border: 2px solid white !important;
+                }
+
+                & input, & textarea, & select, & button {
+                    border: 2px solid white !important;
+                    background-color: black !important;
+                    color: black !important;
+
+                    &::placeholder {
+                        color: white !important;
+                        opacity: 1 !important;
+                    }
+                }
+
+                
+                & *::after, & *::before {
+                    box-shadow: none !important;
+                    filter: none !important;
+                }
+
+                & * .highlight {
+                    background-color: black !important;
+                }
+
+                & .BackSubtitle {
+                    display: none !important;
+                }
+
+                & div svg{
+                    color: #faf5f5!important;
+                }
+
+                & div span{
+                    color: #85fa00!important;
+                    font-weight: 700!important;
+                    font-shadow: 0 0 5px #0c4601!important;
+                    
+                }
+
+                & Button, & a {
+                    background-color: black !important;
+                    color: #ffffff !important;
+                    border: 2px solid white !important;
+                }
+
+                //highlight tab
+                & *:focus-visible {
+                    outline: 3px solid #ff0000 !important; 
+                    outline-offset: 2px;
+                    box-shadow: 0 0 10px #ff0000 !important; 
+                }
+
+                //specific fixes
+
+                & #services{
+                    & a{
+                        display: inline-block !important;
+                    }
+                }
+                
+                & #product{
+                    & :after, & :before {
+                        display: none !important;
+                    }
+                }
+
+                & #contact{
+                    & .ItemInfo{
+                        & svg{
+                            color: #050505!important;
+                        }
+                    }
+                }
+            }
+        `;
+    }}
 `;
 
 export const Content = styled.div`

@@ -25,7 +25,14 @@ export const AnimatedDots = styled.span`
     }
 `;
 
-export const Toggle = styled.div<{ $isOpen: boolean }>`
+export const Toggle = styled.button<{ $isOpen: boolean }>`
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    outline: none;
+
     position: fixed;
     z-index: 1300; 
     cursor: pointer;
@@ -185,7 +192,8 @@ export const ScrollableContent = styled.div`
     }
 `;
 
-export const CloseButton = styled.div`
+export const CloseButton = styled.button`
+    background: transparent; border: none; 
     cursor: pointer; 
     font-size: 1.5em; 
     color: ${props => getColorSettings(props.theme).secondary};
@@ -195,6 +203,7 @@ export const CloseButton = styled.div`
     align-items: center; 
     justify-content: center; 
     border-radius: 50%;
+    transition: all 0.2s;
     &:hover { background-color: ${props => getColorSettings(props.theme).background_tertiary}; color: ${props => getColorSettings(props.theme).primary}; }
 `;
 
@@ -215,8 +224,18 @@ export const Option = styled.div`
             @media (max-width: 400px) { grid-template-columns: 1fr; }
         }
 
+        & button {
+            font-family: inherit;
+            color: inherit;
+        }
+
         & .themeButton {
+            appearance: none;
             background-color: ${props => getColorSettings(props.theme).background_secondary};
+            border: 1px solid transparent; 
+            text-align: left;
+            font-size: 1em;
+
             display: flex;
             align-items: center; 
             justify-content: flex-start;
@@ -224,9 +243,9 @@ export const Option = styled.div`
             gap: 10px; 
             padding: 10px; 
             width: 100%;
-            border-radius: 5px; cursor: pointer; 
+            border-radius: 5px; 
+            cursor: pointer; 
             transition: all .3s ease-in-out;
-            border: 1px solid transparent; 
 
             &.current {border: 2px solid ${props => getColorSettings(props.theme).primary};}
 
@@ -237,13 +256,26 @@ export const Option = styled.div`
 
             & span {
                 font-variation-settings: "wght" 500; 
-                font-size: 1em; 
                 margin-left: 10px;
                 @media (max-width: ${SCREEN_SIZE.mobile}) { margin-left: 5px; font-size: 0.85em; }
+            }
+            
+            &.contrast {
+                justify-content: center;
+                border: 1px dashed ${props => getColorSettings(props.theme).primary};
+                &:hover {
+                    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+                }
+                &.active {
+                    background-color: ${props => getColorSettings(props.theme).primary};
+                    color: ${props => getColorSettings(props.theme).background};
+                }
             }
 
             &.random {
                 width: 100%;
+                border: none;
+                
                 background: linear-gradient(90deg, #ff0040 0%, #ff7a00 16%, #ffd400 32%, #33cc33 48%, #334acc 64%, #3366ff 80%, #a833ff 100%, #ff0040 116%);
                 background-size: 200% 200%;
                 animation: ${rainbowShift} 4s ease infinite;
@@ -259,16 +291,18 @@ export const Option = styled.div`
                 & p {
                     margin: 0; 
                     font-size: .85em; 
-                    text-shadow: -1px -1px 2px #000000, 1px -1px 2px #000000, -1px 1px 2px #000000, 1px 1px 2px #000000;
+                    text-shadow: -1px -1px 2px #000000;
                     text-align: center;
+                    color: white; /* Force text white for random button */
                 }
 
                 & span {
                     margin-left: 0; 
                     font-variation-settings: "wght" 600; 
                     font-size: 1.3em;
-                    text-shadow: -1px -1px 2px #000000, 1px -1px 2px #000000, -1px 1px 2px #000000, 1px 1px 2px #000000;
+                    text-shadow: -1px -1px 2px #000000;
                     text-align: center;
+                    color: white;
                 }
             }
         }
@@ -344,3 +378,27 @@ export const infoText = styled.div`
         }
     }
 `
+
+export const ContrastWrapper = styled.div`
+    background-color: ${props => getColorSettings(props.theme).background_secondary};
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid ${props => getColorSettings(props.theme).primary}40; 
+    
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+`;
+
+export const ContrastDescription = styled.p`
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+    font-variation-settings: "wght" 300;
+    opacity: 0.8;
+    color: inherit;
+    text-align: left;
+`;
