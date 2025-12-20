@@ -7,29 +7,6 @@ meta:
   modified: 1764033138040
   description: ""
 collection:
-  - url: localhost:3001/api
-    name: api
-    meta:
-      id: req_941ffb6888c1442eba5495265353f764
-      created: 1764029440162
-      modified: 1764385011678
-      isPrivate: false
-      description: ""
-      sortKey: -1764381225628
-    method: GET
-    headers:
-      - name: User-Agent
-        value: insomnia/12.1.0
-        description: ""
-        disabled: false
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
   - name: Redis
     meta:
       id: fld_3730a4c9db4d4774a1883aaa71df600f
@@ -43,7 +20,7 @@ collection:
         meta:
           id: req_d90f094d57044edbac6f7b9edcb2e3d0
           created: 1764033299333
-          modified: 1764036902691
+          modified: 1766148762649
           isPrivate: false
           description: ""
           sortKey: -1764036892311
@@ -138,20 +115,20 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-  - name: Status
+  - name: Health
     meta:
       id: fld_892fc80463f74c61870a13afdc62f3c5
       created: 1764036922607
-      modified: 1764036929052
+      modified: 1766107944351
       sortKey: -1764036922607
       description: ""
     children:
-      - url: localhost:3001/api/status
+      - url: localhost:3001/api/health/
         name: status
         meta:
           id: req_b1b2f3c2166d4525b9b9123346f6a50e
           created: 1764031362740
-          modified: 1764036926264
+          modified: 1766107958554
           isPrivate: false
           description: ""
           sortKey: -1764036926244
@@ -173,20 +150,20 @@ collection:
     meta:
       id: fld_f7e7411aa3444684b78a2eace11bc0ef
       created: 1764381225528
-      modified: 1764381225528
+      modified: 1766169554368
       sortKey: -1764381225528
       description: ""
     children:
-      - url: localhost:3001/api/guestbook/
+      - url: localhost:3001/api/guestbook/read
         name: get GuestBook
         meta:
           id: req_ff9893b1b411451a9194c39a5a94655d
           created: 1764381230018
-          modified: 1764383438593
+          modified: 1764436050521
           isPrivate: false
           description: ""
           sortKey: -1764381238580
-        method: GET
+        method: POST
         body:
           mimeType: application/json
           text: |-
@@ -208,12 +185,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: localhost:3001/api/guestbook/
+      - url: localhost:3001/api/guestbook/write
         name: set GuestBook
         meta:
           id: req_9853b685767c437f842a3274021030fa
           created: 1764383450565
-          modified: 1764383499640
+          modified: 1764436068142
           isPrivate: false
           description: ""
           sortKey: -1764209082412
@@ -249,12 +226,12 @@ collection:
           sortKey: -1764384911983
           description: ""
         children:
-          - url: localhost:3001/api/guestbook/
+          - url: localhost:3001/api/guestbook/write
             name: password GuestBook FAIL
             meta:
               id: req_3f681c5273164fda87b23218f78c5705
               created: 1764384882184
-              modified: 1764384946861
+              modified: 1766108626890
               isPrivate: false
               description: ""
               sortKey: -1764384935991
@@ -282,16 +259,16 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: localhost:3001/api/guestbook/
+          - url: localhost:3001/api/guestbook/read
             name: get GuestBook FAIL
             meta:
               id: req_c1ca8571c7b64c569892c126df921fe8
               created: 1764384956275
-              modified: 1764384966117
+              modified: 1766108583557
               isPrivate: false
               description: ""
               sortKey: -1764384936091
-            method: GET
+            method: POST
             body:
               mimeType: application/json
               text: |-
@@ -313,12 +290,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: localhost:3001/api/guestbook/
+          - url: localhost:3001/api/guestbook/write
             name: set GuestBook message too long ...
             meta:
               id: req_3e43ee2a8a0341389990f50781ab8c4d
               created: 1764388050272
-              modified: 1764388235556
+              modified: 1766108642061
               isPrivate: false
               description: ""
               sortKey: -1764384936191
@@ -346,12 +323,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: localhost:3001/api/guestbook/
-            name: set GuestBook message missing
+          - url: localhost:3001/api/guestbook/write
+            name: set GuestBook missing
             meta:
               id: req_f6098daa2b4a4334a257de951e376a9c
               created: 1764388115431
-              modified: 1764388253116
+              modified: 1766109768443
               isPrivate: false
               description: ""
               sortKey: -1764384936291
@@ -369,6 +346,190 @@ collection:
                 value: application/json
               - name: User-Agent
                 value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: localhost:3001/api/guestbook/write
+            name: set GuestBook message url
+            meta:
+              id: req_d0997df2c1ba4105a60420bd46446e13
+              created: 1766108695179
+              modified: 1766109256877
+              isPrivate: false
+              description: ""
+              sortKey: -1764384936141
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "password": "AZERTY123",
+                	"name": "testpsd",
+                	"message": "www.x.com"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: localhost:3001/api/guestbook/write
+            name: set GuestBook name too long...
+            meta:
+              id: req_4d67a86deeb044c6946c6d348fb7dfe1
+              created: 1766109368487
+              modified: 1766109737591
+              isPrivate: false
+              description: ""
+              sortKey: -1764384936166
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "password": "AZERTY123",
+                	"name": "tesdddddddddddddddddddddddddddddddddddddddddddddddtpsd",
+                	"message": "dqsdqsdds"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: Mail
+    meta:
+      id: fld_4298e7be18104c77a7d625bfad681bb6
+      created: 1766169539487
+      modified: 1766169547860
+      sortKey: -1766169539488
+      description: ""
+    children:
+      - url: localhost:3001/api/mail/sendEmail
+        name: sendMail
+        meta:
+          id: req_e0d3f590d59b45bc91a39d6765d8851a
+          created: 1766172195988
+          modified: 1766172195988
+          isPrivate: false
+          description: ""
+          sortKey: -1765277251554.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "{% faker 'randomLoremWords' %}",
+            	"email": "{% faker 'randomEmail' %}",
+            	"subject": "{% faker 'randomLoremWords' %}",
+            	"message": "{% faker 'randomLoremWords' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.2.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - name: FAIL
+        meta:
+          id: fld_ce81a382da9e41289679b2c12810751a
+          created: 1766171939969
+          modified: 1766171939969
+          sortKey: -1766171939969
+          description: ""
+        children:
+          - url: localhost:3001/api/mail/sendEmail
+            name: sendMail_Invalid_email
+            meta:
+              id: req_3222b8e6825f409086d1eb9a7d8a6948
+              created: 1766172040030
+              modified: 1766172727430
+              isPrivate: false
+              description: ""
+              sortKey: -1766170771914
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "name": "{% faker 'randomLoremWords' %}",
+                	"email": "d",
+                	"subject": "{% faker 'randomLoremWords' %}",
+                	"message": "{% faker 'randomLoremWords' %}"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.2.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: localhost:3001/api/mail/sendEmail
+            name: sendMail_Invalid_lenght
+            meta:
+              id: req_18b7d0e2da654a9dbe70f7acca41b60b
+              created: 1766172694043
+              modified: 1766172721909
+              isPrivate: false
+              description: ""
+              sortKey: -1766171374462
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "name": "{% faker 'randomLoremWords' %}",
+                	"email": "{% faker 'randomEmail' %}",
+                	"subject": "{% faker 'randomLoremWords' %}",
+                	"message": "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.2.0
                 description: ""
                 disabled: false
             settings:
