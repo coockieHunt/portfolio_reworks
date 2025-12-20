@@ -1,58 +1,16 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { getColorSettings, SCREEN_SIZE } from '../../config';
-
-const dotAnimation = keyframes`
-    0% { content: ''; }
-    25% { content: '.'; }
-    50% { content: '..'; }
-    75% { content: '...'; }
-    100% { content: ''; }
-`;
-
-const rainbowShift = keyframes`
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-`;
-
-export const AnimatedDots = styled.span`
-    &::after {
-        content: '';
-        display: inline-block;
-        animation: ${dotAnimation} 1.5s infinite steps(1);
-        width: 1.5em; 
-        text-align: left;
-    }
-`;
+import { BORDER_RADIUS } from '../../config';
 
 export const Toggle = styled.button<{ $isOpen: boolean }>`
-    background: transparent;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    outline: none;
-
     position: fixed;
     z-index: 1300; 
-    cursor: pointer;
     transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-
     top: 30%;
-    right: ${props => props.$isOpen ? '500px' : '0px'};
-    
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        top: auto;
-        bottom: 30px; 
-        right: 20px;
-        
-        opacity: ${props => props.$isOpen ? '0' : '1'};
-        pointer-events: ${props => props.$isOpen ? 'none' : 'auto'};
-        transform: ${props => props.$isOpen ? 'scale(0.5)' : 'scale(1)'};
-    }
-`
+    right: 0px;
+    opacity: ${props => props.$isOpen ? '0' : '1'};
+    pointer-events: ${props => props.$isOpen ? 'none' : 'auto'};
 
-export const Action = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,73 +18,67 @@ export const Action = styled.div`
     border: 1px solid ${props => getColorSettings(props.theme).primary};
     
     padding: 15px 5px;
-    border-radius: 10px 0 0 10px;
+    border-radius: 0 10px 10px 0;
     box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-    border-right: none;
+    border-left: none;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        padding: 0;
-        border: 2px solid ${props => getColorSettings(props.theme).primary};
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        &:active { transform: scale(0.9); }
-    }
-`
-
-export const Title = styled.span`
     writing-mode: vertical-lr;
     transform: rotate(180deg);
-    color: ${props => getColorSettings(props.theme).primary};
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
 
-    .desktop-text { 
-        font-weight: 600; 
-        letter-spacing: 2px; 
-        font-size: 0.9em; 
-    }
-    .mobile-icon { display: none; }
-
+    & svg {display: none;}
+    
     @media (max-width: ${SCREEN_SIZE.mobile}) {
+        top: auto;
+        bottom: 30px; 
+        right: 20px;
+        
+        transform: ${props => props.$isOpen ? 'scale(0.5)' : 'scale(1)'};
+        
         writing-mode: horizontal-tb;
-        transform: rotate(0deg);
-        .desktop-text { display: none; }
-        .mobile-icon { 
-            display: flex; 
-            font-size: 1.2em; 
-        }
+        border-left: 1px solid ${props => getColorSettings(props.theme).primary};
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 50px;
+
+        & span {display: none;}
+        & svg {display: block;}
     }
-`;
+`
 
 export const ContainerSetting = styled.div`
     position: fixed;
     z-index: 1200;
-    right: 0; top: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     
-    width: 500px;
-    height: 100dvh;
-    border-left: 3px solid ${props => getColorSettings(props.theme).background_secondary};
-    
+    width: 85vw;
+    height: 90dvh;
+    max-width: 1728px;
+    max-height: 972px;
+
+    border: 3px solid ${props => getColorSettings(props.theme).background_secondary};
+    border-radius: ${BORDER_RADIUS.xlarge};
     display: flex; flex-direction: column;
 
     transition: transform .5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
+        left: auto;
         top: 50%; right: 50%;
         transform: translate(50%, -50%);
         width: 90vw;
         height: 95dvh;
+        max-width: none;
+        max-height: none;
         border-radius: 5px;
         border: 1px solid ${props => getColorSettings(props.theme).primary};
         border-left: 1px solid ${props => getColorSettings(props.theme).primary};
     }
 
     &.close { 
-        transform: translateX(100%); 
+        transform: translate(100vw, -50%); 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             top: 0%; right: -50%;
             transform: translate(50%, -50%);
@@ -145,52 +97,90 @@ export const ContainerSetting = styled.div`
         pointer-events: none; 
         border-radius: inherit;
     }
+
+
+    & .header {
+        flex-shrink: 0; 
+        padding: 15px 20px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between;
+        border-bottom: 1px dashed #ffffff18;
+
+        @media (max-width: ${SCREEN_SIZE.mobile}) {border-radius: 15px 15px 0 0;}
+
+        & h3 { 
+            margin: 0; 
+            font-size: 1.2em; 
+            font-variation-settings: "wght" 600;
+        }
+    }
+
+    & .footer {
+        flex-shrink: 0; 
+        padding: 15px; 
+        text-align: center;
+        border-top: 1px dashed #ffffff49;
+
+        @media (max-width: ${SCREEN_SIZE.mobile}) { border-radius: 0 0 15px 15px; }
+
+        & p { 
+            margin: 0; 
+            font-size: 0.9em; 
+            color: ${props => getColorSettings(props.theme).font_subtle};
+            opacity: 0.7; 
+            font-variation-settings: "wght" 300;
+        }
+    }
+`;
+
+
+
+export const Content = styled.div`
+    flex-grow: 1; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 15px;
+
+    & h3 {
+        font-variation-settings: "wght" 600;
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+    }
+
+    & .ContainerButton {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 20px;
+    align-items: start;
+
+    & .ThemesContainer {
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); 
+        column-gap: 20px;
+        row-gap: 10px;   
+    }
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px; 
+        width: 100%;
+
+        & .ThemesContainer{
+            grid-template-columns: 1fr; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        & h3 {
+            margin: 0 0 20px 0;
+        }
+    }
+}
 `
 
-export const SettingHeader = styled.div`
-    flex-shrink: 0; 
-    padding: 15px 20px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between;
-    border-bottom: 1px dashed #ffffff18;
-
-    @media (max-width: ${SCREEN_SIZE.mobile}) {border-radius: 15px 15px 0 0;}
-    
-    & h3 { 
-        margin: 0; 
-        font-size: 1.2em; 
-        font-variation-settings: "wght" 600;
-    }
-`;
-
-export const SettingFooter = styled.div`
-    flex-shrink: 0; 
-    padding: 15px; 
-    text-align: center;
-    border-top: 1px dashed #ffffff49;
-   
-    @media (max-width: ${SCREEN_SIZE.mobile}) { border-radius: 0 0 15px 15px; }
-
-    & p { 
-        margin: 0; 
-        font-size: 0.9em; 
-        color: ${props => getColorSettings(props.theme).font_subtle};
-        opacity: 0.7; 
-        font-variation-settings: "wght" 300;
-    }
-`;
-
-export const ScrollableContent = styled.div`
-    flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 20px;
-    
-    &::-webkit-scrollbar { width: 6px; }
-    &::-webkit-scrollbar-track { background: transparent; }
-    &::-webkit-scrollbar-thumb { 
-        background: ${props => getColorSettings(props.theme).primary}; 
-        border-radius: 4px; 
-    }
-`;
 
 export const CloseButton = styled.button`
     background: transparent; border: none; 
@@ -205,200 +195,4 @@ export const CloseButton = styled.button`
     border-radius: 50%;
     transition: all 0.2s;
     &:hover { background-color: ${props => getColorSettings(props.theme).background_tertiary}; color: ${props => getColorSettings(props.theme).primary}; }
-`;
-
-export const Option = styled.div`
-    & .titleOption {
-        font-variation-settings: "wght" 600;
-        margin: 15px 0;
-        font-size: 1.2em;
-    }
-
-    & .ContainerButton {
-        display: flex; gap: 10px; flex-direction: column;
-
-        & .defaultThemesContainer {
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 8px;
-            @media (max-width: 400px) { grid-template-columns: 1fr; }
-        }
-
-        & button {
-            font-family: inherit;
-            color: inherit;
-        }
-
-        & .themeButton {
-            appearance: none;
-            background-color: ${props => getColorSettings(props.theme).background_secondary};
-            border: 1px solid transparent; 
-            text-align: left;
-            font-size: 1em;
-
-            display: flex;
-            align-items: center; 
-            justify-content: flex-start;
-            flex-direction: row; 
-            gap: 10px; 
-            padding: 10px; 
-            width: 100%;
-            border-radius: 5px; 
-            cursor: pointer; 
-            transition: all .3s ease-in-out;
-
-            &.current {border: 2px solid ${props => getColorSettings(props.theme).primary};}
-
-            &:not(.current):hover {
-                transform: scale(1.05);
-                box-shadow: 0 0 10px ${props => getColorSettings(props.theme).primary};
-            }
-
-            & span {
-                font-variation-settings: "wght" 500; 
-                margin-left: 10px;
-                @media (max-width: ${SCREEN_SIZE.mobile}) { margin-left: 5px; font-size: 0.85em; }
-            }
-            
-            &.contrast {
-                justify-content: center;
-                border: 1px dashed ${props => getColorSettings(props.theme).primary};
-                &:hover {
-                    background-color: ${props => getColorSettings(props.theme).background_tertiary};
-                }
-                &.active {
-                    background-color: ${props => getColorSettings(props.theme).primary};
-                    color: ${props => getColorSettings(props.theme).background};
-                }
-            }
-
-            &.random {
-                width: 100%;
-                border: none;
-                
-                background: linear-gradient(90deg, #ff0040 0%, #ff7a00 16%, #ffd400 32%, #33cc33 48%, #334acc 64%, #3366ff 80%, #a833ff 100%, #ff0040 116%);
-                background-size: 200% 200%;
-                animation: ${rainbowShift} 4s ease infinite;
-                font-size: 1em;
-                justify-content: center; 
-                display: flex; 
-                align-items: center;
-                border-radius: 5px; 
-                flex-direction: column; 
-                gap: 10px; 
-                padding: 15px;
-
-                & p {
-                    margin: 0; 
-                    font-size: .85em; 
-                    text-shadow: -1px -1px 2px #000000;
-                    text-align: center;
-                    color: white; /* Force text white for random button */
-                }
-
-                & span {
-                    margin-left: 0; 
-                    font-variation-settings: "wght" 600; 
-                    font-size: 1.3em;
-                    text-shadow: -1px -1px 2px #000000;
-                    text-align: center;
-                    color: white;
-                }
-            }
-        }
-
-        & .counter {
-            background-color: ${props => getColorSettings(props.theme).background_secondary};
-            padding: 15px; 
-            border-radius: 5px;
-            border: 1px dotted ${props => getColorSettings(props.theme).primary};
-            margin-top: 10px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-around;
-            gap: 10px; 
-            font-size: 0.9em; 
-            flex-wrap: wrap;
-
-            & .number {
-                display: flex; 
-                flex-direction: column; 
-                align-items: center; 
-                gap: 5px; 
-                text-align: center;
-                & .count {
-                    font-weight: 800; 
-                    font-size: 2em;
-                    color: ${props => getColorSettings(props.theme).primary};
-                    min-width: 3ch
-                }
-            }
-            & .icon { font-size: 3em; padding: 5px; }
-        }
-    }
-`
-
-export const RoundColor = styled.div<{ $color: string }>`
-    flex-shrink: 0; 
-    width: 25px; 
-    height: 25px; 
-    border-radius: 50%; 
-    background-color: ${props => props.$color}; 
-    @media (max-width: ${SCREEN_SIZE.mobile}) { 
-        width: 20px; 
-        height: 20px; 
-    }
-`
-
-export const infoText = styled.div`
-    display: flex;
-    gap: 10px; 
-    flex-direction: column; 
-    margin-top: 20px;
-
-    & p {
-        display: block; 
-        font-size: 0.9em; 
-        font-variation-settings: "wght" 300;
-        text-align: left;
-        background-color: ${props => getColorSettings(props.theme).background_secondary};
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px dotted ${props => getColorSettings(props.theme).primary};
-        line-height: 1.8em;
-
-        & strong {
-            font-variation-settings: "wght" 600;
-            background-color: ${props => getColorSettings(props.theme).primary};
-            padding: 4px 8px;
-            border-radius: 3px;
-            color: #000000;
-            margin-right: 5px; 
-            white-space: nowrap;
-        }
-    }
-`
-
-export const ContrastWrapper = styled.div`
-    background-color: ${props => getColorSettings(props.theme).background_secondary};
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid ${props => getColorSettings(props.theme).primary}40; 
-    
-    display: flex;
-    flex-direction: column;
-    gap: 15px; 
-    
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
-`;
-
-export const ContrastDescription = styled.p`
-    margin: 0;
-    font-size: 0.9em;
-    line-height: 1.5;
-    font-variation-settings: "wght" 300;
-    opacity: 0.8;
-    color: inherit;
-    text-align: left;
 `;

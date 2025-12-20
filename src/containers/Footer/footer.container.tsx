@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, JSX } from 'react';
 import * as Footer from './footer.style';
 
 // components
-import { IconButton } from '../../components/Button/Button';
+import { IconButton } from '../../components/Button/IconButton';
 import { LogoComponent } from '../../components/Logo/Logo.components'; 
 import { LegalNoticeContent } from '../LegalNotice/LegalNotice.container'; 
 

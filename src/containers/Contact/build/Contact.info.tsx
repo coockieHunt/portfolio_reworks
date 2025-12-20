@@ -1,6 +1,6 @@
 import * as styled from "../Contact.style";
 import { DotGridEffect } from '../../../styles/effect';
-import { Link } from '../../../components/Button/Button';
+import { Link } from '../../../components/Button/LinkButton';
 import { AiOutlineMail } from 'react-icons/ai';
 import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
 import { ContactEmail } from '../../../config';

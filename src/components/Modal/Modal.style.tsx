@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import { m } from 'framer-motion';
 import { BORDER_RADIUS, getColorSettings } from '../../config';
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter'
 
 export interface IModalStyleProps {
     $light: 'light' | 'dark';
@@ -12,7 +11,7 @@ export const ModalDiv = styled(m.div)<IModalStyleProps>`
     position: fixed;
     top: 50%;
     left: 50%;
-    z-index: 22;
+    z-index: 1200;
     display: flex;
     flex-direction: column;
     width: 90%;
@@ -70,19 +69,4 @@ export const Top = styled.div`
     }
 `
 
-export const BackDrop = styled(m.div)`
-    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.65)};
-    width: 100%;
-    height: 100%;
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 21;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    will-change: backdrop-filter;
-    isolation: isolate;
-    cursor: pointer;
-`
 

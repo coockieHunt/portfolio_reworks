@@ -1,0 +1,122 @@
+import styled from 'styled-components';
+import { getColorSettings, SCREEN_SIZE } from '../../../config';
+import { rainbowShift } from '../../../styles/utils.style';
+
+export const StyledSimpleButton = styled.button`
+    appearance: none;
+    background-color: ${props => getColorSettings(props.theme).background_secondary};
+    border: 1px solid transparent; 
+    text-align: left;
+    font-size: 1em;
+
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+    flex-direction: row; 
+    gap: 10px; 
+    padding: 10px; 
+    width: 100%;
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: all .3s ease-in-out;
+
+    &.current {border: 2px solid ${props => getColorSettings(props.theme).primary};}
+
+    &:not(.current):hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 10px ${props => getColorSettings(props.theme).primary};
+    }
+
+    & span {
+        font-variation-settings: "wght" 500; 
+        margin-left: 10px;
+        @media (max-width: ${SCREEN_SIZE.mobile}) { margin-left: 5px; font-size: 0.85em; }
+    }
+    
+    &.contrast {
+        justify-content: center;
+        border: 1px dashed ${props => getColorSettings(props.theme).primary};
+        &:hover {
+            background-color: ${props => getColorSettings(props.theme).background_tertiary};
+        }
+        &.active {
+            background-color: ${props => getColorSettings(props.theme).primary};
+            color: ${props => getColorSettings(props.theme).background};
+        }
+    }
+
+    &.random {
+        width: 100%;
+        border: none;
+        
+        background: linear-gradient(90deg, 
+            #cc0033 0%,  
+            #cc6300 16%,  
+            #a68a00 32%, 
+            #1f8a1f 48%,  
+            #263699 64%,  
+            #264ccc 80%,  
+            #8026cc 100%, 
+            #cc0033 116%
+        );
+        background-size: 200% 200%;
+        animation: ${rainbowShift} 4s ease infinite;
+        font-size: 1em;
+        
+        display: flex; 
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+
+        border-radius: 5px; 
+        gap: 20px; 
+        padding: 15px;
+
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            flex-direction: column;
+        }
+
+        & .content-random {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        & .counter-random {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px dashed ${props => getColorSettings(props.theme).primary};
+
+            gap: 5px;
+            & .count {
+                font-size: 1.8em;
+                font-weight: 800;
+                line-height: 1;
+            }
+            & span { font-size: 0.8em; font-weight: 400; }
+        }
+
+        & p {
+            margin: 0; 
+            font-size: .85em; 
+            text-shadow: -1px -1px 2px #000000;
+            text-align: center;
+            color: white; 
+        }
+
+        & span {
+            margin-left: 0; 
+            font-variation-settings: "wght" 600; 
+            font-size: 1.3em;
+            text-shadow: -1px -1px 2px #000000;
+            text-align: center;
+            color: white;
+        }
+    }
+`;

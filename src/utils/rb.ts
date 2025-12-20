@@ -167,8 +167,9 @@ export const ConnectedToSecretSystem = () => {
                         console.log(`%c        SECRET DATA STREAM`, styles.greenBold);
                         console.log(`%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, styles.greenLight);
                         
-                        if (resp.entries && resp.entries.length > 0) {
-                            const cleanEntries = resp.entries.map(e => ({
+                        
+                        if (resp['data'].entries && resp['data'].entries.length > 0) {
+                            const cleanEntries = resp['data'].entries.map(e => ({
                                 Agent: e.name,
                                 Data: e.message,
                                 Timestamp: new Date(e.created_at).toLocaleTimeString()

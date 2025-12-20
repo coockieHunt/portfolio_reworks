@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { GetHightContrastSetting } from '../config';
+import { HexToRgbaConverter } from '../utils/HexToRgbaConverter';
+import { getColorSettings } from '../config';
 
 interface IGridEffectProps {
 	$bigColor?: string;
@@ -61,3 +62,19 @@ export const DotGridEffect = styled.div<IDotGridEffectProps>`
 	mix-blend-mode: overlay;
 	pointer-events: none; 
 `;
+
+export const BackDrop = styled.div<{ $isOpen: boolean }>`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1199;
+    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.65)};
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: ${props => props.$isOpen ? 1 : 0};
+    pointer-events: ${props => props.$isOpen ? 'auto' : 'none'};
+    transition: opacity 0.5s ease;
+`;
+

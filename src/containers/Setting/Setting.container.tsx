@@ -4,34 +4,15 @@ import { FaXmark, FaPalette, FaEye, FaEyeSlash  } from "react-icons/fa6";
 // Styles & Config
 import * as Styled from "./Setting.style";
 import { COLOR_SETTING } from '../../config';
+import { BackDrop } from '../../styles/effect';
+import { RoundColor, Wrapper } from '../../styles/utils.style';
 
 // Contexts & Hooks
 import { useSettingContext } from "../../context/Setting.context";
 import { useThemeManager } from "../../hooks/useThemeManager"; 
+import { SimpleButton } from "../../components/Button/SimpleButton";
 
 type ThemeName = keyof typeof COLOR_SETTING;
-
-interface ThemeButtonProps {
-    displayName: string;
-    isActive: boolean;
-    primaryColor: string;
-    secondaryColor: string;
-    onClick: () => void;
-}
-
-const ThemeButton: React.FC<ThemeButtonProps> = ({ displayName, isActive, primaryColor, secondaryColor, onClick }) => (
-    <button
-        type="button"
-        className={`themeButton ${isActive ? "current" : ""}`}
-        onClick={onClick}
-        aria-label={`Activer le thème ${displayName}`}
-        aria-pressed={isActive}
-    >
-        <Styled.RoundColor $color={primaryColor} />
-        <Styled.RoundColor $color={secondaryColor} />
-        <span>{displayName}</span>
-    </button>
-);
 
 export const SettingContainer: React.FC = () => {
     const { settings } = useSettingContext();
@@ -45,7 +26,7 @@ export const SettingContainer: React.FC = () => {
     } = useThemeManager();
     
     const [isOpen, setIsOpen] = useState(false);
-    const [hasFetched, setHasFetched] = useState(false);
+    const [isLoadingCount, setIsLoadingCount] = useState(false); 
     const [isHighContrast, setIsHighContrast] = useState(false);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -53,12 +34,11 @@ export const SettingContainer: React.FC = () => {
 
     const defaultThemes: ThemeName[] = ["default", "red", "green", "yellow", "cyan", "pink", "ice"];
 
-    const handleThemeClick = (themeKey: string) => {
-        applyTheme(themeKey, COLOR_SETTING[themeKey].display_name);
-    };
+    const handleThemeClick = (themeKey: string) => {applyTheme(themeKey, COLOR_SETTING[themeKey].display_name);};
 
-    const handleRandomClick = () => {
-        activateRandomTheme();
+    const handleRandomClick = async () => {
+        await activateRandomTheme();
+        fetchThemeCount().catch(err => console.error(err));
     };
     
     const handleContrastClick = () => {
@@ -68,7 +48,7 @@ export const SettingContainer: React.FC = () => {
 
     useEffect(() => {
         if (!isOpen) return;
-        
+    
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node;
             if (
@@ -80,18 +60,16 @@ export const SettingContainer: React.FC = () => {
                 setIsOpen(false);
             }
         };
-
+    
+        setIsLoadingCount(true);
+        fetchThemeCount().finally(() => setIsLoadingCount(false));
+    
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [isOpen]);
-
-    useEffect(() => {
-        if (isOpen && !hasFetched) {
-            fetchThemeCount()
-                .then(() => setHasFetched(true))
-                .catch(err => console.error("Failed to fetch count", err));
-        }
-    }, [isOpen, hasFetched, fetchThemeCount]);
+    
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen, fetchThemeCount]); 
 
     return (
         <>
@@ -103,104 +81,90 @@ export const SettingContainer: React.FC = () => {
                 aria-label={isOpen ? "Fermer les paramètres" : "Ouvrir les paramètres"}
                 type="button"
             >
-                <Styled.Action className={isOpen ? "opened" : ""}>
-                    <Styled.Title>
-                        <span className="Toggle">
-                            <span className="desktop-text">{isOpen ? "Fermer" : "Apparence"}</span>
-                            <span className="mobile-icon"><FaPalette /></span>
-                        </span>
-                    </Styled.Title>
-                </Styled.Action>
+                <span>{isOpen ? "Fermer" : "Apparence"}</span>
+                <FaPalette />
             </Styled.Toggle>
 
+            <BackDrop $isOpen={isOpen} onClick={() => setIsOpen(false)} />
+
             <Styled.ContainerSetting ref={containerRef} className={isOpen ? "opened" : "close"}>
-                <Styled.SettingHeader>
+                <div className="header">
                     <h3 className="font_code">Apparence</h3>
                     <Styled.CloseButton onClick={() => setIsOpen(false)} aria-label="Fermer">
                         <FaXmark />
                     </Styled.CloseButton>
-                </Styled.SettingHeader>
-
-                <Styled.ScrollableContent>
-                    <Styled.Option>
-                        <h3 className="titleOption">Thème de Couleur</h3>
-                        
+                </div>
+                <Styled.Content>
                         <div className="ContainerButton" style={{ marginTop: '10px' }}>
-                            <div className="defaultThemesContainer">
-                                {defaultThemes.map((themeKey) => (
-                                    <ThemeButton
-                                        key={themeKey}
-                                        displayName={COLOR_SETTING[themeKey].display_name}
-                                        isActive={settings.theme === themeKey}
-                                        primaryColor={COLOR_SETTING[themeKey].primary}
-                                        secondaryColor={COLOR_SETTING[themeKey].secondary}
-                                        onClick={() => handleThemeClick(themeKey)}
-                                    />
-                                ))}
-                            </div>
-
-<h3 className="titleOption">Accessibilité</h3>
-
-<Styled.ContrastWrapper>
-    <Styled.ContrastDescription>
-        Conçue pour améliorer la visibilité des éléments
-        et faciliter la lecture pour les personnes ayant des
-        déficiences visuelles.
-    </Styled.ContrastDescription>
-
-    <button 
-        className={`themeButton contrast ${isHighContrast ? 'active' : ''}`}
-        onClick={handleContrastClick}
-        type="button"
-    >
-        {isHighContrast ? 
-            (
-                <>
-                    <FaEyeSlash/>
-                    <span>Désactiver le contraste</span>
-                </>
-            )
-            :
-            (
-                <>
-                    <FaEye /> 
-                    <span>Activer Contraste Élevé</span>
-                </>
-            )
-        }
-    </button>
-</Styled.ContrastWrapper>
-
-                            <h3 className="titleOption">Mode Fun</h3>
-                            <button 
-                                className="themeButton random" 
-                                onClick={handleRandomClick} 
-                                type="button"
-                            >
-                                <p>
-                                    Nous déclinons toute responsabilité en cas de <br />
-                                    <strong style={{ textDecoration: "underline" }}>crise de couleur</strong>
-                                </p>
-                                <span>🦄 Thème aléatoire 🦄</span>
-                            </button>
-
-                            <div className="counter">
-                                <span className="icon">🦄</span>
-                                <div className="number">
-                                    <span>Ce mode a été activé</span>
-                                    <span className="count">
-                                        {hasFetched ? randomThemeCount : "..."}
-                                    </span>
-                                    <span>fois par des âmes courageuses</span>
+                            <div className="theme">
+                                <h3>Thème de Couleur</h3>
+                                <div className="ThemesContainer">
+                                    {defaultThemes.map((themeKey) => (
+                                        <SimpleButton
+                                            key={themeKey}
+                                            isActive={settings.theme === themeKey}
+                                            onClick={() => handleThemeClick(themeKey)}
+                                            aria-label={`Activer le thème ${COLOR_SETTING[themeKey].display_name}`}
+                                        >
+                                            <RoundColor $color={COLOR_SETTING[themeKey].primary} />
+                                            <RoundColor $color={COLOR_SETTING[themeKey].secondary} />
+                                            <span>{COLOR_SETTING[themeKey].display_name}</span>
+                                        </SimpleButton>
+                                    ))}
                                 </div>
                             </div>
-                        </div>
-                    </Styled.Option>
-                </Styled.ScrollableContent>
 
-                <Styled.SettingFooter>
+                            <div className="accesebility">
+                                <h3>Accessibilité</h3>
+                                <Wrapper>
+                                    <p>
+                                        Conçue pour améliorer la visibilité des éléments
+                                        et faciliter la lecture pour les personnes ayant des
+                                        déficiences visuelles.
+                                    </p>
+
+                                    <SimpleButton 
+                                        className={`contrast ${isHighContrast ? 'active' : ''}`}
+                                        onClick={handleContrastClick}
+                                        type="button"
+                                    >
+                                        {isHighContrast ? <><FaEyeSlash/> <span>Désactiver le contraste</span></> : <><FaEye /> <span>Activer Contraste Élevé</span></>}
+                                    </SimpleButton>
+                                </Wrapper>
+                            </div>
+
+                            <div className="fun">
+                                <h3>Mode Fun</h3>
+                                <SimpleButton 
+                                    className="random" 
+                                    onClick={handleRandomClick} 
+                                    type="button"
+                                >
+                                    <div className="content-random">
+                                        <p>
+                                            Nous déclinons toute responsabilité en cas de <br />
+                                            <strong style={{ textDecoration: "underline" }}>crise de couleur</strong>
+                                        </p>
+                                        <span>🦄 Thème aléatoire 🦄</span>
+                                    </div>
+                                    
+                                    <div className="counter-random">
+                                        <span>
+                                            Déja
+                                        </span>
+                                        <span className="count">
+                                            {randomThemeCount ?? "..."}
+                                        </span>
+                                        <span>âmes courageuses<br/> ont osé essayer</span>
+                                    </div>
+                                </SimpleButton>
+                            </div>
+                        </div>
+                </Styled.Content>
+
+                <div className="footer">
                     <p>Personnalisez votre expérience</p>
-                </Styled.SettingFooter>
+                </div>
             </Styled.ContainerSetting>
         </>
     );

@@ -80,6 +80,14 @@ const GlobalStyle = createGlobalStyle`
         caret-color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
     }
 
+    button {
+        border: none;
+        font: inherit;
+        color: inherit;
+        outline: none;
+        cursor: pointer;
+    }
+
     ${props => {
         const hcConfig = GetHightContrastSetting(props.theme.theme);
 

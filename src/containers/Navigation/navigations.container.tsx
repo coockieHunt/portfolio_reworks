@@ -9,7 +9,7 @@ import { useSettingContext } from '../../context/Setting.context';
 
 // Components
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component";
-import { IconButton } from "../../components/Button/Button";
+import { IconButton } from "../../components/Button/IconButton";
 import { LogoComponent } from '../../components/Logo/Logo.components';
 
 // Data & Config

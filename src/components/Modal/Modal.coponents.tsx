@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence } from 'framer-motion';
-import { ModalDiv, BackDrop, Top, Content } from "./Modal.style";
+import { ModalDiv, Top, Content } from "./Modal.style";
 import { AiOutlineClose  } from 'react-icons/ai';
+import { BackDrop } from '../../styles/effect';
 
 export interface IModal {
     isOpen: boolean;
@@ -50,13 +51,8 @@ const ModalItem = ({ modal, index, onClose }: IModalItemProps): React.ReactEleme
 
     return (
         <>
-            <BackDrop
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ ease: "easeOut", duration: 0.3 }}
-                onClick={() => onClose(index)}
-            />
+            <BackDrop $isOpen={modal.isOpen} onClick={() => onClose(index)} />
+
             <ModalDiv
                 $light={modal.light || 'dark'}
                 ref={modalDivRef}

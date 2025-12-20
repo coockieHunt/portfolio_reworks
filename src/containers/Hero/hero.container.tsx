@@ -70,8 +70,7 @@ export const HeroContainer = ({ id }: HeroContainerProps): JSX.Element => {
                         <h1>
                             Vous voulez transformer votre <ProjectIdeaInput 
                                 ScroolTo='textarea[name="message"]' 
-                                DataWord={word_hero} 
-                            /> en{" "}
+                                DataWord={word_hero} /> en{" "}
                             <span style={{ whiteSpace: "nowrap" }}>
                                 <GradientTextContainer>Site Web</GradientTextContainer>.
                             </span>

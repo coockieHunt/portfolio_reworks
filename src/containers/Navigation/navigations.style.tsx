@@ -107,7 +107,7 @@ export const Nav = styled.nav`
                 }
             }
         }
-  }
+    }
 
     .info{
         display: flex;
@@ -119,7 +119,7 @@ export const Nav = styled.nav`
         @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}
     }
 
-  @media (max-width: ${SCREEN_SIZE.mobile}) {
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
         height: calc(100% - 60px);
         width: 100%;
         display: flex;
@@ -151,14 +151,14 @@ export const Nav = styled.nav`
         }
     }
 
-  & button{
-    padding: 5px 10px;
-    border-radius: ${BORDER_RADIUS.small};
-    border: 1px solid ${props => getColorSettings(props.theme).primary};
-    font-size: .8rem;
-    background-color: transparent;
-    cursor: pointer;
-    font-weight: 600;
+    & button{
+        padding: 5px 10px;
+        border-radius: ${BORDER_RADIUS.small};
+        border: 1px solid ${props => getColorSettings(props.theme).primary};
+        font-size: .8rem;
+        background-color: transparent;
+        cursor: pointer;
+        font-weight: 600;
         letter-spacing: .5px;
         position: relative;
         overflow: hidden;
@@ -180,16 +180,7 @@ export const Nav = styled.nav`
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px -4px ${props => getColorSettings(props.theme).primary}88;
                 &::before{opacity: .4;}
-        }
-
-        &:active{
-                transform: translateY(0);
-                box-shadow: inset 0 2px 6px -2px #00000055;
-        }
-
-        &:focus-visible{
-                outline: 2px solid ${props => getColorSettings(props.theme).primary};
-                outline-offset: 3px;
+                color: white;
         }
 
         &.cv-mobile-btn{
@@ -197,27 +188,17 @@ export const Nav = styled.nav`
             padding: 12px 18px;
             backdrop-filter: blur(6px);
             border: 1px solid ${props => getColorSettings(props.theme).primary};
-            background: linear-gradient(145deg, ${props => getColorSettings(props.theme).background}99, ${props => getColorSettings(props.theme).background_secondary}aa);
             color: ${props => getColorSettings(props.theme).primary};
-            transition: background .35s ease, color .25s ease, transform .15s ease, box-shadow .25s ease;
-            transform: none; 
-            will-change: background, color, box-shadow;
+
             &:hover{
                 background: ${props => getColorSettings(props.theme).primary};
                 color: ${props => getColorSettings(props.theme).background};
                 box-shadow: 0 6px 18px -6px ${props => getColorSettings(props.theme).primary}aa;
                 transform: none; 
-            }
-            &:active{
-                box-shadow: inset 0 2px 6px -2px #00000055;
-                transform: none; 
-            }
-            &:focus-visible{
-                outline: 2px solid ${props => getColorSettings(props.theme).primary};
-                outline-offset: 2px; 
+                color: white;
             }
         }
-  }
+    }
 `;
 
 export const BrandContainer = styled.div`

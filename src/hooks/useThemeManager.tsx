@@ -14,7 +14,7 @@ export const useThemeManager = () => {
     const fetchThemeCount = useCallback(async () => {
         try {
             const data = await getThemeRand();
-            if (data?.success) setRandomThemeCount(Number(data.counterValue || 0));
+            if (data?.success) setRandomThemeCount(Number(data['data'].counterValue || 0));
         } catch (err) {
             console.warn('Failed to fetch theme counter', err);
         }

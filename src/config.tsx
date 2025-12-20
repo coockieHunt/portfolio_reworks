@@ -195,34 +195,6 @@ export const HightContrastColorSetting = {
     theme_id: 'HightContrast'
 };
 
-export const LIGHT_SETTING = {
-    light:{
-        background: 'white',
-        background_secondary: '#d7d7db',
-        background_tertiary: '#a4a4a7',
-
-        background_accentuated: '#d1cfcb',
-
-        background_alpha : .1,
-
-        font: 'black',
-    },
-
-    dark:{
-        background: '#121212',
-        background_secondary: '#292929',
-        background_tertiary: '#303134',
-
-        background_accentuated: '#261D07',
-
-        background_alpha : 1,
-
-
-        font: 'white',
-    },
-};
-
-
 export const StackList: iStackItem[] = [
 	{
 		name: 'Uptime Kuma', 
