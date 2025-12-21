@@ -106,5 +106,3 @@ export const rainbowShift = keyframes`
     100% { background-position: 0% 50%; }
 `;
 
-
-

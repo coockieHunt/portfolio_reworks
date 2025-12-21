@@ -41,6 +41,33 @@ const funnyPasswords = {
     "secret": "Ironic, but no"
 };
 
+const showMatrixNotification = (message: string) => {
+    const notification = document.createElement('div');
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#000',
+        color: '#00ff41',
+        padding: '15px 25px',
+        borderRadius: '5px',
+        border: '1px solid #00ff41',
+        fontFamily: 'monospace',
+        fontSize: '13px',
+        zIndex: '10000',
+        boxShadow: '0 0 15px #00ff41',
+        textAlign: 'center'
+    });
+    notification.innerHTML = `<div style="font-weight:bold;margin-bottom:5px">> SYSTEM_OVERRIDE</div><div>${message}</div>`;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        notification.style.transition = "opacity 0.5s";
+        notification.style.opacity = "0";
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
+};
+
 export const ConnectedToSecretSystem = () => {
     if (typeof window === 'undefined') {
         return;
@@ -79,7 +106,7 @@ export const ConnectedToSecretSystem = () => {
 
         if (konamiCursor === konamiCode.length) {
             konamiCursor = 0;
-            alert('Konami Code detected! > Wake up, developer… Check your F12 console.');
+            showMatrixNotification("DECRYPTOR ACTIVATED. Wake up, developer... Check your F12 console.");
             launchEasterEgg();
         }
     };

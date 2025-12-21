@@ -129,7 +129,7 @@ const GlobalStyle = createGlobalStyle`
                 & input, & textarea, & select, & button {
                     border: 2px solid white !important;
                     background-color: black !important;
-                    color: black !important;
+                    color: #fdfbfb !important;
 
                     &::placeholder {
                         color: white !important;

@@ -220,7 +220,7 @@ export const LegalContent = styled.div`
     }
 
     &.open {
-        max-height: 2000px; 
+        max-height: 5000px; 
         opacity: 1;
         padding: 2rem;
         margin-top: 2rem;
@@ -326,20 +326,8 @@ export const LegalContent = styled.div`
 
     &.open {
         opacity: 1;
-        max-height: 4000px; 
         padding: 20px;
         margin: 20px 0 80px 0;
-    }
-
-    &.closed {
-        opacity: 0;
-        max-height: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        padding-left: 0;  
-        padding-right: 0;
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {

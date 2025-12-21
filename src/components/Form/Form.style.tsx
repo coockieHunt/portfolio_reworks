@@ -74,8 +74,8 @@ export const FormInput = styled.input<FormInputProps>`
     &:-webkit-autofill:hover, 
     &:-webkit-autofill:focus, 
     &:-webkit-autofill:active {
+        -webkit-text-fill-color: #ffffff;
         transition: background-color 5000s ease-in-out 0s;
-        box-shadow: inset 0 0 20px 20px ${props => getColorSettings(props.theme).background_tertiary};
     }
 `;
 

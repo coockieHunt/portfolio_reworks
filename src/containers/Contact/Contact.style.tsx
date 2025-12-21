@@ -38,20 +38,6 @@ export const Info = styled.div`
     background: linear-gradient(135deg, rgba(29, 29, 29, 0.4), rgba(29, 29, 29, 0.2));
     backdrop-filter: blur(10px);
 
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #1d1d1d;
-        opacity: 0.2;
-        z-index: -1;
-        inset: 0;
-        border-radius: ${BORDER_RADIUS.xxlarge};
-    }
-    
     & .content {
         display: flex;
         flex-direction: column;
@@ -179,16 +165,15 @@ export const ContactForm = styled.div`
     margin: auto;
     width: 70%;
     padding: 35px;
+
     background: linear-gradient(135deg, 
-        ${props => getColorSettings(props.theme).background_tertiary}dd,
-        ${props => getColorSettings(props.theme).background_tertiary}ee
+        ${props => getColorSettings(props.theme).background_tertiary},
+        ${props => getColorSettings(props.theme).primary}15
     );
-    backdrop-filter: blur(10px);
+
     border: 1px solid ${props => getColorSettings(props.theme).primary};
     border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
     border-radius: ${BORDER_RADIUS.xxlarge};
-    position: relative;
-    overflow: hidden;
         
     --breath-color: ${props => getColorSettings(props.theme).primary};
     --shadow-blur-min: 10px;
@@ -199,6 +184,16 @@ export const ContactForm = styled.div`
     box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
     transition: box-shadow 0.3s ease;
     animation: breathe 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+    & h2 {
+        font-size: 1.8em;
+        color: ${props => getColorSettings(props.theme).primary};
+        font-weight: 600;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+
 
     @keyframes breathe {
         0%, 100% {
@@ -213,15 +208,6 @@ export const ContactForm = styled.div`
         75% {
             box-shadow: 0 6px 20px var(--breath-color);
         }
-    }
-
-    & h2 {
-        font-size: 1.8em;
-        color: ${props => getColorSettings(props.theme).primary};
-        font-weight: 600;
-        margin-bottom: 10px;
-        position: relative;
-        z-index: 1;
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -243,8 +229,6 @@ export const ActionForm = styled.div`
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 1;
 
     & > span {
         color: ${props => getColorSettings(props.theme).font_subtle};
