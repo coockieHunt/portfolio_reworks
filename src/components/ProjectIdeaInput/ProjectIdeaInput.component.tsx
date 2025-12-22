@@ -5,7 +5,7 @@ import * as styled from './ProjectIdeaInput.style';
 import { useState, ChangeEvent, KeyboardEvent, useEffect } from 'react';
 
 //icons
-import { MdSend } from "react-icons/md";
+import { Send } from 'lucide-react';
 
 //types
 interface ProjectIdeaInputProps {
@@ -103,7 +103,7 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
                     tabIndex={0}
                     aria-label="Aller au formulaire de contact avec ce texte"
                 >
-                    <MdSend />
+                    <Send />
                 </styled.SendIcon>
             )}
         </styled.InputWrapper>

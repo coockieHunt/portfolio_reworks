@@ -7,8 +7,7 @@ import { IconButton } from '../../components/Button/IconButton';
 import { LogoComponent } from '../../components/Logo/Logo.components';
 import { LegalNoticeContent } from '../LegalNotice/LegalNotice.container';
 // icon
-import { AiFillGithub, AiFillLinkedin, AiFillCaretDown } from 'react-icons/ai';
-import { FaDeviantart } from 'react-icons/fa';
+import { ChevronDown, Github, Image, Linkedin } from 'lucide-react';
 // url
 import { URL } from '../../data';
 // utils
@@ -116,19 +115,19 @@ return (
 
                 <div className="social-links">
                     <IconButton 
-                        icon={<AiFillGithub />} 
+                        icon={<Github />} 
                         iconSize={'1.5rem'} 
                         to={URL.github}
                         ariaLabel={'GitHub'}
                     />
                     <IconButton 
-                        icon={<AiFillLinkedin />} 
+                        icon={<Linkedin />} 
                         iconSize={'1.5rem'} 
                         to={URL.linkedin}
                         ariaLabel={'LinkedIn'}
                     />
                     <IconButton 
-                        icon={<FaDeviantart />} 
+                        icon={<Image />} 
                         iconSize={'1.5rem'} 
                         to={URL.DeviantArt}
                         ariaLabel={'DeviantArt'}
@@ -150,7 +149,7 @@ return (
                         aria-controls="LegalContent" 
                         id="footer-legal"
                     >
-                        Mentions Légales <AiFillCaretDown className={legalOpen ? 'opened' : ''} />
+                        Mentions Légales <ChevronDown className={legalOpen ? 'opened' : ''} />
                     </button>
                 </div>
             </Footer.BottomBar>

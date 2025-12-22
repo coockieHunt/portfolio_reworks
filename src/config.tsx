@@ -1,19 +1,20 @@
 import { ReactNode } from "react";
 
 //Icon
-import { 
-    SiExpress,
-    SiFramer,
-    SiNodedotjs,
-    SiReact,
-    SiHtml5,
-    SiStyledcomponents,
-    SiUptimekuma,
-    SiRedis,
-    SiUmami
-} from "react-icons/si";
-import { AiOutlineApi, AiOutlineSend  } from "react-icons/ai";
-import { FaJs } from "react-icons/fa";
+import {
+    Activity,
+    Atom,
+    BarChart3,
+    Braces,
+    Brush,
+    Database,
+    FileCode,
+    Move,
+    Route,
+    Send,
+    Server,
+    Terminal
+} from 'lucide-react';
 
 // interface
 export interface iColorSettings {
@@ -198,84 +199,84 @@ export const HightContrastColorSetting = {
 export const StackList: iStackItem[] = [
 	{
 		name: 'Uptime Kuma', 
-		icon: <SiUptimekuma />,
+        icon: <Activity />,
 		color: '#4CAF50',
 		link: 'https://uptime.kuma.pet/', 
 		width: 20
 	},
 	{
 		name: 'JavaScript', 
-		icon: <FaJs />,
+        icon: <Braces />,
 		color: '#F0DB4F',
 		link: 'https://developer.mozilla.org/fr/docs/Web/JavaScript', 
 		width: 20
 	},
 	{
 		name: 'Styled Components', 
-		icon: <SiStyledcomponents />,
+        icon: <Brush />,
 		color: '#d485c2',
 		link: 'https://styled-components.com/', 
 		width: 40
 	},
 	{
 		name: 'HTML5', 
-		icon: <	SiHtml5 />,
+        icon: <FileCode />,
 		color: '#E34F26',
 		link: 'https://developer.mozilla.org/fr/docs/Web/Guide/HTML/HTML5', 
 		width: 20
 	},
 	{
 		name: 'API RESTful', 
-		icon: <AiOutlineApi />,
+        icon: <Server />,
 		color: '#27ad0c',
 		link: 'https://restfulapi.net/', 
 		width:  20
 	},
     { 
 		name: 'React Js', 
-		icon: <SiReact />,
+        icon: <Atom />,
 		color: '#61DAFB',
 		link: 'https://fr.react.dev/', 
 		width:  20
 	},
     { 
 		name: 'Framer Motion', 
-		icon: <SiFramer />,
+        icon: <Move />,
 		color: '#0055FF',
 		link: 'https://www.framer.com/motion/', 
 		width: 20 
 	},
     { 
 		name: 'Node Js', 
-		icon: <SiNodedotjs />,
+        icon: <Terminal />,
 		color: '#339933',
 		link: 'https://nodejs.org/', 
 		width: 20 
 	},
     { 
 		name: 'Express', 
-		icon: <SiExpress />,
+        icon: <Route />,
 		color: '#bdb43e',
 		link: 'https://expressjs.com/fr/', 
 		width: 20 
 	},
     { 
 		name: 'Node Mailer', 
-		icon: <AiOutlineSend  />,
+        icon: <Send />,
 		color: '#0f9dce',
 		link: 'https://nodemailer.com/about/', 
 		width: 20
 	},
     { 
 		name: 'Redis', 
-		icon: <SiRedis />,
+        icon: <Database />,
 		color: '#DC382D',
 		link: 'https://redis.com/', 
 		width: 20 
 	},
     { 
 		name: 'Umami', 
-		icon: <SiUmami  />,
+        icon: <BarChart3 />,
 		color: '#bdbdbd',
 		link: 'https://umami.is/', 
 		width: 20 

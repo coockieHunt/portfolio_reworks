@@ -1,6 +1,6 @@
 // lib
 import React from 'react';
-import { RxCross2 } from 'react-icons/rx';
+import { X } from 'lucide-react';
 
 // styles
 import { Container, AlertContainer } from './Alert.style';
@@ -41,7 +41,7 @@ const AlertItem: React.FC<IAlertItemProps> = ({ alert, primaryColor, onClose }) 
                 title="Fermer"
                 type="button"
             >
-                <RxCross2 aria-hidden="true" focusable={false} />
+                <X aria-hidden="true" focusable={false} />
             </button>
         </AlertContainer>
     );

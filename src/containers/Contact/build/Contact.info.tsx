@@ -1,8 +1,7 @@
 import * as styled from "../Contact.style";
 import { DotGridEffect } from '../../../styles/effect';
 import { Link } from '../../../components/Button/LinkButton';
-import { AiOutlineMail } from 'react-icons/ai';
-import { BiSolidMap, BiLogoLinkedin } from 'react-icons/bi';
+import { Linkedin, Mail, MapPin } from 'lucide-react';
 import { ContactEmail } from '../../../config';
 
 export const ContactInfo = () => {
@@ -16,15 +15,15 @@ export const ContactInfo = () => {
                 </div>
                 <div className="container">
                     <Link className="ItemInfo" href={`mailto:${ContactEmail}`} ariaLabel="Email" >
-                        <AiOutlineMail />
+                        <Mail />
                         <div className="textInfo"><span className='name'>Email</span><span className='info'>{ContactEmail}</span></div>
                     </Link>
                     <Link className="ItemInfo"  href="https://maps.app.goo.gl/jVRCWUaxotidE7cx8" ariaLabel="Map" >
-                        <BiSolidMap />
+                        <MapPin />
                         <div className="textInfo"><span className='name'>Localisation</span><span className='info'>Nîmes (30), France</span></div>
                     </Link>
                     <Link className="ItemInfo" href="https://linkedin.com/in/jonathan-gleyze" ariaLabel="LinkedIn" >
-                        <BiLogoLinkedin />
+                        <Linkedin />
                         <div className="textInfo"><span className='name'>LinkedIn</span><span className='info'>Jonathan Gleyze</span></div>
                     </Link>
                 </div>

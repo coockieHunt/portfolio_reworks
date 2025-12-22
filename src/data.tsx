@@ -1,5 +1,26 @@
-import { AiFillLayout, AiOutlineRise, AiOutlineAim, AiOutlineShopping } from "react-icons/ai";
-import {  FaHandshake , FaComments , FaBoxesStacked , FaLightbulb , FaGem , FaEarthEurope, FaFileCircleCheck, FaDiceD6, FaEye, FaMixer, FaPaintbrush, FaArrowsTurnToDots , FaLaptopCode, FaDiceD20, FaBarsProgress, FaGithub, FaLinkedinIn, FaDeviantart, FaRegUser } from "react-icons/fa6";
+import {
+    CodeXml,
+    Boxes,
+    Eye,
+    FileCheck,
+    Gem,
+    Github,
+    Globe,
+    Handshake,
+    Image,
+    LayoutTemplate,
+    Lightbulb,
+    Linkedin,
+    LifeBuoy,
+    MessagesSquare,
+    Paintbrush,
+    ShoppingCart,
+    SlidersHorizontal,
+    Target,
+    TrendingUp,
+    Server,
+    User
+} from 'lucide-react';
 export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com'
 
 export const URL = {
@@ -124,35 +145,35 @@ export const productList = [
     { 
         id: 1, 
         title: "Sites WordPress", 
-        icon: <AiFillLayout/>, 
+        icon: <LayoutTemplate/>, 
         subTitle: 'Gestion de contenu, Corporate & Blog',
         description: "L'essentiel pour être visible. Je conçois des sites modernes sous WordPress qui présentent votre activité avec élégance. L'atout majeur ? Vous êtes 100% autonome pour modifier vos textes et images grâce à une interface d'administration simplifiée.",
     },
     { 
         id: 2, 
         title: "Site Vitrine Sur-mesure", 
-        icon: <FaPaintbrush/>, 
+        icon: <Paintbrush/>, 
         subTitle: 'Design unique, Animations & Responsive',
         description: "Votre identité numérique mérite mieux qu'un modèle standard. Je développe des sites uniques qui respectent votre charte graphique au pixel près. La performance, la fluidité des animations et le respect des standards web sont au cœur de mon processus.",
     },
     { 
         id: 3, 
         title: "E-commerce", 
-        icon: <AiOutlineShopping/>,
+        icon: <ShoppingCart/>,
         subTitle: 'Shopify, WooCommerce',
         description: "Transformez vos visiteurs en clients. Que ce soit sur Shopify ou WordPress (WooCommerce), je crée des boutiques en ligne performantes, sécurisées et optimisées pour la vente, avec une gestion de catalogue fluide.",
     },
     { 
         id: 4, 
         title: "Application Métier", 
-        icon: <AiOutlineRise/>,
+        icon: <TrendingUp/>,
         subTitle: 'Solutions sur-mesure, SaaS, Tableaux de bord',
         description: "Quand un site standard ne suffit plus. Je développe des outils web spécifiques (React/Next.js) connectés à votre activité pour automatiser vos tâches, gérer vos données internes ou offrir un service innovant à vos utilisateurs.",
     },
     { 
         id: 5, 
         title: "Consulting", 
-        icon: <AiOutlineAim/>,
+        icon: <Target/>,
         subTitle: 'Audit Web & Stratégie',
         description: "Un regard d'expert sur l'existant. Je réalise un audit approfondi de votre site web pour évaluer sa performance technique, sa sécurité et son expérience utilisateur, suivi de recommandations concrètes et applicables.",
     },
@@ -189,42 +210,42 @@ export const serviceModals = [
 ];
 export const benefitItems = [
     {
-        icon: <FaEarthEurope/>,
+        icon: <Globe/>,
         title: "GESTION DE PROJETS WEB",
         description: "Sites vitrines, corporate, événementiels, e-commerce."
     },
     {
-        icon: <FaDiceD6 />,
+        icon: <CodeXml />,
         title: "INTÉGRATION WEB",
         description: "Intégrations HTML/CSS respectueuses des standards du Web."
     },
     {
-        icon: <FaFileCircleCheck />,
+        icon: <FileCheck />,
         title: "DÉVELOPPEMENTS SPÉCIFIQUES",
         description: "Outils adaptés à votre cœur de métier, applications et solutions personnalisées."
     },
     {
-        icon: <FaEye />,
+        icon: <Eye />,
         title: "DYNAMISME DES PAGES",
         description: "Animations de contenu non intrusives pour embellir votre projet."
     },
     {
-        icon: <FaMixer />,
+        icon: <SlidersHorizontal />,
         title: "RESPONSIVE DESIGN",
         description: "Compatible tous supports : tablettes et applications mobiles."
     },
     {
-        icon: <FaPaintbrush />,
+        icon: <Paintbrush />,
         title: "CONCEPTION GRAPHIQUE & WEBDESIGN",
         description: "Plaquettes publicitaires, cartes de visite, newsletters..."
     },
     {
-        icon: <FaBoxesStacked />,
+        icon: <Server />,
         title: "INSTALLATION DU SERVEUR WEB",
         description: "Installation et configuration de votre serveur web pour une performance optimale."
     },
     {
-        icon: <FaArrowsTurnToDots  />,
+        icon: <LifeBuoy  />,
         title: "SUPPORT TECHNIQUE",
         description: "Support technique continu pour assurer le bon fonctionnement du site."
     }
@@ -260,25 +281,25 @@ export const catchText = {
 
 export const skillCards = [
     {
-        Icon: FaHandshake,
+        Icon: Handshake,
         title: "Partenaire Impliqué",
         description: "Plus qu'un simple exécutant, je m'immerge dans votre vision. Je considère votre projet comme le mien, avec un engagement total vers votre réussite.",
         color: "#3B82F6" 
     },
     {
-        Icon: FaComments,
+        Icon: MessagesSquare,
         title: "Pédagogie & Clarté",
         description: "La technique ne doit pas être une boîte noire. Je traduis la complexité en langage clair pour que vous restiez toujours maître des décisions stratégiques.",
         color: "#10B981"
     },
     {
-        Icon: FaLightbulb,
+        Icon: Lightbulb,
         title: "Résolution Créative",
         description: "Là où d'autres voient des problèmes, je vois des solutions. Ma curiosité me pousse à contourner les obstacles techniques par l'innovation.",
         color: "#8B5CF6" 
     },
     {
-        Icon: FaGem,
+        Icon: Gem,
         title: "Souci du Détail",
         description: "L'excellence se niche dans les finitions. Du code propre à l'alignement au pixel près, je cultive une exigence d'artisan pour un rendu final impeccable.",
         color: "#EA7600"
@@ -287,19 +308,19 @@ export const skillCards = [
 
 export const socialLinks = [
     {
-        icon: <FaGithub />,
+        icon: <Github />,
         color: "#6e5494",
         url: URL.github,
         text: "Github"
     },
     {
-        icon: <FaLinkedinIn />,
+        icon: <Linkedin />,
         color: "#0e76a8",
         url: URL.linkedin,
         text: "Linkedin"
     },
     {
-        icon: <FaDeviantart />,
+        icon: <Image />,
         color: "#05cc46",
         url: URL.DeviantArt,
         text: "Deviantart"

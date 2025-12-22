@@ -1,6 +1,5 @@
 import React from 'react';
-import { FaGithub, FaLink } from 'react-icons/fa6';
-import { VscAdd, VscCheck } from 'react-icons/vsc';
+import { Check, Github, Link as LinkIcon, Plus } from 'lucide-react';
 
 import { trackEvent } from '../../../components/umami/umami.components';
 
@@ -33,7 +32,7 @@ const BuildPreviewBuild = ({ project }) => {
                     <div className="cta">
                         {project.gitUrl !== null && project.gitUrl !== undefined && (
                             <Button 
-                                icon={<FaGithub />}
+                                icon={<Github />}
                                 color={
                                     HexToRgbaConverter(getColorSettings(settings.theme).primary, 0.1) || getColorSettings(settings.theme).primary
                                 }
@@ -47,7 +46,7 @@ const BuildPreviewBuild = ({ project }) => {
                         )}
                         {project.webUrl !== null && project.webUrl !== undefined && (
                             <Button 
-                                icon={<FaLink />}
+                                icon={<LinkIcon />}
                                 color={
                                     HexToRgbaConverter(getColorSettings(settings.theme).primary, 0.6) || getColorSettings(settings.theme).primary
                                 }
@@ -62,9 +61,9 @@ const BuildPreviewBuild = ({ project }) => {
                     </div>
                     <div className="fenceFotter">
                         {project.favorite ? (
-                            <span className="font_code"> <VscAdd /> Favori</span>
+                            <span className="font_code"> <Plus /> Favori</span>
                         ) : (
-                            <span className="font_code"> <VscCheck /> UTF 8</span>
+                            <span className="font_code"> <Check /> UTF 8</span>
                         )}
                     </div>
                 </div>

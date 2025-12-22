@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { FaArrowDown, FaArrowRight } from "react-icons/fa";
+import { ArrowDown, ArrowRight } from 'lucide-react';
 import * as styled from "./Terminal.style";
 import { trackEvent } from "../umami/umami.components";
 
@@ -54,7 +54,7 @@ const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({ product, isOpen, o
                 </div>
 
                 <div className="action" aria-hidden="true">
-                    <styled.Separator><FaArrowDown /></styled.Separator>
+                    <styled.Separator><ArrowDown /></styled.Separator>
                 </div>
             </div>
 
@@ -66,7 +66,7 @@ const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({ product, isOpen, o
                     aria-labelledby={`terminal-header-${product.id}`}
                 >
                     <div className="card">
-                        <span aria-hidden="true"><FaArrowRight /></span>
+                        <span aria-hidden="true"><ArrowRight /></span>
                         <p>{product.description}</p>
                     </div>
                 </div>

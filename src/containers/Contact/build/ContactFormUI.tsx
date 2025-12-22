@@ -2,7 +2,7 @@ import React from 'react';
 import * as styled from "../Contact.style";
 import * as FormComponent from "../../../components/Form/Form.component";
 import { Button } from "../../../components/Button/Button";
-import { AiOutlineSend } from 'react-icons/ai';
+import { Send } from 'lucide-react';
 import { IMailForm, ICaptchaRef } from '../../../hooks/useContactForm'
 
 interface IContactFormUIProps {
@@ -94,7 +94,7 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
                 <span className='resetForm' onClick={handleReset}>Réinitialiser</span>
                 <Button
                     onClick={handleSubmit}
-                    icon={<AiOutlineSend />}
+                    icon={<Send />}
                     disabled={IsCoolDown}
                 >
                     {IsCoolDown ? `attendre ${CoolDownTime}s` : 'Envoyer'}

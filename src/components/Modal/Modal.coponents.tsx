@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence } from 'framer-motion';
 import { ModalDiv, Top, Content } from "./Modal.style";
-import { AiOutlineClose  } from 'react-icons/ai';
+import { X } from 'lucide-react';
 import { BackDrop } from '../../styles/effect';
 
 export interface IModal {
@@ -73,7 +73,7 @@ const ModalItem = ({ modal, index, onClose }: IModalItemProps): React.ReactEleme
                         title="Fermer"
                         style={{background:'transparent', border:'none', padding:0, cursor:'pointer'}}
                     >
-                        <AiOutlineClose aria-hidden="true" focusable={false} />
+                        <X aria-hidden="true" focusable={false} />
                     </button>
                 </Top>
                 <Content $light={modal.light || 'dark'} role="document">

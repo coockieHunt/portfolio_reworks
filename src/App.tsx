@@ -41,10 +41,7 @@ import { LoadingProvider } from './context/loading.context';
 import { ConnectedToSecretSystem } from './utils/rb';
 
 //Icon
-import {
-    BiSolidQuoteLeft,
-    BiSolidQuoteRight
-} from 'react-icons/bi';
+import { Quote } from 'lucide-react';
 
 //font
 import "@fontsource/montserrat";
@@ -129,7 +126,7 @@ function App() {
                 <ProcessTimeLine id='ProcessTimeline' />
                 
                 <QuoteContainer>
-                    <BiSolidQuoteLeft /> 
+                    <Quote aria-hidden="true" focusable={false} /> 
                         Vous êtes 
                         <span  className="fond_code"> développeur </span> ? Découvrez les coulisses du projet ! <br /> Code source disponible :&nbsp;
                         <LinkTextComponent 
@@ -145,7 +142,7 @@ function App() {
                         >
                         API
                         </LinkTextComponent> 
-                    <BiSolidQuoteRight />
+                    <Quote aria-hidden="true" focusable={false} style={{ transform: 'scaleX(-1)' }} />
                 </QuoteContainer>
 
                 <StackContainer />

@@ -1,7 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import { scroller, Link } from "react-scroll";
-import { AiOutlineBuild, AiOutlineArrowRight, AiOutlineBgColors, AiOutlineUnlock, AiOutlineSend } from "react-icons/ai";
-import { CiCircleCheck } from 'react-icons/ci';
+import { ArrowRight, CircleCheck, Palette, Send, Unlock, Wrench } from 'lucide-react';
 
 // Styles & Hooks
 import { Fence, FenceContainer, ScrollIndicator, CatchModal, ListModal, IconList } from "./Service.style";
@@ -23,17 +22,17 @@ const SERVICES_CONFIG = [
     {
         index: 0,
         title: 'Développement\nWeb',
-        icon: <AiOutlineBuild />,
+        icon: <Wrench />,
     },
     {
         index: 1,
         title: 'Consultant\nWeb',
-        icon: <AiOutlineUnlock />,
+        icon: <Unlock />,
     },
     {
         index: 2,
         title: 'Conception\nGraphique',
-        icon: <AiOutlineBgColors />,
+        icon: <Palette />,
     },
 ];
 
@@ -63,7 +62,7 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ icon, title, onClick }) => {
             <p className='catch' style={{ whiteSpace: 'pre-line' }}>
                 {title}
             </p>
-            <span>Voir plus <AiOutlineArrowRight /></span>
+            <span>Voir plus <ArrowRight /></span>
         </Fence>
     );
 };
@@ -100,7 +99,7 @@ export const ServiceContainer = ({ id }) => {
                 <ListModal>
                     {modalData.items.map((item: string, idx: number) => (
                         <li key={idx}>
-                            <IconList><CiCircleCheck /></IconList> {item}
+                            <IconList><CircleCheck /></IconList> {item}
                         </li>
                     ))}
                 </ListModal>
@@ -149,11 +148,11 @@ export const ServiceContainer = ({ id }) => {
                         style={{ opacity: 1 }} 
                         aria-hidden={true}
                     >
-                        <AiOutlineSend />
+                        <Send />
                         <p className='catch' style={{ whiteSpace: 'pre-line' }}>
                             Me <br />Contacter
                         </p>
-                        <span> Contacter<AiOutlineArrowRight /></span>
+                        <span> Contacter<ArrowRight /></span>
                     </Fence>
                 </Link>
             </FenceContainer>

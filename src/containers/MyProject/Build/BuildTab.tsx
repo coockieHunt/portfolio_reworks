@@ -1,14 +1,13 @@
 import React from 'react';
-import { FaXmark } from 'react-icons/fa6';
-import { VscBookmark, VscRootFolderOpened } from 'react-icons/vsc';
+import { Bookmark, FolderOpen, X } from 'lucide-react';
 
 import { IBuildTabBuildProps } from '../interface/MyProject.interface';
 
 const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({ project, currentTab, setCurrentTab }) => {
-    let Tab = [{ name: 'preview', label: project.fileName, icon: <VscBookmark /> }];
+    let Tab = [{ name: 'preview', label: project.fileName, icon: <Bookmark /> }];
 
     if (project.galery && project.galery.length > 0) {
-        Tab.push({ name: 'galerie', label: 'Galerie', icon: <VscRootFolderOpened /> });
+        Tab.push({ name: 'galerie', label: 'Galerie', icon: <FolderOpen /> });
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>, itemName: string, index: number) => {
@@ -47,7 +46,7 @@ const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({ project, currentTab, set
                     >
                         {item.icon} {item.label}
                         {currentTab === item.name && (
-                            <span className="icon icon-active"><FaXmark /></span>
+                            <span className="icon icon-active"><X /></span>
                         )}
                     </li>
                 ))}

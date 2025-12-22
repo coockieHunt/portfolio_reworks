@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaXmark, FaPalette, FaEye, FaEyeSlash  } from "react-icons/fa6";
+import { Eye, EyeOff, Palette, X } from 'lucide-react';
 
 // Styles & Config
 import * as Styled from "./Setting.style";
@@ -82,7 +82,7 @@ export const SettingContainer: React.FC = () => {
                 type="button"
             >
                 <span>{isOpen ? "Fermer" : "Apparence"}</span>
-                <FaPalette />
+                <Palette />
             </Styled.Toggle>
 
             <BackDrop $isOpen={isOpen} onClick={() => setIsOpen(false)} />
@@ -91,7 +91,7 @@ export const SettingContainer: React.FC = () => {
                 <div className="header">
                     <h3 className="font_code">Apparence</h3>
                     <Styled.CloseButton onClick={() => setIsOpen(false)} aria-label="Fermer">
-                        <FaXmark />
+                        <X />
                     </Styled.CloseButton>
                 </div>
                 <Styled.Content>
@@ -128,7 +128,7 @@ export const SettingContainer: React.FC = () => {
                                         onClick={handleContrastClick}
                                         type="button"
                                     >
-                                        {isHighContrast ? <><FaEyeSlash/> <span>Désactiver le contraste</span></> : <><FaEye /> <span>Activer Contraste Élevé</span></>}
+                                        {isHighContrast ? <><EyeOff/> <span>Désactiver le contraste</span></> : <><Eye /> <span>Activer Contraste Élevé</span></>}
                                     </SimpleButton>
                                 </Wrapper>
                             </div>
