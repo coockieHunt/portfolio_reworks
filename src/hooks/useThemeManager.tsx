@@ -1,5 +1,4 @@
-// src/hooks/useThemeManager.ts
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSettingContext } from "../context/Setting.context";
 import { useLoading } from "../context/loading.context";
 import { COLOR_SETTING } from '../config';
@@ -10,6 +9,19 @@ export const useThemeManager = () => {
     const { changeTheme, changeHighContrast } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
+
+    // Apply theme from URL parameter on initial load end cleanup
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const themeParam = params.get('theme');
+
+        if (themeParam && COLOR_SETTING[themeParam as keyof typeof COLOR_SETTING]) {
+            changeTheme(themeParam as keyof typeof COLOR_SETTING);
+            const newRelativePathQuery = window.location.pathname;
+            window.history.replaceState({}, '', newRelativePathQuery);
+        }
+    }, [changeTheme]);
+
 
     const fetchThemeCount = useCallback(async () => {
         try {

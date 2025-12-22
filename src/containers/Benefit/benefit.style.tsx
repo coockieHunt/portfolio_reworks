@@ -20,6 +20,11 @@ export const Container = styled.div`
     padding: 20px 30px;
     height: auto;
     @media (max-width: 1200px) {padding: 0 20px;}
+
+
+    & svg{
+        stroke-width: 2.5px;
+    }
 `;
 
 export const Text = styled.span`

@@ -30,7 +30,6 @@ export const TerminalContainer = styled.div`
     
     @media ( max-width: ${SCREEN_SIZE.mobile}) {max-width: 90%;}
 
-    
     &::before {
         content: '';
         position: absolute;

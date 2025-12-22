@@ -41,7 +41,6 @@ const GlobalStyle = createGlobalStyle`
         scrollbar-width: thin;
         scrollbar-color: ${props => COLOR_SETTING[props.theme.theme]?.primary || '#6A5ACD'} #121212;
         width: 100%;
-        scroll-behavior: smooth;
     }
 
     body {
@@ -59,6 +58,7 @@ const GlobalStyle = createGlobalStyle`
         min-height: 100vh;
         width: 100%;
     }
+
 
     a {
         text-decoration: none;
@@ -88,6 +88,11 @@ const GlobalStyle = createGlobalStyle`
         cursor: pointer;
     }
 
+    svg {
+        stroke-width: 1.5px; 
+        transition: stroke-width 0.2s ease-in-out;
+    }
+
     ${props => {
         const hcConfig = GetHightContrastSetting(props.theme.theme);
 
@@ -100,6 +105,10 @@ const GlobalStyle = createGlobalStyle`
                     box-shadow: none !important;
                     text-shadow: none !important;
 
+                }
+
+                & svg {
+                    stroke-width: 2.5px !important;
                 }
 
                 & h1, & h2, & h3 {

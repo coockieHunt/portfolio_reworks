@@ -7,6 +7,7 @@ import { LazyMotion, domAnimation } from "framer-motion";
 import GlobalStyle, { Content } from './styles/global.style';
 import { URL } from './data'
 import { ReactNode } from 'react';
+import { ReactLenis } from 'lenis/react'
 
 //context
 import { useSettingContext } from './context/Setting.context'
@@ -88,19 +89,25 @@ const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
 
 const AppProviders = ({ children }) => {
     return (
-        <LazyMotion features={domAnimation}>
-            <SettingProvider>
-                <ThemeWrapper>
-                    <LoadingProvider>
-                        <AlertProvider>
-                            <Content>
-                                {children}
-                            </Content>
-                        </AlertProvider>
-                    </LoadingProvider>
-                </ThemeWrapper>
-            </SettingProvider>
-        </LazyMotion>
+        <ReactLenis root options={{ 
+            duration: .8,      
+            lerp: 0.1,         
+            smoothWheel: true   
+        }}>
+            <LazyMotion features={domAnimation}>
+                <SettingProvider>
+                    <ThemeWrapper>
+                        <LoadingProvider>
+                            <AlertProvider>
+                                <Content>
+                                    {children}
+                                </Content>
+                            </AlertProvider>
+                        </LoadingProvider>
+                    </ThemeWrapper>
+                </SettingProvider>
+            </LazyMotion>
+        </ReactLenis>
     );
 };
 
