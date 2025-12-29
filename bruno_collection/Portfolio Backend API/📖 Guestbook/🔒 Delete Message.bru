@@ -13,16 +13,8 @@ delete {
 body:json {
   {
     "password": "{{easterEgg_password}}",
-    "id": "1766795356598_t7y5zbwlr"
+    "id": "1766964102201_0w2mfs6s7"
   }
-}
-
-docs {
-  # Delete Message
-  Deletes a message from the guestbook by its ID.
-  
-  **Access:** Restricted 🔒
-  **Route:** `DELETE /api/guestbook/delete`
 }
 
 body:text {
@@ -32,4 +24,12 @@ body:text {
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Delete Message
+  Deletes a message from the guestbook by its ID.
+  
+  **Access:** Restricted 🔒
+  **Route:** `DELETE /api/guestbook/delete`
 }

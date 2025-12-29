@@ -24,6 +24,8 @@ const normalizeIP = (ip: string): string => {
     return ip;
 };
 
+const normalizedAllowedIPs = allowedIPs.map((ip: string) => normalizeIP(ip));
+
 /**
  ** Middleware to allow access only from whitelisted IP addresses
  *  @param req Express Request object
@@ -33,8 +35,6 @@ const normalizeIP = (ip: string): string => {
 export const allowOnlyFromIPs = (req: Request, res: Response, next: NextFunction): void => {
     const clientIP: string = req.ip || 'unknown';
     const normalizedClientIP = normalizeIP(clientIP);
-    
-    const normalizedAllowedIPs = allowedIPs.map((ip: string) => normalizeIP(ip));
 
     if (normalizedAllowedIPs.includes(normalizedClientIP)) {
         logConsole('MIDDLEWARE', 'whiteList', 'OK', `Access granted`, { ip: clientIP , normalize: normalizedClientIP });

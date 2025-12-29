@@ -16,13 +16,6 @@ body:json {
   }
 }
 
-docs {
-  # Login
-  Authenticates a user and returns a JWT token.
-  
-  **Route:** `POST /api/auth/login`
-}
-
 script:post-response {
   if (res.getStatus() === 200) {
     const body = res.getBody();
@@ -38,4 +31,11 @@ script:post-response {
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Login
+  Authenticates a user and returns a JWT token.
+  
+  **Route:** `POST /api/auth/login`
 }

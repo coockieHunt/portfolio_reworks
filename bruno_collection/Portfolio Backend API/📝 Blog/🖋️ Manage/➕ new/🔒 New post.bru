@@ -13,11 +13,16 @@ post {
 body:json {
   {
     "title": "{{$randomWords}}",
-    "slug": "{{slugBlog_demoName}}qsdqsd",
+    "slug": "{{slugBlog_demoName}}",
     "content": "content of new post",
     "summary": "sammary",
     "authorId": 1
   }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
 }
 
 docs {
@@ -26,9 +31,4 @@ docs {
   
   **Access:** Restricted 🔒
   **Route:** `POST /api/blog/new`
-}
-
-settings {
-  encodeUrl: true
-  timeout: 0
 }

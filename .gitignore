@@ -130,3 +130,7 @@ dist
 .pnp.*
 
 default.json filter.clean-json.clean "sed '/\"pass\":/d; /\"host\":/d; /\"secure\":/d; /\"user\":/d; /\"port\":/d; /\"maxLine\":/d; /\"directory\":/d; /\"name\":/d; /\"host\":/d;'"
+
+# Bruno
+**/environments/prod.bru
+

@@ -29,6 +29,8 @@ const API_ROOT = cfg.ApiRoot ;
 const app = express();
 const PORT = cfg.port || 3000;
 
+app.set('trust proxy', 1); //FIX PROXY NGNIX
+
 // Initialisation Redis
 const redisClient = createClient({
     password: cfg.redis.password,
