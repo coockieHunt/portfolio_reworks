@@ -1,0 +1,36 @@
+meta {
+  name: Send Email
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/mail/sendEmail
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "John Doe",
+    "email": "test@test.com",
+    "subject": "Hello",
+    "message": "Inquiry"
+  }
+}
+
+body:text {
+  {"name": "John Doe", "email": "test@test.com", "subject": "Hello", "message": "Inquiry"}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Send Email
+  Sends an email to a recipient.
+  
+  **Route:** `POST /api/mail/sendEmail`
+}

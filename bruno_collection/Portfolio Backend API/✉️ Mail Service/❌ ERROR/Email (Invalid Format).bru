@@ -1,0 +1,36 @@
+meta {
+  name: Email (Invalid Format)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/mail/sendEmail
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "test",
+    "email": "not-an-email",
+    "subject": "test",
+    "message": "test"
+  }
+}
+
+docs {
+  # Email (Invalid Format)
+  Tests the error response when sending an email with an invalid format.
+  
+  **Route:** `POST /api/mail/sendEmail`
+}
+
+body:text {
+  {"name": "test", "email": "not-an-email", "subject": "test", "message": "test"}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

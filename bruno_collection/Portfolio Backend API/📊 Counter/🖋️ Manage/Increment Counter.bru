@@ -1,0 +1,23 @@
+meta {
+  name: Increment Counter
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/counter/increment/THEME_RAND
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Increment Counter
+  Increments the value of a counter by its key.
+  
+  **Route:** `POST /api/counter/increment/:value`
+}

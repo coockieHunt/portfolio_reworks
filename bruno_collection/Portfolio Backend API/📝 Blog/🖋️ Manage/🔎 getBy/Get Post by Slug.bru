@@ -1,0 +1,23 @@
+meta {
+  name: Get Post by Slug
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/blog/la-recette-ultime-des-cookies-new-yorkais
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Post by Slug
+  Retrieves a single blog post by its slug.
+  
+  **Route:** `GET /api/blog/:slug`
+}

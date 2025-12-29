@@ -1,0 +1,23 @@
+meta {
+  name: Get Counter
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/counter/get/THEME_RAND
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Counter
+  Retrieves the current value of a counter by its key.
+  
+  **Route:** `GET /api/counter/get/:value`
+}

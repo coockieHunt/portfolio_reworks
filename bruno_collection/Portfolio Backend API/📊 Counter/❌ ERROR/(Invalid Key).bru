@@ -1,0 +1,23 @@
+meta {
+  name: (Invalid Key)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/counter/get/failkey
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Invalid Key
+  Tests the error response when requesting a counter with an invalid key.
+  
+  **Route:** `GET /api/counter/get/:value`
+}

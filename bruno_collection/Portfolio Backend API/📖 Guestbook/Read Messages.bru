@@ -1,0 +1,35 @@
+meta {
+  name: Read Messages
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/guestbook/read
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "page": 1,
+    "limit": 100
+  }
+}
+
+docs {
+  # Read Messages
+  Retrieves all messages from the guestbook.
+  
+  **Route:** `POST /api/guestbook/read`
+}
+
+body:text {
+  {"password": "{{admin_password}}"}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,30 @@
+meta {
+  name: 🔒 publish post
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{base_url}}/blog/edit/publish/{{slugBlog_demoName}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "publish": 0
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Publish Post
+  Updates the publish status of a blog post.
+  
+  **Access:** Restricted 🔒
+  **Route:** `PUT /api/blog/edit/publish/:slug`
+}

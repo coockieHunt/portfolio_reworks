@@ -1,70 +1,89 @@
 {
-	"port": 3001,
-	"ApiRoot": "/api",
-	
-	"mail": {
-		"host": "",
-		"port": 0,
-		"secure": false,
-		"user": "",
-		"pass": ""
-	},
-	"allowedIPs": [
-		"::1"
-	],
 	"log": {
 		"maxLine": 5000,
-		"directory": "logs",
 		"names": {
-			"mail": "mail_log.txt",
-			"secret": "secret_system_log",
-			"guestbook": "guestbook_log",
-			"redis": "redis_log",
-			"counter": "counter_log",
-			"status": "status_log",
-			"rateLimiter": "rate_limiter_log"
+			"mail": "mail.log",
+			"secret": "secret.log",
+			"guestbook": "guestbook.log",
+			"redis": "redis.log",
+			"counter": "counter.log",
+			"status": "status.log",
+			"rateLimiter": "rate_limiter.log",
+			"blog": "blog.log",
+			"whitelist": "whitelist.log",
+			"validation_error": "validation_error.log",
+			"health": "health.log",
+			"cloudinary": "cloudinary.log"
 		}
 	},
-	"redis": {
-		"host": "localhost",
-		"port": 6379,
-		"password": ""
-	},
+
 	"secretSystem": {
 		"password": "AZERTY123"
 	},
+
 	"rateLimiter": {
 		"enabled": true,
-		"windowSeconds": 60,
-		"maxRequests": 10,
+
+		"default": {
+			"windowSeconds": 60,
+			"maxRequests": 20,
+			"adminBypass": false
+		},
+
 		"routes": {
 			"mail.sendEmail": {
 				"windowSeconds": 60,
-				"maxRequests": 3,
+				"maxRequests": 5,
+				"adminBypass": false,
 				"match": {
 					"url": "/api/mail/sendEmail",
 					"method": "POST"
 				}
 			},
+
+
 			"counter.get": {
 				"windowSeconds": 60,
 				"maxRequests": 40,
+				"adminBypass": true,
 				"match": {
-					"url": "/api/counter/get",
+					"url": "/api/counter/get/:value",
 					"method": "GET"
 				}
 			},
-			"counter.increment": {
+			"counter.incr": {
 				"windowSeconds": 60,
 				"maxRequests": 40,
+				"adminBypass": true,
 				"match": {
-					"url": "/api/counter/increment",
+					"url": "/api/counter/increment/:value",
 					"method": "POST"
 				}
 			},
+			"counter.decr": {
+				"windowSeconds": 60,
+				"maxRequests": 40,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/counter/decrement/:value",
+					"method": "POST"
+				}
+			},
+			"counter.reset": {
+				"windowSeconds": 60,
+				"maxRequests": 7,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/counter/reset/:value",
+					"method": "POST"
+				}
+			},
+
+
 			"guestbook.read": {
 				"windowSeconds": 60,
 				"maxRequests": 7,
+				"adminBypass": true,
 				"match": {
 					"url": "/api/guestbook/read",
 					"method": "POST"
@@ -73,16 +92,116 @@
 			"guestbook.write": {
 				"windowSeconds": 60,
 				"maxRequests": 6,
+				"adminBypass": false,
 				"match": {
 					"url": "/api/guestbook/write",
 					"method": "POST"
 				}
 			},
-			"health.read": {
+			"guestbook.delete": {
+				"windowSeconds": 60,
+				"maxRequests": 10,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/guestbook/delete",
+					"method": "DELETE"
+				}
+			},
+
+
+			"auth.login": {
+				"windowSeconds": 60,
+				"maxRequests": 5,
+				"adminBypass": false,
+				"match": {
+					"url": "/api/auth/login",
+					"method": "POST"
+				}
+			},
+			"auth.logout": {
+				"windowSeconds": 60,
+				"maxRequests": 10,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/auth/logout",
+					"method": "POST"
+				}
+			},
+
+
+			"cloudinary.upload": {
+				"windowSeconds": 60,
+				"maxRequests": 10,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/cloudinary/upload",
+					"method": "POST"
+				}
+			},
+			"cloudinary.delete": {
 				"windowSeconds": 60,
 				"maxRequests": 20,
+				"adminBypass": true,
 				"match": {
-					"url": "/api/",
+					"url": "/api/cloudinary/delete",
+					"method": "DELETE"
+				}
+			},
+			"cloudinary.list": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/cloudinary/list",
+					"method": "GET"
+				}
+			},
+
+
+			"blog.readALL": {
+				"windowSeconds": 60,
+				"maxRequests": 150,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/",
+					"method": "GET"
+				}
+			},
+			"blog.readSlug": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/:slug",
+					"method": "GET"
+				}
+			},
+			"blog.create": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/",
+					"method": "POST"
+				}
+			},
+			"blog.delete": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/:slug",
+					"method": "DELETE"
+				}
+			},
+
+
+			"health.read": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/health",
 					"method": "GET"
 				}
 			}

@@ -1,0 +1,23 @@
+meta {
+  name: 🔒 List Images
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/cloudinary/list?folder=blog
+  body: none
+  auth: inherit
+}
+
+params:query {
+  folder: blog
+}
+
+docs {
+  # List Images
+  Lists images from a specific folder in Cloudinary.
+  
+  **Access:** Restricted 🔒
+  **Route:** `GET /api/cloudinary/list`
+}

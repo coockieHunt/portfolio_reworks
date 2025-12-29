@@ -1,0 +1,24 @@
+meta {
+  name: 🔒 Clear Post Cache ALL
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}/blog/cache/clear
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Clear All Cache
+  Clears the cache for all blog posts.
+  
+  **Access:** Restricted 🔒
+  **Route:** `DELETE /api/blog/cache/clear/`
+}

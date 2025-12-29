@@ -2,21 +2,18 @@
 import { Request, Response, NextFunction } from 'express';
 
 // config
-import config from 'config';
-
-//color
-import chalk from 'chalk';
+import config from '../config/default';
 
 // log
-import { writeToLog } from './log.middlewar';
+import { logConsole, writeToLog } from './log.middlewar';
 
-const allowedIPs = config.get<string[]>('allowedIPs');
+const allowedIPs = config.allowedIPs;
 
 /**
- * Normalizes IP address by removing IPv6 prefix for IPv4-mapped addresses
- * @param ip - The IP address to normalize
- * @returns - Normalized IP address
- */
+** Helper to normalize IP addresses for comparison
+*  @param ip - The IP address to normalize
+*  @returns The normalized IP address
+*/
 const normalizeIP = (ip: string): string => {
     if (ip.startsWith('::ffff:')) {
         return ip.substring(7);
@@ -28,10 +25,10 @@ const normalizeIP = (ip: string): string => {
 };
 
 /**
- * Middleware for allowing requests only from specified IP addresses.
- * @param req - Express Request object
- * @param res - Express Response object
- * @param next - Express NextFunction   
+ ** Middleware to allow access only from whitelisted IP addresses
+ *  @param req Express Request object
+ *  @param res Express Response object
+ *  @param next Express NextFunction
  */
 export const allowOnlyFromIPs = (req: Request, res: Response, next: NextFunction): void => {
     const clientIP: string = req.ip || 'unknown';
@@ -40,10 +37,11 @@ export const allowOnlyFromIPs = (req: Request, res: Response, next: NextFunction
     const normalizedAllowedIPs = allowedIPs.map((ip: string) => normalizeIP(ip));
 
     if (normalizedAllowedIPs.includes(normalizedClientIP)) {
+        logConsole('MIDDLEWARE', 'whiteList', 'OK', `Access granted`, { ip: clientIP , normalize: normalizedClientIP });
         writeToLog(`Whitelist allow ip=${clientIP} (normalized: ${normalizedClientIP})`, 'whitelist');
         next();
     } else {
-        console.log(`Access denied from this IP address: ${chalk.red(clientIP)} (normalized: ${normalizedClientIP})`);
+        logConsole('MIDDLEWARE', 'whiteList', 'FAIL', `Access denied`, { ip: clientIP, normalize: normalizedClientIP });
         writeToLog(`Whitelist deny ip=${clientIP} (normalized: ${normalizedClientIP})`, 'whitelist');
         
         res.status(403).json({ 

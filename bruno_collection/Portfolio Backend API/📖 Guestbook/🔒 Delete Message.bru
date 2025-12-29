@@ -1,0 +1,35 @@
+meta {
+  name: 🔒 Delete Message
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{base_url}}/guestbook/delete/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "id": "1766795356598_t7y5zbwlr"
+  }
+}
+
+docs {
+  # Delete Message
+  Deletes a message from the guestbook by its ID.
+  
+  **Access:** Restricted 🔒
+  **Route:** `DELETE /api/guestbook/delete`
+}
+
+body:text {
+  {"password": "{{admin_password}}", "name": "Tester", "message": "Great job!"}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,11 +1,8 @@
-// lib
+//mailer
 import nodemailer, { Transporter, SendMailOptions } from 'nodemailer';
 
-// color
-import chalk from 'chalk';
-
 // middlewares
-import { writeToLog } from '../middlewares/log.middlewar'; 
+import { logConsole, writeToLog } from '../middlewares/log.middlewar'; 
 
 // system
 import dotenv from 'dotenv';
@@ -31,8 +28,8 @@ const transporter: Transporter = nodemailer.createTransport({
 });
 
 /**
- * checks the SMTP connection by verifying the transporter.
- * @returns null if successful, throws an error if verification fails.
+ ** checks the SMTP connection by verifying the transporter.
+ *  @returns null if successful, throws an error if verification fails.
  */
 export const verifySmtpConnection = async () => {
     try {
@@ -44,11 +41,11 @@ export const verifySmtpConnection = async () => {
 };
 
 /**
- * Sends an email using the configured SMTP transporter.
- * @param to - Recipient email address.
- * @param subject - Subject of the email.
- * @param content - HTML content of the email.
- * @returns An object indicating success or failure, with an optional message.
+ ** Sends an email using the configured SMTP transporter.
+ *  @param to Recipient email address.
+ *  @param subject Subject of the email.
+ *  @param content HTML content of the email.
+ *  @returns An object indicating success or failure, with an optional message.
  */
 const sendmail = async (to: string, subject: string, content: string): Promise<SendMailResponse> => {
     try {
@@ -65,7 +62,7 @@ const sendmail = async (to: string, subject: string, content: string): Promise<S
         return { success: true };
     } catch (error: any) {
         const errorMsg = error.message || String(error);
-        console.error(chalk.red('❌ Sendmail Error:'), errorMsg);
+        logConsole('POST', '/sendmail/', 'FAIL', 'Error sending email', { error: errorMsg });
         writeToLog(`Sendmail Error: ${errorMsg}`, 'mail');
         return { success: false, message: errorMsg };
     }

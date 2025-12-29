@@ -1,19 +1,20 @@
-// color
-import chalk from 'chalk';
-
-// lib
+//redis
 import { RedisClientType } from 'redis';
 
 // middlewares
-import { writeToLog } from '../middlewares/log.middlewar';
+import { logConsole, writeToLog } from '../middlewares/log.middlewar';
+
+//helpers
+import { validateKey } from '../utils/redis.helper';
 
 export let RedisClient: RedisClientType | null = null;
 
+
 /**
- * Connects and initializes the Redis client if not already connected.
- * Sets up error handling and logs connection status.
- * @param client - The Redis client instance to connect.
- * @returns True if the client was connected (isReady), false otherwise
+ ** Connects and initializes the Redis client if not already connected.
+ ** Sets up error handling and logs connection status.
+ *  @param client The Redis client instance to connect.
+ *  @returns True if the client was connected (isReady), false otherwise
  */
 export async function connectRedis(client: RedisClientType): Promise<void> {
     if (RedisClient && RedisClient.isReady) return; 
@@ -34,11 +35,13 @@ export async function connectRedis(client: RedisClientType): Promise<void> {
 }
 
 /**
- * Retrieves the counter value from Redis, initializing it to 0 if it does not exist.
- * @param counterName - The Redis key name.
- * @returns The counter value and its initial existence status.
+ ** Retrieves the counter value from Redis, initializing it to 0 if it does not exist.
+ *  @param counterName The Redis key name.
+ *  @returns The counter value and its initial existence status.
  */
 export async function getCounter(counterName: string): Promise<{ value: number; exist: boolean }> {
+    validateKey(counterName);
+
     if (!RedisClient || !RedisClient.isReady) {
         writeToLog(`Error: Redis not ready for getCounter(${counterName})`, 'redis');
         throw new Error("Redis client is not connected."); 
@@ -50,8 +53,6 @@ export async function getCounter(counterName: string): Promise<{ value: number; 
         let exist: boolean;
 
         if (value === null) {
-            // Initialisation si la clé n'existe pas
-            await RedisClient.set(counterName, '0');
             numericValue = 0;
             exist = false;
         } else {
@@ -64,18 +65,20 @@ export async function getCounter(counterName: string): Promise<{ value: number; 
 
     } catch (error: any) {
         const errorMsg = error.stack || error.message || String(error);
-        console.error(chalk.red(`⚠️ Redis GET Error (${counterName}): ${error.message}`));
+        logConsole('GET', '/counter/', 'FAIL', `Error getting counter ${counterName}`, { error: errorMsg });
         writeToLog(`Error GET counter ${counterName}: ${errorMsg}`, 'redis');
         throw error; 
     }
 }
 
 /**
- * Sets the counter value in Redis.
- * @param counterName - The Redis key name.
- * @param value - The value to set.
+ ** Sets the counter value in Redis.
+ *  @param counterName The Redis key name.
+ *  @param value The value to set.
  */
 export async function setCounter(counterName: string, value: number | string): Promise<void> {
+    validateKey(counterName);
+
     if (!RedisClient || !RedisClient.isReady) throw new Error("Redis client is not connected."); 
     
     try {
@@ -83,18 +86,20 @@ export async function setCounter(counterName: string, value: number | string): P
         writeToLog(`SET counter ${counterName} = ${value}`, 'redis');
     } catch (error: any) {
         const errorMsg = error.stack || error.message || String(error);
-        console.error(chalk.red(`⚠️ Redis SET Error (${counterName}): ${error.message}`));
+        logConsole('POST', '/counter/', 'FAIL', `Error setting counter ${counterName}`, { error: errorMsg });
         writeToLog(`Error SET counter ${counterName}: ${errorMsg}`, 'redis');
         throw error;
     }
 }
 
 /**
- * Increments the counter value in Redis atomically.
- * @param counterName - The Redis key name.
- * @returns The new value of the counter.
+ ** Increments the counter value in Redis atomically.
+ *  @param counterName The Redis key name.
+ *  @returns The new value of the counter.
  */
 export async function incrementCounter(counterName: string): Promise<number> {
+    validateKey(counterName);
+
     if (!RedisClient || !RedisClient.isReady) throw new Error("Redis client is not connected."); 
     
     try {
@@ -103,8 +108,9 @@ export async function incrementCounter(counterName: string): Promise<number> {
         return newVal;
     } catch (error: any) {
         const errorMsg = error.stack || error.message || String(error);
-        console.error(chalk.red(`⚠️ Redis INCR Error (${counterName}): ${error.message}`));
+        logConsole('POST', '/counter/increment/', 'FAIL', `Error incrementing counter ${counterName}`, { error: errorMsg });
         writeToLog(`Error INCR counter ${counterName}: ${errorMsg}`, 'redis');
         throw error;
     }
 }
+

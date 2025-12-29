@@ -1,0 +1,30 @@
+meta {
+  name: Get Posts
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/blog/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "page": 1,
+    "limit": 100
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Posts
+  Retrieves a list of blog posts with pagination.
+  
+  **Route:** `POST /api/blog/`
+}

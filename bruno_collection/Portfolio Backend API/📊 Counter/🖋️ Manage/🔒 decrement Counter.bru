@@ -1,0 +1,24 @@
+meta {
+  name: 🔒 decrement Counter
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/counter/decrement/THEME_RAND
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Decrement Counter
+  Decrements the value of a counter by its key.
+  
+  **Access:** Restricted 🔒
+  **Route:** `POST /api/counter/decrement/:value`
+}

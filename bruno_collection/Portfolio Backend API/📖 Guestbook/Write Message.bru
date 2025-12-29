@@ -1,0 +1,35 @@
+meta {
+  name: Write Message
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/guestbook/write
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "name": "Tester",
+    "message": "Great job!"
+  }
+}
+
+docs {
+  # Write Message
+  Adds a new message to the guestbook.
+  
+  **Route:** `POST /api/guestbook/write`
+}
+
+body:text {
+  {"password": "{{admin_password}}", "name": "Tester", "message": "Great job!"}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

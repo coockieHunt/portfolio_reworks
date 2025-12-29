@@ -1,4 +1,3 @@
-// parse end normalize url on config
 export const normalizeUrl = (url: string | undefined): string => {
     if (!url) return '';
     let clean = url.split('?')[0];

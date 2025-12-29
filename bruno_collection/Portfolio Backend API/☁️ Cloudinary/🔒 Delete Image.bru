@@ -1,0 +1,32 @@
+meta {
+  name: 🔒 Delete Image
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{base_url}}/cloudinary/delete
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "public_id": "sample_public_id"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+   # Delete Image
+      Deletes an image from Cloudinary using its public ID.
+  
+      **Access:** Restricted 🔒
+      **Route:** `DELETE /api/cloudinary/delete`
+  
+}

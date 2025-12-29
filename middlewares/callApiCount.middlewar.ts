@@ -1,17 +1,17 @@
 // request
 import { Request, Response, NextFunction } from 'express';
 
-//color
-import chalk from 'chalk';
-
 //redis
 import { incrementCounter } from '../services/Redis.service';
-import REDIS_KEYS from '../constants/redis.constant';
+import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant';
+
+//middleware
+import { logConsole } from './log.middlewar';
 
 /**
- * Middleware to increment the global API call counter.
- * Increments the Redis counter for each API request.
- * Logs errors but does not block the request if Redis fails.
+ * * Middleware to increment the global API call counter.
+ * * Increments the Redis counter for each API request.
+ * * Logs errors but does not block the request if Redis fails.
  * @param req Express Request object
  * @param res Express Response object
  * @param next Express NextFunction
@@ -22,12 +22,12 @@ export const trackApiCall = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        await incrementCounter(REDIS_KEYS.GLOBAL_STATUS);
+        await incrementCounter(AUTHORIZED_REDIS_KEYS.GLOBAL_STATUS);
     } catch (error: unknown) {
         if (error instanceof Error) {
-            console.error(chalk.red('Failed to increment API call counter:'), error.message);
+            logConsole('MIDDLEWARE', 'trackApiCall', 'FAIL', 'Failed to increment API call counter', { error: error.message });
         } else {
-            console.error(chalk.red('Failed to increment API call counter:'), error);
+            logConsole('MIDDLEWARE', 'trackApiCall', 'FAIL', 'Failed to increment API call counter', { error: String(error) });
         }
     }
     next();

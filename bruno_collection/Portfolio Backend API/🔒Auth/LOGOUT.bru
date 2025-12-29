@@ -1,0 +1,23 @@
+meta {
+  name: LOGOUT
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/auth/logout
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Logout
+  Logs out the current user and invalidates the token.
+  
+  **Route:** `POST /api/auth/logout`
+}

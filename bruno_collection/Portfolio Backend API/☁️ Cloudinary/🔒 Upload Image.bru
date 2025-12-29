@@ -1,0 +1,22 @@
+meta {
+  name: 🔒 Upload Image
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/cloudinary/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  image: @file(e:\Users\jonas\Pictures\fond ecran\pexels-veeterzy-39811.jpg)
+}
+
+docs {
+  # Upload Image
+  Uploads an image to Cloudinary.
+  
+  **Route:** `POST /api/cloudinary/upload`
+}

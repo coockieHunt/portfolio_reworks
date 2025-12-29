@@ -1,0 +1,34 @@
+meta {
+  name: 🔒 edit post
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{base_url}}/blog/edit/update/{{slugBlog_demoName}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "new post",
+    "slug": "{{slugBlog_demoName}}",
+    "content": "content of new post new edited",
+    "summary": "sammary",
+    "authorId": 1
+  }
+}
+
+docs {
+  # Edit Post
+  Updates an existing blog post.
+  
+  **Access:** Restricted 🔒
+  **Route:** `PUT /api/blog/edit/update/:slug`
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
