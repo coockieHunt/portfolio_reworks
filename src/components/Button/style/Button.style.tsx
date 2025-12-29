@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config';
-import { HexToRgbaConverter } from '../../../utils/HexToRgbaConverter';
+import { BORDER_RADIUS } from '../../../config';
+
 
 interface ButtonContainerProps {
     $colorLine?: string;
@@ -13,7 +13,7 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     justify-content: center;
     padding: 15px 20px;
     
-    background-color: ${props => props.$colorLine ? props.$colorLine : getColorSettings(props.theme).primary};
+    background-color: ${props => props.$colorLine ? props.$colorLine : 'var(--primary)'};
     border: none;
     border-radius: ${BORDER_RADIUS.small};
     text-transform: uppercase;
@@ -24,7 +24,7 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     cursor: pointer;
     transition: all 0.6s ease;
 
-    color: ${props => getColorSettings(props.theme).font_on_primary};
+    color: var(--font-on-primary);
 
     gap: 15px;
 
@@ -48,6 +48,6 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
         cursor: not-allowed;
         opacity: 0.6;
         pointer-events: none;
-        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.9)};
+        background-color: color-mix(in srgb, var(--background-secondary), transparent 10%);
     }
 `;

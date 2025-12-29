@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings } from '../../config';
 
 const scrollLeftToRight = keyframes`
     0% { transform: translateX(-50%);}
@@ -46,7 +45,7 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
             display: block; 
         }
         
-        &:hover svg {transform: scale(1.2); color: ${props => getColorSettings(props.theme).primary};}
+        &:hover svg {transform: scale(1.2); color: var(--primary);}
     }
     
     h3 {

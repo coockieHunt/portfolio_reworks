@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings } from '../../../config.js';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -36,10 +35,10 @@ export const NeonRing = styled.div`
   height: 80px;
   border-radius: 50%;
   border: 4px solid transparent;
-  border-top-color: ${props => getColorSettings(props.theme).primary || '#eae9f0'}; 
-  border-right-color: ${props => getColorSettings(props.theme).secondary || '#cccdce'}; 
+  border-top-color: var(--primary); 
+  border-right-color: var(--secondary); 
   
-  box-shadow: 0 0 15px ${props => getColorSettings(props.theme).primary || '#cccdce'}40; 
+  box-shadow: 0 0 15px color-mix(in srgb, var(--primary), transparent 75%); 
   
   animation: ${spin} 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; 
 `;
@@ -47,7 +46,7 @@ export const NeonRing = styled.div`
 export const LoadingText = styled.p`
   margin-top: 20px;
   font-size: 1rem;
-  color: ${props => getColorSettings(props.theme).font_subtle || '#cccccc'};
+  color: var(--font-subtle);
   letter-spacing: 2px;
   text-transform: uppercase;
   animation: ${textBlink} 2s ease-in-out infinite;

@@ -12,8 +12,6 @@ import { TitleTextComponent } from '../../components/Text/Text.component'
 import { benefitItems } from '../../data';
 
 //Hooks
-import { useSettingContext } from '../../context/Setting.context';
-import { getColorSettings } from '../../config';
 
 //shared types
 import { ICustomCSSProperties } from '../../types/shared'
@@ -64,11 +62,7 @@ export const BenefitContainer = ({ id }: IBenefitContainerProps): JSX.Element =>
 
     const marginValues: number[] = [0, 20, 20, 0];
     
-    const { settings } = useSettingContext();
-    const colorSettings = getColorSettings(settings.theme);
-
     const cssVars = {
-        '--primary': colorSettings.primary,
         '--font': 'white',
     } as ICustomCSSProperties;
 

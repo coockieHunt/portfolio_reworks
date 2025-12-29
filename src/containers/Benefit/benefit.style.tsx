@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { getColorSettings, SCREEN_SIZE } from '../../config.js';
+import { SCREEN_SIZE } from '../../config.js';
 
 
 
@@ -119,7 +119,7 @@ export const Info = styled.div`
             font-size: 1.6em;
             height: auto;
             width: 35px;
-            border: 2px solid var(--primary, ${props => getColorSettings(props.theme).primary});
+            border: 2px solid var(--primary);
             padding: 8px;
             border-radius: 8px;
             position: relative;
@@ -131,7 +131,7 @@ export const Info = styled.div`
         line-height: 2em;
         text-transform: uppercase;
         font-variation-settings: "wght" 500;
-        color: var(--primary, ${props => getColorSettings(props.theme).primary});
+        color: var(--primary);
         position: relative;
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {font-size: 1em;}
@@ -189,7 +189,7 @@ export const Img = styled.div`
         
         background: radial-gradient(
             circle,
-            var(--primary, ${props => getColorSettings(props.theme).primary}) 10%, 
+            var(--primary) 10%, 
             transparent 60% 
         );
 
@@ -204,7 +204,7 @@ export const Img = styled.div`
         padding: 10px;
         width: 60%;
         height: auto;
-        color: var(--primary, ${props => getColorSettings(props.theme).primary});
+        color: var(--primary);
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}

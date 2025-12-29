@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, getColorSettings } from '../../config';
+import { SCREEN_SIZE } from '../../config';
 import { BorderPulseLight, ShowOutContainerRight } from '../../styles/utils.style';
 
 export const Container = styled.div`
@@ -59,7 +59,7 @@ export const Container = styled.div`
                 font-size: 1.3em;
                 line-height: 1.6;
                 max-width: 550px; 
-                color: ${props => getColorSettings(props.theme).font_subtle};
+                color: var(--font-subtle);
                 margin-bottom: 40px;
             }
 
@@ -177,11 +177,11 @@ export const Action = styled.div`
     }
 
     &.highlight {
-        background-color: ${props => getColorSettings(props.theme).primary};
-        border: 1px solid ${props => getColorSettings(props.theme).primary};
-        box-shadow: 0 0 15px ${props => getColorSettings(props.theme).primary}40;
-        color: ${props => getColorSettings(props.theme).font_on_primary};
-        &:hover {background-color: ${props => getColorSettings(props.theme).primary}; }
+        background-color: var(--primary);
+        border: 1px solid var(--primary);
+        box-shadow: 0 0 15px color-mix(in srgb, var(--primary) 25%, transparent);
+        color: var(--font-on-primary);
+        &:hover {background-color: var(--primary); }
     }
 
     & h2 {

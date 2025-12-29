@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { IAlertContainerProps, IContainerProps } from './Alert.interfaces';
 
 import { fadeIn } from '../../styles/utils.style'
-import { getColorSettings } from '../../config';
 
 export const Container = styled.div<IContainerProps>`
     position: absolute;

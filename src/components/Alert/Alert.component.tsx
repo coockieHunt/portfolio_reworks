@@ -6,11 +6,7 @@ import { X } from 'lucide-react';
 import { Container, AlertContainer } from './Alert.style';
 
 // config
-import { COLOR_SETTING } from '../../config';
-
-// context
 import { useAlert } from '../../context/alert.context';
-import { useSettingContext } from '../../context/Setting.context';
 
 // Types
 import { IAlertItemProps, IContainerProps } from './Alert.interfaces';
@@ -49,9 +45,8 @@ const AlertItem: React.FC<IAlertItemProps> = ({ alert, primaryColor, onClose }) 
 
 export const AlertContainerComponent: React.FC<IContainerProps> = ({ $direction = 'column-reverse' }) => {
     const { alerts, removeAlert } = useAlert();
-    const { settings } = useSettingContext();
 
-    const themePrimaryColor = COLOR_SETTING[settings.theme]?.primary || '#000';
+    const themePrimaryColor = 'var(--primary)';
 
     return (
         <Container $direction={$direction}>

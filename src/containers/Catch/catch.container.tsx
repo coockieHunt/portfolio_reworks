@@ -10,8 +10,6 @@ import { AccentTextComponent } from '../../components/Text/Text.component';
 import { WaveComponent } from '../../components/Wave/wave.component';
 
 // config & data
-import { useSettingContext } from '../../context/Setting.context';
-import { getColorSettings } from '../../config';
 import { skillCards, catchText } from '../../data';
 
 // types
@@ -49,9 +47,6 @@ const SkillCard = ({ Icon, title, description, color }: ISkillCardData) => {
 
 
 export const CatchContainer = ({ id }: ICatchContainerProps) => {
-    const { settings } = useSettingContext() as any;
-    const colorSettings = getColorSettings(settings);
-
     const cards = skillCards as ISkillCardData[];
     return (
         <StyleCatch.Section id={id}>
@@ -81,7 +76,7 @@ export const CatchContainer = ({ id }: ICatchContainerProps) => {
             </StyleCatch.Text>
             
             <StyleCatch.WaveBackground>
-                <WaveComponent colorPrimary={colorSettings.primary}/>
+                <WaveComponent colorPrimary="var(--primary)"/>
             </StyleCatch.WaveBackground>
         </StyleCatch.Section>
     );

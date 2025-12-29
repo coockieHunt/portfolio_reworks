@@ -166,6 +166,7 @@ export const COLOR_SETTING = {
         font: '#ebf3ff',
         font_subtle: '#ebf3ffc0',
         font_on_primary: '#ffffff',
+        font_hint: '#bbbbcc',
         
         primary: "#60A5FA", 
         secondary: "#1D4ED8",
@@ -183,6 +184,7 @@ export const COLOR_SETTING = {
         font: '#ffffff',
         font_subtle: '#fdf6f6d0',
         font_on_primary: '#000000',
+        font_hint: '#bbbbcc',
         
         primary: "#ffee00", 
         secondary: "#2600ff",
@@ -300,11 +302,7 @@ export const BORDER_RADIUS = {
     full: '100%'  
 }
 
-export const getColorSettings = (theme: any): iColorSettings => {
-    if(!theme) return COLOR_SETTING.default;
-    const themeName = theme.theme || theme;
-    return COLOR_SETTING[themeName as string] || COLOR_SETTING.default;
-};
+
 
 export const GetHightContrastSetting = (theme: any) => {
     return HightContrastColorSetting;

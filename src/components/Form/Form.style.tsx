@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BORDER_RADIUS, getColorSettings } from '../../config.js';
+import { BORDER_RADIUS } from '../../config.js';
 
 export interface FormLabelProps {
     light?: boolean;
@@ -33,7 +33,7 @@ export const FormLabel = styled.label<FormLabelProps>`
     transition: color 0.3s ease;
 
     &:first-letter { text-transform: uppercase; }
-    & span { color: ${props => getColorSettings(props.theme).primary}; }
+    & span { color: var(--primary); }
 `;
 
 export const FormInput = styled.input<FormInputProps>`
@@ -48,7 +48,7 @@ export const FormInput = styled.input<FormInputProps>`
 
 
     &::placeholder {
-        color: ${props => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
         transition: opacity 0.3s ease;
     }
 
@@ -58,11 +58,11 @@ export const FormInput = styled.input<FormInputProps>`
     }
 
     &:focus {
-        border-color: ${props => getColorSettings(props.theme).primary};
+        border-color: var(--primary);
         background-color: rgba(255, 255, 255, 0.05);
         box-shadow: 
-            0 0 0 3px ${props => getColorSettings(props.theme).primary}15,
-            0 4px 12px ${props => getColorSettings(props.theme).primary}20;
+            0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent),
+            0 4px 12px color-mix(in srgb, var(--primary) 12%, transparent);
         transform: translateY(-1px);
 
         &::placeholder {
@@ -92,7 +92,7 @@ export const FormTextArea = styled.textarea`
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &::placeholder {
-        color: ${props => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
         transition: opacity 0.3s ease;
     }
 
@@ -102,11 +102,11 @@ export const FormTextArea = styled.textarea`
     }
 
     &:focus {
-        border-color: ${props => getColorSettings(props.theme).primary};
+        border-color: var(--primary);
         background-color: rgba(255, 255, 255, 0.05);
         box-shadow: 
-            0 0 0 3px ${props => getColorSettings(props.theme).primary}15,
-            0 4px 12px ${props => getColorSettings(props.theme).primary}20;
+            0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent),
+            0 4px 12px color-mix(in srgb, var(--primary) 12%, transparent);
         transform: translateY(-1px);
 
         &::placeholder {
@@ -122,7 +122,7 @@ export const FormTextArea = styled.textarea`
 export const FormSubmit = styled.input<FormSubmitProps>`
     padding: 15px;
     margin-top: 15px;
-    background-color: ${props => getColorSettings(props.theme).background_tertiary};
+    background-color: var(--background-tertiary);
     border: none;
     text-transform: uppercase;
     border-radius: ${BORDER_RADIUS.small};
@@ -167,7 +167,7 @@ export const CaptchaLabel = styled.label`
     font-weight: 500;
 
     & span {
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
     }
 `;
 
@@ -194,12 +194,12 @@ export const CaptchaForm = styled.div<CaptchaFormProps>`
 
     &:focus-within {
         border-color: ${props => {
-            if (!props.$hasValue) return getColorSettings(props.theme).primary;
+            if (!props.$hasValue) return 'var(--primary)';
             return props.$isValid ? '#4caf50' : '#f44336';
         }};
         background: rgba(255, 255, 255, 0.05);
         box-shadow: 0 0 0 3px ${props => {
-            if (!props.$hasValue) return `${getColorSettings(props.theme).primary}15`;
+            if (!props.$hasValue) return `color-mix(in srgb, var(--primary) 8%, transparent)`;
             return props.$isValid ? '#4caf5015' : '#f4433615';
         }};
     }
@@ -217,7 +217,7 @@ export const CaptchaInput = styled.input<CaptchaInputProps>`
     transition: all 0.3s ease;
 
     &:focus {
-        border-color: ${props => getColorSettings(props.theme).primary};
+        border-color: var(--primary);
         background: rgba(255, 255, 255, 0.08);
     }
 

@@ -4,33 +4,39 @@ import { useLoading } from "../context/loading.context";
 import { COLOR_SETTING } from '../config';
 import { getThemeRand, incrementThemeRand } from '../api/counter.api';
 import { generatePapucheTheme } from '../utils/colorGenerator';
+import { useAlert } from '../context/alert.context';
+
 
 export const useThemeManager = () => {
     const { changeTheme, changeHighContrast } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
 
-    // Apply theme from URL parameter on initial load end cleanup
+    const { addAlert } = useAlert();
+
+    // Apply settings from URL parameters on initial load and cleanup
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const themeParam = params.get('theme');
+        const hcParam = params.get('hc'); 
 
-        if (themeParam && COLOR_SETTING[themeParam as keyof typeof COLOR_SETTING]) {
+        let hasChanged = false;
+
+        if (hcParam === '1' || hcParam === 'true') {
+            changeHighContrast(true);
+            changeTheme("HighContrast" as keyof typeof COLOR_SETTING);
+            hasChanged = true;
+        } else if (themeParam && COLOR_SETTING[themeParam as keyof typeof COLOR_SETTING]) {
             changeTheme(themeParam as keyof typeof COLOR_SETTING);
+            hasChanged = true;
+        }
+
+        if (hasChanged) {
             const newRelativePathQuery = window.location.pathname;
             window.history.replaceState({}, '', newRelativePathQuery);
         }
-    }, [changeTheme]);
+    }, [changeTheme, changeHighContrast]);
 
-
-    const fetchThemeCount = useCallback(async () => {
-        try {
-            const data = await getThemeRand();
-            if (data?.success) setRandomThemeCount(Number(data['data'].counterValue || 0));
-        } catch (err) {
-            console.warn('Failed to fetch theme counter', err);
-        }
-    }, []);
 
     const applyTheme = (newTheme: string, displayName: string, durationAdded: number = 0) => {
         const TOTAL_DURATION = 2000 + durationAdded;
@@ -48,28 +54,43 @@ export const useThemeManager = () => {
             </>
         );
     
-        setTimeout(() => changeTheme(newTheme as keyof typeof COLOR_SETTING), 0); //fix trpescript
+        setTimeout(() => changeTheme(newTheme as keyof typeof COLOR_SETTING), 0);
         
         setTimeout(() => hideLoading(), TOTAL_DURATION);
     };
+
+
+    const fetchThemeCount = useCallback(async () => {
+        const response = await getThemeRand();
+    
+        if (response?.success && response.data) {setRandomThemeCount(Number(response.data.counterValue || 0));}
+    }, []);
 
     const activateRandomTheme = async () => {
         Object.keys(COLOR_SETTING).forEach(key => {
             if (key.startsWith('random_')) delete COLOR_SETTING[key];
         });
-
+    
         const newKey = `random_${Date.now().toString(36)}`;
         const newTheme = generatePapucheTheme(newKey);
-        
         COLOR_SETTING[newKey] = newTheme;
-
+    
         applyTheme(newKey, "🦄 PAPUCHE !!!", 500);
-
-        try {
-            const data = await incrementThemeRand();
-            if (data?.success) setRandomThemeCount(Number(data.newValue || data.counterValue || 0));
-        } catch (err) {
-            console.warn('Increment failed', err);
+    
+        const response = await incrementThemeRand();
+    
+        if (!response) {
+            console.warn('API injoignable ou erreur inconnue');
+            return;
+        }
+    
+        if (response.error) {
+            console.warn('Increment failed:', response.message);
+            return;
+        }
+    
+        if (response.success && response.data) {
+            setRandomThemeCount(Number(response.data.counterValue));
         }
     };
 

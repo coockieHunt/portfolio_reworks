@@ -52,7 +52,7 @@ export const Mouse = styled.div<IMouseProps>`
         top: ${type_size.mouse.positonX};
         left: ${type_size.mouse.positonY};
         transform: translate(-50%, 0);
-        border: 2px solid ${props => props.$colorSettings.primary};
+        border: 2px solid var(--primary);
         border-radius: 100%;
         animation: ${scrollWheelAnimation} 1.4s infinite alternate ease-in-out;
 
@@ -73,8 +73,8 @@ export const Mouse = styled.div<IMouseProps>`
         top: 15%;
         left: calc(100% + 4px);
         transform: translate(-50%, 0);
-        border: 1px solid ${props => props.$colorSettings.primary};
-        background-color: ${props => props.$colorSettings.primary};
+        border: 1px solid var(--primary);
+        background-color: var(--primary);
         height: 15px;
         width: 1px;
         border-radius: 0 4px 4px 0;

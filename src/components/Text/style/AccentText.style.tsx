@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config.js';
+
 
 export const Text = styled.span`
-    color: ${props => getColorSettings(props.theme).primary};
+    color: var(--primary);
     font-variation-settings: "wght" 800;
 `;

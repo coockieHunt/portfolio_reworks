@@ -12,8 +12,6 @@ import { TitleTextComponent } from '../../components/Text/Text.component';
 import { DotGridEffect } from '../../styles/effect';
 
 // Config & Context
-import { getColorSettings } from '../../config';
-import { useSettingContext } from '../../context/Setting.context';
 import { TimeLine } from '../../data';
 
 // type
@@ -99,7 +97,6 @@ export const BackgroundSVG: React.FC<IBackgroundSVGProps> = ({
 export const ProcessTimeLine = ({ id }) => {
     const [isVisible, setIsVisible] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    const { settings } = useSettingContext();
     
     const TRIGGER_THRESHOLD = 0.3;
 
@@ -125,7 +122,7 @@ export const ProcessTimeLine = ({ id }) => {
     return (
         <Container>
             <BackgroundSVG
-                strokeColor={getColorSettings(settings.theme).primary}
+                strokeColor="var(--primary)"
                 opacity={0.30}
             />
             

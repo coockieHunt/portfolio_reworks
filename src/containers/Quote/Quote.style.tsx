@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../config';
 
 export const Quoute = styled.h2`
     text-align: center;
@@ -10,7 +9,7 @@ export const Quoute = styled.h2`
 
     & svg {
         margin: 0 10px;
-        color: ${props => getColorSettings(props.theme).accentuate};
+        color: var(--accentuate);
         width: 30px;
         height: 30px;
     } 

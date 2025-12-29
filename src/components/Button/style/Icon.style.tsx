@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config.js';
+import { BORDER_RADIUS } from '../../../config.js';
 
 interface IconContainerProps {
     $color?: string;
@@ -9,7 +9,7 @@ interface IconContainerProps {
 
 export const  IconContainer = styled.a<IconContainerProps>`
     position: relative;
-    color: ${props => props.$color ? props.$color : getColorSettings(props.theme).primary};
+    color: ${props => props.$color ? props.$color : 'var(--primary)'};
     background-color: transparent;
     font-size: 1em;
     padding: 5px;

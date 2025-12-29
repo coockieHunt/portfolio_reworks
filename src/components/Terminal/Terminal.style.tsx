@@ -1,7 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../config';
-
-import { HexToRgbaConverter } from "../../utils/HexToRgbaConverter";
+import { SCREEN_SIZE, BORDER_RADIUS } from '../../config';
 
 const blink = keyframes`
     0%, 100% { opacity: 1; }
@@ -15,18 +13,18 @@ export const TerminalContainer = styled.div`
     will-change: backdrop-filter;
     isolation: isolate;
 
-    border: 1px solid ${props => getColorSettings(props.theme).primary};
+    border: 1px solid var(--primary);
     border-radius: ${BORDER_RADIUS.large};
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     font-family: 'Consolas', 'Monaco', monospace;
-    color: ${props => getColorSettings(props.theme).primary};
+    color: var(--primary);
     width: 100%;
     max-width: 70%;
     margin: 20px auto;
     overflow: hidden;
     font-size: 14px;
 
-    border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
+    border-bottom: 4px solid var(--primary);
     
     @media ( max-width: ${SCREEN_SIZE.mobile}) {max-width: 90%;}
 
@@ -39,7 +37,7 @@ export const TerminalContainer = styled.div`
         height: 160px;   
         width: 160px;      
 
-        background-color: ${props => getColorSettings(props.theme).accentuate};
+        background-color: var(--accentuate);
         opacity: 0.15;    
         z-index: -1;
 
@@ -63,8 +61,8 @@ export const TerminalHeader = styled.div`
     display: flex;
     align-items: center;
     padding: 8px 15px;
-    background-color: ${props => getColorSettings(props.theme).primary};
-    border-bottom: 1px solid ${props => getColorSettings(props.theme).primary};
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--primary);
 `;
 
 export const TerminalLine = styled.div`
@@ -79,11 +77,11 @@ export const TerminalLine = styled.div`
         padding: 10px 20px;
         border-left: transparent 4px solid;
 
-        border-bottom: 1px solid ${props => getColorSettings(props.theme).background_secondary};
+        border-bottom: 1px solid var(--background-secondary);
         &:last-child {border-bottom: none;}
 
         &:hover {
-            border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
+            border-left: 4px solid var(--accentuate);
             & .left{
                 scale: 1.05;
             }
@@ -105,7 +103,7 @@ export const TerminalLine = styled.div`
                 margin-top: 5px;
                 width: 45px;
                 height: 45px;
-                border: 1px solid ${props => getColorSettings(props.theme).primary};
+                border: 1px solid var(--primary);
                 border-radius: 8px;
                 padding: 10px;
 
@@ -123,10 +121,10 @@ export const TerminalLine = styled.div`
 
             font-size: 1rem;
 
-            & .title{color: ${props => getColorSettings(props.theme).primary};}
+            & .title{color: var(--primary);}
 
             & .subtitle{
-                color: ${props => getColorSettings(props.theme).font_subtle};
+                color: var(--font-subtle);
                 font-size: 13px;
             }
         }
@@ -150,14 +148,14 @@ export const TerminalLine = styled.div`
         position: relative; 
         overflow: hidden; 
 
-        box-shadow: inset 0px 5px 10px -7px ${props => `rgba(${parseInt(getColorSettings(props.theme).primary.slice(1, 3), 16)}, ${parseInt(getColorSettings(props.theme).primary.slice(3, 5), 16)}, ${parseInt(getColorSettings(props.theme).primary.slice(5, 7), 16)}, 0.2)`};
+        box-shadow: inset 0px 5px 10px -7px color-mix(in srgb, var(--primary) 20%, transparent);
 
         &::after{
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            border-left: 4px solid ${props => getColorSettings(props.theme).primary};
+            border-left: 4px solid var(--primary);
             height: 100%;
         }
 
@@ -165,7 +163,7 @@ export const TerminalLine = styled.div`
             border: 1px solid #f0f0f032;
             width: 60%;
             padding: 15px;
-            background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_tertiary, 0.5)}; 
+            background-color: color-mix(in srgb, var(--background-tertiary) 50%, transparent); 
             display: flex;
             flex-direction: row;
             align-items: stretch;
@@ -177,7 +175,7 @@ export const TerminalLine = styled.div`
                 display: flex; 
                 align-items: flex-start; 
                 width: 60px;
-                color: ${props => getColorSettings(props.theme).primary};
+                color: var(--primary);
                 font-size: 1em;
                 margin-top: 5px;
             }
@@ -198,8 +196,8 @@ export const TerminalLine = styled.div`
             margin-left: 20%;
             pointer-events: none;
 
-            border-left: 2px dashed  ${props => getColorSettings(props.theme).accentuate};
-            border-bottom: 2px dashed  ${props => getColorSettings(props.theme).accentuate};
+            border-left: 2px dashed  var(--accentuate);
+            border-bottom: 2px dashed  var(--accentuate);
 
             opacity: 0.4;
         }
@@ -207,12 +205,12 @@ export const TerminalLine = styled.div`
 
     &.selected {
         & .header{ 
-            border-left: 4px solid ${props => getColorSettings(props.theme).accentuate};
+            border-left: 4px solid var(--accentuate);
 
             & .left{
                 & svg {
-                    color: ${props => getColorSettings(props.theme).accentuate};
-                    border-color: ${props => getColorSettings(props.theme).accentuate};
+                    color: var(--accentuate);
+                    border-color: var(--accentuate);
                 }
             }
 
@@ -285,7 +283,7 @@ export const ServicesListWrapper = styled.div`
 
 export const TerminalPath = styled.span`
     margin-right: 5px;
-    color: ${props => getColorSettings(props.theme).font_on_primary};
+    color: var(--font-on-primary);
 `;
 
 

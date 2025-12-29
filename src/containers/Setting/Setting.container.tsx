@@ -10,6 +10,7 @@ import { RoundColor, Wrapper } from '../../styles/utils.style';
 // Contexts & Hooks
 import { useSettingContext } from "../../context/Setting.context";
 import { useThemeManager } from "../../hooks/useThemeManager"; 
+import { useScrollbar } from "../../hooks/useScrollBar.hook";
 import { SimpleButton } from "../../components/Button/SimpleButton";
 
 type ThemeName = keyof typeof COLOR_SETTING;
@@ -27,7 +28,8 @@ export const SettingContainer: React.FC = () => {
     
     const [isOpen, setIsOpen] = useState(false);
     const [isLoadingCount, setIsLoadingCount] = useState(false); 
-    const [isHighContrast, setIsHighContrast] = useState(false);
+
+    useScrollbar(isOpen);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const toggleRef = useRef<HTMLButtonElement | null>(null);
@@ -42,8 +44,7 @@ export const SettingContainer: React.FC = () => {
     };
     
     const handleContrastClick = () => {
-        ChangeHightContrast(!isHighContrast);
-        setIsHighContrast(prev => !prev);
+        ChangeHightContrast(!settings.highContrast);
     };
 
     useEffect(() => {
@@ -124,11 +125,11 @@ export const SettingContainer: React.FC = () => {
                                     </p>
 
                                     <SimpleButton 
-                                        className={`contrast ${isHighContrast ? 'active' : ''}`}
+                                        className={`contrast ${settings.highContrast ? 'active' : ''}`}
                                         onClick={handleContrastClick}
                                         type="button"
                                     >
-                                        {isHighContrast ? <><EyeOff/> <span>Désactiver le contraste</span></> : <><Eye /> <span>Activer Contraste Élevé</span></>}
+                                        {settings.highContrast ? <><EyeOff/> <span>Désactiver le contraste</span></> : <><Eye /> <span>Activer Contraste Élevé</span></>}
                                     </SimpleButton>
                                 </Wrapper>
                             </div>
@@ -153,7 +154,7 @@ export const SettingContainer: React.FC = () => {
                                             Déja
                                         </span>
                                         <span className="count">
-                                            {randomThemeCount ?? "..."}
+                                            {String(randomThemeCount ?? "...")}
                                         </span>
                                         <span>âmes courageuses<br/> ont osé essayer</span>
                                     </div>

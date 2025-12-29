@@ -29,10 +29,6 @@ export interface IGridItem {
     [key: string]: any;
 }
 
-import { getColorSettings } from '../../config';
-import { useSettingContext } from '../../context/Setting.context';
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
-
 import { Button } from "../Button/Button";
 
 /**
@@ -172,14 +168,14 @@ const calculatePages = (
         } 
         
         if (!placed) {
-             if (currentPage.length > 0) {
+            if (currentPage.length > 0) {
                 pages.push(currentPage);
                 currentPage = [];
                 grid = Array(ROWS).fill(false).map(() => Array(COLS).fill(false));
             } else {
-                 if (queue.length > 0) {
-                     console.error("Item too big for grid:", queue[0]);
-                     queue.shift();
+                if (queue.length > 0) {
+                    console.error("Item too big for grid:", queue[0]);
+                    queue.shift();
                  }
             }
         }
@@ -214,7 +210,7 @@ export const PaginatedGrid = ({
 
     const HideOnePage = pagesNumber <= 1;
 
-    const { settings } = useSettingContext();
+
 
     if (HideOnePage) {
         return (
@@ -240,9 +236,7 @@ export const PaginatedGrid = ({
                     <Button 
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
-                        color={
-                            HexToRgbaConverter(getColorSettings(settings.theme).secondary, 0.8) || getColorSettings(settings.theme).primary
-                        }
+                        color="color-mix(in srgb, var(--secondary), transparent 20%)"
                     >Précédent</Button>
                     
                     {Array.from({ length: pagesNumber }, (_, index) => {
@@ -264,9 +258,7 @@ export const PaginatedGrid = ({
                     <Button 
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === pagesNumber}
-                        color={
-                            HexToRgbaConverter(getColorSettings(settings.theme).secondary, 0.8) || getColorSettings(settings.theme).primary
-                        }
+                        color="color-mix(in srgb, var(--secondary), transparent 20%)"
                     >Suivant</Button>
                 </PaginationContainer>
             </div>

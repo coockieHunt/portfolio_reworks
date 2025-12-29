@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../config';
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter';
+import { BORDER_RADIUS } from '../../config';
 
 export const FenceContainer = styled.div`
     display: flex;
@@ -49,8 +48,8 @@ export const ScrollIndicator = styled.div`
         background: linear-gradient(
             90deg,
             transparent 0%,
-            ${props => getColorSettings(props.theme).primary} 20%,
-            ${props => getColorSettings(props.theme).primary} 80%,
+            var(--primary) 20%,
+            var(--primary) 80%,
             transparent 100%
         );
         border-radius: 2px;
@@ -73,7 +72,7 @@ export const ScrollIndicator = styled.div`
 
 export const IconList = styled.span`
     & > svg{
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
         height: 100%;
     }
 `
@@ -112,7 +111,7 @@ export const Fence = styled.div`
     flex-direction: column;
     gap: 15px;
     border-radius: ${BORDER_RADIUS.xlarge};
-    border: 2px solid ${props => getColorSettings(props.theme).primary};
+    border: 2px solid var(--primary);
     position: relative;
 
     @media (max-width: 768px) {
@@ -123,7 +122,7 @@ export const Fence = styled.div`
         scroll-snap-stop: always;
     }
 
-    &.HightLighting {box-shadow: 0 0 30px ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.6)};}
+    &.HightLighting {box-shadow: 0 0 30px color-mix(in srgb, var(--primary), transparent 40%);}
     & .catch{ font-variation-settings: "wght" 400;}
 
     &::after{
@@ -133,17 +132,17 @@ export const Fence = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.03)};
+        background-color: color-mix(in srgb, var(--primary), transparent 97%);
         z-index: -1;
     }
 
     & > svg{
-        color:  ${props => getColorSettings(props.theme).primary};
+        color:  var(--primary);
         font-size: 2em;
     }
 
     & span{
-        color:  ${props => getColorSettings(props.theme).primary};
+        color:  var(--primary);
         transition: all .3s ease-in;
         display: inline-flex;
         align-items: center;
@@ -154,7 +153,7 @@ export const Fence = styled.div`
     }
 
     &:hover{
-        background-color: ${props => HexToRgbaConverter(getColorSettings(props.theme).primary, 0.03)};
+        background-color: color-mix(in srgb, var(--primary), transparent 97%);
         & > span > svg{
             transition: all .3s ease-in-out;
             margin-left: 10px

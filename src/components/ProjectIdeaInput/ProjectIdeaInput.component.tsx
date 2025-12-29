@@ -1,13 +1,13 @@
-//styles
+// styles
 import * as styled from './ProjectIdeaInput.style';
 
-//react 
-import { useState, ChangeEvent, KeyboardEvent, useEffect } from 'react';
+// react 
+import { useState, ChangeEvent, KeyboardEvent, useEffect, useCallback, useRef } from 'react';
 
-//icons
+// icons
 import { Send } from 'lucide-react';
 
-//types
+// types
 interface ProjectIdeaInputProps {
     ScroolTo: string;
     DataWord: string[];
@@ -15,13 +15,14 @@ interface ProjectIdeaInputProps {
 
 export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) => {
     const [inputValue, setInputValue] = useState('');
-    const [isInputFocused, setIsInputFocused] = useState(false);
-    const [showCursor, setShowCursor] = useState(true);
 
     const [currentWord, setCurrentWord] = useState(() => {
+        if (!DataWord || DataWord.length === 0) return 'Projet...';
         const randomIndex = Math.floor(Math.random() * DataWord.length);
         return formatWord(DataWord[randomIndex]);
     });
+
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     function formatWord(word: string): string {
         return String(word).charAt(0).toUpperCase() + String(word).slice(1);
@@ -31,14 +32,16 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
         if (e.key === 'Enter') { handleSubmit(); }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         if (inputValue.trim().length < 1) return;
 
         const contactSection = document.getElementById('contact');
         if (contactSection) {
             const messageText = `Bonjour, je souhaite discuter de mon projet : ${inputValue}`;
             
-            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            requestAnimationFrame(() => {
+                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
 
             setTimeout(() => {
                 const messageField = document.querySelector(ScroolTo) as HTMLTextAreaElement | null;
@@ -58,28 +61,18 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
 
             setTimeout(() => { setInputValue(''); }, 1000);
         }
-    };
+    }, [inputValue, ScroolTo]); 
 
     useEffect(() => {
-        if (isInputFocused) {
-            setShowCursor(false);
-            return;
-        }
-
-        const wordTimer = setInterval(() => {
+        intervalRef.current = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * DataWord.length);
             setCurrentWord(formatWord(DataWord[randomIndex]));
         }, 2000);
 
-        const blinkTimer = setInterval(() => {
-            setShowCursor((prev) => !prev);
-        }, 500);
-
         return () => {
-            clearInterval(wordTimer);
-            clearInterval(blinkTimer);
+            if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [isInputFocused]);
+    }, [DataWord]);
 
     return (
         <styled.InputWrapper>
@@ -87,12 +80,10 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
                 type="text"
                 name="project-idea" 
                 autoComplete="off"
-                placeholder={`${currentWord}${showCursor ? '|' : ''}`}
-                onFocus={() => setIsInputFocused(true)}
-                onBlur={() => setIsInputFocused(false)}
+                placeholder={`${currentWord}...`}
                 value={inputValue}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress} 
                 size={10}
                 aria-label="Décrivez votre projet"
             />

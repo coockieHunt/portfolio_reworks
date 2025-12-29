@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings, SCREEN_SIZE } from '../../config';
+import { BORDER_RADIUS, SCREEN_SIZE } from '../../config';
 
 // Container
 export const Container = styled.div`
@@ -32,8 +32,8 @@ export const Info = styled.div`
     padding: 25px;
     box-sizing: border-box;
     border-radius: ${BORDER_RADIUS.xxlarge};
-    border: 1px solid ${props => getColorSettings(props.theme).primary};
-    border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
+    border: 1px solid var(--primary);
+    border-bottom: 8px solid var(--primary);
     position: relative;
     background: linear-gradient(135deg, rgba(29, 29, 29, 0.4), rgba(29, 29, 29, 0.2));
     backdrop-filter: blur(10px);
@@ -51,13 +51,13 @@ export const Info = styled.div`
             
             & h2 {
                 font-size: 1.5em;
-                color: ${props => getColorSettings(props.theme).primary};
+                color: var(--primary);
                 font-weight: 600;
             }
 
             & span {
                 font-size: 1em;
-                color: ${props => getColorSettings(props.theme).font_subtle};
+                color: var(--font-subtle);
             }
         }
         
@@ -78,7 +78,7 @@ export const Info = styled.div`
                     height: 3em;
                     width: auto;
                     padding: 12px;
-                    background-color: ${props => getColorSettings(props.theme).primary};
+                    background-color: var(--primary);
                     border-radius: ${BORDER_RADIUS.xlarge};
                     transition: transform 0.3s ease, box-shadow 0.3s ease;
                     z-index: 2;
@@ -90,7 +90,7 @@ export const Info = styled.div`
                     cursor: pointer;
                     
                     & .name {
-                        color: ${props => getColorSettings(props.theme).font_subtle};
+                        color: var(--font-subtle);
                         font-size: 0.9em;
                         transition: color 0.3s ease;
                     }
@@ -106,11 +106,11 @@ export const Info = styled.div`
                     
                     & svg {
                         transform: scale(1.1);
-                        box-shadow: 0 4px 12px ${props => getColorSettings(props.theme).primary}40;
+                        box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 25%, transparent);
                     }
                     
                     & .name {
-                        color: ${props => getColorSettings(props.theme).primary};
+                        color: var(--primary);
                     }
                 }
             }
@@ -121,7 +121,7 @@ export const Info = styled.div`
             display: block;
             border-top: 1px solid #ffffff28;
             line-height: 3em;
-            color: ${props => getColorSettings(props.theme).font_subtle};
+            color: var(--font-subtle);
             font-size: 0.9em;
         }
     }
@@ -167,15 +167,15 @@ export const ContactForm = styled.div`
     padding: 35px;
 
     background: linear-gradient(135deg, 
-        ${props => getColorSettings(props.theme).background_tertiary},
-        ${props => getColorSettings(props.theme).primary}15
+        var(--background-tertiary),
+        color-mix(in srgb, var(--primary) 8%, transparent)
     );
 
-    border: 1px solid ${props => getColorSettings(props.theme).primary};
-    border-bottom: 8px solid ${props => getColorSettings(props.theme).primary};
+    border: 1px solid var(--primary);
+    border-bottom: 8px solid var(--primary);
     border-radius: ${BORDER_RADIUS.xxlarge};
         
-    --breath-color: ${props => getColorSettings(props.theme).primary};
+    --breath-color: var(--primary);
     --shadow-blur-min: 10px;
     --shadow-blur-max: 20px;
     --shadow-spread-min: 4px;
@@ -187,7 +187,7 @@ export const ContactForm = styled.div`
 
     & h2 {
         font-size: 1.8em;
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
         font-weight: 600;
         margin-bottom: 10px;
         position: relative;
@@ -231,7 +231,7 @@ export const ActionForm = styled.div`
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 
     & > span {
-        color: ${props => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
         cursor: pointer;
         font-size: 0.95em;
         transition: all 0.3s ease;
@@ -239,13 +239,13 @@ export const ActionForm = styled.div`
         border-radius: ${BORDER_RADIUS.medium};
         
         &:hover {
-            color: ${props => getColorSettings(props.theme).primary};
+            color: var(--primary);
             background: rgba(255, 255, 255, 0.05);
         }
     }
 
     & > .colored {
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -270,14 +270,14 @@ export const Title = styled.h2`
 
 export const FormInstruction = styled.span`
     display: block;
-    color: ${props => getColorSettings(props.theme).font_subtle};
+    color: var(--font-subtle);
     font-size: 0.85em;
     margin-top: -10px;
     margin-bottom: 20px;
     font-style: italic;
 
     & span {
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
         font-weight: bold;
     }
 `;

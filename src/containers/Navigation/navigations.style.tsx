@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, SCREEN_SIZE, BORDER_RADIUS } from '../../config'
+import { SCREEN_SIZE, BORDER_RADIUS } from '../../config'
 
 export const NavigationContainer = styled.div`
     display: flex;
@@ -25,7 +25,7 @@ export const NavigationContainer = styled.div`
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: ${props => getColorSettings(props.theme).background_tertiary};
+            background-color: var(--background-tertiary);
             backdrop-filter: blur(5px);
             opacity: .8;
             z-index: -1;
@@ -82,7 +82,7 @@ export const Nav = styled.nav`
         li {
             padding: 0 10px;
             &:hover{
-                color: ${props => getColorSettings(props.theme).primary}; 
+                color: var(--primary); 
                 transition: color .2s ease, transform .1s ease;
                 transform: scale(1.05);
             }
@@ -92,7 +92,7 @@ export const Nav = styled.nav`
                 font-weight: bold;
                 cursor: pointer;
                 span{
-                    color: ${props => getColorSettings(props.theme).primary};
+                    color: var(--primary);
                     font-variation-settings: "wght" 1000;
                     
                 }
@@ -154,7 +154,7 @@ export const Nav = styled.nav`
     & button{
         padding: 5px 10px;
         border-radius: ${BORDER_RADIUS.small};
-        border: 1px solid ${props => getColorSettings(props.theme).primary};
+        border: 1px solid var(--primary);
         font-size: .8rem;
         background-color: transparent;
         cursor: pointer;
@@ -162,23 +162,23 @@ export const Nav = styled.nav`
         letter-spacing: .5px;
         position: relative;
         overflow: hidden;
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
         transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .15s ease, box-shadow .25s ease;
 
         &::before{
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 30% 30%, ${props => getColorSettings(props.theme).primary}33, transparent 70%);
+            background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 70%);
             opacity: 0;
             transition: opacity .3s ease;
             pointer-events: none;
         }
 
         &:hover{
-                background-color: ${props => getColorSettings(props.theme).primary};
+                background-color: var(--primary);
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px -4px ${props => getColorSettings(props.theme).primary}88;
+                box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--primary) 53%, transparent);
                 &::before{opacity: .4;}
                 color: white;
         }
@@ -187,13 +187,13 @@ export const Nav = styled.nav`
             font-size: .9rem;
             padding: 12px 18px;
             backdrop-filter: blur(6px);
-            border: 1px solid ${props => getColorSettings(props.theme).primary};
-            color: ${props => getColorSettings(props.theme).primary};
+            border: 1px solid var(--primary);
+            color: var(--primary);
 
             &:hover{
-                background: ${props => getColorSettings(props.theme).primary};
-                color: ${props => getColorSettings(props.theme).background};
-                box-shadow: 0 6px 18px -6px ${props => getColorSettings(props.theme).primary}aa;
+                background: var(--primary);
+                color: var(--background);
+                box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--primary) 67%, transparent);
                 transform: none; 
                 color: white;
             }

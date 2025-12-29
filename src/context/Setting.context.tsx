@@ -22,15 +22,24 @@ export const SettingProvider: React.FC<ISettingProviderProps> = ({ children }) =
     });
 
     const changeTheme = useCallback((theme: ThemeKey): void => {
-        setSettings(prev => ({ ...prev, theme }));
+        setSettings(prev => {
+            if (prev.theme === theme) return prev;
+            return { ...prev, theme };
+        });
     }, []);
 
     const changeLight = useCallback((light: string): void => {
-        setSettings(prev => ({ ...prev, light }));
+        setSettings(prev => {
+            if (prev.light === light) return prev;
+            return { ...prev, light };
+        });
     }, []);
 
     const changeHighContrast = useCallback((highContrast: boolean): void => {
-        setSettings(prev => ({ ...prev, highContrast }));
+        setSettings(prev => {
+            if (prev.highContrast === highContrast) return prev;
+            return { ...prev, highContrast };
+        });
     }, []);
 
     const value = useMemo(() => ({

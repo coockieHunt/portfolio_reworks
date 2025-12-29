@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, BORDER_RADIUS, getColorSettings} from '../../config.js'
+import {SCREEN_SIZE, BORDER_RADIUS} from '../../config.js'
 
 export const Section = styled.div`
     position: relative;
@@ -112,8 +112,8 @@ export const CardList = styled.div`
 
     & .card{
         border-radius: 12px;
-        border: 1px solid ${props => getColorSettings(props.theme).primary};
-        border-bottom: 4px solid ${props => getColorSettings(props.theme).primary};
+        border: 1px solid var(--primary);
+        border-bottom: 4px solid var(--primary);
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -139,7 +139,7 @@ export const CardList = styled.div`
                 display: block;
                 width: 40px;
                 height: 0; 
-                border-bottom: 1px solid ${props => getColorSettings(props.theme).accentuate};
+                border-bottom: 1px solid var(--accentuate);
             }
 
             & h2{

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, SCREEN_SIZE } from "../../config";
+import { SCREEN_SIZE } from "../../config";
 
 export const Container = styled.div`
     margin: 0 0 100px 0;
@@ -45,12 +45,12 @@ export const TimeLineContainer = styled.div`
     &::before {
         content: ''; 
         position: absolute;
-        background-color: ${(props) => getColorSettings(props.theme).primary};
+        background-color: var(--primary);
         width: 3px;
         height: 10%;
         transition: height 0.5s ease-in-out;
         will-change: height;
-        box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary}40;
+        box-shadow: 0 0 10px color-mix(in srgb, var(--primary), transparent 60%);
     }
 
     &.visible::before {height: 97%;}
@@ -58,8 +58,8 @@ export const TimeLineContainer = styled.div`
     &::after {
         content: '';
         position: absolute;
-        border-left: 3px solid ${(props) => getColorSettings(props.theme).primary};
-        border-bottom: 3px solid ${(props) => getColorSettings(props.theme).primary};
+        border-left: 3px solid var(--primary);
+        border-bottom: 3px solid var(--primary);
         height: 40px;
         width: 40px;
         transform: rotate(-45deg);
@@ -79,7 +79,7 @@ export const TimeLineContainer = styled.div`
             width: 5%;
             z-index: -1;
             opacity: 1;
-            border-bottom: 1px dashed ${(props) => getColorSettings(props.theme).primary};
+            border-bottom: 1px dashed var(--primary);
             transition: opacity 0.2s ease;
         }
 
@@ -116,7 +116,7 @@ export const TimeLineContainer = styled.div`
             width: 5%;
             z-index: -1;
             opacity: 1;
-            border-bottom: 1px dashed ${(props) => getColorSettings(props.theme).primary};
+            border-bottom: 1px dashed var(--primary);
             transition: opacity 0.2s ease;
         }
 
@@ -180,8 +180,8 @@ export const TimeLineItemContainer = styled.div`
     border-radius: 5px;
     width: 43%;
     position: relative;
-    border: 1px solid ${(props) => getColorSettings(props.theme).primary};
-    border-bottom: 4px solid ${(props) => getColorSettings(props.theme).primary};
+    border: 1px solid var(--primary);
+    border-bottom: 4px solid var(--primary);
     cursor: default;
     transition: transform 0.3s ease, border-radius 0.3s ease; 
 
@@ -192,7 +192,7 @@ export const TimeLineItemContainer = styled.div`
         transform-origin: center;
         pointer-events: none;
         opacity: .6;    
-        background-color: ${(props) => getColorSettings(props.theme).background_secondary};
+        background-color: var(--background-secondary);
         z-index: -1;
     }
 
@@ -213,7 +213,7 @@ export const TimeLineItemContainer = styled.div`
             left: -20%;
             right: -20%;
             bottom: -20%;
-            background-color: ${(props) => getColorSettings(props.theme).background_secondary};
+            background-color: var(--background-secondary);
             z-index: 0;
             opacity: 0.9;
             transition: opacity 0.3s ease;
@@ -230,8 +230,8 @@ export const TimeLineItemContainer = styled.div`
         height: 15px;
         width: 15px;
         border-radius: 50%;
-        background-color: ${(props) => getColorSettings(props.theme).primary};
-        box-shadow: 0 0 10px ${(props) => getColorSettings(props.theme).primary};
+        background-color: var(--primary);
+        box-shadow: 0 0 10px var(--primary);
     }
 
     &:hover { 
@@ -261,7 +261,7 @@ export const TimeLineItemContainer = styled.div`
 export const TimeLineTitle = styled.h3`
     font-size: 1.2em;
     font-weight: 600;
-    color: ${(props) => getColorSettings(props.theme).primary}; 
+    color: var(--primary); 
     text-transform: uppercase;
     display: flex;
     align-items: center;
@@ -273,8 +273,8 @@ export const TimeLineTitle = styled.h3`
         margin-right: 5px;
         background: linear-gradient(
             135deg, 
-            ${(props) => getColorSettings(props.theme).primary}, 
-            ${(props) => getColorSettings(props.theme).accentuate}
+            var(--primary), 
+            var(--accentuate)
         );
         background-clip: text;
         font-weight: 800;

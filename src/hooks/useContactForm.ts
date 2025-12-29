@@ -49,9 +49,15 @@ export const useContactForm = () => {
             return false;
         }
 
-        if (data.status === 429) {
-            addAlert("Trop de tentatives. Veuillez patienter.", "#ff9900", 5000);
-            trackEvent('Contact Form Error', { reason: 'Rate limited' });
+        if (data.error) {
+            if (data.message === 'Trop de tentatives. Réessayez plus tard.') {
+                addAlert("Trop de tentatives. Veuillez patienter.", "#ff9900", 5000);
+                trackEvent('Contact Form Error', { reason: 'Rate limited' });
+            } else {
+                console.warn('Erreur API:', data);
+                trackEvent('Contact Form Error', { reason: data.message || 'API Technical Error' });
+                addAlert(data.message || "Le service mail rencontre un problème technique.", "#ffcc00", 4000);
+            }
             return false;
         }
 

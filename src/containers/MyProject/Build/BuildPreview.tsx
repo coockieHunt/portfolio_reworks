@@ -5,13 +5,8 @@ import { trackEvent } from '../../../components/umami/umami.components';
 
 import { Button } from '../../../components/Button/Button';
 
-import { getColorSettings } from '../../../config';
-import { useSettingContext } from '../../../context/Setting.context';
-import { HexToRgbaConverter } from '../../../utils/HexToRgbaConverter';
-
 const BuildPreviewBuild = ({ project }) => {
     const ifFavorite = project.favorite ? 'favorite' : '';
-    const { settings } = useSettingContext();
     return (
         <>
             <div className={`container_preview ${ifFavorite}`}>
@@ -33,9 +28,7 @@ const BuildPreviewBuild = ({ project }) => {
                         {project.gitUrl !== null && project.gitUrl !== undefined && (
                             <Button 
                                 icon={<Github />}
-                                color={
-                                    HexToRgbaConverter(getColorSettings(settings.theme).primary, 0.1) || getColorSettings(settings.theme).primary
-                                }
+                                color="color-mix(in srgb, var(--primary), transparent 90%)"
                                 className="source_code" 
                                 href={project.gitUrl}
                                 target="_blank"
@@ -47,9 +40,7 @@ const BuildPreviewBuild = ({ project }) => {
                         {project.webUrl !== null && project.webUrl !== undefined && (
                             <Button 
                                 icon={<LinkIcon />}
-                                color={
-                                    HexToRgbaConverter(getColorSettings(settings.theme).primary, 0.6) || getColorSettings(settings.theme).primary
-                                }
+                                color="color-mix(in srgb, var(--primary), transparent 40%)"
                                 className="project_code" 
                                 href={project.webUrl}
                                 target="_blank"

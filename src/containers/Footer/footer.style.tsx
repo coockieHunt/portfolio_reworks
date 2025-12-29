@@ -1,4 +1,4 @@
-import { getColorSettings, SCREEN_SIZE } from "../../config";
+import { SCREEN_SIZE } from "../../config";
 import styled from 'styled-components';
 
 export const Container = styled.footer`
@@ -69,7 +69,7 @@ export const Container = styled.footer`
             font-weight: 700;
         }
         .indus {
-            color: ${(props) => getColorSettings(props.theme).primary};
+            color: var(--primary);
             opacity: 0.8;
         }
     }
@@ -77,7 +77,7 @@ export const Container = styled.footer`
     .josbnfgbhibc {
         margin-bottom: 20px;
         opacity: 0.01;
-        color: ${(props) => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
         cursor: default;
         text-align: center;
         position: relative;
@@ -94,7 +94,7 @@ export const Container = styled.footer`
 `;
 
 export const BackToTop = styled.button`
-    color: ${props => getColorSettings(props.theme).primary};
+    color: var(--primary);
     font-weight: 600;
     background: none;
     cursor: pointer;
@@ -112,8 +112,8 @@ export const Aurora = styled.div`
 
 	background: radial-gradient(
 			ellipse 80% 75% at 50% -0%, 
-			${props => getColorSettings(props.theme).primary} 40%, 
-			${props => getColorSettings(props.theme).secondary} 4%, 
+			var(--primary) 40%, 
+			var(--secondary) 4%, 
 			transparent 90% 
 	);
     
@@ -132,7 +132,7 @@ export const BottomBar = styled.div`
 
     .copyright {
         font-size: 0.85rem;
-        color: ${props => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
     }
 
     .social-links {
@@ -146,7 +146,7 @@ export const BottomBar = styled.div`
         button {
             background: none;
             border: none;
-            color: ${props => getColorSettings(props.theme).font_subtle};
+            color: var(--font-subtle);
             font-size: 0.85rem;
             cursor: pointer;
             transition: color 0.3s ease;
@@ -158,7 +158,7 @@ export const BottomBar = styled.div`
             padding: 10px 5px;
 
             &.backToTop{
-                color: ${props => getColorSettings(props.theme).primary};
+                color: var(--primary);
                 font-weight: 600;
             }
 
@@ -202,7 +202,7 @@ export const LegalContent = styled.div`
     
     background-color: #141414; 
     border: 1px solid rgba(255, 255, 255, 0.1); 
-    color: ${props => getColorSettings(props.theme).font_subtle};
+    color: var(--font-subtle);
 
     transition: 
         padding 0.3s ease-in-out,
@@ -239,7 +239,7 @@ export const LegalContent = styled.div`
             display: block;
             width: 50px;
             height: 3px;
-            background-color: ${props => getColorSettings(props.theme).primary};
+            background-color: var(--primary);
             margin: 10px auto 0;
             border-radius: 2px;
         }
@@ -250,7 +250,7 @@ export const LegalContent = styled.div`
         margin-top: 30px;
         margin-bottom: 15px;
         font-weight: 600;
-        border-left: 4px solid ${props => getColorSettings(props.theme).primary};
+        border-left: 4px solid var(--primary);
         padding-left: 12px;
     }
 
@@ -259,7 +259,7 @@ export const LegalContent = styled.div`
         margin-top: 20px;
         margin-bottom: 10px;
         font-weight: 600;
-        color: ${props => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
 
     }
 
@@ -268,7 +268,7 @@ export const LegalContent = styled.div`
         margin-top: 15px;
         margin-bottom: 8px;
         font-weight: 600;
-        color: ${props => getColorSettings(props.theme).font_subtle};
+        color: var(--font-subtle);
     }
 
     & p {
@@ -282,14 +282,14 @@ export const LegalContent = styled.div`
     }
 
     & a {
-        color: ${props => getColorSettings(props.theme).accentuate};
+        color: var(--accentuate);
         text-decoration: none;
-        border-bottom: 1px dotted ${props => getColorSettings(props.theme).accentuate};
+        border-bottom: 1px dotted var(--accentuate);
         transition: all 0.2s ease;
 
         &:hover {
-            color: ${props => getColorSettings(props.theme).primary};
-            border-bottom: 1px solid ${props => getColorSettings(props.theme).primary};
+            color: var(--primary);
+            border-bottom: 1px solid var(--primary);
         }
     }
 
@@ -309,7 +309,7 @@ export const LegalContent = styled.div`
                 content: '▹';
                 position: absolute;
                 left: 0;
-                color: ${props => getColorSettings(props.theme).primary};
+                color: var(--primary);
                 font-size: 1.2rem;
                 line-height: 1.2rem;
                 top: 2px;

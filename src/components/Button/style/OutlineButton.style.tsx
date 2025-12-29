@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../../../config.js';
+import { BORDER_RADIUS } from '../../../config.js';
 
 interface OutileButtonContainerProps {
     $colorLine?: string;
@@ -10,7 +10,7 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
     cursor: pointer;
     text-transform: uppercase;
     background-color: transparent;
-    border: 1px solid ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
+    border: 1px solid ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
     border-radius: ${BORDER_RADIUS.medium};
     font-variation-settings: "wght" 600;
     font-size: .8em;
@@ -26,13 +26,13 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
         display: block;
         flex: 1;
         padding: 10px;
-        background-color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
+        background-color: ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
     }
 
     & span {
         display: block;
         padding: 0 15px;
-        color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
+        color: ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
         
         &:after{
             transition: width .3s ease-in-out;
@@ -45,7 +45,7 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
             width: 0%;
             z-index: -1;
 
-            background-color: ${props => props.$colorLine ? props.$colorLine :  getColorSettings(props.theme).primary};
+            background-color: ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
         }
     }
 

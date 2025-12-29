@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { HexToRgbaConverter } from '../../utils/HexToRgbaConverter'
-import { getColorSettings, BORDER_RADIUS } from '../../config';
+import { BORDER_RADIUS } from '../../config';
 
 export const LightBoxContainer = styled.div`
     position: fixed;
@@ -8,7 +7,7 @@ export const LightBoxContainer = styled.div`
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.8)};
+    background: color-mix(in srgb, var(--background-secondary) 80%, transparent);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +20,7 @@ export const LightBoxContainer = styled.div`
         border-radius: ${BORDER_RADIUS.xlarge};
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         cursor: default;
-        background-color: ${props => getColorSettings(props.theme).background_secondary};
+        background-color: var(--background-secondary);
     }
 `;
 

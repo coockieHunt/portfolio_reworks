@@ -5,7 +5,6 @@ import { Link } from "react-scroll";
 // Hooks & Context
 import { useScrollbar } from "../../hooks/useScrollBar.hook";
 import { useWindowSize } from "../../hooks/useScreenResize.hook";
-import { useSettingContext } from '../../context/Setting.context';
 
 // Components
 import { BurgerMenuComponent } from "../../components/BurgerMenu/BurgerMenu.component";
@@ -13,7 +12,7 @@ import { IconButton } from "../../components/Button/IconButton";
 import { LogoComponent } from '../../components/Logo/Logo.components';
 
 // Data & Config
-import { SCREEN_SIZE, getColorSettings } from '../../config';
+import { SCREEN_SIZE } from '../../config';
 import { socialLinks } from '../../data';
 import cv from '../../assets/pdf/cv_dev_JG.pdf';
 
@@ -57,7 +56,6 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({ items, onLinkClick }
 
 export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navConfig }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { settings } = useSettingContext();
 
     const mobileBreakpoint = useMemo(() => {
         return parseInt(SCREEN_SIZE.mobile.replace(/\D/g, ''), 10) || 768;
@@ -81,14 +79,12 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navCo
         window.open(cv, '_blank', 'noopener,noreferrer');
     }, []);
 
-    const primaryColor = getColorSettings(settings.theme).primary;
-
     return (
         <Styled.NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"}>
             <Styled.BrandContainer>
                 <LogoComponent 
                     version="simple-full" 
-                    style={{ width: "16px", height: "auto", color: primaryColor }} 
+                    style={{ width: "16px", height: "auto", color: "var(--primary)" }} 
                 />
                 <div className="burger-menu-wrapper">
                     <BurgerMenuComponent val={menuOpen} onClick={toggleMenu} />

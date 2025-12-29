@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, BORDER_RADIUS, getColorSettings } from '../../config';
+import { SCREEN_SIZE, BORDER_RADIUS } from '../../config';
 
 import { ThinScroolBar, fadeInTranslate } from '../../styles/utils.style';
 
@@ -16,7 +16,7 @@ export const Container = styled.div`
 `;
 
 export const ProjectCard = styled.div`
-    border: 1px solid ${props => getColorSettings(props.theme).primary}20;
+    border: 1px solid color-mix(in srgb, var(--primary), transparent 88%);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -52,7 +52,7 @@ export const ProjectCard = styled.div`
                 transition: all 0.3s ease;
                 font-weight: 600;
                 font-size: 0.95em;
-                color: ${props => getColorSettings(props.theme).font_subtle};
+                color: var(--font-subtle);
                 border-bottom: 2px solid transparent;
 
                 &:hover {
@@ -60,8 +60,8 @@ export const ProjectCard = styled.div`
                 }
 
                 &.selected {
-                    color: ${props => getColorSettings(props.theme).primary};
-                    border-bottom-color: ${props => getColorSettings(props.theme).primary};
+                    color: var(--primary);
+                    border-bottom-color: var(--primary);
                 }
                 
                 & svg {
@@ -129,7 +129,7 @@ export const ProjectCard = styled.div`
                 flex: 1;
                 max-height: 250px; 
                 min-height: 100px;
-                color: ${props => getColorSettings(props.theme).font_subtle};
+                color: var(--font-subtle);
                 overflow-y: auto;
                 
                 ${ThinScroolBar}
@@ -149,13 +149,13 @@ export const ProjectCard = styled.div`
                 gap: 8px;
 
                 & li {
-                    color: ${props => getColorSettings(props.theme).font_subtle};
+                    color: var(--font-subtle);
                     padding: 10px 15px;
                     border-radius: ${BORDER_RADIUS.medium}; 
                     font-size: 0.8em;
                     font-weight: 600;
-                    border: 1px solid ${props => getColorSettings(props.theme).primary}30;
-                    background: ${props => getColorSettings(props.theme).primary}10;
+                    border: 1px solid color-mix(in srgb, var(--primary), transparent 81%);
+                    background: color-mix(in srgb, var(--primary), transparent 94%);
                     transition: all 0.2s ease;
                     cursor: default;
 
@@ -179,18 +179,18 @@ export const ProjectCard = styled.div`
                 
 
                 & .project_code {
-                    background: ${props => getColorSettings(props.theme).primary};
-                    border-color: ${props => getColorSettings(props.theme).primary};
+                    background: var(--primary);
+                    border-color: var(--primary);
                     
                     &:hover {
-                        background: ${props => getColorSettings(props.theme).primary};
-                        box-shadow: 0 0 15px ${props => getColorSettings(props.theme).primary}60;
+                        background: var(--primary);
+                        box-shadow: 0 0 15px color-mix(in srgb, var(--primary), transparent 62%);
                     }
                 }
             }
 
             & .fenceFotter {
-                background: ${props => getColorSettings(props.theme).primary};
+                background: var(--primary);
                 font-size: 0.85em;
                 font-weight: 700;
                 padding: 8px 20px;
@@ -198,7 +198,7 @@ export const ProjectCard = styled.div`
                 align-items: center;
                 letter-spacing: 0.5px;
                 text-transform: uppercase;
-                color: ${props => getColorSettings(props.theme).font_on_primary};
+                color: var(--font-on-primary);
 
                 & span {
                     display: flex;
@@ -209,7 +209,7 @@ export const ProjectCard = styled.div`
         }
 
         &.favorite .content .title {
-            color: ${props => getColorSettings(props.theme).primary};
+            color: var(--primary);
         }
     }
 
@@ -234,7 +234,7 @@ export const ProjectCard = styled.div`
             
             &:hover {
                 transform: scale(1.03);
-                border-color: ${props => getColorSettings(props.theme).primary};
+                border-color: var(--primary);
                 box-shadow: 0 10px 25px rgba(0,0,0,0.4);
                 filter: brightness(1.1);
             }

@@ -1,17 +1,17 @@
 import { css, keyframes } from 'styled-components';
-import { BORDER_RADIUS, getColorSettings } from '../config';
+import { BORDER_RADIUS } from '../config';
 import { SCREEN_SIZE } from '../config';
 import styled from 'styled-components';
 
 // Scrollbar Styles
 export const ThinScroolBar = css`
     scrollbar-width: thin;
-    scrollbar-color: ${props => getColorSettings(props.theme).primary} transparent;
+    scrollbar-color: var(--primary) transparent;
     
     &::-webkit-scrollbar { width: 6px; height: 6px; }
     &::-webkit-scrollbar-track { background: transparent; }
     &::-webkit-scrollbar-thumb {
-        background-color: ${props => getColorSettings(props.theme).primary};
+        background-color: var(--primary);
         border-radius: ${BORDER_RADIUS.round};
     }
 `;
@@ -31,10 +31,10 @@ export const RoundColor = styled.div<{ $color: string }>`
 
 // Wrapper Styles
 export const Wrapper = styled.div`
-    background-color: ${props => getColorSettings(props.theme).background_secondary};
+    background-color: var(--background-secondary);
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid ${props => getColorSettings(props.theme).primary}40; 
+    border: 1px solid color-mix(in srgb, var(--primary), transparent 75%); 
     
     display: flex;
     flex-direction: column;

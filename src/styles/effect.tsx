@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { HexToRgbaConverter } from '../utils/HexToRgbaConverter';
-import { getColorSettings } from '../config';
+
 
 interface IGridEffectProps {
 	$bigColor?: string;
@@ -70,7 +69,7 @@ export const BackDrop = styled.div<{ $isOpen: boolean }>`
     width: 100%;
     height: 100%;
     z-index: 1199;
-    background: ${props => HexToRgbaConverter(getColorSettings(props.theme).background_secondary, 0.65)};
+    background: color-mix(in srgb, var(--background-secondary) 65%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     opacity: ${props => props.$isOpen ? 1 : 0};

@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import { m } from 'framer-motion';
-import { BORDER_RADIUS, getColorSettings } from '../../config';
+import { BORDER_RADIUS } from '../../config';
 
 export interface IModalStyleProps {
     $light: 'light' | 'dark';
@@ -16,7 +16,7 @@ export const ModalDiv = styled(m.div)<IModalStyleProps>`
     flex-direction: column;
     width: 90%;
     max-width: 550px;
-    background: ${props=> getColorSettings(props.theme).background_secondary}; 
+    background: var(--background-secondary); 
     border-radius: ${BORDER_RADIUS.xlarge};
 `;
 
@@ -26,7 +26,7 @@ export const Content = styled.div<IModalStyleProps>`
     font-size: 1em;
 
     & h1{
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
         font-size: 1.3em;
 
         display: inline-block;
@@ -46,7 +46,7 @@ export const Top = styled.div`
     & > svg,
     & > button {
         margin: 10px 20px 0;
-        color: ${props => getColorSettings(props.theme).primary};
+        color: var(--primary);
         cursor: pointer;
         background: transparent;
         border: none;
@@ -61,7 +61,7 @@ export const Top = styled.div`
 
     & > button:focus-visible {
         outline: none;
-        box-shadow: 0 0 0 3px ${props => getColorSettings(props.theme).primary};
+        box-shadow: 0 0 0 3px var(--primary);
     }
 
     & > button > svg {

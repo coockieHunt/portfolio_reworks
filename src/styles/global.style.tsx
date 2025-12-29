@@ -2,6 +2,23 @@ import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING, GetHightContrastSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
+    :root {
+        --background: ${props => COLOR_SETTING[props.theme.theme]?.background || '#303134'};
+        --background-secondary: ${props => COLOR_SETTING[props.theme.theme]?.background_secondary || '#221f30'};
+        --background-tertiary: ${props => COLOR_SETTING[props.theme.theme]?.background_tertiary || '#1c1933'};
+        
+        --font: ${props => COLOR_SETTING[props.theme.theme]?.font || '#ddd9f7'};
+        --font-subtle: ${props => COLOR_SETTING[props.theme.theme]?.font_subtle || '#eeebffc0'};
+        --font-on-primary: ${props => COLOR_SETTING[props.theme.theme]?.font_on_primary || '#ffffff'};
+        --font-hint: ${props => COLOR_SETTING[props.theme.theme]?.font_hint || '#bbbbcc'};
+
+        --primary: ${props => COLOR_SETTING[props.theme.theme]?.primary || '#8C7DFF'};
+        --secondary: ${props => COLOR_SETTING[props.theme.theme]?.secondary || '#4F4398'};
+        --accentuate: ${props => COLOR_SETTING[props.theme.theme]?.accentuate || '#A594FF'};
+        
+        --border: ${props => COLOR_SETTING[props.theme.theme]?.border || 'rgba(255, 255, 255, 0.12)'};
+    }
+
     @font-face {
         font-family: "Montserrat-Fallback";
         size-adjust: 105%;   
@@ -33,19 +50,19 @@ const GlobalStyle = createGlobalStyle`
     }
 
     *::-webkit-scrollbar-thumb {
-        background-color: ${props => COLOR_SETTING[props.theme.theme]?.primary || '#6A5ACD'};
+        background-color: var(--primary);
         border-radius: 3px;
     }
 
     html {
         scrollbar-width: thin;
-        scrollbar-color: ${props => COLOR_SETTING[props.theme.theme]?.primary || '#6A5ACD'} #121212;
+        scrollbar-color: var(--primary) #121212;
         width: 100%;
     }
 
     body {
         background-color: #121212;
-        color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
+        color: var(--font);
         font-family: 'Montserrat', 'Montserrat-Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         font-size: 100%;
         line-height: 1.5;
@@ -66,7 +83,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     input, textarea {
-        color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
+        color: var(--font);
     }
 
     input:-webkit-autofill,
@@ -75,9 +92,9 @@ const GlobalStyle = createGlobalStyle`
     textarea:-webkit-autofill,
     textarea:-webkit-autofill:hover,
     textarea:-webkit-autofill:focus {
-        -webkit-text-fill-color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
+        -webkit-text-fill-color: var(--font);
         -webkit-box-shadow: none !important;
-        caret-color: ${props => COLOR_SETTING[props.theme.theme]?.font || '#FFFFFF'};
+        caret-color: var(--font);
     }
 
     button {

@@ -199,7 +199,7 @@ export const ConnectedToSecretSystem = () => {
                             const cleanEntries = resp['data'].entries.map(e => ({
                                 Agent: e.name,
                                 Data: e.message,
-                                Timestamp: new Date(e.created_at).toLocaleTimeString()
+                                Timestamp: new Date(e.date).toLocaleTimeString()
                             }));
                             console.table(cleanEntries);
                         } else {

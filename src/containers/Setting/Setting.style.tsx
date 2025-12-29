@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings, SCREEN_SIZE } from '../../config';
+import { SCREEN_SIZE } from '../../config';
 import { BORDER_RADIUS } from '../../config';
 
 export const Toggle = styled.button<{ $isOpen: boolean }>`
@@ -14,8 +14,8 @@ export const Toggle = styled.button<{ $isOpen: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${props => getColorSettings(props.theme).background_secondary};
-    border: 1px solid ${props => getColorSettings(props.theme).primary};
+    background: var(--background-secondary);
+    border: 1px solid var(--primary);
     
     padding: 15px 5px;
     border-radius: 0 10px 10px 0;
@@ -35,7 +35,7 @@ export const Toggle = styled.button<{ $isOpen: boolean }>`
         transform: ${props => props.$isOpen ? 'scale(0.5)' : 'scale(1)'};
         
         writing-mode: horizontal-tb;
-        border-left: 1px solid ${props => getColorSettings(props.theme).primary};
+        border-left: 1px solid var(--primary);
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         padding: 15px;
         border-radius: 50px;
@@ -57,7 +57,7 @@ export const ContainerSetting = styled.div`
     max-width: 1728px;
     max-height: 972px;
 
-    border: 3px solid ${props => getColorSettings(props.theme).background_secondary};
+    border: 3px solid var(--background-secondary);
     border-radius: ${BORDER_RADIUS.xlarge};
     display: flex; flex-direction: column;
 
@@ -73,8 +73,8 @@ export const ContainerSetting = styled.div`
         max-width: none;
         max-height: none;
         border-radius: 5px;
-        border: 1px solid ${props => getColorSettings(props.theme).primary};
-        border-left: 1px solid ${props => getColorSettings(props.theme).primary};
+        border: 1px solid var(--primary);
+        border-left: 1px solid var(--primary);
     }
 
     &.close { 
@@ -92,7 +92,7 @@ export const ContainerSetting = styled.div`
         left: 0; 
         width: 100%; 
         height: 100%;
-        background-color: ${props => getColorSettings(props.theme).background_tertiary};
+        background-color: var(--background-tertiary);
         z-index: -1; 
         pointer-events: none; 
         border-radius: inherit;
@@ -127,7 +127,7 @@ export const ContainerSetting = styled.div`
         & p { 
             margin: 0; 
             font-size: 0.9em; 
-            color: ${props => getColorSettings(props.theme).font_subtle};
+            color: var(--font-subtle);
             opacity: 0.7; 
             font-variation-settings: "wght" 300;
         }
@@ -186,7 +186,7 @@ export const CloseButton = styled.button`
     background: transparent; border: none; 
     cursor: pointer; 
     font-size: 1.5em; 
-    color: ${props => getColorSettings(props.theme).secondary};
+    color: var(--secondary);
     width: 35px; 
     height: 35px; 
     display: flex; 
@@ -194,5 +194,5 @@ export const CloseButton = styled.button`
     justify-content: center; 
     border-radius: 50%;
     transition: all 0.2s;
-    &:hover { background-color: ${props => getColorSettings(props.theme).background_tertiary}; color: ${props => getColorSettings(props.theme).primary}; }
+    &:hover { background-color: var(--background-tertiary); color: var(--primary); }
 `;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getColorSettings } from '../../../config.jsx';
+
 
 export const TitleContainer = styled.div`
     position: relative;
@@ -29,7 +29,7 @@ export const Title = styled.h2`
     display: inline-block;
     z-index: 9;
     font-variation-settings: "wght" 500;
-    color:${props => getColorSettings(props.theme).primary};
+    color: var(--primary);
     font-size: 2.5rem ;
     text-transform: uppercase;
 

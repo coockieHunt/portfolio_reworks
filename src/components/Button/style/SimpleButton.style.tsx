@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { getColorSettings, SCREEN_SIZE } from '../../../config';
+import { SCREEN_SIZE } from '../../../config';
 import { rainbowShift } from '../../../styles/utils.style';
 
 export const StyledSimpleButton = styled.button`
     appearance: none;
-    background-color: ${props => getColorSettings(props.theme).background_secondary};
+    background-color: var(--background-secondary);
     border: 1px solid transparent; 
     text-align: left;
     font-size: 1em;
@@ -20,11 +20,11 @@ export const StyledSimpleButton = styled.button`
     cursor: pointer; 
     transition: all .3s ease-in-out;
 
-    &.current {border: 2px solid ${props => getColorSettings(props.theme).primary};}
+    &.current {border: 2px solid var(--primary);}
 
     &:not(.current):hover {
         transform: scale(1.02);
-        box-shadow: 0 0 10px ${props => getColorSettings(props.theme).primary};
+        box-shadow: 0 0 10px var(--primary);
     }
 
     & span {
@@ -35,13 +35,13 @@ export const StyledSimpleButton = styled.button`
     
     &.contrast {
         justify-content: center;
-        border: 1px dashed ${props => getColorSettings(props.theme).primary};
+        border: 1px dashed var(--primary);
         &:hover {
-            background-color: ${props => getColorSettings(props.theme).background_tertiary};
+            background-color: var(--background-tertiary);
         }
         &.active {
-            background-color: ${props => getColorSettings(props.theme).primary};
-            color: ${props => getColorSettings(props.theme).background};
+            background-color: var(--primary);
+            color: var(--background);
         }
     }
 
@@ -91,7 +91,7 @@ export const StyledSimpleButton = styled.button`
             background: rgba(0,0,0,0.2);
             padding: 10px 20px;
             border-radius: 5px;
-            border: 1px dashed ${props => getColorSettings(props.theme).primary};
+            border: 1px dashed var(--primary);
 
             gap: 5px;
             & .count {
