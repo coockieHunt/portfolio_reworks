@@ -111,7 +111,7 @@ export const TitleTextComponent = ({
     );
 };
 
-export const GradientTextContainer = ({ children }: IGradientTextContainerProps): JSX.Element => {
+export const GradientTextContainer = ({ children, style }: IGradientTextContainerProps & { style?: React.CSSProperties }): JSX.Element => {
     const { settings } = useSettingContext();
     const currentTheme = settings?.theme;
     const steps = 5;
@@ -125,7 +125,7 @@ export const GradientTextContainer = ({ children }: IGradientTextContainerProps)
         );
     }, [currentTheme]);
 
-    return <Gradient $color={gradientColors}>{children}</Gradient>;
+    return <Gradient style={style} $color={gradientColors}>{children}</Gradient>;
 };
 
 export const LinkTextComponent = ({ children, to, onClick }: ILinkTextComponentProps): JSX.Element => {

@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
 import { COLOR_SETTING } from '../config'; 
-
 import { ISettingContext, ISettingProviderProps, ISettings } from './interface/Setting.interface';
 
 type ThemeKey = keyof typeof COLOR_SETTING;
@@ -14,32 +13,56 @@ export const useSettingContext = (): ISettingContext => {
     return context;
 };
 
+const DEFAULT_SETTINGS: ISettings = {
+    theme: "default",
+    light: "dark",
+    highContrast: false
+};
+
 export const SettingProvider: React.FC<ISettingProviderProps> = ({ children }) => {
-    const [settings, setSettings] = useState<ISettings>({
-        theme: "default",
-        light: "dark",
-        highContrast: false
+    const [settings, setSettings] = useState<ISettings>(() => {
+        if (typeof window !== 'undefined') {
+            const savedSettings = localStorage.getItem('app-settings');
+            if (savedSettings) {
+                try {
+                    return JSON.parse(savedSettings);
+                } catch (e) {
+                    console.error("Erreur lecture settings", e);
+                }
+            }
+        }
+        return DEFAULT_SETTINGS;
     });
 
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('app-settings', JSON.stringify(settings));
+
+            const root = document.documentElement;
+            
+            root.classList.remove('light', 'dark');
+            root.classList.add(settings.light);
+
+            root.setAttribute('data-theme', settings.theme);
+
+            if (settings.highContrast) {
+                root.classList.add('high-contrast');
+            } else {
+                root.classList.remove('high-contrast');
+            }
+        }
+    }, [settings]);
+
     const changeTheme = useCallback((theme: ThemeKey): void => {
-        setSettings(prev => {
-            if (prev.theme === theme) return prev;
-            return { ...prev, theme };
-        });
+        setSettings(prev => ({ ...prev, theme }));
     }, []);
 
     const changeLight = useCallback((light: string): void => {
-        setSettings(prev => {
-            if (prev.light === light) return prev;
-            return { ...prev, light };
-        });
+        setSettings(prev => ({ ...prev, light }));
     }, []);
 
     const changeHighContrast = useCallback((highContrast: boolean): void => {
-        setSettings(prev => {
-            if (prev.highContrast === highContrast) return prev;
-            return { ...prev, highContrast };
-        });
+        setSettings(prev => ({ ...prev, highContrast }));
     }, []);
 
     const value = useMemo(() => ({
