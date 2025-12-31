@@ -10,29 +10,27 @@ import { trackEvent } from '../../components/umami/umami.components'
 import { GlobalLoader } from '../../components/Loading/GlobalLoader.compenent'
 
 //containers
-import { HeroContainer } from '../../containers/Hero/hero.container'
-import { CatchContainer } from '../../containers/Catch/catch.container'
+import { HeroContainer } from '@/containers/_portfolio/Hero/hero.container'
+import { CatchContainer } from '../../containers/_portfolio/Catch/catch.container'
 
 
 
-const MyProjectContainer = lazy(() => import('../../containers/MyProject/MyProject.container').then(module => ({ default: module.MyProjectContainer })))
-const BenefitContainer = lazy(() => import('../../containers/Benefit/benefit.container').then(module => ({ default: module.BenefitContainer })))
-const QuoteContainer = lazy(() => import('../../containers/Quote/Quote.containers').then(module => ({ default: module.QuoteContainer })))
-const StackContainer = lazy(() => import('../../containers/Stack/Stack.containers').then(module => ({ default: module.StackContainer })))
-const ServiceContainer = lazy(() => import('../../containers/Services/Service.containers').then(module => ({ default: module.ServiceContainer })))
-const ProductContainer = lazy(() => import('../../containers/Product/product.container').then(module => ({ default: module.ProductContainer })))
-const ProcessTimeLine = lazy(() => import('../../containers/ProcessTimeline/ProcessTileline.container').then(module => ({ default: module.ProcessTimeLine })))
-const LinkTextComponent = lazy(() => import('../../components/Text/Text.component').then(module => ({ default: module.LinkTextComponent })))
-const ContactContainer = lazy(() => import('../../containers/Contact/Contact.container').then(module => ({ default: module.ContactContainer })))
+const MyProjectContainer = lazy(() => import('@/containers/_portfolio/MyProject/MyProject.container').then(module => ({ default: module.MyProjectContainer })))
+const BenefitContainer = lazy(() => import('@/containers/_portfolio/Benefit/benefit.container').then(module => ({ default: module.BenefitContainer })))
+const QuoteContainer = lazy(() => import('@/containers/_portfolio/Quote/Quote.containers').then(module => ({ default: module.QuoteContainer })))
+const StackContainer = lazy(() => import('@/containers/_portfolio/Stack/Stack.containers').then(module => ({ default: module.StackContainer })))
+const ServiceContainer = lazy(() => import('@/containers/_portfolio/Services/Service.containers').then(module => ({ default: module.ServiceContainer })))
+const ProductContainer = lazy(() => import('@/containers/_portfolio/Product/product.container').then(module => ({ default: module.ProductContainer })))
+const ProcessTimeLine = lazy(() => import('@/containers/_portfolio/ProcessTimeline/ProcessTileline.container').then(module => ({ default: module.ProcessTimeLine })))
+const LinkTextComponent = lazy(() => import('@/components/Text/Text.component').then(module => ({ default: module.LinkTextComponent })))
+const ContactContainer = lazy(() => import('@/containers/_portfolio/Contact/Contact.container').then(module => ({ default: module.ContactContainer })))
 
 export const Route = createFileRoute('/_portfolio/' as any)({
-    component: PortfolioPage,
+    component: PortfolioIndex,
 })
 
 // Portfolio Page Component
-export function PortfolioPage() {
-
-
+export function PortfolioIndex() {
     return (
         <>
             <HeroContainer id='hero' />

@@ -3,28 +3,28 @@ import { ReactLenis } from 'lenis/react'
 import { LazyMotion, domAnimation } from "framer-motion"
 
 //components
-import { UmamiTracker } from '../components/umami/umami.components'
+import { UmamiTracker } from '@/components/umami/umami.components'
 
 //style
-import { Content } from '../styles/global.style'
+import { Content } from '@/styles/global.style'
 
 //context providers
-import { SettingProvider } from "../context/Setting.context"
-import { LoadingProvider } from '../context/loading.context'
-import { AlertProvider } from '../context/alert.context'
+import { SettingProvider } from "@/context/Setting.context"
+import { LoadingProvider } from '@/context/loading.context'
+import { AlertProvider } from '@/context/alert.context'
 
 //pages
-import { NotFound } from './NotFound.page'
+import { NotFound } from '@/containers/_notFound/NotFound'
 
 //library
 import { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 // Import
-import GlobalStyle from '../styles/global.style';
+import GlobalStyle from '@/styles/global.style';
 
 //context
-import { useSettingContext } from '../context/Setting.context'
+import { useSettingContext } from '@/context/Setting.context'
 
 
 export const ThemeWrapper = ({children}) : React.ReactNode => {
@@ -49,7 +49,7 @@ export const ThemeWrapper = ({children}) : React.ReactNode => {
 
 export const Route = createRootRoute({
     component: RootComponent,
-    notFoundComponent: NotFound,
+    notFoundComponent: () => <NotFound />, 
 })
 
 // Layout for the root section (all routes)
