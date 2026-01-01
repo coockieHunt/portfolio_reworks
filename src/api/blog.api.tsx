@@ -29,7 +29,7 @@ export async function getBlogPosts(): Promise<IApiResponse | null> {
 
 export async function getBlogPostBySlug(slug: string): Promise<IApiResponse | null> {
     try {
-        const resp = await axios.get<IApiResponse>(`${ApiBaseUrl}/blog/post/${slug}`);
+        const resp = await axios.get<IApiResponse>(`${ApiBaseUrl}/blog/${slug}`);
         return resp.data;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 429) {

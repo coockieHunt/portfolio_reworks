@@ -11,7 +11,6 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     flex-direction: row;
     align-items: center; 
     justify-content: center;
-    padding: 15px 20px;
     
     background-color: ${props => props.$colorLine ? props.$colorLine : 'var(--primary)'};
     border: none;

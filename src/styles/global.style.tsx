@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
         border: 0;
         font-weight: normal;
         font-style: normal;
-        font-family: 'Montserrat', 'Montserrat-Fallback', sans-serif;
+        /* font-family: 'Montserrat', 'Montserrat-Fallback', sans-serif; */
     }
 
     *::-webkit-scrollbar {

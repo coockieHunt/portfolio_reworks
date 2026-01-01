@@ -27,7 +27,7 @@ export const Route = createFileRoute('/_portfolio' as any)({
 function PortfolioLayout() {
   return (
     <>
-      <NavigationComponent navConfig={navigation} />
+      <NavigationComponent navConfig={navigation} brandColor="white" />
       <AlertContainerComponent />
       <SettingContainer />
       

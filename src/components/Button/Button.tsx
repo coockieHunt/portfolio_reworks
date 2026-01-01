@@ -6,12 +6,12 @@ import { ButtonContainer } from './style/Button.style';
 //type
 export interface ButtonProps {
     onClick?: () => void;
+    padding?: string;
     color?: string;
     children: React.ReactNode;
     icon?: React.ReactNode;
     icon_right?: boolean;
     disabled?: boolean;
-    onclick?: () => void;
     className?: string;
     target?: string;
     href?: string;    
@@ -38,11 +38,12 @@ export const Button: React.FC<ButtonProps> = ({
     disabled, 
     className,
     target,
+    padding,
     href 
     }) => {
 
     const isAnchor = Boolean(href) && !disabled;
-
+        console.log("isAnchor:", onClick);
     return (
         <ButtonContainer 
             as={isAnchor ? 'a' : 'button'}
@@ -58,6 +59,8 @@ export const Button: React.FC<ButtonProps> = ({
             className={`${disabled ? "disabled " : ""}bg_color_primary${className ? ` ${className}` : ''}`}
             
             type={!isAnchor ? "button" : undefined}
+
+            style={{ padding: padding ? padding : '15px 20px' }} 
         >
             {icon && !icon_right && <div className="icon">{icon}</div>}
             

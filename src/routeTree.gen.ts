@@ -13,6 +13,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as PortfolioRouteImport } from './routes/_portfolio'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as PortfolioIndexRouteImport } from './routes/_portfolio/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
@@ -33,13 +34,20 @@ const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PortfolioRoute,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
+  '/blog/$slug': typeof BlogSlugRoute
   '/': typeof PortfolioIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
+  '/blog/$slug': typeof BlogSlugRoute
   '/': typeof PortfolioIndexRoute
   '/blog': typeof BlogIndexRoute
 }
@@ -47,15 +55,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_portfolio': typeof PortfolioRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
+  '/blog/$slug': typeof BlogSlugRoute
   '/_portfolio/': typeof PortfolioIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/blog' | '/' | '/blog/'
+  fullPaths: '/blog' | '/blog/$slug' | '/' | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog'
-  id: '__root__' | '/_portfolio' | '/blog' | '/_portfolio/' | '/blog/'
+  to: '/blog/$slug' | '/' | '/blog'
+  id:
+    | '__root__'
+    | '/_portfolio'
+    | '/blog'
+    | '/blog/$slug'
+    | '/_portfolio/'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioIndexRouteImport
       parentRoute: typeof PortfolioRoute
     }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
   }
 }
 
@@ -109,10 +131,12 @@ const PortfolioRouteWithChildren = PortfolioRoute._addFileChildren(
 )
 
 interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
 const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
 

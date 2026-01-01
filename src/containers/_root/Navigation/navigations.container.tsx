@@ -22,6 +22,7 @@ export type NavTuple = [string, string];
 
 export interface INavigationComponentProps {
     navConfig: NavTuple[];
+    brandColor?: string;
 }
 
 interface INavigationLinksProps {
@@ -54,7 +55,7 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({ items, onLinkClick }
 };
 
 
-export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navConfig }) => {
+export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navConfig, brandColor}) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const mobileBreakpoint = useMemo(() => {
@@ -84,7 +85,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navCo
             <Styled.BrandContainer>
                 <LogoComponent 
                     version="simple-full" 
-                    style={{ width: "16px", height: "auto", color: "var(--primary)" }} 
+                    style={{ width: "16px", height: "auto", color: brandColor }} 
                 />
                 <div className="burger-menu-wrapper">
                     <BurgerMenuComponent val={menuOpen} onClick={toggleMenu} />
