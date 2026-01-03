@@ -1,14 +1,14 @@
 // React
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link } from "react-scroll";
+import { Link } from 'react-scroll';
 
 // Hooks & Context
-import { useScrollbar } from "@/hooks/useScrollBar.hook";
-import { useWindowSize } from "@/hooks/useScreenResize.hook";
+import { useScrollbar } from '@/hooks/useScrollBar.hook';
+import { useWindowSize } from '@/hooks/useScreenResize.hook';
 
 // Components
-import { BurgerMenuComponent } from "@//components/BurgerMenu/BurgerMenu.component";
-import { IconButton } from "@/components/Button/IconButton";
+import { BurgerMenuComponent } from '@//components/BurgerMenu/BurgerMenu.component';
+import { IconButton } from '@/components/Button/IconButton';
 import { LogoComponent } from '@/components/Logo/Logo.components';
 
 // Data & Config
@@ -30,7 +30,10 @@ interface INavigationLinksProps {
     onLinkClick: () => void;
 }
 
-const NavigationLinks: React.FC<INavigationLinksProps> = ({ items, onLinkClick }) => {
+const NavigationLinks: React.FC<INavigationLinksProps> = ({
+    items,
+    onLinkClick,
+}) => {
     return (
         <>
             {items.map(([label, targetId], index) => (
@@ -38,12 +41,12 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({ items, onLinkClick }
                     <Link
                         to={targetId}
                         onClick={onLinkClick}
-                        href={`#${targetId}`} 
+                        href={`#${targetId}`}
                         spy={true}
                         smooth={true}
                         offset={-70}
                         duration={500}
-                        style={{ textDecoration: "none", color: "inherit" }}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                         <span>{index + 1}. </span>
                         {label}
@@ -54,8 +57,10 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({ items, onLinkClick }
     );
 };
 
-
-export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navConfig, brandColor}) => {
+export const NavigationComponent: React.FC<INavigationComponentProps> = ({
+    navConfig,
+    brandColor,
+}) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const mobileBreakpoint = useMemo(() => {
@@ -81,11 +86,13 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navCo
     }, []);
 
     return (
-        <Styled.NavigationContainer className={menuOpen ? "NavOpen" : "NavClose"}>
+        <Styled.NavigationContainer
+            className={menuOpen ? 'NavOpen' : 'NavClose'}
+        >
             <Styled.BrandContainer>
-                <LogoComponent 
-                    version="simple-full" 
-                    style={{ width: "16px", height: "auto", color: brandColor }} 
+                <LogoComponent
+                    version="simple-full"
+                    style={{ width: '16px', height: 'auto', color: brandColor }}
                 />
                 <div className="burger-menu-wrapper">
                     <BurgerMenuComponent val={menuOpen} onClick={toggleMenu} />
@@ -94,7 +101,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({ navCo
 
             <Styled.Nav
                 id="primary-navigation"
-                className={menuOpen ? "NavOpen" : "NavClose"}
+                className={menuOpen ? 'NavOpen' : 'NavClose'}
                 role="navigation"
                 aria-label="Navigation principale"
             >

@@ -4,4 +4,3 @@ export interface IApiResponse {
     status?: number;
     [key: string]: any;
 }
-

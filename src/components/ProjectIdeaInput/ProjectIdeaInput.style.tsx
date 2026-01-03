@@ -1,5 +1,8 @@
 import styled, { keyframes } from 'styled-components';
-import { ShowOutContainerRight, BorderPulseLight } from '../../styles/utils.style';
+import {
+    ShowOutContainerRight,
+    BorderPulseLight,
+} from '../../styles/utils.style';
 
 const PlaceholderBlink = keyframes`
     0% { opacity: 0.5; }
@@ -20,14 +23,16 @@ export const SendIcon = styled.div`
     align-items: center;
     justify-content: center;
     color: var(--primary);
-    font-size: 0.60em;
+    font-size: 0.6em;
     cursor: pointer;
     pointer-events: auto;
     z-index: 10;
     padding: 10px;
     padding-left: 4px;
     border-radius: 2px;
-    transition: transform 0.2s ease, color 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
     animation: ${ShowOutContainerRight} 0.3s ease-out;
 
     &:hover {
@@ -45,14 +50,14 @@ export const InputWrapper = styled.div`
     display: flex;
     align-items: center;
     max-width: 40%;
-    contain: layout paint; 
+    contain: layout paint;
 
     background-color: var(--background-secondary);
 `;
 
 export const LabelWorld = styled.input`
-    font-size: .7em;
-    font-weight: 200; 
+    font-size: 0.7em;
+    font-weight: 200;
     padding: 3px 10px;
     padding-right: 50px;
     background: #1f1e1e;
@@ -63,19 +68,22 @@ export const LabelWorld = styled.input`
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    will-change: border-color; 
+    will-change: border-color;
 
-    &:not(:focus,:hover){
-        border-bottom: 2px solid #ffffff21; 
+    &:not(:focus, :hover) {
+        border-bottom: 2px solid #ffffff21;
         animation: ${BorderPulseLight} 2s infinite;
     }
 
-    &::placeholder{
-        opacity: 1; 
+    &::placeholder {
+        opacity: 1;
         color: var(--font-hint);
         transition: color 0.3s ease;
         animation: ${PlaceholderBlink} 2s infinite ease-in-out;
     }
 
-    &&:hover, &&:focus{ border: 2px solid var(--primary);}
+    &&:hover,
+    &&:focus {
+        border: 2px solid var(--primary);
+    }
 `;

@@ -1,65 +1,67 @@
 import styled from 'styled-components';
 
-
 interface IGridEffectProps {
-	$bigColor?: string;
-	$smallColor?: string;
-	$bigSize?: string;
-	$smallSize?: string;
-	$bigOffset?: string;
-	$smallOffset?: string;
+    $bigColor?: string;
+    $smallColor?: string;
+    $bigSize?: string;
+    $smallSize?: string;
+    $bigOffset?: string;
+    $smallOffset?: string;
 }
 
 interface IDotGridEffectProps {
-	$DotColor?: string;
-	$DotSize?: string;
-	$Spacing?: string;
-	$offsetX?: string;
-	$offsetY?: string;
-	$isHovered?: boolean;
+    $DotColor?: string;
+    $DotSize?: string;
+    $Spacing?: string;
+    $offsetX?: string;
+    $offsetY?: string;
+    $isHovered?: boolean;
 }
 
 export const GridEffect = styled.div<IGridEffectProps>`
-	background-image: 
-		linear-gradient(${props => props.$bigColor || '#38373753'} 2px, transparent 2px), 
-		linear-gradient(90deg, ${props => props.$bigColor || '#38373753'} 2px, transparent 2px),
-		linear-gradient(${props => props.$smallColor || '#38373753'} 1px, transparent 1px), 
-		linear-gradient(90deg, ${props => props.$smallColor || '#38373753'} 1px, transparent 1px);
+    --big-c: ${(p) => p.$bigColor || '#38373753'};
+    --small-c: ${(p) => p.$smallColor || '#38373753'};
+    
+    background-image:
+        linear-gradient(var(--big-c) 2px, transparent 2px),
+        linear-gradient(90deg, var(--big-c) 2px, transparent 2px),
+        linear-gradient(var(--small-c) 1px, transparent 1px),
+        linear-gradient(90deg, var(--small-c) 1px, transparent 1px);
 
-	background-size: 
-		${props => props.$bigSize || '100px'} ${props => props.$bigSize || '100px'}, 
-		${props => props.$bigSize || '100px'} ${props => props.$bigSize || '100px'}, 
-		${props => props.$smallSize || '20px'} ${props => props.$smallSize || '20px'},    
-		${props => props.$smallSize || '20px'} ${props => props.$smallSize || '20px'};
+    background-size:
+        ${(p) => p.$bigSize || '100px'} ${(p) => p.$bigSize || '100px'},
+        ${(p) => p.$bigSize || '100px'} ${(p) => p.$bigSize || '100px'},
+        ${(p) => p.$smallSize || '20px'} ${(p) => p.$smallSize || '20px'},
+        ${(p) => p.$smallSize || '20px'} ${(p) => p.$smallSize || '20px'};
 
-	background-position: 
-		${props => props.$bigOffset || '-2px'} ${props => props.$bigOffset || '-2px'}, 
-		${props => props.$bigOffset || '-2px'} ${props => props.$bigOffset || '-2px'}, 
-		${props => props.$smallOffset || '-1px'} ${props => props.$smallOffset || '-1px'}, 
-		${props => props.$smallOffset || '-1px'} ${props => props.$smallOffset || '-1px'};
+    background-position:
+        ${(p) => p.$bigOffset || '-2px'} ${(p) => p.$bigOffset || '-2px'},
+        ${(p) => p.$bigOffset || '-2px'} ${(p) => p.$bigOffset || '-2px'},
+        ${(p) => p.$smallOffset || '-1px'} ${(p) => p.$smallOffset || '-1px'},
+        ${(p) => p.$smallOffset || '-1px'} ${(p) => p.$smallOffset || '-1px'};
 `;
 
 export const DotGridEffect = styled.div<IDotGridEffectProps>`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 
-	background-image: radial-gradient(
-		circle,
-			${props => props.$DotColor || '#383737'} ${props => props.$DotSize || '2px'},
-			transparent ${props => props.$DotSize || '2px'}
-		);
-	background-size: ${props => props.$Spacing || '20px'} ${props => props.$Spacing || '20px'};
-	background-position: ${props => props.$offsetX || '0'} ${props => props.$offsetY || '0'};
+    background-image: radial-gradient(
+        circle,
+        ${(p) => p.$DotColor || '#383737'} ${(p) => p.$DotSize || '2px'},
+        transparent ${(p) => p.$DotSize || '2px'}
+    );
+    
+    background-size: ${(p) => p.$Spacing || '20px'} ${(p) => p.$Spacing || '20px'};
+    background-position: ${(p) => p.$offsetX || '0'} ${(p) => p.$offsetY || '0'};
 
-	opacity: ${props => (props.$isHovered ? 1 : 0)};
-	transition: opacity 0.5s ease-in-out;
-
-	mix-blend-mode: overlay;
-	pointer-events: none; 
+    opacity: ${(p) => (p.$isHovered ? 1 : 0)};
+    transition: opacity 0.5s ease-in-out;
+    mix-blend-mode: overlay;
+    pointer-events: none;
 `;
 
 export const BackDrop = styled.div<{ $isOpen: boolean }>`
@@ -69,11 +71,12 @@ export const BackDrop = styled.div<{ $isOpen: boolean }>`
     width: 100%;
     height: 100%;
     z-index: 1199;
+    
     background: color-mix(in srgb, var(--background-secondary) 65%, transparent);
+    
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    opacity: ${props => props.$isOpen ? 1 : 0};
-    pointer-events: ${props => props.$isOpen ? 'auto' : 'none'};
+    opacity: ${(p) => (p.$isOpen ? 1 : 0)};
+    pointer-events: ${(p) => (p.$isOpen ? 'auto' : 'none')};
     transition: opacity 0.5s ease;
 `;
-

@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowDown, ArrowRight } from 'lucide-react';
-import * as styled from "./Terminal.style";
-import { trackEvent } from "../umami/umami.components";
+import * as styled from './Terminal.style';
+import { trackEvent } from '../umami/umami.components';
 
 export interface ITerminalProduct {
     id: number;
@@ -23,7 +23,11 @@ interface ITerminalLineItemProps {
     onToggle: (id: number) => void;
 }
 
-const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({ product, isOpen, onToggle }) => {
+const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({
+    product,
+    isOpen,
+    onToggle,
+}) => {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -33,9 +37,9 @@ const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({ product, isOpen, o
 
     return (
         <styled.TerminalLine className={isOpen ? 'selected' : ''}>
-            <div 
-                className="header" 
-                onClick={() => onToggle(product.id)} 
+            <div
+                className="header"
+                onClick={() => onToggle(product.id)}
                 role="button"
                 tabIndex={0}
                 aria-expanded={isOpen}
@@ -49,24 +53,32 @@ const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({ product, isOpen, o
                 </div>
 
                 <div className="info" aria-hidden="true">
-                    <styled.LineTag className="title font_code">[{product.title}]</styled.LineTag>
-                    <styled.LineTag className="subtitle font_code">{product.subTitle}</styled.LineTag>
+                    <styled.LineTag className="title font_code">
+                        [{product.title}]
+                    </styled.LineTag>
+                    <styled.LineTag className="subtitle font_code">
+                        {product.subTitle}
+                    </styled.LineTag>
                 </div>
 
                 <div className="action" aria-hidden="true">
-                    <styled.Separator><ArrowDown /></styled.Separator>
+                    <styled.Separator>
+                        <ArrowDown />
+                    </styled.Separator>
                 </div>
             </div>
 
             {isOpen && (
-                <div 
+                <div
                     id={`terminal-content-${product.id}`}
                     className="content"
                     role="region"
                     aria-labelledby={`terminal-header-${product.id}`}
                 >
                     <div className="card">
-                        <span aria-hidden="true"><ArrowRight /></span>
+                        <span aria-hidden="true">
+                            <ArrowRight />
+                        </span>
                         <p>{product.description}</p>
                     </div>
                 </div>
@@ -75,10 +87,10 @@ const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({ product, isOpen, o
     );
 };
 
-export const TerminalComponent: React.FC<ITerminalComponentProps> = ({ 
-    data, 
-    path = "jonathangleyze.fr/solution", 
-    command = "ls /projects --DDtree" 
+export const TerminalComponent: React.FC<ITerminalComponentProps> = ({
+    data,
+    path = 'jonathangleyze.fr/solution',
+    command = 'ls /projects --DDtree',
 }) => {
     const [openItemId, setOpenItemId] = useState<number | null>(null);
     const [currentPath, setCurrentPath] = useState('/');
@@ -91,22 +103,25 @@ export const TerminalComponent: React.FC<ITerminalComponentProps> = ({
             return;
         }
 
-        const selectedProduct = data.find(p => p.id === id);
+        const selectedProduct = data.find((p) => p.id === id);
         setOpenItemId(id);
-        
+
         if (selectedProduct) {
             setCurrentPath(`/${selectedProduct.title}`);
-            trackEvent('terminal_item_click', { 
+            trackEvent('terminal_item_click', {
                 product_id: selectedProduct.id,
-                product_title: selectedProduct.title 
+                product_title: selectedProduct.title,
             });
         }
     };
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                setOpenItemId(null); 
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
+            ) {
+                setOpenItemId(null);
                 setCurrentPath('/');
             }
         };
@@ -121,22 +136,27 @@ export const TerminalComponent: React.FC<ITerminalComponentProps> = ({
         <styled.TerminalContainer ref={containerRef}>
             <styled.TerminalHeader>
                 <styled.TerminalPath>
-                    {path}{currentPath}
+                    {path}
+                    {currentPath}
                 </styled.TerminalPath>
             </styled.TerminalHeader>
 
             <styled.TerminalBody>
-                <styled.CommandPromptWrapper className="font_code" style={{ color: "green" }}>
-                    {' '}{command}
+                <styled.CommandPromptWrapper
+                    className="font_code"
+                    style={{ color: 'green' }}
+                >
+                    {' '}
+                    {command}
                 </styled.CommandPromptWrapper>
-                
+
                 <styled.ServicesListWrapper>
                     {data.map((product) => (
-                        <TerminalLineItem 
-                            key={product.id} 
-                            product={product} 
+                        <TerminalLineItem
+                            key={product.id}
+                            product={product}
                             isOpen={openItemId === product.id}
-                            onToggle={handleItemClick} 
+                            onToggle={handleItemClick}
                         />
                     ))}
                 </styled.ServicesListWrapper>

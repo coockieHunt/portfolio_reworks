@@ -18,18 +18,14 @@ export interface IProject {
     gridPos?: { colStart: number; rowStart: number };
 }
 
-
 export interface IGaleryImage {
     img: string;
     title?: string;
     alt?: string;
 }
 
-
 export interface IBuildTabBuildProps {
     project: IProject;
     currentTab: string;
     setCurrentTab: (tab: string) => void;
 }
-
-

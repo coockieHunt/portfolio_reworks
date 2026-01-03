@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 import { m } from 'framer-motion';
 import { BORDER_RADIUS } from '../../config';
@@ -16,28 +15,27 @@ export const ModalDiv = styled(m.div)<IModalStyleProps>`
     flex-direction: column;
     width: 90%;
     max-width: 550px;
-    background: var(--background-secondary); 
+    background: var(--background-secondary);
     border-radius: ${BORDER_RADIUS.xlarge};
 `;
 
 export const Content = styled.div<IModalStyleProps>`
     padding: 25px;
-    font-variation-settings: "wght" 300;
+    font-variation-settings: 'wght' 300;
     font-size: 1em;
 
-    & h1{
+    & h1 {
         color: var(--primary);
         font-size: 1.3em;
 
         display: inline-block;
         width: 100%;
-        font-variation-settings: "wght" 600;
+        font-variation-settings: 'wght' 600;
         text-align: center;
 
         padding-bottom: 15px;
     }
-
-`
+`;
 
 export const Top = styled.div`
     display: flex;
@@ -57,7 +55,9 @@ export const Top = styled.div`
         border-radius: ${BORDER_RADIUS.round};
     }
 
-    & > button:focus { outline: none; }
+    & > button:focus {
+        outline: none;
+    }
 
     & > button:focus-visible {
         outline: none;
@@ -67,6 +67,4 @@ export const Top = styled.div`
     & > button > svg {
         color: inherit;
     }
-`
-
-
+`;

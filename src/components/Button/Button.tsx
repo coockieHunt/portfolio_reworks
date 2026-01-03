@@ -14,14 +14,14 @@ export interface ButtonProps {
     disabled?: boolean;
     className?: string;
     target?: string;
-    href?: string;    
+    href?: string;
 }
 
 /**
  * Button Component
- * 
+ *
  * This component renders a customizable button with optional icon and click handler.
- * 
+ *
  * @param onClick {Function} - Callback function to be executed when the button is clicked.
  * @param color {string} - Color of the button.
  * @param children {ReactNode} - Content to be displayed inside the button.
@@ -30,45 +30,40 @@ export interface ButtonProps {
  * @param disabled {boolean} - If `true`, the button will be disabled and cannot be clicked.
  */
 export const Button: React.FC<ButtonProps> = ({
-    onClick, 
-    color, 
-    children, 
-    icon, 
-    icon_right, 
-    disabled, 
+    onClick,
+    color,
+    children,
+    icon,
+    icon_right,
+    disabled,
     className,
     target,
     padding,
-    href 
-    }) => {
-
+    href,
+}) => {
     const isAnchor = Boolean(href) && !disabled;
-        console.log("isAnchor:", onClick);
     return (
-        <ButtonContainer 
+        <ButtonContainer
             as={isAnchor ? 'a' : 'button'}
-
             href={isAnchor ? href : undefined}
-            target={isAnchor ? (target || '_self') : undefined}
-            rel={isAnchor && target === '_blank' ? 'noopener noreferrer' : undefined}
-
-            onClick={!disabled ? onClick : undefined} 
-            disabled={disabled} 
-            $colorLine={color} 
-            
-            className={`${disabled ? "disabled " : ""}bg_color_primary${className ? ` ${className}` : ''}`}
-            
-            type={!isAnchor ? "button" : undefined}
-
-            style={{ padding: padding ? padding : '15px 20px' }} 
+            target={isAnchor ? target || '_self' : undefined}
+            rel={
+                isAnchor && target === '_blank'
+                    ? 'noopener noreferrer'
+                    : undefined
+            }
+            onClick={!disabled ? onClick : undefined}
+            disabled={disabled}
+            $colorLine={color}
+            className={`${disabled ? 'disabled ' : ''}bg_color_primary${className ? ` ${className}` : ''}`}
+            type={!isAnchor ? 'button' : undefined}
+            style={{ padding: padding ? padding : '15px 20px' }}
         >
             {icon && !icon_right && <div className="icon">{icon}</div>}
-            
+
             <span>{children}</span>
-            
+
             {icon && icon_right && <div className="icon">{icon}</div>}
         </ButtonContainer>
     );
-}
-
-
+};

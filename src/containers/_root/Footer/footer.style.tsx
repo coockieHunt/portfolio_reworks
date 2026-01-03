@@ -1,20 +1,19 @@
-import { SCREEN_SIZE } from "@/config";
+import { SCREEN_SIZE } from '@/config';
 import styled from 'styled-components';
 
 export const Container = styled.footer`
     position: relative;
     width: 100%;
-    overflow: hidden; 
-    padding-top: 70px; 
+    overflow: hidden;
+    padding-top: 70px;
     padding-bottom: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: auto;
 
-
     & .content-wrapper {
-        z-index: 2; 
+        z-index: 2;
         width: 70%;
         padding: 10px 20px;
     }
@@ -33,18 +32,18 @@ export const Container = styled.footer`
             font-size: 3rem;
             line-height: 1.1;
 
-            & .left, & .right {
-                display: inline-block;     
-                width: 45%;    
+            & .left,
+            & .right {
+                display: inline-block;
+                width: 45%;
                 vertical-align: top;
             }
 
-
-            @media ( max-width: ${SCREEN_SIZE.tablet}) {
+            @media (max-width: ${SCREEN_SIZE.tablet}) {
                 position: relative;
                 margin-bottom: 40px;
 
-                & .left{
+                & .left {
                     float: none;
                     transform: none;
                     position: relative;
@@ -53,13 +52,13 @@ export const Container = styled.footer`
                     padding: 15px 0;
                 }
 
-                & .right{
+                & .right {
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
                     z-index: 1;
-                    opacity:.3;
+                    opacity: 0.3;
                     width: 100%;
                 }
             }
@@ -87,7 +86,7 @@ export const Container = styled.footer`
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
         }
 
-        @media ( max-width: ${SCREEN_SIZE.tablet}) {
+        @media (max-width: ${SCREEN_SIZE.tablet}) {
             display: none;
         }
     }
@@ -105,18 +104,18 @@ export const Aurora = styled.div`
     top: 0px;
     left: 0;
     right: 0;
-    height: 100%; 
+    height: 100%;
 
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
 
-	background: radial-gradient(
-			ellipse 80% 75% at 50% -0%, 
-			var(--primary) 40%, 
-			var(--secondary) 4%, 
-			transparent 90% 
-	);
-    
+    background: radial-gradient(
+        ellipse 80% 75% at 50% -0%,
+        var(--primary) 40%,
+        var(--secondary) 4%,
+        transparent 90%
+    );
+
     filter: blur(60px);
     z-index: 0;
     pointer-events: none;
@@ -157,12 +156,12 @@ export const BottomBar = styled.div`
 
             padding: 10px 5px;
 
-            &.backToTop{
+            &.backToTop {
                 color: var(--primary);
                 font-weight: 600;
             }
 
-            & svg{
+            & svg {
                 margin-top: 4px;
             }
 
@@ -173,7 +172,6 @@ export const BottomBar = styled.div`
             & .opened {
                 transform: rotate(180deg);
                 transition: transform 0.3s ease;
-
             }
         }
     }
@@ -181,15 +179,16 @@ export const BottomBar = styled.div`
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
         gap: 20px;
-        
-        .social-links {
-            order: 1; 
-            margin-bottom: 10px;
 
+        .social-links {
+            order: 1;
+            margin-bottom: 10px;
         }
-        .copyright { order: 2; }
-        .legal-links { 
-            order: 3; 
+        .copyright {
+            order: 2;
+        }
+        .legal-links {
+            order: 3;
             flex-direction: column;
             gap: 0px;
         }
@@ -197,19 +196,18 @@ export const BottomBar = styled.div`
 `;
 
 export const LegalContent = styled.div`
-    overflow: hidden; 
+    overflow: hidden;
     border-radius: 8px;
-    
-    background-color: #141414; 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
+
+    background-color: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--font-subtle);
 
-    transition: 
+    transition:
         padding 0.3s ease-in-out,
         max-height 0.5s ease-in-out,
         opacity 0.3s ease-in-out,
         margin-top 0.3s ease;
-
 
     &.closed {
         max-height: 0;
@@ -220,7 +218,7 @@ export const LegalContent = styled.div`
     }
 
     &.open {
-        max-height: 5000px; 
+        max-height: 5000px;
         opacity: 1;
         padding: 2rem;
         margin-top: 2rem;
@@ -233,7 +231,7 @@ export const LegalContent = styled.div`
         text-align: center;
         letter-spacing: 1px;
         text-transform: uppercase;
-        
+
         &::after {
             content: '';
             display: block;
@@ -260,10 +258,9 @@ export const LegalContent = styled.div`
         margin-bottom: 10px;
         font-weight: 600;
         color: var(--font-subtle);
-
     }
 
-    & h6{
+    & h6 {
         font-size: 1rem;
         margin-top: 15px;
         margin-bottom: 8px;
@@ -273,9 +270,9 @@ export const LegalContent = styled.div`
 
     & p {
         font-size: 0.95rem;
-        line-height: 1.7; 
+        line-height: 1.7;
         margin-bottom: 12px;
-        
+
         & strong {
             font-weight: 600;
         }
@@ -296,7 +293,7 @@ export const LegalContent = styled.div`
     & ul {
         margin: 15px 0 15px 20px;
         padding: 0;
-        list-style: none; 
+        list-style: none;
 
         & li {
             position: relative;
@@ -320,7 +317,12 @@ export const LegalContent = styled.div`
     & hr {
         border: none;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+        );
         margin: 30px 0;
     }
 
@@ -335,13 +337,13 @@ export const LegalContent = styled.div`
             padding: 1rem;
             margin: 20px 0 100px 0;
         }
-        
-        & h3 { 
+
+        & h3 {
             font-size: 1.4rem;
             margin-bottom: 20px;
         }
-        
-        & h4 { 
+
+        & h4 {
             font-size: 1.1rem;
             margin-top: 25px;
         }
@@ -357,7 +359,7 @@ export const LegalContent = styled.div`
 
         & ul {
             margin: 10px 0 10px 15px;
-            
+
             & li {
                 font-size: 0.9rem;
                 padding-left: 18px;

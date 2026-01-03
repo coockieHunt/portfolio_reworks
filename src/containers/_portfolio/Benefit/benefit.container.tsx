@@ -1,18 +1,18 @@
 // libraries
-import { m, Variants } from "framer-motion"
-import { JSX, CSSProperties } from "react";
+import { m, Variants } from 'framer-motion';
+import { JSX, CSSProperties } from 'react';
 
 // styles
-import { Container, TextContainer, Info, Img, Text } from "./benefit.style";
+import { Container, TextContainer, Info, Img, Text } from './benefit.style';
 
 // components
-import { TitleTextComponent } from '@/components/Text/Text.component'
+import { TitleTextComponent } from '@/components/Text/Text.component';
 
 // data
 import { benefitItems } from '@/data';
 
 //shared types
-import { ICustomCSSProperties } from '@/types/shared'
+import { ICustomCSSProperties } from '@/types/shared';
 
 // types
 export interface IBenefitItemData {
@@ -36,7 +36,7 @@ const AnimateSvg = (): JSX.Element => (
         preserveAspectRatio="xMinYMin meet"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         viewport={{ once: true, amount: 0.2 }}
     >
         <g fill="currentColor" stroke="currentColor" strokeWidth="3">
@@ -52,14 +52,16 @@ const AnimateSvg = (): JSX.Element => (
     </m.svg>
 );
 
-export const BenefitContainer = ({ id }: IBenefitContainerProps): JSX.Element => {
+export const BenefitContainer = ({
+    id,
+}: IBenefitContainerProps): JSX.Element => {
     const InfoVariants: Variants = {
-        left: { x: 100, opacity: 1 }, 
+        left: { x: 100, opacity: 1 },
         right: { x: -100, opacity: 1 },
     };
 
     const marginValues: number[] = [0, 20, 20, 0];
-    
+
     const cssVars = {
         '--font': 'white',
     } as ICustomCSSProperties;
@@ -68,22 +70,39 @@ export const BenefitContainer = ({ id }: IBenefitContainerProps): JSX.Element =>
 
     return (
         <Container style={cssVars} id={id}>
-            <TitleTextComponent subtitle={"A PROPOS"} subtitleOpacity={0.3}>Mes compétences</TitleTextComponent>
-            <Text>Compétences techniques orientées performance, durabilité et évolutivité.
+            <TitleTextComponent subtitle={'A PROPOS'} subtitleOpacity={0.3}>
+                Mes compétences
+            </TitleTextComponent>
+            <Text>
+                Compétences techniques orientées performance, durabilité et
+                évolutivité.
             </Text>
             <TextContainer>
                 <m.div
                     initial="left"
                     whileInView={{ x: 0 }}
                     transition={{ type: 'spring' }}
-                    variants={InfoVariants}>
+                    variants={InfoVariants}
+                >
                     <Info className="start">
                         {items.slice(0, 4).map((item, index) => (
-                            <div className="InfoElement" key={index} style={{ '--desktop-margin-right': `${marginValues[index]}px` } as ICustomCSSProperties}>
+                            <div
+                                className="InfoElement"
+                                key={index}
+                                style={
+                                    {
+                                        '--desktop-margin-right': `${marginValues[index]}px`,
+                                    } as ICustomCSSProperties
+                                }
+                            >
                                 <div className="title">
-                                    <span className="mobile-icon">{item.icon}</span>
+                                    <span className="mobile-icon">
+                                        {item.icon}
+                                    </span>
                                     <h3>{item.title}</h3>
-                                    <span className="desktop-icon">{item.icon}</span>
+                                    <span className="desktop-icon">
+                                        {item.icon}
+                                    </span>
                                 </div>
 
                                 <p className="font_code">{item.description}</p>
@@ -92,17 +111,29 @@ export const BenefitContainer = ({ id }: IBenefitContainerProps): JSX.Element =>
                     </Info>
                 </m.div>
                 <Img>
-                    <AnimateSvg/>
+                    <AnimateSvg />
                 </Img>
                 <m.div
                     initial="right"
                     whileInView={{ x: 0 }}
                     transition={{ type: 'spring' }}
-                    variants={InfoVariants}>
+                    variants={InfoVariants}
+                >
                     <Info className="end">
                         {items.slice(4, 8).map((item, index) => (
-                            <div className= "InfoElement" key={index} style={{ '--desktop-margin-left': `${marginValues[index]}px` } as ICustomCSSProperties}>
-                                <div className="title" style={{justifyContent: 'flex-start' }}>
+                            <div
+                                className="InfoElement"
+                                key={index}
+                                style={
+                                    {
+                                        '--desktop-margin-left': `${marginValues[index]}px`,
+                                    } as ICustomCSSProperties
+                                }
+                            >
+                                <div
+                                    className="title"
+                                    style={{ justifyContent: 'flex-start' }}
+                                >
                                     {item.icon}
                                     <h3>{item.title}</h3>
                                 </div>
@@ -113,5 +144,5 @@ export const BenefitContainer = ({ id }: IBenefitContainerProps): JSX.Element =>
                 </m.div>
             </TextContainer>
         </Container>
-    )
-}
+    );
+};

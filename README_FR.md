@@ -52,6 +52,7 @@ Consultez le portfolio en production : **[jonathangleyze.fr](https://www.jonatha
 ```
 
 **Services actifs** :
+
 - 🔄 **PM2** : Gestionnaire de processus (disponibilité 24/7, redémarrages automatiques)
 - 📊 **Umami** : Analytics respectueuses de la vie privée (auto-hébergé, conforme RGPD)
 - 📈 **Uptime Kuma** : Monitoring en temps réel avec vérifications de santé
@@ -59,6 +60,7 @@ Consultez le portfolio en production : **[jonathangleyze.fr](https://www.jonatha
 - ⚡ **Redis** : Cache pour performances optimales
 
 **Workflow CI/CD** :
+
 ```bash
 git push → GitHub Actions → Build → SSH Deploy → PM2 Reload (0 downtime)
 ```
@@ -72,6 +74,7 @@ git push → GitHub Actions → Build → SSH Deploy → PM2 Reload (0 downtime)
 ## 🚀 Installation
 
 ### Prérequis
+
 - Node.js (v16 ou supérieur)
 - npm ou yarn
 
@@ -94,6 +97,7 @@ npm run dev
 ```
 
 **Commandes disponibles** :
+
 - `npm run dev` - Serveur de développement (http://localhost:5173)
 - `npm run dev:network` - Accès réseau local
 - `npm run build` - Build production
@@ -106,6 +110,7 @@ npm run dev
 ## 🔗 Configuration API
 
 **Fichier `.env.example`** :
+
 ```env
 # URL de l'API backend
 VITE_API_BASE_URL=http://localhost:3001/api
@@ -115,6 +120,7 @@ VITE_ANALYTICS_ID=your-umami-website-id
 ```
 
 **Endpoints disponibles** :
+
 - `/api/guestbook` - Livre d'or
 - `/api/contact` - Formulaire de contact
 - `/api/counter` - Compteur de visites
@@ -126,14 +132,17 @@ Les clients API sont dans `src/api/`
 ## 🛠️ Stack Technique
 
 **Frontend**
+
 - React 18 | TypeScript | Vite
 - Styled Components | Framer Motion
 
 **Backend & Infrastructure**
+
 - Node.js | Express.js | Redis
 - Docker | PM2 | Umami Analytics
 
 **DevOps**
+
 - GitHub Actions | SSH Deploy | Git
 
 ---
@@ -172,15 +181,18 @@ src/
 ## 📜 Licence
 
 **Modèle de licence mixte** :
+
 - **Code** : Open source (voir [LICENSE.md](./LICENSE.md))
 - **Design & Assets** : Propriétaire © 2025 Jonathan Gleyze
 
 ### ✅ Autorisé
+
 - Utiliser le code pour apprendre et construire vos projets
 - Modifier et adapter le code pour vos besoins
 - Utiliser comme référence pour votre portfolio
 
 ### ❌ Interdit
+
 - Cloner ce dépôt et l'utiliser tel quel
 - Utiliser le design, graphiques ou contenu sans permission
 - Utiliser à des fins commerciales sans autorisation explicite

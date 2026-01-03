@@ -3,20 +3,20 @@ import { COLOR_SETTING, GetHightContrastSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
     :root {
-        --background: ${props => COLOR_SETTING[props.theme.theme]?.background || '#303134'};
-        --background-secondary: ${props => COLOR_SETTING[props.theme.theme]?.background_secondary || '#221f30'};
-        --background-tertiary: ${props => COLOR_SETTING[props.theme.theme]?.background_tertiary || '#1c1933'};
+        --background: ${(props) => COLOR_SETTING[props.theme.theme]?.background || '#303134'};
+        --background-secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.background_secondary || '#221f30'};
+        --background-tertiary: ${(props) => COLOR_SETTING[props.theme.theme]?.background_tertiary || '#1c1933'};
         
-        --font: ${props => COLOR_SETTING[props.theme.theme]?.font || '#ddd9f7'};
-        --font-subtle: ${props => COLOR_SETTING[props.theme.theme]?.font_subtle || '#eeebffc0'};
-        --font-on-primary: ${props => COLOR_SETTING[props.theme.theme]?.font_on_primary || '#ffffff'};
-        --font-hint: ${props => COLOR_SETTING[props.theme.theme]?.font_hint || '#bbbbcc'};
+        --font: ${(props) => COLOR_SETTING[props.theme.theme]?.font || '#ddd9f7'};
+        --font-subtle: ${(props) => COLOR_SETTING[props.theme.theme]?.font_subtle || '#eeebffc0'};
+        --font-on-primary: ${(props) => COLOR_SETTING[props.theme.theme]?.font_on_primary || '#ffffff'};
+        --font-hint: ${(props) => COLOR_SETTING[props.theme.theme]?.font_hint || '#bbbbcc'};
 
-        --primary: ${props => COLOR_SETTING[props.theme.theme]?.primary || '#8C7DFF'};
-        --secondary: ${props => COLOR_SETTING[props.theme.theme]?.secondary || '#4F4398'};
-        --accentuate: ${props => COLOR_SETTING[props.theme.theme]?.accentuate || '#A594FF'};
+        --primary: ${(props) => COLOR_SETTING[props.theme.theme]?.primary || '#8C7DFF'};
+        --secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.secondary || '#4F4398'};
+        --accentuate: ${(props) => COLOR_SETTING[props.theme.theme]?.accentuate || '#A594FF'};
         
-        --border: ${props => COLOR_SETTING[props.theme.theme]?.border || 'rgba(255, 255, 255, 0.12)'};
+        --border: ${(props) => COLOR_SETTING[props.theme.theme]?.border || 'rgba(255, 255, 255, 0.12)'};
     }
 
     @font-face {
@@ -110,7 +110,7 @@ const GlobalStyle = createGlobalStyle`
         transition: stroke-width 0.2s ease-in-out;
     }
 
-    ${props => {
+    ${(props) => {
         const hcConfig = GetHightContrastSetting(props.theme.theme);
 
         return `

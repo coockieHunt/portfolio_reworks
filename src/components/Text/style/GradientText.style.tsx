@@ -11,12 +11,15 @@ const moveGradient = keyframes`
 `;
 
 export const Gradient = styled.span<IGradientProps>`
-    background: linear-gradient(to right, ${(props) => props.$color.join(', ')});
+    background: linear-gradient(
+        to right,
+        ${(props) => props.$color.join(', ')}
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     display: inline-block;
-    font-variation-settings: "wght" 800;
+    font-variation-settings: 'wght' 800;
 
     background-size: 200% 100%;
     animation: ${moveGradient} 4s linear infinite;

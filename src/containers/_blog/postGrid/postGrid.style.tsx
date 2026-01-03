@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
-import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
+import { BORDER_RADIUS } from '@/config';
+import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
-// Animation pour l'apparition des cartes
 const fadeInUp = keyframes`
     from {
         opacity: 0;
@@ -12,7 +12,6 @@ const fadeInUp = keyframes`
         transform: translateY(0);
     }
 `;
-
 
 export const Container = styled.div`
     width: 90%;
@@ -36,44 +35,35 @@ export const PostPreview = styled.li`
     border-radius: ${BORDER_RADIUS.large};
     background: rgba(41, 40, 40, 0.8);
     overflow: hidden;
-    
-    // Animation d'entrée
+
     animation: ${fadeInUp} 0.6s ease forwards;
     opacity: 0;
-    
-    // Délai progressif pour chaque carte
-    &:nth-child(1) { animation-delay: 0.1s; }
-    &:nth-child(2) { animation-delay: 0.2s; }
-    &:nth-child(3) { animation-delay: 0.3s; }
-    &:nth-child(4) { animation-delay: 0.4s; }
+
+    &:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+    &:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    &:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+    &:nth-child(4) {
+        animation-delay: 0.4s;
+    }
 
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
         transform: translateY(-8px);
-        box-shadow: 
-            0 10px 40px var(--primary),
-            0 0 0 1px var(--secondary);
+        box-shadow:
+            0 10px 40px ${HexToRgbaConverter('var(--primary)', 0.2)},
+            0 0 0 1px ${HexToRgbaConverter('var(--secondary)', 0.2)};
         border-color: var(--secondary);
-        
+
         img {
             filter: brightness(1.1);
             position: relative;
-            
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: var(--primary);
-                opacity: 0.10;
-            }
-        }
-
-        h2 {
-            color: #a78bfa;
         }
     }
 
@@ -112,17 +102,17 @@ export const PostPreview = styled.li`
             flex: 1;
 
             p {
-                color: #999; 
+                color: #999;
                 line-height: 1.6;
                 margin: 0;
             }
         }
 
         & .footer {
-            position: relative; 
+            position: relative;
             padding: 10px 20px;
             font-size: 0.85rem;
-            color: #666; 
+            color: #666;
             display: flex;
             align-items: center;
             height: auto;

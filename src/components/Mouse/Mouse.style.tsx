@@ -8,24 +8,23 @@ export interface IMouseProps {
     $type: 'mouse' | 'phone';
 }
 
-
 const type_size = {
-	mouse: {
-		width: "60px",
-		height: "100px",
-		border: "100px",
-		positonX: "20%",
-		positonY: "50%"
-	},
+    mouse: {
+        width: '60px',
+        height: '100px',
+        border: '100px',
+        positonX: '20%',
+        positonY: '50%',
+    },
 
-	phone: {
-		width: "70px",
-		height: "120px",
-		border: "10px",
-		positonX: "60%",
-		positonY: "70%"
-	}
-}
+    phone: {
+        width: '70px',
+        height: '120px',
+        border: '10px',
+        positonX: '60%',
+        positonY: '70%',
+    },
+};
 
 const scrollWheelAnimation = keyframes`
 	0% {transform: translate(-50%, -50%);}
@@ -56,28 +55,28 @@ export const Mouse = styled.div<IMouseProps>`
         border-radius: 100%;
         animation: ${scrollWheelAnimation} 1.4s infinite alternate ease-in-out;
 
-        width: 10PX;
-        height: 10PX;
+        width: 10px;
+        height: 10px;
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             top: ${type_size.phone.positonX};
             left: ${type_size.phone.positonY};
         }
-}
-
-@media (max-width: ${SCREEN_SIZE.mobile}) {
-    &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 15%;
-        left: calc(100% + 4px);
-        transform: translate(-50%, 0);
-        border: 1px solid var(--primary);
-        background-color: var(--primary);
-        height: 15px;
-        width: 1px;
-        border-radius: 0 4px 4px 0;
     }
-}
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 15%;
+            left: calc(100% + 4px);
+            transform: translate(-50%, 0);
+            border: 1px solid var(--primary);
+            background-color: var(--primary);
+            height: 15px;
+            width: 1px;
+            border-radius: 0 4px 4px 0;
+        }
+    }
 `;

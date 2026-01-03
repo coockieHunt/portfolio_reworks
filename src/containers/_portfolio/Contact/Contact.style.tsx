@@ -8,7 +8,7 @@ export const Container = styled.div`
     margin: 50px auto 70px auto;
     border-radius: ${BORDER_RADIUS.xxxlarge};
     gap: 30px;
-    
+
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 90%;
         flex-direction: column;
@@ -35,7 +35,11 @@ export const Info = styled.div`
     border: 1px solid var(--primary);
     border-bottom: 8px solid var(--primary);
     position: relative;
-    background: linear-gradient(135deg, rgba(29, 29, 29, 0.4), rgba(29, 29, 29, 0.2));
+    background: linear-gradient(
+        135deg,
+        rgba(29, 29, 29, 0.4),
+        rgba(29, 29, 29, 0.2)
+    );
     backdrop-filter: blur(10px);
 
     & .content {
@@ -48,7 +52,7 @@ export const Info = styled.div`
             flex-direction: column;
             gap: 10px;
             padding: 10px 0 25px 0;
-            
+
             & h2 {
                 font-size: 1.5em;
                 color: var(--primary);
@@ -60,7 +64,7 @@ export const Info = styled.div`
                 color: var(--font-subtle);
             }
         }
-        
+
         & .container {
             display: flex;
             flex-direction: column;
@@ -73,14 +77,16 @@ export const Info = styled.div`
                 padding: 12px 8px;
                 border-radius: ${BORDER_RADIUS.xlarge};
                 transition: all 0.3s ease;
-                
+
                 & svg {
                     height: 3em;
                     width: auto;
                     padding: 12px;
                     background-color: var(--primary);
                     border-radius: ${BORDER_RADIUS.xlarge};
-                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    transition:
+                        transform 0.3s ease,
+                        box-shadow 0.3s ease;
                     z-index: 2;
                 }
 
@@ -88,13 +94,13 @@ export const Info = styled.div`
                     display: flex;
                     flex-direction: column;
                     cursor: pointer;
-                    
+
                     & .name {
                         color: var(--font-subtle);
                         font-size: 0.9em;
                         transition: color 0.3s ease;
                     }
-                    
+
                     & .info {
                         font-weight: 500;
                     }
@@ -103,12 +109,13 @@ export const Info = styled.div`
                 &:hover {
                     transform: translateX(8px);
                     background: rgba(255, 255, 255, 0.03);
-                    
+
                     & svg {
                         transform: scale(1.1);
-                        box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 25%, transparent);
+                        box-shadow: 0 4px 12px
+                            color-mix(in srgb, var(--primary) 25%, transparent);
                     }
-                    
+
                     & .name {
                         color: var(--primary);
                     }
@@ -136,11 +143,17 @@ export const Info = styled.div`
                 width: 100%;
                 justify-content: space-between;
 
-                & .info {display: none;}
-                & .name {display: none;}
-                & a .textInfo {display: none;}   
+                & .info {
+                    display: none;
+                }
+                & .name {
+                    display: none;
+                }
+                & a .textInfo {
+                    display: none;
+                }
             }
-            
+
             & .title {
                 & h2 {
                     font-size: 1.2em;
@@ -166,7 +179,8 @@ export const ContactForm = styled.div`
     width: 70%;
     padding: 35px;
 
-    background: linear-gradient(135deg, 
+    background: linear-gradient(
+        135deg,
         var(--background-tertiary),
         color-mix(in srgb, var(--primary) 8%, transparent)
     );
@@ -174,14 +188,15 @@ export const ContactForm = styled.div`
     border: 1px solid var(--primary);
     border-bottom: 8px solid var(--primary);
     border-radius: ${BORDER_RADIUS.xxlarge};
-        
+
     --breath-color: var(--primary);
     --shadow-blur-min: 10px;
     --shadow-blur-max: 20px;
     --shadow-spread-min: 4px;
     --shadow-spread-max: 6px;
-    
-    box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
+
+    box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min)
+        var(--breath-color);
     transition: box-shadow 0.3s ease;
     animation: breathe 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 
@@ -194,16 +209,18 @@ export const ContactForm = styled.div`
         z-index: 1;
     }
 
-
     @keyframes breathe {
-        0%, 100% {
-            box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min) var(--breath-color);
+        0%,
+        100% {
+            box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min)
+                var(--breath-color);
         }
         25% {
             box-shadow: 0 6px 20px var(--breath-color);
         }
         50% {
-            box-shadow: 0 var(--shadow-spread-max) var(--shadow-blur-max) var(--breath-color);
+            box-shadow: 0 var(--shadow-spread-max) var(--shadow-blur-max)
+                var(--breath-color);
         }
         75% {
             box-shadow: 0 6px 20px var(--breath-color);
@@ -213,7 +230,7 @@ export const ContactForm = styled.div`
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
         padding: 25px;
-        
+
         & h2 {
             font-size: 1.6em;
             line-height: 1.4em;
@@ -237,7 +254,7 @@ export const ActionForm = styled.div`
         transition: all 0.3s ease;
         padding: 8px 12px;
         border-radius: ${BORDER_RADIUS.medium};
-        
+
         &:hover {
             color: var(--primary);
             background: rgba(255, 255, 255, 0.05);
@@ -251,7 +268,7 @@ export const ActionForm = styled.div`
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
         gap: 15px;
-        
+
         & .resetForm {
             display: none;
         }
@@ -262,7 +279,7 @@ export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
     padding: 20px;
-    
+
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         font-size: 2em;
     }

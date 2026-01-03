@@ -1,11 +1,13 @@
 import styled from 'styled-components';
-import {SCREEN_SIZE, BORDER_RADIUS} from '@/config.js'
+import { SCREEN_SIZE, BORDER_RADIUS } from '@/config.js';
 
 export const Section = styled.div`
     position: relative;
     overflow: hidden;
     padding: 60px 100px;
-    @media (max-width: ${SCREEN_SIZE.mobile}) {padding: 60px 20px;}
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        padding: 60px 20px;
+    }
 `;
 
 export const SkillCard = styled.div`
@@ -20,7 +22,7 @@ export const SkillCard = styled.div`
 
     cursor: default;
 
-    &:hover{
+    &:hover {
         transform: translateY(-4px);
     }
 
@@ -32,7 +34,7 @@ export const WaveBackground = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 0; 
+    z-index: 0;
 `;
 
 export const Text = styled.div`
@@ -42,61 +44,63 @@ export const Text = styled.div`
     justify-content: center;
     gap: 50px;
 
-    & .left{
+    & .left {
         display: flex;
         flex-direction: column;
-        flex: 0 0 40%; 
-        text-align: right; 
+        flex: 0 0 40%;
+        text-align: right;
         align-items: flex-end;
         justify-content: center;
         z-index: 1;
 
-        & h3{
+        & h3 {
             font-size: 28px;
             margin-bottom: 20px;
         }
 
-        & p{
+        & p {
             font-size: 16px;
             line-height: 1.5;
         }
     }
 
-    & .right{
-        flex: 0 0 60%; 
-        text-align: left; 
-        display: flex; 
-        justify-content: center; 
+    & .right {
+        flex: 0 0 60%;
+        text-align: left;
+        display: flex;
+        justify-content: center;
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             font-size: 16px;
-            flex: 1; 
+            flex: 1;
             justify-content: flex-start;
         }
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         flex-direction: column;
-        align-items: center; 
-        padding: 40px 20px; 
+        align-items: center;
+        padding: 40px 20px;
 
-        & .left, & .right{
+        & .left,
+        & .right {
             width: 100%;
-            text-align: left; 
-            flex: 1; 
+            text-align: left;
+            flex: 1;
         }
-        
-        & .left{
-            align-items: flex-start; 
-            & h3{font-size: 24px;}
+
+        & .left {
+            align-items: flex-start;
+            & h3 {
+                font-size: 24px;
+            }
         }
     }
 `;
 
-
 export const CardList = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     justify-items: stretch;
     gap: 30px;
     max-width: 100%;
@@ -104,13 +108,11 @@ export const CardList = styled.div`
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         grid-template-columns: 1fr;
-        max-width: 100%; 
+        max-width: 100%;
         justify-items: center;
     }
 
-
-
-    & .card{
+    & .card {
         border-radius: 12px;
         border: 1px solid var(--primary);
         border-bottom: 4px solid var(--primary);
@@ -120,42 +122,42 @@ export const CardList = styled.div`
         text-align: left;
         width: 100%;
         min-height: 100px;
-        transition: transform 0.3s ease, border-color 0.3s ease, border-bottom-color 0.3s ease; 
+        transition:
+            transform 0.3s ease,
+            border-color 0.3s ease,
+            border-bottom-color 0.3s ease;
         padding: 25px 30px;
 
-    
-
-        & .header-card{
+        & .header-card {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; 
+            align-items: flex-start;
             justify-content: space-between;
             margin-bottom: 15px;
             gap: 10px;
             min-height: 100px;
 
-            &::after{
+            &::after {
                 content: '';
                 display: block;
                 width: 40px;
-                height: 0; 
+                height: 0;
                 border-bottom: 1px solid var(--accentuate);
             }
 
-            & h2{
-                margin: 0; 
-                line-height: 1.2; 
+            & h2 {
+                margin: 0;
+                line-height: 1.2;
                 font-size: 1.3em;
                 text-align: left;
             }
         }
-        
-        & p{
+
+        & p {
             font-size: 15px;
             line-height: 1.4;
             opacity: 0.8;
             text-align: left;
         }
     }
-`
-
+`;

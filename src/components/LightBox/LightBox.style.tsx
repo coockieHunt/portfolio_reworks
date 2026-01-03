@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { BORDER_RADIUS } from '../../config';
 
 export const LightBoxContainer = styled.div`
@@ -7,13 +7,17 @@ export const LightBoxContainer = styled.div`
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: color-mix(in srgb, var(--background-secondary) 80%, transparent);
+    background: color-mix(
+        in srgb,
+        var(--background-secondary) 80%,
+        transparent
+    );
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     cursor: pointer;
-    
+
     & img {
         max-width: 90%;
         max-height: 90%;

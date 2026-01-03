@@ -1,16 +1,18 @@
 import React from 'react';
-import * as styled from "../Contact.style";
-import * as FormComponent from "@/components/Form/Form.component";
-import { Button } from "@/components/Button/Button";
+import * as styled from '../Contact.style';
+import * as FormComponent from '@/components/Form/Form.component';
+import { Button } from '@/components/Button/Button';
 import { Send } from 'lucide-react';
-import { IMailForm, ICaptchaRef } from '@/hooks/useContactForm'
+import { IMailForm, ICaptchaRef } from '@/hooks/useContactForm';
 
 interface IContactFormUIProps {
     output: IMailForm;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    handleChange: (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => void;
     handleSubmit: () => void;
     handleReset: () => void;
-    captchaComponentRef: React.RefObject<ICaptchaRef | null>; 
+    captchaComponentRef: React.RefObject<ICaptchaRef | null>;
     isCaptchaValid: boolean;
     setIsCaptchaValid: (val: boolean) => void;
     honeypot: string;
@@ -30,12 +32,14 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
     honeypot,
     setHoneypot,
     IsCoolDown,
-    CoolDownTime
+    CoolDownTime,
 }) => {
     return (
         <styled.ContactForm>
             <h2>Envoyer un message</h2>
-            <styled.FormInstruction><span>(*)</span> Champs obligatoires</styled.FormInstruction>
+            <styled.FormInstruction>
+                <span>(*)</span> Champs obligatoires
+            </styled.FormInstruction>
             <FormComponent.Groupe>
                 <FormComponent.Inline>
                     <FormComponent.InputText
@@ -63,15 +67,23 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
                     placeHolder="secteur@domaine.fr"
                     required={true}
                 />
-                
+
                 <input
                     type="text"
                     value={honeypot}
                     onChange={(e) => setHoneypot(e.target.value)}
-                    style={{ opacity: 0, position: 'absolute', top: 0, left: 0, height: 0, width: 0, zIndex: -1 }}
+                    style={{
+                        opacity: 0,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        height: 0,
+                        width: 0,
+                        zIndex: -1,
+                    }}
                     autoComplete="off"
-                    tabIndex={-1}        
-                    aria-hidden="true"  
+                    tabIndex={-1}
+                    aria-hidden="true"
                 />
 
                 <FormComponent.InputTextArea
@@ -83,7 +95,7 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
                     required={true}
                 />
             </FormComponent.Groupe>
-            
+
             <FormComponent.CaptchaComponent
                 ref={captchaComponentRef}
                 isCaptchaValid={isCaptchaValid}
@@ -91,7 +103,9 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
             />
 
             <styled.ActionForm>
-                <span className='resetForm' onClick={handleReset}>Réinitialiser</span>
+                <span className="resetForm" onClick={handleReset}>
+                    Réinitialiser
+                </span>
                 <Button
                     onClick={handleSubmit}
                     icon={<Send />}

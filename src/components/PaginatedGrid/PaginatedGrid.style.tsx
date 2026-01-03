@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, } from '../../config.js';
+import { SCREEN_SIZE } from '../../config.js';
 
 export interface IGridContainerProps {
     $columns?: number;
@@ -7,12 +7,14 @@ export interface IGridContainerProps {
     $gap?: number;
 }
 
-
 export const GridContainer = styled.div<IGridContainerProps>`
     display: grid;
-    grid-template-columns: repeat(${props => props.$columns || 4}, 1fr);
-    grid-template-rows: repeat(${props => props.$rows || 2}, minmax(150px, 300px));
-    gap: ${props => props.$gap || 10}px;
+    grid-template-columns: repeat(${(props) => props.$columns || 4}, 1fr);
+    grid-template-rows: repeat(
+        ${(props) => props.$rows || 2},
+        minmax(150px, 300px)
+    );
+    gap: ${(props) => props.$gap || 10}px;
     width: 100%;
 
     margin-bottom: 30px;

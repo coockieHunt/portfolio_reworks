@@ -3,14 +3,24 @@ import { Bookmark, FolderOpen, X } from 'lucide-react';
 
 import { IBuildTabBuildProps } from '../interface/MyProject.interface';
 
-const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({ project, currentTab, setCurrentTab }) => {
-    let Tab = [{ name: 'preview', label: project.fileName, icon: <Bookmark /> }];
+const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({
+    project,
+    currentTab,
+    setCurrentTab,
+}) => {
+    let Tab = [
+        { name: 'preview', label: project.fileName, icon: <Bookmark /> },
+    ];
 
     if (project.galery && project.galery.length > 0) {
         Tab.push({ name: 'galerie', label: 'Galerie', icon: <FolderOpen /> });
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLLIElement>, itemName: string, index: number) => {
+    const handleKeyDown = (
+        e: React.KeyboardEvent<HTMLLIElement>,
+        itemName: string,
+        index: number,
+    ) => {
         let newIndex = index;
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
             e.preventDefault();
@@ -26,7 +36,9 @@ const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({ project, currentTab, set
             return;
         }
         setCurrentTab(Tab[newIndex].name);
-        document.getElementById(`tab-${Tab[newIndex].name}-${project.id}`)?.focus();
+        document
+            .getElementById(`tab-${Tab[newIndex].name}-${project.id}`)
+            ?.focus();
     };
 
     return (
@@ -38,7 +50,9 @@ const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({ project, currentTab, set
                         id={`tab-${item.name}-${project.id}`}
                         onClick={() => setCurrentTab(item.name)}
                         onKeyDown={(e) => handleKeyDown(e, item.name, index)}
-                        className={currentTab === item.name ? 'selected' : undefined}
+                        className={
+                            currentTab === item.name ? 'selected' : undefined
+                        }
                         role="tab"
                         aria-selected={currentTab === item.name}
                         tabIndex={0}
@@ -46,7 +60,9 @@ const BuildTabBuild: React.FC<IBuildTabBuildProps> = ({ project, currentTab, set
                     >
                         {item.icon} {item.label}
                         {currentTab === item.name && (
-                            <span className="icon icon-active"><X /></span>
+                            <span className="icon icon-active">
+                                <X />
+                            </span>
                         )}
                     </li>
                 ))}

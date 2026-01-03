@@ -1,34 +1,36 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE } from "@/config";
+import { SCREEN_SIZE } from '@/config';
 
 export const Container = styled.div`
     margin: 0 0 100px 0;
     position: relative;
 
     & svg {
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-        z-index: -1; 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: -1;
         transform: translate(-50%, -50%);
-        width: 250vw; 
+        width: 250vw;
         height: auto;
         pointer-events: none;
     }
 
-    @media (max-width: ${SCREEN_SIZE.tablet}) {margin: 0 0 80px 0;}
+    @media (max-width: ${SCREEN_SIZE.tablet}) {
+        margin: 0 0 80px 0;
+    }
 
     @media (max-width: ${SCREEN_SIZE.tablet}) {
         margin: 0;
-        width: 100vw; 
-        & svg {         
-            position: absolute; 
-            z-index: -1; 
-            pointer-events: none; 
+        width: 100vw;
+        & svg {
+            position: absolute;
+            z-index: -1;
+            pointer-events: none;
             height: auto;
-            z-index: -1; 
+            z-index: -1;
 
-            width: 100vw; 
+            width: 100vw;
             height: auto;
         }
     }
@@ -41,9 +43,9 @@ export const TimeLineContainer = styled.div`
     position: relative;
     padding: 30px 0;
     overflow: visible;
-    
+
     &::before {
-        content: ''; 
+        content: '';
         position: absolute;
         background-color: var(--primary);
         width: 3px;
@@ -53,8 +55,10 @@ export const TimeLineContainer = styled.div`
         box-shadow: 0 0 10px color-mix(in srgb, var(--primary), transparent 60%);
     }
 
-    &.visible::before {height: 97%;}
-    
+    &.visible::before {
+        height: 97%;
+    }
+
     &::after {
         content: '';
         position: absolute;
@@ -65,8 +69,8 @@ export const TimeLineContainer = styled.div`
         transform: rotate(-45deg);
         bottom: -50px;
     }
- 
-    & > div:nth-child(2n+1) { 
+
+    & > div:nth-child(2n + 1) {
         transform: translateX(55%) scale(1);
         will-change: transform;
 
@@ -84,26 +88,30 @@ export const TimeLineContainer = styled.div`
         }
 
         & .dot {
-            left: -5%; 
-            transform: translate(-50%, -50%); 
+            left: -5%;
+            transform: translate(-50%, -50%);
             margin-top: 2px;
-            transition: left 0.3s ease, transform 0.3s ease;
+            transition:
+                left 0.3s ease,
+                transform 0.3s ease;
         }
 
         &:hover {
             transform: translateX(55%) scale(1.1);
             border-radius: 0px 5px 5px 0px;
-            
-            &::before {opacity: 0;}
-            
+
+            &::before {
+                opacity: 0;
+            }
+
             & .dot {
-                left: 0%; 
+                left: 0%;
                 transform: translate(-50%, -50%);
             }
         }
     }
 
-    & > div:nth-child(2n) { 
+    & > div:nth-child(2n) {
         transform: translateX(-55%) scale(1);
         will-change: transform;
 
@@ -121,47 +129,60 @@ export const TimeLineContainer = styled.div`
         }
 
         & .dot {
-            right: -5%; 
+            right: -5%;
             margin-right: -2px;
             left: auto;
             transform: translate(50%, -50%);
-            transition: right 0.3s ease, transform 0.3s ease;
+            transition:
+                right 0.3s ease,
+                transform 0.3s ease;
         }
 
         &:hover {
             border-radius: 5px 0px 0px 5px;
             transform: translateX(-55%) scale(1.1);
-            
-            &::before {opacity: 0;}
-            
-            & .dot {right: 0%; transform: translate(50%, -50%);}
+
+            &::before {
+                opacity: 0;
+            }
+
+            & .dot {
+                right: 0%;
+                transform: translate(50%, -50%);
+            }
         }
     }
     @media (max-width: ${SCREEN_SIZE.tablet}) {
-        & > div:nth-child(2n+1),
+        & > div:nth-child(2n + 1),
         & > div:nth-child(2n) {
-            width: 60%; 
+            width: 60%;
         }
 
         padding: 20px 0;
-        &::before {width: 2px;}
-        
+        &::before {
+            width: 2px;
+        }
+
         &::after {
             height: 30px;
             width: 30px;
             bottom: -40px;
         }
-        
-        & > div:nth-child(2n+1),
-        & > div:nth-child(2n) { 
+
+        & > div:nth-child(2n + 1),
+        & > div:nth-child(2n) {
             transform: translateX(0) !important;
             width: 85%;
             max-width: 500px;
-            
-            &::before {display: none;}
-            
-            & .dot {display: none;}
-            
+
+            &::before {
+                display: none;
+            }
+
+            & .dot {
+                display: none;
+            }
+
             &:hover {
                 transform: translateX(0) scale(1.03) !important;
                 border-radius: 5px !important;
@@ -171,7 +192,7 @@ export const TimeLineContainer = styled.div`
 `;
 
 export const TimeLineItemContainer = styled.div`
-    display: flex; 
+    display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 10px;
@@ -183,15 +204,17 @@ export const TimeLineItemContainer = styled.div`
     border: 1px solid var(--primary);
     border-bottom: 4px solid var(--primary);
     cursor: default;
-    transition: transform 0.3s ease, border-radius 0.3s ease; 
+    transition:
+        transform 0.3s ease,
+        border-radius 0.3s ease;
 
-    &::after{
+    &::after {
         content: '';
         position: absolute;
         inset: 0;
         transform-origin: center;
         pointer-events: none;
-        opacity: .6;    
+        opacity: 0.6;
         background-color: var(--background-secondary);
         z-index: -1;
     }
@@ -204,7 +227,7 @@ export const TimeLineItemContainer = styled.div`
         height: 100%;
         z-index: 0;
         pointer-events: none;
-        overflow: hidden; 
+        overflow: hidden;
 
         &::before {
             content: '';
@@ -225,8 +248,8 @@ export const TimeLineItemContainer = styled.div`
     & .dot {
         content: ' ';
         position: absolute;
-        top: 50%; 
-        z-index: 10; 
+        top: 50%;
+        z-index: 10;
         height: 15px;
         width: 15px;
         border-radius: 50%;
@@ -234,10 +257,12 @@ export const TimeLineItemContainer = styled.div`
         box-shadow: 0 0 10px var(--primary);
     }
 
-    &:hover { 
-        & .DotBg::before { opacity: 1; } 
+    &:hover {
+        & .DotBg::before {
+            opacity: 1;
+        }
         &::after {
-            opacity: .8;
+            opacity: 0.8;
         }
     }
 
@@ -261,7 +286,7 @@ export const TimeLineItemContainer = styled.div`
 export const TimeLineTitle = styled.h3`
     font-size: 1.2em;
     font-weight: 600;
-    color: var(--primary); 
+    color: var(--primary);
     text-transform: uppercase;
     display: flex;
     align-items: center;
@@ -271,20 +296,20 @@ export const TimeLineTitle = styled.h3`
 
     & span {
         margin-right: 5px;
-        background: linear-gradient(
-            135deg, 
-            var(--primary), 
-            var(--accentuate)
-        );
+        background: linear-gradient(135deg, var(--primary), var(--accentuate));
         background-clip: text;
         font-weight: 800;
     }
 
-    @media (max-width: ${SCREEN_SIZE.tablet}) {font-size: 1.1em;}
+    @media (max-width: ${SCREEN_SIZE.tablet}) {
+        font-size: 1.1em;
+    }
 
     @media (max-width: 600px) {
         font-size: 1em;
-        & span {margin-right: 3px;}
+        & span {
+            margin-right: 3px;
+        }
     }
 `;
 
@@ -293,11 +318,13 @@ export const TimeLineContent = styled.p`
     z-index: 1;
     position: relative;
     opacity: 0.95;
-    
+
     @media (max-width: ${SCREEN_SIZE.tablet}) {
         font-size: 0.95em;
         line-height: 1.5em;
     }
 
-    @media (max-width: 600px) {font-size: 0.9em;}
+    @media (max-width: 600px) {
+        font-size: 0.9em;
+    }
 `;

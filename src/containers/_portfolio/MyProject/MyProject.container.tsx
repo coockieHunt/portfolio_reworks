@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as styled from "./MyProject.style";
+import * as styled from './MyProject.style';
 import { TitleTextComponent } from '@/components/Text/Text.component';
 import { PaginatedGrid } from '@/components/PaginatedGrid/PaginatedGrid.component';
 import { BuildPreview } from './Build/BuildPreview';
@@ -9,9 +9,8 @@ import { projectList } from '@/data';
 
 import { IProject } from '../MyProject/interface/MyProject.interface';
 
-
 const BuildProjectCardComponent: React.FC<IProject> = (project) => {
-    const [CurrentTab, setCurrentTab] = useState<string>("preview");
+    const [CurrentTab, setCurrentTab] = useState<string>('preview');
 
     const style: React.CSSProperties = {
         gridColumnEnd: `span ${project.column || 1}`,
@@ -24,12 +23,16 @@ const BuildProjectCardComponent: React.FC<IProject> = (project) => {
     }
 
     return (
-        <styled.ProjectCard 
-            key={project.id} 
+        <styled.ProjectCard
+            key={project.id}
             style={style}
-            className={project.favorite ? "favorite" : undefined}
+            className={project.favorite ? 'favorite' : undefined}
         >
-            <BuildTab project={project} currentTab={CurrentTab} setCurrentTab={setCurrentTab} />
+            <BuildTab
+                project={project}
+                currentTab={CurrentTab}
+                setCurrentTab={setCurrentTab}
+            />
             <div
                 id={`panel-preview-${project.id}`}
                 role="tabpanel"
@@ -43,7 +46,9 @@ const BuildProjectCardComponent: React.FC<IProject> = (project) => {
                     id={`panel-galerie-${project.id}`}
                     role="tabpanel"
                     aria-labelledby={`tab-galerie-${project.id}`}
-                    style={{ display: CurrentTab !== 'galerie' ? 'none' : 'flex' }}
+                    style={{
+                        display: CurrentTab !== 'galerie' ? 'none' : 'flex',
+                    }}
                 >
                     <BuildGalery project={project} />
                 </div>
@@ -58,17 +63,21 @@ interface MyProjectContainerProps {
     id?: string;
 }
 
-export const MyProjectContainer: React.FC<MyProjectContainerProps> = ({ id }) => {
+export const MyProjectContainer: React.FC<MyProjectContainerProps> = ({
+    id,
+}) => {
     return (
         <>
             <styled.Container id={id}>
                 <TitleTextComponent
-                    subtitle={"Une partie de mes"}
+                    subtitle={'Une partie de mes'}
                     subtitleOpacity={0.3}
-                >MES PROJETS</TitleTextComponent>
-                <PaginatedGrid 
-                    items={projectList} 
-                    renderItem={BuildProjectCard} 
+                >
+                    MES PROJETS
+                </TitleTextComponent>
+                <PaginatedGrid
+                    items={projectList}
+                    renderItem={BuildProjectCard}
                     columns={3}
                     rows={2}
                     gap_desktop={10}

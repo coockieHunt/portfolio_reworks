@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS } from '../../config';
 
 const blink = keyframes`
@@ -25,26 +25,28 @@ export const TerminalContainer = styled.div`
     font-size: 14px;
 
     border-bottom: 4px solid var(--primary);
-    
-    @media ( max-width: ${SCREEN_SIZE.mobile}) {max-width: 90%;}
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        max-width: 90%;
+    }
 
     &::before {
         content: '';
         position: absolute;
-        top: 50%;        
-        left: 50%;       
+        top: 50%;
+        left: 50%;
 
-        height: 160px;   
-        width: 160px;      
+        height: 160px;
+        width: 160px;
 
         background-color: var(--accentuate);
-        opacity: 0.15;    
+        opacity: 0.15;
         z-index: -1;
 
         transform: translate(-50%, -50%);
 
-        border-radius: 50%;     
-        filter: blur(24px);     
+        border-radius: 50%;
+        filter: blur(24px);
         will-change: transform, filter;
         contain: paint;
         transition: transform 0.5s ease;
@@ -55,7 +57,6 @@ export const TerminalContainer = styled.div`
         transform: translate(-50%, -50%) scale(1.4);
     }
 `;
-
 
 export const TerminalHeader = styled.div`
     display: flex;
@@ -68,21 +69,23 @@ export const TerminalHeader = styled.div`
 export const TerminalLine = styled.div`
     cursor: pointer;
 
-    & p{
+    & p {
         margin: 10px 0 20px 0;
     }
 
-    & .header{
+    & .header {
         display: flex;
         padding: 10px 20px;
         border-left: transparent 4px solid;
 
         border-bottom: 1px solid var(--background-secondary);
-        &:last-child {border-bottom: none;}
+        &:last-child {
+            border-bottom: none;
+        }
 
         &:hover {
             border-left: 4px solid var(--accentuate);
-            & .left{
+            & .left {
                 scale: 1.05;
             }
         }
@@ -94,7 +97,7 @@ export const TerminalLine = styled.div`
             gap: 15px;
             margin-right: 100px;
 
-            & span{
+            & span {
                 font-weight: bold;
                 opacity: 0.6;
             }
@@ -121,15 +124,17 @@ export const TerminalLine = styled.div`
 
             font-size: 1rem;
 
-            & .title{color: var(--primary);}
+            & .title {
+                color: var(--primary);
+            }
 
-            & .subtitle{
+            & .subtitle {
                 color: var(--font-subtle);
                 font-size: 13px;
             }
         }
 
-        & .action { 
+        & .action {
             margin-left: auto;
             display: flex;
             align-items: center;
@@ -140,17 +145,18 @@ export const TerminalLine = styled.div`
         }
     }
 
-    & .content{
+    & .content {
         padding: 15px 20px;
         display: flex;
         justify-content: flex-end;
-        
-        position: relative; 
-        overflow: hidden; 
 
-        box-shadow: inset 0px 5px 10px -7px color-mix(in srgb, var(--primary) 20%, transparent);
+        position: relative;
+        overflow: hidden;
 
-        &::after{
+        box-shadow: inset 0px 5px 10px -7px
+            color-mix(in srgb, var(--primary) 20%, transparent);
+
+        &::after {
             content: '';
             position: absolute;
             top: 0;
@@ -163,26 +169,29 @@ export const TerminalLine = styled.div`
             border: 1px solid #f0f0f032;
             width: 60%;
             padding: 15px;
-            background-color: color-mix(in srgb, var(--background-tertiary) 50%, transparent); 
+            background-color: color-mix(
+                in srgb,
+                var(--background-tertiary) 50%,
+                transparent
+            );
             display: flex;
             flex-direction: row;
             align-items: stretch;
             justify-content: flex-start;
             gap: 10px;
 
-
             & span {
-                display: flex; 
-                align-items: flex-start; 
+                display: flex;
+                align-items: flex-start;
                 width: 60px;
                 color: var(--primary);
                 font-size: 1em;
                 margin-top: 5px;
             }
-            
+
             & p {
-                flex-grow: 1; 
-                margin: 0; 
+                flex-grow: 1;
+                margin: 0;
             }
         }
 
@@ -196,18 +205,18 @@ export const TerminalLine = styled.div`
             margin-left: 20%;
             pointer-events: none;
 
-            border-left: 2px dashed  var(--accentuate);
-            border-bottom: 2px dashed  var(--accentuate);
+            border-left: 2px dashed var(--accentuate);
+            border-bottom: 2px dashed var(--accentuate);
 
             opacity: 0.4;
         }
     }
 
     &.selected {
-        & .header{ 
+        & .header {
             border-left: 4px solid var(--accentuate);
 
-            & .left{
+            & .left {
                 & svg {
                     color: var(--accentuate);
                     border-color: var(--accentuate);
@@ -220,7 +229,6 @@ export const TerminalLine = styled.div`
         }
     }
 
-
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         & .header {
             flex-direction: column;
@@ -229,25 +237,37 @@ export const TerminalLine = styled.div`
             padding: 15px 10px;
             font-size: 12px;
 
-            & .selected & .header{border-left: 4px solid transparent;}
+            & .selected & .header {
+                border-left: 4px solid transparent;
+            }
 
             & .left {
-                margin-right: 0px; 
-                & span{display: none;}
-            } 
+                margin-right: 0px;
+                & span {
+                    display: none;
+                }
+            }
 
             & .info {
                 flex-direction: column;
                 gap: 2px;
             }
 
-            & .action {margin-left: 0;}
-            &:hover {border-left: 4px solid transparent;}
+            & .action {
+                margin-left: 0;
+            }
+            &:hover {
+                border-left: 4px solid transparent;
+            }
         }
 
         & .content {
-            &::after{border-left: 4px solid transparent;}
-            & .card {width: 100%;}
+            &::after {
+                border-left: 4px solid transparent;
+            }
+            & .card {
+                width: 100%;
+            }
             & .card::before {
                 border-left: 2px dashed transparent;
                 border-bottom: 2px dashed transparent;
@@ -255,7 +275,6 @@ export const TerminalLine = styled.div`
         }
     }
 `;
-
 
 export const CommandPromptWrapper = styled.div`
     display: flex;
@@ -275,7 +294,7 @@ export const ServicesListWrapper = styled.div`
     padding: 5px 30px;
 
     span {
-        white-space: nowrap; 
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -286,8 +305,15 @@ export const TerminalPath = styled.span`
     color: var(--font-on-primary);
 `;
 
-
-export const Separator = styled.span`margin: 0 5px;`;
-export const LineTag = styled.span`font-weight: bold;`;
-export const LineName = styled.span`font-weight: bold;`;
-export const TerminalBody = styled.div`line-height: 1.5;`;
+export const Separator = styled.span`
+    margin: 0 5px;
+`;
+export const LineTag = styled.span`
+    font-weight: bold;
+`;
+export const LineName = styled.span`
+    font-weight: bold;
+`;
+export const TerminalBody = styled.div`
+    line-height: 1.5;
+`;

@@ -11,9 +11,13 @@ import { useAlert } from '../../context/alert.context';
 // Types
 import { IAlertItemProps, IContainerProps } from './Alert.interfaces';
 
-const AlertItem: React.FC<IAlertItemProps> = ({ alert, primaryColor, onClose }) => {
+const AlertItem: React.FC<IAlertItemProps> = ({
+    alert,
+    primaryColor,
+    onClose,
+}) => {
     const activeColor = alert.colorAlert || primaryColor;
-    const timerDisplay = alert.delay ? "block" : "none";
+    const timerDisplay = alert.delay ? 'block' : 'none';
 
     return (
         <AlertContainer
@@ -24,9 +28,9 @@ const AlertItem: React.FC<IAlertItemProps> = ({ alert, primaryColor, onClose }) 
             $message={alert.message}
         >
             <div className="content">
-                <div 
-                    className="progress-bar" 
-                    style={{ animationDuration: `${alert.delay}ms` }} 
+                <div
+                    className="progress-bar"
+                    style={{ animationDuration: `${alert.delay}ms` }}
                 />
                 <span>{alert.message}</span>
             </div>
@@ -43,7 +47,9 @@ const AlertItem: React.FC<IAlertItemProps> = ({ alert, primaryColor, onClose }) 
     );
 };
 
-export const AlertContainerComponent: React.FC<IContainerProps> = ({ $direction = 'column-reverse' }) => {
+export const AlertContainerComponent: React.FC<IContainerProps> = ({
+    $direction = 'column-reverse',
+}) => {
     const { alerts, removeAlert } = useAlert();
 
     const themePrimaryColor = 'var(--primary)';

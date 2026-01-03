@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 
-export const trackEvent = (eventName: string, eventData: Record<string, any> = {}) => {
+export const trackEvent = (
+    eventName: string,
+    eventData: Record<string, any> = {},
+) => {
     if (typeof window !== 'undefined' && window.umami) {
         window.umami.track(eventName, eventData);
     } else {
@@ -15,9 +18,12 @@ export const UmamiTracker = () => {
         const scriptUrl = import.meta.env.VITE_UMAMI_SCRIPT_URL;
         const websiteId = import.meta.env.VITE_UMAMI_ID;
 
-        if (!scriptUrl || !websiteId) {return;}
+        if (!scriptUrl || !websiteId) {
+            return;
+        }
 
-        if (document.querySelector(`script[data-website-id="${websiteId}"]`)) return;
+        if (document.querySelector(`script[data-website-id="${websiteId}"]`))
+            return;
 
         const script = document.createElement('script');
         script.defer = true;
@@ -25,7 +31,7 @@ export const UmamiTracker = () => {
         script.setAttribute('data-website-id', websiteId);
 
         document.head.appendChild(script);
-        }, []);
+    }, []);
 
     return null;
 };

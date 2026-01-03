@@ -1,48 +1,54 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE, BORDER_RADIUS} from '@/config';
+import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
 
 export const Toggle = styled.button<{ $isOpen: boolean }>`
     position: fixed;
-    z-index: 1300; 
+    z-index: 1300;
     transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     top: 30%;
     right: 0px;
-    opacity: ${props => props.$isOpen ? '0' : '1'};
-    pointer-events: ${props => props.$isOpen ? 'none' : 'auto'};
+    opacity: ${(props) => (props.$isOpen ? '0' : '1')};
+    pointer-events: ${(props) => (props.$isOpen ? 'none' : 'auto')};
 
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--background-secondary);
     border: 1px solid var(--primary);
-    
+
     padding: 15px 5px;
     border-radius: 0 10px 10px 0;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
     border-left: none;
 
     writing-mode: vertical-lr;
     transform: rotate(180deg);
 
-    & svg {display: none;}
-    
+    & svg {
+        display: none;
+    }
+
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         top: auto;
-        bottom: 30px; 
+        bottom: 30px;
         right: 20px;
-        
-        transform: ${props => props.$isOpen ? 'scale(0.5)' : 'scale(1)'};
-        
+
+        transform: ${(props) => (props.$isOpen ? 'scale(0.5)' : 'scale(1)')};
+
         writing-mode: horizontal-tb;
         border-left: 1px solid var(--primary);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         padding: 15px;
         border-radius: 50px;
 
-        & span {display: none;}
-        & svg {display: block;}
+        & span {
+            display: none;
+        }
+        & svg {
+            display: block;
+        }
     }
-`
+`;
 
 export const ContainerSetting = styled.div`
     position: fixed;
@@ -50,7 +56,7 @@ export const ContainerSetting = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+
     width: 85vw;
     height: 90dvh;
     max-width: 1728px;
@@ -58,14 +64,16 @@ export const ContainerSetting = styled.div`
 
     border: 3px solid var(--background-secondary);
     border-radius: ${BORDER_RADIUS.xlarge};
-    display: flex; flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-    transition: transform .5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         left: auto;
-        top: 50%; right: 50%;
+        top: 50%;
+        right: 50%;
         transform: translate(50%, -50%);
         width: 90vw;
         height: 95dvh;
@@ -76,122 +84,127 @@ export const ContainerSetting = styled.div`
         border-left: 1px solid var(--primary);
     }
 
-    &.close { 
-        transform: translate(100vw, -50%); 
+    &.close {
+        transform: translate(100vw, -50%);
         @media (max-width: ${SCREEN_SIZE.mobile}) {
-            top: 0%; right: -50%;
+            top: 0%;
+            right: -50%;
             transform: translate(50%, -50%);
         }
     }
 
     &::after {
-        content: ""; 
-        position: absolute; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
         background-color: var(--background-tertiary);
-        z-index: -1; 
-        pointer-events: none; 
+        z-index: -1;
+        pointer-events: none;
         border-radius: inherit;
     }
 
-
     & .header {
-        flex-shrink: 0; 
-        padding: 15px 20px; 
-        display: flex; 
-        align-items: center; 
+        flex-shrink: 0;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
         justify-content: space-between;
         border-bottom: 1px dashed #ffffff18;
 
-        @media (max-width: ${SCREEN_SIZE.mobile}) {border-radius: 15px 15px 0 0;}
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            border-radius: 15px 15px 0 0;
+        }
 
-        & h3 { 
-            margin: 0; 
-            font-size: 1.2em; 
-            font-variation-settings: "wght" 600;
+        & h3 {
+            margin: 0;
+            font-size: 1.2em;
+            font-variation-settings: 'wght' 600;
         }
     }
 
     & .footer {
-        flex-shrink: 0; 
-        padding: 15px; 
+        flex-shrink: 0;
+        padding: 15px;
         text-align: center;
         border-top: 1px dashed #ffffff49;
 
-        @media (max-width: ${SCREEN_SIZE.mobile}) { border-radius: 0 0 15px 15px; }
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            border-radius: 0 0 15px 15px;
+        }
 
-        & p { 
-            margin: 0; 
-            font-size: 0.9em; 
+        & p {
+            margin: 0;
+            font-size: 0.9em;
             color: var(--font-subtle);
-            opacity: 0.7; 
-            font-variation-settings: "wght" 300;
+            opacity: 0.7;
+            font-variation-settings: 'wght' 300;
         }
     }
 `;
 
-
-
 export const Content = styled.div`
-    flex-grow: 1; 
-    overflow-y: auto; 
-    overflow-x: hidden; 
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 15px;
 
     & h3 {
-        font-variation-settings: "wght" 600;
+        font-variation-settings: 'wght' 600;
         margin: 0 0 15px 0;
         font-size: 1.2em;
     }
 
     & .ContainerButton {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 20px;
-    align-items: start;
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 20px;
+        align-items: start;
 
-    & .ThemesContainer {
-        display: grid; 
-        grid-template-columns: repeat(2, 1fr); 
-        column-gap: 20px;
-        row-gap: 10px;   
-    }
+        & .ThemesContainer {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 20px;
+            row-gap: 10px;
+        }
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 20px; 
-        width: 100%;
-
-        & .ThemesContainer{
-            grid-template-columns: 1fr; 
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 20px;
             width: 100%;
-            box-sizing: border-box;
-        }
 
-        & h3 {
-            margin: 0 0 20px 0;
+            & .ThemesContainer {
+                grid-template-columns: 1fr;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            & h3 {
+                margin: 0 0 20px 0;
+            }
         }
     }
-}
-`
-
+`;
 
 export const CloseButton = styled.button`
-    background: transparent; border: none; 
-    cursor: pointer; 
-    font-size: 1.5em; 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
     color: var(--secondary);
-    width: 35px; 
-    height: 35px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     transition: all 0.2s;
-    &:hover { background-color: var(--background-tertiary); color: var(--primary); }
+    &:hover {
+        background-color: var(--background-tertiary);
+        color: var(--primary);
+    }
 `;

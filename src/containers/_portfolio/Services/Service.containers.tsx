@@ -1,9 +1,23 @@
 import React, { useRef, useCallback } from 'react';
-import { scroller, Link } from "react-scroll";
-import { ArrowRight, CircleCheck, Palette, Send, Unlock, Wrench } from 'lucide-react';
+import { scroller, Link } from 'react-scroll';
+import {
+    ArrowRight,
+    CircleCheck,
+    Palette,
+    Send,
+    Unlock,
+    Wrench,
+} from 'lucide-react';
 
 // Styles & Hooks
-import { Fence, FenceContainer, ScrollIndicator, CatchModal, ListModal, IconList } from "./Service.style";
+import {
+    Fence,
+    FenceContainer,
+    ScrollIndicator,
+    CatchModal,
+    ListModal,
+    IconList,
+} from './Service.style';
 import { DotGridEffect } from '@/styles/effect';
 import { serviceModals } from '@/data';
 import { useScrollbar } from '@/hooks/useScrollBar.hook';
@@ -59,10 +73,12 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ icon, title, onClick }) => {
                 $DotSize="2px"
             />
             {icon}
-            <p className='catch' style={{ whiteSpace: 'pre-line' }}>
+            <p className="catch" style={{ whiteSpace: 'pre-line' }}>
                 {title}
             </p>
-            <span>Voir plus <ArrowRight /></span>
+            <span>
+                Voir plus <ArrowRight />
+            </span>
         </Fence>
     );
 };
@@ -75,52 +91,61 @@ export const ServiceContainer = ({ id }) => {
     useScrollbar(isAnyModalOpen);
 
     const scrollToSection = () => {
-        scroller.scrollTo("scrollTo", {
+        scroller.scrollTo('scrollTo', {
             duration: 200,
             delay: 0,
             smooth: true,
-            offset: -window.innerHeight / 5
+            offset: -window.innerHeight / 5,
         });
     };
 
-    const handleOpenModal = useCallback((index: number) => {
-        lastFocusedRef.current = document.activeElement as HTMLElement;
-        
-        scrollToSection();
-        
-        const modalData = serviceModals[index];
-        
-        if (!modalData) return;
+    const handleOpenModal = useCallback(
+        (index: number) => {
+            lastFocusedRef.current = document.activeElement as HTMLElement;
 
-        openModal(
-            modalData.title,
-            <>
-                <CatchModal>{modalData.catch}</CatchModal>
-                <ListModal>
-                    {modalData.items.map((item: string, idx: number) => (
-                        <li key={idx}>
-                            <IconList><CircleCheck /></IconList> {item}
-                        </li>
-                    ))}
-                </ListModal>
-            </>
-        );
-    }, [openModal]);
+            scrollToSection();
 
-    const handleCloseModal = useCallback((index: number) => {
-        closeModal(index);
-        setTimeout(() => {
-            if (lastFocusedRef.current) {
-                lastFocusedRef.current.focus();
-            }
-        }, 0);
-    }, [closeModal]);
+            const modalData = serviceModals[index];
+
+            if (!modalData) return;
+
+            openModal(
+                modalData.title,
+                <>
+                    <CatchModal>{modalData.catch}</CatchModal>
+                    <ListModal>
+                        {modalData.items.map((item: string, idx: number) => (
+                            <li key={idx}>
+                                <IconList>
+                                    <CircleCheck />
+                                </IconList>{' '}
+                                {item}
+                            </li>
+                        ))}
+                    </ListModal>
+                </>,
+            );
+        },
+        [openModal],
+    );
+
+    const handleCloseModal = useCallback(
+        (index: number) => {
+            closeModal(index);
+            setTimeout(() => {
+                if (lastFocusedRef.current) {
+                    lastFocusedRef.current.focus();
+                }
+            }, 0);
+        },
+        [closeModal],
+    );
 
     return (
         <div className={id}>
             <ModalComponent modals={modals} onClose={handleCloseModal} />
-            
-            <FenceContainer className='scrollTo'>
+
+            <FenceContainer className="scrollTo">
                 {SERVICES_CONFIG.map((service) => (
                     <ServiceCard
                         key={service.index}
@@ -139,27 +164,30 @@ export const ServiceContainer = ({ id }) => {
                     href={`${window.location.origin}/#contact`}
                     aria-label="Me contacter"
                     title="Me contacter"
-                    style={{ color: "inherit", textDecoration: "none" }}
+                    style={{ color: 'inherit', textDecoration: 'none' }}
                     className="desktop-contact-card"
                 >
-                    <Fence 
-                        tabIndex={-1} 
-                        className='HightLighting' 
-                        style={{ opacity: 1 }} 
+                    <Fence
+                        tabIndex={-1}
+                        className="HightLighting"
+                        style={{ opacity: 1 }}
                         aria-hidden={true}
                     >
                         <Send />
-                        <p className='catch' style={{ whiteSpace: 'pre-line' }}>
-                            Me <br />Contacter
+                        <p className="catch" style={{ whiteSpace: 'pre-line' }}>
+                            Me <br />
+                            Contacter
                         </p>
-                        <span> Contacter<ArrowRight /></span>
+                        <span>
+                            {' '}
+                            Contacter
+                            <ArrowRight />
+                        </span>
                     </Fence>
                 </Link>
             </FenceContainer>
 
             <ScrollIndicator />
-            
-         
         </div>
     );
 };

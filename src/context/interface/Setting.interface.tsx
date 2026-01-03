@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { COLOR_SETTING } from '../../config'; 
+import { ReactNode } from 'react';
+import { COLOR_SETTING } from '../../config';
 
 type ThemeKey = keyof typeof COLOR_SETTING;
 
@@ -19,5 +19,3 @@ export interface ISettingContext {
 export interface ISettingProviderProps {
     children: ReactNode;
 }
-
-

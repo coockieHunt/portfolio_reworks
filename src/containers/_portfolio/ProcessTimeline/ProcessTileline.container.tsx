@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 // Styles & Components
-import { 
-    Container, 
-    TimeLineContainer, 
-    TimeLineItemContainer, 
-    TimeLineTitle, 
-    TimeLineContent 
+import {
+    Container,
+    TimeLineContainer,
+    TimeLineItemContainer,
+    TimeLineTitle,
+    TimeLineContent,
 } from './ProcessTileline.style';
 import { TitleTextComponent } from '@/components/Text/Text.component';
 import { DotGridEffect } from '@/styles/effect';
@@ -32,7 +32,11 @@ interface ITimeLineData {
     content: string;
 }
 
-const TimeLineItem: React.FC<ITimeLineItemProps> = ({ step, title, content }) => {
+const TimeLineItem: React.FC<ITimeLineItemProps> = ({
+    step,
+    title,
+    content,
+}) => {
     return (
         <TimeLineItemContainer>
             <DotGridEffect
@@ -41,7 +45,7 @@ const TimeLineItem: React.FC<ITimeLineItemProps> = ({ step, title, content }) =>
                 $Spacing="18px"
                 $DotSize="2px"
             />
-            <TimeLineTitle className='font_code'>
+            <TimeLineTitle className="font_code">
                 <span>{step + 1}.</span> {title}
             </TimeLineTitle>
             <TimeLineContent>{content}</TimeLineContent>
@@ -50,10 +54,10 @@ const TimeLineItem: React.FC<ITimeLineItemProps> = ({ step, title, content }) =>
     );
 };
 
-export const BackgroundSVG: React.FC<IBackgroundSVGProps> = ({ 
-    strokeColor = 'rgb(253, 252, 253)', 
-    opacity = 0.12, 
-    className = '' 
+export const BackgroundSVG: React.FC<IBackgroundSVGProps> = ({
+    strokeColor = 'rgb(253, 252, 253)',
+    opacity = 0.12,
+    className = '',
 }) => {
     return (
         <svg
@@ -63,7 +67,7 @@ export const BackgroundSVG: React.FC<IBackgroundSVGProps> = ({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className={className}
-            aria-hidden="true" 
+            aria-hidden="true"
         >
             <defs>
                 <filter id="neon-glow">
@@ -77,7 +81,7 @@ export const BackgroundSVG: React.FC<IBackgroundSVGProps> = ({
             <circle
                 cx="50"
                 cy="50"
-                r="70" 
+                r="70"
                 stroke={strokeColor}
                 strokeWidth="0.5"
                 filter="url(#neon-glow)"
@@ -97,7 +101,7 @@ export const BackgroundSVG: React.FC<IBackgroundSVGProps> = ({
 export const ProcessTimeLine = ({ id }) => {
     const [isVisible, setIsVisible] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    
+
     const TRIGGER_THRESHOLD = 0.3;
 
     useEffect(() => {
@@ -111,7 +115,7 @@ export const ProcessTimeLine = ({ id }) => {
                     observer.disconnect();
                 }
             },
-            { threshold: TRIGGER_THRESHOLD }
+            { threshold: TRIGGER_THRESHOLD },
         );
 
         observer.observe(element);
@@ -121,26 +125,23 @@ export const ProcessTimeLine = ({ id }) => {
 
     return (
         <Container>
-            <BackgroundSVG
-                strokeColor="var(--primary)"
-                opacity={0.30}
-            />
-            
+            <BackgroundSVG strokeColor="var(--primary)" opacity={0.3} />
+
             <TitleTextComponent subtitle="Vous êtes prêt">
                 Prêt pour l'aventure ?
             </TitleTextComponent>
 
-            <TimeLineContainer 
-                id={id} 
-                ref={containerRef} 
+            <TimeLineContainer
+                id={id}
+                ref={containerRef}
                 className={isVisible ? 'visible' : ''}
             >
                 {TimeLine.map((item: ITimeLineData, index: number) => (
-                    <TimeLineItem 
-                        key={`${item.title}-${index}`} 
-                        step={index} 
-                        title={item.title} 
-                        content={item.content} 
+                    <TimeLineItem
+                        key={`${item.title}-${index}`}
+                        step={index}
+                        title={item.title}
+                        content={item.content}
                     />
                 ))}
             </TimeLineContainer>

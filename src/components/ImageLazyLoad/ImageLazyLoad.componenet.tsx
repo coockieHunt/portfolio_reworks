@@ -23,49 +23,57 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     loading = 'lazy',
     decoding = 'async',
     transitionDuration = 300,
-    SkeletonClass = "skeleton-wrapper",
+    SkeletonClass = 'skeleton-wrapper',
     wrapperClassName,
     style,
     ...rest
 }) => {
     const finalSrc = src || url || '';
-    
+
     const isCached = finalSrc ? globalImageCache.has(finalSrc) : false;
 
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
-        initialInView: isCached, 
-        skip: isCached 
+        initialInView: isCached,
+        skip: isCached,
     });
 
     const [isLoaded, setIsLoaded] = useState<boolean>(isCached);
     const [hasError, setHasError] = useState<boolean>(false);
 
-    const handleLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        if (finalSrc) globalImageCache.add(finalSrc);
-        setIsLoaded(true);
-        if (onLoad) onLoad(e);
-    }, [finalSrc, onLoad]);
+    const handleLoad = useCallback(
+        (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            if (finalSrc) globalImageCache.add(finalSrc);
+            setIsLoaded(true);
+            if (onLoad) onLoad(e);
+        },
+        [finalSrc, onLoad],
+    );
 
-    const handleError = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        setHasError(true);
-        setIsLoaded(true); 
-        if (onError) onError(e);
-    }, [onError]);
+    const handleError = useCallback(
+        (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            setHasError(true);
+            setIsLoaded(true);
+            if (onError) onError(e);
+        },
+        [onError],
+    );
 
     const imageStyle: CSSProperties = {
         ...style,
         opacity: isLoaded ? 1 : 0,
         transition: `opacity ${transitionDuration}ms ease-in-out`,
-        visibility: hasError ? 'hidden' : 'visible' 
+        visibility: hasError ? 'hidden' : 'visible',
     };
 
     const wrapperClass = [
         wrapperClassName,
         className ? `${className}-wrapper` : '',
-        'lazy-wrapper'
-    ].filter(Boolean).join(' ');
+        'lazy-wrapper',
+    ]
+        .filter(Boolean)
+        .join(' ');
 
     return (
         <div
@@ -73,11 +81,7 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
             className={wrapperClass}
             style={{ position: 'relative', overflow: 'hidden' }}
         >
-            {!isLoaded && (
-                <div className={SkeletonClass}>
-                    {placeholder}
-                </div>
-            )}
+            {!isLoaded && <div className={SkeletonClass}>{placeholder}</div>}
 
             {(inView || isCached) && finalSrc && (
                 <img

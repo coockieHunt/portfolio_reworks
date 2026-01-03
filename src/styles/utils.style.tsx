@@ -7,9 +7,14 @@ import styled from 'styled-components';
 export const ThinScroolBar = css`
     scrollbar-width: thin;
     scrollbar-color: var(--primary) transparent;
-    
-    &::-webkit-scrollbar { width: 6px; height: 6px; }
-    &::-webkit-scrollbar-track { background: transparent; }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
     &::-webkit-scrollbar-thumb {
         background-color: var(--primary);
         border-radius: ${BORDER_RADIUS.round};
@@ -18,28 +23,28 @@ export const ThinScroolBar = css`
 
 //indicator Styles
 export const RoundColor = styled.div<{ $color: string }>`
-    flex-shrink: 0; 
-    width: 25px; 
-    height: 25px; 
-    border-radius: 50%; 
-    background-color: ${props => props.$color}; 
-    @media (max-width: ${SCREEN_SIZE.mobile}) { 
-        width: 20px; 
-        height: 20px; 
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: ${(props) => props.$color};
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        width: 20px;
+        height: 20px;
     }
-`
+`;
 
 // Wrapper Styles
 export const Wrapper = styled.div`
     background-color: var(--background-secondary);
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid color-mix(in srgb, var(--primary), transparent 75%); 
-    
+    border: 1px solid color-mix(in srgb, var(--primary), transparent 75%);
+
     display: flex;
     flex-direction: column;
-    gap: 15px; 
-    
+    gap: 15px;
+
     margin-bottom: 15px;
     transition: all 0.3s ease;
 
@@ -47,12 +52,12 @@ export const Wrapper = styled.div`
         margin: 0;
         font-size: 0.9em;
         line-height: 1.5;
-        font-variation-settings: "wght" 300;
+        font-variation-settings: 'wght' 300;
         opacity: 0.8;
         color: inherit;
         text-align: left;
     }
-`
+`;
 
 // Animations
 export const fadeInTranslate = keyframes`
@@ -82,7 +87,6 @@ export const slideDown = keyframes`
     100% { transform: translateY(100%); }
 `;
 
-
 export const ShowOutContainerRight = keyframes`
     0% {
         opacity: 0;
@@ -105,4 +109,3 @@ export const rainbowShift = keyframes`
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 `;
-

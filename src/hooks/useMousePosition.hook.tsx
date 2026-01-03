@@ -6,14 +6,18 @@ import { IMousePosition } from './interface/useMousePosition.interface';
  * Custom hook to track mouse position.
  * @returns {{x: number, y: number}} mousePosition - The current mouse coordinates.
  */
-export const useMousePosition = () : IMousePosition => {
-	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+export const useMousePosition = (): IMousePosition => {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-	useEffect(() => {
-		const updateMousePosition = (ev) => {setMousePosition({ x: ev.clientX, y: ev.clientY });};
-		window.addEventListener('mousemove', updateMousePosition);
-		return () => {window.removeEventListener('mousemove', updateMousePosition);};
-	}, []);
+    useEffect(() => {
+        const updateMousePosition = (ev) => {
+            setMousePosition({ x: ev.clientX, y: ev.clientY });
+        };
+        window.addEventListener('mousemove', updateMousePosition);
+        return () => {
+            window.removeEventListener('mousemove', updateMousePosition);
+        };
+    }, []);
 
-	return mousePosition;
+    return mousePosition;
 };

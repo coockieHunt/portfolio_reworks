@@ -2,14 +2,16 @@ import { useMemo, FC, ReactNode } from 'react';
 import * as Styled from './Stack.style';
 import { StackList, iStackItem } from '@/config';
 
-
-const BuildStack= ({ data }) => {
+const BuildStack = ({ data }) => {
     return (
         <Styled.Stack $iconSize={data.width} $iconColor={data.color}>
-            <a href={data.link} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
-                <div className="icon">
-                    {data.icon}
-                </div>
+            <a
+                href={data.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={-1}
+            >
+                <div className="icon">{data.icon}</div>
                 <h3>{data.name}</h3>
             </a>
         </Styled.Stack>

@@ -12,14 +12,15 @@ The above copyright notice and this permission notice shall be included in all c
 
 **The following elements are NOT covered by the Open Source license and remain the exclusive property of Jonathan Gleyze:**
 
-*   **The Visual Design:** The specific combination of layout, colors, and animations that constitute the unique "look and feel" of this portfolio.
-*   **The Graphics:** All logos, icons (excluding third-party libraries), and personal illustrations.
-*   **The Content:** All text, project descriptions, and personal information.
-*   **The Images:** All personal photos and screenshots.
+- **The Visual Design:** The specific combination of layout, colors, and animations that constitute the unique "look and feel" of this portfolio.
+- **The Graphics:** All logos, icons (excluding third-party libraries), and personal illustrations.
+- **The Content:** All text, project descriptions, and personal information.
+- **The Images:** All personal photos and screenshots.
 
 **You are NOT allowed to:**
-*   Clone this repository to host it as your own portfolio without significant modifications to the design.
-*   Use the design or assets for commercial purposes without explicit permission.
+
+- Clone this repository to host it as your own portfolio without significant modifications to the design.
+- Use the design or assets for commercial purposes without explicit permission.
 
 ## 3. Disclaimer
 

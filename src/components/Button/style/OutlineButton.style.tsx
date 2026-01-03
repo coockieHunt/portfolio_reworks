@@ -10,34 +10,36 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
     cursor: pointer;
     text-transform: uppercase;
     background-color: transparent;
-    border: 1px solid ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
+    border: 1px solid
+        ${(props) => (props.$colorLine ? props.$colorLine : 'var(--primary)')};
     border-radius: ${BORDER_RADIUS.medium};
-    font-variation-settings: "wght" 600;
-    font-size: .8em;
+    font-variation-settings: 'wght' 600;
+    font-size: 0.8em;
     white-space: nowrap;
-    align-items: center;    
+    align-items: center;
 
     position: relative;
 
-
-    & .icon{
+    & .icon {
         height: 100%;
         width: 100%;
         display: block;
         flex: 1;
         padding: 10px;
-        background-color: ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
+        background-color: ${(props) =>
+            props.$colorLine ? props.$colorLine : 'var(--primary)'};
     }
 
     & span {
         display: block;
         padding: 0 15px;
-        color: ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
-        
-        &:after{
-            transition: width .3s ease-in-out;
+        color: ${(props) =>
+            props.$colorLine ? props.$colorLine : 'var(--primary)'};
 
-            content: "";
+        &:after {
+            transition: width 0.3s ease-in-out;
+
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
@@ -45,22 +47,25 @@ export const OutileButtonContainer = styled.button<OutileButtonContainerProps>`
             width: 0%;
             z-index: -1;
 
-            background-color: ${props => props.$colorLine ? props.$colorLine :  'var(--primary)'};
+            background-color: ${(props) =>
+                props.$colorLine ? props.$colorLine : 'var(--primary)'};
         }
     }
 
-    & svg{
-        font-size: 16px; 
+    & svg {
+        font-size: 16px;
     }
 
-    &:hover{
-        & span{
-            transition: all .3s ease;
-            &::after{width: 100%;}
+    &:hover {
+        & span {
+            transition: all 0.3s ease;
+            &::after {
+                width: 100%;
+            }
         }
     }
 
-    &.disabled{
+    &.disabled {
         background-color: #1b171b;
         cursor: not-allowed;
     }

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const TitleContainer = styled.div`
     position: relative;
     height: 100px;
@@ -10,15 +9,14 @@ export const TitleContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    white-space:nowrap;
+    white-space: nowrap;
 
     left: 50%;
     transform: translate(-50%, 0);
     overflow: hidden;
 
     text-align: center;
-
-`
+`;
 
 export const Title = styled.h2`
     position: absolute;
@@ -28,13 +26,15 @@ export const Title = styled.h2`
 
     display: inline-block;
     z-index: 9;
-    font-variation-settings: "wght" 500;
+    font-variation-settings: 'wght' 500;
     color: var(--primary);
-    font-size: 2.5rem ;
+    font-size: 2.5rem;
     text-transform: uppercase;
 
-    @media screen and (max-width: 768px) {font-size: 2em; }
-`
+    @media screen and (max-width: 768px) {
+        font-size: 2em;
+    }
+`;
 
 export const BackTitle = styled.span`
     display: inline-block;
@@ -45,14 +45,13 @@ export const BackTitle = styled.span`
     transform: translate(-50%, 0);
     text-align: center;
 
-    font-variation-settings: "wght" 700;
+    font-variation-settings: 'wght' 700;
     font-size: 4.3em;
     color: #292929f8;
     text-transform: uppercase;
 
-
     @media screen and (max-width: 768px) {
         font-size: 2em;
-        width: auto
+        width: auto;
     }
-`
+`;

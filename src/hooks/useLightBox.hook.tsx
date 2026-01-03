@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { useScrollbar } from './useScrollBar.hook'; 
+import { useState, useCallback } from 'react';
+import { useScrollbar } from './useScrollBar.hook';
 
 import { IUseLightBox } from './interface/useLightBox.interface';
 
@@ -38,6 +38,6 @@ export const UseLightBox = (): IUseLightBox => {
         isLightBoxOpen,
         currentImg,
         ChangeLightBoxImg,
-        ToggleLightBox
+        ToggleLightBox,
     };
-}
+};

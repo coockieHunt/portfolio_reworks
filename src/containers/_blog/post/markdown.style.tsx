@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { HexToRgbaConverter } from "@/utils/HexToRgbaConverter"
+import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
 export const MarkdownContent = styled.div`
     margin-top: 20px;
@@ -74,91 +74,44 @@ export const MarkdownContent = styled.div`
         color: var(--font-hint);
     }
 
-    & code {
-        background-color: var(--background-tertiary);
-        padding: 5px 6px;
-        font-family: 'Courier New', Courier, monospace;
-        border: 0px solid transparent;
-    }
-    
+    /* Code */
     & pre {
-        background-color: ${HexToRgbaConverter('var(--background-tertiary)', 0.4)}; 
-        padding: 20px;
-        overflow-x: auto;
-        margin: 20px 0;
-        line-height: 1.5;
-        border: 1px solid var(--border);
-        font-family: 'Courier New', Courier, monospace; 
-        border: 0px solid transparent;
-
-        text-align: left;
-
         position: relative;
+        margin: 20px 0;
+        overflow-x: auto;
 
-        & .action{
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        background-color: transparent !important;
 
-            display: flex;
-            gap: 10px;
-
-            & .language-label {
-                background-color: var(--background-secondary);
-                color: var(--font-subtle);
-                padding: 2px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-                text-transform: uppercase;
-            }
-
-            & .copy-button {
-                background-color: var(--background-secondary);
-                border: none;
-                color: var(--font-subtle);
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-                cursor: pointer;
-                transition: background-color 0.2s ease;
-                
-                &:hover {
-                    background-color: var(--primary);
-                    color: var(--font-on-primary);
-                }
-            }
-
-        }
-
-        & code {
-            background-color: transparent; 
-            color: unset !important;
-            padding: 0;
-            border: none;
-            font-family: inherit;
-        }
-
-        .hljs {
-            background: transparent !important; 
-            padding: 0;
-        }
-
-        &::after{
-            position: absolute;
-            content: '';
-            width: 100%;
-            height: 100%;
-
-            top: 0;
-            left: 0;
-
-            z-index: -1;
-
-            background-color: #000000;
-        }
-
+        border: 1px solid var(--border);
+        font-family: 'Courier New', Courier, monospace;
+        z-index: 1;
     }
 
+    & code {
+        position: relative;
+        z-index: 2;
+
+        background-color: ${HexToRgbaConverter('var(--primary)', 0.05)};
+        color: unset;
+        padding: 0;
+        border: none;
+        font-family: inherit;
+    }
+
+    pre::after {
+        content: '';
+        display: block;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background-color: #000000;
+
+        z-index: -1;
+    }
 
     /* Listes */
     & ul {
@@ -211,7 +164,7 @@ export const MarkdownContent = styled.div`
     }
 
     /* Listes de tâches */
-    & input[type="checkbox"] {
+    & input[type='checkbox'] {
         margin-right: 8px;
         cursor: pointer;
         accent-color: var(--primary);
@@ -275,7 +228,7 @@ export const MarkdownContent = styled.div`
 
         & thead {
             background-color: var(--background-secondary);
-            
+
             & th {
                 font-weight: 600;
                 text-align: left;

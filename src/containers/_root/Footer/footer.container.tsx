@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, JSX } from 'react';
 // style
 import * as Footer from './footer.style';
@@ -13,164 +12,178 @@ import { URL } from '@/data';
 // utils
 import { launchEasterEgg } from '@/utils/rb';
 
-
 const SCROLL_DELAY = 500;
 export const FooterContainer = ({ id }): JSX.Element => {
-const [legalOpen, setLegalOpen] = useState(false);
-const legalContentRef = useRef<HTMLDivElement>(null);
+    const [legalOpen, setLegalOpen] = useState(false);
+    const legalContentRef = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
-    if (!legalOpen) return;
-    let observer: IntersectionObserver | null = null;
-    const timer = setTimeout(() => {
-        if (legalContentRef.current) {
-            
-            const rect = legalContentRef.current.getBoundingClientRect();
-            const offset = 200;
+    useEffect(() => {
+        if (!legalOpen) return;
+        let observer: IntersectionObserver | null = null;
+        const timer = setTimeout(() => {
+            if (legalContentRef.current) {
+                const rect = legalContentRef.current.getBoundingClientRect();
+                const offset = 200;
 
-            window.scrollTo({
-                top: window.scrollY + rect.top - offset,
-                behavior: 'smooth'
-            });
+                window.scrollTo({
+                    top: window.scrollY + rect.top - offset,
+                    behavior: 'smooth',
+                });
 
-            observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (!entry.isIntersecting) {
-                        setLegalOpen(false);
-                    }
-                },
-                { threshold: 0 }
-            );
+                observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (!entry.isIntersecting) {
+                            setLegalOpen(false);
+                        }
+                    },
+                    { threshold: 0 },
+                );
 
-            observer.observe(legalContentRef.current);
-        }
-    }, SCROLL_DELAY);
+                observer.observe(legalContentRef.current);
+            }
+        }, SCROLL_DELAY);
 
-    return () => {
-        clearTimeout(timer);
-        observer?.disconnect(); 
+        return () => {
+            clearTimeout(timer);
+            observer?.disconnect();
+        };
+    }, [legalOpen]);
+
+    const handleSecretClick = () => {
+        launchEasterEgg();
+
+        const notification = document.createElement('div');
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#000',
+            color: '#00ff41',
+            padding: '15px 25px',
+            borderRadius: '5px',
+            border: '1px solid #00ff41',
+            fontFamily: 'monospace',
+            fontSize: '13px',
+            zIndex: '10000',
+            boxShadow: '0 0 15px #00ff41',
+            textAlign: 'center',
+        });
+        notification.innerHTML = `<div style="font-weight:bold;margin-bottom:5px">> SYSTEM_OVERRIDE</div><div>DECRYPTOR ACTIVATED. Wake up, developer... Check your F12 console.</div>`;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.style.transition = 'opacity 0.5s';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 500);
+        }, 5000);
     };
-}, [legalOpen]);
 
-const handleSecretClick = () => {
-    launchEasterEgg();
-    
-    const notification = document.createElement('div');
-    Object.assign(notification.style, {
-        position: 'fixed',
-        top: '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        backgroundColor: '#000',
-        color: '#00ff41',
-        padding: '15px 25px',
-        borderRadius: '5px',
-        border: '1px solid #00ff41',
-        fontFamily: 'monospace',
-        fontSize: '13px',
-        zIndex: '10000',
-        boxShadow: '0 0 15px #00ff41',
-        textAlign: 'center'
-    });
-    notification.innerHTML = `<div style="font-weight:bold;margin-bottom:5px">> SYSTEM_OVERRIDE</div><div>DECRYPTOR ACTIVATED. Wake up, developer... Check your F12 console.</div>`;
-    document.body.appendChild(notification);
-    setTimeout(() => {
-        notification.style.transition = "opacity 0.5s";
-        notification.style.opacity = "0";
-        setTimeout(() => notification.remove(), 500);
-    }, 5000);
-};
+    const handleToggleLegal = () => {
+        setLegalOpen((prev) => !prev);
+    };
 
-const handleToggleLegal = () => {
-    setLegalOpen(prev => !prev);
-};
+    return (
+        <Footer.Container id={id}>
+            <Footer.Aurora />
+            <div className="content-wrapper">
+                <div className="header-text">
+                    <h3 className="catch">
+                        <div className="left">
+                            <span className="creative">Creative</span> <br />
+                            <span className="font_code indus">industry</span>
+                        </div>
 
-return (
-    <Footer.Container id={id}>
-        <Footer.Aurora />
-        <div className="content-wrapper">
-            <div className="header-text">
-                <h3 className='catch'>
-                    <div className="left">
-                        <span className='creative'>Creative</span> <br /> 
-                        <span className='font_code indus'>industry</span>
-                    </div>
-                    
-                    <div className="right">
-                        <LogoComponent version='animated' style={{ maxWidth: '60px', height: 'auto' }} />
-                    </div>
-                </h3>
-            </div>
-
-            <div className="josbnfgbhibc">
-                <p onClick={handleSecretClick} style={{ cursor: 'pointer' }}>
-                    [ Le footer contient la réponse. Ou peut-être pas. Un seul moyen de savoir... ]
-                </p>
-            </div>
-
-            <Footer.BottomBar>
-                <div className="copyright">
-                    <p>© {new Date().getFullYear()} Jonathan. All Rights Reserved.</p>
+                        <div className="right">
+                            <LogoComponent
+                                version="animated"
+                                style={{ maxWidth: '60px', height: 'auto' }}
+                            />
+                        </div>
+                    </h3>
                 </div>
 
-                <div className="social-links">
-                    <IconButton 
-                        icon={<Github />} 
-                        iconSize={'1.5rem'} 
-                        to={URL.github}
-                        ariaLabel={'GitHub'}
-                    />
-                    <IconButton 
-                        icon={<Linkedin />} 
-                        iconSize={'1.5rem'} 
-                        to={URL.linkedin}
-                        ariaLabel={'LinkedIn'}
-                    />
-                    <IconButton 
-                        icon={<Image />} 
-                        iconSize={'1.5rem'} 
-                        to={URL.DeviantArt}
-                        ariaLabel={'DeviantArt'}
-                    />
+                <div className="josbnfgbhibc">
+                    <p
+                        onClick={handleSecretClick}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        [ Le footer contient la réponse. Ou peut-être pas. Un
+                        seul moyen de savoir... ]
+                    </p>
                 </div>
 
-                <div className="legal-links">
-                    <Footer.BackToTop 
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        className='backToTop'
+                <Footer.BottomBar>
+                    <div className="copyright">
+                        <p>
+                            © {new Date().getFullYear()} Jonathan. All Rights
+                            Reserved.
+                        </p>
+                    </div>
+
+                    <div className="social-links">
+                        <IconButton
+                            icon={<Github />}
+                            iconSize={'1.5rem'}
+                            to={URL.github}
+                            ariaLabel={'GitHub'}
+                        />
+                        <IconButton
+                            icon={<Linkedin />}
+                            iconSize={'1.5rem'}
+                            to={URL.linkedin}
+                            ariaLabel={'LinkedIn'}
+                        />
+                        <IconButton
+                            icon={<Image />}
+                            iconSize={'1.5rem'}
+                            to={URL.DeviantArt}
+                            ariaLabel={'DeviantArt'}
+                        />
+                    </div>
+
+                    <div className="legal-links">
+                        <Footer.BackToTop
+                            onClick={() =>
+                                window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }
+                            className="backToTop"
+                            aria-label="retour en haut de page"
+                        >
+                            Retour haut de page
+                        </Footer.BackToTop>
+
+                        <button
+                            onClick={handleToggleLegal}
+                            aria-expanded={legalOpen}
+                            aria-controls="LegalContent"
+                            id="footer-legal"
+                        >
+                            Mentions Légales{' '}
+                            <ChevronDown
+                                className={legalOpen ? 'opened' : ''}
+                            />
+                        </button>
+                    </div>
+                </Footer.BottomBar>
+
+                <Footer.LegalContent
+                    id="LegalContent"
+                    className={legalOpen ? 'open' : 'closed'}
+                    ref={legalContentRef}
+                >
+                    <LegalNoticeContent />
+
+                    <Footer.BackToTop
+                        onClick={() =>
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                        }
+                        className="backToTop"
                         aria-label="retour en haut de page"
                     >
                         Retour haut de page
                     </Footer.BackToTop>
-                    
-                    <button 
-                        onClick={handleToggleLegal} 
-                        aria-expanded={legalOpen} 
-                        aria-controls="LegalContent" 
-                        id="footer-legal"
-                    >
-                        Mentions Légales <ChevronDown className={legalOpen ? 'opened' : ''} />
-                    </button>
-                </div>
-            </Footer.BottomBar>
-
-            <Footer.LegalContent 
-                id="LegalContent" 
-                className={legalOpen ? 'open' : 'closed'} 
-                ref={legalContentRef} 
-            >
-                <LegalNoticeContent />
-
-                <Footer.BackToTop 
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    className='backToTop'
-                    aria-label="retour en haut de page"
-                >
-                    Retour haut de page
-                </Footer.BackToTop>
-            </Footer.LegalContent>
-
-        </div>
-    </Footer.Container>
-);
+                </Footer.LegalContent>
+            </div>
+        </Footer.Container>
+    );
 };

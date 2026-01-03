@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { IAlertContainerProps, IContainerProps } from './Alert.interfaces';
 
-import { fadeIn } from '../../styles/utils.style'
+import { fadeIn } from '../../styles/utils.style';
 
 export const Container = styled.div<IContainerProps>`
     position: absolute;
@@ -19,13 +19,15 @@ export const Container = styled.div<IContainerProps>`
     pointer-events: none;
     padding: 10px;
 
-    flex-direction: ${props => props.$direction};
+    flex-direction: ${(props) => props.$direction};
 
-    @media (max-width: 700px) {width: 100%;}
-`
+    @media (max-width: 700px) {
+        width: 100%;
+    }
+`;
 
-export const AlertContainer = styled.div <IAlertContainerProps>`
-    background-color: ${props => props.$coloralert};
+export const AlertContainer = styled.div<IAlertContainerProps>`
+    background-color: ${(props) => props.$coloralert};
     box-shadow: 0 0 100px rgba(5, 0, 0, 0.336) inset;
     border-radius: 2px;
     display: flex;
@@ -35,10 +37,8 @@ export const AlertContainer = styled.div <IAlertContainerProps>`
 
     color: white;
 
-
-
     & button {
-        background-color: ${props => props.$coloralert};
+        background-color: ${(props) => props.$coloralert};
         box-shadow: 0 0 100px rgba(5, 0, 0, 0.336) inset;
         text-align: center;
         width: 20%;
@@ -46,7 +46,10 @@ export const AlertContainer = styled.div <IAlertContainerProps>`
         overflow: hidden;
         cursor: pointer;
 
-        & svg {font-size: 1.3em; color: white}   
+        & svg {
+            font-size: 1.3em;
+            color: white;
+        }
     }
 
     .content {
@@ -57,7 +60,7 @@ export const AlertContainer = styled.div <IAlertContainerProps>`
             padding: 20px 20px;
             display: block;
             width: 100%;
-            background-color: ${props => props.$coloralert};
+            background-color: ${(props) => props.$coloralert};
         }
     }
 
@@ -70,11 +73,15 @@ export const AlertContainer = styled.div <IAlertContainerProps>`
         height: 3px;
         width: 100%;
         animation: progressAnimation linear forwards;
-        display: ${props => props.$timer_bar};
+        display: ${(props) => props.$timer_bar};
     }
 
     @keyframes progressAnimation {
-        0% {width: 100%;}
-        100% {width: 0;}
+        0% {
+            width: 100%;
+        }
+        100% {
+            width: 0;
+        }
     }
-`
+`;

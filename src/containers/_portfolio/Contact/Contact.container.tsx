@@ -1,8 +1,8 @@
-import { TitleTextComponent } from "@/components/Text/Text.component";
-import { useContactForm } from "@/hooks/useContactForm";
-import { ContactInfo } from "./build/Contact.info";
-import { ContactFormUI } from "./build/ContactFormUI";
-import * as styled from "./Contact.style";
+import { TitleTextComponent } from '@/components/Text/Text.component';
+import { useContactForm } from '@/hooks/useContactForm';
+import { ContactInfo } from './build/Contact.info';
+import { ContactFormUI } from './build/ContactFormUI';
+import * as styled from './Contact.style';
 
 // Types
 export interface IContactContainerProps {
@@ -14,7 +14,10 @@ export const ContactContainer: React.FC<IContactContainerProps> = ({ id }) => {
 
     return (
         <div id={id}>
-            <TitleTextComponent subtitle={"A votre service"} style={{ width: "100%" }}>
+            <TitleTextComponent
+                subtitle={'A votre service'}
+                style={{ width: '100%' }}
+            >
                 Me contacter
             </TitleTextComponent>
             <styled.Text>

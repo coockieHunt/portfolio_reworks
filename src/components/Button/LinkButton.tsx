@@ -1,4 +1,4 @@
-import { LinkContainer } from './style/link.style'
+import { LinkContainer } from './style/link.style';
 
 //type
 export interface LinkProps {
@@ -21,10 +21,22 @@ export interface LinkProps {
  * @param className - ClassName on link
  * @returns {ReactNode} - A custom link element.
  */
-export const Link: React.FC<LinkProps> = ({ children, onClick, href, className, ariaLabel }) => {
+export const Link: React.FC<LinkProps> = ({
+    children,
+    onClick,
+    href,
+    className,
+    ariaLabel,
+}) => {
     return (
-        <LinkContainer href={href || '#'} onClick={onClick} className={className} aria-label={ariaLabel} role="link">
+        <LinkContainer
+            href={href || '#'}
+            onClick={onClick}
+            className={className}
+            aria-label={ariaLabel}
+            role="link"
+        >
             {children}
         </LinkContainer>
-    )
-}
+    );
+};

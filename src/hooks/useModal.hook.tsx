@@ -1,5 +1,4 @@
-
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 import { useScrollbar } from './useScrollBar.hook';
 
 import { IUseModal, IModal } from './interface/useModal.interface';
@@ -21,12 +20,22 @@ export const UseModal = (): IUseModal => {
 
     useScrollbar(modals.length > 0);
 
-    const openModal = useCallback((title: React.ReactNode, content: React.ReactNode, light: 'light' | 'dark' = 'dark') => {
-        setModals(prev => [...prev, { isOpen: true, title, content, light }]);
-    }, []);
+    const openModal = useCallback(
+        (
+            title: React.ReactNode,
+            content: React.ReactNode,
+            light: 'light' | 'dark' = 'dark',
+        ) => {
+            setModals((prev) => [
+                ...prev,
+                { isOpen: true, title, content, light },
+            ]);
+        },
+        [],
+    );
 
     const closeModal = useCallback((index: number) => {
-        setModals(prev => prev.filter((_, i) => i !== index));
+        setModals((prev) => prev.filter((_, i) => i !== index));
     }, []);
 
     const closeAllModals = useCallback(() => {
@@ -37,6 +46,6 @@ export const UseModal = (): IUseModal => {
         modals,
         openModal,
         closeModal,
-        closeAllModals
+        closeAllModals,
     };
 };

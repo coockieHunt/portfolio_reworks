@@ -7,7 +7,11 @@ export interface ILoadingConfig {
 }
 
 export interface ILoadingContext {
-    showLoading: (color?: string, durationMs?: number, text?: ReactNode) => void;
+    showLoading: (
+        color?: string,
+        durationMs?: number,
+        text?: ReactNode,
+    ) => void;
     hideLoading: () => void;
 }
 

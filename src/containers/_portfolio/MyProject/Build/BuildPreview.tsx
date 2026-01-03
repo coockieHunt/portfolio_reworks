@@ -25,36 +25,52 @@ const BuildPreviewBuild = ({ project }) => {
 
                 <div className="footer">
                     <div className="cta">
-                        {project.gitUrl !== null && project.gitUrl !== undefined && (
-                            <Button 
-                                icon={<Github />}
-                                color="color-mix(in srgb, var(--primary), transparent 90%)"
-                                className="source_code" 
-                                href={project.gitUrl}
-                                target="_blank"
-                                onClick={() => trackEvent('project github opened', { project: project.title })}
-                            >
-                                Code source
-                            </Button>
-                        )}
-                        {project.webUrl !== null && project.webUrl !== undefined && (
-                            <Button 
-                                icon={<LinkIcon />}
-                                color="color-mix(in srgb, var(--primary), transparent 40%)"
-                                className="project_code" 
-                                href={project.webUrl}
-                                target="_blank"
-                                onClick={() => trackEvent('project view opened', { project: project.title })}
-                            >
-                                Voir le projet
-                            </Button>
-                        )}
+                        {project.gitUrl !== null &&
+                            project.gitUrl !== undefined && (
+                                <Button
+                                    icon={<Github />}
+                                    color="color-mix(in srgb, var(--primary), transparent 90%)"
+                                    className="source_code"
+                                    href={project.gitUrl}
+                                    target="_blank"
+                                    onClick={() =>
+                                        trackEvent('project github opened', {
+                                            project: project.title,
+                                        })
+                                    }
+                                >
+                                    Code source
+                                </Button>
+                            )}
+                        {project.webUrl !== null &&
+                            project.webUrl !== undefined && (
+                                <Button
+                                    icon={<LinkIcon />}
+                                    color="color-mix(in srgb, var(--primary), transparent 40%)"
+                                    className="project_code"
+                                    href={project.webUrl}
+                                    target="_blank"
+                                    onClick={() =>
+                                        trackEvent('project view opened', {
+                                            project: project.title,
+                                        })
+                                    }
+                                >
+                                    Voir le projet
+                                </Button>
+                            )}
                     </div>
                     <div className="fenceFotter">
                         {project.favorite ? (
-                            <span className="font_code"> <Plus /> Favori</span>
+                            <span className="font_code">
+                                {' '}
+                                <Plus /> Favori
+                            </span>
                         ) : (
-                            <span className="font_code"> <Check /> UTF 8</span>
+                            <span className="font_code">
+                                {' '}
+                                <Check /> UTF 8
+                            </span>
                         )}
                     </div>
                 </div>

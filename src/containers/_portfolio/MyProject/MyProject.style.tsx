@@ -11,8 +11,12 @@ export const Container = styled.div`
     position: relative;
     width: 85%;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) { width: 94%; }
-    @media (max-width: 1200px) { padding-bottom: 30px; }
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        width: 94%;
+    }
+    @media (max-width: 1200px) {
+        padding-bottom: 30px;
+    }
 `;
 
 export const ProjectCard = styled.div`
@@ -23,16 +27,16 @@ export const ProjectCard = styled.div`
     overflow: hidden;
     width: 100%;
     height: 100%;
-    min-height: 500px; 
-    
-    box-sizing: border-box; 
+    min-height: 500px;
+
+    box-sizing: border-box;
     border-radius: ${BORDER_RADIUS.large};
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    
+
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     & .tab-content {
-        flex-shrink: 0; 
+        flex-shrink: 0;
         background: rgba(0, 0, 0, 0.2);
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
@@ -41,7 +45,7 @@ export const ProjectCard = styled.div`
             list-style: none;
             padding: 0;
             margin: 0;
-            
+
             & li {
                 cursor: pointer;
                 padding: 18px 25px;
@@ -63,47 +67,46 @@ export const ProjectCard = styled.div`
                     color: var(--primary);
                     border-bottom-color: var(--primary);
                 }
-                
+
                 & svg {
                     font-size: 1.1em;
                     transition: transform 0.3s ease;
                 }
-                
-                
+
                 @media (max-width: ${SCREEN_SIZE.mobile}) {
                     padding: 15px;
-                    flex: 1; 
+                    flex: 1;
                     justify-content: center;
                     font-size: 0.9em;
                 }
             }
         }
     }
-    
-    & [role="tabpanel"] {
-        display: flex;      
+
+    & [role='tabpanel'] {
+        display: flex;
         flex-direction: column;
-        flex: 1;           
+        flex: 1;
         width: 100%;
-        min-height: 0;     
+        min-height: 0;
         animation: ${fadeInTranslate} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     & .container_preview {
         display: flex;
         flex-direction: column;
-        flex: 1;            
-        min-height: 0;      
+        flex: 1;
+        min-height: 0;
         width: 100%;
-        
+
         & .content {
             padding: 25px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            flex: 1;        
-            overflow-y: hidden; 
-            
+            flex: 1;
+            overflow-y: hidden;
+
             & .title {
                 font-size: 2em;
                 font-weight: 800;
@@ -127,11 +130,11 @@ export const ProjectCard = styled.div`
                 line-height: 1.7em;
                 margin: 0;
                 flex: 1;
-                max-height: 250px; 
+                max-height: 250px;
                 min-height: 100px;
                 color: var(--font-subtle);
                 overflow-y: auto;
-                
+
                 ${ThinScroolBar}
 
                 &:hover {
@@ -151,40 +154,47 @@ export const ProjectCard = styled.div`
                 & li {
                     color: var(--font-subtle);
                     padding: 10px 15px;
-                    border-radius: ${BORDER_RADIUS.medium}; 
+                    border-radius: ${BORDER_RADIUS.medium};
                     font-size: 0.8em;
                     font-weight: 600;
-                    border: 1px solid color-mix(in srgb, var(--primary), transparent 81%);
-                    background: color-mix(in srgb, var(--primary), transparent 94%);
+                    border: 1px solid
+                        color-mix(in srgb, var(--primary), transparent 81%);
+                    background: color-mix(
+                        in srgb,
+                        var(--primary),
+                        transparent 94%
+                    );
                     transition: all 0.2s ease;
                     cursor: default;
 
-                    &:hover {transform: translateY(-2px);}
+                    &:hover {
+                        transform: translateY(-2px);
+                    }
                 }
             }
         }
-        
+
         & .footer {
-            margin-top: auto; 
+            margin-top: auto;
             width: 100%;
-            background: rgba(0,0,0,0.2);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+
             & .cta {
                 display: flex;
-                flex-wrap: wrap; 
+                flex-wrap: wrap;
                 align-items: center;
                 gap: 15px;
                 padding: 20px;
-                
 
                 & .project_code {
                     background: var(--primary);
                     border-color: var(--primary);
-                    
+
                     &:hover {
                         background: var(--primary);
-                        box-shadow: 0 0 15px color-mix(in srgb, var(--primary), transparent 62%);
+                        box-shadow: 0 0 15px
+                            color-mix(in srgb, var(--primary), transparent 62%);
                     }
                 }
             }
@@ -215,27 +225,27 @@ export const ProjectCard = styled.div`
 
     & .container_galery {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 20px;
         padding: 25px;
-        flex: 1; 
+        flex: 1;
         overflow-y: auto;
 
         & .preview_img {
             width: 100%;
-            height: 160px; 
+            height: 160px;
             object-fit: cover;
             border-radius: ${BORDER_RADIUS.medium};
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            background-color: rgba(0,0,0,0.3);
-            
+            background-color: rgba(0, 0, 0, 0.3);
+
             &:hover {
                 transform: scale(1.03);
                 border-color: var(--primary);
-                box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
                 filter: brightness(1.1);
             }
         }
@@ -243,6 +253,8 @@ export const ProjectCard = styled.div`
         ${ThinScroolBar}
 
         /* in gallery one ligne on mobile */
-        @media (max-width: ${SCREEN_SIZE.mobile}) {grid-template-columns: 1fr;}
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            grid-template-columns: 1fr;
+        }
     }
 `;

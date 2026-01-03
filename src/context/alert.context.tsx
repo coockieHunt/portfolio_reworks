@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 
-import {IAlert, IAlertContext, IAlertProviderProps }  from './interface/alert.interface';
+import {
+    IAlert,
+    IAlertContext,
+    IAlertProviderProps,
+} from './interface/alert.interface';
 
 const AlertContext = createContext<IAlertContext | undefined>(undefined);
 
@@ -15,27 +19,35 @@ export const useAlert = (): IAlertContext => {
         // This prevents runtime destructuring errors and makes the issue visible in the console.
         if (typeof window !== 'undefined') {
             // eslint-disable-next-line no-console
-            console.warn('useAlert called outside of AlertProvider. Returning no-op fallbacks.');
+            console.warn(
+                'useAlert called outside of AlertProvider. Returning no-op fallbacks.',
+            );
         }
         return {
             alerts: [],
             addAlert: () => {},
-            removeAlert: () => {}
+            removeAlert: () => {},
         };
     }
     return ctx;
 };
-
 
 /**
  * A provider component for managing alerts.
  * @param {IAlertProviderProps} props - The component's props.
  * @returns {JSX.Element} The rendered provider component.
  */
-export const AlertProvider: React.FC<IAlertProviderProps> = ({ children, debug }) => {
+export const AlertProvider: React.FC<IAlertProviderProps> = ({
+    children,
+    debug,
+}) => {
     const [alerts, setAlerts] = useState<IAlert[]>([]);
 
-    const addAlert = (message: string, colorAlert: string, delay?: number): void => {
+    const addAlert = (
+        message: string,
+        colorAlert: string,
+        delay?: number,
+    ): void => {
         const newAlert: IAlert = { id: Date.now(), message, colorAlert, delay };
         setAlerts((prevAlerts) => [...prevAlerts, newAlert]);
 

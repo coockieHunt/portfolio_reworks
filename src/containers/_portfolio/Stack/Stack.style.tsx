@@ -7,18 +7,26 @@ const scrollLeftToRight = keyframes`
 
 export const Container = styled.div`
     width: 100%;
-    overflow: hidden; 
+    overflow: hidden;
     padding: 20px 0;
     position: relative;
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 10%,
+        black 90%,
+        transparent
+    );
 `;
 
 export const Track = styled.div`
     display: flex;
     width: max-content;
-    gap: 60px; 
+    gap: 60px;
     animation: ${scrollLeftToRight} 40s linear infinite;
-    &:hover {animation-play-state: paused;}
+    &:hover {
+        animation-play-state: paused;
+    }
 `;
 
 export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
@@ -30,28 +38,33 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         text-decoration: none;
         padding: 10px;
         gap: 10px;
-        transition: transform 0.3s ease, color 0.3s ease;
+        transition:
+            transform 0.3s ease,
+            color 0.3s ease;
 
         & svg {
-            font-size: ${props => props.$iconSize || 30}px;
+            font-size: ${(props) => props.$iconSize || 30}px;
             height: auto;
             width: auto;
-            color: ${props => props.$iconColor || '#FFFFFF'};
+            color: ${(props) => props.$iconColor || '#FFFFFF'};
             transition: color 0.3s ease;
-            display: block; 
+            display: block;
         }
-        
-        &:hover svg {transform: scale(1.2); color: var(--primary);}
+
+        &:hover svg {
+            transform: scale(1.2);
+            color: var(--primary);
+        }
     }
-    
+
     h3 {
         margin: 0;
-        line-height: 1; 
-        
-        transform: translateY(5px); 
+        line-height: 1;
+
+        transform: translateY(5px);
     }
 `;

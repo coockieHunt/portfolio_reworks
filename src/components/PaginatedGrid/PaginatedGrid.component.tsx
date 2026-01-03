@@ -1,8 +1,7 @@
-
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from 'react';
 import { useWindowSize } from '../../hooks/useScreenResize.hook';
 import { SCREEN_SIZE } from '../../config';
-import { GridContainer, PaginationContainer } from "./PaginatedGrid.style";
+import { GridContainer, PaginationContainer } from './PaginatedGrid.style';
 
 export interface IPaginatedGridProps {
     items: Array<{
@@ -29,7 +28,7 @@ export interface IGridItem {
     [key: string]: any;
 }
 
-import { Button } from "../Button/Button";
+import { Button } from '../Button/Button';
 
 /**
  * PaginatedGrid component displays a paginated grid of items, supporting custom row and column spans per item.
@@ -52,22 +51,26 @@ const calculatePages = (
     }>,
     isMobile: boolean,
     columns: number,
-    rows: number
+    rows: number,
 ) => {
     const COLS = isMobile ? 1 : columns;
     const ROWS = isMobile ? 4 : rows;
     const pages: IGridItem[][] = [];
-    
+
     let currentPage: IGridItem[] = [];
 
     // grid occupation
-    let grid = Array(ROWS).fill(false).map(() => Array(COLS).fill(false));
+    let grid = Array(ROWS)
+        .fill(false)
+        .map(() => Array(COLS).fill(false));
 
     //if grid spot is free
     const isSpotFree = (r, c, rSpan, cSpan) => {
         if (r + rSpan > ROWS || c + cSpan > COLS) return false;
         for (let i = 0; i < rSpan; i++) {
-            for (let j = 0; j < cSpan; j++) {if (grid[r + i][c + j]) return false;}
+            for (let j = 0; j < cSpan; j++) {
+                if (grid[r + i][c + j]) return false;
+            }
         }
         return true;
     };
@@ -101,13 +104,15 @@ const calculatePages = (
 
         if (firstFreeSpot) {
             let itemIndex = -1;
-            
+
             for (let i = 0; i < queue.length; i++) {
                 const item = queue[i];
                 const cSpan = isMobile ? 1 : Math.min(item.column || 1, COLS);
                 const rSpan = item.row || 1;
-                
-                if (isSpotFree(firstFreeSpot.r, firstFreeSpot.c, rSpan, cSpan)) {
+
+                if (
+                    isSpotFree(firstFreeSpot.r, firstFreeSpot.c, rSpan, cSpan)
+                ) {
                     itemIndex = i;
                     break;
                 }
@@ -117,7 +122,7 @@ const calculatePages = (
                 const item = queue[itemIndex];
                 const cSpan = isMobile ? 1 : Math.min(item.column || 1, COLS);
                 const rSpan = item.row || 1;
-                
+
                 markSpot(firstFreeSpot.r, firstFreeSpot.c, rSpan, cSpan);
                 currentPage.push({
                     ...item,
@@ -125,16 +130,17 @@ const calculatePages = (
                     row: item.row ?? 1,
                     gridPos: {
                         rowStart: firstFreeSpot.r + 1,
-                        colStart: firstFreeSpot.c + 1
-                    }
+                        colStart: firstFreeSpot.c + 1,
+                    },
                 });
                 queue.splice(itemIndex, 1);
                 placed = true;
             } else {
-                
-                 for (let i = 0; i < queue.length; i++) {
+                for (let i = 0; i < queue.length; i++) {
                     const item = queue[i];
-                    const cSpan = isMobile ? 1 : Math.min(item.column || 1, COLS);
+                    const cSpan = isMobile
+                        ? 1
+                        : Math.min(item.column || 1, COLS);
                     const rSpan = item.row || 1;
 
                     let spotFound: { r: number; c: number } | null = null;
@@ -156,8 +162,8 @@ const calculatePages = (
                             row: item.row ?? 1,
                             gridPos: {
                                 rowStart: spotFound.r + 1,
-                                colStart: spotFound.c + 1
-                            }
+                                colStart: spotFound.c + 1,
+                            },
                         });
                         queue.splice(i, 1);
                         i--;
@@ -165,103 +171,131 @@ const calculatePages = (
                     }
                 }
             }
-        } 
-        
+        }
+
         if (!placed) {
             if (currentPage.length > 0) {
                 pages.push(currentPage);
                 currentPage = [];
-                grid = Array(ROWS).fill(false).map(() => Array(COLS).fill(false));
+                grid = Array(ROWS)
+                    .fill(false)
+                    .map(() => Array(COLS).fill(false));
             } else {
                 if (queue.length > 0) {
-                    console.error("Item too big for grid:", queue[0]);
+                    console.error('Item too big for grid:', queue[0]);
                     queue.shift();
-                 }
+                }
             }
         }
     }
 
-    if (currentPage.length > 0) {pages.push(currentPage);}
+    if (currentPage.length > 0) {
+        pages.push(currentPage);
+    }
 
     return pages;
 };
 
-export const PaginatedGrid = ({ 
-        items, 
-        renderItem, 
-        columns = 4, 
-        rows = 2,  
-        gap_desktop = 10 , 
-        gap_mobile = 10 
-    }: IPaginatedGridProps) => {
+export const PaginatedGrid = ({
+    items,
+    renderItem,
+    columns = 4,
+    rows = 2,
+    gap_desktop = 10,
+    gap_mobile = 10,
+}: IPaginatedGridProps) => {
     const isMobile = !!useWindowSize(parseInt(SCREEN_SIZE.mobile) + 600);
-    const pages = useMemo(() => calculatePages(items, isMobile, columns, rows), [items, isMobile, columns, rows]);
+    const pages = useMemo(
+        () => calculatePages(items, isMobile, columns, rows),
+        [items, isMobile, columns, rows],
+    );
     const pagesNumber = pages.length;
     const [currentPage, setCurrentPage] = useState(1);
 
-    useEffect(() => {setCurrentPage(1);}, [isMobile]); // Reset to first page on screen size change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [isMobile]); // Reset to first page on screen size change
 
     const handlePageChange = (pageIndex) => {
         if (pageIndex < 1 || pageIndex > pagesNumber) return;
         setCurrentPage(pageIndex);
-    }
-    
+    };
+
     const currentItems = pages[currentPage - 1] || [];
 
     const HideOnePage = pagesNumber <= 1;
 
-
-
     if (HideOnePage) {
         return (
             <div className="listContainer">
-                <GridContainer $columns={isMobile ? 1 : columns} $rows={isMobile ? 4 : rows} $gap={isMobile ? gap_mobile : gap_desktop}>
-                    {items.map(item => {
+                <GridContainer
+                    $columns={isMobile ? 1 : columns}
+                    $rows={isMobile ? 4 : rows}
+                    $gap={isMobile ? gap_mobile : gap_desktop}
+                >
+                    {items.map((item) => {
                         const RenderItem = renderItem;
                         return <RenderItem key={item.id} {...item} />;
                     })}
                 </GridContainer>
             </div>
-        )
-    }else {
+        );
+    } else {
         return (
             <div className="listContainer">
-                <GridContainer $columns={isMobile ? 1 : columns} $rows={isMobile ? 4 : rows} $gap={isMobile ? gap_mobile : gap_desktop}>
-                    {currentItems.map(item => {
+                <GridContainer
+                    $columns={isMobile ? 1 : columns}
+                    $rows={isMobile ? 4 : rows}
+                    $gap={isMobile ? gap_mobile : gap_desktop}
+                >
+                    {currentItems.map((item) => {
                         const RenderItem = renderItem;
                         return <RenderItem key={item.id} {...item} />;
                     })}
                 </GridContainer>
                 <PaginationContainer>
-                    <Button 
+                    <Button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                         color="color-mix(in srgb, var(--secondary), transparent 20%)"
-                    >Précédent</Button>
-                    
+                    >
+                        Précédent
+                    </Button>
+
                     {Array.from({ length: pagesNumber }, (_, index) => {
-                        const pageIndex = index + 1; 
+                        const pageIndex = index + 1;
                         return (
-                            <span 
-                                key={pageIndex} 
-                                className={pageIndex === currentPage ? 'active-page' : ''}
-                                onClick={() => handlePageChange(pageIndex)} 
+                            <span
+                                key={pageIndex}
+                                className={
+                                    pageIndex === currentPage
+                                        ? 'active-page'
+                                        : ''
+                                }
+                                onClick={() => handlePageChange(pageIndex)}
                                 role="button"
                                 tabIndex={0}
-                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handlePageChange(pageIndex); } }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        handlePageChange(pageIndex);
+                                    }
+                                }}
                             >
                                 {pageIndex}
                             </span>
                         );
                     })}
 
-                    <Button 
+                    <Button
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === pagesNumber}
                         color="color-mix(in srgb, var(--secondary), transparent 20%)"
-                    >Suivant</Button>
+                    >
+                        Suivant
+                    </Button>
                 </PaginationContainer>
             </div>
-        )
+        );
     }
-}
+};

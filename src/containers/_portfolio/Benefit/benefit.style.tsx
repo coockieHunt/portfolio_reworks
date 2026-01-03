@@ -1,8 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { SCREEN_SIZE } from '@/config.js';
 
-
-
 const AuraBreath = keyframes`
     0% { 
         background-size: 30% 30%;
@@ -15,14 +13,14 @@ const AuraBreath = keyframes`
     }
 `;
 
-
 export const Container = styled.div`
     padding: 20px 30px;
     height: auto;
-    @media (max-width: 1200px) {padding: 0 20px;}
+    @media (max-width: 1200px) {
+        padding: 0 20px;
+    }
 
-
-    & svg{
+    & svg {
         stroke-width: 2.5px;
     }
 `;
@@ -36,8 +34,6 @@ export const Text = styled.span`
 
     padding: 0 25px;
 `;
-
-
 
 export const TextContainer = styled.div`
     display: flex;
@@ -61,7 +57,9 @@ export const Title = styled.h2`
     text-align: center;
     font-size: 3em;
 
-    @media (max-width: 1200px) {line-height: 2em;}
+    @media (max-width: 1200px) {
+        line-height: 2em;
+    }
 `;
 
 export const Info = styled.div`
@@ -82,21 +80,25 @@ export const Info = styled.div`
             margin-left: 0 !important;
         }
 
-        &:hover {transform: scale(1.02);}
+        &:hover {
+            transform: scale(1.02);
+        }
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         gap: 40px;
 
-        & .InfoElement {           
+        & .InfoElement {
             border-bottom: 1px solid #ffffff32;
             padding-bottom: 30px;
 
-            &:hover {transform: scale(1);}
+            &:hover {
+                transform: scale(1);
+            }
         }
     }
 
-    & .title{
+    & .title {
         display: flex;
         align-items: center;
         gap: 20px;
@@ -130,22 +132,26 @@ export const Info = styled.div`
         font-size: 1.2em;
         line-height: 2em;
         text-transform: uppercase;
-        font-variation-settings: "wght" 500;
+        font-variation-settings: 'wght' 500;
         color: var(--primary);
         position: relative;
 
-        @media (max-width: ${SCREEN_SIZE.mobile}) {font-size: 1em;}
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            font-size: 1em;
+        }
     }
 
     & p {
-        font-variation-settings: "wght" 350;
+        font-variation-settings: 'wght' 350;
         font-size: 1em;
         line-height: 1.6em;
     }
 
     &.start {
         text-align: end;
-        & .title {justify-content: flex-end;}
+        & .title {
+            justify-content: flex-end;
+        }
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             margin-bottom: 40px;
@@ -159,7 +165,9 @@ export const Info = styled.div`
 
     &.end {
         text-align: start;
-        & .title {justify-content: flex-start;}
+        & .title {
+            justify-content: flex-start;
+        }
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             text-align: left;
@@ -176,28 +184,28 @@ export const Img = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; 
+    position: relative;
     &::after {
         animation: ${AuraBreath} 4s ease-in-out infinite alternate;
-        
+
         content: '';
         position: absolute;
         top: 10px;
         left: 40px;
         width: 90%;
-        height: 90%; 
-        
+        height: 90%;
+
         background: radial-gradient(
             circle,
-            var(--primary) 10%, 
-            transparent 60% 
+            var(--primary) 10%,
+            transparent 60%
         );
 
         filter: blur(30px);
         background-repeat: no-repeat;
         background-position: center;
-        
-        opacity: 0.5; 
+
+        opacity: 0.5;
         z-index: -1;
     }
     & svg {
@@ -207,5 +215,7 @@ export const Img = styled.div`
         color: var(--primary);
     }
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {display: none;}
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        display: none;
+    }
 `;

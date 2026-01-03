@@ -13,21 +13,21 @@
  */
 
 export const HexToRgbaConverter = (color: string, alpha: number): string => {
-  if (color.startsWith('var(')) {
-    return `color-mix(in srgb, ${color} ${alpha * 100}%, transparent)`;
-  }
-  
-  const hexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
-  
-  if (!hexRegex.test(color)) {
-    return color;
-  }
-  
-  const hexValue = color.replace(/^#/, '');
-  const bigint = parseInt(hexValue, 16);
-  const red = (bigint >> 16) & 255;
-  const green = (bigint >> 8) & 255;
-  const blue = bigint & 255;
-  
-  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+    if (color.startsWith('var(')) {
+        return `color-mix(in srgb, ${color} ${alpha * 100}%, transparent)`;
+    }
+
+    const hexRegex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+
+    if (!hexRegex.test(color)) {
+        return color;
+    }
+
+    const hexValue = color.replace(/^#/, '');
+    const bigint = parseInt(hexValue, 16);
+    const red = (bigint >> 16) & 255;
+    const green = (bigint >> 8) & 255;
+    const blue = bigint & 255;
+
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 };

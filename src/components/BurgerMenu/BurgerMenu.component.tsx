@@ -1,4 +1,4 @@
-import { BurgerMenuContainer } from './BurgerMenu.style'
+import { BurgerMenuContainer } from './BurgerMenu.style';
 import { IBurgerMenuComponentProps } from './BurgerMenu.interface';
 /**
  * BurgerMenuComponent
@@ -17,18 +17,29 @@ import { IBurgerMenuComponentProps } from './BurgerMenu.interface';
  * <BurgerMenuComponent val={isOpen} onClick={() => setIsOpen(!isOpen)} />
  */
 
-
-export const BurgerMenuComponent = ({ val, onClick }: IBurgerMenuComponentProps) => {
+export const BurgerMenuComponent = ({
+    val,
+    onClick,
+}: IBurgerMenuComponentProps) => {
     return (
         <BurgerMenuContainer
             className={val ? 'open' : ''}
             onClick={onClick}
-            aria-label={val ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation'}
+            aria-label={
+                val
+                    ? 'Fermer le menu de navigation'
+                    : 'Ouvrir le menu de navigation'
+            }
             aria-expanded={val}
             aria-controls="primary-navigation"
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onClick();
+                }
+            }}
         >
             <div></div>
             <div></div>

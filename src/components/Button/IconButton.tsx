@@ -28,15 +28,28 @@ export interface IconButtonProps {
  * @param textY - Change text position on hover (optional).
  * @param iconSize - Size on icon (optional).
  */
-export const IconButton: React.FC<IconButtonProps> = ({ color, icon, to, onClick, text, textX = "-50%", textY = "120%", iconSize, ariaLabel }) => {
+export const IconButton: React.FC<IconButtonProps> = ({
+    color,
+    icon,
+    to,
+    onClick,
+    text,
+    textX = '-50%',
+    textY = '120%',
+    iconSize,
+    ariaLabel,
+}) => {
     const isExternal = to && to.startsWith('http');
-    const ariaLabelValue = ariaLabel || text || (isExternal ? ('lien externe ' + to) : ('lien interne ' + to));
+    const ariaLabelValue =
+        ariaLabel ||
+        text ||
+        (isExternal ? 'lien externe ' + to : 'lien interne ' + to);
     return (
-        <IconContainer 
-            $color={color} 
+        <IconContainer
+            $color={color}
             href={to || '#'}
-            onClick={onClick} 
-            $textX={textX} 
+            onClick={onClick}
+            $textX={textX}
             $textY={textY}
             target={isExternal ? '_blank' : undefined}
             rel={isExternal ? 'noopener noreferrer' : undefined}
@@ -44,7 +57,11 @@ export const IconButton: React.FC<IconButtonProps> = ({ color, icon, to, onClick
             title={ariaLabelValue}
             role="link"
         >
-            {React.cloneElement(icon, { size: iconSize, 'aria-hidden': true, focusable: false } as any)}
+            {React.cloneElement(icon, {
+                size: iconSize,
+                'aria-hidden': true,
+                focusable: false,
+            } as any)}
             <span aria-hidden="true">{text}</span>
         </IconContainer>
     );

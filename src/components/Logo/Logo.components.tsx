@@ -5,17 +5,20 @@ import LogoComponentDetailedMinimal from '../../assets/images/logo/logo-detailed
 import LogoComponentSimpleFull from '../../assets/images/logo/logo-simple-full.svg?react';
 import LogoComponentSimpleMinimal from '../../assets/images/logo/logo-simple-minimal.svg?react';
 
-import {StyledAnimatedSvg} from './LogoAnim.stye';
+import { StyledAnimatedSvg } from './LogoAnim.stye';
 
 export interface ILogoComponentProps extends React.SVGProps<SVGSVGElement> {
-    version: 'animated' | 'detailed-full' | 'detailed-minimal' | 'simple-full' | 'simple-minimal';
+    version:
+        | 'animated'
+        | 'detailed-full'
+        | 'detailed-minimal'
+        | 'simple-full'
+        | 'simple-minimal';
 }
-
 
 export interface IStyledAnimatedSvgProps {
     $isVisible: boolean;
 }
-
 
 const AnimatedLogo = (props: React.SVGProps<SVGSVGElement>) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -31,8 +34,8 @@ const AnimatedLogo = (props: React.SVGProps<SVGSVGElement>) => {
             },
             {
                 threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            }
+                rootMargin: '0px 0px -50px 0px',
+            },
         );
 
         if (logoRef.current) {
@@ -84,8 +87,18 @@ const AnimatedLogo = (props: React.SVGProps<SVGSVGElement>) => {
                 <circle cx="31.909" cy="186.533" r="7.364" />
                 <circle cx="102.087" cy="186.533" r="7.364" />
             </g>
-            <path d="M102 314H134.568L150 301V262" stroke="currentColor" strokeWidth="16" fill="none" />
-            <path d="M161 56V23.432L148 8H109" stroke="currentColor" strokeWidth="16" fill="none" />
+            <path
+                d="M102 314H134.568L150 301V262"
+                stroke="currentColor"
+                strokeWidth="16"
+                fill="none"
+            />
+            <path
+                d="M161 56V23.432L148 8H109"
+                stroke="currentColor"
+                strokeWidth="16"
+                fill="none"
+            />
         </StyledAnimatedSvg>
     );
 };

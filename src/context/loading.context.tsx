@@ -1,8 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Loading } from "../components/Loading/Loading.component"; 
+import { Loading } from '../components/Loading/Loading.component';
 import { useScrollbar } from '../hooks/useScrollBar.hook';
 
-import { ILoadingContext, ILoadingProviderProps, ILoadingConfig } from './interface/loading.interface';
+import {
+    ILoadingContext,
+    ILoadingProviderProps,
+    ILoadingConfig,
+} from './interface/loading.interface';
 
 const LoadingContext = createContext<ILoadingContext | undefined>(undefined);
 
@@ -14,19 +18,32 @@ export const useLoading = (): ILoadingContext => {
     return context;
 };
 
-
-export const LoadingProvider: React.FC<ILoadingProviderProps> = ({ children }) => {
+export const LoadingProvider: React.FC<ILoadingProviderProps> = ({
+    children,
+}) => {
     const [isActive, setIsActive] = useState<boolean>(false);
-    
-    const [config, setConfig] = useState<ILoadingConfig>({ color: 'white', duration: 2, text: '' });
+
+    const [config, setConfig] = useState<ILoadingConfig>({
+        color: 'white',
+        duration: 2,
+        text: '',
+    });
     const [animKey, setAnimKey] = useState<number>(0);
 
-    useScrollbar(isActive); 
+    useScrollbar(isActive);
 
-    const showLoading = (color?: string, durationMs?: number, text?: ReactNode): void => {
+    const showLoading = (
+        color?: string,
+        durationMs?: number,
+        text?: ReactNode,
+    ): void => {
         const durationSec = (durationMs || 2000) / 1000;
-        setConfig({ color: color || 'white', duration: durationSec, text: text || '' });
-        setAnimKey(prev => prev + 1);
+        setConfig({
+            color: color || 'white',
+            duration: durationSec,
+            text: text || '',
+        });
+        setAnimKey((prev) => prev + 1);
         setIsActive(true);
     };
 
@@ -38,10 +55,10 @@ export const LoadingProvider: React.FC<ILoadingProviderProps> = ({ children }) =
         <LoadingContext.Provider value={{ showLoading, hideLoading }}>
             {children}
             {isActive && (
-                <Loading 
+                <Loading
                     key={animKey}
                     color={config.color}
-                    duration={config.duration * 1000} 
+                    duration={config.duration * 1000}
                     text={config.text}
                 />
             )}

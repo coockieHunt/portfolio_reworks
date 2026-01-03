@@ -25,7 +25,7 @@ export const FenceContainer = styled.div`
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        
+
         &::-webkit-scrollbar {
             display: none;
         }
@@ -34,7 +34,7 @@ export const FenceContainer = styled.div`
             display: none;
         }
     }
-`
+`;
 
 export const ScrollIndicator = styled.div`
     display: none;
@@ -58,7 +58,8 @@ export const ScrollIndicator = styled.div`
         pointer-events: none;
 
         @keyframes scrollHint {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translateX(-10px);
                 opacity: 0.6;
             }
@@ -71,11 +72,11 @@ export const ScrollIndicator = styled.div`
 `;
 
 export const IconList = styled.span`
-    & > svg{
+    & > svg {
         color: var(--primary);
         height: 100%;
     }
-`
+`;
 
 export const CatchModal = styled.span`
     display: block;
@@ -83,8 +84,8 @@ export const CatchModal = styled.span`
     margin-right: auto;
     text-align: center;
     font-size: 1rem;
-    font-variation-settings: "wght" 200;
-`
+    font-variation-settings: 'wght' 200;
+`;
 
 export const ListModal = styled.ul`
     list-style: none;
@@ -92,13 +93,13 @@ export const ListModal = styled.ul`
     flex-direction: column;
     gap: 20px;
     padding-top: 30px;
-    & > li{
+    & > li {
         display: flex;
         align-items: center;
         gap: 10px;
-        font-variation-settings: "wght" 300;
+        font-variation-settings: 'wght' 300;
     }
-`
+`;
 
 export const Fence = styled.div`
     cursor: pointer;
@@ -122,10 +123,14 @@ export const Fence = styled.div`
         scroll-snap-stop: always;
     }
 
-    &.HightLighting {box-shadow: 0 0 30px color-mix(in srgb, var(--primary), transparent 40%);}
-    & .catch{ font-variation-settings: "wght" 400;}
+    &.HightLighting {
+        box-shadow: 0 0 30px color-mix(in srgb, var(--primary), transparent 40%);
+    }
+    & .catch {
+        font-variation-settings: 'wght' 400;
+    }
 
-    &::after{
+    &::after {
         content: '';
         position: absolute;
         top: 0;
@@ -136,27 +141,27 @@ export const Fence = styled.div`
         z-index: -1;
     }
 
-    & > svg{
-        color:  var(--primary);
+    & > svg {
+        color: var(--primary);
         font-size: 2em;
     }
 
-    & span{
-        color:  var(--primary);
-        transition: all .3s ease-in;
+    & span {
+        color: var(--primary);
+        transition: all 0.3s ease-in;
         display: inline-flex;
         align-items: center;
-        & svg{
-            transition: all .3s ease-in-out;
-            margin-left: 5px
+        & svg {
+            transition: all 0.3s ease-in-out;
+            margin-left: 5px;
         }
     }
 
-    &:hover{
+    &:hover {
         background-color: color-mix(in srgb, var(--primary), transparent 97%);
-        & > span > svg{
-            transition: all .3s ease-in-out;
-            margin-left: 10px
+        & > span > svg {
+            transition: all 0.3s ease-in-out;
+            margin-left: 10px;
         }
     }
-`
+`;
