@@ -16,11 +16,12 @@ import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
 
 const BlogRoute: Router = express.Router({ mergeParams: true });
 
-BlogRoute.post('/', 
+BlogRoute.post('/all', 
     rateLimiter, 
+    authenticateToken,
     [
         body('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
-        body('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100')
+        body('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be a positive integer between 1 and 100'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
@@ -40,12 +41,35 @@ BlogRoute.post('/',
     }
 }, responseHandler);
 
+BlogRoute.post('/offset',
+    rateLimiter,[
+        body('min').optional().isInt({ min: 1 }).withMessage('Min must be a positive integer'),
+        body('max').optional().isInt({ min: 1, max: 100 }).withMessage('Max must be a positive integer between 1 and 100'),
+        body('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
+    ],
+    validateRequest,
+    async (req: Request, res: Response) => {
+    try {
+        const min = req.body.min ? parseInt(req.body.min) : 1;
+        const max = req.body.max ? parseInt(req.body.max) : 100;
+
+        const data = await BlogService.getPostOffset(min, max);
+        
+        logConsole('GET', '/blog/offset', 'OK', `Retrieved blog posts with offset`, { count: data.posts.length, min, max });
+        writeToLog(`BlogRoute READ OFFSET ok count=${data.posts.length} min=${min} max=${max}`, 'blog');
+        return res.success(data);
+    } catch (error) {
+        logConsole('GET', '/blog/offset', 'FAIL', `Error retrieving blog posts with offset`, { error });
+        writeToLog(`BlogRoute READ OFFSET error`, 'blog');
+        return res.error("error retrieving blog posts with offset", 500, error);
+    }
+}, responseHandler);
+
 // GET
 BlogRoute.get('/:slug', 
     rateLimiter, 
     param('slug').notEmpty().withMessage('Slug is required'),
     validateRequest,
-    authenticateToken,
     async (req: Request, res: Response) => {
         try {
             const data = await BlogService.getPostBySlug(req.params.slug);

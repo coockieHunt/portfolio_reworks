@@ -20,7 +20,7 @@ import { writeToLog } from '../middlewares/log.middlewar';
 
 //config
 import cfg from '../config/default.ts';
-import { authUid } from 'drizzle-orm/neon';
+
 
 /**
  ** Service class for managing blog posts.
@@ -58,6 +58,33 @@ export class BlogService {
                 page: page,
                 limit: limit,
                 total_pages: Math.ceil(totalCount / limit)
+            },
+            posts: results
+        };
+    }
+
+    static async getPostOffset(min: number = 1, max: number = 100) {
+        const limit = max - min + 1;
+        const offset = min - 1;
+
+        const results = await db
+            .select({
+                post: posts,
+                author: {
+                    name: post_author.name,
+                }
+            })
+            .from(posts)
+            .orderBy(desc(posts.createdAt))
+            .leftJoin(post_author, eq(posts.authorId, post_author.id))
+            .limit(limit)
+            .offset(offset)
+            .all();
+        
+        return {
+            meta: {
+                cursor_start: min,
+                cursor_end: min + results.length,
             },
             posts: results
         };

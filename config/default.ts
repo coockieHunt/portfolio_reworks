@@ -51,6 +51,12 @@ interface AppConfig {
 	rateLimiter: RateLimiterConfig;
 	blog: blogConfig;
 	cloudinary: CloudinaryConfig;
+	fallback: {
+		latency: boolean;
+		delayLatency: number;
+		sendError: boolean;
+		errorIn: number;
+	};
 }
 
 
@@ -114,6 +120,13 @@ const config: AppConfig = {
 		cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "",
 		api_key: process.env.CLOUDINARY_API_KEY || "",
 		api_secret: process.env.CLOUDINARY_API_SECRET || ""
+	},
+
+	fallback: {
+		latency: String(process.env.TESTING_LATENCY_ENABLED || "false").toLowerCase() === 'true',
+		delayLatency: Number(process.env.TESTING_LATENCY_DELAY || 1000),
+		sendError: String(process.env.TESTING_ERROR_ENABLED || "false").toLowerCase() === 'true',
+		errorIn: Number(process.env.TESTING_ERROR_IN || 1000)
 	}
 };
 

@@ -15,6 +15,7 @@ import { pingSqlite } from './utils/sqllite.helper';
 import { trackApiCall } from './middlewares/callApiCount.middlewar';
 import { allowOnlyFromIPs } from './middlewares/whiteList.middlewar';
 import { responseHandler } from './middlewares/responseHandler.middlewar';
+import { TestingMiddleware } from './middlewares/testing.middleware';
 
 import mailRouter from './routes/MailRoute.route';
 import guestBookRoute from './routes/GuestBook.route';
@@ -48,6 +49,7 @@ const redisClient = createClient({
 
 //load global middlewares
 app.use(cors());
+app.use(TestingMiddleware);
 app.use(express.json()); 
 app.use(trackApiCall); 
 app.use(responseHandler);
@@ -73,6 +75,10 @@ app.use((req, res, next) => {
 
 // run
 async function startServer() {
+    if(cfg.fallback.latency || cfg.fallback.sendError){
+        console.log(chalk.bold.red('🛑 FALLBACK SIMULATION is ENABLED\n '));
+    }
+
     const spacer = () => console.log(chalk.gray('─'.repeat(40)));
 
     console.log(

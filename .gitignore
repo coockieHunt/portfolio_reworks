@@ -134,3 +134,5 @@ default.json filter.clean-json.clean "sed '/\"pass\":/d; /\"host\":/d; /\"secure
 # Bruno
 **/environments/prod.bru
 
+*.db
+

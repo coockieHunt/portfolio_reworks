@@ -163,8 +163,17 @@
 				"maxRequests": 150,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/blog/",
-					"method": "GET"
+					"url": "/api/blog/all",
+					"method": "POST"
+				}
+			},
+			"blog.readOffset": {
+				"windowSeconds": 60,
+				"maxRequests": 150,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/offset",
+					"method": "POST"
 				}
 			},
 			"blog.readSlug": {

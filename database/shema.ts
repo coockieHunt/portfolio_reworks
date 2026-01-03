@@ -11,6 +11,7 @@ export const post_author = sqliteTable('post_author', {
 // Define the posts table
 export const posts = sqliteTable('posts', {
     id: integer('id').primaryKey({ autoIncrement: true }),
+    featurend_image: text('featured_image'),
     title: text('title').notNull(),
     slug: text('slug').notNull().unique(),
     content: text('content').notNull(),
