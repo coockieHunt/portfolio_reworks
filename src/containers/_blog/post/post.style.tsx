@@ -2,21 +2,12 @@ import styled from 'styled-components';
 
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
-export const Container = styled.div`
-    .back-button {
-        position: fixed;
-        top: 70px;
-        left: 70px;
-
-        z-index: 10;
-    }
-`;
+export const Container = styled.div`margin-bottom: 100px;`;
 
 export const ContainerPost = styled.div`
     margin: 0 auto;
     display: flex;
     gap: 40px;
-
     width: 90%;
 
     & .other {
@@ -37,16 +28,11 @@ export const ContainerPost = styled.div`
     & .action {
         background-color: var(--background-secondary);
         padding: 5px 10px;
-
         display: flex;
-
         align-items: center;
         justify-content: space-between;
-
         gap: 10px;
-
         border-radius: 8px;
-
         padding: 15px 20px;
 
         & > .right {
@@ -57,12 +43,16 @@ export const ContainerPost = styled.div`
             & span {
                 display: flex;
                 align-items: center;
-                gap: 7px;
-                color: var(--font-subtle);
+                gap: 4px;
                 cursor: pointer;
+                padding: 5px 5px;
 
-                & :hover {
-                    color: var(--primary);
+                &:hover {
+                    color: var(--secondary);
+
+                    & svg {
+                        transform: translateX(-2px);
+                    }
                 }
             }
         }
@@ -75,10 +65,12 @@ export const ContainerPost = styled.div`
             & span {
                 display: flex;
                 align-items: center;
-                gap: 7px;
+                gap: 10px;
                 color: var(--font-subtle);
+                border-radius: 8px;
+                border: 1px solid ${HexToRgbaConverter('var(--primary)', 0.3)};
 
-                padding: 5px 10px;
+                padding: 5px 13px;
                 background-color: ${HexToRgbaConverter('var(--primary)', 0.1)};
             }
         }
@@ -93,24 +85,9 @@ export const ContainerPost = styled.div`
 
         & .content {
             padding: 30px;
-            background-color: ${HexToRgbaConverter(
-                'var(--background-secondary)',
-                0.2,
-            )};
+            background-color: color-mix(in srgb, var(--background-secondary) 20%, #000000 80%);
             position: relative;
-
-            &:after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: -1;
-
-                background-color: #2c2b2b;
-            }
+            border-radius: 16px;
 
             & .author-info {
                 padding: 20px;
