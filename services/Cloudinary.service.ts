@@ -1,6 +1,9 @@
 import { v2 as cloudinary } from 'cloudinary';
 import cfg from '../config/default';
 import fs from 'fs';
+import https from 'https';
+import { Response } from 'express';
+import chalk from 'chalk';
 
 cloudinary.config({
     cloud_name: cfg.cloudinary.cloud_name,
@@ -9,15 +12,52 @@ cloudinary.config({
 });
 
 export class CloudinaryService {
+    static async proxyImage(publicId: string, res: Response): Promise<void> {
+        const imageUrl = cloudinary.url('blog/' + publicId, { secure: true });
+
+        return new Promise((resolve) => {
+            https.get(imageUrl, (stream) => {
+                
+                if (stream.statusCode !== 200) {
+                    res.status(stream.statusCode || 404).send('Image introuvable');
+                    resolve();
+                    return;
+                }
+
+                const contentType = stream.headers['content-type'];
+                if (contentType) {
+                    res.setHeader('Content-Type', contentType);
+                }
+                
+                res.setHeader('Cache-Control', 'public, max-age=3600'); 
+
+                stream.pipe(res);
+
+                stream.on('end', () => {
+                    resolve();
+                });
+
+            }).on('error', (err) => {
+                console.error('Erreur proxy image:', err);
+                res.status(500).send('Erreur serveur lors du téléchargement');
+                resolve();
+            });
+        });
+    }
+
+
     static async uploadImage(filePath: string, folder: string = 'blog') {
-        console.log('Uploading to Cloudinary:', filePath);
+        console.log(
+            chalk.bgGreen(`[Upload]`,) +
+            chalk.white(` Uploading image to Cloudinary from ${filePath}`)
+        )
         try {
             const result = await cloudinary.uploader.upload(filePath, {
                 folder: folder,
+                format: 'webp',
                 transformation: [
                     { width: Number(process.env.CLOUDINARY_WIDTH) || 800, crop: process.env.CLOUDINARY_CROP },
                     { quality: process.env.CLOUDINARY_QUALITY || "auto" },
-                    { fetch_format: "auto" }
                 ]
             });
             

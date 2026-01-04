@@ -40,6 +40,8 @@ const upload = multer({
     }
 });
 
+
+
 CloudinaryRoute.post('/upload', 
     rateLimiter,
     authenticateToken,
@@ -132,6 +134,29 @@ CloudinaryRoute.get('/list',
             logConsole('GET', '/cloudinary/list', 'FAIL', `Error listing images`, { error });
             writeToLog(`CloudinaryRoute LIST error`, 'cloudinary');
             return res.error("Error listing images", 500, error);
+        }
+    },
+    responseHandler
+);
+
+CloudinaryRoute.get('/proxy/:public_id',
+    rateLimiter,
+    async (req: Request, res: Response) => {
+        const publicId = req.params.public_id;
+
+        if (!publicId) {
+            logConsole('GET', `/cloudinary/proxy/${publicId}`, 'FAIL', `public_id is required`);
+            return res.error("public_id is required", 400);
+        }
+
+        try {
+            await CloudinaryService.proxyImage(publicId, res);
+            logConsole('GET', `/cloudinary/proxy/${publicId}`, 'OK', `Proxied image from Cloudinary`, { public_id: publicId });
+            writeToLog(`CloudinaryRoute PROXY ok public_id=${publicId}`, 'cloudinary');
+        } catch (error) {
+            logConsole('GET', `/cloudinary/proxy/${publicId}`, 'FAIL', `Error proxying image`, { error });
+            writeToLog(`CloudinaryRoute PROXY error`, 'cloudinary');
+            return res.error("Error proxying image", 500, error);
         }
     },
     responseHandler
