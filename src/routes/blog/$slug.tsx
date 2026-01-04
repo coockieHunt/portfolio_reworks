@@ -59,7 +59,15 @@ function RouteComponent() {
     return (
         <div>
             {isLoading ? (
-                <p>Loading blog post...</p>
+                <p
+                    style={{
+                        height: "100vh",
+                        width: "100vw",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >Loading blog post...</p>
             ) : blogPost ? (
                 <PostContainer
                     title={blogPost.post.title}

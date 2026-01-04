@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import * as Styled from './post.style';
-import { MarkdownContent } from './markdown.style';
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
+import styled from 'styled-components';
+
+// icons
 import {
     ArrowLeft,
     Twitter,
@@ -14,23 +15,22 @@ import {
     Plus,
     Pencil,
 } from 'lucide-react';
-import 'highlight.js/styles/atom-one-dark.css';
+
 import { useNavigate } from '@tanstack/react-router';
+
+//container
 import { HeroContainer } from '@/containers/_blog/hero/hero.container';
+import { TocContainer } from '@/components/Toc/toc.container';
 
-import { ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
+//utils
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
-import styled from 'styled-components';
 
-interface TocItem {
-    id: string;
-    text: string;
-    level: number;
-    show: boolean;
-    DropDown: boolean;
-    itemHidden: boolean;
-    hasChildren: boolean;
-}
+//style
+import * as Styled from './post.style';
+import { MarkdownContent } from './markdown.style';
+import 'highlight.js/styles/atom-one-dark.css';
+
+
 
 interface Author {
     name: string;
@@ -68,12 +68,10 @@ export const PostContainer = ({
     author,
 }: PostContainerProps) => {
     const navigate = useNavigate();
-    const [toc, setToc] = useState<TocItem[]>([]);
     const [sanitizedHtml, setSanitizedHtml] = useState<string>('');
 
+    //toc build
     useEffect(() => {
-        const tpToc: TocItem[] = [];
-
         const md = new MarkdownIt({
             highlight: function (str, lang) {
                 if (lang && hljs.getLanguage(lang)) {
@@ -95,7 +93,6 @@ export const PostContainer = ({
             self,
         ) {
             const token = tokens[idx];
-            const level = Number(token.tag.substr(1));
             const title = tokens[idx + 1].content;
 
             const anchorId = title
@@ -105,71 +102,13 @@ export const PostContainer = ({
 
             token.attrSet('id', anchorId);
 
-            tpToc.push({
-                id: anchorId,
-                text: title,
-                level: level,
-                show: level === 2,
-                DropDown: false,
-                itemHidden: level === 1,
-                hasChildren: false,
-            });
-
             return self.renderToken(tokens, idx, options);
         };
 
         const rawHtml = md.render(content);
 
-        //check if children if !cacth skip dropdown
-        const finalToc = tpToc.map((item, index) => {
-            if (item.level === 2) {
-                const nextItem = tpToc[index + 1];
-                const hasKids = nextItem && nextItem.level > 2;
-                return { ...item, hasChildren: hasKids };
-            }
-            return item;
-        });
-
         setSanitizedHtml(DOMPurify.sanitize(rawHtml));
-        setToc(finalToc);
     }, [content]);
-
-    const handleScrollToId = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    const toggleSection = (index: number) => {
-        setToc((prevToc) => {
-            const newToc = [...prevToc];
-            const clickedItem = newToc[index];
-
-            //skip if no child or not level 2
-            if (clickedItem.level !== 2 || !clickedItem.hasChildren)
-                return newToc;
-
-            const isNowOpen = !clickedItem.DropDown;
-
-            newToc[index] = {
-                ...clickedItem,
-                DropDown: isNowOpen,
-            };
-
-            for (let i = index + 1; i < newToc.length; i++) {
-                if (newToc[i].level > clickedItem.level) {
-                    newToc[i] = {
-                        ...newToc[i],
-                        show: isNowOpen,
-                    };
-                } else {
-                    break;
-                } //exit
-            }
-            return newToc;
-        });
-    };
 
     return (
         <Styled.Container>
@@ -192,7 +131,7 @@ export const PostContainer = ({
             <Styled.ContainerPost>
                 <div className="post">
                     <div className="other">
-                        <span>Resumée : </span>
+                        <span>Résumé : </span>
                         <p>{summary}</p>
                     </div>
 
@@ -276,57 +215,11 @@ export const PostContainer = ({
                     </div>
                 </div>
 
-                <div className="info">
-                    <h2>Sommaire</h2>
-                    {toc.length === 0 ? (
-                        <p>Aucun titre disponible</p>
-                    ) : (
-                        <ul>
-                            {toc.map((item, index) => {
-                                if (item.itemHidden) return null;
-
-                                return (
-                                    <li
-                                        key={index}
-                                        style={{
-                                            paddingLeft: `${(item.level - 1) * 15}px`,
-                                            display: item.show
-                                                ? 'flex'
-                                                : 'none',
-                                        }}
-                                    >
-                                        <a
-                                            href={`#${item.id}`}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                handleScrollToId(item.id);
-                                            }}
-                                        >
-                                            {item.text}
-                                        </a>
-
-                                        {item.level === 2 &&
-                                            item.hasChildren && (
-                                                <span
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        e.preventDefault();
-                                                        toggleSection(index);
-                                                    }}
-                                                >
-                                                    {item.DropDown ? (
-                                                        <ArrowUpFromLine />
-                                                    ) : (
-                                                        <ArrowDownToLine />
-                                                    )}
-                                                </span>
-                                            )}
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    )}
-                </div>
+                <TocContainer
+                    QueryTitle=".content h2, .content h3"
+                    ScrollQueryTitle=".content h2"
+                    UpdateAt={sanitizedHtml}
+                />
             </Styled.ContainerPost>
         </Styled.Container>
     );

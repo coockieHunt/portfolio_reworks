@@ -77,7 +77,7 @@ export const ContainerPost = styled.div`
     }
 
     & .post {
-        width: 80%;
+        max-width: 75%;
         display: flex;
         flex-direction: column;
 
@@ -101,79 +101,6 @@ export const ContainerPost = styled.div`
                 & p {
                     color: var(--font-subtle);
                     margin: 5px 0;
-                }
-            }
-        }
-    }
-
-    & .info {
-        flex: 1;
-        position: sticky;
-        top: 20px;
-        align-self: start;
-        max-height: 90vh;
-        overflow-y: auto;
-
-        background: rgba(255, 255, 255, 0.03);
-        border: ${HexToRgbaConverter('var(--primary)', 0.1)} 1px solid;
-        border-radius: 16px;
-        padding: 15px;
-
-        & h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: var(--primary);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            opacity: 0.9;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        & ul {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-
-            & li {
-                font-size: 0.9rem;
-
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 15px;
-
-                list-style: none;
-                border-radius: 8px;
-                transition: all 0.2s ease;
-                color: var(--font-subtle);
-
-                padding: 5px;
-
-                overflow: hidden;
-
-                &:hover {
-                    background: rgba(255, 255, 255, 0.05);
-                    color: var(--font);
-                    transform: scale(1.02);
-                }
-
-                & a {
-                    text-decoration: none;
-                    color: inherit;
-                    flex: 1;
-                    line-height: 1.4;
-                }
-
-                & span {
-                    display: block;
-                    align-items: center;
-                    justify-content: center;
-                    background: var(--background-secondary);
-                    cursor: pointer;
-
-                    padding: 3px 7px;
                 }
             }
         }
