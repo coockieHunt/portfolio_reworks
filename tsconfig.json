@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "target": "es2020",
+      "module": "commonjs", /* or nodenext depending on their node version */
+      "lib": ["es2020", "dom"], /* dom needed for some types usually, though vercel/og might abstract it */
+      "jsx": "react-jsx",
+      "esModuleInterop": true,
+      "strict": true
+    }
+  }

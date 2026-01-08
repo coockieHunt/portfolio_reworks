@@ -13,7 +13,6 @@ import { logConsole } from '../middlewares/log.middlewar';
 
 const AuthRoute: Router = express.Router({ mergeParams: true });
 
-// POST /auth/login
 AuthRoute.post('/login', 
     rateLimiter,
     [
@@ -40,12 +39,11 @@ AuthRoute.post('/login',
     }
 );
 
-// POST /auth/logout
 AuthRoute.post('/logout', async (req: Request, res: Response) => {
     const token = req.headers['authorization']?.split(' ')[1];
     
     if (!token) {
-        logConsole("POST", "/auth/logout", "FAIL", "No token provided");
+        logConsole("POST", "/auth/logout", "WARN", "No token provided");
         return res.error('not user connected', 401);
     }
 
@@ -54,7 +52,7 @@ AuthRoute.post('/logout', async (req: Request, res: Response) => {
 
         const isRevoked = await AuthService.isTokenRevoked(token);
         if (isRevoked) {
-            logConsole("POST", "/auth/logout", "FAIL", "Token already revoked", { token });
+            logConsole("POST", "/auth/logout", "WARN", "Token already revoked", { token });
             return res.error('Token already revoked', 401);
         }
 

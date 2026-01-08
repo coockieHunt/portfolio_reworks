@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/guestbook/write
+  url: {{base_url}}{{endPointApi}}/guestbook/write
   body: json
   auth: inherit
 }
@@ -18,13 +18,6 @@ body:json {
   }
 }
 
-docs {
-  # Write (Forbidden URL)
-  Tests the error response when attempting to write a message containing a forbidden URL.
-  
-  **Route:** `POST /api/guestbook/write`
-}
-
 body:text {
   {"password": "{{admin_password}}", "name": "Spammer", "message": "Check out www.spam.com"}
 }
@@ -32,4 +25,11 @@ body:text {
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Write (Forbidden URL)
+  Tests the error response when attempting to write a message containing a forbidden URL.
+  
+  **Route:** `POST /api/guestbook/write`
 }

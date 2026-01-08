@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{base_url}}/blog/{{slugBlog_demoName}}
+  url: {{base_url}}{{endPointApi}}/blog/{{slugBlog_demoName}}
   body: none
   auth: inherit
 }
@@ -17,7 +17,15 @@ settings {
 
 docs {
   # Get Post by Slug
-  Retrieves a single blog post by its slug.
+  Retrieves a single blog post by its unique slug identifier.
   
   **Route:** `GET /api/blog/:slug`
+  
+  Response includes:
+  - Post content, title, summary
+  - Author information
+  - Creation and edit timestamps
+  - Caching status
+  
+  Results are cached in Redis for improved performance.
 }

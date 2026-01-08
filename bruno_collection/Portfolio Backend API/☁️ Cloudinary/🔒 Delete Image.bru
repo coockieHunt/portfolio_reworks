@@ -5,14 +5,14 @@ meta {
 }
 
 delete {
-  url: {{base_url}}/cloudinary/delete
+  url: {{base_url}}{{endPointApi}}/cloudinary/delete
   body: json
   auth: inherit
 }
 
 body:json {
   {
-      "public_id": "blog/tts8wtp3qhsx4bm95fg1"
+      "public_id": "blog/uodgwtqebb8xmrbqwyue"
   }
   
 }
@@ -24,9 +24,14 @@ settings {
 
 docs {
    # Delete Image
-      Deletes an image from Cloudinary using its public ID.
+   Permanently deletes an image from Cloudinary.
   
-      **Access:** Restricted 🔒
-      **Route:** `DELETE /api/cloudinary/delete`
-  
+   **Access:** Restricted 🔒
+   **Route:** `DELETE /api/cloudinary/delete`
+   
+   Required:
+   - `public_id`: The Cloudinary resource identifier
+   
+   Can be sent via query parameter or request body.
+   Invalidates URL cache after deletion.
 }

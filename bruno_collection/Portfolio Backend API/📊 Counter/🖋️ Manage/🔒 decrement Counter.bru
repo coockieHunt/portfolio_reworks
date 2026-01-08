@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/counter/decrement/THEME_RAND
+  url: {{base_url}}{{endPointApi}}/counter/decrement/THEME_RAND
   body: none
   auth: inherit
 }
@@ -17,8 +17,13 @@ settings {
 
 docs {
   # Decrement Counter
-  Decrements the value of a counter by its key.
+  Atomically decreases a Redis counter by 1.
   
   **Access:** Restricted 🔒
-  **Route:** `POST /api/counter/decrement/:value`
+  **Route:** `POST /api/counter/decrement/:key`
+  
+  Replace `:key` with the counter name.
+  
+  Prevents decrementing below 0 (returns error if already 0).
+  Returns the new counter value.
 }

@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/counter/increment/THEME_RAND
+  url: {{base_url}}{{endPointApi}}/counter/increment/THEME_RAND
   body: none
   auth: inherit
 }
@@ -17,7 +17,12 @@ settings {
 
 docs {
   # Increment Counter
-  Increments the value of a counter by its key.
+  Atomically increments a Redis counter by 1.
   
-  **Route:** `POST /api/counter/increment/:value`
+  **Route:** `POST /api/counter/increment/:key`
+  
+  Replace `:key` with the counter name.
+  
+  Returns the new counter value after increment.
+  Creates counter if it doesn't exist (starts at 1).
 }

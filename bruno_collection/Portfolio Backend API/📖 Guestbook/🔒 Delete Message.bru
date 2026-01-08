@@ -5,7 +5,7 @@ meta {
 }
 
 delete {
-  url: {{base_url}}/guestbook/delete/
+  url: {{base_url}}{{endPointApi}}/guestbook/delete/
   body: json
   auth: inherit
 }
@@ -13,7 +13,7 @@ delete {
 body:json {
   {
     "password": "{{easterEgg_password}}",
-    "id": "1766964102201_0w2mfs6s7"
+    "id": "1767821466470_gcb0n7uel"
   }
 }
 
@@ -28,8 +28,14 @@ settings {
 
 docs {
   # Delete Message
-  Deletes a message from the guestbook by its ID.
+  Removes a guestbook entry by its unique ID.
   
   **Access:** Restricted 🔒
   **Route:** `DELETE /api/guestbook/delete`
+  
+  Required fields:
+  - `password`: Easter egg password
+  - `id`: Unique entry identifier
+  
+  Returns success status and entry metadata.
 }

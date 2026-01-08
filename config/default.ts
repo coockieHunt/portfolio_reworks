@@ -1,3 +1,4 @@
+import { boolean } from 'drizzle-orm/gel-core';
 import staticConfig from '../static.config.json';
 import { parseList } from '../utils/redis.helper';
 
@@ -32,6 +33,7 @@ interface RateLimiterConfig {
 
 interface blogConfig {
 	cache_ttl: number;
+	og_image: boolean;
 }
 
 interface CloudinaryConfig {
@@ -43,6 +45,7 @@ interface CloudinaryConfig {
 interface AppConfig {
 	port: number;
 	ApiRoot: string;
+	AssetRoot: string;
 	MailTransport: MailTransportConfig;
 	allowedIPs: string[];
 	Log: LogConfig;
@@ -63,6 +66,7 @@ interface AppConfig {
 const config: AppConfig = {
 	port: Number(process.env.PORT || 3001),
 	ApiRoot: process.env.API_ROOT || "/api",
+	AssetRoot: process.env.ASSET_ROOT || "/assets",
 
 	MailTransport: {
 		host: process.env.MAIL_HOST || "smtp.example.com",
@@ -113,7 +117,8 @@ const config: AppConfig = {
 	},
 
 	blog: {
-		cache_ttl: Number(process.env.BLOG_CACHE_TTL || 86400)
+		cache_ttl: Number(process.env.BLOG_CACHE_TTL || 86400),
+		og_image: Boolean(process.env.BLOG_OG_CACHE || true)
 	},
 
 	cloudinary: {

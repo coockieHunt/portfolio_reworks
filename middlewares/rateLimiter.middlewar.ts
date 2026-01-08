@@ -80,10 +80,15 @@ try {
 }
 
 
-/*
-*  Determines the rate limiting context for a given request.
-*  @param req Express Request object
-*  @returns LimitContext containing the key, windowSeconds, and maxRequests
+/**
+ * Determines rate limiting configuration for the current request
+ * 
+ * Matches request against configured routes to find applicable limits.
+ * Falls back to default limits if no specific route matches.
+ * 
+ * @param req - Express request object
+ * @returns Rate limit context with key, window, max requests, and admin bypass flag
+ * @private
  */
 function getLimitsContext(req: Request): LimitContext {
     const defaults = {
@@ -138,7 +143,17 @@ function getLimitsContext(req: Request): LimitContext {
 }
 
 /**
- * Middleware de Rate Limiting
+ * Rate limiting middleware
+ * 
+ * Limits requests per IP address based on configured rules.
+ * Uses Redis for distributed rate limit tracking.
+ * Supports admin bypass via JWT authentication.
+ * Adds rate limit headers to responses.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
+ * @returns Promise resolving when rate check completes or 429 response if exceeded
  */
 export async function rateLimiter(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     try {

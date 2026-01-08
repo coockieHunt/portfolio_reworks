@@ -28,10 +28,19 @@ const transporter: Transporter = nodemailer.createTransport({
 });
 
 /**
- ** checks the SMTP connection by verifying the transporter.
- *  @returns null if successful, throws an error if verification fails.
+ * Sendmail Service
+ * 
+ * Handles email sending through SMTP with Nodemailer.
+ * Manages SMTP connection verification and email delivery.
+ * Provides error handling and logging for email operations.
  */
-export const verifySmtpConnection = async () => {
+export class SendmailService {
+    /**
+     * Verifies the SMTP server connection
+     * @returns Promise resolving to true if connection is successful
+     * @throws {Error} If SMTP connection fails
+     */
+    static async verifySmtpConnection(): Promise<boolean> {
     try {
         await transporter.verify();
         return true;
@@ -40,14 +49,14 @@ export const verifySmtpConnection = async () => {
     }
 };
 
-/**
- ** Sends an email using the configured SMTP transporter.
- *  @param to Recipient email address.
- *  @param subject Subject of the email.
- *  @param content HTML content of the email.
- *  @returns An object indicating success or failure, with an optional message.
- */
-const sendmail = async (to: string, subject: string, content: string): Promise<SendMailResponse> => {
+    /**
+     * Sends an email via SMTP
+     * @param to - Recipient email address
+     * @param subject - Email subject line
+     * @param content - HTML email content
+     * @returns Promise with success status and optional error message
+     */
+    static async sendmail(to: string, subject: string, content: string): Promise<SendMailResponse> {
     try {
         const mailOptions: SendMailOptions = {
             from: `"Portfolio" <${mailUser}>`,
@@ -66,6 +75,7 @@ const sendmail = async (to: string, subject: string, content: string): Promise<S
         writeToLog(`Sendmail Error: ${errorMsg}`, 'mail');
         return { success: false, message: errorMsg };
     }
-};
+    }
+}
 
-export default sendmail;
+export default SendmailService.sendmail;

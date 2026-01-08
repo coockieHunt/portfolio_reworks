@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/mail/sendEmail
+  url: {{base_url}}{{endPointApi}}/mail/sendEmail
   body: json
   auth: inherit
 }
@@ -30,7 +30,13 @@ settings {
 
 docs {
   # Send Email
-  Sends an email to a recipient.
+  Sends a contact email through the SMTP server.
   
   **Route:** `POST /api/mail/sendEmail`
+  
+  Required fields:
+  - `name`: Sender's name
+  - `email`: Sender's email address
+  - `subject`: Email subject line
+  - `message`: Email message content
 }

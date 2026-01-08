@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{base_url}}/blog/edit/update/{{slugBlog_demoName}}
+  url: {{base_url}}{{endPointApi}}/blog/edit/update/{{slugBlog_demoName}}
   body: json
   auth: inherit
 }
@@ -20,15 +20,23 @@ body:json {
   }
 }
 
-docs {
-  # Edit Post
-  Updates an existing blog post.
-  
-  **Access:** Restricted 🔒
-  **Route:** `PUT /api/blog/edit/update/:slug`
-}
-
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  # Edit Post
+  Updates an existing blog post's content and metadata.
+  
+  **Access:** Restricted 🔒
+  **Route:** `PUT /api/blog/edit/update/:slug`
+  
+  Updatable fields:
+  - `title`: Post title
+  - `content`: Post content
+  - `summary`: Post summary
+  - `authorId`: Author identifier
+  
+  Automatically updates `editedAt` timestamp and clears cache.
 }

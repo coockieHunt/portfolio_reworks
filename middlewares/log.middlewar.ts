@@ -28,6 +28,16 @@ const METHOD_COLORS: Record<string, ChalkStyle> = {
     PATCH: chalk.magenta,
 };
 
+/**
+ * Retrieves or creates a Winston logger for a specific log type
+ * 
+ * Creates daily rotating file loggers with automatic compression and cleanup.
+ * Cached loggers are reused for better performance.
+ * 
+ * @param type - The log category/type (e.g., 'error', 'access', 'blog')
+ * @returns A configured Winston logger instance
+ * @private
+ */
 const getLogger = (type: string): winston.Logger => {
     if (loggersMap.has(type)) return loggersMap.get(type)!;
 
@@ -72,9 +82,13 @@ const getLogger = (type: string): winston.Logger => {
 
 
 /**
- * * Writes a log message to the appropriate log file based on type
- * @param log - The log message to write
- * @param type - The type/category of the log (e.g., 'access', 'error')
+ * Writes a log message to a file based on category
+ * 
+ * Uses Winston with daily rotation. Automatically creates log directories.
+ * Falls back to console logging if file writing fails.
+ * 
+ * @param log - The message to log
+ * @param type - The log category (determines which file to write to)
  */
 export const writeToLog = (log: string, type: string): void => {
     try {
@@ -87,22 +101,31 @@ export const writeToLog = (log: string, type: string): void => {
 };
 
 /**
- * * Logs formatted messages to the console with colors and structured output
- * @param method - HTTP method or custom label (e.g., 'GET', 'POST', 'MIDDLEWARE')
- * @param route - API route or context (e.g., '/api/users')
- * @param status - 'OK' for success, 'FAIL' for failure
- * @param message - Main log message with optional placeholders
- * @param args - Additional key-value pairs for extra context
+ * Logs formatted messages to console with colors
+ * 
+ * Provides structured, color-coded console output for HTTP operations.
+ * Supports placeholder substitution and additional context args.
+ * 
+ * @param method - HTTP method or label (GET, POST, MIDDLEWARE, etc.)
+ * @param route - API route or context path
+ * @param status - Operation status (OK, FAIL, INFO, WARN)
+ * @param message - Main log message (can include {placeholder} for substitution)
+ * @param args - Additional context as key-value pairs
  */
 export const logConsole = (
     method: string,
     route: string, 
-    status: 'OK' | 'FAIL',
+    status: 'OK' | 'FAIL' | 'INFO' | 'WARN',
     message: string,
     args: Record<string, any> = {}
 ): void => {
     const color = METHOD_COLORS[method.toUpperCase()] || chalk.white;
-    const statusColor = status === 'OK' ? chalk.green.bold : chalk.red.bold;
+    const statusColor = chalk.bold(
+        status === 'OK' ? chalk.green('OK') :
+        status === 'FAIL' ? chalk.red('FAIL') :
+        status === 'WARN' ? chalk.yellow('WARN') :
+        chalk.cyan('INFO')
+    );
 
     let description = message;
     const extra: string[] = [];
@@ -117,7 +140,7 @@ export const logConsole = (
 
     const parts = [
         color(`[${method.toUpperCase()} ${route}]`),
-        statusColor(status),
+        statusColor,
         description
     ];
 

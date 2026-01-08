@@ -5,18 +5,25 @@ meta {
 }
 
 get {
-  url: {{base_url}}/health/
+  url: {{base_url}}{{endPointApi}}/health/
   body: none
   auth: inherit
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
 
 docs {
   # Health Check
-  Checks the operational status of the API.
+  Checks the operational status of the API and its dependencies.
   
   **Route:** `GET /api/health`
+  
+  Returns the status of:
+  - SQLite database connection
+  - Redis connection
+  - SMTP mail server
+  - API uptime and version
 }

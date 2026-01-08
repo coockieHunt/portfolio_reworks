@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/auth/logout
+  url: {{base_url}}{{endPointApi}}/auth/logout
   body: none
   auth: inherit
 }
@@ -17,7 +17,10 @@ settings {
 
 docs {
   # Logout
-  Logs out the current user and invalidates the token.
+  Revokes the current JWT token and logs out the user.
   
+  **Access:** Requires authentication 🔒
   **Route:** `POST /api/auth/logout`
+  
+  The token is added to Redis blacklist with configured TTL.
 }

@@ -1,0 +1,30 @@
+meta {
+  name: Get image proxy
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}{{endPointAsset}}/cloudinary/proxy/xmipq468et0s4qqfxtn
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Image Proxy
+  Proxies images from Cloudinary with caching support.
+  
+  **Route:** `GET /asset/cloudinary/proxy/:publicId`
+  
+  Supports:
+  - ETag-based conditional requests (304 Not Modified)
+  - URL caching for 1 hour
+  - Automatic content-type detection
+  
+  Replace `:publicId` with the Cloudinary resource identifier.
+}

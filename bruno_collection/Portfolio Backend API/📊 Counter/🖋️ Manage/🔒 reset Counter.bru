@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/counter/reset/THEME_RAND
+  url: {{base_url}}{{endPointApi}}/counter/reset/THEME_RAND
   body: none
   auth: inherit
 }
@@ -17,8 +17,12 @@ settings {
 
 docs {
   # Reset Counter
-  Resets the value of a counter to zero.
+  Sets a Redis counter value back to zero.
   
   **Access:** Restricted 🔒
-  **Route:** `POST /api/counter/reset/:value`
+  **Route:** `POST /api/counter/reset/:key`
+  
+  Replace `:key` with the counter name.
+  
+  Useful for resetting analytics or temporary counters.
 }

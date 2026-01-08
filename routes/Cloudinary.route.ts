@@ -28,6 +28,7 @@ const storage = multer.diskStorage({
     }
 });
 
+// Multer upload instance
 const upload = multer({ 
     storage: storage,
     limits: { fileSize: 10 * 1024 * 1024 }, 
@@ -41,7 +42,7 @@ const upload = multer({
 });
 
 
-
+// Upload image
 CloudinaryRoute.post('/upload', 
     rateLimiter,
     authenticateToken,
@@ -64,7 +65,7 @@ CloudinaryRoute.post('/upload',
     async (req: Request, res: Response) => {
         try {
             if (!req.file) {
-                logConsole('POST', '/cloudinary/upload', 'FAIL', `No image file provided`);
+                logConsole('POST', '/cloudinary/upload', 'WARN', `No image file provided`);
                 return res.error("No image file provided", 400);
             }
 
@@ -97,7 +98,7 @@ CloudinaryRoute.delete('/delete',
         const { public_id } = req.body;
 
         if (!public_id) {
-            logConsole('DELETE', '/cloudinary/delete', 'FAIL', `public_id is required`);
+            logConsole('DELETE', '/cloudinary/delete', 'WARN', `public_id is required`);
             return res.error("public_id is required", 400);
         }
 
@@ -126,7 +127,7 @@ CloudinaryRoute.get('/list',
             const folder = req.query.folder as string || process.env.CLOUDINARY_FOLDER || 'blog';
             const result = await CloudinaryService.listImages(folder);
             
-            logConsole('GET', '/cloudinary/list', 'OK', `Listed images from Cloudinary`, { folder });
+            logConsole('GET', '/cloudinary/list', 'INFO', `Listed images from Cloudinary`, { folder });
             writeToLog(`CloudinaryRoute LIST ok folder=${folder}`, 'cloudinary');
 
             return res.success(result);
@@ -139,27 +140,27 @@ CloudinaryRoute.get('/list',
     responseHandler
 );
 
-CloudinaryRoute.get('/proxy/:public_id',
+// Clear cache
+CloudinaryRoute.delete('/cache',
     rateLimiter,
+    authenticateToken,
     async (req: Request, res: Response) => {
-        const publicId = req.params.public_id;
-
-        if (!publicId) {
-            logConsole('GET', `/cloudinary/proxy/${publicId}`, 'FAIL', `public_id is required`);
-            return res.error("public_id is required", 400);
-        }
-
         try {
-            await CloudinaryService.proxyImage(publicId, res);
-            logConsole('GET', `/cloudinary/proxy/${publicId}`, 'OK', `Proxied image from Cloudinary`, { public_id: publicId });
-            writeToLog(`CloudinaryRoute PROXY ok public_id=${publicId}`, 'cloudinary');
+            CloudinaryService.clearCache();
+            
+            logConsole('DELETE', '/cloudinary/cache', 'OK', `Cleared Cloudinary URL cache`);
+            writeToLog(`CloudinaryRoute CLEAR_CACHE ok`, 'cloudinary');
+
+            return res.success({ message: 'Cache cleared successfully' });
         } catch (error) {
-            logConsole('GET', `/cloudinary/proxy/${publicId}`, 'FAIL', `Error proxying image`, { error });
-            writeToLog(`CloudinaryRoute PROXY error`, 'cloudinary');
-            return res.error("Error proxying image", 500, error);
+            logConsole('DELETE', '/cloudinary/cache', 'FAIL', `Error clearing cache`, { error });
+            writeToLog(`CloudinaryRoute CLEAR_CACHE error`, 'cloudinary');
+            return res.error("Error clearing cache", 500, error);
         }
     },
     responseHandler
 );
+
+
 
 export default CloudinaryRoute;

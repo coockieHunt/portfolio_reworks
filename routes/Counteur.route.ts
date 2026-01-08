@@ -3,12 +3,7 @@ import express, { Request, Response, Router } from 'express';
 import { param, body } from 'express-validator';
 
 // services
-import { 
-    getCounter, 
-    setCounter, 
-    incrementCounter, 
-    RedisClient 
-} from '../services/Redis.service'; 
+import { RedisService, RedisClient } from '../services/Redis.service'; 
 
 // Constants
 import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant'; 
@@ -62,15 +57,15 @@ counterRouter.get('/get/:name',
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
         try {
-            const { value, exist } = await getCounter(redisKey); 
+            const { value, exist } = await RedisService.getCounter(redisKey); 
 
             if (!exist) {
-                logConsole('GET', `/counter/get/${name}`, 'FAIL', `Counter not found`, { redisKey });
+                logConsole('GET', `/counter/get/${name}`, 'WARN', `Counter not found`, { redisKey });
                 writeToLog(`Counter GET not found name=${name}`, 'counter');
                 return res.idNotFound(name, `Counter ${name} not found`);
             }
 
-            logConsole('GET', `/counter/get/${name}`, 'OK', `Retrieved counter value`, { redisKey, value, exist });
+            logConsole('GET', `/counter/get/${name}`, 'INFO', `Retrieved counter value`, { redisKey, value, exist });
             writeToLog(`Counter GET name=${name} key=${redisKey} value=${value} exist=${exist}`, 'counter');
 
             return res.success({ 
@@ -105,7 +100,7 @@ counterRouter.post('/increment/:name',
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
         if (!RedisClient || !RedisClient.isReady) {
-            logConsole('POST', `/counter/increment/${name}`, 'FAIL', `Redis service unavailable`, { name });
+            logConsole('POST', `/counter/increment/${name}`, 'WARN', `Redis service unavailable`, { name });
             writeToLog('Counter INCR redis not connected', 'counter');
             return res.error('Redis service is unavailable.', 503);
         }
@@ -113,7 +108,7 @@ counterRouter.post('/increment/:name',
         try {
             const existBefore = await RedisClient.exists(redisKey);
 
-            const newValue = await incrementCounter(redisKey);
+            const newValue = await RedisService.incrementCounter(redisKey);
             const exist = existBefore === 1;
             logConsole('POST', `/counter/increment/${name}`, 'OK', `Incremented counter value`, { redisKey, newValue, exist });
             writeToLog(`Counter INCR name=${name} key=${redisKey} newValue=${newValue} existedBefore=${exist}`, 'counter');
@@ -153,7 +148,7 @@ counterRouter.post('/decrement/:name',
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
         if (!RedisClient || !RedisClient.isReady) {
-            logConsole('POST', `/counter/decrement/${name}`, 'FAIL', `Redis service unavailable`, { name });
+            logConsole('POST', `/counter/decrement/${name}`, 'WARN', `Redis service unavailable`, { name });
             writeToLog('Counter DECR redis not connected', 'counter');
             return res.error('Redis service is unavailable.', 503);
         }
@@ -162,7 +157,7 @@ counterRouter.post('/decrement/:name',
             const existBefore = await RedisClient.exists(redisKey);
             const currentValue = await RedisClient.get(redisKey);
             if(currentValue === "0") {
-                logConsole('POST', `/counter/decrement/${name}`, 'FAIL', `Counter value is already at 0`, { redisKey });
+                logConsole('POST', `/counter/decrement/${name}`, 'WARN', `Counter value is already at 0`, { redisKey });
                 writeToLog(`Counter DECR name=${name} key=${redisKey} already at 0`, 'counter');
                 return res.error('Counter value is already at 0 and cannot be decremented further.', 400);
             }
@@ -206,7 +201,7 @@ counterRouter.post('/reset/:name',
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
         try {
-            await setCounter(redisKey, 0);
+            await RedisService.setCounter(redisKey, 0);
             logConsole('POST', `/counter/reset/${name}`, 'OK', `Reset counter value`, { redisKey });
             writeToLog(`Counter RESET name=${name} key=${redisKey}`, 'counter');
             return res.success({ 

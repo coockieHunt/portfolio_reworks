@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{base_url}}/cloudinary/list?folder=blog
+  url: {{base_url}}{{endPointApi}}/cloudinary/list?folder=blog
   body: none
   auth: inherit
 }
@@ -16,8 +16,14 @@ params:query {
 
 docs {
   # List Images
-  Lists images from a specific folder in Cloudinary.
+  Lists all images from a Cloudinary folder.
   
   **Access:** Restricted 🔒
   **Route:** `GET /api/cloudinary/list`
+  
+  Query parameters:
+  - `folder`: Folder name (default: 'blog')
+  
+  Returns up to 30 images sorted by creation date (newest first).
+  Includes metadata: public_id, URL, format, size, dimensions.
 }

@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/blog/all
+  url: {{base_url}}{{endPointApi}}/blog/all
   body: json
   auth: inherit
 }
@@ -24,7 +24,14 @@ settings {
 
 docs {
   # Get Posts
-  Retrieves a list of blog posts with pagination.
+  Retrieves paginated list of blog posts with author information.
   
-  **Route:** `POST /api/blog/`
+  **Access:** Restricted 🔒
+  **Route:** `POST /api/blog/all`
+  
+  Pagination:
+  - `page`: Page number (default: 1)
+  - `limit`: Posts per page (default: 20)
+  
+  Returns posts ordered by creation date (newest first).
 }

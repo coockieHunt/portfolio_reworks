@@ -36,19 +36,30 @@ interface GuestBookDeleteResponse {
 }
 
 /**
- ** Generate id
+ * GuestBook Service
+ * 
+ * Manages guestbook entries stored in Redis.
+ * Handles CRUD operations for visitor messages with pagination support.
+ * Includes HTML/XSS protection and input sanitization.
  */
-function generateId(): string {
-    return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
+export class GuestBookService {
+    /**
+     * Generates a unique ID for guestbook entries
+     * @returns A unique identifier combining timestamp and random string
+     * @private
+     */
+    private static generateId(): string {
+        return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
 
-/**
- ** Retrieves guestbook entries from Redis with pagination.
- *  @param page Page number (default 1).
- *  @param limit Items per page (default 20).
- *  @returns Object containing metadata and entries.
- */
-export async function getGuestBookEntries(page: number = 1, limit: number = 20): Promise<GuestBookResponseGet> {
+    /**
+     * Retrieves paginated guestbook entries from Redis
+     * @param page - Page number (default: 1)
+     * @param limit - Entries per page (default: 20)
+     * @returns Promise with entries and pagination metadata
+     * @throws {Error} If Redis client is not connected
+     */
+    static async getGuestBookEntries(page: number = 1, limit: number = 20): Promise<GuestBookResponseGet> {
     validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
     if (!RedisClient || !RedisClient.isReady) {
@@ -96,13 +107,14 @@ export async function getGuestBookEntries(page: number = 1, limit: number = 20):
     }
 }
 
-/**
- ** Adds a new guestbook entry to Redis.
- *  @param name The name of the person.
- *  @param message The message content.
- *  @returns The created entry with its ID.
- */
-export async function addGuestBookEntry(name: string, message: string): Promise<GuestBookEntry> {
+    /**
+     * Adds a new entry to the guestbook with HTML sanitization
+     * @param name - The visitor's name
+     * @param message - The guestbook message
+     * @returns Promise with the created entry including generated ID
+     * @throws {Error} If Redis client is not connected
+     */
+    static async addGuestBookEntry(name: string, message: string): Promise<GuestBookEntry> {
     validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
     if (!RedisClient || !RedisClient.isReady) {
@@ -120,7 +132,7 @@ export async function addGuestBookEntry(name: string, message: string): Promise<
 
     try {
         const entryData: GuestBookEntry = {
-            id: generateId(),
+            id: this.generateId(),
             name: escapeHtml(name.trim()), 
             message: escapeHtml(message.trim()),
             date: new Date().toISOString()
@@ -140,12 +152,13 @@ export async function addGuestBookEntry(name: string, message: string): Promise<
     }
 }
 
-/**
- ** Deletes a guestbook entry by ID from Redis.
- *  @param id The ID of the entry to delete.
- *  @returns True if the entry was found and deleted, false otherwise.
- */
-export async function deleteGuestBookEntry(id: string): Promise<GuestBookDeleteResponse> {
+    /**
+     * Deletes a guestbook entry by its ID
+     * @param id - The unique entry ID to delete
+     * @returns Promise with deletion result and status
+     * @throws {Error} If Redis client is not connected
+     */
+    static async deleteGuestBookEntry(id: string): Promise<GuestBookDeleteResponse> {
     validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
     if (!RedisClient || !RedisClient.isReady) {
@@ -207,5 +220,6 @@ export async function deleteGuestBookEntry(id: string): Promise<GuestBookDeleteR
         logConsole('DELETE', '/guestbook/', 'FAIL', 'Error deleting guestbook entry', { error: errorMsg, id });
         writeToLog(`GuestBook DELETE error: ${errorMsg} id=${id}`, 'guestbook');
         throw error;
+    }
     }
 }

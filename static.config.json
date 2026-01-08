@@ -13,7 +13,8 @@
 			"whitelist": "whitelist.log",
 			"validation_error": "validation_error.log",
 			"health": "health.log",
-			"cloudinary": "cloudinary.log"
+			"cloudinary": "cloudinary.log",
+			"ogimage": "ogimage.log"
 		}
 	},
 
@@ -40,7 +41,6 @@
 					"method": "POST"
 				}
 			},
-
 
 			"counter.get": {
 				"windowSeconds": 60,
@@ -79,7 +79,6 @@
 				}
 			},
 
-
 			"guestbook.read": {
 				"windowSeconds": 60,
 				"maxRequests": 7,
@@ -108,7 +107,6 @@
 				}
 			},
 
-
 			"auth.login": {
 				"windowSeconds": 60,
 				"maxRequests": 5,
@@ -128,7 +126,6 @@
 				}
 			},
 
-
 			"cloudinary.upload": {
 				"windowSeconds": 60,
 				"maxRequests": 10,
@@ -147,6 +144,15 @@
 					"method": "DELETE"
 				}
 			},
+			"cloudinary.cache": {
+				"windowSeconds": 60,
+				"maxRequests": 10,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/cloudinary/cache",
+					"method": "DELETE"
+				}
+			},
 			"cloudinary.list": {
 				"windowSeconds": 60,
 				"maxRequests": 20,
@@ -156,7 +162,6 @@
 					"method": "GET"
 				}
 			},
-
 
 			"blog.readALL": {
 				"windowSeconds": 60,
@@ -190,8 +195,26 @@
 				"maxRequests": 20,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/blog/",
+					"url": "/api/blog/new",
 					"method": "POST"
+				}
+			},
+			"blog.update": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/edit/update/:slug",
+					"method": "PUT"
+				}
+			},
+			"blog.publish": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/edit/publish/:slug",
+					"method": "PUT"
 				}
 			},
 			"blog.delete": {
@@ -203,7 +226,24 @@
 					"method": "DELETE"
 				}
 			},
-
+			"blog.cache.delete": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/cache/delete/:slug",
+					"method": "DELETE"
+				}
+			},
+			"blog.cache.clear": {
+				"windowSeconds": 60,
+				"maxRequests": 5,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/cache/clear",
+					"method": "DELETE"
+				}
+			},
 
 			"health.read": {
 				"windowSeconds": 60,
@@ -211,6 +251,25 @@
 				"adminBypass": true,
 				"match": {
 					"url": "/api/health",
+					"method": "GET"
+				}
+			},
+
+			"assets.og": {
+				"windowSeconds": 60,
+				"maxRequests": 50,
+				"adminBypass": false,
+				"match": {
+					"url": "/assets/opengraph/get",
+					"method": "GET"
+				}
+			},
+			"assets.proxy": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/assets/cloudinary/proxy/:public_id",
 					"method": "GET"
 				}
 			}

@@ -5,7 +5,7 @@ meta {
 }
 
 delete {
-  url: {{base_url}}/blog/cache/clear
+  url: {{base_url}}{{endPointApi}}/blog/cache/clear
   body: none
   auth: inherit
 }
@@ -16,9 +16,12 @@ settings {
 }
 
 docs {
-  # Clear All Cache
-  Clears the cache for all blog posts.
+  # Clear All Blog Cache
+  Removes all blog post entries from Redis cache.
   
   **Access:** Restricted 🔒
-  **Route:** `DELETE /api/blog/cache/clear/`
+  **Route:** `DELETE /api/blog/cache/clear`
+  
+  Uses SCAN operation to safely clear all matching keys.
+  Useful after bulk database updates or migrations.
 }

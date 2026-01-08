@@ -3,16 +3,16 @@ import express, { Request, Response, Router } from 'express';
 import { body } from 'express-validator';
 
 // config
-import cfg from '../config/default.ts';
+import cfg from '../config/default';
 
 // middlewares
-import { rateLimiter } from '../middlewares/rateLimiter.middlewar.ts';
-import { logConsole, writeToLog } from '../middlewares/log.middlewar.ts';
+import { rateLimiter } from '../middlewares/rateLimiter.middlewar';
+import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 
 // services
-import { getGuestBookEntries, addGuestBookEntry, deleteGuestBookEntry } from '../services/GuestBook.service.ts';
-import { authenticateToken } from '../middlewares/authenticateToken.middlewar.ts';
+import { GuestBookService } from '../services/GuestBook.service';
+import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
 
 const guestBookRoute: Router = express.Router();
 const secretConfig = cfg.SecretSystem;
@@ -43,9 +43,9 @@ guestBookRoute.post('/read',
             const page = req.body.page ? parseInt(req.body.page) : 1;
             const limit = req.body.limit ? parseInt(req.body.limit) : 20;
 
-            const guestBookResponse = await getGuestBookEntries(page, limit);
+            const guestBookResponse = await GuestBookService.getGuestBookEntries(page, limit);
             
-            logConsole('POST', '/guestbook/', 'OK', `Retrieved guestbook entries`, { count: guestBookResponse.entries.length, page: page });
+            logConsole('POST', '/guestbook/', 'INFO', `Retrieved guestbook entries`, { count: guestBookResponse.entries.length, page: page });
             writeToLog(`GuestBookRoute READ ok page=${page} count=${guestBookResponse.entries.length}`, 'guestbook');
             return res.success(guestBookResponse);
         } catch (error: any) {
@@ -78,13 +78,13 @@ guestBookRoute.post('/write',
             .custom((value) => {
                 const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9-]{2,}\.(com|net|org|fr|info|be)\b)/i;
                 if (urlRegex.test(value)) {
-                    logConsole('POST', '/guestbook/', 'FAIL', `URL detected in name`);
+                    logConsole('POST', '/guestbook/', 'WARN', `URL detected in name`);
                     writeToLog(`GuestBook WRITE validation failed: URL detected in name`, 'guestbook');
                     throw new Error('url detected in input');
                 }
                 const htmlRegex = /<[^>]*>/;
                 if (htmlRegex.test(value)) {
-                    logConsole('POST', '/guestbook/', 'FAIL', 'HTML tags detected in input');
+                    logConsole('POST', '/guestbook/', 'WARN', 'HTML tags detected in input');
                     writeToLog('GuestBook WRITE validation failed: HTML tags detected', 'guestbook');
                     throw new Error('HTML tags detected in input');
                 }
@@ -95,13 +95,13 @@ guestBookRoute.post('/write',
             .custom((value) => {
                 const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9-]{2,}\.(com|net|org|fr|info|be)\b)/i;
                 if (urlRegex.test(value)) {
-                    logConsole('POST', '/guestbook/', 'FAIL', `URL detected in message`);
+                    logConsole('POST', '/guestbook/', 'WARN', `URL detected in message`);
                     writeToLog(`GuestBook WRITE validation failed: URL detected in message`, 'guestbook');
                     throw new Error('url detected in input');
                 }
                 const htmlRegex = /<[^>]*>/;
                 if (htmlRegex.test(value)) {
-                    logConsole('POST', '/guestbook/', 'FAIL', 'HTML tags detected in input');
+                    logConsole('POST', '/guestbook/', 'WARN', 'HTML tags detected in input');
                     writeToLog('GuestBook WRITE validation failed: HTML tags detected', 'guestbook');
                     throw new Error('HTML tags detected in input');
                 }
@@ -113,7 +113,7 @@ guestBookRoute.post('/write',
         try {
             const { name, message } = req.body;
             
-            const newEntry = await addGuestBookEntry(name, message);
+            const newEntry = await GuestBookService.addGuestBookEntry(name, message);
             
             logConsole('POST', '/guestbook/', 'OK', 'Added new guestbook entry', { by: name, len: message.length, id: newEntry.id });
             writeToLog(`GuestBookRoute WRITE ok by=${name} len=${message.length} id=${newEntry.id}`, 'guestbook');
@@ -155,7 +155,7 @@ guestBookRoute.delete('/delete',
         try {
             const { id } = req.body;
             
-            const deleted = await deleteGuestBookEntry(id);
+            const deleted = await GuestBookService.deleteGuestBookEntry(id);
             
             if(deleted.success) {
                 logConsole('POST', '/guestbook/delete', 'OK', 'Deleted guestbook entry', { id: id });
@@ -163,7 +163,7 @@ guestBookRoute.delete('/delete',
                 return res.removed(id, 'Guestbook entry deleted successfully');
             }
 
-            logConsole('POST', '/guestbook/delete', 'FAIL', 'Not found', { id: id });
+            logConsole('POST', '/guestbook/delete', 'WARN', 'Not found', { id: id });
             writeToLog(`GuestBookRoute DELETE not found id=${id}`, 'guestbook');
             return res.idNotFound(id, 'Guestbook entry not found');
         } catch (error: any) {

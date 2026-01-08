@@ -5,11 +5,15 @@ import { Request, Response, NextFunction } from 'express';
 import { ApiResponse } from '../types/api';
 
 /**
- ** Middleware to standardize API responses.
- ** Adds res.success and res.error methods for consistent response formatting.
- *  @param req Express Request object
- *  @param res Express Response object
- *  @param next Express NextFunction
+ * Response standardization middleware
+ * 
+ * Adds helper methods to Express response object for consistent API responses.
+ * Provides: success(), error(), idNotFound(), unauthorized(), added(), removed()
+ * All responses include timestamp and follow the ApiResponse interface.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
  */
 export const responseHandler = (req: Request, res: Response, next: NextFunction) => {
     // wrap response methods

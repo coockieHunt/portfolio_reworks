@@ -7,8 +7,8 @@ import chalk from 'chalk';
 
 import cfg from './config/default';
 import { createClient } from 'redis';
-import { connectRedis } from './services/Redis.service';
-import { verifySmtpConnection } from './services/Sendmail.service'; 
+import { RedisService } from './services/Redis.service';
+import { SendmailService } from './services/Sendmail.service'; 
 
 import { pingSqlite } from './utils/sqllite.helper';
 
@@ -25,7 +25,11 @@ import BlogRoute from './routes/Blog.route';
 import AuthRoute from './routes/Auth.route';
 import CloudinaryRoute from './routes/Cloudinary.route';
 
+import OpenGraphRouter from './routes/assets/OgImage.route.asset';
+import ProxyCloudinaryRoute from './routes/assets/CloudinaryProxy.route.asset';
+
 const API_ROOT = cfg.ApiRoot ;
+const ASSET_ROOT = cfg.AssetRoot ;
 
 const app = express();
 const PORT = cfg.port || 3000;
@@ -64,6 +68,11 @@ app.use(`${API_ROOT}/cloudinary`, allowOnlyFromIPs, CloudinaryRoute);
 app.use(`${API_ROOT}/counter`, counterRouter);
 app.use(`${API_ROOT}/health`, healthCheckRouter);
 
+//asset
+app.use(`${ASSET_ROOT}/opengraph`, allowOnlyFromIPs, OpenGraphRouter);
+app.use(`${ASSET_ROOT}/cloudinary`, allowOnlyFromIPs, ProxyCloudinaryRoute);
+
+
 app.use((req, res, next) => {
     console.log(chalk.red(`[Routeur]`), "404 not found", chalk.gray(" → " + req.originalUrl));
     res.status(404).json({
@@ -82,8 +91,9 @@ async function startServer() {
     const spacer = () => console.log(chalk.gray('─'.repeat(40)));
 
     console.log(
-        chalk.cyan('🔧  API:'),
-        chalk.gray(`\n  • ApiRoot: ${API_ROOT}\n`)
+        chalk.cyan('🔧  EndPoint:'),
+        chalk.gray(`\n  • API Root: ${API_ROOT}\n  • Asset Root: ${ASSET_ROOT}\n`)
+       
     );
     console.log(
         chalk.cyan('🖋️  BLOG:'),
@@ -97,10 +107,10 @@ async function startServer() {
         pingSqlite();
         console.log(`${chalk.green('✅ SQLite Ready')}: portfolio.db`);
 
-        await connectRedis(redisClient as any);
+        await RedisService.connectRedis(redisClient as any);
         console.log(`${chalk.green('✅ Redis Ready')}:  ${cfg.redis.host}:${cfg.redis.port}`);
 
-        await verifySmtpConnection();
+        await SendmailService.verifySmtpConnection();
         console.log(`${chalk.green('✅ SMTP Ready')}:   ${process.env.MAIL_HOST}`);
 
         app.listen(PORT, () => {

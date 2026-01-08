@@ -9,14 +9,21 @@ import { validateKey } from '../utils/redis.helper';
 
 export let RedisClient: RedisClientType | null = null;
 
-
 /**
- ** Connects and initializes the Redis client if not already connected.
- ** Sets up error handling and logs connection status.
- *  @param client The Redis client instance to connect.
- *  @returns True if the client was connected (isReady), false otherwise
+ * Redis Service
+ * 
+ * Provides Redis connection management and counter operations.
+ * Handles atomic counter increments and connection lifecycle.
+ * Ensures thread-safe operations for distributed counter management.
  */
-export async function connectRedis(client: RedisClientType): Promise<void> {
+export class RedisService {
+    /**
+     * Initializes and connects the Redis client
+     * @param client - The Redis client instance to connect
+     * @returns Promise that resolves when connection is established
+     * @throws {Error} If connection fails
+     */
+    static async connectRedis(client: RedisClientType): Promise<void> {
     if (RedisClient && RedisClient.isReady) return; 
     
     RedisClient = client; 
@@ -34,12 +41,13 @@ export async function connectRedis(client: RedisClientType): Promise<void> {
     }
 }
 
-/**
- ** Retrieves the counter value from Redis, initializing it to 0 if it does not exist.
- *  @param counterName The Redis key name.
- *  @returns The counter value and its initial existence status.
- */
-export async function getCounter(counterName: string): Promise<{ value: number; exist: boolean }> {
+    /**
+     * Retrieves a counter value from Redis
+     * @param counterName - The Redis key for the counter
+     * @returns Promise with counter value and existence status
+     * @throws {Error} If Redis client is not connected
+     */
+    static async getCounter(counterName: string): Promise<{ value: number; exist: boolean }> {
     validateKey(counterName);
 
     if (!RedisClient || !RedisClient.isReady) {
@@ -71,12 +79,14 @@ export async function getCounter(counterName: string): Promise<{ value: number; 
     }
 }
 
-/**
- ** Sets the counter value in Redis.
- *  @param counterName The Redis key name.
- *  @param value The value to set.
- */
-export async function setCounter(counterName: string, value: number | string): Promise<void> {
+    /**
+     * Sets a counter value in Redis
+     * @param counterName - The Redis key for the counter
+     * @param value - The value to set (number or string)
+     * @returns Promise that resolves when value is set
+     * @throws {Error} If Redis client is not connected
+     */
+    static async setCounter(counterName: string, value: number | string): Promise<void> {
     validateKey(counterName);
 
     if (!RedisClient || !RedisClient.isReady) throw new Error("Redis client is not connected."); 
@@ -92,12 +102,13 @@ export async function setCounter(counterName: string, value: number | string): P
     }
 }
 
-/**
- ** Increments the counter value in Redis atomically.
- *  @param counterName The Redis key name.
- *  @returns The new value of the counter.
- */
-export async function incrementCounter(counterName: string): Promise<number> {
+    /**
+     * Atomically increments a counter in Redis
+     * @param counterName - The Redis key for the counter
+     * @returns Promise with the new counter value
+     * @throws {Error} If Redis client is not connected
+     */
+    static async incrementCounter(counterName: string): Promise<number> {
     validateKey(counterName);
 
     if (!RedisClient || !RedisClient.isReady) throw new Error("Redis client is not connected."); 
@@ -112,5 +123,5 @@ export async function incrementCounter(counterName: string): Promise<number> {
         writeToLog(`Error INCR counter ${counterName}: ${errorMsg}`, 'redis');
         throw error;
     }
+    }
 }
-

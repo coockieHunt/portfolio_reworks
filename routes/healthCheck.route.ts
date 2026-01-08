@@ -9,7 +9,7 @@ import { rateLimiter } from '../middlewares/rateLimiter.middlewar';
 import { uptime } from 'node:process';
 
 // services
-import { verifySmtpConnection } from '../services/Sendmail.service';
+import { SendmailService } from '../services/Sendmail.service';
 import { RedisClient } from '../services/Redis.service';
 
 //helpers
@@ -31,7 +31,7 @@ const healthCheckRouter: Router = express.Router({ mergeParams: true });
 */
 healthCheckRouter.get('/', rateLimiter, async (req: Request, res: Response) => {
     writeToLog('Health Check route accessed', 'health');
-    logConsole('GET', '/health', 'OK', 'Health Check route accessed');
+    logConsole('GET', '/health', 'INFO', 'Health Check route accessed');
 
     const healthStatus = {
         status: "ok",
@@ -54,7 +54,7 @@ healthCheckRouter.get('/', rateLimiter, async (req: Request, res: Response) => {
         await RedisClient.ping();
         healthStatus.service.redis = 'UP';
 
-        await verifySmtpConnection();
+        await SendmailService.verifySmtpConnection();
         healthStatus.service.mail = 'UP';
 
         res.success(healthStatus);

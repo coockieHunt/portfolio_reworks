@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/blog/new
+  url: {{base_url}}{{endPointApi}}/blog/new
   body: json
   auth: inherit
 }
@@ -27,8 +27,17 @@ settings {
 
 docs {
   # New Post
-  Creates a new blog post.
+  Creates a new blog post in the database.
   
   **Access:** Restricted 🔒
   **Route:** `POST /api/blog/new`
+  
+  Required fields:
+  - `title`: Post title
+  - `content`: Post content (supports markdown)
+  - `authorId`: Author's numeric ID
+  
+  Optional:
+  - `slug`: URL-friendly identifier (auto-generated from title if omitted)
+  - `summary`: Short description
 }

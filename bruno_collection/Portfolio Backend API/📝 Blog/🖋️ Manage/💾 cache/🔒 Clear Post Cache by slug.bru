@@ -5,7 +5,7 @@ meta {
 }
 
 delete {
-  url: {{base_url}}/blog/cache/delete/{{slugBlog_demoName}}
+  url: {{base_url}}{{endPointApi}}/blog/cache/delete/{{slugBlog_demoName}}
   body: none
   auth: inherit
 }
@@ -17,8 +17,11 @@ settings {
 
 docs {
   # Clear Cache by Slug
-  Clears the cache for a specific blog post by its slug.
+  Removes a specific blog post from Redis cache.
   
   **Access:** Restricted 🔒
   **Route:** `DELETE /api/blog/cache/delete/:slug`
+  
+  Forces fresh database query on next request.
+  Useful after manual database updates.
 }

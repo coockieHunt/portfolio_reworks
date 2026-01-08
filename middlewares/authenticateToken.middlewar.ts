@@ -9,6 +9,18 @@ interface TokenPayload {
     exp?: number;
 }
 
+/**
+ * Authentication middleware
+ * 
+ * Verifies JWT tokens from Authorization header and checks revocation status.
+ * Blocks access if token is missing, invalid, expired, or revoked.
+ * Attaches decoded user payload to request object on success.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object  
+ * @param next - Express next function
+ * @returns Promise resolving when authentication completes
+ */
 export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

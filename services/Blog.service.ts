@@ -1,5 +1,5 @@
 //helpers
-import { db } from '../utils/sqllite.helper.ts';
+import { db } from '../utils/sqllite.helper';
 
 //shema
 import { post_author, posts } from '../database/shema'; 
@@ -19,22 +19,35 @@ import { validateKey } from '../utils/redis.helper';
 import { writeToLog } from '../middlewares/log.middlewar';
 
 //config
-import cfg from '../config/default.ts';
-
+import cfg from '../config/default';
 
 /**
- ** Service class for managing blog posts.
-*/
+ * Blog Service
+ * 
+ * Handles all blog post operations including CRUD operations and caching.
+ * Integrates with SQLite database and Redis cache for optimal performance.
+ * Manages blog post lifecycle from creation to deletion with automatic cache invalidation.
+ */
 export class BlogService {
+    /**
+     * Generates the Redis cache key for a blog post by slug
+     * @param slug - The blog post slug
+     * @returns The prefixed Redis cache key
+     * @private
+     */
     private static getCacheKey(slug: string) {
         return `${AUTHORIZED_REDIS_PREFIXES.BLOG_POST}${slug}`;
     }
 
-    // GET
+    /**
+     * Retrieves all blog posts with pagination
+     * @param page - Page number (default: 1)
+     * @param limit - Number of posts per page (default: 20)
+     * @returns Promise with paginated posts and metadata
+     */
     static async getAllPosts(page: number = 1, limit: number = 20) {
         const offset = (page - 1) * limit;
 
-        // Get total count
         const totalCountResult = await db.select({ count: sql<number>`count(*)` }).from(posts).get();
         const totalCount = totalCountResult ? totalCountResult.count : 0;
 
@@ -63,6 +76,12 @@ export class BlogService {
         };
     }
 
+    /**
+     * Retrieves blog posts using offset-based pagination
+     * @param min - Minimum offset position (default: 1)
+     * @param max - Maximum offset position (default: 100)
+     * @returns Promise with posts and cursor metadata
+     */
     static async getPostOffset(min: number = 1, max: number = 100) {
         const limit = max - min + 1;
         const offset = min - 1;
@@ -90,6 +109,11 @@ export class BlogService {
         };
     }
 
+    /**
+     * Retrieves a single blog post by its slug with caching
+     * @param slug - The unique slug identifier for the post
+     * @returns Promise with post data and cache status
+     */
     static async getPostBySlug(slug: string) {
         const data = await withCache(this.getCacheKey(slug), async () => 
             db.select({
@@ -113,13 +137,22 @@ export class BlogService {
         return data;
     }
 
-    // POST
+    /**
+     * Creates a new blog post
+     * @param data - Post data including title, content, summary, and author ID
+     * @returns Promise with the newly created post
+     */
     static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; }) {
         const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-');
         return await db.insert(posts).values({ ...data, slug}).returning().get();
     }
 
-    // PUT
+    /**
+     * Updates an existing blog post and invalidates its cache
+     * @param slug - The post slug to update
+     * @param updateData - Partial post data to update
+     * @returns Promise with updated post or null if not found
+     */
     static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; }) {
         const key = this.getCacheKey(slug);
         validateKey(key);
@@ -143,6 +176,12 @@ export class BlogService {
         return null;
     }
 
+    /**
+     * Updates the published status of a blog post
+     * @param slug - The post slug to update
+     * @param publish - True to publish, false to unpublish
+     * @returns Promise with updated post or null if not found
+     */
     static async publishedPostBySlug(slug: string, publish: boolean) {
         const key = this.getCacheKey(slug);
         validateKey(key);
@@ -165,7 +204,11 @@ export class BlogService {
         return null;
     }
 
-    // DELETE
+    /**
+     * Deletes a blog post by slug and removes its cache
+     * @param slug - The post slug to delete
+     * @returns Promise resolving to true if deleted, false otherwise
+     */
     static async deletePostBySlug(slug: string) {
         const key = this.getCacheKey(slug);
         validateKey(key);
@@ -183,6 +226,12 @@ export class BlogService {
         return false;
     }
 
+    /**
+     * Deletes the cache entry for a specific blog post
+     * @param slug - The post slug to remove from cache
+     * @returns Promise resolving to true if cache was deleted
+     * @throws {Error} If Redis client is not connected
+     */
     static async deleteCacheBySlug(slug: string) {
         const key = this.getCacheKey(slug);
         validateKey(key);
@@ -201,6 +250,12 @@ export class BlogService {
         }
     }
 
+    /**
+     * Clears all blog post cache entries from Redis
+     * Uses SCAN operation to safely remove all matching keys
+     * @returns Promise that resolves when all cache is cleared
+     * @throws {Error} If Redis client is not connected
+     */
     static async clearAllCache() {
         if (!RedisClient || !RedisClient.isReady) {throw new Error("Redis client is not connected.");}
         

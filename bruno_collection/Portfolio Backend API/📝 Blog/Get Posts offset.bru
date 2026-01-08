@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{base_url}}/blog/offset
+  url: {{base_url}}{{endPointApi}}/blog/offset
   body: json
   auth: inherit
 }
@@ -23,8 +23,14 @@ settings {
 }
 
 docs {
-  # Get Posts
-  Retrieves a list of blog posts with pagination.
+  # Get Posts (Offset)
+  Retrieves blog posts using offset-based pagination.
   
-  **Route:** `POST /api/blog/`
+  **Route:** `POST /api/blog/offset`
+  
+  Parameters:
+  - `min`: Start position (inclusive, default: 1)
+  - `max`: End position (inclusive, default: 100)
+  
+  Returns posts between min and max positions with cursor metadata.
 }

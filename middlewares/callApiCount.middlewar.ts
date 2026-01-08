@@ -2,19 +2,22 @@
 import { Request, Response, NextFunction } from 'express';
 
 //redis
-import { incrementCounter } from '../services/Redis.service';
+import { RedisService } from '../services/Redis.service';
 import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant';
 
 //middleware
 import { logConsole } from './log.middlewar';
 
 /**
- * * Middleware to increment the global API call counter.
- * * Increments the Redis counter for each API request.
- * * Logs errors but does not block the request if Redis fails.
- * @param req Express Request object
- * @param res Express Response object
- * @param next Express NextFunction
+ * API call tracking middleware
+ * 
+ * Increments a global counter in Redis for each API request.
+ * Non-blocking - errors are logged but don't prevent request processing.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
+ * @returns Promise that resolves after tracking attempt
  */
 export const trackApiCall = async (
     req: Request, 
@@ -22,12 +25,12 @@ export const trackApiCall = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        await incrementCounter(AUTHORIZED_REDIS_KEYS.GLOBAL_STATUS);
+        await RedisService.incrementCounter(AUTHORIZED_REDIS_KEYS.GLOBAL_STATUS);
     } catch (error: unknown) {
         if (error instanceof Error) {
-            logConsole('MIDDLEWARE', 'trackApiCall', 'FAIL', 'Failed to increment API call counter', { error: error.message });
+            logConsole('MIDDLEWARE', 'trackApiCall', 'WARN', 'Failed to increment API call counter', { error: error.message });
         } else {
-            logConsole('MIDDLEWARE', 'trackApiCall', 'FAIL', 'Failed to increment API call counter', { error: String(error) });
+            logConsole('MIDDLEWARE', 'trackApiCall', 'WARN', 'Failed to increment API call counter', { error: String(error) });
         }
     }
     next();

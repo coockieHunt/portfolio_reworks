@@ -2,6 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import config from '../config/default';
 import chalk from 'chalk';
 
+/**
+ * Testing middleware for simulating errors and latency
+ * 
+ * Enables testing of error handling and performance under delays.
+ * Can simulate server errors (500) or artificial latency.
+ * Controlled via config.fallback settings.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
+ */
 export const TestingMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const { latency: latencyEnabled, delayLatency, sendError: sendErrorEnabled, errorIn } = config.fallback;
 

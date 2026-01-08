@@ -31,7 +31,7 @@ BlogRoute.post('/all',
 
         const data = await BlogService.getAllPosts(page, limit);
         
-        logConsole('GET', '/blog/', 'OK', `Retrieved blog posts`, { count: data.posts.length, page });
+        logConsole('GET', '/blog/', 'INFO', `Retrieved blog posts`, { count: data.posts.length, page });
         writeToLog(`BlogRoute READ ok count=${data.posts.length} page=${page}`, 'blog');
         return res.success(data);
     } catch (error) {
@@ -55,7 +55,7 @@ BlogRoute.post('/offset',
 
         const data = await BlogService.getPostOffset(min, max);
         
-        logConsole('GET', '/blog/offset', 'OK', `Retrieved blog posts with offset`, { count: data.posts.length, min, max });
+        logConsole('GET', '/blog/offset', 'INFO', `Retrieved blog posts with offset`, { count: data.posts.length, min, max });
         writeToLog(`BlogRoute READ OFFSET ok count=${data.posts.length} min=${min} max=${max}`, 'blog');
         return res.success(data);
     } catch (error) {
@@ -74,12 +74,12 @@ BlogRoute.get('/:slug',
         try {
             const data = await BlogService.getPostBySlug(req.params.slug);
             if (!data.data) {
-                logConsole('GET', `/blog/${req.params.slug}`, 'FAIL', `Post not found`, { slug: req.params.slug });
+                logConsole('GET', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute READ not found slug=${req.params.slug}`, 'blog');
                 return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
             }
 
-            logConsole('GET', `/blog/${req.params.slug}`, 'OK', `Retrieved blog post `, { slug: req.params.slug });
+            logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post `, { slug: req.params.slug });
             writeToLog(`BlogRoute READ ok slug=${req.params.slug}`, 'blog');
 
             return res.success(data);
@@ -115,7 +115,7 @@ BlogRoute.post('/new',
             return res.success({ message: "blog post created successfully", post: newPost })
         } catch (error) {
             if((error as any).message.includes('UNIQUE constraint failed')) {
-                logConsole('POST', '/blog/', 'FAIL', `Slug already exists`, { slug: req.body.slug });
+                logConsole('POST', '/blog/', 'WARN', `Slug already exists`, { slug: req.body.slug });
                 writeToLog(`BlogRoute CREATE duplicate slug=${req.body.slug}`, 'blog');
 
                 return res.error("slug already exists", 409);
@@ -148,7 +148,7 @@ BlogRoute.put('/edit/update/:slug',
             const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId });
 
             if (!updatedPost) {
-                logConsole('PUT', `/blog/${req.params.slug}`, 'FAIL', `Post not found`, { slug: req.params.slug });
+                logConsole('PUT', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute UPDATE not found slug=${req.params.slug}`, 'blog');
                 return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
             }
@@ -180,7 +180,7 @@ BlogRoute.put('/edit/publish/:slug',
             const updatedPost = await BlogService.publishedPostBySlug(req.params.slug, publish);
 
             if (!updatedPost) {
-                logConsole('PUT', `/blog/publish/${req.params.slug}`, 'FAIL', `Post not found`, { slug: req.params.slug });
+                logConsole('PUT', `/blog/publish/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute PUBLISH not found slug=${req.params.slug}`, 'blog');
                 return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
             }
@@ -209,7 +209,7 @@ BlogRoute.delete('/:slug',
             const deleted = await BlogService.deletePostBySlug(req.params.slug);
 
             if (!deleted) {
-                logConsole('DELETE', `/blog/${req.params.slug}`, 'FAIL', `Post not found`, { slug: req.params.slug });
+                logConsole('DELETE', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute DELETE not found slug=${req.params.slug}`, 'blog');
                 return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
             }
@@ -236,7 +236,7 @@ BlogRoute.delete('/cache/delete/:slug',
         try {
             const deleted = await BlogService.deleteCacheBySlug(req.params.slug);
             if (!deleted) {
-                logConsole('DELETE', `/blog/cache/${req.params.slug}`, 'FAIL', `Cache not found`, { slug: req.params.slug });
+                logConsole('DELETE', `/blog/cache/${req.params.slug}`, 'WARN', `Cache not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute CACHE DELETE not found slug=${req.params.slug}`, 'blog');
                 return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
             }

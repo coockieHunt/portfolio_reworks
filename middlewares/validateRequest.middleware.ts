@@ -2,6 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import { logConsole, writeToLog } from './log.middlewar';
 
+/**
+ * Request validation middleware
+ * 
+ * Checks for validation errors from express-validator.
+ * Returns 400 with detailed error messages if validation fails.
+ * Logs validation failures for monitoring.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
+ */
 export const validateRequest = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     

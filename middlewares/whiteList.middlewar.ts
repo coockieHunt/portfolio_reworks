@@ -10,10 +10,15 @@ import { logConsole, writeToLog } from './log.middlewar';
 const allowedIPs = config.allowedIPs;
 
 /**
-** Helper to normalize IP addresses for comparison
-*  @param ip - The IP address to normalize
-*  @returns The normalized IP address
-*/
+ * Normalizes IP addresses for consistent comparison
+ * 
+ * Removes IPv6 prefix (::ffff:) and converts localhost variants.
+ * Ensures IPv4 and IPv6 addresses are comparable.
+ * 
+ * @param ip - The IP address to normalize
+ * @returns Normalized IP address string
+ * @private
+ */
 const normalizeIP = (ip: string): string => {
     if (ip.startsWith('::ffff:')) {
         return ip.substring(7);
@@ -27,10 +32,15 @@ const normalizeIP = (ip: string): string => {
 const normalizedAllowedIPs = allowedIPs.map((ip: string) => normalizeIP(ip));
 
 /**
- ** Middleware to allow access only from whitelisted IP addresses
- *  @param req Express Request object
- *  @param res Express Response object
- *  @param next Express NextFunction
+ * IP whitelist middleware
+ * 
+ * Restricts access to requests from whitelisted IP addresses only.
+ * Returns 403 Forbidden for non-whitelisted IPs.
+ * Configured via config.allowedIPs array.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
  */
 export const allowOnlyFromIPs = (req: Request, res: Response, next: NextFunction): void => {
     const clientIP: string = req.ip || 'unknown';
