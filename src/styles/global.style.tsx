@@ -1,5 +1,5 @@
 import { createGlobalStyle, styled } from 'styled-components';
-import { COLOR_SETTING, GetHightContrastSetting } from '../config';
+import { COLOR_SETTING, HightContrastColorSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
     :root {
@@ -111,7 +111,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ${(props) => {
-        const hcConfig = GetHightContrastSetting(props.theme.theme);
+        const hcConfig = HightContrastColorSetting;
 
         return `
             body.high-contrast {

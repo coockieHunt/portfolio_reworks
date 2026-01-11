@@ -1,13 +1,14 @@
 // React
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link } from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll'; // Alias pour éviter la confusion
+import { Link as RouterLink } from '@tanstack/react-router';
 
 // Hooks & Context
 import { useScrollbar } from '@/hooks/useScrollBar.hook';
 import { useWindowSize } from '@/hooks/useScreenResize.hook';
 
 // Components
-import { BurgerMenuComponent } from '@//components/BurgerMenu/BurgerMenu.component';
+import { BurgerMenuComponent } from '@/components/BurgerMenu/BurgerMenu.component';
 import { IconButton } from '@/components/Button/IconButton';
 import { LogoComponent } from '@/components/Logo/Logo.components';
 
@@ -18,15 +19,19 @@ import cv from '@/assets/pdf/cv_dev_JG.pdf';
 
 import * as Styled from './navigations.style';
 
-export type NavTuple = [string, string];
+export interface INavItem {
+    display: string;
+    to: string;
+    type: 'scroll' | 'route';
+}
 
 export interface INavigationComponentProps {
-    navConfig: NavTuple[];
+    navConfig: INavItem[];
     brandColor?: string;
 }
 
 interface INavigationLinksProps {
-    items: NavTuple[];
+    items: INavItem[];
     onLinkClick: () => void;
 }
 
@@ -36,30 +41,54 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
 }) => {
     return (
         <>
-            {items.map(([label, targetId], index) => (
-                <li key={`${targetId}-${index}`}>
-                    <Link
-                        to={targetId}
-                        onClick={onLinkClick}
-                        href={`#${targetId}`}
-                        spy={true}
-                        smooth={true}
-                        offset={-70}
-                        duration={500}
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                        <span>{index + 1}. </span>
-                        {label}
-                    </Link>
+            {items.map((item, index) => (
+                <li key={`${item.display}-${index}`}>
+                    {item.type === 'scroll' ? (
+                        <ScrollLink
+                            to={item.to}
+                            onClick={onLinkClick}
+                            href={`#${item.to}`}
+                            spy={true}
+                            smooth={true}
+                            offset={-70}
+                            duration={500}
+                            style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+                        >
+                            <span>{index + 1}. </span>
+                            {item.display}
+                        </ScrollLink>
+                    ) : item.type === 'route' ? (
+                        <RouterLink 
+                            to={item.to} 
+                            onClick={onLinkClick} 
+                            style={{ 
+                                textDecoration: 'none', 
+                                color: 'inherit',
+                                textTransform: 'uppercase',
+                            }}
+                        >
+                            {item.display}
+                        </RouterLink>
+                    ) : null}
                 </li>
             ))}
         </>
     );
 };
 
+
+/**
+ * A navigation component that renders a responsive menu with links and social icons.
+ * Supports both scroll-based and route-based navigation.
+ * 
+ * @param props - The props for the NavigationComponent.
+ * @param props.navConfig - Array of navigation items to render. Each item includes display text, target, and type ('scroll' or 'route').
+ * @param props.brandColor - Optional brand color for the logo. Defaults to 'var(--primary)'.
+ * @returns The rendered NavigationComponent.
+ */
 export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     navConfig,
-    brandColor,
+    brandColor = 'var(--primary)',
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -86,14 +115,15 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     }, []);
 
     return (
-        <Styled.NavigationContainer
-            className={menuOpen ? 'NavOpen' : 'NavClose'}
-        >
+        <Styled.NavigationContainer className={menuOpen ? 'NavOpen' : 'NavClose'}>
             <Styled.BrandContainer>
-                <LogoComponent
-                    version="simple-full"
-                    style={{ width: '16px', height: 'auto', color: brandColor }}
-                />
+                <RouterLink to="/">
+                    <LogoComponent
+                        version="simple-full"
+                        style={{ width: '16px', height: 'auto', color: brandColor }}
+                    />
+                </RouterLink>
+
                 <div className="burger-menu-wrapper">
                     <BurgerMenuComponent val={menuOpen} onClick={toggleMenu} />
                 </div>
@@ -122,7 +152,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
                             text={link.text}
                         />
                     ))}
-                    <button onClick={handleOpenCv} type="button">
+                    <button onClick={handleOpenCv} type="button" className="cv-desktop-btn">
                         Curriculum Vitae
                     </button>
                 </div>

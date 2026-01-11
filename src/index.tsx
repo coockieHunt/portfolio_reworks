@@ -7,6 +7,7 @@ import { ConnectedToSecretSystem } from './utils/rb';
 //router
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 //font
 import '@fontsource/montserrat';
@@ -23,5 +24,6 @@ ConnectedToSecretSystem();
 root.render(
     <React.StrictMode>
         <RouterProvider router={router} />
+        <TanStackRouterDevtools router={router} />
     </React.StrictMode>,
 );

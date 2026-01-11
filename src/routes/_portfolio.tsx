@@ -6,7 +6,7 @@ import { AlertContainerComponent } from '@/components/Alert/Alert.component';
 import { GlobalLoader } from '@/components/Loading/GlobalLoader.compenent';
 
 //containers
-import { NavigationComponent } from '@/containers/_root/Navigation/navigations.container';
+import { NavigationComponent, INavItem } from '@/containers/_root/Navigation/navigations.container';
 import { SettingContainer } from '@/containers/_root/Setting/Setting.container';
 
 const FooterContainer = lazy(() =>
@@ -15,22 +15,47 @@ const FooterContainer = lazy(() =>
     })),
 );
 
-const navigation: [string, string][] = [
-    ['A propos', 'catch'],
-    ['Competences', 'benefit'],
-    ['Projets', 'project'],
-    ['Contact', 'contact'],
+const navigation: INavItem[] = [
+    {
+        display : 'Accueil', 
+        to: 'home', 
+        type: "scroll"
+    },
+    {
+        display : 'A propos', 
+        to: 'home', 
+        type: "scroll"
+    },
+    {
+        display : 'Competences', 
+        to: 'benefit', 
+        type: "scroll"
+    },
+    {
+        display : 'Projets', 
+        to: 'project', 
+        type: "scroll"
+    },
+    {
+        display : 'Contact', 
+        to: 'contact', 
+        type: "scroll"
+    },
+    {
+        display : 'blog', 
+        to: 'blog', 
+        type: "route"
+    },
 ];
 
 export const Route = createFileRoute('/_portfolio' as any)({
     component: PortfolioLayout,
 });
 
-// Layout for the portfolio section
 function PortfolioLayout() {
     return (
         <>
-            <NavigationComponent navConfig={navigation} brandColor="white" />
+            <NavigationComponent navConfig={navigation}/>
             <AlertContainerComponent />
             <SettingContainer />
 

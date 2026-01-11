@@ -6,7 +6,6 @@ import {
     LoadingText,
 } from './style/Global.loading.style';
 
-// Style extrait pour éviter de surcharger le JSX
 const CONTAINER_STYLE: React.CSSProperties = {
     position: 'relative',
 };

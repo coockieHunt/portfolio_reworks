@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { SCREEN_SIZE } from '@/config';
+import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
 interface ContainerProps {
     $backgroundImg?: string;
@@ -50,4 +51,19 @@ export const Container = styled.div<ContainerProps>`
         height: 250px;
         font-size: 2em;
     }
+`;
+
+
+
+export const ShadowOverlay = styled.div`
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    pointer-events: none;
+    background: linear-gradient(
+        to bottom,
+        ${HexToRgbaConverter('var(--secondary)', 0.1)} 0%,
+        rgba(0, 0, 0, 0) 70%
+    );
 `;

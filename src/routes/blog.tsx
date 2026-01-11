@@ -4,21 +4,25 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 //containers
 import { FooterContainer } from '@/containers/_root/Footer/footer.container';
 import { SettingContainer } from '@/containers/_root/Setting/Setting.container';
-import { NavigationComponent } from '@/containers/_root/Navigation/navigations.container';
+import { NavigationComponent, INavItem } from '@/containers/_root/Navigation/navigations.container';
 
 export const Route = createFileRoute('/blog')({
     component: BlogLayout,
 });
 
-const navigation: [string, string][] = [
-    ['Portfolio', 'catch'],
-    ['Blog', 'catch'],
+const navigation: INavItem[] = [
+    {
+        display : 'Accueil', 
+        to: '/', 
+        type: "route"
+    },
+   
 ];
 
 function BlogLayout() {
     return (
         <>
-            <NavigationComponent navConfig={navigation} />
+            <NavigationComponent navConfig={navigation} brandColor="white"/>
 
             <SettingContainer />
 

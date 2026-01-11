@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
 import hljs from 'highlight.js';
-import styled from 'styled-components';
 
 // icons
 import {
@@ -23,7 +22,7 @@ import { HeroContainer } from '@/containers/_blog/hero/hero.container';
 import { TocContainer } from '@/components/Toc/toc.container';
 
 //utils
-import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
+import { resolveImageUrl } from '@/utils/image';
 
 //style
 import * as Styled from './post.style';
@@ -44,21 +43,6 @@ interface PostContainerProps {
     featured_image?: string;
     author?: Author;
 }
-
-const ShadowOverlay = styled.div`
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background: red;
-    pointer-events: none;
-
-    background: linear-gradient(
-        to bottom,
-        ${HexToRgbaConverter('var(--secondary)', 0.1)} 0%,
-        rgba(0, 0, 0, 0) 70%
-    );
-`;
 
 export const PostContainer = ({
     title,
@@ -84,7 +68,7 @@ export const PostContainer = ({
                 return '';
             },
         });
-
+    
         md.renderer.rules.heading_open = function (
             tokens,
             idx,
@@ -94,19 +78,33 @@ export const PostContainer = ({
         ) {
             const token = tokens[idx];
             const title = tokens[idx + 1].content;
-
+    
             const anchorId = title
                 .toLowerCase()
                 .replace(/[^\w\s-]/g, '')
                 .replace(/\s+/g, '-');
-
+    
             token.attrSet('id', anchorId);
-
+    
             return self.renderToken(tokens, idx, options);
         };
+    
+        md.renderer.rules.image = function (tokens, idx, options, env, self) {
+            const token = tokens[idx];
+            const srcIndex = token.attrIndex('src');
 
+            
+            if (srcIndex >= 0) {
+                const originalSrc = token.attrs[srcIndex][1];
+                const resolvedSrc = resolveImageUrl(originalSrc);
+                token.attrs[srcIndex][1] = resolvedSrc;
+            }
+            
+            return self.renderToken(tokens, idx, options);
+        };
+    
         const rawHtml = md.render(content);
-
+    
         setSanitizedHtml(DOMPurify.sanitize(rawHtml));
     }, [content]);
 
@@ -126,7 +124,6 @@ export const PostContainer = ({
                     <h1 style={{ width: '80%' }}>{title}</h1>
                 </div>
             </HeroContainer>
-            <ShadowOverlay />
 
             <Styled.ContainerPost>
                 <div className="post">

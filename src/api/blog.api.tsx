@@ -35,12 +35,17 @@ export async function getBlogPosts(
 export async function getBlogPostsOffset(
     min: number,
     max: number,
+    titleContains?: string,
+    tagsContains?: string,
 ): Promise<IApiResponse | null> {
     try {
         const resp = await axios.post(`${ApiBaseUrl}/blog/offset`, {
             min,
             max,
+            titleContains,
+            tagsContains,
         });
+        console.log('API Response:', resp);
         return resp.data;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 429) {
@@ -76,6 +81,25 @@ export async function getBlogPostBySlug(
         }
 
         logDev('getBlogPostBySlug error', err);
+        return null;
+    }
+}
+
+export async function getTagList(): Promise<IApiResponse | null> {
+    try {
+        const resp = await axios.get<IApiResponse>(`${ApiBaseUrl}/tags/`);
+        return resp.data;
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response?.status === 429) {
+            return {
+                error: true,
+                message:
+                    'Serveur surchargé. Veuillez réessayer dans quelques minutes.',
+                status: 429,
+            };
+        }
+
+        logDev('getTagList error', err);
         return null;
     }
 }

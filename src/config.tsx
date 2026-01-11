@@ -301,12 +301,14 @@ export const BORDER_RADIUS = {
     full: '100%',
 };
 
-export const GetHightContrastSetting = (theme: any) => {
-    return HightContrastColorSetting;
-};
+export const Blog ={
+    POSTS_PER_PAGE: 5,
+}
 
 export const ApiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+export const AssetsBaseUrl =
+    import.meta.env.VITE_ASSETS_BASE_URL || 'http://localhost:3001/assets';
 export const MailDefault = {
     firstName: '',
     lastName: '',

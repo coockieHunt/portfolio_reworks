@@ -1,12 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import React from 'react';
+import { createFileRoute } from '@tanstack/react-router';
 
-//containers
+// api & utils
+import { getBlogPostBySlug } from '@/api/blog.api';
+import { getOpenGraphUrl } from '@/api/openGraph';
+import { getProxyUrl } from '@/utils/image';
+
+// containers
 import { PostContainer } from '@/containers/_blog/post/post.container.jsx';
 
-//api
-import { getBlogPostBySlug } from '@/api/blog.api';
-
+// Types
 interface Author {
     name: string;
     describ: string;
@@ -27,67 +30,73 @@ interface BlogPost {
 
 export const Route = createFileRoute('/blog/$slug')({
     component: RouteComponent,
+    
+    loader: async ({ params }) => {
+        
+        try {
+            const response = await getBlogPostBySlug(params.slug);
+
+            const data = response?.data?.data; 
+
+            if (!data) {
+                throw new Error('Post not found');
+            }
+
+            return data as BlogPost;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+
+    pendingComponent: () => (
+        <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            Loading blog post...
+        </div>
+    ),
+    errorComponent: () => (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <p>Oops pas d'article trouvé</p>
+        </div>
+    )
 });
 
 function RouteComponent() {
-    const { slug } = Route.useParams();
+    const blogPost = Route.useLoaderData();
+    const featuredImageUrl = getProxyUrl(blogPost.post.featuredImage) || '';
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-    const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    const FetchBlogPostBySlug = async () => {
-        if (!slug) return;
-
-        try {
-            const response = await getBlogPostBySlug(slug);
-            const dataPost = response?.data || [];
-
-            setBlogPost(dataPost.data || null);
-        } catch (e) {
-            console.error(e);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        FetchBlogPostBySlug();
-    }, [slug]);
-
-    if (!slug) return <div>no slug</div>;
+    const dynamicOgUrl = getOpenGraphUrl(
+        blogPost.post.slug,
+        blogPost.post.title,
+        blogPost.post.editedAt
+    );
 
     return (
-        <div>
-            {isLoading ? (
-                <p
-                    style={{
-                        height: "100vh",
-                        width: "100vw",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >Loading blog post...</p>
-            ) : blogPost ? (
-                <PostContainer
-                    title={blogPost.post.title}
-                    summary={blogPost.post.summary}
-                    content={blogPost.post.content}
-                    featured_image={blogPost.post.featurend_image}
-                    author={blogPost.author || { name: 'Unknown', describ: '' }}
-                />
-            ) : (
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '50vh',
-                    }}
-                >
-                    <p>Oops pas d'article trouvé</p>
-                </div>
-            )}
-        </div>
+        <>
+            <title>{blogPost.post.title} | Mon Portfolio</title>
+            <meta name="description" content={blogPost.post.summary} />
+            
+            <meta property="og:type" content="article" />
+            <meta property="og:title" content={blogPost.post.title} />
+            <meta property="og:description" content={blogPost.post.summary} />
+            
+            <meta property="og:image" content={dynamicOgUrl} />
+            <meta property="og:url" content={currentUrl} />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={blogPost.post.title} />
+            <meta name="twitter:description" content={blogPost.post.summary} />
+            <meta name="twitter:image" content={dynamicOgUrl} />
+
+            <PostContainer
+                title={blogPost.post.title}
+                summary={blogPost.post.summary}
+                content={blogPost.post.content}
+                featured_image={featuredImageUrl}
+                author={blogPost.author || { name: 'Unknown', describ: '' }}
+            />
+        </>
     );
 }
+

@@ -1,192 +1,232 @@
-// src/routes/blog/index.tsx
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import styled from 'styled-components';
 
-//api
-import { getBlogPostsOffset } from '@/api/blog.api';
+import { getBlogPostsOffset, getTagList } from '@/api/blog.api';
+import { IBlogPost } from '@/types/blog.d';
 
-// containers
+import { Blog } from '@/config';
+
 import { HeroContainer } from '@/containers/_blog/hero/hero.container';
 import { PostGridContainer } from '@/containers/_blog/postGrid/postGrid.container';
+import { TagsComponent } from '@/components/Tags/Tags.component';
+import { SearchBarComponent } from '@/components/Form/searchBar.component';
 
-//icons
-import { Share, Twitter, InstagramIcon, Linkedin } from 'lucide-react';
+import {LoaderComponent} from '@/components/Loading/loader.component';
 
-//lib
-import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
-
-interface IBlogPost {
-    author: string;
-    post: {
-        id: number;
-        featurend_image: string;
-        authorId: string;
-        content: string;
-        createdAt: string;
-        editedAt: string;
-        published: boolean;
-        slug: string;
-        summary: string;
-        title: string;
-    };
-}
-
-export const Route = createFileRoute('/blog/')({
-    component: BlogIndex,
-});
 
 const CustomHero = styled(HeroContainer)`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     margin-bottom: 0px;
+    position: relative;
 
-    & .social {
+    & .content {
+        width: 100%;
+        max-width: 800px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
-        position: absolute;
-        left: 20px;
-        display: flex;
-        gap: 20px;
+        align-items: center;
+        
+        & .tagList {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-        & svg {
-            width: 25px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            &:hover {
-                color: var(--secondary);
-                transform: scale(1.1);
-            }
+        & h1 {
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 0;
+            text-align: center;
         }
     }
 `;
 
-const ShadowOverlay = styled.div`
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    pointer-events: none;
-    background: linear-gradient(
-        to bottom,
-        ${HexToRgbaConverter('var(--secondary)', 0.1)} 0%,
-        rgba(0, 0, 0, 0) 70%
-    );
-`;
+
+
+export const Route = createFileRoute('/blog/')({
+    component: BlogIndex,
+});
+
 
 function BlogIndex() {
-    const ViewPerLoad = 5; //view par page
 
+    const navigate = useNavigate({ from: Route.fullPath });
+    const searchParams = Route.useSearch(); 
+    
     const [blogPosts, setBlogPosts] = useState<IBlogPost[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [tags, setTags] = useState<{ id: number; name: string; slug: string; color: string; postIds: number[] }[]>([]);
+    
+    const [isLoading, setIsLoading] = useState({
+        "posts": false,
+        "tags": false
+    });
+
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
-    const loadMoreTrigger = useRef<HTMLDivElement>(null);
-    const observerRef = useRef<IntersectionObserver | null>(null);
+    const [searchTerm, setSearchTerm] = useState<string>(searchParams.search || '');
 
-    const fetchBlogPosts = useCallback(
-        async (pageNum: number) => {
-            if (!hasMore && pageNum > 1) return; //if no more posts, stop fetching
-            setIsLoading(true);
+    //  post
+    useEffect(() => {
+        const fetchTags = async () => {
+            setIsLoading((prev) => ({...prev, "tags": true}) ); 
+
             try {
-                const min = (pageNum - 1) * ViewPerLoad + 1;
-                const max = pageNum * ViewPerLoad;
-                const response = await getBlogPostsOffset(min, max);
-
-                const data = response?.data;
-                const newPosts = data?.posts || [];
-
-                if (newPosts.length > 0) {
-                    setBlogPosts((prev) => {
-                        const allPosts =
-                            pageNum === 1 ? newPosts : [...prev, ...newPosts];
-                        return allPosts;
-                    });
-
-                    if (newPosts.length < ViewPerLoad) {
-                        setHasMore(false);
-                    } //triger no moer
-                } else {
-                    setHasMore(false);
+                const tagResponse = await getTagList();
+                if (tagResponse?.data?.tags) {
+                    setTags(tagResponse.data.tags);
                 }
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+            } finally {
+                setIsLoading((prev) => ({...prev, "tags": false}) );
+            }
+        };
+        fetchTags();
+    }, []);
+
+    // tags
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setIsLoading((prev) => ({...prev, "posts": true}));
+
+            try {
+                const min = (page - 1) * Blog.POSTS_PER_PAGE + 1;
+                const max = page * Blog.POSTS_PER_PAGE;
+                
+                const response = await getBlogPostsOffset(min, max, searchTerm, searchParams.tag); 
+                const newPosts = response?.data?.posts || [];
+
+                setBlogPosts((prev) => {
+                    return page === 1 ? newPosts : [...prev, ...newPosts];
+                });
+
+                if (newPosts.length < Blog.POSTS_PER_PAGE) {
+                    setHasMore(false);
+                } else {
+                    setHasMore(true);
+                }
+
             } catch (error) {
                 console.error('Error fetching posts:', error);
             } finally {
-                setIsLoading(false);
-            }
-        },
-        [hasMore],
-    );
-
-    useEffect(() => {
-        fetchBlogPosts(page);
-    }, [page, fetchBlogPosts]);
-
-    useEffect(() => {
-        if (isLoading || !hasMore) return;
-
-        const observerCallback = (entries: IntersectionObserverEntry[]) => {
-            const target = entries[0];
-            if (target.isIntersecting && !isLoading && hasMore) {
-                setPage((prev) => prev + 1);
+                setIsLoading((prev) => ({...prev, "posts": false}));
             }
         };
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '100px',
-            threshold: 0.1,
-        };
+        fetchPosts();
+    }, [page, searchParams.tag, searchTerm]); 
 
-        observerRef.current = new IntersectionObserver(
-            observerCallback,
-            observerOptions,
-        );
+    const handleTagFilter = (tagName: string) => {
+        setPage(1);
+        setBlogPosts([]); 
+        setHasMore(true);
 
-        if (loadMoreTrigger.current) {
-            observerRef.current.observe(loadMoreTrigger.current);
+        const newTag = searchParams.tag === tagName ? undefined : tagName;
+        
+        navigate({
+            search: (prev) => ({ ...prev, tag: newTag }),
+        });
+    };
+
+    useEffect(() => {
+        if (searchTerm !== (searchParams.search || '')) {
+             setPage(1);
+             setBlogPosts([]);
+             setHasMore(true);
+             
+             const timeoutId = setTimeout(() => {
+                 navigate({
+                     search: (prev) => ({ ...prev, search: searchTerm || undefined }),
+                 });
+             }, 500);
+
+             return () => clearTimeout(timeoutId);
         }
-
-        return () => {
-            if (observerRef.current) observerRef.current.disconnect();
-        };
-    }, [isLoading, hasMore]);
+    }, [searchTerm, navigate, searchParams.search]);
 
     return (
         <>
             <CustomHero className="blog-hero">
-                <div className="social">
-                    <Share />
-                    <Twitter />
-                    <InstagramIcon />
-                    <Linkedin />
+                <div className="content">
+                    <h1>Blog</h1>
+
+                    <SearchBarComponent
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        bounceTime={1500}
+                    />
+
+                    <div className="tagList">
+                        {isLoading.tags ? (
+                            <LoaderComponent type="loading"/>
+                        ):(
+                            tags.map((tag) => (
+                                <TagsComponent 
+                                    key={tag.id}  
+                                    color={tag.color} 
+                                    name={tag.name} 
+                                    id={tag.id} 
+                                    count={tag.postIds.length} 
+                                    selected={searchParams.tag === tag.slug}
+                                    onClick={() => handleTagFilter(tag.slug)}
+                                />
+                            ))
+                        )}
+                    </div>
                 </div>
-                <h1 className="font_code">Voir les articles</h1>
             </CustomHero>
-            <ShadowOverlay />
+            
 
             <div>
-                <PostGridContainer data={blogPosts} />
+                <PostGridContainer 
+                    count={Blog.POSTS_PER_PAGE}
+                    data={blogPosts} 
+                    loading={isLoading.posts}
+                />
             </div>
-
-            <div
-                id="loadMoreTrigger"
-                ref={loadMoreTrigger}
-                style={{
-                    height: '50px',
-                    margin: '20px 0',
-                    textAlign: 'center',
-                    opacity: hasMore ? 1 : 0.5,
-                }}
-            >
-                {isLoading
-                    ? 'Chargement...'
-                    : hasMore
-                      ? 'Chargement des autres articles...'
-                      : 'Vous avez tout vu !'}
-            </div>
+            
+            {/* empty loader for end posts spacing */}
+            {isLoading.posts &&(
+                <LoaderComponent type="NoLoading" ></LoaderComponent>
+            )}
+            {/* cta load more */}
+            {!isLoading.posts && hasMore && (
+                <LoaderComponent type='NoLoading' >
+                    <span 
+                        onClick={() => setPage((prev) => prev + 1)}
+                        style={{ 
+                            cursor: 'pointer', 
+                            textDecoration: 'underline', 
+                            color: 'var(--primary)', 
+                            fontSize: '1.2rem'
+                        }}
+                    >
+                        En voir plus
+                    </span>
+                </LoaderComponent>
+            )}
+            {/* no more articles */}
+            {!isLoading.posts && !hasMore && blogPosts.length > 0 && (
+                <LoaderComponent type="NoLoading">
+                    Vous avez vu tous les articles.
+                </LoaderComponent>
+                
+            )}
+            {/* no articles found */}
+            {!isLoading.posts && !hasMore && blogPosts.length === 0 && (
+                <LoaderComponent type="NoLoading">
+                    Aucun article trouvé pour cette recherche. 
+                </LoaderComponent>
+            )}
         </>
     );
 }

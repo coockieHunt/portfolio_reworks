@@ -1,69 +1,51 @@
 import * as Styled from './postGrid.style';
 import { Link } from '@tanstack/react-router';
-import React, { useState } from 'react';
-//type
-interface IBlogPost {
-    author: string;
-    post: {
-        id: number;
-        featurend_image: string;
-        authorId: string;
-        content: string;
-        createdAt: string;
-        editedAt: string;
-        published: boolean;
-        slug: string;
-        summary: string;
-        title: string;
-    };
-}
+import { PostCardComponents } from '@/components/Postcard/Postcard.components';
 
-export const PostGridContainer = ({ data }) => {
+//type
+import { IBlogPost } from '@/types/blog.d';
+
+export const PostGridContainer = ({ data, loading, count }: { data: IBlogPost[], loading: boolean, count: number }) => {
     return (
         <>
             <Styled.Container>
+                <h2>Articles: </h2>
                 <Styled.Grid>
-                    {data.map((data) => (
-                        <Link
-                            to={`/blog/${data.post.slug}`}
-                            key={data.post.slug}
-                        >
-                            <Styled.PostPreview
+                    {loading  ? (
+                        Array.from({ length: count }).map((_, index) => (
+                            <PostCardComponents
+                                key={index}
+                                index={index}
+                                slug=""
+                                title=""
+                                summary=""
+                                featured_image=""
+                                authorName=""
+                                publishDate=""
+                                tags={[]}
+                                loading={true}
+                            />
+                        ))
+                    ) : (
+                        data.map((data, index) => (
+                            <Link
+                                to={`/blog/${data.post.slug}`}
                                 key={data.post.slug}
-                                className="post-preview"
                             >
-                                <img
-                                    src={
-                                        data.post.featurend_image ||
-                                        'https://via.placeholder.com/600x400?text=No+Image'
-                                    }
-                                    alt={data.post.title}
-                                />
-
-                                <div className="content">
-                                    <h2
-                                        className="font_code"
-                                        style={{ letterSpacing: '0.1rem' }}
-                                    >
-                                        {data.post.title}
-                                    </h2>
-                                    <div className="info">
-                                        <p>{data.post.summary}</p>
-                                    </div>
-                                    <div className="footer">
-                                        <small>
-                                            By {data.author.name} | Published on{' '}
-                                            {new Date(
-                                                data.post.published
-                                                    ? data.post.createdAt
-                                                    : data.post.editedAt,
-                                            ).toLocaleDateString()}
-                                        </small>
-                                    </div>
-                                </div>
-                            </Styled.PostPreview>
-                        </Link>
-                    ))}
+                            <PostCardComponents
+                                index={index}
+                                slug={data.post.slug}
+                                title={data.post.title}
+                                summary={data.post.summary}
+                                featured_image={data.post.featuredImage}
+                                authorName={data.author.name}
+                                publishDate={data.post.createdAt}
+                                tags={data.tags}
+                                loading={false}
+                            />
+                            </Link>
+                        ))
+                    )} 
                 </Styled.Grid>
             </Styled.Container>
         </>
