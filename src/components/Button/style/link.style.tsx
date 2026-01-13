@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
-export const LinkContainer = styled.a`
+export const LinkContainer = styled.span`
     cursor: pointer;
-    text-decoration: none;
-    color: inherit;
+    color: var(--primary);
+    text-decoration: underline;
+
+    &:hover {
+        color: var(--secondary);
+    }
 `;

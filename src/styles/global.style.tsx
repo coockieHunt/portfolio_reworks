@@ -58,6 +58,10 @@ const GlobalStyle = createGlobalStyle`
         scrollbar-width: thin;
         scrollbar-color: var(--primary) #121212;
         width: 100%;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
     body {

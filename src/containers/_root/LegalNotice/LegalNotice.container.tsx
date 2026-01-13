@@ -1,5 +1,6 @@
 import React from 'react';
 import { ContactEmail } from '@/config';
+import { Link } from '@/components/Button/LinkButton';
 
 const SITE_INFO = {
     author: 'Jonathan Gleyze',
@@ -23,7 +24,9 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({ href, children }) => (
 );
 
 const MailLink: React.FC = () => (
-    <a href={`mailto:${ContactEmail}`}>{ContactEmail}</a>
+    <Link type="external" href={`mailto:${ContactEmail}`}>
+        {ContactEmail}
+    </Link>
 );
 
 interface SectionProps {
@@ -84,9 +87,9 @@ export const LegalNoticeContent: React.FC = () => {
                     <li>Adresse : {SITE_INFO.hosting.address}</li>
                     <li>
                         Site :{' '}
-                        <ExternalLink href={SITE_INFO.hosting.website}>
+                        <Link href={SITE_INFO.hosting.website} type="external">
                             hostinger.com
-                        </ExternalLink>
+                        </Link>
                     </li>
                 </ul>
 
@@ -159,9 +162,9 @@ export const LegalNoticeContent: React.FC = () => {
                 </ul>
                 <p>
                     Dépôt GitHub :{' '}
-                    <ExternalLink href={SITE_INFO.repoUrl}>
+                    <Link href={SITE_INFO.repoUrl} type="external">
                         {SITE_INFO.repoUrl.replace('https://', '')}
-                    </ExternalLink>
+                    </Link>
                 </p>
             </LegalSection>
 

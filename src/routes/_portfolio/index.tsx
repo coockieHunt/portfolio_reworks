@@ -9,7 +9,6 @@ import { URL } from '../../data';
 import { trackEvent } from '../../components/umami/umami.components';
 import { GlobalLoader } from '../../components/Loading/GlobalLoader.compenent';
 
-//containers
 import { HeroContainer } from '@/containers/_portfolio/Hero/hero.container';
 import { CatchContainer } from '../../containers/_portfolio/Catch/catch.container';
 
@@ -59,16 +58,38 @@ const ContactContainer = lazy(() =>
     ),
 );
 
+const NewPostContainer = lazy(() =>
+    import('@/containers/_portfolio/NewPost/NewPost.container').then(
+        (module) => ({ default: module.NewPostContainer }),
+    ),
+);
+
+const preloadComponents = () =>
+    Promise.all([
+        import('@/containers/_portfolio/MyProject/MyProject.container'),
+        import('@/containers/_portfolio/Benefit/benefit.container'),
+        import('@/containers/_portfolio/Quote/Quote.containers'),
+        import('@/containers/_portfolio/Stack/Stack.containers'),
+        import('@/containers/_portfolio/Services/Service.containers'),
+        import('@/containers/_portfolio/Product/product.container'),
+        import('@/containers/_portfolio/ProcessTimeline/ProcessTileline.container'),
+        import('@/containers/_portfolio/Contact/Contact.container'),
+        import('@/containers/_portfolio/NewPost/NewPost.container'),
+        import('@/components/Text/Text.component'),
+    ]);
+
 export const Route = createFileRoute('/_portfolio/' as any)({
     component: PortfolioIndex,
+    beforeLoad: preloadComponents,
 });
 
-// Portfolio Page Component
 export function PortfolioIndex() {
     return (
         <>
             <HeroContainer id="hero" />
             <CatchContainer id="catch" />
+
+            <NewPostContainer id="newpost" />
 
             <Suspense fallback={<GlobalLoader />}>
                 <ProductContainer id="product" />

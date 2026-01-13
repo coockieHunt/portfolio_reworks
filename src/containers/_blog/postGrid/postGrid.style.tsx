@@ -19,20 +19,18 @@ const fadeInUp = keyframes`
 export const Container = styled.div`
     width: 90%;
     margin: 0 auto;
-
-    h2 {
-        margin-bottom: 20px;
-        color: var(--primary);
-    }
 `;
 
 
 export const Grid = styled.div`
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+    & ul{
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+   
 
 `;
 

@@ -1,6 +1,6 @@
 // React
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link as ScrollLink } from 'react-scroll'; // Alias pour éviter la confusion
+import { Link as ScrollLink } from 'react-scroll';
 import { Link as RouterLink } from '@tanstack/react-router';
 
 // Hooks & Context
@@ -117,7 +117,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     return (
         <Styled.NavigationContainer className={menuOpen ? 'NavOpen' : 'NavClose'}>
             <Styled.BrandContainer>
-                <RouterLink to="/">
+                <RouterLink to="/" aria-label="Aller à la page d'accueil">
                     <LogoComponent
                         version="simple-full"
                         style={{ width: '16px', height: 'auto', color: brandColor }}

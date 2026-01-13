@@ -23,6 +23,7 @@ export const ContactInfo = () => {
                         className="ItemInfo"
                         href={`mailto:${ContactEmail}`}
                         ariaLabel="Email"
+                        type="external"
                     >
                         <Mail />
                         <div className="textInfo">
@@ -34,6 +35,7 @@ export const ContactInfo = () => {
                         className="ItemInfo"
                         href="https://maps.app.goo.gl/jVRCWUaxotidE7cx8"
                         ariaLabel="Map"
+                        type="external"
                     >
                         <MapPin />
                         <div className="textInfo">
@@ -43,8 +45,9 @@ export const ContactInfo = () => {
                     </Link>
                     <Link
                         className="ItemInfo"
-                        href="https://linkedin.com/in/jonathan-gleyze"
+                        href="https://www.linkedin.com/in/jonathan-gleyze/"
                         ariaLabel="LinkedIn"
+                        type="external"
                     >
                         <Linkedin />
                         <div className="textInfo">

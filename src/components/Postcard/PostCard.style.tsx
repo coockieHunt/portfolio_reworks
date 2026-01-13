@@ -22,13 +22,11 @@ export const Tag = styled.span<{ $color?: string }>`
     background-color: ${props => props.$color ? HexToRgbaConverter(props.$color, 0.1) : 'transparent'};
 `;
 
-export const PostPreview = styled.li<{ loading: boolean }>`
+export const PostPreview = styled.article<{ loading: boolean }>`
     height: ${heightPostCard}px; 
     width: 100%;
-    list-style: none;
     background-color: #1e1e1e; 
-    display: flex;
-    flex-direction: row;
+    
     border: 1px solid ${HexToRgbaConverter('var(--primary)', 0.4)};
     border-radius: 8px;
     overflow: hidden;
@@ -36,6 +34,15 @@ export const PostPreview = styled.li<{ loading: boolean }>`
 
     opacity: ${props => (props.loading ? 0.8 : 1)};
     pointer-events: ${props => (props.loading ? 'none' : 'auto')};
+
+    & > a {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        text-decoration: none; 
+        color: inherit;
+    }
 
     & img {
         width: ${heightPostCard}px;

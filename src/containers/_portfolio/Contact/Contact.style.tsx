@@ -41,6 +41,8 @@ export const Info = styled.div`
         rgba(29, 29, 29, 0.2)
     );
     backdrop-filter: blur(10px);
+    color: var(--font-base);
+    
 
     & .content {
         display: flex;
@@ -70,6 +72,8 @@ export const Info = styled.div`
             flex-direction: column;
             padding-bottom: 20px;
 
+            & a {text-decoration: none !important;}
+
             & .ItemInfo {
                 display: flex;
                 align-items: center;
@@ -77,11 +81,13 @@ export const Info = styled.div`
                 padding: 12px 8px;
                 border-radius: ${BORDER_RADIUS.xlarge};
                 transition: all 0.3s ease;
+                color: var(--font-base);
 
                 & svg {
                     height: 3em;
                     width: auto;
                     padding: 12px;
+                    color: white;
                     background-color: var(--primary);
                     border-radius: ${BORDER_RADIUS.xlarge};
                     transition:
@@ -106,6 +112,7 @@ export const Info = styled.div`
                     }
                 }
 
+              
                 &:hover {
                     transform: translateX(8px);
                     background: rgba(255, 255, 255, 0.03);
