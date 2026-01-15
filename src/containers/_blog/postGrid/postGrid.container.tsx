@@ -1,5 +1,4 @@
 import * as Styled from './postGrid.style';
-import { Link } from '@tanstack/react-router';
 import { PostCardComponents } from '@/components/Postcard/Postcard.components';
 
 //type
@@ -30,10 +29,6 @@ export const PostGridContainer = ({ data, loading, count }: { data: IBlogPost[],
                     ) : (
                         data.map((data, index) => (
                             <li key={data.post.slug} style={{ listStyle: 'none' }}>
-                                <Link
-                                    to={`/blog/${data.post.slug}`}
-                                    aria-label={`Read more about ${data.post.title}`}
-                                >
                                     <PostCardComponents
                                         index={index}
                                         slug={data.post.slug}
@@ -45,7 +40,6 @@ export const PostGridContainer = ({ data, loading, count }: { data: IBlogPost[],
                                         tags={data.tags}
                                         loading={false}
                                     />
-                                </Link>
                             </li>
                         ))
                     )} 

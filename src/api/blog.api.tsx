@@ -45,7 +45,6 @@ export async function getBlogPostsOffset(
             titleContains,
             tagsContains,
         });
-        console.log('API Response:', resp);
         return resp.data;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 429) {

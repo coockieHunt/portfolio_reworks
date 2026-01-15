@@ -6,7 +6,7 @@
         "@fontsource/montserrat": "^5.2.8",
         "@fontsource/source-code-pro": "^5.2.7",
         "@tanstack/react-router": "^1.144.0",
-        "@tanstack/react-router-devtools": "^1.144.0",
+        "@tanstack/react-router-devtools": "^1.150.0",
         "axios": "^1.13.2",
         "dompurify": "^3.3.1",
         "framer-motion": "^12.23.24",
@@ -44,7 +44,6 @@
         ]
     },
     "devDependencies": {
-        "@tanstack/router-devtools": "^1.146.0",
         "@tanstack/router-plugin": "^1.144.0",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.0",

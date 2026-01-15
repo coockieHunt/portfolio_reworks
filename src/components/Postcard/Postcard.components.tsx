@@ -28,14 +28,14 @@ export const PostCardComponents = ({
     slug,
 }: PostCardProps) => {
     return(
-        <Styled.PostPreview loading={loading}>
+        <Styled.PostPreview $loading={loading}>
             <Link 
                 to={loading ? '#' : `/blog/${slug}`} 
                 aria-label={loading ? 'Loading...' : `Read more about ${title}`}
             >
                 <img
                     src={
-                        getProxyUrl(featured_image) ||
+                        getProxyUrl(featured_image, { height: 300, width: 300 }) ||
                         'https://via.placeholder.com/600x400?text=No+Image'
                     }
                     alt={title}

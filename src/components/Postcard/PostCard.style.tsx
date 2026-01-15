@@ -22,7 +22,7 @@ export const Tag = styled.span<{ $color?: string }>`
     background-color: ${props => props.$color ? HexToRgbaConverter(props.$color, 0.1) : 'transparent'};
 `;
 
-export const PostPreview = styled.article<{ loading: boolean }>`
+export const PostPreview = styled.article<{ $loading: boolean }>`
     height: ${heightPostCard}px; 
     width: 100%;
     background-color: #1e1e1e; 
@@ -32,8 +32,8 @@ export const PostPreview = styled.article<{ loading: boolean }>`
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
-    opacity: ${props => (props.loading ? 0.8 : 1)};
-    pointer-events: ${props => (props.loading ? 'none' : 'auto')};
+    opacity: ${props => (props.$loading ? 0.8 : 1)};
+    pointer-events: ${props => (props.$loading ? 'none' : 'auto')};
 
     & > a {
         display: flex;
@@ -48,12 +48,12 @@ export const PostPreview = styled.article<{ loading: boolean }>`
         width: ${heightPostCard}px;
         align-self: stretch; 
         object-fit: cover;
-        display: ${props => props.loading ? 'none' : 'block'};
+        display: ${props => props.$loading ? 'none' : 'block'};
     }
 
     & .content {
         flex: 1;
-        display: ${props => props.loading ? 'none' : 'flex'};
+        display: ${props => props.$loading ? 'none' : 'flex'};
         flex-direction: column;
         position: relative;
         padding: 15px 20px; 
@@ -129,7 +129,7 @@ export const PostPreview = styled.article<{ loading: boolean }>`
         }
     }
 
-    ${props => props.loading && css`
+    ${props => props.$loading && css`
         background: #1e1e1e;
         background-image: linear-gradient(
             to right,

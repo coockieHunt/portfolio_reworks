@@ -96,7 +96,9 @@ export const PostContainer = ({
             
             if (srcIndex >= 0) {
                 const originalSrc = token.attrs[srcIndex][1];
-                const resolvedSrc = resolveImageUrl(originalSrc);
+                const resolvedSrc = resolveImageUrl(
+                    originalSrc, { height: 300, width: 300 }
+                );
                 token.attrs[srcIndex][1] = resolvedSrc;
             }
             
