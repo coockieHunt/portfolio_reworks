@@ -1,17 +1,15 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { relations } from 'drizzle-orm';
+import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
 
-
-// Define the post_author table
 export const post_author = sqliteTable('post_author', {
     id: integer('id').primaryKey({ autoIncrement: true }),
     name: text('name').unique().notNull(),
     describ: text('describ').notNull(),
 });
 
-// Define the posts table
 export const posts = sqliteTable('posts', {
     id: integer('id').primaryKey({ autoIncrement: true }),
-    featurend_image: text('featured_image'),
+    featuredImage: text('featured_image'), 
     title: text('title').notNull(),
     slug: text('slug').notNull().unique(),
     content: text('content').notNull(),
@@ -24,3 +22,48 @@ export const posts = sqliteTable('posts', {
         .notNull()
         .references(() => post_author.id), 
 });
+
+export const tags = sqliteTable('tags', {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    name: text('name').notNull(),
+    slug: text('slug').notNull().unique(),
+    color: text('color').notNull(),
+});
+
+export const postTags = sqliteTable('post_tags', {
+    postId: integer('post_id')
+        .notNull()
+        .references(() => posts.id, { onDelete: 'cascade' }),
+    tagId: integer('tag_id')
+        .notNull()
+        .references(() => tags.id, { onDelete: 'cascade' }), 
+}, (t) => ({
+    pk: primaryKey({ columns: [t.postId, t.tagId] }),
+}));
+
+export const postAuthorRelations = relations(post_author, ({ many }) => ({
+    posts: many(posts),
+}));
+
+export const postsRelations = relations(posts, ({ one, many }) => ({
+    author: one(post_author, {
+        fields: [posts.authorId],
+        references: [post_author.id],
+    }),
+    postTags: many(postTags),
+}));
+
+export const tagsRelations = relations(tags, ({ many }) => ({
+    postTags: many(postTags),
+}));
+
+export const postTagsRelations = relations(postTags, ({ one }) => ({
+    post: one(posts, {
+        fields: [postTags.postId],
+        references: [posts.id],
+    }),
+    tag: one(tags, {
+        fields: [postTags.tagId],
+        references: [tags.id],
+    }),
+}));

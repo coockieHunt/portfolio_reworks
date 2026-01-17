@@ -1,11 +1,11 @@
 meta {
-  name: New OpenGraph
+  name: OG Get Image
   type: http
   seq: 1
 }
 
 get {
-  url: {{base_url}}{{endPointAsset}}/opengraph/get?title=GitHub lance « GitMind » : Commitez votre code par la pensée grâce à Neuralink&slug=tutori&author=jonathan&date=2025-12-31T15:23:15.000Z
+  url: {{base_url}}{{endPointAsset}}/opengraph/get?title=Mon%20Article%20de%20Blog&slug=mon-article&author=jonathan&date=2026-01-16T12:00:00.000Z
   body: none
   auth: inherit
 }
@@ -54,6 +54,6 @@ docs {
   - `author`: Author name
   - `date`: Publication date
   
-  Images are cached on Cloudinary and regenerated if post is updated.
+  Images are cached locally and regenerated if post is updated.
   Returns PNG image (1200x630px) optimized for social media.
 }

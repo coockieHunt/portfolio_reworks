@@ -1,0 +1,16 @@
+meta {
+  name: 🔒Delete
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/assets/delete/blog/MyAsset
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

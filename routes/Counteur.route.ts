@@ -50,7 +50,7 @@ counterRouter.get('/get/:name',
     rateLimiter, 
     param('name').custom(validateRedisKey),
     validateRequest,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params; 
         const redisKey = getValidatedRedisKey(name);
 
@@ -93,7 +93,7 @@ counterRouter.post('/increment/:name',
     rateLimiter, 
     param('name').custom(validateRedisKey),
     validateRequest,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params;
         const redisKey = getValidatedRedisKey(name);
 
@@ -141,7 +141,7 @@ counterRouter.post('/decrement/:name',
     param('name').custom(validateRedisKey),
     validateRequest,
     authenticateToken,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params;
         const redisKey = getValidatedRedisKey(name);
 
@@ -194,7 +194,7 @@ counterRouter.post('/reset/:name',
     param('name').custom(validateRedisKey),
     validateRequest,
     authenticateToken,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params;
         const redisKey = getValidatedRedisKey(name);
 

@@ -1,0 +1,16 @@
+meta {
+  name: 🔒 Cache Clear By ID
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/assets/cache/clear/MyAsset
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

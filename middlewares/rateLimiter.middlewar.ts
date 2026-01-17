@@ -1,23 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import chalk from 'chalk';
 import { match } from 'path-to-regexp'; 
+import { consola } from "consola";
 
-// services
 import { RedisClient } from '../services/Redis.service';
 import { AuthService } from '../services/Auth.service';
 
-// config
 import cfg from '../config/default';
 
-// log
-import { writeToLog } from '../middlewares/log.middlewar';
+import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 
-// utils
 import { normalizeUrl } from '../utils/url.helper';
 
-//token 
 import jwt from 'jsonwebtoken';
-
 
 interface RouteConfig {
     match: {
@@ -50,7 +45,7 @@ const rateConfig: RateConfig | null = (() => {
     try {
         return (cfg.rateLimiter as RateConfig) || null;
     } catch (err) {
-        console.warn(chalk.yellow('RateLimiter: unable to read config.rateLimiter, falling back to env/defaults'));
+        consola.warn('RateLimiter: unable to read config.rateLimiter, falling back to env/defaults');
         return null;
     }
 })();
@@ -60,36 +55,36 @@ try {
     const defaultCfg = rateConfig?.default || { windowSeconds: 60, maxRequests: 5 };
     const routesList = rateConfig?.routes ? Object.keys(rateConfig.routes) : [];
     
-    const statusLabel = enabled ? chalk.bgGreen.black(' ACTIVE ') : chalk.bgRed.white(' DISABLED ');
+    const statusLabel = enabled ? chalk.green('ACTIVE') : chalk.red('DISABLED');
     
-    console.log(chalk.cyan('🛡️  Rate Limiter Configuration:'));
-    console.log(`   ${chalk.gray('Status:')}  ${statusLabel}`);
-    console.log(`   ${chalk.gray('Default:')} ${chalk.yellow(defaultCfg.maxRequests)} req / ${chalk.yellow(defaultCfg.windowSeconds + 's')}`);
-    
-    if (routesList.length > 0) {
-        console.log(`   ${chalk.gray('Ruled Routes:')}  ${chalk.magenta(routesList.join(', '))}`);
-    } else {
-        console.log(`   ${chalk.gray('Routes:')}  ${chalk.italic.dim('none')}`);
-    }
-    console.log(chalk.gray('─'.repeat(40)));
+    // Format the list to break line every 4 elements to avoid breaking the box
+    const formattedRoutes = routesList.reduce((acc, route, i) => {
+        return acc + ((i > 0 && i % 4 === 0) ? ',\n  ' : (i > 0 ? ', ' : '')) + route;
+    }, '');
+
+    const routesDisplay = routesList.length > 0 
+        ? chalk.magenta(formattedRoutes) 
+        : chalk.italic.dim('none');
+
+    consola.box({
+        title: chalk.bold('🛡️  Rate Limiter Configuration'),
+        message: [
+            `${chalk.bold('Status:')}  ${statusLabel}`,
+            `${chalk.bold('Default:')} ${chalk.yellow(defaultCfg.maxRequests)} req / ${chalk.yellow(defaultCfg.windowSeconds + 's')}`,
+            `${chalk.bold('Routes:')}  ${routesDisplay}`
+        ].join('\n'),
+        style: {
+            borderColor: enabled ? "green" : "red",
+            borderStyle: "round",
+        }
+    });
 
     const logMsg = `RateLimiter: enabled=${enabled}, default=${defaultCfg.maxRequests}/${defaultCfg.windowSeconds}s, route=${routesList.join(',') || 'none'}`;
     writeToLog(logMsg, 'rateLimiter');
 } catch (e) {
-    console.log(chalk.green('RateLimiter loaded with default settings.'));
+    consola.success('RateLimiter loaded with default settings.');
 }
 
-
-/**
- * Determines rate limiting configuration for the current request
- * 
- * Matches request against configured routes to find applicable limits.
- * Falls back to default limits if no specific route matches.
- * 
- * @param req - Express request object
- * @returns Rate limit context with key, window, max requests, and admin bypass flag
- * @private
- */
 function getLimitsContext(req: Request): LimitContext {
     const defaults = {
         windowSeconds: parseInt(process.env.RATE_WINDOW_SECONDS || '60', 10),
@@ -122,7 +117,7 @@ function getLimitsContext(req: Request): LimitContext {
                         };
                     }
                 } catch (err) {
-                    console.error(chalk.red(`RateLimiter: Pattern invalide pour la route [${key}]: ${configUrl}`));
+                    consola.error(`RateLimiter: Pattern invalide pour la route [${key}]: ${configUrl}`);
                 }
             }
         }
@@ -142,31 +137,18 @@ function getLimitsContext(req: Request): LimitContext {
     return { key: fallbackKey, ...defaults, adminBypass: false };
 }
 
-/**
- * Rate limiting middleware
- * 
- * Limits requests per IP address based on configured rules.
- * Uses Redis for distributed rate limit tracking.
- * Supports admin bypass via JWT authentication.
- * Adds rate limit headers to responses.
- * 
- * @param req - Express request object
- * @param res - Express response object
- * @param next - Express next function
- * @returns Promise resolving when rate check completes or 429 response if exceeded
- */
 export async function rateLimiter(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     try {
         const redis = RedisClient;
+        const logger = consola.withTag('RateLimit');
         
         if (!redis || !redis.isReady) {
-            console.warn(chalk.yellow('RateLimiter: Redis not connected, skipping.'));
+            logger.warn('Redis not connected, skipping.');
             return next();
         }
 
         const { key: routeKey, windowSeconds, maxRequests, adminBypass } = getLimitsContext(req);
 
-        // bypass rate limit for admin logged
         if (adminBypass) {
             const authHeader = req.headers['authorization'];
             const token = authHeader && authHeader.split(' ')[1];
@@ -176,8 +158,7 @@ export async function rateLimiter(req: Request, res: Response, next: NextFunctio
 
                     if (!isRevoked) {
                         const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
-
-                        console.log(chalk.yellow('[RateLimit]'), chalk.cyan('Admin bypass activated for user'), (user as any).name);
+                        logger.info(chalk.cyan('Admin bypass activated for user'), (user as any).name);
                         return next(); 
                     }
 
@@ -191,7 +172,6 @@ export async function rateLimiter(req: Request, res: Response, next: NextFunctio
         const current = await redis.incr(redisKey);
         
         const isDefault = routeKey.startsWith('default:');
-        const prefix = chalk.yellow('[RateLimit]');
         const status = isDefault ? chalk.red.bold('unRegister') : chalk.green.bold('register');
         
         const methodColors: Record<string, any> = {
@@ -199,8 +179,7 @@ export async function rateLimiter(req: Request, res: Response, next: NextFunctio
         };
         const styledMethod = (methodColors[req.method] || chalk.white)(req.method);
 
-        console.log([
-            prefix,
+        logger.log([
             status,
             `${chalk.gray('name=')}${chalk.cyan(routeKey)}`,
             `${chalk.gray('method=')}${styledMethod}`,
@@ -215,7 +194,8 @@ export async function rateLimiter(req: Request, res: Response, next: NextFunctio
 
         if (current > maxRequests) {
             const ttl = await redis.ttl(redisKey);
-            res.set('Retry-After', String(ttl > 0 ? ttl : windowSeconds));
+            logConsole('RateLimit', req.originalUrl || req.url, 'FAIL', `Rate limit exceeded for IP {ip}, retry after {ttl}s`, { ip, ttl });
+            writeToLog(`[RateLimit] Rate limit exceeded for IP ${ip} cooldown ${ttl}`, 'rateLimiter');
             return res.status(429).json({ 
                 success: false, 
                 message: 'Too many requests, please retry later.', 
@@ -229,7 +209,7 @@ export async function rateLimiter(req: Request, res: Response, next: NextFunctio
         
         return next();
     } catch (err: any) {
-        console.error(chalk.red('RateLimiter error:'), err);
+        consola.error('RateLimiter error:', err);
         return next();
     }
 }

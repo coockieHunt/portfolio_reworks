@@ -3,6 +3,13 @@ import { Request, Response, NextFunction } from 'express';
 
 // types
 import { ApiResponse } from '../types/api';
+import chalk from 'chalk';
+
+const SpacerStart = (method: string, url: string) => {
+    const timestamp = new Date().toLocaleTimeString();
+    console.log(chalk.gray('────────────────────────────────────────────────────────────'));
+    console.log(chalk.gray(chalk.cyan(`[${timestamp}]`) + chalk.yellow(` ${method} `) + chalk.white(url)));
+};
 
 /**
  * Response standardization middleware
@@ -16,6 +23,10 @@ import { ApiResponse } from '../types/api';
  * @param next - Express next function
  */
 export const responseHandler = (req: Request, res: Response, next: NextFunction) => {
+    
+    // Display the start spacer for each request
+    SpacerStart(req.method, req.originalUrl);
+    
     // wrap response methods
     res.standard = (statusCode: number, data: any = null, message: string = '') => {
         const response: ApiResponse = {
@@ -24,7 +35,6 @@ export const responseHandler = (req: Request, res: Response, next: NextFunction)
             data,
             timestamp: new Date().toISOString(),
         };
-        console.log('----------------------------------------');
         return res.status(statusCode).json(response);
     };
 
@@ -41,7 +51,6 @@ export const responseHandler = (req: Request, res: Response, next: NextFunction)
             error: process.env.NODE_ENV === 'development' ? error : undefined, 
             timestamp: new Date().toISOString(),
         };
-        console.log('----------------------------------------');
         return res.status(statusCode).json(response);
     };
 
@@ -55,7 +64,6 @@ export const responseHandler = (req: Request, res: Response, next: NextFunction)
             },
             timestamp: new Date().toISOString(),
         };
-        console.log('----------------------------------------');
         return res.status(404).json(response);
     };
 
@@ -66,7 +74,6 @@ export const responseHandler = (req: Request, res: Response, next: NextFunction)
             message,
             timestamp: new Date().toISOString(),
         };
-        console.log('----------------------------------------');
         return res.status(401).json(response);
     };
 
@@ -80,7 +87,6 @@ export const responseHandler = (req: Request, res: Response, next: NextFunction)
             },
             timestamp: new Date().toISOString(),
         };
-        console.log('----------------------------------------');
         return res.status(201).json(response);
     };
 
@@ -94,7 +100,6 @@ export const responseHandler = (req: Request, res: Response, next: NextFunction)
             },
             timestamp: new Date().toISOString(),
         };
-        console.log('----------------------------------------');
         return res.status(200).json(response);
     };
 

@@ -16,8 +16,6 @@ import { RedisClient } from '../services/Redis.service';
 import { pingSqlite } from '../utils/sqllite.helper';
 
 // config
-import cfg from '../config/default';
-import pkg from '../package.json' with { type: 'json' };
 
 
 const healthCheckRouter: Router = express.Router({ mergeParams: true });
@@ -35,7 +33,6 @@ healthCheckRouter.get('/', rateLimiter, async (req: Request, res: Response) => {
 
     const healthStatus = {
         status: "ok",
-        version: pkg.version,
         uptime: uptime(),
         service: {
             redis: "down",

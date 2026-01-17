@@ -2,7 +2,7 @@
 import express, { Request, Response, Router } from 'express';
 
 //validators
-import { body, param, query, check } from 'express-validator';
+import { body, param} from 'express-validator';
 
 // services
 import { BlogService } from '../services/Blog.service';
@@ -25,44 +25,49 @@ BlogRoute.post('/all',
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-    try {
-        const page = req.body.page ? parseInt(req.body.page) : 1;
-        const limit = req.body.limit ? parseInt(req.body.limit) : 20;
+        try {
+            const page = req.body.page ? parseInt(req.body.page) : 1;
+            const limit = req.body.limit ? parseInt(req.body.limit) : 20;
 
-        const data = await BlogService.getAllPosts(page, limit);
-        
-        logConsole('GET', '/blog/', 'INFO', `Retrieved blog posts`, { count: data.posts.length, page });
-        writeToLog(`BlogRoute READ ok count=${data.posts.length} page=${page}`, 'blog');
-        return res.success(data);
-    } catch (error) {
-        logConsole('GET', '/blog/', 'FAIL', `Error retrieving blog posts`, { error });
-        writeToLog(`BlogRoute READ error`, 'blog');
-        return res.error("error retrieving blog posts", 500, error);
-    }
+            const data = await BlogService.getAllPosts(page, limit);
+            
+            logConsole('GET', '/blog/', 'INFO', `Retrieved blog posts`, { count: data.posts.length, page });
+            writeToLog(`BlogRoute READ ok count=${data.posts.length} page=${page}`, 'blog');
+            return res.success(data);
+        } catch (error) {
+            logConsole('GET', '/blog/', 'FAIL', `Error retrieving blog posts`, { error });
+            writeToLog(`BlogRoute READ error`, 'blog');
+            return res.error("error retrieving blog posts", 500, error);
+        }
 }, responseHandler);
 
 BlogRoute.post('/offset',
     rateLimiter,[
         body('min').optional().isInt({ min: 1 }).withMessage('Min must be a positive integer'),
         body('max').optional().isInt({ min: 1, max: 100 }).withMessage('Max must be a positive integer between 1 and 100'),
-        body('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
+
+        body('tagsContains').optional().isString().withMessage('Each tag must be a string'),
+        body('titleContains').optional().isString().withMessage('Title filter must be a string'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-    try {
-        const min = req.body.min ? parseInt(req.body.min) : 1;
-        const max = req.body.max ? parseInt(req.body.max) : 100;
+        try {
+            const min = req.body.min ? parseInt(req.body.min) : 1;
+            const max = req.body.max ? parseInt(req.body.max) : 100;
 
-        const data = await BlogService.getPostOffset(min, max);
-        
-        logConsole('GET', '/blog/offset', 'INFO', `Retrieved blog posts with offset`, { count: data.posts.length, min, max });
-        writeToLog(`BlogRoute READ OFFSET ok count=${data.posts.length} min=${min} max=${max}`, 'blog');
-        return res.success(data);
-    } catch (error) {
-        logConsole('GET', '/blog/offset', 'FAIL', `Error retrieving blog posts with offset`, { error });
-        writeToLog(`BlogRoute READ OFFSET error`, 'blog');
-        return res.error("error retrieving blog posts with offset", 500, error);
-    }
+            const tagsContains = req.body.tagsContains ? req.body.tagsContains.split(',').map((tag: string) => tag.trim()) : [];
+            const titleContains = req.body.titleContains ? req.body.titleContains : '';
+
+            const data = await BlogService.getPostOffset(min, max, tagsContains, titleContains);
+            
+            logConsole('GET', '/blog/offset', 'INFO', `Retrieved blog posts with offset`, { count: data.posts.length, min, max, tagsContains, titleContains });
+            writeToLog(`BlogRoute READ OFFSET ok count=${data.posts.length} min=${min} max=${max}`, 'blog');
+            return res.success(data);
+        } catch (error) {
+            logConsole('GET', '/blog/offset', 'FAIL', `Error retrieving blog posts with offset`, { error });
+            writeToLog(`BlogRoute READ OFFSET error`, 'blog');
+            return res.error("error retrieving blog posts with offset", 500, error);
+        }
 }, responseHandler);
 
 // GET
@@ -70,7 +75,7 @@ BlogRoute.get('/:slug',
     rateLimiter, 
     param('slug').notEmpty().withMessage('Slug is required'),
     validateRequest,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ slug: string }>, res: Response) => {
         try {
             const data = await BlogService.getPostBySlug(req.params.slug);
             if (!data.data) {
@@ -100,15 +105,17 @@ BlogRoute.post('/new',
         body('slug').notEmpty().withMessage('Slug is required'),
         body('content').notEmpty().withMessage('Content is required'),
         body('summary').optional().isString().withMessage('Summary must be a string'),
-        body('authorId').notEmpty().withMessage('Author ID is required')
+        body('authorId').notEmpty().withMessage('Author ID is required'),
+        body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
+        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer')
     ],
     validateRequest,
     authenticateToken,
     async (req: Request, res: Response) => {
-        const { title, slug, content, summary, authorId } = req.body;
+        const { title, slug, content, summary, authorId, tagIds } = req.body;
 
         try {
-            const newPost = await BlogService.createPost({ title, slug, content, summary, authorId });
+            const newPost = await BlogService.createPost({ title, slug, content, summary, authorId, tagIds });
             logConsole('POST', '/blog/', 'OK', `Created new blog post`, { slug });
             writeToLog(`BlogRoute CREATE ok slug=${slug}`, 'blog');
 
@@ -137,15 +144,17 @@ BlogRoute.put('/edit/update/:slug',
         body('title').optional().isString(),
         body('content').optional().isString(),
         body('summary').optional().isString(),
-        body('authorId').optional().isNumeric()
+        body('authorId').optional().isNumeric(),
+        body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
+        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer')
     ],
     validateRequest,
     authenticateToken,
-    async (req: Request, res: Response) => {
-        const { title, content, summary, authorId } = req.body;
-        console.log( title, content, summary, authorId );
+    async (req: Request<{ slug: string }>, res: Response) => {
+        const { title, content, summary, authorId, tagIds } = req.body;
+        console.log( title, content, summary, authorId, tagIds );
         try {
-            const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId });
+            const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId, tagIds });
 
             if (!updatedPost) {
                 logConsole('PUT', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
@@ -174,7 +183,7 @@ BlogRoute.put('/edit/publish/:slug',
     ],
     validateRequest,
     authenticateToken,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ slug: string }>, res: Response) => {
         const { publish } = req.body;
         try {
             const updatedPost = await BlogService.publishedPostBySlug(req.params.slug, publish);
@@ -204,7 +213,7 @@ BlogRoute.delete('/:slug',
     param('slug').notEmpty().withMessage('Slug is required'),
     validateRequest,
     authenticateToken,
-    async (req, res, next) => {
+    async (req: Request<{ slug: string }>, res: Response, next) => {
         try {
             const deleted = await BlogService.deletePostBySlug(req.params.slug);
 
@@ -232,7 +241,7 @@ BlogRoute.delete('/cache/delete/:slug',
     param('slug').notEmpty().withMessage('Slug is required'),
     validateRequest,
     authenticateToken,
-    async (req, res, next) => {
+    async (req: Request<{ slug: string }>, res: Response, next) => {
         try {
             const deleted = await BlogService.deleteCacheBySlug(req.params.slug);
             if (!deleted) {

@@ -10,10 +10,7 @@ import rateLimiter from '../middlewares/rateLimiter.middlewar';
 import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 
-// syteme
-import dotenv from 'dotenv';
 
-dotenv.config();
 
 const mailRouter: Router = express.Router({ mergeParams: true });
 

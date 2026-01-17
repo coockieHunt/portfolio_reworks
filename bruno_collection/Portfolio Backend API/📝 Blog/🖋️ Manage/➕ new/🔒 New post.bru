@@ -16,7 +16,8 @@ body:json {
     "slug": "{{slugBlog_demoName}}",
     "content": "content of new post",
     "summary": "sammary",
-    "authorId": 1
+    "authorId": 1,
+    "tagIds": [1, 2]
   }
 }
 
@@ -40,4 +41,5 @@ docs {
   Optional:
   - `slug`: URL-friendly identifier (auto-generated from title if omitted)
   - `summary`: Short description
+  - `tagIds`: Array of tag IDs to associate with the post
 }

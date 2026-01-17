@@ -136,3 +136,5 @@ default.json filter.clean-json.clean "sed '/\"pass\":/d; /\"host\":/d; /\"secure
 
 *.db
 
+./assets/**
+

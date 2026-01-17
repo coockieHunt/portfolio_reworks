@@ -1,11 +1,11 @@
 meta {
-  name: Get image proxy
+  name: Proxy Image
   type: http
   seq: 2
 }
 
 get {
-  url: {{base_url}}{{endPointAsset}}/cloudinary/proxy/xmipq468et0s4qqfxtn
+  url: {{base_url}}{{endPointAsset}}/images/proxy/blog/MyAsset
   body: none
   auth: inherit
 }
@@ -17,14 +17,14 @@ settings {
 
 docs {
   # Get Image Proxy
-  Proxies images from Cloudinary with caching support.
+  Proxies images from local assets storage with caching support.
   
-  **Route:** `GET /asset/cloudinary/proxy/:publicId`
+  **Route:** `GET /assets/proxy/:publicId`
   
   Supports:
   - ETag-based conditional requests (304 Not Modified)
   - URL caching for 1 hour
   - Automatic content-type detection
   
-  Replace `:publicId` with the Cloudinary resource identifier.
+  Replace `:publicId` with the asset resource identifier.
 }

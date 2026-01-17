@@ -1,0 +1,1 @@
+export const AUTHORIZED_FOLDER_NAMES = ['blog', 'profile', 'other'] as const;

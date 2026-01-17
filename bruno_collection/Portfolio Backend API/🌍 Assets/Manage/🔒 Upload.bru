@@ -1,0 +1,23 @@
+meta {
+  name: 🔒 Upload
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/assets/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(e:\Users\jonas\Pictures\fond ecran\des-nuages-de-style-anime.jpg)
+  name: my-image
+  id: MyAsset
+  ~folder: blog
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

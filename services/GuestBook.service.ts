@@ -60,52 +60,52 @@ export class GuestBookService {
      * @throws {Error} If Redis client is not connected
      */
     static async getGuestBookEntries(page: number = 1, limit: number = 20): Promise<GuestBookResponseGet> {
-    validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
+        validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
-    if (!RedisClient || !RedisClient.isReady) {
-        throw new Error("Redis client is not connected.");
-    }
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new Error("Redis client is not connected.");
+        }
 
-    const start = (page - 1) * limit;
-    const end = start + limit - 1;
+        const start = (page - 1) * limit;
+        const end = start + limit - 1;
 
-    try {
-        const [rawEntries, totalCount] = await Promise.all([
-            RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, start, end),
-            RedisClient.lLen(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES)
-        ]);
+        try {
+            const [rawEntries, totalCount] = await Promise.all([
+                RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, start, end),
+                RedisClient.lLen(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES)
+            ]);
 
-        const entries: GuestBookEntry[] = rawEntries.map((entry, index) => {
-            try {
-                const parsed = JSON.parse(entry);
-                if (!parsed.id) {
-                    parsed.id = `legacy-${Date.now()}-${index}`;
+            const entries: GuestBookEntry[] = rawEntries.map((entry, index) => {
+                try {
+                    const parsed = JSON.parse(entry);
+                    if (!parsed.id) {
+                        parsed.id = `legacy-${Date.now()}-${index}`;
+                    }
+                    return parsed;
+                } catch (e) {
+                    console.error("error parsing entry guestbook", e);
+                    return null; 
                 }
-                return parsed;
-            } catch (e) {
-                console.error("error parsing entry guestbook", e);
-                return null; 
-            }
-        }).filter(entry => entry !== null) as GuestBookEntry[];
+            }).filter(entry => entry !== null) as GuestBookEntry[];
 
-        writeToLog(`GuestBook READ page=${page} count=${entries.length}`, 'guestbook');
+            writeToLog(`GuestBook READ page=${page} count=${entries.length}`, 'guestbook');
 
-        return {
-            meta: {
-                total_count: totalCount,
-                page: page,
-                limit: limit,
-                total_pages: Math.ceil(totalCount / limit)
-            },
-            entries: entries
-        };
-    } catch (error: any) {
-        const errorMsg = error.stack || error.message || String(error);
-        logConsole('GET', '/guestbook/', 'FAIL', 'Error getting guestbook entries', { error: errorMsg });
-        writeToLog(`GuestBook READ error: ${errorMsg}`, 'guestbook');
-        throw error;
+            return {
+                meta: {
+                    total_count: totalCount,
+                    page: page,
+                    limit: limit,
+                    total_pages: Math.ceil(totalCount / limit)
+                },
+                entries: entries
+            };
+        } catch (error: any) {
+            const errorMsg = error.stack || error.message || String(error);
+            logConsole('GET', '/guestbook/', 'FAIL', 'Error getting guestbook entries', { error: errorMsg });
+            writeToLog(`GuestBook READ error: ${errorMsg}`, 'guestbook');
+            throw error;
+        }
     }
-}
 
     /**
      * Adds a new entry to the guestbook with HTML sanitization
@@ -115,42 +115,42 @@ export class GuestBookService {
      * @throws {Error} If Redis client is not connected
      */
     static async addGuestBookEntry(name: string, message: string): Promise<GuestBookEntry> {
-    validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
+        validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
-    if (!RedisClient || !RedisClient.isReady) {
-        throw new Error("Redis client is not connected.");
-    }
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new Error("Redis client is not connected.");
+        }
 
-    const escapeHtml = (text: string) => {
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    };
-
-    try {
-        const entryData: GuestBookEntry = {
-            id: this.generateId(),
-            name: escapeHtml(name.trim()), 
-            message: escapeHtml(message.trim()),
-            date: new Date().toISOString()
+        const escapeHtml = (text: string) => {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         };
 
-        const entryString = JSON.stringify(entryData);
-        
-        await RedisClient.lPush(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, entryString);
-        
-        writeToLog(`GuestBook WRITE success: by=${name.trim()} length=${message.trim().length} id=${entryData.id}`, 'guestbook');
-        return entryData;
-    } catch (error: any) {
-        const errorMsg = error.stack || error.message || String(error);
-        logConsole('POST', '/guestbook/', 'FAIL', 'Error adding guestbook entry', { error: errorMsg });
-        writeToLog(`GuestBook WRITE error: ${errorMsg}`, 'guestbook');
-        throw error;
+        try {
+            const entryData: GuestBookEntry = {
+                id: this.generateId(),
+                name: escapeHtml(name.trim()), 
+                message: escapeHtml(message.trim()),
+                date: new Date().toISOString()
+            };
+
+            const entryString = JSON.stringify(entryData);
+            
+            await RedisClient.lPush(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, entryString);
+            
+            writeToLog(`GuestBook WRITE success: by=${name.trim()} length=${message.trim().length} id=${entryData.id}`, 'guestbook');
+            return entryData;
+        } catch (error: any) {
+            const errorMsg = error.stack || error.message || String(error);
+            logConsole('POST', '/guestbook/', 'FAIL', 'Error adding guestbook entry', { error: errorMsg });
+            writeToLog(`GuestBook WRITE error: ${errorMsg}`, 'guestbook');
+            throw error;
+        }
     }
-}
 
     /**
      * Deletes a guestbook entry by its ID
@@ -159,67 +159,67 @@ export class GuestBookService {
      * @throws {Error} If Redis client is not connected
      */
     static async deleteGuestBookEntry(id: string): Promise<GuestBookDeleteResponse> {
-    validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
+        validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
-    if (!RedisClient || !RedisClient.isReady) {
-        throw new Error("Redis client is not connected.");
-    }
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new Error("Redis client is not connected.");
+        }
 
-    try {
-        const allEntries = await RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
-        
-        let entryToDelete: string | null = null;
-        
-        for (const entry of allEntries) {
-            try {
-                const parsedEntry: GuestBookEntry = JSON.parse(entry);
-                if (parsedEntry.id === id) {
-                    entryToDelete = entry;
-                    break;
+        try {
+            const allEntries = await RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
+            
+            let entryToDelete: string | null = null;
+            
+            for (const entry of allEntries) {
+                try {
+                    const parsedEntry: GuestBookEntry = JSON.parse(entry);
+                    if (parsedEntry.id === id) {
+                        entryToDelete = entry;
+                        break;
+                    }
+                } catch (e) {
+                    console.error("Error parsing entry during delete:", e);
+                    continue;
                 }
-            } catch (e) {
-                console.error("Error parsing entry during delete:", e);
-                continue;
             }
+            
+            if (!entryToDelete) {
+                writeToLog(`GuestBook DELETE entry not found: id=${id}`, 'guestbook');
+                return {
+                    success: false,
+                    meta: {
+                        id: id
+                    },
+                    message: 'Entry not found',
+                };
+            }
+            
+            const removed = await RedisClient.lRem(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 1, entryToDelete);
+            
+            if (removed > 0) {
+                writeToLog(`GuestBook DELETE success: id=${id}`, 'guestbook');
+                return {
+                    success: true,
+                    meta: {
+                        id: id
+                    },
+                    message: 'Entry deleted successfully',
+                };
+            } else {
+                writeToLog(`GuestBook DELETE failed: id=${id}`, 'guestbook');
+                return {
+                    success: false,
+                    meta: {
+                        id: id
+                    },
+                    message: 'Entry not found',
+                };
+            }
+        } catch (error: any) {
+            const errorMsg = error.stack || error.message || String(error);
+            logConsole('DELETE', '/guestbook/', 'FAIL', 'Error deleting guestbook entry', { error: errorMsg, id });
+            writeToLog(`GuestBook DELETE error: ${errorMsg} id=${id}`, 'guestbook');
+            throw error;
         }
-        
-        if (!entryToDelete) {
-            writeToLog(`GuestBook DELETE entry not found: id=${id}`, 'guestbook');
-            return {
-                success: false,
-                meta: {
-                    id: id
-                },
-                message: 'Entry not found',
-            };
-        }
-        
-        const removed = await RedisClient.lRem(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 1, entryToDelete);
-        
-        if (removed > 0) {
-            writeToLog(`GuestBook DELETE success: id=${id}`, 'guestbook');
-            return {
-                success: true,
-                meta: {
-                    id: id
-                },
-                message: 'Entry deleted successfully',
-            };
-        } else {
-            writeToLog(`GuestBook DELETE failed: id=${id}`, 'guestbook');
-            return {
-                success: false,
-                meta: {
-                    id: id
-                },
-                message: 'Entry not found',
-            };
-        }
-    } catch (error: any) {
-        const errorMsg = error.stack || error.message || String(error);
-        logConsole('DELETE', '/guestbook/', 'FAIL', 'Error deleting guestbook entry', { error: errorMsg, id });
-        writeToLog(`GuestBook DELETE error: ${errorMsg} id=${id}`, 'guestbook');
-        throw error;
-    }
     }
 }

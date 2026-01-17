@@ -1,0 +1,24 @@
+meta {
+  name: 🔒 new tag
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/tags/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "{{$randomWords}}",
+    "slug": "{{slugTag_demeName}}",
+    "color": "#F54956"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

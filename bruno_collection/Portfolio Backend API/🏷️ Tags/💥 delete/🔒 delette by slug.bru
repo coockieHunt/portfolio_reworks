@@ -1,0 +1,16 @@
+meta {
+  name: 🔒 delette by slug
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/tags/api
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

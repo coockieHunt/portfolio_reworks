@@ -7,7 +7,6 @@ import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { rateLimiter } from '../middlewares/rateLimiter.middlewar';
 import { AuthService } from '../services/Auth.service';
-import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
 import { logConsole } from '../middlewares/log.middlewar';
 
 

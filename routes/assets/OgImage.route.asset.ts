@@ -4,10 +4,11 @@ import React from 'react';
 import express, { Request, Response, Router } from 'express';
 import { query } from 'express-validator';
 import { ImageResponse } from '@vercel/og';
-import dotenv from 'dotenv';
 
 //services
-import { CloudinaryService } from '../../services/Cloudinary.service';
+import { AssetsService } from '../../services/assets.service';
+import { hashGet, hashSet } from '../../utils/cache.helper';
+import { AUTHORIZED_REDIS_KEYS } from '../../constants/redis.constant';
 
 //middlewares
 import { logConsole } from '../../middlewares/log.middlewar';
@@ -17,7 +18,6 @@ import rateLimiter from '../../middlewares/rateLimiter.middlewar';
 //templates
 import { BlogOgTemplate } from '../../templates/og/blog.OgTemplate';
 
-dotenv.config();
 
 const OpenGraphRouter: Router = express.Router({ mergeParams: true });
 OpenGraphRouter.use(rateLimiter);
@@ -35,6 +35,9 @@ const generateImage = async (title: string, author?: string, date?: string): Pro
     const imageResponse = new ImageResponse(RenderedImage as any, { width: 1200, height: 630 });
     return Buffer.from(await imageResponse.arrayBuffer());
 };
+
+// Redis key to store OG metadata (creation timestamp)
+const getOgMetaKey = (publicId: string): string => `${publicId}:meta`;
 
 OpenGraphRouter.get(
     '/get',
@@ -60,46 +63,52 @@ OpenGraphRouter.get(
             const lastEditDate = lastEdit ? new Date(lastEdit) : null;
 
             if (CacheEnabled) {
-                let existingImage = null;
-                try {
-                    existingImage = await CloudinaryService.getResourceInfo(publicId, FOLDER_NAME);
-                } catch (e: any) {
-                    console.error('[OG] Error checking existing image:', e?.message || e);
-                }
+                // Check if image exists locally
+                const existingFilename = await AssetsService.getAssetFilename(publicId, FOLDER_NAME);
+                
+                if (existingFilename) {
+                    // Retrieve metadata (creation timestamp) from Redis
+                    const metaKey = getOgMetaKey(publicId);
+                    const createdAtStr = await hashGet(AUTHORIZED_REDIS_KEYS.OG_META, metaKey);
+                    const imageCreatedAt = createdAtStr ? new Date(createdAtStr) : null;
 
-                if (existingImage) {
-                    const imageCreatedAt = new Date(existingImage.created_at);
-
-                    if (lastEditDate && imageCreatedAt < lastEditDate) {
+                    // If lastEdit is more recent than image creation, regenerate
+                    if (lastEditDate && imageCreatedAt && imageCreatedAt < lastEditDate) {
                         try {
-                            await CloudinaryService.deleteResource(publicId, FOLDER_NAME);
+                            await AssetsService.deleteAsset(publicId, FOLDER_NAME);
                             logConsole('GET', 'og/blog', 'INFO', 'Image outdated, regenerating', { slug });
                         } catch (e: any) {
                             console.error('[OG] Error deleting old image:', e?.message || e);
                         }
                     } else {
-                        const cached = await CloudinaryService.proxyImage(publicId, FOLDER_NAME);
-                        if (cached.statusCode === 200 && cached.stream) {
-                            res.setHeader('Content-Type', 'image/png');
-                            res.setHeader('Cache-Control', 'public, max-age=86400');
-                            res.setHeader('X-Og-Source', 'cache');
-                            logConsole('GET', 'og/blog', 'INFO', 'Served from cache', { slug });
-                            return cached.stream.pipe(res);
-                        }
+                        // Serve image from local cache
+                        const filePath = AssetsService.getAssetPath(existingFilename);
+                        res.setHeader('Content-Type', 'image/png');
+                        res.setHeader('Cache-Control', 'public, max-age=86400');
+                        res.setHeader('X-Og-Source', 'cache');
+                        logConsole('GET', 'og/blog', 'INFO', 'Served from local cache', { slug });
+                        return res.sendFile(filePath);
                     }
                 }
             } else {
                 logConsole('GET', 'og/blog', 'INFO', 'Cache disabled, forcing generation', { slug });
             }
 
+            // Generate the image
             const buffer = await generateImage(title, author, date);
 
             if (CacheEnabled) {
                 try {
-                    await CloudinaryService.uploadBuffer(buffer, publicId, FOLDER_NAME);
-                    logConsole('GET', 'og/blog', 'INFO', 'Generated and cached', { slug });
+                    // Save locally
+                    await AssetsService.uploadAsset(buffer, slug, publicId, FOLDER_NAME, '.png');
+                    
+                    // Store creation timestamp in Redis
+                    const metaKey = getOgMetaKey(publicId);
+                    await hashSet(AUTHORIZED_REDIS_KEYS.OG_META, metaKey, new Date().toISOString());
+                    
+                    logConsole('GET', 'og/blog', 'INFO', 'Generated and cached locally', { slug });
                 } catch (e: any) {
-                    console.error('[OG] Error uploading to Cloudinary:', e?.message || e);
+                    console.error('[OG] Error saving to local storage:', e?.message || e);
                 }
             }
 

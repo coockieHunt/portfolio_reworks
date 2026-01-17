@@ -1,9 +1,12 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ 
+    quiet: true 
+});
 
 import express from 'express';
 import cors from 'cors';
 import chalk from 'chalk';
+import consola from 'consola';
 
 import cfg from './config/default';
 import { createClient } from 'redis';
@@ -23,10 +26,12 @@ import counterRouter from './routes/Counteur.route';
 import healthCheckRouter from './routes/healthCheck.route';
 import BlogRoute from './routes/Blog.route';
 import AuthRoute from './routes/Auth.route';
-import CloudinaryRoute from './routes/Cloudinary.route';
+import TagRouter from './routes/Tags.route';
+
+import assetsRoute from './routes/Assets.route';
 
 import OpenGraphRouter from './routes/assets/OgImage.route.asset';
-import ProxyCloudinaryRoute from './routes/assets/CloudinaryProxy.route.asset';
+import AssetsProxyRoute from './routes/assets/AssetsProxy.route.asset';
 
 const API_ROOT = cfg.ApiRoot ;
 const ASSET_ROOT = cfg.AssetRoot ;
@@ -64,13 +69,14 @@ app.use(`${API_ROOT}/mail`, allowOnlyFromIPs, mailRouter);
 app.use(`${API_ROOT}/guestbook`, allowOnlyFromIPs, guestBookRoute);
 app.use(`${API_ROOT}/blog`, allowOnlyFromIPs, BlogRoute);
 app.use(`${API_ROOT}/auth`, allowOnlyFromIPs, AuthRoute);
-app.use(`${API_ROOT}/cloudinary`, allowOnlyFromIPs, CloudinaryRoute);
 app.use(`${API_ROOT}/counter`, counterRouter);
 app.use(`${API_ROOT}/health`, healthCheckRouter);
+app.use(`${API_ROOT}/tags`, allowOnlyFromIPs, TagRouter);
+app.use(`${API_ROOT}/assets`, allowOnlyFromIPs, assetsRoute);
 
 //asset
 app.use(`${ASSET_ROOT}/opengraph`, allowOnlyFromIPs, OpenGraphRouter);
-app.use(`${ASSET_ROOT}/cloudinary`, allowOnlyFromIPs, ProxyCloudinaryRoute);
+app.use(`${ASSET_ROOT}/images`, allowOnlyFromIPs, AssetsProxyRoute);
 
 
 app.use((req, res, next) => {
@@ -84,48 +90,45 @@ app.use((req, res, next) => {
 
 // run
 async function startServer() {
-    if(cfg.fallback.latency || cfg.fallback.sendError){
-        console.log(chalk.bold.red('🛑 FALLBACK SIMULATION is ENABLED\n '));
+    if (cfg.fallback.latency || cfg.fallback.sendError) {
+        consola.warn('🛑 FALLBACK SIMULATION is ENABLED');
     }
 
-    const spacer = () => console.log(chalk.gray('─'.repeat(40)));
+    console.log(cfg.fallback.latency)
 
-    console.log(
-        chalk.cyan('🔧  EndPoint:'),
-        chalk.gray(`\n  • API Root: ${API_ROOT}\n  • Asset Root: ${ASSET_ROOT}\n`)
-       
-    );
-    console.log(
-        chalk.cyan('🖋️  BLOG:'),
-        chalk.gray(`\n  • Cache TTL: ${cfg.blog.cache_ttl} seconds\n`)
-    );
+    consola.info(chalk.bold('Configuration Loaded:'));
+    console.log(`  ${chalk.blue('• API Root:')}   ${API_ROOT}`);
+    console.log(`  ${chalk.blue('• Asset Root:')} ${ASSET_ROOT}`);
+    console.log(`  ${chalk.blue('• Cache TTL:')}  ${cfg.blog.cache_ttl} seconds\n`);
 
-    spacer();
-    console.log(chalk.bold.cyan('\n🏗️  Starting System...'));
-    spacer();
+    consola.start('Starting System Services...');
+
     try {
         pingSqlite();
-        console.log(`${chalk.green('✅ SQLite Ready')}: portfolio.db`);
+        consola.success('SQLite Ready', chalk.dim(`(portfolio.db)`));
 
         await RedisService.connectRedis(redisClient as any);
-        console.log(`${chalk.green('✅ Redis Ready')}:  ${cfg.redis.host}:${cfg.redis.port}`);
+        consola.success('Redis Ready', chalk.dim(`(${cfg.redis.host}:${cfg.redis.port})`));
 
         await SendmailService.verifySmtpConnection();
-        console.log(`${chalk.green('✅ SMTP Ready')}:   ${process.env.MAIL_HOST}`);
+        consola.success('SMTP Ready', chalk.dim(`(${process.env.MAIL_HOST})`));
 
-        app.listen(PORT, () => {
-            console.log(chalk.gray('─'.repeat(40)));
-            console.log(chalk.bold.bgGreen.black(` 🚀 SERVER READY `) + chalk.green(` on port ${PORT}`));
-            console.log(chalk.gray('─'.repeat(40)) + '\n');
+        app.listen(Number(PORT), '0.0.0.0', () => {
+            consola.box({
+                title: chalk.bold.green(' 🚀 SERVER READY '),
+                message: `Server listening on port: ${chalk.cyan.bold(PORT)}\nhttp://0.0.0.0:${PORT}`,
+                style: {
+                    padding: 1,
+                    borderColor: "green",
+                    borderStyle: "round",
+                },
+            });
         });
 
     } catch (err: any) {
-        console.log(chalk.gray('─'.repeat(40)));
-        console.error(chalk.bold.red("❌ CRITICAL FAILURE DURING STARTUP"));
-        console.error(chalk.red(`Reason: ${err.message}`));
-        console.log(chalk.gray('─'.repeat(40)) + '\n');
-        
-        process.exit(1); 
+        consola.fatal('CRITICAL FAILURE DURING STARTUP');
+        consola.error(err); 
+        process.exit(1);
     }
 }
 

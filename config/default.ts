@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { boolean } from 'drizzle-orm/gel-core';
 import staticConfig from '../static.config.json';
 import { parseList } from '../utils/redis.helper';
@@ -36,12 +39,6 @@ interface blogConfig {
 	og_image: boolean;
 }
 
-interface CloudinaryConfig {
-	cloud_name: string;
-	api_key: string;
-	api_secret: string;
-}
-
 interface AppConfig {
 	port: number;
 	ApiRoot: string;
@@ -53,7 +50,6 @@ interface AppConfig {
 	SecretSystem: { password?: string };
 	rateLimiter: RateLimiterConfig;
 	blog: blogConfig;
-	cloudinary: CloudinaryConfig;
 	fallback: {
 		latency: boolean;
 		delayLatency: number;
@@ -93,7 +89,7 @@ const config: AppConfig = {
 			whitelist: staticConfig.log.names.whitelist,
 			validation_error: staticConfig.log.names.validation_error,
 			health: staticConfig.log.names.health,
-			cloudinary: staticConfig.log.names.cloudinary
+			assets: staticConfig.log.names.assets
 		}
 	},
 
@@ -119,12 +115,6 @@ const config: AppConfig = {
 	blog: {
 		cache_ttl: Number(process.env.BLOG_CACHE_TTL || 86400),
 		og_image: Boolean(process.env.BLOG_OG_CACHE || true)
-	},
-
-	cloudinary: {
-		cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "",
-		api_key: process.env.CLOUDINARY_API_KEY || "",
-		api_secret: process.env.CLOUDINARY_API_SECRET || ""
 	},
 
 	fallback: {

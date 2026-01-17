@@ -6,8 +6,9 @@ import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 
 // system
 import dotenv from 'dotenv';
-
-dotenv.config();
+dotenv.config(
+    { quiet: true }
+);
 
 const mailHost = process.env.MAIL_HOST;
 const mailPort = parseInt(process.env.MAIL_PORT || '465', 10);
@@ -41,13 +42,13 @@ export class SendmailService {
      * @throws {Error} If SMTP connection fails
      */
     static async verifySmtpConnection(): Promise<boolean> {
-    try {
-        await transporter.verify();
-        return true;
-    } catch (error: any) {
-        throw new Error(`SMTP Connection failed: ${error.message}`);
-    }
-};
+        try {
+            await transporter.verify();
+            return true;
+        } catch (error: any) {
+            throw new Error(`SMTP Connection failed: ${error.message}`);
+        }
+    };
 
     /**
      * Sends an email via SMTP
@@ -57,24 +58,24 @@ export class SendmailService {
      * @returns Promise with success status and optional error message
      */
     static async sendmail(to: string, subject: string, content: string): Promise<SendMailResponse> {
-    try {
-        const mailOptions: SendMailOptions = {
-            from: `"Portfolio" <${mailUser}>`,
-            to: to,
-            subject: subject,
-            html: content,
-        };
+        try {
+            const mailOptions: SendMailOptions = {
+                from: `"Portfolio" <${mailUser}>`,
+                to: to,
+                subject: subject,
+                html: content,
+            };
 
-        const info = await transporter.sendMail(mailOptions);
+            const info = await transporter.sendMail(mailOptions);
 
-        writeToLog(`Email sent to [${to}] ID: ${info.messageId}`, 'mail');
-        return { success: true };
-    } catch (error: any) {
-        const errorMsg = error.message || String(error);
-        logConsole('POST', '/sendmail/', 'FAIL', 'Error sending email', { error: errorMsg });
-        writeToLog(`Sendmail Error: ${errorMsg}`, 'mail');
-        return { success: false, message: errorMsg };
-    }
+            writeToLog(`Email sent to [${to}] ID: ${info.messageId}`, 'mail');
+            return { success: true };
+        } catch (error: any) {
+            const errorMsg = error.message || String(error);
+            logConsole('POST', '/sendmail/', 'FAIL', 'Error sending email', { error: errorMsg });
+            writeToLog(`Sendmail Error: ${errorMsg}`, 'mail');
+            return { success: false, message: errorMsg };
+        }
     }
 }
 

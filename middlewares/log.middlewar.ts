@@ -1,14 +1,13 @@
-import path from 'path'; // Module Node.js (utilisé dans getLogger)
+import path from 'path'; 
 import fs from 'fs';
-import dotenv from 'dotenv';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import chalk from 'chalk';
+import consola from 'consola';
 
 // config
 import cfg from '../config/default';
 
-dotenv.config();
 
 interface LogConfigInterface {
     directory: string;
@@ -114,37 +113,48 @@ export const writeToLog = (log: string, type: string): void => {
  */
 export const logConsole = (
     method: string,
-    route: string, 
+    route: string,
     status: 'OK' | 'FAIL' | 'INFO' | 'WARN',
     message: string,
     args: Record<string, any> = {}
 ): void => {
-    const color = METHOD_COLORS[method.toUpperCase()] || chalk.white;
-    const statusColor = chalk.bold(
-        status === 'OK' ? chalk.green('OK') :
-        status === 'FAIL' ? chalk.red('FAIL') :
-        status === 'WARN' ? chalk.yellow('WARN') :
-        chalk.cyan('INFO')
-    );
+    const methodUpper = method.toUpperCase();
+    const colorFn = METHOD_COLORS[methodUpper] || chalk.white;
+    const tag = colorFn(`${methodUpper} ${route}`);
+    
+    const logger = consola.withTag(tag);
 
     let description = message;
     const extra: string[] = [];
 
     Object.entries(args).forEach(([key, value]) => {
         const placeholder = `{${key}}`;
-        const displayValue = chalk.white.bold(value);
+        const displayValue = chalk.white.bold(String(value));
 
-        if (description.includes(placeholder)) { description = description.split(placeholder).join(displayValue);
-        } else {extra.push(`${chalk.grey(key)}=${chalk.white(value)}`);}
+        if (description.includes(placeholder)) {
+            description = description.split(placeholder).join(displayValue);
+        } else {
+            extra.push(`${chalk.grey(key)}=${chalk.white(value)}`);
+        }
     });
 
-    const parts = [
-        color(`[${method.toUpperCase()} ${route}]`),
-        statusColor,
-        description
-    ];
+    const finalMessage = extra.length > 0 
+        ? `${description} ${chalk.grey('→')} ${extra.join(' ')}` 
+        : description;
 
-    if (extra.length > 0) {parts.push(chalk.grey('→'), extra.join(' '));}
-
-    console.log(parts.join(' '));
+    switch (status) {
+        case 'OK':
+            logger.success(finalMessage);
+            break;
+        case 'FAIL':
+            logger.error(finalMessage);
+            break;
+        case 'WARN':
+            logger.warn(finalMessage);
+            break;
+        case 'INFO':
+        default:
+            logger.info(finalMessage);
+            break;
+    }
 };

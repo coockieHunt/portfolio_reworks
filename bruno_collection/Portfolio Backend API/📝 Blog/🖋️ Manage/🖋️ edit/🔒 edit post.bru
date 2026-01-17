@@ -12,11 +12,11 @@ put {
 
 body:json {
   {
-    "title": "new post",
-    "slug": "{{slugBlog_demoName}}",
+    "title": "new post edited",
     "content": "content of new post new edited",
-    "summary": "sammary",
-    "authorId": 1
+    "summary": "sammary edited",
+    "authorId": 1,
+    "tagIds": [1, 3]
   }
 }
 
@@ -37,6 +37,7 @@ docs {
   - `content`: Post content
   - `summary`: Post summary
   - `authorId`: Author identifier
+  - `tagIds`: Array of tag IDs (replaces existing tags)
   
   Automatically updates `editedAt` timestamp and clears cache.
 }

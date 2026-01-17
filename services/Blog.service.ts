@@ -2,10 +2,11 @@
 import { db } from '../utils/sqllite.helper';
 
 //shema
-import { post_author, posts } from '../database/shema'; 
+import { post_author, posts, postTags, tags } from '../database/shema'; 
 
 //orm
-import { desc, eq, sql } from 'drizzle-orm';
+import { desc, eq, sql, inArray, like, and} from 'drizzle-orm';
+
 
 //services
 import { RedisClient } from '../services/Redis.service';
@@ -51,20 +52,37 @@ export class BlogService {
         const totalCountResult = await db.select({ count: sql<number>`count(*)` }).from(posts).get();
         const totalCount = totalCountResult ? totalCountResult.count : 0;
 
-        const results = await 
-            db.select({
-                post: posts,
-                author: {
-                    name: post_author.name,
-                }
+        const postsResults = await db.select({
+            post: posts,
+            author: {
+                name: post_author.name,
+            }
+        })
+        .from(posts)
+        .orderBy(desc(posts.createdAt))
+        .leftJoin(post_author, eq(posts.authorId, post_author.id))
+        .limit(limit)
+        .offset(offset)
+        .all();
+
+        let tagsResults: Array<{ postId: number, tag: typeof tags.$inferSelect }> = [];
+        if (postsResults.length > 0) {
+            const postIds = postsResults.map(r => r.post.id);
+            tagsResults = await db.select({
+                postId: postTags.postId,
+                tag: tags
             })
-                .from(posts)
-                .orderBy(desc(posts.createdAt))
-                .leftJoin(post_author, eq(posts.authorId, post_author.id))
-                .limit(limit)
-                .offset(offset)
-                .all();
-        
+            .from(postTags)
+            .innerJoin(tags, eq(postTags.tagId, tags.id))
+            .where(inArray(postTags.postId, postIds))
+            .all();
+        }
+
+        const results = postsResults.map(postResult => ({
+            ...postResult,
+            tags: tagsResults.filter(t => t.postId === postResult.post.id).map(t => t.tag)
+        }));
+
         return {
             meta: {
                 total_count: totalCount,
@@ -82,11 +100,31 @@ export class BlogService {
      * @param max - Maximum offset position (default: 100)
      * @returns Promise with posts and cursor metadata
      */
-    static async getPostOffset(min: number = 1, max: number = 100) {
+    static async getPostOffset(
+        min: number = 1, 
+        max: number = 100, 
+        tagsToFilter: string[] = [],
+        titleContains: string = ''
+    ) {
         const limit = max - min + 1;
         const offset = min - 1;
-
-        const results = await db
+        const filters = [];
+    
+        if (titleContains) {
+            filters.push(like(posts.title, `%${titleContains}%`)); 
+        }
+    
+        if (tagsToFilter.length > 0) {
+            const postsWithTagsSubquery = db
+                .select({ postId: postTags.postId })
+                .from(postTags)
+                .innerJoin(tags, eq(postTags.tagId, tags.id))
+                .where(inArray(tags.slug, tagsToFilter));
+    
+            filters.push(inArray(posts.id, postsWithTagsSubquery));
+        }
+    
+        const postsResults = await db
             .select({
                 post: posts,
                 author: {
@@ -94,16 +132,37 @@ export class BlogService {
                 }
             })
             .from(posts)
-            .orderBy(desc(posts.createdAt))
             .leftJoin(post_author, eq(posts.authorId, post_author.id))
+            .where(and(...filters)) 
+            .orderBy(desc(posts.createdAt))
             .limit(limit)
             .offset(offset)
             .all();
         
+        let tagsResults: Array<{ postId: number, tag: typeof tags.$inferSelect }> = [];
+        
+        if (postsResults.length > 0) {
+            const postIds = postsResults.map(r => r.post.id);
+            tagsResults = await db.select({
+                postId: postTags.postId,
+                tag: tags
+            })
+            .from(postTags)
+            .innerJoin(tags, eq(postTags.tagId, tags.id))
+            .where(inArray(postTags.postId, postIds))
+            .all();
+        }
+    
+        const results = postsResults.map(postResult => ({
+            ...postResult,
+            tags: tagsResults.filter(t => t.postId === postResult.post.id).map(t => t.tag)
+        }));
+    
         return {
             meta: {
                 cursor_start: min,
                 cursor_end: min + results.length,
+                requested_limit: limit
             },
             posts: results
         };
@@ -114,9 +173,9 @@ export class BlogService {
      * @param slug - The unique slug identifier for the post
      * @returns Promise with post data and cache status
      */
-    static async getPostBySlug(slug: string) {
-        const data = await withCache(this.getCacheKey(slug), async () => 
-            db.select({
+    static async getPostBySlug(slug: string ) {
+        const data = await withCache(this.getCacheKey(slug), async () => {
+            const postResult = await db.select({
                 post: posts,
                 author: {
                     name: post_author.name,
@@ -126,7 +185,25 @@ export class BlogService {
                 .from(posts)
                 .leftJoin(post_author, eq(posts.authorId, post_author.id)) 
                 .where(eq(posts.slug, slug))
-                .get(),
+                .get();
+            
+            if (!postResult) return null;
+
+            const tagsResults = await db.select({
+                tag: tags
+            })
+
+            
+            .from(postTags)
+            .innerJoin(tags, eq(postTags.tagId, tags.id))
+            .where(eq(postTags.postId, postResult.post.id))
+            .all();
+
+            return {
+                ...postResult,
+                tags: tagsResults.map(t => t.tag)
+            };
+        },
             cfg.blog.cache_ttl
         );
 
@@ -139,33 +216,58 @@ export class BlogService {
 
     /**
      * Creates a new blog post
-     * @param data - Post data including title, content, summary, and author ID
+     * @param data - Post data including title, content, summary, author ID, and optional tags
      * @returns Promise with the newly created post
      */
-    static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; }) {
+    static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; tagIds?: number[]; }) {
         const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-');
-        return await db.insert(posts).values({ ...data, slug}).returning().get();
+        const { tagIds, ...postData } = data;
+        
+        const newPost = await db.insert(posts).values({ ...postData, slug }).returning().get();
+        
+        if (tagIds && tagIds.length > 0 && newPost) {
+            const tagAssociations = tagIds.map(tagId => ({
+                postId: newPost.id,
+                tagId: tagId
+            }));
+            await db.insert(postTags).values(tagAssociations);
+        }
+        
+        return newPost;
     }
 
     /**
      * Updates an existing blog post and invalidates its cache
      * @param slug - The post slug to update
-     * @param updateData - Partial post data to update
+     * @param updateData - Partial post data to update, including optional tags
      * @returns Promise with updated post or null if not found
      */
-    static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; }) {
+    static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; }) {
         const key = this.getCacheKey(slug);
         validateKey(key);
 
         updateData.editedAt = new Date();
+        const { tagIds, ...postUpdateData } = updateData;
 
         const updatedPost =  await db.update(posts)
-            .set(updateData)
+            .set(postUpdateData)
             .where(eq(posts.slug, slug))
             .returning()
             .get();
 
         if (updatedPost) {
+            if (tagIds !== undefined) {
+                await db.delete(postTags).where(eq(postTags.postId, updatedPost.id));
+                
+                if (tagIds.length > 0) {
+                    const tagAssociations = tagIds.map(tagId => ({
+                        postId: updatedPost.id,
+                        tagId: tagId
+                    }));
+                    await db.insert(postTags).values(tagAssociations);
+                }
+            }
+            
             try {
                 await this.deleteCacheBySlug(slug);
             } catch (error) {

@@ -13,8 +13,9 @@
 			"whitelist": "whitelist.log",
 			"validation_error": "validation_error.log",
 			"health": "health.log",
-			"cloudinary": "cloudinary.log",
-			"ogimage": "ogimage.log"
+			"ogimage": "ogimage.log",
+			"tags": "tags.log",
+			"assets": "assets.log"
 		}
 	},
 
@@ -126,43 +127,6 @@
 				}
 			},
 
-			"cloudinary.upload": {
-				"windowSeconds": 60,
-				"maxRequests": 10,
-				"adminBypass": true,
-				"match": {
-					"url": "/api/cloudinary/upload",
-					"method": "POST"
-				}
-			},
-			"cloudinary.delete": {
-				"windowSeconds": 60,
-				"maxRequests": 20,
-				"adminBypass": true,
-				"match": {
-					"url": "/api/cloudinary/delete",
-					"method": "DELETE"
-				}
-			},
-			"cloudinary.cache": {
-				"windowSeconds": 60,
-				"maxRequests": 10,
-				"adminBypass": true,
-				"match": {
-					"url": "/api/cloudinary/cache",
-					"method": "DELETE"
-				}
-			},
-			"cloudinary.list": {
-				"windowSeconds": 60,
-				"maxRequests": 20,
-				"adminBypass": true,
-				"match": {
-					"url": "/api/cloudinary/list",
-					"method": "GET"
-				}
-			},
-
 			"blog.readALL": {
 				"windowSeconds": 60,
 				"maxRequests": 150,
@@ -269,7 +233,64 @@
 				"maxRequests": 100,
 				"adminBypass": true,
 				"match": {
-					"url": "/assets/cloudinary/proxy/:public_id",
+					"url": "/assets/proxy/:public_id",
+					"method": "GET"
+				}
+			},
+
+
+			"tags.getAll": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/tags/",
+					"method": "GET"
+				}
+			},
+
+			"assets.upload": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/assets/upload",
+					"method": "POST"
+				}
+			},
+			"assets.delete": {
+				"windowSeconds": 60,
+				"maxRequests": 30,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/assets/delete/:folder/:id",
+					"method": "DELETE"
+				}
+			},
+			"assets.cache.clear": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/assets/cache/clear/:id",
+					"method": "DELETE"
+				}
+			},
+			"assets.cache.all": {
+				"windowSeconds": 60,
+				"maxRequests": 5,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/assets/cache/all",
+					"method": "DELETE"
+				}
+			},
+			"assets.list": {
+				"windowSeconds": 60,
+				"maxRequests": 50,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/assets/list",
 					"method": "GET"
 				}
 			}
