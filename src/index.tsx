@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 
 //utils
@@ -7,23 +7,35 @@ import { ConnectedToSecretSystem } from './utils/rb';
 //router
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
-//font
-import '@fontsource/montserrat';
+import '@fontsource/montserrat/400.css';
 import '@fontsource/montserrat/600.css';
 import '@fontsource/montserrat/700.css';
-import '@fontsource/source-code-pro';
+import '@fontsource/source-code-pro/400.css'; 
 
-const router = createRouter({ routeTree });
+const TanStackRouterDevtools =
+  process.env.NODE_ENV === 'production'
+    ? () => null 
+    : React.lazy(() =>
+        import('@tanstack/react-router-devtools').then((res) => ({
+          default: res.TanStackRouterDevtools,
+        })),
+      )
+
+const router = createRouter({ 
+    routeTree,
+    defaultPreload: 'intent', 
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
-// eg on all pages
 ConnectedToSecretSystem();
 
 root.render(
     <React.StrictMode>
         <RouterProvider router={router} />
-        <TanStackRouterDevtools router={router} />
+        <Suspense fallback={null}>
+            <TanStackRouterDevtools router={router} />
+        </Suspense>
     </React.StrictMode>,
 );

@@ -35,9 +35,14 @@ export const PostCardComponents = ({
             >
                 <img
                     src={
-                        getProxyUrl(featured_image, { height: 300, width: 300 }) ||
+                        getProxyUrl(
+                            featured_image, 
+                            { size: { width: 300, height: 300 } }
+                        ) ||
                         'https://via.placeholder.com/600x400?text=No+Image'
                     }
+                    height="300"
+                    width="300"
                     alt={title}
                 />
                 

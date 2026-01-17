@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 
-// api & utils
 import { getBlogPostBySlug } from '@/api/blog.api';
 import { getOpenGraphUrl } from '@/api/openGraph';
 import { getProxyUrl } from '@/utils/image';
 
-// containers
-import { PostContainer } from '@/containers/_blog/post/post.container.jsx';
+import { GlobalLoader } from '@/components/Loading/GlobalLoader.compenent'; 
 
-// Types
+const PostContainer = React.lazy(() => 
+    import('@/containers/_blog/post/post.container.jsx').then(module => ({
+        default: module.PostContainer
+    }))
+);
+
 interface Author {
     name: string;
     describ: string;
@@ -32,16 +35,13 @@ export const Route = createFileRoute('/blog/$slug')({
     component: RouteComponent,
     
     loader: async ({ params }) => {
-        
         try {
             const response = await getBlogPostBySlug(params.slug);
-
             const data = response?.data?.data; 
 
             if (!data) {
                 throw new Error('Post not found');
             }
-
             return data as BlogPost;
         } catch (error) {
             console.error(error);
@@ -51,7 +51,7 @@ export const Route = createFileRoute('/blog/$slug')({
 
     pendingComponent: () => (
         <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            Loading blog post...
+            <GlobalLoader />
         </div>
     ),
     errorComponent: () => (
@@ -80,7 +80,6 @@ function RouteComponent() {
             <meta property="og:type" content="article" />
             <meta property="og:title" content={blogPost.post.title} />
             <meta property="og:description" content={blogPost.post.summary} />
-            
             <meta property="og:image" content={dynamicOgUrl} />
             <meta property="og:url" content={currentUrl} />
 
@@ -89,14 +88,15 @@ function RouteComponent() {
             <meta name="twitter:description" content={blogPost.post.summary} />
             <meta name="twitter:image" content={dynamicOgUrl} />
 
-            <PostContainer
-                title={blogPost.post.title}
-                summary={blogPost.post.summary}
-                content={blogPost.post.content}
-                featured_image={featuredImageUrl}
-                author={blogPost.author || { name: 'Unknown', describ: '' }}
-            />
+            <Suspense fallback={<div style={{ minHeight: '500px' }}><GlobalLoader /></div>}>
+                <PostContainer
+                    title={blogPost.post.title}
+                    summary={blogPost.post.summary}
+                    content={blogPost.post.content}
+                    featured_image={featuredImageUrl}
+                    author={blogPost.author || { name: 'Unknown', describ: '' }}
+                />
+            </Suspense>
         </>
     );
 }
-

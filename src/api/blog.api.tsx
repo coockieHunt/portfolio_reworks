@@ -56,7 +56,7 @@ export async function getBlogPostsOffset(
             };
         }
 
-        logDev('getBlogPosts error', err);
+        logDev('getBlogPostsOffset error', err);
         return null;
     }
 }

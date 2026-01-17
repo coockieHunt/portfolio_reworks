@@ -3,8 +3,20 @@ import { AssetsBaseUrl } from '../config';
 /**
  ** return proxy Cloudinary URL
  */
-export const getProxyUrl = (imageId: string): string => {
-    return `${AssetsBaseUrl}/cloudinary/proxy/${imageId}`;
+export const getProxyUrl = (imageId: string, options?: Record<string, any>): string => {
+    let optionsStr = '';
+
+    if(options && options.size) {
+        const { width, height } = options.size;
+        console.log(width, height);
+        optionsStr = `/size/${width}/${height}`;
+    }
+    
+    const url = `${AssetsBaseUrl}/images/proxy/${imageId}${optionsStr}`;
+    
+    console.log('Generated Proxy URL:', url); 
+    
+    return url;
 }
 
 /**

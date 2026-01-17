@@ -17,6 +17,5 @@ export function getOpenGraphUrl(slug: string, title: string, lastEdit: string) {
 
     const url_build = `${AssetsBaseUrl}/opengraph/get?${params.toString()}`;
 
-    console.log('Generated Open Graph URL:', url_build);
     return url_build;
 }

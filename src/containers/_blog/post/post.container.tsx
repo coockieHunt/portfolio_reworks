@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
-import hljs from 'highlight.js';
+
+import hljs from 'highlight.js/lib/core';
+// spefic languages for lighter bundle
+import javascript from 'highlight.js/lib/languages/javascript';
+import typescript from 'highlight.js/lib/languages/typescript';
+import css from 'highlight.js/lib/languages/css';
+import xml from 'highlight.js/lib/languages/xml'; 
+import bash from 'highlight.js/lib/languages/bash';
+import json from 'highlight.js/lib/languages/json';
+import yaml from 'highlight.js/lib/languages/yaml';
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('css', css);
+hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('yaml', yaml);
 
 // icons
 import {
@@ -27,9 +43,8 @@ import { resolveImageUrl } from '@/utils/image';
 //style
 import * as Styled from './post.style';
 import { MarkdownContent } from './markdown.style';
+
 import 'highlight.js/styles/atom-one-dark.css';
-
-
 
 interface Author {
     name: string;
@@ -57,6 +72,7 @@ export const PostContainer = ({
     //toc build
     useEffect(() => {
         const md = new MarkdownIt({
+            html: true, 
             highlight: function (str, lang) {
                 if (lang && hljs.getLanguage(lang)) {
                     try {
@@ -65,7 +81,7 @@ export const PostContainer = ({
                         console.error(e);
                     }
                 }
-                return '';
+                return md.utils.escapeHtml(str);
             },
         });
     
@@ -77,7 +93,8 @@ export const PostContainer = ({
             self,
         ) {
             const token = tokens[idx];
-            const title = tokens[idx + 1].content;
+            const titleToken = tokens[idx + 1];
+            const title = titleToken ? titleToken.content : '';
     
             const anchorId = title
                 .toLowerCase()
@@ -92,13 +109,12 @@ export const PostContainer = ({
         md.renderer.rules.image = function (tokens, idx, options, env, self) {
             const token = tokens[idx];
             const srcIndex = token.attrIndex('src');
-
             
             if (srcIndex >= 0) {
                 const originalSrc = token.attrs[srcIndex][1];
-                const resolvedSrc = resolveImageUrl(
-                    originalSrc, { height: 300, width: 300 }
-                );
+                token.attrPush(['loading', 'lazy']);
+                
+                const resolvedSrc = resolveImageUrl(originalSrc);
                 token.attrs[srcIndex][1] = resolvedSrc;
             }
             
@@ -106,7 +122,6 @@ export const PostContainer = ({
         };
     
         const rawHtml = md.render(content);
-    
         setSanitizedHtml(DOMPurify.sanitize(rawHtml));
     }, [content]);
 
@@ -139,6 +154,9 @@ export const PostContainer = ({
                             <span
                                 className="back"
                                 onClick={() => navigate({ to: '/blog' })}
+                                role="button" 
+                                tabIndex={0}
+                                onKeyDown={(e) => e.key === 'Enter' && navigate({ to: '/blog' })}
                             >
                                 <ArrowLeft /> retour aux articles
                             </span>

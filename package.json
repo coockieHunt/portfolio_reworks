@@ -54,6 +54,7 @@
         "@vitejs/plugin-react": "^5.1.1",
         "babel-plugin-styled-components": "^2.1.4",
         "eslint-config-prettier": "^10.1.8",
+        "terser": "^5.46.0",
         "typescript": "^5.9.3",
         "vite": "latest",
         "vite-plugin-html": "^3.2.2",

@@ -3,29 +3,31 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import path from 'path';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd());
+    const isProd = mode === 'production';
 
     return {
         plugins: [
             svgr(),
-            tanstackRouter({
+            TanStackRouterVite({
                 target: 'react',
                 autoCodeSplitting: true,
             }),
-            // AJOUT: Configuration Babel pour Styled-Components
             react({
                 babel: {
                     plugins: [
                         [
                             'babel-plugin-styled-components',
                             {
-                                displayName: true,
-                                fileName: true,
+                                displayName: !isProd, 
+                                fileName: !isProd,
                                 ssr: false,
-                                pure: true
+                                pure: true,
+                                minify: true,
+                                transpileTemplateLiterals: true
                             }
                         ]
                     ]
@@ -37,6 +39,7 @@ export default defineConfig(({ mode }) => {
                         siteUrl: env.VITE_SITE_URL || 'http://localhost:3000',
                     },
                 },
+                minify: isProd,
             }),
         ],
         resolve: {
@@ -44,16 +47,22 @@ export default defineConfig(({ mode }) => {
                 '@': path.resolve(__dirname, './src'),
             },
         },
-        server: {
-            port: 3000,
-            open: true,
-            host: !!process.env.USE_NETWORK,
-            // CORRECTION: watch doit être ICI, dans server
-            watch: {
-                usePolling: true,
-            },
-        },
         build: {
+            target: 'esnext',
+            cssCodeSplit: true,
+            sourcemap: false,
+            outDir: 'build',
+            minify: 'terser',
+            terserOptions: {
+                compress: {
+                    drop_console: isProd, 
+                    drop_debugger: isProd,
+                    pure_funcs: ['console.info', 'console.debug', 'console.warn'],
+                },
+                format: {
+                    comments: false, 
+                },
+            },
             rollupOptions: {
                 output: {
                     manualChunks: {
@@ -62,13 +71,11 @@ export default defineConfig(({ mode }) => {
                             'react-dom',
                             'framer-motion',
                             'styled-components',
+                            'scheduler' 
                         ],
                     },
                 },
             },
-            outDir: 'build',
-            sourcemap: false,
-            target: 'esnext',
         },
     };
 });

@@ -46,6 +46,7 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
 
     & img {
         width: ${heightPostCard}px;
+        height: ${heightPostCard}px;
         align-self: stretch; 
         object-fit: cover;
         display: ${props => props.$loading ? 'none' : 'block'};
