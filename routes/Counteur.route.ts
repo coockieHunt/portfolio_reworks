@@ -116,7 +116,7 @@ counterRouter.post('/increment/:name',
             return res.success({ 
                 counterName: name, 
                 redisKey: redisKey, 
-                newValue: newValue,
+                counterValue: newValue,
                 exist: exist
             });
         } catch (error: any) {
@@ -159,7 +159,7 @@ counterRouter.post('/decrement/:name',
             if(currentValue === "0") {
                 logConsole('POST', `/counter/decrement/${name}`, 'WARN', `Counter value is already at 0`, { redisKey });
                 writeToLog(`Counter DECR name=${name} key=${redisKey} already at 0`, 'counter');
-                return res.error('Counter value is already at 0 and cannot be decremented further.', 400);
+                return res.error('Counter value is already at 0 and cannot decrement below 0.', 400);
             }
             const newValue = await RedisClient.decr(redisKey);
             const exist = existBefore === 1;
@@ -169,7 +169,7 @@ counterRouter.post('/decrement/:name',
             return res.success({ 
                 counterName: name, 
                 redisKey: redisKey, 
-                newValue: newValue,
+                counterValue: newValue,
                 exist: exist
             });
         } catch (error: any) {
@@ -207,6 +207,8 @@ counterRouter.post('/reset/:name',
             return res.success({ 
                 counterName: name,
                 redisKey: redisKey,
+                counterValue: 0,
+                exist: true,
                 message: `Counter ${name} has been reset to 0.` 
             });
         } catch (error: any) {

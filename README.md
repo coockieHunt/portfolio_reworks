@@ -62,42 +62,57 @@ Only keys defined in this mapping are allowed for the counter routes.
 
 ### Endpoints
 
-- GET /api
-  - Returns name & version of the API.
+- **General**
+  - `GET /api` - Returns name & version of the API.
+  - `GET /api/health/` - Health check (Redis & SMTP state).
 
-- GET /api/status
-  - Returns JSON including a `service.redis` field and HTTP 200/503 depending on `redis` connectivity.
+- **Authentication (`/api/auth`)**
+  - `POST /login` - Login with password (returns JWT).
+  - `POST /logout` - Logout.
 
-- POST /api/sendEmail
-  - Request body JSON `{ to, subject, content }`
-  - Returns success true/false. The app writes mail logs to `logs/` directory if configured.
+- **Mail (`/api/mail`)**
+  - `POST /sendEmail` - Send contact email.
+    - Body: `{ name, email, message, subject? }`
 
-- POST /api/guestbook/read
-  - Body: `{ "password": "..." }`
-  - Returns list of guestbook entries. Requires valid password.
+- **GuestBook (`/api/guestbook`)**
+  - `POST /read` - Get entries (Pagination).
+  - `POST /write` - Add entry.
+  - `DELETE /delete` - Delete entry (Admin/Password protected).
 
-- POST /api/guestbook/write
-  - Body: `{ "password": "...", "name": "...", "message": "..." }`
-  - Adds a new entry. 
-  - Validations:
-    - Name: max 50 chars, no URLs, no HTML.
-    - Message: max 500 chars, no URLs, no HTML.
-    - Password: must match configured secret.
+- **Blog (`/api/blog`)**
+  - `POST /all` - Get posts with pagination.
+  - `POST /offset` - Get posts with offset/filtering.
+  - `GET /:slug` - Get single post.
+  - `PUT /:slug` - Update post.
+  - `PUT /edit/publish/:slug` - Publish/unpublish post.
+  - `DELETE /:slug` - Delete post.
+  - `DELETE /cache/delete/:slug` - Clear specific post cache.
+  - `DELETE /cache/clear/` - Clear all blog cache.
 
-- GET /api/counter/get/:name
-  - Returns counter value; `:name` must be one of the keys in `constant/redisKey.js`
-  - Response example:
-  ```json
-  {
-    "success": true,
-    "counterName": "THEME_RAND",
-    "redisKey": "site:theme:rand_activate",
-    "counterValue": 3,
-    "exist": true
-  }
-  ```
+- **Tags (`/api/tags`)**
+  - `GET /` - List all tags.
+  - `GET /:slug` - Get tag details.
+  - `DELETE /:slug` - Delete tag.
 
-- POST /api/counter/set/:name
+- **Assets (`/api/assets`)**
+  - `POST /upload/` - Upload file (Multipart).
+  - `DELETE /delete/:folder/:id` - Delete asset.
+  - `DELETE /cache/clear/:id` - Clear asset cache.
+  - `DELETE /cache/all` - Clear all asset cache.
+
+- **Counters (`/api/counter`)**
+  - `GET /get/:name` - Get counter value.
+  - `POST /set/:name` - Set counter value.
+  - `POST /increment/:name` - Increment counter.
+
+- **Asset Proxy (`/assets/images`)**
+  - `GET /proxy/:folder/:id` - Serve asset.
+  - `GET /proxy/:public_id/` - Search and serve asset.
+  - `GET /proxy/:public_id/size/:w/:h` - Resize and serve.
+
+- **OpenGraph (`/assets/opengraph`)**
+  - `GET /get` - Generate OpenGraph image.
+
   - Body: `{ "value": 7 }`
   - Sets counter to the provided integer value.
 

@@ -73,6 +73,7 @@ mailRouter.post('/sendEmail',
             if (!result || !result.success) {throw new Error(result?.message || 'sendmail returned no result');}
 
             return res.success({ 
+                messageId: result.messageId,
                 info: 'Email sent successfully to admin.', 
                 to: adminEmail,
                 body: req.body

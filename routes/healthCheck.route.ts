@@ -34,25 +34,24 @@ healthCheckRouter.get('/', rateLimiter, async (req: Request, res: Response) => {
     const healthStatus = {
         status: "ok",
         uptime: uptime(),
-        service: {
-            redis: "down",
-            mail: "down",
-            sqlite: "down"
-        }
+        timestamp: new Date().toISOString(),
+        database: "down",
+        redis: "down",
+        mail: "down"
     };
 
     try {
         pingSqlite();
-        healthStatus.service.sqlite = 'UP';
+        healthStatus.database = 'UP';
 
         if (!RedisClient || !RedisClient.isReady) {
              throw new Error("Redis client not ready");
         }
         await RedisClient.ping();
-        healthStatus.service.redis = 'UP';
+        healthStatus.redis = 'UP';
 
         await SendmailService.verifySmtpConnection();
-        healthStatus.service.mail = 'UP';
+        healthStatus.mail = 'UP';
 
         res.success(healthStatus);
 

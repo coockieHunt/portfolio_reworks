@@ -41,6 +41,25 @@ const PORT = cfg.port || 3000;
 
 app.set('trust proxy', 1); //FIX PROXY NGNIX
 
+// CORS configuration
+const corsOptions = {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+        if (!origin) {
+            return callback(null, true);
+        }
+        
+        if (cfg.corsOrigins.includes(origin) || cfg.corsOrigins.includes('*')) {
+            callback(null, true);
+        } else {
+            console.log(chalk.yellow(`[CORS]`), `Blocked origin: ${origin}`);
+            callback(new Error('Not allowed by CORS'), false);
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
+
 // Initialisation Redis
 const redisClient = createClient({
     password: cfg.redis.password,
@@ -57,7 +76,7 @@ const redisClient = createClient({
 });
 
 //load global middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(TestingMiddleware);
 app.use(express.json()); 
 app.use(trackApiCall); 
@@ -93,8 +112,6 @@ async function startServer() {
     if (cfg.fallback.latency || cfg.fallback.sendError) {
         consola.warn('🛑 FALLBACK SIMULATION is ENABLED');
     }
-
-    console.log(cfg.fallback.latency)
 
     consola.info(chalk.bold('Configuration Loaded:'));
     console.log(`  ${chalk.blue('• API Root:')}   ${API_ROOT}`);

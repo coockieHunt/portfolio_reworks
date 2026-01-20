@@ -16,6 +16,12 @@ import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
 
 const BlogRoute: Router = express.Router({ mergeParams: true });
 
+/**
+ * POST /all - Get all blog posts with pagination
+ * Retrieve all blog posts with pagination
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.post('/all', 
     rateLimiter, 
     authenticateToken,
@@ -41,6 +47,12 @@ BlogRoute.post('/all',
         }
 }, responseHandler);
 
+/**
+ * POST /offset - Get blog posts with offset-based pagination
+ * Retrieve blog posts using offset-based pagination with optional filters
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.post('/offset',
     rateLimiter,[
         body('min').optional().isInt({ min: 1 }).withMessage('Min must be a positive integer'),
@@ -70,7 +82,12 @@ BlogRoute.post('/offset',
         }
 }, responseHandler);
 
-// GET
+/**
+ * GET /:slug - Get blog post by slug
+ * Retrieve a blog post using its slug
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.get('/:slug', 
     rateLimiter, 
     param('slug').notEmpty().withMessage('Slug is required'),
@@ -87,7 +104,7 @@ BlogRoute.get('/:slug',
             logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post `, { slug: req.params.slug });
             writeToLog(`BlogRoute READ ok slug=${req.params.slug}`, 'blog');
 
-            return res.success(data);
+            return res.success({ post: data.data, cached: data.cached });
         } catch (error) {
             logConsole('GET', `/blog/${req.params.slug}`, 'FAIL', `Error retrieving blog post`, { error, slug: req.params.slug });
             writeToLog(`BlogRoute READ error slug=${req.params.slug}`, 'blog');
@@ -97,7 +114,12 @@ BlogRoute.get('/:slug',
     }, 
 responseHandler);
 
-// NEW
+/**
+ * POST /new - Create a new blog post
+ * Create a new blog post with the provided details
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.post('/new', 
     rateLimiter, 
     [
@@ -119,13 +141,34 @@ BlogRoute.post('/new',
             logConsole('POST', '/blog/', 'OK', `Created new blog post`, { slug });
             writeToLog(`BlogRoute CREATE ok slug=${slug}`, 'blog');
 
-            return res.success({ message: "blog post created successfully", post: newPost })
+            return res.success({ post: newPost }, 'blog post created successfully')
         } catch (error) {
-            if((error as any).message.includes('UNIQUE constraint failed')) {
+            const errMessage = (error as any).message || '';
+
+            if (errMessage.startsWith('INVALID_TAG_IDS:')) {
+                const missing = errMessage.replace('INVALID_TAG_IDS:', '');
+                logConsole('POST', '/blog/', 'WARN', `Invalid tag ids`, { slug: req.body.slug, missing });
+                writeToLog(`BlogRoute CREATE invalid tags slug=${req.body.slug} missing=${missing}`, 'blog');
+                return res.error(`invalid tag ids: ${missing}`, 400);
+            }
+
+            if (errMessage === 'INVALID_AUTHOR') {
+                logConsole('POST', '/blog/', 'WARN', `Invalid author id`, { slug: req.body.slug, authorId });
+                writeToLog(`BlogRoute CREATE invalid author slug=${req.body.slug} author=${authorId}`, 'blog');
+                return res.error('invalid author id', 400);
+            }
+
+            if(errMessage.includes('UNIQUE constraint failed')) {
                 logConsole('POST', '/blog/', 'WARN', `Slug already exists`, { slug: req.body.slug });
                 writeToLog(`BlogRoute CREATE duplicate slug=${req.body.slug}`, 'blog');
 
                 return res.error("slug already exists", 409);
+            }
+
+            if (errMessage.includes('FOREIGN KEY constraint failed')) {
+                logConsole('POST', '/blog/', 'WARN', `Foreign key constraint`, { slug: req.body.slug, authorId, tagIds });
+                writeToLog(`BlogRoute CREATE foreign key fail slug=${req.body.slug}`, 'blog');
+                return res.error('invalid authorId or tagIds', 400);
             }
 
             logConsole('POST', '/blog/', 'FAIL', `Error creating new blog post`, { error, slug: req.body.slug });
@@ -136,7 +179,12 @@ BlogRoute.post('/new',
     }, 
 responseHandler);
 
-//PUT
+/**
+ * PUT /edit/update/:slug - Update blog post by slug
+ * Update the details of a blog post
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.put('/edit/update/:slug', 
     rateLimiter, 
     [
@@ -146,12 +194,20 @@ BlogRoute.put('/edit/update/:slug',
         body('summary').optional().isString(),
         body('authorId').optional().isNumeric(),
         body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
-        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer')
+        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer'),
+        body('tags').optional().isArray().withMessage('Tags must be an array'),
+        body('tags.*').optional().isInt().withMessage('Each tag ID must be an integer')
     ],
     validateRequest,
     authenticateToken,
     async (req: Request<{ slug: string }>, res: Response) => {
-        const { title, content, summary, authorId, tagIds } = req.body;
+        let { title, content, summary, authorId, tagIds, tags } = req.body;
+        
+        // Support "tags" as alias for "tagIds"
+        if (!tagIds && tags) {
+            tagIds = tags;
+        }
+
         console.log( title, content, summary, authorId, tagIds );
         try {
             const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId, tagIds });
@@ -165,8 +221,23 @@ BlogRoute.put('/edit/update/:slug',
             logConsole('PUT', `/blog/${req.params.slug}`, 'OK', `Updated blog post`, { slug: req.params.slug });
             writeToLog(`BlogRoute UPDATE ok slug=${req.params.slug}`, 'blog');
 
-            return res.success({ message: `post (${req.params.slug}) updated successfully`, post: updatedPost });
+            return res.success({ post: updatedPost }, `post (${req.params.slug}) updated successfully`);
         } catch (error) {
+            const errMessage = (error as any).message || '';
+
+            if (errMessage.startsWith('INVALID_TAG_IDS:')) {
+                const missing = errMessage.replace('INVALID_TAG_IDS:', '');
+                logConsole('PUT', `/blog/${req.params.slug}`, 'WARN', `Invalid tag ids`, { slug: req.params.slug, missing });
+                writeToLog(`BlogRoute UPDATE invalid tags slug=${req.params.slug} missing=${missing}`, 'blog');
+                return res.error(`invalid tag ids: ${missing}`, 400);
+            }
+
+            if (errMessage === 'INVALID_AUTHOR') {
+                logConsole('PUT', `/blog/${req.params.slug}`, 'WARN', `Invalid author id`, { slug: req.params.slug, authorId });
+                writeToLog(`BlogRoute UPDATE invalid author slug=${req.params.slug} author=${authorId}`, 'blog');
+                return res.error('invalid author id', 400);
+            }
+
             logConsole('PUT', `/blog/${req.params.slug}`, 'FAIL', `Error updating blog post`, { error, slug: req.params.slug });
             writeToLog(`BlogRoute UPDATE error slug=${req.params.slug}`, 'blog');
 
@@ -175,6 +246,11 @@ BlogRoute.put('/edit/update/:slug',
     }, 
 responseHandler);
 
+/** * PUT /edit/publish/:slug - Publish or unpublish blog post
+ * Update the published status of a blog post
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.put('/edit/publish/:slug', 
     rateLimiter, 
     [
@@ -197,7 +273,7 @@ BlogRoute.put('/edit/publish/:slug',
             logConsole('PUT', `/blog/publish/${req.params.slug}`, 'OK', `Updated publish status for blog post`, { slug: req.params.slug, publish });
             writeToLog(`BlogRoute PUBLISH ok slug=${req.params.slug}`, 'blog');
 
-            return res.success({ message: `post (${req.params.slug}) publish status updated successfully`, post: updatedPost,  });
+            return res.success({ post: updatedPost }, `post (${req.params.slug}) publish status updated successfully`);
         } catch (error) {
             logConsole('PUT', `/blog/publish/${req.params.slug}`, 'FAIL', `Error updating publish status for blog post`, { error, slug: req.params.slug });
             writeToLog(`BlogRoute PUBLISH error slug=${req.params.slug}`, 'blog');
@@ -207,7 +283,12 @@ BlogRoute.put('/edit/publish/:slug',
     }, 
 responseHandler);
 
-// DELETE
+/**
+ * DELETE /:slug - Delete blog post by slug
+ * Delete a blog post by its slug
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.delete('/:slug', 
     rateLimiter, 
     param('slug').notEmpty().withMessage('Slug is required'),
@@ -216,11 +297,10 @@ BlogRoute.delete('/:slug',
     async (req: Request<{ slug: string }>, res: Response, next) => {
         try {
             const deleted = await BlogService.deletePostBySlug(req.params.slug);
-
             if (!deleted) {
                 logConsole('DELETE', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute DELETE not found slug=${req.params.slug}`, 'blog');
-                return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
+                return res.success({}, `post (${req.params.slug}) not found or already deleted`);
             }
 
             logConsole('DELETE', `/blog/${req.params.slug}`, 'OK', `Deleted blog post`, { slug: req.params.slug });
@@ -236,6 +316,12 @@ BlogRoute.delete('/:slug',
     }, 
 responseHandler);
 
+/**
+ * DELETE /cache/delete/:slug - Delete blog post cache by slug
+ * Delete the cached version of a blog post by its slug
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 BlogRoute.delete('/cache/delete/:slug', 
     rateLimiter, 
     param('slug').notEmpty().withMessage('Slug is required'),
@@ -247,7 +333,7 @@ BlogRoute.delete('/cache/delete/:slug',
             if (!deleted) {
                 logConsole('DELETE', `/blog/cache/${req.params.slug}`, 'WARN', `Cache not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute CACHE DELETE not found slug=${req.params.slug}`, 'blog');
-                return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
+                return res.idNotFound(req.params.slug, `cache for post (${req.params.slug}) not found`);
             }
 
             logConsole('DELETE', `/blog/cache/${req.params.slug}`, 'OK', `Deleted cache for blog post`, { slug: req.params.slug });
@@ -272,7 +358,7 @@ BlogRoute.delete('/cache/clear/',
             logConsole('DELETE', `/blog/cache/clear/all`, 'OK', `Cleared all blog cache`);
             writeToLog(`BlogRoute CACHE CLEAR ALL ok`, 'blog');
 
-            return res.success({ message: `all blog cache cleared successfully` });
+            return res.success({}, `all blog cache cleared successfully`);
         } catch (error) {
             logConsole('DELETE', `/blog/cache/clear/all`, 'FAIL', `Error clearing all blog cache`, { error });
             writeToLog(`BlogRoute CACHE CLEAR ALL error`, 'blog');

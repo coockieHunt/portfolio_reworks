@@ -119,8 +119,9 @@ guestBookRoute.post('/write',
             writeToLog(`GuestBookRoute WRITE ok by=${name} len=${message.length} id=${newEntry.id}`, 'guestbook');
             
             return res.success({ 
+                id: newEntry.id,
                 new_entry: newEntry
-            });
+            }, 'Guestbook entry added successfully');
         } catch (error: any) {
             const errorMsg = error.stack || error.message || String(error);
             logConsole('POST', '/guestbook/', 'FAIL', 'Error adding guestbook entry', { error: errorMsg });

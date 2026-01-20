@@ -19,6 +19,7 @@ const mailPass = process.env.MAIL_PASS;
 interface SendMailResponse {
     success: boolean;
     message?: string;
+    messageId?: string;
 }
 
 const transporter: Transporter = nodemailer.createTransport({
@@ -69,7 +70,7 @@ export class SendmailService {
             const info = await transporter.sendMail(mailOptions);
 
             writeToLog(`Email sent to [${to}] ID: ${info.messageId}`, 'mail');
-            return { success: true };
+            return { success: true, messageId: info.messageId };
         } catch (error: any) {
             const errorMsg = error.message || String(error);
             logConsole('POST', '/sendmail/', 'FAIL', 'Error sending email', { error: errorMsg });

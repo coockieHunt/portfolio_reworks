@@ -222,6 +222,31 @@ export class BlogService {
     static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; tagIds?: number[]; }) {
         const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-');
         const { tagIds, ...postData } = data;
+
+        const authorExists = await db
+            .select({ id: post_author.id })
+            .from(post_author)
+            .where(eq(post_author.id, postData.authorId))
+            .get();
+
+        if (!authorExists) {
+            throw new Error('INVALID_AUTHOR');
+        }
+
+        if (tagIds && tagIds.length > 0) {
+            const existingTags = await db
+                .select({ id: tags.id })
+                .from(tags)
+                .where(inArray(tags.id, tagIds))
+                .all();
+
+            const foundIds = new Set(existingTags.map(t => t.id));
+            const missing = tagIds.filter(id => !foundIds.has(id));
+
+            if (missing.length > 0) {
+                throw new Error(`INVALID_TAG_IDS:${missing.join(',')}`);
+            }
+        }
         
         const newPost = await db.insert(posts).values({ ...postData, slug }).returning().get();
         
@@ -245,6 +270,33 @@ export class BlogService {
     static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; }) {
         const key = this.getCacheKey(slug);
         validateKey(key);
+
+        if (updateData.authorId) {
+             const authorExists = await db
+            .select({ id: post_author.id })
+            .from(post_author)
+            .where(eq(post_author.id, updateData.authorId))
+            .get();
+
+            if (!authorExists) {
+                throw new Error('INVALID_AUTHOR');
+            }
+        }
+
+        if (updateData.tagIds && updateData.tagIds.length > 0) {
+            const existingTags = await db
+                .select({ id: tags.id })
+                .from(tags)
+                .where(inArray(tags.id, updateData.tagIds))
+                .all();
+
+            const foundIds = new Set(existingTags.map(t => t.id));
+            const missing = updateData.tagIds.filter(id => !foundIds.has(id));
+
+            if (missing.length > 0) {
+                throw new Error(`INVALID_TAG_IDS:${missing.join(',')}`);
+            }
+        }
 
         updateData.editedAt = new Date();
         const { tagIds, ...postUpdateData } = updateData;

@@ -28,7 +28,7 @@ AssetsProxyRoute.get('/proxy/:folder/:id',
 
             const filePath = AssetsService.getAssetPath(filename);
             
-            res.setHeader('Content-Type', 'image/png');
+            res.setHeader('Content-Type', 'image/webp');
             res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
             
             logConsole('GET', `/proxy/${folder}/${id}`, 'OK', `Proxied local image ${id}`);
@@ -59,7 +59,7 @@ AssetsProxyRoute.get('/proxy/:public_id/',
             const filePath = AssetsService.getAssetPath(filename);
             
             // Cache headers
-            res.setHeader('Content-Type', 'image/png');
+            res.setHeader('Content-Type', 'image/webp');
             res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
             
             logConsole('GET', `/proxy/${req.params.public_id}/`, 'OK', `Proxied local image ${req.params.public_id}`);
@@ -97,10 +97,10 @@ AssetsProxyRoute.get('/proxy/:public_id/size/:w/:h',
             // Resize image using sharp
             const resizedImage = await sharp(filePath)
                 .resize(width, height, { fit: 'cover', position: 'center' })
-                .png()
+                .webp({ quality: 80 })
                 .toBuffer();
             
-            res.setHeader('Content-Type', 'image/png');
+            res.setHeader('Content-Type', 'image/webp');
             res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
             
             writeToLog(`Proxied local image ${req.params.public_id} with size ${width}x${height}`, "assets");

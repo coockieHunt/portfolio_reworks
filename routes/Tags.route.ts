@@ -18,6 +18,12 @@ const TagRouter: Router = express.Router({ mergeParams: true });
 
 TagRouter.use(rateLimiter);
 
+/**
+ * GET / - Get all tags
+ * Retrieves all tags.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 TagRouter.get('/',
     rateLimiter,
     async (req: Request, res: Response) => {
@@ -25,8 +31,7 @@ TagRouter.get('/',
             const tags = await TagService.getAllTags();
             logConsole('TagRouter', 'GET /', 'OK', 'Retrieved all tags.');
             writeToLog(`Retrieved all tags.`, "tags");
-            
-            return res.success(tags);
+            return res.success(tags.tags);
         } catch (error: any) {
             logConsole('TagRouter', 'GET /', 'FAIL', error.message);
             writeToLog(`Failed to retrieve tags: ${error.message}`, "tags");
@@ -34,6 +39,12 @@ TagRouter.get('/',
         }
 });
 
+/**
+ * GET /:slug - Get tag by slug
+ * Retrieves a tag by its slug.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 TagRouter.get('/:slug', 
     rateLimiter,
     [
@@ -59,6 +70,12 @@ TagRouter.get('/:slug',
         }
 });
 
+/**
+ * DELETE /:slug - Delete tag by slug
+ * Deletes a tag by its slug.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 TagRouter.delete('/:slug', 
     rateLimiter,
     authenticateToken,
@@ -73,7 +90,7 @@ TagRouter.delete('/:slug',
             TagService.deleteTagBySlug(slug);
             logConsole('TagRouter', `DELETE /${slug}`, 'OK', `Deleted tag with slug: ${slug}.`);
             writeToLog(`Deleted tag with slug: ${slug}.`, "tags");
-            return res.success({ message: 'Tag deleted successfully.' });
+            return res.removed(slug, 'Tag deleted successfully.');
         } catch (error: any) {
             logConsole('TagRouter', `DELETE /${slug}`, 'FAIL', error.message);
             writeToLog(`Failed to delete tag with slug: ${slug}: ${error.message}`, "tags");
@@ -81,6 +98,12 @@ TagRouter.delete('/:slug',
         }
 });
 
+/**
+ * POST / - Create a new tag
+ * Creates a new tag.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 TagRouter.post('/',
     rateLimiter,
     authenticateToken,

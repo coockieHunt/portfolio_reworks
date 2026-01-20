@@ -57,7 +57,6 @@ try {
     
     const statusLabel = enabled ? chalk.green('ACTIVE') : chalk.red('DISABLED');
     
-    // Format the list to break line every 4 elements to avoid breaking the box
     const formattedRoutes = routesList.reduce((acc, route, i) => {
         return acc + ((i > 0 && i % 4 === 0) ? ',\n  ' : (i > 0 ? ', ' : '')) + route;
     }, '');
@@ -85,6 +84,16 @@ try {
     consola.success('RateLimiter loaded with default settings.');
 }
 
+/**
+    * Determines rate limiting parameters for the incoming request
+    * based on the rate limiting configuration.
+    * 
+    * Matches request URL and method against configured routes.
+    * Falls back to default settings if no specific route matches.
+    * 
+    * @param req - Express request object
+    * @returns LimitContext containing rate limiting parameters
+ */
 function getLimitsContext(req: Request): LimitContext {
     const defaults = {
         windowSeconds: parseInt(process.env.RATE_WINDOW_SECONDS || '60', 10),
@@ -137,6 +146,17 @@ function getLimitsContext(req: Request): LimitContext {
     return { key: fallbackKey, ...defaults, adminBypass: false };
 }
 
+/** Rate Limiting Middleware
+ * 
+ * Enforces rate limits on incoming requests based on configuration.
+ * Uses Redis to track request counts per IP and route within time windows.
+ * Supports admin bypass for certain routes.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
+ * @returns Promise resolving to void or a 429 response if rate limit exceeded
+ */
 export async function rateLimiter(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
     try {
         const redis = RedisClient;

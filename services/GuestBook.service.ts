@@ -13,7 +13,7 @@ interface GuestBookEntry {
     id: string;
     name: string;
     message: string;
-    date: string;
+    createdAt: string;
 }
 
 interface GuestBookResponseGet {
@@ -81,6 +81,10 @@ export class GuestBookService {
                     if (!parsed.id) {
                         parsed.id = `legacy-${Date.now()}-${index}`;
                     }
+                    // Normalize legacy field names
+                    if (!parsed.createdAt) {
+                        parsed.createdAt = parsed.date || new Date().toISOString();
+                    }
                     return parsed;
                 } catch (e) {
                     console.error("error parsing entry guestbook", e);
@@ -135,7 +139,7 @@ export class GuestBookService {
                 id: this.generateId(),
                 name: escapeHtml(name.trim()), 
                 message: escapeHtml(message.trim()),
-                date: new Date().toISOString()
+                createdAt: new Date().toISOString()
             };
 
             const entryString = JSON.stringify(entryData);

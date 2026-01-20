@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { promises as fsPromises } from 'fs'; 
 import path from 'path';
+import sharp from 'sharp';
 
 import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant';
 import { hashGet, hashSet, hashDel, hashGetAll, cacheDel, isRedisReady } from '../utils/cache.helper';
@@ -22,11 +23,12 @@ export class AssetsService {
 
     /**
         * Uploads an asset to the server and updates the Redis cache.
+        * Images are automatically converted to WebP format.
         * @param buffer - The file buffer to upload
         * @param name - The original name of the file
         * @param id - The identifier for the asset
         * @param folder - The folder/category for the asset
-        * @param extension - The file extension (default: .png)
+        * @param extension - The original file extension (will be converted to .webp for images)
         * @returns The new filename if successful, null otherwise
      */
     static async uploadAsset(
@@ -55,10 +57,30 @@ export class AssetsService {
 
             const timestamp = Date.now();
             const nameFormatted = name.replace(/\s+/g, '-').toLowerCase();
-            const newPhysicalName = `${id}-${nameFormatted}-${timestamp}${extension}`;
+            
+            // Convert image to WebP format
+            const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.webp'];
+            const isImage = imageExtensions.includes(extension.toLowerCase());
+            
+            let finalBuffer = buffer;
+            let finalExtension = extension;
+            
+            if (isImage) {
+                try {
+                    finalBuffer = await sharp(buffer)
+                        .webp({ quality: 80 })
+                        .toBuffer();
+                    finalExtension = '.webp';
+                    logConsole("INFO", "ASSETS_SERVICE", "OK", "Image converted to WebP", { originalExtension: extension });
+                } catch (conversionError: any) {
+                    logConsole("WARN", "ASSETS_SERVICE", "WARN", "WebP conversion failed, using original format", { error: conversionError.message });
+                }
+            }
+            
+            const newPhysicalName = `${id}-${nameFormatted}-${timestamp}${finalExtension}`;
             const fullPath = path.join(this.assetsDirectory, newPhysicalName);
 
-            await fsPromises.writeFile(fullPath, buffer);
+            await fsPromises.writeFile(fullPath, finalBuffer);
             logConsole("INFO", "ASSETS_SERVICE", "OK", "File written to disk", { path: fullPath });
 
             await hashSet(

@@ -81,7 +81,7 @@ assetsRoute.delete('/delete/:folder/:id',
         }
 
         logConsole("DELETE", `/assets/delete/${folder}/${id}`, "OK", "Asset deleted successfully", { id, folder });
-        return res.success({}, 'Asset deleted successfully');
+        return res.removed(id as string, 'Asset deleted successfully');
     }
 );
 
@@ -94,7 +94,7 @@ assetsRoute.delete('/cache/clear/:id',
         try {
             const keysDeleted = await AssetsService.clearAssetsCache(id as string);
             logConsole("DELETE", `/assets/cache/clear/${id}`, "OK", "Cache cleared successfully", { id, keysDeleted });
-            return res.success({ keysDeleted }, 'Cache cleared successfully');
+            return res.removed(id as string, 'Cache cleared successfully');
         } catch (error) {
             logConsole("DELETE", `/assets/cache/clear/${id}`, "FAIL", "Error clearing cache", { error });
             return res.error('Error clearing cache', 500);

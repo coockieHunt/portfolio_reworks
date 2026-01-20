@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { boolean } from 'drizzle-orm/gel-core';
 import staticConfig from '../static.config.json';
 import { parseList } from '../utils/redis.helper';
 
@@ -45,6 +44,7 @@ interface AppConfig {
 	AssetRoot: string;
 	MailTransport: MailTransportConfig;
 	allowedIPs: string[];
+	corsOrigins: string[];
 	Log: LogConfig;
 	redis: RedisConfig;
 	SecretSystem: { password?: string };
@@ -73,6 +73,8 @@ const config: AppConfig = {
 	},
 
 	allowedIPs: parseList(process.env.IP_WHITELIST || "::1,::ffff:127.0.0.1"),
+
+	corsOrigins: parseList(process.env.CORS_ORIGINS || "http://localhost:3000"),
 
 	Log: {
 		maxLine: staticConfig.log.maxLine,
