@@ -1,0 +1,170 @@
+meta {
+  name: 🔒Upload Asset
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/assets/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(e:\Users\jonas\Pictures\fond ecran\des-nuages-de-style-anime.jpg)
+  name: my-image
+  id: MyAsset
+  ~folder: blog
+}
+
+tests {
+  test("Status code is 200 on successful upload", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("File uploaded successfully");
+    }
+  });
+  
+  test("Response contains file path", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('path');
+      expect(body.data.path).to.be.a('string');
+    }
+  });
+  
+  test("No file uploaded returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("No file uploaded");
+    }
+  });
+  
+  test("Invalid ID format returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("start with an uppercase letter");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 ⬆️ Upload Asset
+  
+  **Description:**
+  Uploads a new file asset to the system with metadata.
+  Supports images and various file types with size limits.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/assets/upload`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **Content-Type:**
+  * multipart/form-data
+  
+  **Form Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `file` | File | ✔️ | File to upload (max 5MB) |
+  | `id` | String | ✔️ | Asset ID (must start with uppercase, e.g., MyAsset) |
+  | `name` | String | ✔️ | Display name for the asset |
+  | `folder` | String | ❌ | Target folder (default: blog) |
+  
+  **Allowed Folders:**
+  - blog
+  - portfolio
+  - assets
+  
+  **Max File Size:** 5 MB
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "File uploaded successfully",
+    "data": {
+      "path": "/assets/blog/MyAsset.jpg"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **No File Uploaded (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "No file uploaded",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid ID Format (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Id must start with an uppercase letter and contain no spaces or special characters",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **File Too Large (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "File size exceeds 5MB limit",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Upload Failed (500):**
+  ```json
+  {
+    "success": false,
+    "message": "Upload failed",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - ID must start with uppercase letter
+  - No spaces or special characters in ID
+  - File size limited to 5MB
+  - Supports common image and document formats
+  - Requires admin authentication
+}

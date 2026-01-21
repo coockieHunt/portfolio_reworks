@@ -1,0 +1,109 @@
+meta {
+  name: 🔒 💥 Delete Asset
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/assets/delete/blog/MyAsset
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200 on successful deletion", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Asset deleted successfully");
+    }
+  });
+  
+  test("Asset not found returns 404", function() {
+    const status = res.getStatus();
+    if (status === 404) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("not found");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 💥 Delete Asset
+  
+  **Description:**
+  Deletes an uploaded asset from the system.
+  This is a permanent operation and cannot be undone.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/assets/delete/:folder/:id`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `folder` | String | ✔️ | Asset folder (e.g., blog, portfolio) |
+  | `id` | String | ✔️ | Asset identifier |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Asset deleted successfully",
+    "data": {},
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Asset Not Found (404 Not Found):**
+  ```json
+  {
+    "success": false,
+    "message": "Asset deletion failed or asset not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Deletion is permanent and irreversible
+  - Cached versions are also removed
+  - References in posts may need manual cleanup
+  - Requires admin authentication

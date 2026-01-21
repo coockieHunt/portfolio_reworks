@@ -1,0 +1,140 @@
+meta {
+  name: 🔒 Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "ton_mot_de_passe_ici"
+  }
+}
+
+vars:post-response {
+  auth_token: res.body.data.token
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const body = res.getBody();
+    const token = body.data.token;
+    
+    if (token) {
+      bru.setVar("jwt_token", token);
+      console.log("JWT Token saved!");
+    }
+  }
+}
+
+tests {
+  test("Status code is 200 on valid password", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response contains token", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('token');
+      expect(body.data.token).to.be.a('string');
+    }
+  });
+  
+  test("Token is valid JWT format", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const token = body.data.token;
+      const parts = token.split('.');
+      expect(parts).to.have.lengthOf(3);
+    }
+  });
+  
+  test("Message indicates login success", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.message).to.equal("Login successful");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 Admin Login
+  
+  **Description:**
+  This endpoint authenticates an admin user and returns a JWT token.
+  The token is required for accessing protected administrative endpoints.
+  The token is automatically saved to the `jwt_token` variable for subsequent requests.
+  
+  ⚠️ **Restriction:** Admin password authentication only.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/auth/login`
+  
+  **Authentication:**
+  * No authentication required for login endpoint
+  
+  **Query Parameters:**
+  * None
+  
+  **Body Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `password` | String | ✔️ | Admin password for authentication |
+  
+  **Body Example:**
+  ```json
+  {
+    "password": "your_admin_password"
+  }
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Login successful",
+    "data": {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MzMyMjM2MDB9.abc123..."
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Error Response (401 Unauthorized):**
+  ```json
+  {
+    "success": false,
+    "message": "Invalid credentials",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Token Usage
+  
+  Use the returned token in subsequent admin requests:
+  ```
+  Authorization: Bearer {token}
+  ```
+  
+  Token expires in 24 hours.
+}

@@ -1,0 +1,124 @@
+meta {
+  name: API Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/health/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+  });
+  
+  test("Health status object exists", function() {
+    const body = res.getBody();
+    expect(body.data).to.exist;
+    expect(body.data).to.be.an('object');
+  });
+  
+  test("Health includes database status", function() {
+    const body = res.getBody();
+    const health = body.data;
+    
+    expect(health).to.have.property('database');
+    expect(health.database).to.be.a('string');
+  });
+  
+  test("Health includes redis status", function() {
+    const body = res.getBody();
+    const health = body.data;
+    
+    expect(health).to.have.property('redis');
+    expect(health.redis).to.be.a('string');
+  });
+  
+  test("Health includes API information", function() {
+    const body = res.getBody();
+    const health = body.data;
+    
+    expect(health).to.have.property('uptime');
+    expect(health).to.have.property('timestamp');
+  });
+}
+
+docs {
+  # 🏥 API Health Check
+  
+  **Description:**
+  This endpoint provides a comprehensive health status of the API and all its critical dependencies.
+  Returns operational status for database, Redis, SMTP, and general system metrics.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/health/`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Data Structure:**
+  * `database`: SQLite connection status
+  * `redis`: Redis cache connection status
+  * `smtp`: Mail server connection status
+  * `uptime`: Server uptime in milliseconds
+  * `timestamp`: Response timestamp
+  
+  **Success Example (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "API is healthy",
+    "data": {
+      "database": "connected",
+      "redis": "connected",
+      "smtp": "available",
+      "uptime": 3600000,
+      "timestamp": "2026-01-19T18:39:21.316Z"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Error Cases
+  
+  **Any Service Down (503 Service Unavailable):**
+  ```json
+  {
+    "success": false,
+    "message": "Service unavailable",
+    "data": {
+      "database": "disconnected",
+      "redis": "error",
+      "smtp": "unavailable"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}

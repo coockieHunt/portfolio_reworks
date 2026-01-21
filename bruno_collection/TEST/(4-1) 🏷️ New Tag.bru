@@ -1,0 +1,42 @@
+meta {
+  name: (4-1) 🏷️ New Tag
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/tags/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Test Tag {{$timestamp}}",
+    "slug": "test-tag-{{$timestamp}}",
+    "color": "#FF0000"
+  }
+}
+
+vars:post-response {
+  tag_slug: res.body.data.slug
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+  });
+  
+  test("Response contains created tag", function() {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data.changes).to.equal(1); 
+      expect(body.data.lastInsertRowid).to.be.a('number');
+      expect(body.timestamp).to.be.a('string');
+  });
+}

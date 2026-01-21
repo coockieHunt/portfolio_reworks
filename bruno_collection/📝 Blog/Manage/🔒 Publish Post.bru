@@ -1,0 +1,142 @@
+meta {
+  name: 🔒 Publish Post
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{base_url}}{{endPointApi}}/blog/edit/publish/{{slugBlog_demoName}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "publish": true
+  }
+}
+
+tests {
+  const status = res.getStatus();
+  
+  test("Status code is 200", function() {
+    expect(status).to.equal(200);
+  });
+  
+  if (status === 200) {
+    test("Response success is true", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.include("updated successfully");
+    });
+  
+    test("Publish status is updated", function() {
+      const body = res.getBody();
+      const post = body.data.post;
+      expect(post).to.have.property('published');
+    });
+  }
+  
+  if (status === 404) {
+    test("Post not found returns 404", function() {
+      const body = res.getBody();
+      expect(body.message).to.include("not found");
+    });
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 📤 Publish/Unpublish Post
+  
+  **Description:**
+  Updates the publication status of a blog post (publish/unpublish).
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `PUT`
+  **URL:** `{{base_url}}{{endPointApi}}/blog/edit/publish/:slug`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `slug` | String | ✔️ | Post slug to publish/unpublish |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `publish` | Boolean | ✔️ | True to publish, false to unpublish |
+  
+  **Body Example:**
+  ```json
+  {
+    "publish": true
+  }
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "post (slug) publish status updated successfully",
+    "data": {
+      "message": "post (slug) publish status updated successfully",
+      "post": {
+        "id": 72,
+        "title": "Blog Title",
+        "slug": "slug",
+        "content": "Post content...",
+        "summary": "Summary",
+        "published": 1,
+        "createdAt": "2026-01-19T10:30:00.000Z",
+        "editedAt": "2026-01-19T18:39:21.316Z",
+        "authorId": 1
+      }
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Post Not Found (404 Not Found):**
+  ```json
+  {
+    "success": false,
+    "message": "post (slug) not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Published posts are visible in listings
+  - Unpublished posts are hidden from public view
+  - Requires admin authentication
+  - Visibility toggle only
+}

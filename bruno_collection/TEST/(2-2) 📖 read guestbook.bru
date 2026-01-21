@@ -1,0 +1,60 @@
+meta {
+  name: (2-2) 📖 read guestbook
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/guestbook/read
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "page": 1,
+    "limit": 100
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+
+  test("Response contains entries array", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('entries');
+      expect(body.data.entries).to.be.an('array');
+    }
+  });
+
+  test("Newly created message is in the list", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const entries = body.data.entries;
+      // We retrieve the ID stored by the previous test
+      const tempId = bru.getVar("temp_slug");
+      
+      if (tempId) {
+         const found = entries.some(e => e.id == tempId);
+         expect(found).to.be.true; 
+      }
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

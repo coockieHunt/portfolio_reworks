@@ -1,0 +1,131 @@
+meta {
+  name: Get Post by Slug
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/blog/{{slugBlog_demoName}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Success");
+    }
+  });
+  
+  test("Post structure is valid", function() {
+      if (res.getStatus() === 200) {
+          const body = res.getBody();
+          const postContainer = body.data.post; 
+  
+          expect(postContainer).to.have.property('post');  
+          expect(postContainer).to.have.property('author');
+          expect(postContainer).to.have.property('tags');  
+      }
+  });
+  
+  test("Post not found returns 404", function() {
+    const status = res.getStatus();
+    if (status === 404) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("not found");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 📖 Get Post by Slug
+  
+  **Description:**
+  Retrieves a single blog post by its slug identifier with full details including content, author, and tags.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/blog/:slug`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `slug` | String | ✔️ | Post slug (e.g., "getting-started-typescript") |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "post": {
+        "id": 72,
+        "title": "Getting Started with TypeScript",
+        "slug": "getting-started-typescript",
+        "content": "# Introduction\\n\\nTypeScript is...",
+        "summary": "Learn the basics of TypeScript",
+        "published": 1,
+        "createdAt": "2026-01-19T10:30:00.000Z",
+        "editedAt": "2026-01-19T15:45:00.000Z",
+        "authorId": 1
+      },
+      "author": {
+        "name": "jonathan"
+      },
+      "tags": [
+        {
+          "id": 1,
+          "name": "TypeScript",
+          "slug": "typescript",
+          "color": "#3178C6"
+        }
+      ]
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Post Not Found (404 Not Found):**
+  ```json
+  {
+    "success": false,
+    "message": "post (getting-started-typescript) not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Slug is case-sensitive
+  - Returns full post content and all associated metadata
+  - Includes author and tag information
+  - Returns published and unpublished posts
+}

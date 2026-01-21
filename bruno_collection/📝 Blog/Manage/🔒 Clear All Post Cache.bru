@@ -1,0 +1,111 @@
+meta {
+  name: 🔒 Clear All Post Cache
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/blog/cache/clear/
+  body: none
+  auth: inherit
+}
+
+tests {
+  const status = res.getStatus();
+  
+  test("Status code is 200", function() {
+    expect(status).to.equal(200);
+  });
+  
+  if (status === 200) {
+    test("Response success is true", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.include("cleared successfully");
+    });
+  
+    test("Returns success message", function() {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+    });
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 🧹 Clear All Blog Post Cache
+  
+  **Description:**
+  Clears all cached blog data across the system.
+  Forces regeneration of all blog-related caches on next access.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/blog/cache/clear/`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "all blog cache cleared successfully",
+    "data": {
+      "message": "all blog cache cleared successfully"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Server Error (500):**
+  ```json
+  {
+    "success": false,
+    "message": "error while clearing all blog cache",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Clears all Redis blog cache entries
+  - Affects all blog-related endpoints
+  - Next requests regenerate caches
+  - Useful after bulk updates
+  - Use cautiously as it may impact performance temporarily
+  
+  ### Impact
+  
+  - ⏱️ **Initial Requests**: May be slower as caches regenerate
+  - 💾 **Storage**: Frees up cached data
+  - ⚡ **Performance**: Temporary performance impact during regeneration
+}

@@ -1,0 +1,145 @@
+meta {
+  name: OG Get Image
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}{{endPointAsset}}/opengraph/get?title=Mon%20Article%20de%20Blog&slug=mon-article&author=jonathan&date=2026-01-16T12:00:00.000Z
+  body: none
+  auth: inherit
+}
+
+params:query {
+  title: GitHub lance « GitMind » : Commitez votre code par la pensée grâce à Neuralink
+  slug: tutori
+  author: jonathan
+  date: 2025-12-31T15:23:15.000Z
+}
+
+body:json {
+  {
+    "template":"other",
+    "title":"this si title",
+    "subtitle":"subtittel content",
+    "imgUrl": "https://images.pexels.com/photos/35190167/pexels-photo-35190167.jpeg"
+  }
+}
+
+body:form-urlencoded {
+  template: other
+  subtitle: subtitle
+  imageUrl: https://cloudconvert.com/images/logo_flat_110_borderless.png
+  title: caca
+}
+
+body:multipart-form {
+  title: qsdqsd
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response is PNG image", function() {
+    const contentType = res.getHeader('content-type');
+    expect(contentType).to.include('image/png');
+  });
+  
+  test("Image is cached correctly", function() {
+    const cacheControl = res.getHeader('cache-control');
+    expect(cacheControl).to.exist;
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 📸 Generate OpenGraph Image
+  
+  **Description:**
+  Dynamically generates OpenGraph (OG) images for blog posts.
+  Images are optimized for social media sharing (1200x630px).
+  Generated images are cached locally for performance.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointAsset}}/opengraph/get`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **Query Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `title` | String | ✔️ | Blog post title |
+  | `slug` | String | ✔️ | Post slug (used for caching) |
+  | `author` | String | ❌ | Author name (default: from config) |
+  | `date` | String | ❌ | Publication date (ISO format) |
+  | `template` | String | ❌ | Template name (blog, project, etc.) |
+  | `subtitle` | String | ❌ | Subtitle or description |
+  | `imgUrl` | String | ❌ | Featured image URL |
+  
+  **Example URL:**
+  ```
+  /opengraph/get?title=My%20Blog%20Post&slug=my-blog-post&author=john&date=2026-01-19T12:00:00.000Z
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  * Returns PNG image file (1200x630px)
+  * Optimized for social media platforms
+  * Cached for future requests
+  
+  **Headers:**
+  ```
+  content-type: image/png
+  cache-control: public, max-age=86400
+  x-cached: true (if from cache)
+  ```
+  
+  **Bad Request (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Missing required parameter: title",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Server Error (500):**
+  ```json
+  {
+    "success": false,
+    "message": "Error generating image",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Features
+  
+  - ✅ Dynamic image generation
+  - ✅ Social media optimized (1200x630px)
+  - ✅ Local caching for performance
+  - ✅ Multiple template support
+  - ✅ Custom branding options
+  - ✅ Automatic cache invalidation on updates
+  
+  ### Social Media Compatibility
+  
+  Images are optimized for:
+  - Twitter (1200x630px minimum)
+  - Facebook (1200x630px)
+  - LinkedIn (1200x627px)
+  - WhatsApp (600x315px)
+}

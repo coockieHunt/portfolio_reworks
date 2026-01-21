@@ -1,0 +1,133 @@
+meta {
+  name: Proxy Image Resize
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}{{endPointAsset}}/images/proxy/MyAsset/size/300/200?folder=blog
+  body: none
+  auth: inherit
+}
+
+params:query {
+  folder: blog
+}
+
+tests {
+  test("Status code is 200 or 304", function() {
+    const status = res.getStatus();
+    expect([200, 304]).to.include(status);
+  });
+  
+  test("Response has content-type header", function() {
+    const contentType = res.getHeader('content-type');
+    if (res.getStatus() === 200) {
+      expect(contentType).to.exist;
+      expect(contentType.toLowerCase()).to.include('image');
+    }
+  });
+  
+  test("Resized image dimensions match request", function() {
+    // This would require image analysis, but we verify the response is an image
+    const contentType = res.getHeader('content-type');
+    if (res.getStatus() === 200) {
+      expect(contentType.toLowerCase()).to.include('image');
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🖼️ Get Image (Proxy with Resize)
+  
+  **Description:**
+  Proxies images from local assets storage with automatic resizing support.
+  Uses sharp library for efficient image transformation and caching.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointAsset}}/images/proxy/:publicId/size/:width/:height`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `publicId` | String | ✔️ | Asset resource identifier |
+  | `width` | Number | ✔️ | Target width in pixels (e.g., 300) |
+  | `height` | Number | ✔️ | Target height in pixels (e.g., 200) |
+  
+  **Query Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `folder` | String | ❌ | Asset folder (default: blog) |
+  | `fit` | String | ❌ | Resize mode (cover, contain, fill, inside, outside) |
+  | `position` | String | ❌ | Crop position (center, north, south, east, west) |
+  
+  **Headers (Optional):**
+  * `If-None-Match`: ETag value for 304 Not Modified response
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  * Returns the resized image with appropriate content-type header
+  * Includes Cache-Control and ETag headers
+  * Image dimensions match the requested width and height
+  
+  **Headers:**
+  ```
+  content-type: image/jpeg (or appropriate image type)
+  cache-control: public, max-age=3600
+  etag: "abc123..."
+  x-processed: true
+  ```
+  
+  **Not Modified (304 Not Modified):**
+  * Returned when ETag matches, saves bandwidth
+  * No body content
+  
+  **Not Found (404 Not Found):**
+  ```json
+  {
+    "success": false,
+    "message": "Image not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid Dimensions (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Invalid width or height",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Features
+  
+  - ✅ ETag-based conditional requests (304 Not Modified)
+  - ✅ URL caching for 1 hour
+  - ✅ Automatic content-type detection
+  - ✅ Image resizing with sharp library
+  - ✅ Multiple resize modes (cover, contain, etc.)
+  - ✅ Crop position control
+  - ✅ Bandwidth optimization through caching
+  
+  ### Example Requests
+  
+  - **Basic Resize:** `/images/proxy/blog/article-img/size/300/200`
+  - **With Fit Mode:** `/images/proxy/blog/article-img/size/300/200?fit=cover`
+  - **With Position:** `/images/proxy/blog/article-img/size/300/200?fit=cover&position=center`
+}

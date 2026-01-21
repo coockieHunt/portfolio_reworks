@@ -1,0 +1,50 @@
+meta {
+  name: 🔒 New Tag
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/tags/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "New Technology",
+    "slug": "{{TagId_demoName}}",
+    "color": "#336699"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+  });
+  
+  test("Response contains created tag", function() {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data.changes).to.equal(1); 
+      expect(body.data.lastInsertRowid).to.be.a('number');
+      expect(body.timestamp).to.be.a('string');
+  });
+}
+
+docs {
+  # Create New Tag
+  
+  Creates a new tag.
+  Requires authentication.
+  
+  **Body:**
+  - `name`: string
+  - `slug`: string
+  - `color`: string (hex code)
+}

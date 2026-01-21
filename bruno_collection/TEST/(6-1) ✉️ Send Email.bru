@@ -1,0 +1,33 @@
+meta {
+  name: (6-1) ✉️ Send Email
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/mail/sendEmail
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Integration Test",
+    "email": "test@example.com",
+    "subject": "Test Email {{$timestamp}}",
+    "message": "mail test bruno"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Email sent success", function() {
+    if (res.getStatus() === 200) {
+       const body = res.getBody();
+       expect(body.success).to.be.true;
+    }
+  });
+}

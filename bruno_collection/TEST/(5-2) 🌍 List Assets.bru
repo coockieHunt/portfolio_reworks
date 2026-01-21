@@ -1,0 +1,28 @@
+meta {
+  name: (5-2) 🌍 List Assets
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/assets/list
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response contains TestAsset", function() {
+    if (res.getStatus() === 200) {
+       const body = res.getBody();
+       const assets = body.data.assets;
+       expect(assets).to.be.an('array');
+       
+       const found = assets.some(a => a.id === "TestAsset");
+       expect(found).to.be.true;
+    }
+  });
+}

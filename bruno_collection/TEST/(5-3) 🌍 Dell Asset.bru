@@ -1,0 +1,22 @@
+meta {
+  name: (5-3) 🌍 Dell Asset
+  type: http
+  seq: 19
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/assets/delete/blog/TestAsset
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Asset deleted", function() {
+     const body = res.getBody();
+     expect(body.success).to.be.true;
+  });
+}

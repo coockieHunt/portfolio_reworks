@@ -1,0 +1,48 @@
+meta {
+  name: (1_1) 📝 New Post
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/blog/new
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Auto Test {{$timestamp}}",
+    "slug": "auto-test-{{$timestamp}}", 
+    "content": "content of new post",
+    "summary": "sammary",
+    "authorId": 1
+  }
+}
+
+vars:post-response {
+  temp_slug: res.body.data.post.slug
+}
+
+tests {
+  test("Status code is 200 on valid creation", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Response contains post data", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      // On vérifie que la structure correspond à ce qu'on attend pour capturer la variable
+      expect(body.data).to.exist;
+      expect(body.data.post).to.exist;
+      expect(body.data.post.slug).to.exist;
+    }
+  });
+}

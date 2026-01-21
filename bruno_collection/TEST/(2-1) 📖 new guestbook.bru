@@ -1,0 +1,79 @@
+meta {
+  name: (2-1) 📖 new guestbook
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/guestbook/write
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "name": "Tester",
+    "message": "Great job!"
+  }
+}
+
+vars:post-response {
+  temp_slug: res.body.data.id
+}
+
+tests {
+  test("Status code is 200 on valid submission", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Response returns entry ID", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data.new_entry).to.be.an('object');
+      expect(body.data.new_entry).to.have.property('id').that.is.a('string');
+      expect(body.data.new_entry).to.have.property('name').to.be.a('string');
+      expect(body.data.new_entry).to.have.property('message').to.be.a('string');
+      expect(body.data.new_entry).to.have.property('createdAt');
+      expect(Date.parse(body.data.new_entry.createdAt)).to.not.be.NaN;
+    }
+  });
+  
+  test("Invalid password returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("Unauthorized");
+    }
+  });
+  
+  test("Missing required fields returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+    }
+  });
+  
+  test("Message exceeding 500 chars returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("Message length must not exceed");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

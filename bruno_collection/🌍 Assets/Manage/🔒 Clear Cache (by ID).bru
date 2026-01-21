@@ -1,0 +1,112 @@
+meta {
+  name: 🔒 Clear Cache (by ID)
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/assets/cache/clear/MyAsset
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Cache cleared successfully");
+    }
+  });
+  
+  test("Response contains keys deleted count", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('keysDeleted');
+      expect(body.data.keysDeleted).to.be.a('number');
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 🧹 Clear Asset Cache (by ID)
+  
+  **Description:**
+  Clears all cached data for a specific asset, forcing regeneration on next access.
+  Includes resized versions and generated variants.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/assets/cache/clear/:id`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `id` | String | ✔️ | Asset ID to clear cache for |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Cache cleared successfully",
+    "data": {
+      "keysDeleted": 12
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Server Error (500):**
+  ```json
+  {
+    "success": false,
+    "message": "Error clearing cache",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Clears Redis cache entries for the specific asset
+  - Includes resized image versions
+  - Next request regenerates cache
+  - Requires admin authentication
+  - Useful after asset updates
+}

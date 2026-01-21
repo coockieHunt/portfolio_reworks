@@ -1,0 +1,114 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/tags/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+    expect(body.message).to.equal("Success");
+  });
+  
+  test("Tags is an array", function() {
+    const body = res.getBody();
+    expect(body.data).to.be.an('array');
+  });
+  
+  test("Tag structure is valid", function() {
+    const body = res.getBody();
+    const tags = body.data;
+    
+    if (tags.length > 0) {
+      const firstTag = tags[0];
+      expect(firstTag).to.have.property('id');
+      expect(firstTag).to.have.property('name');
+      expect(firstTag).to.have.property('slug');
+      expect(firstTag).to.have.property('color');
+      
+      expect(firstTag.id).to.be.a('number');
+      expect(firstTag.name).to.be.a('string');
+      expect(firstTag.slug).to.be.a('string');
+      expect(firstTag.color).to.be.a('string');
+    }
+  });
+}
+
+docs {
+  # 🏷️ Retrieve All Tags
+  
+  **Description:**
+  This endpoint retrieves all available tags used for categorizing blog posts.
+  Tags provide a way to browse posts by subject matter.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/tags/`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Data Structure:**
+  * Array of tag objects containing:
+    * `id`: Unique identifier
+    * `name`: Display name
+    * `slug`: URL-friendly identifier
+    * `color`: Hex color code for UI display
+  
+  **Success Example (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": [
+      {
+        "id": 1,
+        "name": "TypeScript",
+        "slug": "typescript",
+        "color": "#3178C6"
+      },
+      {
+        "id": 2,
+        "name": "GitHub",
+        "slug": "github",
+        "color": "#24292E"
+      },
+      {
+        "id": 3,
+        "name": "Web Development",
+        "slug": "web-development",
+        "color": "#FF6B6B"
+      }
+    ],
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}

@@ -1,0 +1,103 @@
+meta {
+  name: Increment Counter
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/counter/increment/THEME_RAND
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+    expect(body.message).to.equal("Success");
+  });
+  
+  test("New counter value is returned", function() {
+    const body = res.getBody();
+    expect(body.data).to.exist;
+    expect(body.data).to.have.property('counterValue');
+    expect(body.data.counterValue).to.be.a('number');
+  });
+  
+  test("Counter increments by 1", function() {
+    const body = res.getBody();
+    expect(body.data.counterValue).to.be.greaterThanOrEqual(1);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # ⬆️ Increment Counter
+  
+  **Description:**
+  Atomically increments a Redis counter by 1.
+  If the counter doesn't exist, it's created and set to 1.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/counter/increment/:name`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `name` | String | ✔️ | Counter name (e.g., THEME_RAND) |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "counterName": "THEME_RAND",
+      "redisKey": "app:counter:theme_rand",
+      "counterValue": 43,
+      "exist": true
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid Counter Name (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Counter name is required and must be valid.",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Operation is atomic and thread-safe
+  - Counter is automatically created if it doesn't exist
+  - Useful for tracking page views, visits, or events
+}

@@ -1,0 +1,137 @@
+meta {
+  name: Get Posts offset
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/blog/offset
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "min": 1,
+    "max": 5
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+    expect(body.message).to.equal("Success");
+  });
+  
+  test("Response has pagination data", function() {
+    const body = res.getBody();
+    const meta = body.data.meta;
+    
+    expect(meta).to.exist;
+    expect(meta.cursor_start).to.be.a('number');
+    expect(meta.cursor_end).to.be.a('number');
+    expect(meta.requested_limit).to.be.a('number');
+  });
+  
+  test("Posts is an array", function() {
+    const body = res.getBody();
+    expect(body.data.posts).to.be.an('array');
+  });
+  
+  test("Post structure is valid", function() {
+    const body = res.getBody();
+    const posts = body.data.posts;
+    
+    if (posts.length > 0) {
+      const firstItem = posts[0];
+      expect(firstItem).to.have.property('post');
+      expect(firstItem).to.have.property('author');
+      expect(firstItem).to.have.property('tags');
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 📑 Retrieve Posts (Offset-Based Pagination)
+  
+  **Description:**
+  This endpoint retrieves blog posts using offset-based pagination.
+  Useful for paginating through content based on position ranges.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/blog/offset`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **Query Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `min` | Int | ❌ | Start position (inclusive, default: 1) |
+  | `max` | Int | ❌ | End position (inclusive, default: 100) |
+  | `tagsContains` | String | ❌ | Filter by tag name (comma-separated) |
+  | `titleContains` | String | ❌ | Filter by title content |
+  
+  **Body Example:**
+  ```json
+  {
+    "min": 1,
+    "max": 5,
+    "tagsContains": "GitHub",
+    "titleContains": ""
+  }
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Data Structure:**
+  * `meta`: Cursor and pagination metadata
+  * `posts`: Array containing matching articles with post, author, and tags info
+  
+  **Success Example (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "meta": {
+        "cursor": 1,
+        "next": 6
+      },
+      "posts": [
+        {
+          "post": {
+            "id": 62,
+            "title": "Article Title",
+            "slug": "article-slug",
+            "content": "Article content...",
+            "summary": "Summary",
+            "authorId": 1
+          },
+          "author": {
+            "name": "jonathan"
+          },
+          "tags": []
+        }
+      ]
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}

@@ -1,0 +1,159 @@
+meta {
+  name: 🔒 Delete Message
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/guestbook/delete/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "id": "1768876629319_r2defcmjr"
+  }
+}
+
+body:text {
+  {"password": "{{admin_password}}", "name": "Tester", "message": "Great job!"}
+}
+
+tests {
+  const status = res.getStatus();
+  
+  test("Status code is 200 on valid deletion", function() {
+    expect(status).to.equal(200);
+  });
+  
+  if (status === 200) {
+    test("Response success is true", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    });
+  
+    test("Returns deleted entry metadata", function() {
+      const body = res.getBody();
+      expect(body.meta).to.exist;
+      expect(body.meta).to.have.property('id');
+    });
+  }
+  
+  if (status === 400) {
+    test("Invalid password returns 400", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+    });
+  
+    test("Missing ID returns 400", function() {
+      const body = res.getBody();
+      if (body.message && body.message.includes("id")) {
+        expect(body.message).to.include("id");
+      }
+    });
+  }
+  
+  if (status === 404) {
+    test("Non-existent ID returns 404", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("not found");
+    });
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 Delete Guestbook Message
+  
+  **Description:**
+  Removes a specific guestbook entry by its unique ID.
+  This endpoint is password-protected (Easter egg feature).
+  
+  ⚠️ **Restriction:** Password authentication required.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/guestbook/delete/`
+  
+  **Authentication:**
+  * No OAuth required, but password protected
+  
+  **Query Parameters:**
+  * None
+  
+  **Body Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `password` | String | ✔️ | Easter egg password for access |
+  | `id` | String | ✔️ | Unique entry identifier to delete |
+  
+  **Body Example:**
+  ```json
+  {
+    "password": "your_easter_egg_password",
+    "id": "1767821466470_gcb0n7uel"
+  }
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "id": "1767821466470_gcb0n7uel",
+      "name": "John Doe",
+      "message": "This is an amazing portfolio! Great work!",
+      "createdAt": "2026-01-19T15:30:00.000Z"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid Password (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Missing ID (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Entry id is required",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Entry Not Found (404 Not Found):**
+  ```json
+  {
+    "success": false,
+    "message": "Entry not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Entry ID is a unique identifier provided when writing a message
+  - Deletion is permanent and cannot be undone
+  - Deleted entry metadata is returned in the response for reference
+}

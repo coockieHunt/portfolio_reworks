@@ -1,0 +1,174 @@
+meta {
+  name: 🔒 Get Posts Range
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/blog/all
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "page": 1,
+    "limit": 99
+  }
+}
+
+tests {
+  const status = res.getStatus();
+  
+  test("Status code is 200", function() {
+    expect(status).to.equal(200);
+  });
+  
+  if (status === 200) {
+  
+      test("Response success is true", function() {
+        const body = res.getBody();
+        expect(body.success).to.be.true;
+        expect(body.message).to.equal("Success");
+      });
+  
+      test("Pagination metadata is correct", function() {
+        const body = res.getBody();
+        const meta = body.data.meta;
+        
+        expect(meta).to.exist;
+        expect(meta.page).to.be.a('number');
+        expect(meta.limit).to.be.a('number');
+        expect(meta.total_count).to.be.a('number');
+      });
+  
+      test("Posts is an array", function() {
+        const body = res.getBody();
+        expect(body.data.posts).to.be.an('array');
+      });
+  
+      test("Post structure is valid", function() {
+        const body = res.getBody();
+        const posts = body.data.posts;
+        
+        if (posts.length > 0) {
+          const firstItem = posts[0];
+          expect(firstItem).to.have.property('post');
+          expect(firstItem.post.id).to.be.a('number');
+        }
+      });
+  
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 📑 Retrieve All Posts (Admin)
+  
+  **Description:**
+  This endpoint retrieves the complete list of blog posts with pagination.
+  The response includes full article details, author information, and associated tags.
+  
+  ⚠️ **Restriction:** This endpoint is accessible to **Administrators** only.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/blog/all`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token with Admin privileges).
+  
+  **Query Parameters:**
+  *Derived from the response metadata*
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `page` | Int | ✔️ | Page number (Default: 1) |
+  | `limit` | Int | ✔️ | Items per page (Default: 4) |
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Data Structure (`data`):**
+  * `meta`: Pagination details (total count, current page, limits).
+  * `posts`: Array containing the articles.
+      * Each item contains a `post` object (content), `author` object, and a `tags` array.
+  
+  **Success Example (200 OK):**
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "meta": {
+        "total_count": 6,
+        "page": 1,
+        "limit": 4,
+        "total_pages": 2
+      },
+      "posts": [
+        {
+          "post": {
+            "id": 62,
+            "featuredImage": "Keyboard",
+            "title": "GitHub lance « GitMind »...",
+            "slug": "github-lance-gitmind...",
+            "content": "Plus besoin de taper, il suffit de penser...",
+            "summary": "Fini les claviers. GitHub annonce GitMind...",
+            "published": 0,
+            "createdAt": "2025-12-31T15:23:49.000Z",
+            "editedAt": "2025-12-31T15:23:49.000Z",
+            "authorId": 1
+          },
+          "author": {
+            "name": "jonathan"
+          },
+          "tags": []
+        },
+        {
+          "post": {
+            "id": 61,
+            "featuredImage": "Friteuse",
+            "title": "Tutoriel : Déployer un cluster Kubernetes...",
+            "slug": "tutoriel-dployer-un-cluster...",
+            "content": "Vous en avez assez de payer des fortunes...",
+            "summary": "Fatigué des factures AWS trop élevées ?...",
+            "published": 0,
+            "createdAt": "2025-12-31T15:23:15.000Z",
+            "editedAt": "2025-12-31T15:23:15.000Z",
+            "authorId": 1
+          },
+          "author": {
+            "name": "jonathan"
+          },
+          "tags": [
+            {
+              "id": 2,
+              "name": "Other",
+              "slug": "other",
+              "color": "#F00AB4"
+            },
+            {
+              "id": 4,
+              "name": "Technologie",
+              "slug": "thecno",
+              "color": "#0006ad"
+            }
+          ]
+        }
+      ]
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+}

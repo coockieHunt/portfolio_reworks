@@ -1,0 +1,58 @@
+meta {
+  name: (3-1) 📊 get counteur
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/counter/get/THEME_RAND
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+    expect(body.message).to.equal("Success");
+  });
+  
+  test("Counter data structure is valid", function() {
+    const body = res.getBody();
+    const counter = body.data;
+    
+    expect(counter).to.exist;
+    expect(counter).to.have.property('counterName');
+    expect(counter).to.have.property('redisKey');
+    expect(counter).to.have.property('counterValue');
+    expect(counter).to.have.property('exist');
+  });
+  
+  test("Counter values are correct types", function() {
+    const body = res.getBody();
+    const counter = body.data;
+    
+    expect(counter.counterName).to.be.a('string');
+    expect(counter.redisKey).to.be.a('string');
+    expect(counter.counterValue).to.be.a('number');
+    expect(counter.exist).to.be.a('boolean');
+  });
+  
+  test("Invalid counter name returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("Counter name is required");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

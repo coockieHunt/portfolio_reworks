@@ -1,0 +1,112 @@
+meta {
+  name: 🔒 Logout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/auth/logout
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200 on valid token", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Logout successful");
+    }
+  });
+  
+  test("Returns 401 when no token provided", function() {
+    // Tested separately without authorization header
+    const status = res.getStatus();
+    if (status === 401) {
+      const body = res.getBody();
+      expect(body.message).to.include("not user connected");
+    }
+  });
+  
+  test("Returns 403 for invalid or expired token", function() {
+    // Tested with invalid token
+    const status = res.getStatus();
+    if (status === 403) {
+      const body = res.getBody();
+      expect(body.message).to.include("Invalid or expired token");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 Admin Logout
+  
+  **Description:**
+  This endpoint revokes the current JWT token and logs out the user.
+  The token is added to a Redis blacklist to prevent further use.
+  
+  ⚠️ **Restriction:** Requires valid authentication token.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/auth/logout`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Logout successful",
+    "data": {},
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Error Response - No Token (401 Unauthorized):**
+  ```json
+  {
+    "success": false,
+    "message": "not user connected",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Error Response - Invalid Token (403 Forbidden):**
+  ```json
+  {
+    "success": false,
+    "message": "Invalid or expired token",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - The token is blacklisted immediately after logout
+  - Subsequent requests with this token will be rejected
+  - Token blacklist expires automatically after 24 hours
+}

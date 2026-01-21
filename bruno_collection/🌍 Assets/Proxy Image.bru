@@ -1,0 +1,106 @@
+meta {
+  name: Proxy Image
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}{{endPointAsset}}/images/proxy/blog/MyAsset
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200 or 304", function() {
+    const status = res.getStatus();
+    expect([200, 304]).to.include(status);
+  });
+  
+  test("Response has content-type header", function() {
+    const contentType = res.getHeader('content-type');
+    if (res.getStatus() === 200) {
+      expect(contentType).to.exist;
+      expect(contentType.toLowerCase()).to.include('image');
+    }
+  });
+  
+  test("ETag header is present", function() {
+    const etag = res.getHeader('etag');
+    expect(etag).to.exist;
+  });
+  
+  test("Cache-Control header is set", function() {
+    const cacheControl = res.getHeader('cache-control');
+    expect(cacheControl).to.exist;
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🖼️ Get Image (Proxy)
+  
+  **Description:**
+  Proxies images from local assets storage with caching support.
+  Supports ETag-based conditional requests for bandwidth optimization.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointAsset}}/images/proxy/:folder/:publicId`
+  
+  **Authentication:**
+  * No authentication required.
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `folder` | String | ✔️ | Asset folder (e.g., blog, portfolio) |
+  | `publicId` | String | ✔️ | Asset resource identifier |
+  
+  **Query Parameters:**
+  * `etag`: Optional ETag for conditional requests
+  
+  **Headers (Optional):**
+  * `If-None-Match`: ETag value for 304 Not Modified response
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  * Returns the image file with appropriate content-type header
+  * Includes Cache-Control and ETag headers
+  
+  **Headers:**
+  ```
+  content-type: image/jpeg (or appropriate image type)
+  cache-control: public, max-age=3600
+  etag: "abc123..."
+  ```
+  
+  **Not Modified (304 Not Modified):**
+  * Returned when ETag matches, saves bandwidth
+  * No body content
+  
+  **Not Found (404 Not Found):**
+  ```json
+  {
+    "success": false,
+    "message": "Image not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Features
+  
+  - ✅ ETag-based conditional requests (304 Not Modified)
+  - ✅ URL caching for 1 hour
+  - ✅ Automatic content-type detection
+  - ✅ Bandwidth optimization through caching
+}

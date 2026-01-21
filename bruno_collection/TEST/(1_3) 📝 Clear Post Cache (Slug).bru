@@ -1,0 +1,90 @@
+meta {
+  name: (1_5) 📝 Clear Post Cache (Slug)
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/blog/cache/delete/{{temp_slug}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  const status = res.getStatus();
+  
+  test("Status code is 200", function() {
+    expect(status).to.equal(200);
+  });
+  
+  if (status === 200) {
+    test("Response success is true", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.include("deleted successfully");
+    });
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 🧹 Clear Post Cache (by Slug)
+  
+  **Description:**
+  Clears cached data for a specific blog post, forcing regeneration on next access.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/blog/cache/delete/:slug`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `slug` | String | ✔️ | Post slug to clear cache for |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "cache for post (slug) deleted successfully",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Clears Redis cache for the specific post
+  - Next request regenerates cache
+  - Requires admin authentication
+}

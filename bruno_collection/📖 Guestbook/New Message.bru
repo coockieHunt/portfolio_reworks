@@ -1,0 +1,199 @@
+meta {
+  name: New Message
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/guestbook/write
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "password": "{{easterEgg_password}}",
+    "name": "Tester",
+    "message": "Great job!"
+  }
+}
+
+body:text {
+  {"password": "{{admin_password}}", "name": "Tester", "message": "Great job!"}
+}
+
+tests {
+  test("Status code is 200 on valid submission", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Response returns entry ID", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data.new_entry).to.be.an('object');
+      expect(body.data.new_entry).to.have.property('id').that.is.a('string');
+      expect(body.data.new_entry).to.have.property('name').to.be.a('string');
+      expect(body.data.new_entry).to.have.property('message').to.be.a('string');
+      expect(body.data.new_entry).to.have.property('createdAt');
+      expect(Date.parse(body.data.new_entry.createdAt)).to.not.be.NaN;
+    }
+  });
+  
+  test("Invalid password returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.message).to.include("Unauthorized");
+    }
+  });
+  
+  test("Missing required fields returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+    }
+  });
+  
+  test("Message exceeding 500 chars returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("Message length must not exceed");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # ✍️ Write Guestbook Message
+  
+  **Description:**
+  Adds a new entry to the guestbook.
+  This is a secret endpoint protected by a password (Easter egg feature).
+  All inputs are sanitized to prevent XSS attacks and URLs are blocked.
+  
+  ⚠️ **Restriction:** Password authentication required.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/guestbook/write`
+  
+  **Authentication:**
+  * No OAuth required, but password protected
+  
+  **Query Parameters:**
+  * None
+  
+  **Body Parameters:**
+  | Param | Type | Required | Max Length | Description |
+  | :--- | :--- | :---: | :---: | :--- |
+  | `password` | String | ✔️ | - | Easter egg password for access |
+  | `name` | String | ✔️ | 50 | Visitor's name |
+  | `message` | String | ✔️ | 500 | Message content |
+  
+  **Body Example:**
+  ```json
+  {
+    "password": "your_easter_egg_password",
+    "name": "John Doe",
+    "message": "This is an amazing portfolio! Great work!"
+  }
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "id": 15,
+      "name": "John Doe",
+      "message": "This is an amazing portfolio! Great work!",
+      "createdAt": "2026-01-19T18:39:21.316Z"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid Password (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Missing Required Fields (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Name is required",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Name Exceeds Max Length (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Name length must not exceed 50 characters",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Message Exceeds Max Length (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Message length must not exceed 500 characters",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **URL Detected in Input (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "url detected in input",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **HTML Tags Detected (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "HTML tags detected in input",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Validation Rules
+  
+  - **Name & Message**: Must not contain URLs (http://, www., domain patterns)
+  - **Name & Message**: Must not contain HTML tags
+  - Inputs are sanitized automatically
+  - Maximum character limits are strictly enforced
+}

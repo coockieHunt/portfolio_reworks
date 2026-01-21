@@ -1,0 +1,125 @@
+meta {
+  name: 🔒 📋 List All Assets
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/assets/list
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Success");
+    }
+  });
+  
+  test("Response contains assets array", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.be.an('array');
+    }
+  });
+  
+  test("Asset structure is valid", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const assets = body.data;
+      
+      if (assets.length > 0) {
+        const asset = assets[0];
+        expect(asset).to.have.property('id');
+        expect(asset).to.have.property('name');
+        expect(asset).to.have.property('folder');
+      }
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 📋 List All Assets
+  
+  **Description:**
+  Lists all uploaded assets with their metadata.
+  Useful for asset management and inventory.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/assets/list`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": [
+      {
+        "id": "BlogArticle1",
+        "name": "article-hero.jpg",
+        "folder": "blog",
+        "createdAt": "2026-01-19T10:30:00.000Z",
+        "size": 245000,
+        "mimeType": "image/jpeg"
+      },
+      {
+        "id": "ProjectDemo",
+        "name": "project-screenshot.png",
+        "folder": "portfolio",
+        "createdAt": "2026-01-15T14:20:00.000Z",
+        "size": 523000,
+        "mimeType": "image/png"
+      }
+    ],
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Asset Properties
+  
+  - `id`: Unique asset identifier
+  - `name`: Original file name
+  - `folder`: Storage folder (blog, portfolio, etc.)
+  - `createdAt`: Upload timestamp
+  - `size`: File size in bytes
+  - `mimeType`: Content type

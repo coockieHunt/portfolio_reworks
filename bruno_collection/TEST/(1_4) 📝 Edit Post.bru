@@ -1,0 +1,43 @@
+meta {
+  name: (1_3) 📝 Edit Post
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}{{endPointApi}}/blog/edit/update/{{temp_slug}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "new post edited",
+    "content": "content of new post new edited",
+    "summary": "sammary edited",
+    "authorId": 1
+  }
+}
+
+tests {
+  test("Status code is 200 on valid update", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.include("updated successfully");
+    }
+  });
+  
+  test("Updated post structure is valid", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      // Adaptation selon la structure exacte de ta réponse
+      expect(body.data.post || body.data).to.exist;
+    }
+  });
+}

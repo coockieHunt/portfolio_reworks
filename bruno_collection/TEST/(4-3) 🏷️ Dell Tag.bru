@@ -1,0 +1,24 @@
+meta {
+  name: (4-3) 🏷️ Dell Tag
+  type: http
+  seq: 16
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/tags/{{tag_slug}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+}

@@ -1,0 +1,45 @@
+meta {
+  name: (1_2) 📝 Get Post by Slug
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/blog/{{temp_slug}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Post structure is valid", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const postData = body.data.post ? body.data : body.data.data; 
+      expect(body.data).to.exist;
+    }
+  });
+  
+  test("Slug matches the one created", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      
+      // Correction : Le chemin exact selon ta capture d'écran est data -> post -> post -> slug
+      const slug = body.data.post.post.slug;
+      
+      const expectedSlug = bru.getVar("temp_slug");
+      
+      expect(slug).to.equal(expectedSlug);
+    }
+  });
+}

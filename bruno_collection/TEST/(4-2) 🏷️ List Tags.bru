@@ -1,0 +1,39 @@
+meta {
+  name: (4-2) 🏷️ List Tags
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/tags/
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+
+  test("New tag is in the list", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const tags = body.data; // The API returns array directly in data ? Wrapper check needed?
+      // Looking at TagRouter.get('/'): return res.success(tags.tags);
+      // Wait, let me check the response wrapper: res.success usually wraps in { success: true, data: ... }
+      
+      const tagSlug = bru.getVar("tag_slug");
+      if (tagSlug && Array.isArray(tags)) {
+         const found = tags.some(t => t.slug === tagSlug);
+         expect(found).to.be.true;
+      }
+    }
+  });
+}

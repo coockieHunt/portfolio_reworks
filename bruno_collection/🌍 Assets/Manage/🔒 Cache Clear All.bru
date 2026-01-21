@@ -1,0 +1,112 @@
+meta {
+  name: 🔒 🧹 Cache Clear All
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/assets/cache/all
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Cache cleared successfully");
+    }
+  });
+  
+  test("Response contains keys deleted count", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('keysDeleted');
+      expect(body.data.keysDeleted).to.be.a('number');
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 🧹 Clear All Asset Cache
+  
+  **Description:**
+  Clears the entire asset cache, forcing regeneration on next access.
+  Useful after bulk asset updates or to free up storage space.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/assets/cache/all`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Cache cleared successfully",
+    "data": {
+      "keysDeleted": 47
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Server Error (500):**
+  ```json
+  {
+    "success": false,
+    "message": "Error clearing cache",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Clears all cached asset-related data
+  - Includes resized images and OpenGraph images
+  - Next asset request will regenerate cache
+  - Use cautiously as it may impact performance temporarily
+  - Useful after bulk updates or media replacements
+  
+  ### Impact
+  
+  - ⏱️ **Initial Requests**: May be slower as cache regenerates
+  - 💾 **Storage**: Frees up cached data
+  - ⚡ **Performance**: Temporary performance impact during regeneration

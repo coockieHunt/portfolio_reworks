@@ -1,0 +1,39 @@
+meta {
+  name: (1_4) 📝 Publish Post
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{base_url}}{{endPointApi}}/blog/edit/publish/{{temp_slug}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "publish": true
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Publish status is updated", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const post = body.data.post || body.data;
+      // Vérifie que published est soit true, soit 1
+      expect(post.published).to.satisfy(function(val) { return val === true || val === 1; });
+    }
+  });
+}

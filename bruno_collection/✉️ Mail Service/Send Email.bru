@@ -1,0 +1,207 @@
+meta {
+  name: Send Email
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/mail/sendEmail
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "John Doe",
+    "email": "test@test.com",
+    "subject": "Hello",
+    "message": "Inquiry"
+  }
+}
+
+body:text {
+  {"name": "John Doe", "email": "test@test.com", "subject": "Hello", "message": "Inquiry"}
+}
+
+tests {
+  test("Status code is 200 on valid submission", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Success");
+    }
+  });
+  
+  test("Response contains email info", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('messageId');
+    }
+  });
+  
+  test("Missing name returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("Name is required");
+    }
+  });
+  
+  test("Invalid email returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("Invalid email format");
+    }
+  });
+  
+  test("Missing message returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("Message is required");
+    }
+  });
+  
+  test("Message exceeding 2000 chars returns 400", function() {
+    const status = res.getStatus();
+    if (status === 400) {
+      const body = res.getBody();
+      expect(body.message).to.include("exceeds maximum length");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # ✉️ Send Contact Email
+  
+  **Description:**
+  Sends a contact email from the portfolio website through the configured SMTP server.
+  The email is delivered to the admin email address configured in environment variables.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/mail/sendEmail`
+  
+  **Authentication:**
+  * No authentication required (rate-limited endpoint).
+  
+  **Query Parameters:**
+  * None
+  
+  **Body Parameters:**
+  | Param | Type | Required | Max Length | Description |
+  | :--- | :--- | :---: | :---: | :--- |
+  | `name` | String | ✔️ | - | Sender's full name |
+  | `email` | String | ✔️ | - | Sender's email address (must be valid) |
+  | `subject` | String | ❌ | - | Email subject line |
+  | `message` | String | ✔️ | 2000 | Email message content |
+  
+  **Body Example:**
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "subject": "Project Inquiry",
+    "message": "Hello, I would like to discuss a potential project collaboration. Your portfolio looks amazing!"
+  }
+  ```
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "messageId": "<message@example.com>",
+      "from": "john.doe@example.com",
+      "to": "admin@portfolio.com",
+      "subject": "Project Inquiry"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Missing Name (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Name is required",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid Email Format (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Invalid email format",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Missing Message (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Message is required",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Message Too Long (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Message exceeds maximum length of 2000 characters",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Server Configuration Error (500 Internal Server Error):**
+  ```json
+  {
+    "success": false,
+    "message": "Server configuration error.",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **SMTP Server Error (500 Internal Server Error):**
+  ```json
+  {
+    "success": false,
+    "message": "Error sending email",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Configuration
+  
+  Requires the following environment variables:
+  - `MAIL_USER`: SMTP server user (sender email)
+  - `MAIL_PASSWORD`: SMTP server password
+  - `MAIL_HOST`: SMTP server host
+  - `MAIL_PORT`: SMTP server port
+  
+  ### Rate Limiting
+  
+  This endpoint is rate-limited. Excessive requests will be blocked with HTTP 429 error.
+}

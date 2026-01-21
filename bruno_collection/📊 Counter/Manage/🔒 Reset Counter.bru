@@ -1,0 +1,120 @@
+meta {
+  name: 🔒 Reset Counter
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/counter/reset/THEME_RAND
+  body: none
+  auth: inherit
+}
+
+tests {
+  const status = res.getStatus();
+  
+  test("Status code is 200", function() {
+    expect(status).to.equal(200);
+  });
+  
+  if (status === 200) {
+    test("Response success is true", function() {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+      expect(body.message).to.equal("Success");
+    });
+  
+    test("Counter is reset to 0", function() {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('counterValue');
+      expect(body.data.counterValue).to.equal(0);
+    });
+  
+    test("Counter exists after reset", function() {
+      const body = res.getBody();
+      expect(body.data).to.have.property('exist');
+      expect(body.data.exist).to.be.true;
+    });
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # 🔒 🔄 Reset Counter
+  
+  **Description:**
+  Sets a Redis counter value back to zero.
+  Useful for resetting analytics, temporary counters, or page view counts.
+  
+  ⚠️ **Restriction:** This endpoint requires authentication.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/counter/reset/:name`
+  
+  **Authentication:**
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `name` | String | ✔️ | Counter name (e.g., THEME_RAND) |
+  
+  **Query Parameters:**
+  * None
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "counterName": "THEME_RAND",
+      "redisKey": "app:counter:theme_rand",
+      "counterValue": 0,
+      "exist": true
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Invalid Counter Name (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Counter name is required and must be valid.",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  ### Use Cases
+  
+  - Reset daily/weekly analytics
+  - Clear temporary counters
+  - Reset page view counts
+  - Initialize new counter tracking periods
+}

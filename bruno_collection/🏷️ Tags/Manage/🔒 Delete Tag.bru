@@ -1,0 +1,29 @@
+meta {
+  name: 🔒 Delete Tag
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{base_url}}{{endPointApi}}/tags/{{TagId_demoName}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+  });
+}
+
+docs {
+  # Delete Tag
+  
+  Deletes a tag by its slug.
+  Requires authentication.
+}
