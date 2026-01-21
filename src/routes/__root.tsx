@@ -26,6 +26,9 @@ import GlobalStyle from '@/styles/global.style';
 //context
 import { useSettingContext } from '@/context/Setting.context';
 
+import {AlertContainerComponent} from '@/components/Alert/Alert.component';
+
+
 export const ThemeWrapper = ({ children }): React.ReactNode => {
     const { settings } = useSettingContext();
     useEffect(() => {
@@ -69,6 +72,7 @@ function RootComponent() {
                     <ThemeWrapper>
                         <LoadingProvider>
                             <AlertProvider>
+                            <AlertContainerComponent />
                                 <Content>
                                     <UmamiTracker />
                                     <Outlet />

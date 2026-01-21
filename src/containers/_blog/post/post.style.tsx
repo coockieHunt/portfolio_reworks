@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
+import { SCREEN_SIZE } from '@/config.js';
 
 export const Container = styled.div`margin-bottom: 100px;`;
 
@@ -35,7 +36,7 @@ export const ContainerPost = styled.div`
         border-radius: 8px;
         padding: 15px 20px;
 
-        & > .right {
+        & > .nav {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -57,7 +58,7 @@ export const ContainerPost = styled.div`
             }
         }
 
-        & > .left {
+        & > .info {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -73,6 +74,8 @@ export const ContainerPost = styled.div`
                 padding: 5px 13px;
                 background-color: ${HexToRgbaConverter('var(--primary)', 0.1)};
             }
+
+
         }
     }
 
@@ -80,7 +83,7 @@ export const ContainerPost = styled.div`
         max-width: 75%;
         display: flex;
         flex-direction: column;
-
+        overflow: hidden;
         gap: 25px;
 
         & .content {
@@ -102,6 +105,44 @@ export const ContainerPost = styled.div`
                     color: var(--font-subtle);
                     margin: 5px 0;
                 }
+            }
+        }
+    }
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        flex-direction: column-reverse;
+        width: 95%;
+
+        & .action {
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 14px;
+
+            & > .nav {
+               & svg {
+                    width: 1.55rem;
+                }
+            }
+
+            & > .info{
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+
+                & span {
+                    display: flex;
+                    gap: 15px;
+                    width: 100%;
+                    padding: 10px 10px;
+                }
+            }
+        }
+
+        & .post {
+            max-width: 100%;
+
+            & .content {
+                padding: 15px;
             }
         }
     }

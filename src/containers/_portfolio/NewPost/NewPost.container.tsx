@@ -8,7 +8,7 @@ import * as Styled from './NewPost.style';
 
 import {Link as LinkComponent} from '@/components/Button/LinkButton';
 
-export const NewPostContainer = (id) => {
+export const NewPostContainer = () => {
     const [IsLoading, setIsLoading] = useState(true);
     const [LatestPost, setLatestPost] = useState<IBlogPost[]>([]);
 
@@ -30,13 +30,7 @@ export const NewPostContainer = (id) => {
     }, []);
 
     return (
-        <Styled.Container id={id}>
-               <TitleTextComponent
-                    subtitle={'Vous pouvez aussi consulter'}
-                    subtitleOpacity={0.3}
-                >
-                    Dernier article
-                </TitleTextComponent>
+        <Styled.Container>
                 <Styled.PostContainer>
                     <PostGridContainer 
                         count={2}

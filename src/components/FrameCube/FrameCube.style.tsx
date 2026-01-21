@@ -70,7 +70,6 @@ export const SliderOffset = styled.input<{ color?: string }>`
         height: 14px;
         border-radius: 50%;
         background: ${(props) => props.color || '#4f46e5'};
-        border: 2px solid white;
         cursor: pointer;
         margin-top: -5px;
     }

@@ -8,14 +8,10 @@ export const getProxyUrl = (imageId: string, options?: Record<string, any>): str
 
     if(options && options.size) {
         const { width, height } = options.size;
-        console.log(width, height);
         optionsStr = `/size/${width}/${height}`;
     }
     
     const url = `${AssetsBaseUrl}/images/proxy/${imageId}${optionsStr}`;
-    
-    console.log('Generated Proxy URL:', url); 
-    
     return url;
 }
 

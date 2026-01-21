@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import styled from 'styled-components';
 
 import { getBlogPostsOffset, getTagList } from '@/api/blog.api';
+import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
 import { IBlogPost } from '@/types/blog.d';
 
 import { Blog } from '@/config';
@@ -13,6 +14,7 @@ import { TagsComponent } from '@/components/Tags/Tags.component';
 import { SearchBarComponent } from '@/components/Form/searchBar.component';
 
 import {LoaderComponent} from '@/components/Loading/loader.component';
+import { INavItem, NavigationComponent } from '@/containers/_root/Navigation/navigations.container';
 
 
 const CustomHero = styled(HeroContainer)`
@@ -49,17 +51,35 @@ const CustomHero = styled(HeroContainer)`
     }
 `;
 
-
-
 export const Route = createFileRoute('/blog/')({
     component: BlogIndex,
 });
 
+const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+const OG_IMAGE = `${SITE_URL}/og_image.jpg`;
 
 function BlogIndex() {
-
     const navigate = useNavigate({ from: Route.fullPath });
-    const searchParams = Route.useSearch(); 
+    const searchParams = Route.useSearch();
+
+    // Meta tags pour SEO
+    const metaTags = useMemo(() => [
+        { property: 'og:type', content: 'website' },
+        { property: 'og:title', content: 'Blog | Jonathan Gleyze' },
+        { property: 'og:description', content: 'Découvrez mes articles sur le développement web, les technologies Node.js, React et bien plus encore.' },
+        { property: 'og:image', content: OG_IMAGE },
+        { property: 'og:url', content: `${SITE_URL}/blog` },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'Blog | Jonathan Gleyze' },
+        { name: 'twitter:description', content: 'Découvrez mes articles sur le développement web, les technologies Node.js, React et bien plus encore.' },
+        { name: 'twitter:image', content: OG_IMAGE },
+    ], []);
+
+    useDocumentMeta({
+        title: 'Blog | Jonathan Gleyze',
+        description: 'Découvrez mes articles sur le développement web, les technologies Node.js, React et bien plus encore.',
+        meta: metaTags,
+    });
     
     const [blogPosts, setBlogPosts] = useState<IBlogPost[]>([]);
     const [tags, setTags] = useState<{ id: number; name: string; slug: string; color: string; postIds: number[] }[]>([]);
@@ -74,6 +94,15 @@ function BlogIndex() {
 
     const [searchTerm, setSearchTerm] = useState<string>(searchParams.search || '');
 
+    const navigation: INavItem[] = [
+        {
+            display : 'Accueil', 
+            to: '/', 
+            type: "route"
+        },
+       
+    ];
+
     //  post
     useEffect(() => {
         const fetchTags = async () => {
@@ -81,8 +110,8 @@ function BlogIndex() {
 
             try {
                 const tagResponse = await getTagList();
-                if (tagResponse?.data?.tags) {
-                    setTags(tagResponse.data.tags);
+                if (tagResponse?.data) {
+                    setTags(tagResponse.data);
                 }
             } catch (error) {
                 console.error('Error fetching tags:', error);
@@ -155,6 +184,8 @@ function BlogIndex() {
 
     return (
         <>
+            <NavigationComponent navConfig={navigation}/>
+        
             <CustomHero className="blog-hero">
                 <div className="content">
                     <h1>Blog</h1>

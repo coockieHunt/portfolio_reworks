@@ -29,7 +29,6 @@ export const TagsComponent = ({
     onClick
 }: TagsProps) => {
     const isInteractive = !!onClick;
-
     return (
         <Styled.Tag 
             $color={color} 

@@ -10,20 +10,9 @@ export const Route = createFileRoute('/blog')({
     component: BlogLayout,
 });
 
-const navigation: INavItem[] = [
-    {
-        display : 'Accueil', 
-        to: '/', 
-        type: "route"
-    },
-   
-];
-
 function BlogLayout() {
     return (
         <>
-            <NavigationComponent navConfig={navigation} brandColor="white"/>
-
             <SettingContainer />
 
             <main style={{ flex: 1 }}>

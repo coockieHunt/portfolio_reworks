@@ -10,39 +10,40 @@ export const PostGridContainer = ({ data, loading, count }: { data: IBlogPost[],
             <Styled.Container>
                 <Styled.Grid>
                     <ul>
-                    {loading ? (
-                        Array.from({ length: count }).map((_, index) => (
-                            <li key={index} style={{ listStyle: 'none' }} >
-                                <PostCardComponents
-                                    index={index}
-                                    slug=""
-                                    title=""
-                                    summary=""
-                                    featured_image=""
-                                    authorName=""
-                                    publishDate=""
-                                    tags={[]}
-                                    loading={true}
-                                />
-                            </li>
-                        ))
-                    ) : (
-                        data.map((data, index) => (
-                            <li key={data.post.slug} style={{ listStyle: 'none' }}>
+                        {loading ? (
+                            Array.from({ length: count }).map((_, index) => (
+                                <li key={index} style={{ listStyle: 'none' }} >
                                     <PostCardComponents
                                         index={index}
-                                        slug={data.post.slug}
-                                        title={data.post.title}
-                                        summary={data.post.summary}
-                                        featured_image={data.post.featuredImage}
-                                        authorName={data.author.name}
-                                        publishDate={data.post.createdAt}
-                                        tags={data.tags}
-                                        loading={false}
+                                        slug=""
+                                        title=""
+                                        summary=""
+                                        featured_image=""
+                                        authorName=""
+                                        publishDate=""
+                                        tags={[]}
+                                        loading={true}
                                     />
-                            </li>
-                        ))
-                    )} 
+                                </li>
+                            ))
+                        ) : (
+                            data.map((data, index) => (
+                                <li key={data.post.slug} style={{ listStyle: 'none' }}>
+                                        <PostCardComponents
+                                            index={index}
+                                            slug={data.post.slug}
+                                            title={data.post.title}
+                                            summary={data.post.summary}
+                                            featured_image={data.post.featuredImage}
+                                            authorName={data.author.name}
+                                            publishDate={data.post.createdAt}
+                                            tags={data.tags}
+                                            loading={false}
+                                            priority={index === 0}
+                                        />
+                                </li>
+                            ))
+                        )} 
                     </ul>
                 </Styled.Grid>
             </Styled.Container>

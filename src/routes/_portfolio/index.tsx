@@ -11,6 +11,7 @@ import { GlobalLoader } from '../../components/Loading/GlobalLoader.compenent';
 
 import { HeroContainer } from '@/containers/_portfolio/Hero/hero.container';
 import { CatchContainer } from '../../containers/_portfolio/Catch/catch.container';
+import { TitleTextComponent } from '@/components/Text/Text.component';
 
 const MyProjectContainer = lazy(() =>
     import('@/containers/_portfolio/MyProject/MyProject.container').then(
@@ -89,7 +90,12 @@ export function PortfolioIndex() {
             <HeroContainer id="hero" />
             <CatchContainer id="catch" />
 
-            <NewPostContainer id="newpost" />
+            <TitleTextComponent
+                subtitle={'Vous voulez lire les'}
+                subtitleOpacity={0.3}
+            >Dernier article</TitleTextComponent>
+            
+            <NewPostContainer />
 
             <Suspense fallback={<GlobalLoader />}>
                 <ProductContainer id="product" />

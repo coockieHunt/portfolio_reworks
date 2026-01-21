@@ -8,22 +8,16 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
     width: 100%;
-    height: 400px;
 
     color: white;
-    font-size: 2rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    font-size: 2.5rem;
+    font-weight: 700;
 
     position: relative;
     z-index: 0;
     overflow: hidden;
+    padding: 4rem 1rem;
 
-    background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--primary), transparent 90%),
-        color-mix(in srgb, var(--secondary), transparent 90%)
-    );
 
     ${({ $backgroundImg }) =>
         $backgroundImg &&
@@ -42,14 +36,14 @@ export const Container = styled.div<ContainerProps>`
                 background: url(${$backgroundImg}) no-repeat center center;
                 background-size: cover;
 
-                filter: blur(8px);
+                filter: blur(8px) brightness(0.9); 
                 transform: scale(1.1);
             }
         `}
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        height: 250px;
-        font-size: 2em;
+        height: auto;
+        font-size: 1.3rem;
     }
 `;
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import * as Styled from './toc.style';
 import { ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
+import { useWindowSize } from '@/hooks/useScreenResize.hook';
 
 interface TocItem {
     id: string;
@@ -18,16 +19,6 @@ interface TocContainerProps {
     UpdateAt: any;
 }
 
-/**
- * A React component that renders a table of contents (TOC) with interactive features.
- * It manages the display of headings, tracks the active heading based on scroll position,
- * and allows toggling visibility of nested sections.
- *
- * @param QueryTitle - A CSS selector string used to query heading elements in the DOM for scroll tracking.
- * @param ScrollQueryTitle - A CSS selector string used specifically for scroll tracking of headings.
- * @param UpdateAt - Adependency that triggers re-evaluation of the TOC when changed.
- * @returns A JSX element representing the TOC container.
- */
 export const TocContainer = ({
     QueryTitle,
     ScrollQueryTitle,
@@ -35,12 +26,23 @@ export const TocContainer = ({
 }: TocContainerProps) => {
     const [items, setItems] = useState<TocItem[]>([]);
     const [activeId, setActiveId] = useState<string>('');
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    
+    const isMobileOrTablet = useWindowSize(768);
+
+    useEffect(() => {
+        setIsCollapsed(!!isMobileOrTablet);
+    }, [isMobileOrTablet]);
 
     useEffect(() => {
         const headingsElements = Array.from(document.querySelectorAll(QueryTitle));
 
-        const newItems: TocItem[] = headingsElements.map((element) => {
+        const newItems: TocItem[] = headingsElements.map((element, index, array) => {
             const level = parseInt(element.tagName.substring(1));
+            const nextElement = array[index + 1];
+            const nextLevel = nextElement ? parseInt(nextElement.tagName.substring(1)) : 0;
+            const hasChildren = level === 2 && nextLevel > 2;
+
             return {
                 id: element.id,
                 text: element.textContent || '',
@@ -48,23 +50,13 @@ export const TocContainer = ({
                 show: level === 2,
                 DropDown: false,
                 itemHidden: level === 1,
-                hasChildren: false,
+                hasChildren: hasChildren,
             };
         });
 
-        const finalItems = newItems.map((item, index) => {
-            if (item.level === 2) {
-                const nextItem = newItems[index + 1];
-                const hasKids = nextItem && nextItem.level > 2;
-                return { ...item, hasChildren: !!hasKids };
-            }
-            return item;
-        });
-
-        setItems(finalItems);
+        setItems(newItems);
     }, [QueryTitle, UpdateAt]);
 
-    // Get active heading on scroll
     useEffect(() => {
         let ticking = false;
         const query = ScrollQueryTitle || QueryTitle;
@@ -78,21 +70,21 @@ export const TocContainer = ({
 
                     headingsElements.forEach((section) => {
                         const rect = section.getBoundingClientRect();
-                        const distance = Math.abs(rect.top - 150);
-
-                        if (rect.top <= 150 && distance < closestDistance) {
-                            closestDistance = distance;
-                            currentId = section.id;
+                        if (rect.top <= 150) {
+                            const distance = Math.abs(rect.top - 150);
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                currentId = section.id;
+                            }
                         }
                     });
 
-                    if (currentId && currentId !== activeId) {
-                        setActiveId(currentId);
+                    if (currentId) {
+                        setActiveId((prevId) => (prevId !== currentId ? currentId : prevId));
                     }
-
+                    
                     ticking = false;
                 });
-
                 ticking = true;
             }
         };
@@ -103,7 +95,7 @@ export const TocContainer = ({
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [activeId, ScrollQueryTitle, QueryTitle]);
+    }, [ScrollQueryTitle, QueryTitle]); 
 
     // Scroll to id
     const handleScrollToId = useCallback((id: string) => {
@@ -113,32 +105,25 @@ export const TocContainer = ({
         }
     }, []);
 
-    // Dropdown toggle
-    const toggleSection = useCallback((index: number) => {
+    const toggleSection = useCallback((targetId: string) => {
         setItems((prevToc) => {
-            const clickedItem = prevToc[index];
+            const index = prevToc.findIndex(item => item.id === targetId);
+            if (index === -1) return prevToc;
 
+            const clickedItem = prevToc[index];
             if (clickedItem.level !== 2 || !clickedItem.hasChildren) return prevToc;
 
             const isNowOpen = !clickedItem.DropDown;
+            
             const newToc = [...prevToc];
 
             newToc[index] = { ...clickedItem, DropDown: isNowOpen };
 
             for (let i = 0; i < newToc.length; i++) {
-                if (i === index) continue;
-
-                if (newToc[i].level === 2 && newToc[i].hasChildren) {
+                if (i !== index && newToc[i].level === 2 && newToc[i].hasChildren) {
                     newToc[i] = { ...newToc[i], DropDown: false };
                 }
-            }
 
-            for (let i = index + 1; i < newToc.length; i++) {
-                if (newToc[i].level <= 2) break;
-                newToc[i] = { ...newToc[i], show: isNowOpen };
-            }
-
-            for (let i = 0; i < newToc.length; i++) {
                 if (newToc[i].level > 2) {
                     let parentIndex = -1;
                     for (let j = i - 1; j >= 0; j--) {
@@ -148,7 +133,12 @@ export const TocContainer = ({
                         }
                     }
 
-                    if (parentIndex !== index) {newToc[i] = { ...newToc[i], show: false };}
+                    if (parentIndex === index) {
+                        newToc[i] = { ...newToc[i], show: isNowOpen };
+                    } 
+                    else {
+                        newToc[i] = { ...newToc[i], show: false };
+                    }
                 }
             }
 
@@ -156,66 +146,63 @@ export const TocContainer = ({
         });
     }, []);
 
-    // Item visible filter
     const visibleItems = useMemo(() => {
         return items.filter((item) => !item.itemHidden);
     }, [items]);
 
+    const toggleToc = () => setIsCollapsed(prev => !prev);
+
     return (
         <Styled.Container>
             <div className="info">
-                <h2>Sommaire</h2>
-                <ul>
-                    {visibleItems.map((item, index) => (
-                        <li
-                            key={item.id}
-                            className={activeId === item.id ? 'active' : ''}
-                            style={{
-                                paddingLeft: `${(item.level - 1) * 15}px`,
-                                display: item.show ? 'flex' : 'none',
-                            }}
-                        >
-                            <a
-                                href={`#${item.id}`}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    handleScrollToId(item.id);
+                <div className='header' onClick={toggleToc} style={{ cursor: 'pointer' }}>
+                    <h2>Sommaire</h2>
+                    {visibleItems.length > 0 && isMobileOrTablet && (
+                        <span>
+                            {isCollapsed ? <ArrowDownToLine /> : <ArrowUpFromLine />}
+                        </span>
+                    )}
+                </div>
+                
+                {visibleItems.length > 0 ? (
+                    <ul className={isCollapsed ? 'dropdown-closed' : ''}>
+                        {visibleItems.map((item) => (
+                            <li
+                                key={item.id}
+                                className={activeId === item.id ? 'active' : ''}
+                                style={{
+                                    paddingLeft: `${(item.level - 1) * 15}px`,
+                                    display: item.show ? 'flex' : 'none', 
                                 }}
                             >
-                                {item.text}
-                            </a>
-
-                            {item.level === 2 && item.hasChildren && (
-                                <span
+                                <a
+                                    href={`#${item.id}`}
                                     onClick={(e) => {
-                                        e.stopPropagation();
                                         e.preventDefault();
-                                        toggleSection(index);
-                                    }}
-                                    role="button"
-                                    aria-label={
-                                        item.DropDown
-                                            ? 'Réduire la section'
-                                            : 'Développer la section'
-                                    }
-                                    tabIndex={0}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' || e.key === ' ') {
-                                            e.preventDefault();
-                                            toggleSection(index);
-                                        }
+                                        handleScrollToId(item.id);
                                     }}
                                 >
-                                    {item.DropDown ? (
-                                        <ArrowUpFromLine />
-                                    ) : (
-                                        <ArrowDownToLine />
-                                    )}
-                                </span>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                                    {item.text}
+                                </a>
+
+                                {item.level === 2 && item.hasChildren && (
+                                    <span
+                                        className='icon-toggle'
+                                        style={{ cursor: 'pointer', marginLeft: '5px' }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            toggleSection(item.id);
+                                        }}
+                                    >
+                                        {item.DropDown ? <ArrowUpFromLine size={16} /> : <ArrowDownToLine size={16} />}
+                                    </span>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                   <p style={{padding: '10px', color: '#666', fontStyle: 'italic'}}>Aucun sommaire</p>
+                )}
             </div>
         </Styled.Container>
     );

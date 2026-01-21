@@ -1,7 +1,12 @@
 import styled, { keyframes, css } from 'styled-components'; 
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
+import { SCREEN_SIZE } from '@/config.js';
 
 const heightPostCard = 280;
+
+
+const imageWidth = 300;
+const imageHeight = 300;
 
 const shimmer = keyframes`
     0% {
@@ -23,41 +28,45 @@ export const Tag = styled.span<{ $color?: string }>`
 `;
 
 export const PostPreview = styled.article<{ $loading: boolean }>`
-    height: ${heightPostCard}px; 
-    width: 100%;
     background-color: #1e1e1e; 
-    
     border: 1px solid ${HexToRgbaConverter('var(--primary)', 0.4)};
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
     opacity: ${props => (props.$loading ? 0.8 : 1)};
     pointer-events: ${props => (props.$loading ? 'none' : 'auto')};
+
 
     & > a {
         display: flex;
         flex-direction: row;
-        width: 100%;
-        height: 100%;
-        text-decoration: none; 
+        text-decoration: none;
         color: inherit;
+        width: 100%;
+    }
+
+    & .lazy-wrapper {
+        flex-shrink: 0;
+        width: ${imageWidth}px;
+        height: ${imageHeight}px;
+        min-width: ${imageWidth}px;
+        min-height: ${imageHeight}px;
     }
 
     & img {
-        width: ${heightPostCard}px;
-        height: ${heightPostCard}px;
-        align-self: stretch; 
+        flex-shrink: 0;
+        width: ${imageWidth}px;
+        height: ${imageHeight}px;
+        overflow: hidden;
         object-fit: cover;
         display: ${props => props.$loading ? 'none' : 'block'};
     }
 
     & .content {
         flex: 1;
-        display: ${props => props.$loading ? 'none' : 'flex'};
+        padding: 20px;
+        display: flex;
         flex-direction: column;
-        position: relative;
-        padding: 15px 20px; 
 
         & h2 {
             font-size: 1.1rem;
@@ -78,19 +87,18 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
             align-items: center;
             gap: 8px;
             margin-bottom: 10px;
-            padding-left: 10px;
+            flex-wrap: wrap;
         }
        
         .info {
-            padding-left: 10px; 
-            flex-grow: 1; 
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 0; 
+            gap: 0;
             
             .brace {
                 display: block;
-                color: #abb2bf39; 
+                color: #abb2bf39;
                 font-weight: bold;
                 font-size: 0.9rem;
                 line-height: 1;
@@ -98,19 +106,19 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
 
             p {
                 margin: 5px 0;
-                padding-left: 15px; 
+                padding-left: 15px;
                 line-height: 1.5;
-                flex: 1; 
+                flex: 1;
             }
         }
 
         .footer {
-            margin-top: 15px; 
+            margin-top: 15px;
             padding-top: 10px;
             border-top: 1px solid #333;
             
             small {
-                color: #5c6370; 
+                color: #5c6370;
                 font-style: italic;
                 display: block;
             }
@@ -130,6 +138,29 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
         }
     }
 
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        & > a {
+            flex-direction: column;
+        }
+
+        & .lazy-wrapper {
+            width: 100%;
+            height: 200px;
+            min-width: 100%;
+            min-height: 200px;
+        }
+
+        & img {
+            width: 100%;
+        }
+
+        & .content {
+            .tagList {
+                margin-bottom: 20px;
+            }
+        }
+    }
+
     ${props => props.$loading && css`
         background: #1e1e1e;
         background-image: linear-gradient(
@@ -140,16 +171,22 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
             #1e1e1e 100%
         );
         background-repeat: no-repeat;
-        background-size: 800px 100%; 
+        background-size: 800px 100%;
         animation: ${shimmer} 1.5s infinite linear;
         border-color: #333;
 
-        &::before {
-            content: "";
-            width: ${heightPostCard}px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.03);
-            border-right: 1px solid #333;
+        & .content {
+
+            & h2 .index, .info p, .footer small {
+                background-color: #2a2a2a;
+                border-radius: 4px;
+                color: transparent;
+
+                & span{
+                    color: transparent;
+                    background-color: #2a2a2a;
+                }
+            }
         }
     `}
 `;

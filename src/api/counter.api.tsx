@@ -2,16 +2,22 @@ import axios from 'axios';
 import { ApiBaseUrl } from '../config';
 import { IApiResponse } from './interface/api.interface';
 
+//type
+interface ICounterRequest{
+    counterName: string;
+}
+
 const logDev = (...args: unknown[]) => {
     if (import.meta.env.DEV) console.warn(...args);
 };
 
-export async function getThemeRand(): Promise<IApiResponse | null> {
+
+export async function getCounter({counterName}: ICounterRequest): Promise<IApiResponse | null> {
     try {
         const resp = await axios.get<IApiResponse>(
-            `${ApiBaseUrl}/counter/get/THEME_RAND`,
+            `${ApiBaseUrl}/counter/get/${counterName}`,
         );
-        return resp.data;
+        return resp.data.data;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 429) {
             return {
@@ -22,15 +28,15 @@ export async function getThemeRand(): Promise<IApiResponse | null> {
             };
         }
 
-        logDev('getThemeRand error', err);
+        logDev('getCounter error', err);
         return null;
     }
 }
 
-export async function incrementThemeRand(): Promise<IApiResponse | null> {
+export async function incrementCounter({counterName}: ICounterRequest): Promise<IApiResponse | null> {
     try {
         const resp = await axios.post<IApiResponse>(
-            `${ApiBaseUrl}/counter/increment/THEME_RAND`,
+            `${ApiBaseUrl}/counter/increment/${counterName}`,
         );
         return resp.data;
     } catch (err) {
@@ -43,7 +49,7 @@ export async function incrementThemeRand(): Promise<IApiResponse | null> {
             };
         }
 
-        logDev('incrementThemeRand error', err);
+        logDev('incrementCounter error', err);
         return null;
     }
 }

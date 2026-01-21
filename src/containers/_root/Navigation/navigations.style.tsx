@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
+import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
 export const NavigationContainer = styled.div`
     display: flex;
@@ -13,6 +14,12 @@ export const NavigationContainer = styled.div`
     z-index: 15;
     transition: background-color 0.3s ease;
 
+    &.NavBackground {
+        background-color: ${HexToRgbaConverter('var(--background-tertiary)', 0.2)};
+        backdrop-filter: blur(10px);
+    }
+
+  
     &.NavOpen {
         backdrop-filter: blur(10px);
         height: 100dvh;

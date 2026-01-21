@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => {
     const isProd = mode === 'production';
 
     return {
+        server: {
+            port: 3000,
+            strictPort: true, 
+        },
         plugins: [
             svgr(),
             TanStackRouterVite({

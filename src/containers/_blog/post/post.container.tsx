@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import MarkdownIt from 'markdown-it';
-import DOMPurify from 'dompurify';
+import React from 'react';
 
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; 
+import rehypeRaw from 'rehype-raw'; 
+import rehypeSlug from 'rehype-slug'; 
+import remarkUnwrapImages from 'remark-unwrap-images'; 
+
+import { ImageLazyLoad } from '@/components/ImageLazyLoad/ImageLazyLoad.componenet';
+import { useAlert } from '@/context/alert.context';
+
+import { Copy } from 'lucide-react';
+
+// Highlight.js
 import hljs from 'highlight.js/lib/core';
-// spefic languages for lighter bundle
 import javascript from 'highlight.js/lib/languages/javascript';
 import typescript from 'highlight.js/lib/languages/typescript';
 import css from 'highlight.js/lib/languages/css';
@@ -11,6 +20,29 @@ import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import json from 'highlight.js/lib/languages/json';
 import yaml from 'highlight.js/lib/languages/yaml';
+import python from 'highlight.js/lib/languages/python';
+import sql from 'highlight.js/lib/languages/sql';
+import 'highlight.js/styles/atom-one-dark.css';
+
+import {
+    ArrowLeft,
+    BookOpenCheck,
+    Plus,
+    Pencil,
+    Code
+} from 'lucide-react';
+
+import { useNavigate } from '@tanstack/react-router';
+
+import { HeroContainer } from '@/containers/_blog/hero/hero.container';
+import { TocContainer } from '@/components/Toc/toc.container';
+import { ShareComponent } from '@/components/share/share.component';
+
+import { resolveImageUrl } from '@/utils/image';
+
+import * as Styled from './post.style';
+import { MarkdownContent } from './markdown.style';
+
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('css', css);
@@ -18,33 +50,8 @@ hljs.registerLanguage('xml', xml);
 hljs.registerLanguage('bash', bash);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('yaml', yaml);
-
-// icons
-import {
-    ArrowLeft,
-    Twitter,
-    Linkedin,
-    FacebookIcon,
-    Share,
-    BookOpenCheck,
-    Plus,
-    Pencil,
-} from 'lucide-react';
-
-import { useNavigate } from '@tanstack/react-router';
-
-//container
-import { HeroContainer } from '@/containers/_blog/hero/hero.container';
-import { TocContainer } from '@/components/Toc/toc.container';
-
-//utils
-import { resolveImageUrl } from '@/utils/image';
-
-//style
-import * as Styled from './post.style';
-import { MarkdownContent } from './markdown.style';
-
-import 'highlight.js/styles/atom-one-dark.css';
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('sql', sql);
 
 interface Author {
     name: string;
@@ -57,7 +64,79 @@ interface PostContainerProps {
     content: string;
     featured_image?: string;
     author?: Author;
+    last_update?: string;
+    created_at?: string;
 }
+
+
+const MarkdownCodeBlock = ({ node, inline, className, children, ...props }: any) => {
+    const { addAlert } = useAlert();
+
+    const match = /language-(\w+)/.exec(className || '');
+    const language = match ? match[1] : null;
+
+    if (!inline && language) {
+        try {
+            const highlightedCode = hljs.highlight(String(children).replace(/\n$/, ''), { language }).value;
+
+            return (
+                <pre className={className}>
+                    <div className="info">
+                        <span><Code style={{color: 'var(--primary)'}} /> {language}</span>
+                        <div className="copy">
+                        <Copy 
+                            size={16}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                navigator.clipboard.writeText(String(children).replace(/\n$/, ''));
+                                addAlert('Code copié dans le presse-papiers', 'green', 3000);
+                            }}
+                        />
+                        </div>
+                        
+                    </div>
+            
+                    <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
+                </pre>
+            );
+        } catch (error) {
+            console.error(`Highlight.js error for language "${language}":`, error);
+        }
+    }
+    return <code className={className} {...props}>{children}</code>;
+};
+
+const MarkdownImage = ({ node, src, alt, ...props }: any) => {
+    let finalSrc = src || '';
+    if (finalSrc.startsWith('url:')) {
+        finalSrc = finalSrc.replace('url:', '');
+    } 
+    else if (finalSrc.startsWith('proxy:')) {
+        const resolved = resolveImageUrl(finalSrc);
+        finalSrc =  resolved
+    } 
+
+    return (
+        <ImageLazyLoad
+            src={finalSrc}
+            alt={alt || ''}
+            width="100%"
+            style={{ 
+                aspectRatio: '16/9',
+                backgroundColor: '#1e1e1e',
+                borderRadius: '8px',
+                margin: '2rem 0',
+                display: 'block' 
+            }}
+            {...props}
+        />
+    );
+};
+
+
+
+
+
 
 export const PostContainer = ({
     title,
@@ -65,65 +144,10 @@ export const PostContainer = ({
     content,
     featured_image,
     author,
+    last_update,
+    created_at,
 }: PostContainerProps) => {
     const navigate = useNavigate();
-    const [sanitizedHtml, setSanitizedHtml] = useState<string>('');
-
-    //toc build
-    useEffect(() => {
-        const md = new MarkdownIt({
-            html: true, 
-            highlight: function (str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    try {
-                        return hljs.highlight(str, { language: lang }).value;
-                    } catch (e) {
-                        console.error(e);
-                    }
-                }
-                return md.utils.escapeHtml(str);
-            },
-        });
-    
-        md.renderer.rules.heading_open = function (
-            tokens,
-            idx,
-            options,
-            env,
-            self,
-        ) {
-            const token = tokens[idx];
-            const titleToken = tokens[idx + 1];
-            const title = titleToken ? titleToken.content : '';
-    
-            const anchorId = title
-                .toLowerCase()
-                .replace(/[^\w\s-]/g, '')
-                .replace(/\s+/g, '-');
-    
-            token.attrSet('id', anchorId);
-    
-            return self.renderToken(tokens, idx, options);
-        };
-    
-        md.renderer.rules.image = function (tokens, idx, options, env, self) {
-            const token = tokens[idx];
-            const srcIndex = token.attrIndex('src');
-            
-            if (srcIndex >= 0) {
-                const originalSrc = token.attrs[srcIndex][1];
-                token.attrPush(['loading', 'lazy']);
-                
-                const resolvedSrc = resolveImageUrl(originalSrc);
-                token.attrs[srcIndex][1] = resolvedSrc;
-            }
-            
-            return self.renderToken(tokens, idx, options);
-        };
-    
-        const rawHtml = md.render(content);
-        setSanitizedHtml(DOMPurify.sanitize(rawHtml));
-    }, [content]);
 
     return (
         <Styled.Container>
@@ -134,7 +158,6 @@ export const PostContainer = ({
                         justifyContent: 'center',
                         alignItems: 'center',
                         height: '100%',
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
                         textAlign: 'center',
                     }}
                 >
@@ -144,13 +167,14 @@ export const PostContainer = ({
 
             <Styled.ContainerPost>
                 <div className="post">
+                    
                     <div className="other">
                         <span>Résumé : </span>
                         <p>{summary}</p>
                     </div>
 
                     <div className="action">
-                        <div className="right">
+                        <div className="nav">
                             <span
                                 className="back"
                                 onClick={() => navigate({ to: '/blog' })}
@@ -161,65 +185,62 @@ export const PostContainer = ({
                                 <ArrowLeft /> retour aux articles
                             </span>
 
-                            <Twitter
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(window.location.href)}`;
-                                    window.open(url, '_blank');
-                                }}
-                            />
-
-                            <Linkedin
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
-                                    window.open(url, '_blank');
-                                }}
-                            />
-
-                            <FacebookIcon
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
-                                    window.open(url, '_blank');
-                                }}
-                            />
-
-                            <Share
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    if (navigator.share) {
-                                        navigator.share({
-                                            title: title,
-                                            url: window.location.href,
-                                        });
-                                    } else {
-                                        alert(
-                                            "Le partage n'est pas supporté sur ce navigateur.",
-                                        );
-                                    }
-                                }}
-                            />
+                            <ShareComponent socialType="twitter" urlPost={window.location.href} title={title} />
+                            <ShareComponent socialType="linkedin" urlPost={window.location.href} title={title} />
+                            <ShareComponent socialType="facebook" urlPost={window.location.href} title={title} />
+                            <ShareComponent socialType="native" urlPost={window.location.href} title={title} />
                         </div>
 
-                        <div className="left">
+                        <div className="info">
+                            <span>
+                                {last_update ? (
+                                    <>
+                                        <Pencil />
+                                        {' '}
+                                        {new Date(last_update).toLocaleDateString('fr-FR', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                        })}
+                                    </>
+                                ) : created_at ? (
+                                    <>
+                                        <Plus />
+                                        {` Publié le ${new Date(created_at).toLocaleDateString('fr-FR', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                        })}`}
+                                    </>
+                                ) : null}
+                            </span>
                             <span>
                                 <BookOpenCheck />{' '}
                                 {Math.ceil(content.split(' ').length / 200)} min
-                            </span>
-                            <span>
-                                <Plus /> 09/20/2010
-                            </span>
-                            <span>
-                                <Pencil /> 09/20/2010
                             </span>
                         </div>
                     </div>
 
                     <div className="content">
-                        <MarkdownContent
-                            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-                        />
+                        <MarkdownContent>
+                            <Markdown
+                                remarkPlugins={[
+                                    remarkGfm, 
+                                    remarkUnwrapImages 
+                                ]}
+                                rehypePlugins={[rehypeRaw, rehypeSlug]}
+                                urlTransform={(value) => value} 
+                                components={{
+                                    pre: ({ children }) => (
+                                        <>{children}</>
+                                    ),
+                                    code: MarkdownCodeBlock,
+                                    img: MarkdownImage 
+                                }}
+                            >
+                                {content}
+                            </Markdown>
+                        </MarkdownContent>
                     </div>
 
                     <div className="other author-info">
@@ -235,7 +256,7 @@ export const PostContainer = ({
                 <TocContainer
                     QueryTitle=".content h2, .content h3"
                     ScrollQueryTitle=".content h2"
-                    UpdateAt={sanitizedHtml}
+                    UpdateAt={content}
                 />
             </Styled.ContainerPost>
         </Styled.Container>

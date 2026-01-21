@@ -11,6 +11,9 @@ export const Container = styled.footer`
     flex-direction: column;
     align-items: center;
     margin-top: auto;
+    min-height: 350px;
+    contain: layout style;
+    contain-intrinsic-size: auto 350px;
 
     & .content-wrapper {
         z-index: 2;

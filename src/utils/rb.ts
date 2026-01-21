@@ -470,7 +470,7 @@ const triggerMatrixSuccess = () => {
     
     %c[ ${SUPERSECRET_PASSWORD} ]%c
 
-    > PS:ADMIN_ROOT: "Authentication Verified."
+    > PS:ADMIN_ROOT: "Best password use in French... It is the sound of inevitability, Mr. Anderson. The sound of a dying security system."
     
     ---------------------------------------------------
     

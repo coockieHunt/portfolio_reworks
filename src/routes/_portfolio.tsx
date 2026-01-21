@@ -3,9 +3,7 @@ import { Suspense, lazy } from 'react';
 
 import { NavigationComponent, INavItem } from '@/containers/_root/Navigation/navigations.container';
 
-const AlertContainerComponent = lazy(() => 
-    import('@/components/Alert/Alert.component').then(m => ({ default: m.AlertContainerComponent }))
-);
+
 
 const SettingContainer = lazy(() =>
     import('@/containers/_root/Setting/Setting.container').then(m => ({ default: m.SettingContainer }))
@@ -38,7 +36,6 @@ function PortfolioLayout() {
             <Outlet />
 
             <Suspense fallback={null}>
-                <AlertContainerComponent />
                 <SettingContainer />
             </Suspense>
 

@@ -2,7 +2,7 @@ import { getProxyUrl } from "@/utils/image"
 import * as Styled from './PostCard.style';
 import { TagsComponent } from '@/components/Tags/Tags.component';
 import { Link } from '@tanstack/react-router';
-
+import { ImageLazyLoad } from "../ImageLazyLoad/ImageLazyLoad.componenet";
 
 interface PostCardProps {
     index: number;
@@ -14,6 +14,7 @@ interface PostCardProps {
     publishDate: string;
     loading: boolean;
     tags?: any[];
+    priority?: boolean; 
 }
 
 export const PostCardComponents = ({
@@ -26,6 +27,7 @@ export const PostCardComponents = ({
     loading,
     tags,
     slug,
+    priority = false,
 }: PostCardProps) => {
     return(
         <Styled.PostPreview $loading={loading}>
@@ -33,7 +35,7 @@ export const PostCardComponents = ({
                 to={loading ? '#' : `/blog/${slug}`} 
                 aria-label={loading ? 'Loading...' : `Read more about ${title}`}
             >
-                <img
+                <ImageLazyLoad
                     src={
                         getProxyUrl(
                             featured_image, 
@@ -44,7 +46,10 @@ export const PostCardComponents = ({
                     height="300"
                     width="300"
                     alt={title}
+                    lazy={!priority}
+                    fetchPriority={priority ? 'high' : undefined}
                 />
+               
                 
                 <div className="content">
                     <h2 className="font_code" style={{ letterSpacing: '0.05rem' }}>
@@ -62,9 +67,7 @@ export const PostCardComponents = ({
                     <div className="info">
                         <span className="brace">{'{'}</span>
                         
-                        <p>
-                            {summary}
-                        </p>
+                        <p>{summary}</p>
 
                         <span className="brace">{'}'}</span>
                     </div>

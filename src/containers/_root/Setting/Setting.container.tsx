@@ -41,7 +41,7 @@ export const SettingContainer: React.FC = () => {
         'yellow',
         'cyan',
         'pink',
-        'ice',
+        'ice'
     ];
 
     const handleThemeClick = (themeKey: string) => {

@@ -24,6 +24,7 @@ const BuildGaleryBuild = ({ project }) => {
                     <ImageLazyLoad
                         key={index}
                         url={imgUrl.img}
+                        style={{ aspectRatio: '16 / 11' }} 
                         title={
                             imgUrl.title != null
                                 ? imgUrl.title

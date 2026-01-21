@@ -1,32 +1,61 @@
 import styled from 'styled-components';
+import { SCREEN_SIZE } from '@/config';
 
 export const Container = styled.div`
     flex: 1;
     position: sticky;
     top: 20px;
     align-self: flex-start;
-    padding: 15px;
-    max-height: 95vh;
+    
+    scrollbar-gutter: stable; 
 
-    & h2 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 24px;
-        color: var(--primary);
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        opacity: 0.9;
-        padding-bottom: 15px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    & .info {
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            user-select: none; 
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.03);
+            }
+        }
+
+        & h2 {
+            font-size: 1.2rem;
+            color: var(--font-primary);
+            margin: 0;
+        }
     }
 
     & ul {
         display: flex;
         flex-direction: column;
         gap: 5px;
-        overflow-y: auto;
-        max-height: calc(95vh - 60px);
-        padding-right: 10px;
+        width: 100%;
+        padding-right: 10px; 
+        
+        max-height: 90vh; 
+        opacity: 1;
+        overflow-y: auto; 
+        overflow-x: hidden;
+        margin-top: 10px; 
+        
+        transition: 
+            max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.4s ease-in-out,
+            margin 0.4s ease;
+
+        &.dropdown-closed {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            overflow: hidden;
+            padding-bottom: 0;
+        }
     }
 
     & li {
@@ -38,30 +67,22 @@ export const Container = styled.div`
         border-radius: 8px;
         padding: 10px 12px;
         list-style: none;
-        overflow: hidden;
         position: relative;
+        flex-shrink: 0; 
         
         color: var(--font-subtle);
         background: transparent;
         
-        transition: 
-            background-color 0.2s ease,
-            transform 0.15s ease,
-            color 0.2s ease;
+        transition: all 0.2s ease;
         
         &:hover {
-            will-change: transform;
             transform: translateX(3px);
             background: rgba(255, 255, 255, 0.03);
             color: var(--font-primary);
         }
 
         &.active {
-            background: color-mix(
-                in srgb,
-                var(--secondary) 20%,
-                var(--background-secondary) 80%
-            );
+            background: color-mix(in srgb, var(--secondary) 20%, var(--background-secondary) 80%);
             color: var(--primary);
             font-weight: 500;
 
@@ -83,52 +104,30 @@ export const Container = styled.div`
             color: inherit;
             flex: 1;
             line-height: 1.5;
-            word-break: break-word;
-            
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            min-width: 0; 
         }
 
+        /* Styles pour l'icône dropdown */
         & span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            border-radius: 4px;
-            background: transparent;
-            transition: 
-                background-color 0.2s ease,
-                transform 0.2s ease;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             padding: 4px;
+             border-radius: 4px;
+             transition: background 0.2s ease, color 0.2s ease;
 
-            & svg {
-                width: 16px;
-                height: 16px;
-                color: var(--font-subtle);
-                transition: color 0.2s ease;
-            }
-
-            &:hover {
+             &:hover {
                 background: rgba(255, 255, 255, 0.1);
-                transform: scale(1.1);
+                color: var(--primary);
+             }
+        }
+    }
 
-                & svg {
-                    color: var(--primary);
-                }
-            }
-
-            &:active {
-                transform: scale(0.95);
-            }
-
-            &:focus-visible {
-                outline: 2px solid var(--primary);
-                outline-offset: 2px;
-            }
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        width: 100%;
+        position: static;
+        & .info{
+            padding: 0px;
         }
     }
 `;

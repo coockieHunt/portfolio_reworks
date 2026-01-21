@@ -28,6 +28,7 @@ export interface INavItem {
 export interface INavigationComponentProps {
     navConfig: INavItem[];
     brandColor?: string;
+    background?: boolean;
 }
 
 interface INavigationLinksProps {
@@ -89,7 +90,9 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
 export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     navConfig,
     brandColor = 'var(--primary)',
+    background = false
 }) => {
+    console.log('NavigationComponent rendered with background:', background);
     const [menuOpen, setMenuOpen] = useState(false);
 
     const mobileBreakpoint = useMemo(() => {
@@ -115,7 +118,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     }, []);
 
     return (
-        <Styled.NavigationContainer className={menuOpen ? 'NavOpen' : 'NavClose'}>
+        <Styled.NavigationContainer className={`${menuOpen ? 'NavOpen' : 'NavClose'} ${background ? 'NavBackground' : ''}`}>
             <Styled.BrandContainer>
                 <RouterLink to="/" aria-label="Aller à la page d'accueil">
                     <LogoComponent

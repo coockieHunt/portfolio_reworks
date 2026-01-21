@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const TitleContainer = styled.div`
     position: relative;
     height: 100px;
-    width: 95vw;
     padding: 30px 0;
     margin: 0 auto;
     display: flex;

@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useSettingContext } from '../context/Setting.context';
 import { useLoading } from '../context/loading.context';
 import { COLOR_SETTING } from '../config';
-import { getThemeRand, incrementThemeRand } from '../api/counter.api';
+import { getCounter, incrementCounter } from '../api/counter.api';
 import { generatePapucheTheme } from '../utils/colorGenerator';
 import { useAlert } from '../context/alert.context';
 
@@ -10,8 +10,6 @@ export const useThemeManager = () => {
     const { changeTheme, changeHighContrast } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
-
-    const { addAlert } = useAlert();
 
     // Apply settings from URL parameters on initial load and cleanup
     useEffect(() => {
@@ -68,7 +66,8 @@ export const useThemeManager = () => {
     };
 
     const fetchThemeCount = useCallback(async () => {
-        const response = await getThemeRand();
+        const response = await getCounter({ counterName: 'THEME_RAND' });
+
 
         if (response?.success && response.data) {
             setRandomThemeCount(Number(response.data.counterValue || 0));
@@ -86,7 +85,7 @@ export const useThemeManager = () => {
 
         applyTheme(newKey, '🦄 PAPUCHE !!!', 500);
 
-        const response = await incrementThemeRand();
+        const response = await incrementCounter({ counterName: 'THEME_RAND' });
 
         if (!response) {
             console.warn('API injoignable ou erreur inconnue');

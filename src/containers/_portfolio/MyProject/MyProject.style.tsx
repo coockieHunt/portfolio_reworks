@@ -243,9 +243,7 @@ export const ProjectCard = styled.div`
             background-color: rgba(0, 0, 0, 0.3);
 
             &:hover {
-                transform: scale(1.03);
                 border-color: var(--primary);
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
                 filter: brightness(1.1);
             }
         }

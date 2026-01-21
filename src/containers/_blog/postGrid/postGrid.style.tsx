@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { BORDER_RADIUS } from '@/config';
-import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
+import { SCREEN_SIZE } from '@/config.js';
 
 const fadeInUp = keyframes`
     from {
@@ -14,11 +13,13 @@ const fadeInUp = keyframes`
 `;
 
 
-
-
 export const Container = styled.div`
     width: 90%;
     margin: 0 auto;
+    min-height: 600px;
+    contain: layout style;
+
+    margin-bottom: 29px;
 `;
 
 
@@ -30,8 +31,13 @@ export const Grid = styled.div`
         flex-wrap: wrap;
         justify-content: center;
     }
-   
 
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        padding: 0 5px;
+        & ul {
+            gap: 30px;
+        }
+    }
 `;
 
 

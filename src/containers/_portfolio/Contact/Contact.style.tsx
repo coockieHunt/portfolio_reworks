@@ -54,7 +54,6 @@ export const Info = styled.div`
             flex-direction: column;
             gap: 10px;
             padding: 10px 0 25px 0;
-
             & h2 {
                 font-size: 1.5em;
                 color: var(--primary);
@@ -72,7 +71,6 @@ export const Info = styled.div`
             flex-direction: column;
             padding-bottom: 20px;
 
-            & a {text-decoration: none !important;}
 
             & .ItemInfo {
                 display: flex;
@@ -82,7 +80,6 @@ export const Info = styled.div`
                 border-radius: ${BORDER_RADIUS.xlarge};
                 transition: all 0.3s ease;
                 color: var(--font-base);
-
                 & svg {
                     height: 3em;
                     width: auto;
@@ -94,6 +91,7 @@ export const Info = styled.div`
                         transform 0.3s ease,
                         box-shadow 0.3s ease;
                     z-index: 2;
+
                 }
 
                 & > div {
