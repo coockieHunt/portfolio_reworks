@@ -95,6 +95,7 @@ BlogRoute.get('/:slug',
     async (req: Request<{ slug: string }>, res: Response) => {
         try {
             const data = await BlogService.getPostBySlug(req.params.slug);
+            
             if (!data.data) {
                 logConsole('GET', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
                 writeToLog(`BlogRoute READ not found slug=${req.params.slug}`, 'blog');
@@ -104,7 +105,11 @@ BlogRoute.get('/:slug',
             logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post `, { slug: req.params.slug });
             writeToLog(`BlogRoute READ ok slug=${req.params.slug}`, 'blog');
 
-            return res.success({ post: data.data, cached: data.cached });
+            return res.success({ 
+                 ...data.data, 
+                 cached: data.cached
+            });
+
         } catch (error) {
             logConsole('GET', `/blog/${req.params.slug}`, 'FAIL', `Error retrieving blog post`, { error, slug: req.params.slug });
             writeToLog(`BlogRoute READ error slug=${req.params.slug}`, 'blog');
