@@ -4,10 +4,14 @@ meta {
   seq: 3
 }
 
-post {
-  url: {{base_url}}{{endPointApi}}/counter/reset/THEME_RAND
+delete {
+  url: {{base_url}}{{endPointApi}}/counter/:counteur_name
   body: none
   auth: inherit
+}
+
+params:path {
+  counteur_name: THEME_RAND
 }
 
 tests {
@@ -57,8 +61,8 @@ docs {
   
   ### 📥 Request (Input)
   
-  **Method:** `POST`
-  **URL:** `{{base_url}}{{endPointApi}}/counter/reset/:name`
+  **Method:** `DELETE`
+  **URL:** `{{base_url}}{{endPointApi}}/counter/:name`
   
   **Authentication:**
   * 🔒 **Required**: `Authorization` Header (Bearer Token)

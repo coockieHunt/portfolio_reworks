@@ -25,6 +25,12 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 } 
 });
 
+/**
+ * POST /upload/ - Upload a new asset
+ * Uploads a new asset file.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 assetsRoute.post('/upload/', 
     rateLimiter,
     authenticateToken,
@@ -68,6 +74,11 @@ assetsRoute.post('/upload/',
     }
 );
 
+/** DELETE /delete/:folder/:id
+ * Deletes an asset by ID from a specified folder.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 assetsRoute.delete('/delete/:folder/:id',
     authenticateToken,
     rateLimiter,
@@ -85,6 +96,12 @@ assetsRoute.delete('/delete/:folder/:id',
     }
 );
 
+/**
+ * DELETE /cache/clear/:id
+ * Clears the cache for a specific asset by ID.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 assetsRoute.delete('/cache/clear/:id',
     authenticateToken,
     rateLimiter,
@@ -102,6 +119,11 @@ assetsRoute.delete('/cache/clear/:id',
     }
 );
 
+/** * DELETE /cache/all
+ * Clears the cache for all assets.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 assetsRoute.delete('/cache/all',
     authenticateToken,
     rateLimiter,
@@ -117,6 +139,11 @@ assetsRoute.delete('/cache/all',
     }
 );
 
+/** GET /list
+ * Retrieves a list of all assets.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
 assetsRoute.get('/list',
     authenticateToken,
     rateLimiter,

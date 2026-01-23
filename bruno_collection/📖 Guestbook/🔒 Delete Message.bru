@@ -5,9 +5,17 @@ meta {
 }
 
 delete {
-  url: {{base_url}}{{endPointApi}}/guestbook/delete/
+  url: {{base_url}}{{endPointApi}}/guestbook/:id?password={{easterEgg_password}}
   body: json
   auth: inherit
+}
+
+params:query {
+  password: {{easterEgg_password}}
+}
+
+params:path {
+  id: 1769191592432_x06t1t90x
 }
 
 body:json {
@@ -74,22 +82,30 @@ docs {
   
   **Description:**
   Removes a specific guestbook entry by its unique ID.
-  This endpoint is password-protected (Easter egg feature).
+  This endpoint is password-protected (Easter egg feature) and requires authentication.
   
-  ⚠️ **Restriction:** Password authentication required.
+  ⚠️ **Restriction:** Authentication AND Password required.
   
   ---
   
   ### 📥 Request (Input)
   
   **Method:** `DELETE`
-  **URL:** `{{base_url}}{{endPointApi}}/guestbook/delete/`
+  **URL:** `{{base_url}}{{endPointApi}}/guestbook/:id`
   
   **Authentication:**
-  * No OAuth required, but password protected
+  * 🔒 **Required**: `Authorization` Header (Bearer Token)
+  * Password protected (query parameter)
+  
+  **URL Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `id` | String | ✔️ | Unique entry ID to delete |
   
   **Query Parameters:**
-  * None
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `password` | String | ✔️ | Secret password for access |
   
   **Body Parameters:**
   | Param | Type | Required | Description |

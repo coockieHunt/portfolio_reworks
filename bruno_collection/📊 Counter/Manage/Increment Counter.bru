@@ -5,9 +5,21 @@ meta {
 }
 
 post {
-  url: {{base_url}}{{endPointApi}}/counter/increment/THEME_RAND
+  url: {{base_url}}{{endPointApi}}/counter/:counteur_name/increment/
   body: none
   auth: inherit
+}
+
+params:path {
+  counteur_name: THEME_RAND
+}
+
+vars:pre-request {
+  counteur_name: THEME_RAND
+}
+
+vars:post-response {
+  : 
 }
 
 tests {
@@ -51,7 +63,7 @@ docs {
   ### 📥 Request (Input)
   
   **Method:** `POST`
-  **URL:** `{{base_url}}{{endPointApi}}/counter/increment/:name`
+  **URL:** `{{base_url}}{{endPointApi}}/counter/:name/increment`
   
   **Authentication:**
   * No authentication required.

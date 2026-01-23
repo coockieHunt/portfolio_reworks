@@ -48,7 +48,7 @@
 				"maxRequests": 40,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/counter/get/:value",
+					"url": "/api/counter/:name",
 					"method": "GET"
 				}
 			},
@@ -57,7 +57,7 @@
 				"maxRequests": 40,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/counter/increment/:value",
+					"url": "/api/counter/:name/increment",
 					"method": "POST"
 				}
 			},
@@ -66,7 +66,7 @@
 				"maxRequests": 40,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/counter/decrement/:value",
+					"url": "/api/counter/:name/decrement",
 					"method": "POST"
 				}
 			},
@@ -75,8 +75,8 @@
 				"maxRequests": 7,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/counter/reset/:value",
-					"method": "POST"
+					"url": "/api/counter/:name",
+					"method": "DELETE"
 				}
 			},
 
@@ -85,8 +85,8 @@
 				"maxRequests": 7,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/guestbook/read",
-					"method": "POST"
+					"url": "/api/guestbook/",
+					"method": "GET"
 				}
 			},
 			"guestbook.write": {
@@ -94,7 +94,7 @@
 				"maxRequests": 6,
 				"adminBypass": false,
 				"match": {
-					"url": "/api/guestbook/write",
+					"url": "/api/guestbook/",
 					"method": "POST"
 				}
 			},
@@ -103,7 +103,7 @@
 				"maxRequests": 10,
 				"adminBypass": true,
 				"match": {
-					"url": "/api/guestbook/delete",
+					"url": "/api/guestbook/:id",
 					"method": "DELETE"
 				}
 			},
@@ -133,7 +133,7 @@
 				"adminBypass": true,
 				"match": {
 					"url": "/api/blog/all",
-					"method": "POST"
+					"method": "GET"
 				}
 			},
 			"blog.readOffset": {
@@ -142,7 +142,7 @@
 				"adminBypass": true,
 				"match": {
 					"url": "/api/blog/offset",
-					"method": "POST"
+					"method": "GET"
 				}
 			},
 			"blog.readSlug": {
@@ -237,6 +237,24 @@
 					"method": "GET"
 				}
 			},
+			"assets.proxy.folder": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/assets/proxy/:folder/:id",
+					"method": "GET"
+				}
+			},
+			"assets.proxy.resize": {
+				"windowSeconds": 60,
+				"maxRequests": 50,
+				"adminBypass": true,
+				"match": {
+					"url": "/assets/proxy/:public_id/size/:w/:h",
+					"method": "GET"
+				}
+			},
 
 
 			"tags.getAll": {
@@ -246,6 +264,33 @@
 				"match": {
 					"url": "/api/tags/",
 					"method": "GET"
+				}
+			},
+			"tags.getBySlug": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/tags/:slug",
+					"method": "GET"
+				}
+			},
+			"tags.create": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/tags/",
+					"method": "POST"
+				}
+			},
+			"tags.delete": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/tags/:slug",
+					"method": "DELETE"
 				}
 			},
 

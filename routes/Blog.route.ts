@@ -2,7 +2,7 @@
 import express, { Request, Response, Router } from 'express';
 
 //validators
-import { body, param} from 'express-validator';
+import { body, param, query } from 'express-validator';
 
 // services
 import { BlogService } from '../services/Blog.service';
@@ -17,23 +17,23 @@ import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
 const BlogRoute: Router = express.Router({ mergeParams: true });
 
 /**
- * POST /all - Get all blog posts with pagination
+ * GET /all - Get all blog posts with pagination
  * Retrieve all blog posts with pagination
  *  @param req Express Request object
  *  @param res Express Response object
  */
-BlogRoute.post('/all', 
+BlogRoute.get('/all', 
     rateLimiter, 
     authenticateToken,
     [
-        body('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
-        body('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be a positive integer between 1 and 100'),
+        query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
+        query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be a positive integer between 1 and 100'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
         try {
-            const page = req.body.page ? parseInt(req.body.page) : 1;
-            const limit = req.body.limit ? parseInt(req.body.limit) : 20;
+            const page = req.query.page ? parseInt(req.query.page as string) : 1;
+            const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
 
             const data = await BlogService.getAllPosts(page, limit);
             
@@ -48,27 +48,29 @@ BlogRoute.post('/all',
 }, responseHandler);
 
 /**
- * POST /offset - Get blog posts with offset-based pagination
+ * GET /offset - Get blog posts with offset-based pagination
  * Retrieve blog posts using offset-based pagination with optional filters
  *  @param req Express Request object
  *  @param res Express Response object
  */
-BlogRoute.post('/offset',
+BlogRoute.get('/offset',
     rateLimiter,[
-        body('min').optional().isInt({ min: 1 }).withMessage('Min must be a positive integer'),
-        body('max').optional().isInt({ min: 1, max: 100 }).withMessage('Max must be a positive integer between 1 and 100'),
+        query('min').optional().isInt({ min: 1 }).withMessage('Min must be a positive integer'),
+        query('max').optional().isInt({ min: 1, max: 100 }).withMessage('Max must be a positive integer between 1 and 100'),
 
-        body('tagsContains').optional().isString().withMessage('Each tag must be a string'),
-        body('titleContains').optional().isString().withMessage('Title filter must be a string'),
+        query('tagsContains').optional().isString().withMessage('Each tag must be a string'),
+        query('titleContains').optional().isString().withMessage('Title filter must be a string'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
         try {
-            const min = req.body.min ? parseInt(req.body.min) : 1;
-            const max = req.body.max ? parseInt(req.body.max) : 100;
+            const min = req.query.min ? parseInt(req.query.min as string) : 1;
+            const max = req.query.max ? parseInt(req.query.max as string) : 100;
 
-            const tagsContains = req.body.tagsContains ? req.body.tagsContains.split(',').map((tag: string) => tag.trim()) : [];
-            const titleContains = req.body.titleContains ? req.body.titleContains : '';
+            const tagsQuery = req.query.tagsContains as string;
+            const tagsContains = tagsQuery ? tagsQuery.split(',').map((tag: string) => tag.trim()) : [];
+            
+            const titleContains = req.query.titleContains ? (req.query.titleContains as string) : '';
 
             const data = await BlogService.getPostOffset(min, max, tagsContains, titleContains);
             

@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{base_url}}{{endPointApi}}/counter/decrement/THEME_RAND
+  url: {{base_url}}{{endPointApi}}/counter/:counteur_name/decrement/
   body: none
   auth: inherit
+}
+
+params:path {
+  counteur_name: 
 }
 
 tests {
@@ -60,7 +64,7 @@ docs {
   ### 📥 Request (Input)
   
   **Method:** `POST`
-  **URL:** `{{base_url}}{{endPointApi}}/counter/decrement/:name`
+  **URL:** `{{base_url}}{{endPointApi}}/counter/:name/decrement`
   
   **Authentication:**
   * 🔒 **Required**: `Authorization` Header (Bearer Token)

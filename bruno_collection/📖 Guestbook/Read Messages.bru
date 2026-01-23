@@ -4,15 +4,21 @@ meta {
   seq: 1
 }
 
-post {
-  url: {{base_url}}{{endPointApi}}/guestbook/read
-  body: json
+get {
+  url: {{base_url}}{{endPointApi}}/guestbook?password={{easterEgg_password}}&page=1&limit=100
+  body: none
   auth: inherit
+}
+
+params:query {
+  password: {{easterEgg_password}}
+  page: 1
+  limit: 100
 }
 
 body:json {
   {
-    "password": "{{easterEgg_password}}",
+    "password": "",
     "page": 1,
     "limit": 100
   }
@@ -92,6 +98,65 @@ docs {
   ---
   
   ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/guestbook/`
+  
+  **Authentication:**
+  * No OAuth required, but password protected
+  
+  **Query Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `password` | String | ✔️ | Secret password for access |
+  | `page` | Int | ❌ | Page number (Default: 1) |
+  | `limit` | Int | ❌ | Items per page (Default: 20, Max: 100) |
+  
+  **Body:**
+  * No body required.
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "entries": [
+        {
+          "id": "1769191592432_x06t1t90x",
+          "name": "Visitor",
+          "message": "Hello!",
+          "createdAt": "2026-01-23T10:30:00.000Z"
+        }
+      ],
+      "meta": {
+        "page": 1,
+        "limit": 20,
+        "total_count": 42
+      }
+    },
+    "timestamp": "2026-01-23T10:30:00.000Z"
+  }
+  ```
+  
+  **Unauthorized (400 Bad Request):**
+  ```json
+  {
+    "success": false,
+    "message": "Unauthorized",
+    "timestamp": "2026-01-23T10:30:00.000Z"
+  }
+  ```
+  
+  ### Notes
+  
+  - Entries are sorted by creation date (most recent first)
+  - Pagination prevents large response payloads
+  - Password must be valid for access
   
   **Method:** `POST`
   **URL:** `{{base_url}}{{endPointApi}}/guestbook/read`

@@ -1,6 +1,6 @@
 // express
 import express, { Request, Response, Router } from 'express';
-import { body } from 'express-validator';
+import { body, query, param } from 'express-validator';
 
 // config
 import cfg from '../config/default';
@@ -18,51 +18,51 @@ const guestBookRoute: Router = express.Router();
 const secretConfig = cfg.SecretSystem;
 
 /**
- ** POST /read - Retrieve guestbook entries with pagination
+ ** GET / - Retrieve guestbook entries with pagination
  ** read the guestbook entries.
  *  @param req Express Request object
  *  @param res Express Response object
  */
-guestBookRoute.post('/read', 
+guestBookRoute.get('/', 
     rateLimiter, 
     [
-        body('password').custom((value) => {
+        query('password').custom((value) => {
             if (!value || value !== secretConfig.password) {
-                logConsole('POST', '/guestbook/', 'FAIL', 'Unauthorized access attempt');
+                logConsole('GET', '/guestbook/', 'FAIL', 'Unauthorized access attempt');
                 writeToLog('GuestBookRoute READ unauthorized access attempt', 'secret');
                 throw new Error('Unauthorized');
             }
             return true;
         }),
-        body('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
-        body('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100')
+        query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
+        query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100')
     ],
     validateRequest,
     async (req: Request, res: Response) => {
         try {
-            const page = req.body.page ? parseInt(req.body.page) : 1;
-            const limit = req.body.limit ? parseInt(req.body.limit) : 20;
+            const page = req.query.page ? parseInt(req.query.page as string) : 1;
+            const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
 
             const guestBookResponse = await GuestBookService.getGuestBookEntries(page, limit);
             
-            logConsole('POST', '/guestbook/', 'INFO', `Retrieved guestbook entries`, { count: guestBookResponse.entries.length, page: page });
+            logConsole('GET', '/guestbook/', 'INFO', `Retrieved guestbook entries`, { count: guestBookResponse.entries.length, page: page });
             writeToLog(`GuestBookRoute READ ok page=${page} count=${guestBookResponse.entries.length}`, 'guestbook');
             return res.success(guestBookResponse);
         } catch (error: any) {
             const errorMsg = error.stack || error.message || String(error);
-            logConsole('POST', '/guestbook/', 'FAIL', 'Error retrieving guestbook entries', { error: errorMsg });
+            logConsole('GET', '/guestbook/', 'FAIL', 'Error retrieving guestbook entries', { error: errorMsg });
             return res.error('Internal Server Error', 500);
         }
     }
 );
 
 /**
- ** POST /write - Add new entry
+ ** POST / - Add new entry
  ** write entry to guestbook
  *  @param req Express Request object
  *  @param res Express Response object
  */
-guestBookRoute.post('/write', 
+guestBookRoute.post('/', 
     rateLimiter, 
     [
         body('password').custom((value) => {
@@ -131,45 +131,44 @@ guestBookRoute.post('/write',
 );
 
 /**
- ** POST /delete - Delete guestbook entry
+ ** DELETE /:id - Delete guestbook entry
  ** Delete an entry from the guestbook by ID
  *  @param req Express Request object
  *  @param res Express Response object
  */
-guestBookRoute.delete('/delete',
+guestBookRoute.delete('/:id',
     rateLimiter,
     authenticateToken,
     [
-        body('password').custom((value) => {
+        query('password').custom((value) => {
             if (!value || value !== secretConfig.password) {
-                logConsole('POST', '/guestbook/delete', 'FAIL', 'Unauthorized access attempt');
+                logConsole('DELETE', '/guestbook/', 'FAIL', 'Unauthorized access attempt');
                 writeToLog('GuestBookRoute DELETE unauthorized access attempt', 'secret');
                 throw new Error('Unauthorized');
             }
             return true;
         }),
-        body('id').notEmpty().withMessage('ID is required')
-            .isString().withMessage('ID must be a string')
+        param('id').notEmpty().withMessage('ID is required').isString()
     ],
     validateRequest,
-    async (req: Request, res: Response) => {
+    async (req: Request<{ id: string }>, res: Response) => {
         try {
-            const { id } = req.body;
+            const { id } = req.params;
             
             const deleted = await GuestBookService.deleteGuestBookEntry(id);
             
             if(deleted.success) {
-                logConsole('POST', '/guestbook/delete', 'OK', 'Deleted guestbook entry', { id: id });
+                logConsole('DELETE', `/guestbook/${id}`, 'OK', 'Deleted guestbook entry', { id: id });
                 writeToLog(`GuestBookRoute DELETE ok id=${id}`, 'guestbook');
                 return res.removed(id, 'Guestbook entry deleted successfully');
             }
 
-            logConsole('POST', '/guestbook/delete', 'WARN', 'Not found', { id: id });
+            logConsole('DELETE', `/guestbook/${id}`, 'WARN', 'Not found', { id: id });
             writeToLog(`GuestBookRoute DELETE not found id=${id}`, 'guestbook');
             return res.idNotFound(id, 'Guestbook entry not found');
         } catch (error: any) {
             const errorMsg = error.stack || error.message || String(error);
-            logConsole('POST', '/guestbook/delete', 'FAIL', 'Error deleting guestbook entry', { error: errorMsg });
+            logConsole('DELETE', `/guestbook/${req.params.id}`, 'FAIL', 'Error deleting guestbook entry', { error: errorMsg });
             return res.error('Internal Server Error', 500);
         }
     }

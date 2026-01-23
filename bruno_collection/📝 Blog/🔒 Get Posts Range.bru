@@ -4,17 +4,15 @@ meta {
   seq: 1
 }
 
-post {
-  url: {{base_url}}{{endPointApi}}/blog/all
+get {
+  url: {{base_url}}{{endPointApi}}/blog/all?page=1&limit=99
   body: json
   auth: inherit
 }
 
-body:json {
-  {
-    "page": 1,
-    "limit": 99
-  }
+params:query {
+  page: 1
+  limit: 99
 }
 
 tests {
