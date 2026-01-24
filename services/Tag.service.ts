@@ -1,6 +1,7 @@
 import { db } from '../utils/sqllite.helper';
 import { tags } from '../database/shema';
 import { eq } from 'drizzle-orm';
+import { NotFoundError, ValidationError } from '../utils/AppError';
 
 export class TagService {
     /**
@@ -40,7 +41,7 @@ export class TagService {
         });
 
         if (!tag) {
-            return null;
+            throw new NotFoundError(`Tag with slug "${slug}" not found`);
         }
 
         return {
@@ -86,6 +87,34 @@ export class TagService {
         });
 
         return newTag;
+    }
+
+    /**
+     * update a tag by its slug
+     * @param slug - the slug of the tag
+     * @param updateData - the data to update (name and/or color)
+     * @returns the updated tag or throws NotFoundError if not found
+     */
+    static async updateTagBySlug(slug: string, updateData: { name?: string; color?: string }) {
+        const tag = await db.query.tags.findFirst({
+            where: (tags, { eq }) => eq(tags.slug, slug),
+        });
+
+        if (!tag) {
+            throw new NotFoundError(`Tag with slug "${slug}" not found`);
+        }
+
+        if (!updateData.name && !updateData.color) {
+            throw new ValidationError('At least one field (name or color) must be provided');
+        }
+
+        const updatedTag = await db.update(tags)
+            .set(updateData)
+            .where(eq(tags.id, tag.id))
+            .returning()
+            .get();
+
+        return updatedTag;
     }
 }
 

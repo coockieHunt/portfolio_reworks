@@ -8,6 +8,9 @@ import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant';
 // middlewares
 import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 
+// errors
+import { NotFoundError } from '../utils/AppError';
+
 // type
 interface GuestBookEntry {
     id: string;
@@ -160,7 +163,7 @@ export class GuestBookService {
      * Deletes a guestbook entry by its ID
      * @param id - The unique entry ID to delete
      * @returns Promise with deletion result and status
-     * @throws {Error} If Redis client is not connected
+     * @throws {NotFoundError} If entry is not found
      */
     static async deleteGuestBookEntry(id: string): Promise<GuestBookDeleteResponse> {
         validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
@@ -169,61 +172,42 @@ export class GuestBookService {
             throw new Error("Redis client is not connected.");
         }
 
-        try {
-            const allEntries = await RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
-            
-            let entryToDelete: string | null = null;
-            
-            for (const entry of allEntries) {
-                try {
-                    const parsedEntry: GuestBookEntry = JSON.parse(entry);
-                    if (parsedEntry.id === id) {
-                        entryToDelete = entry;
-                        break;
-                    }
-                } catch (e) {
-                    console.error("Error parsing entry during delete:", e);
-                    continue;
+        const allEntries = await RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
+        
+        let entryToDelete: string | null = null;
+        
+        for (const entry of allEntries) {
+            try {
+                const parsedEntry: GuestBookEntry = JSON.parse(entry);
+                if (parsedEntry.id === id) {
+                    entryToDelete = entry;
+                    break;
                 }
+            } catch (e) {
+                console.error("Error parsing entry during delete:", e);
+                continue;
             }
-            
-            if (!entryToDelete) {
-                writeToLog(`GuestBook DELETE entry not found: id=${id}`, 'guestbook');
-                return {
-                    success: false,
-                    meta: {
-                        id: id
-                    },
-                    message: 'Entry not found',
-                };
-            }
-            
-            const removed = await RedisClient.lRem(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 1, entryToDelete);
-            
-            if (removed > 0) {
-                writeToLog(`GuestBook DELETE success: id=${id}`, 'guestbook');
-                return {
-                    success: true,
-                    meta: {
-                        id: id
-                    },
-                    message: 'Entry deleted successfully',
-                };
-            } else {
-                writeToLog(`GuestBook DELETE failed: id=${id}`, 'guestbook');
-                return {
-                    success: false,
-                    meta: {
-                        id: id
-                    },
-                    message: 'Entry not found',
-                };
-            }
-        } catch (error: any) {
-            const errorMsg = error.stack || error.message || String(error);
-            logConsole('DELETE', '/guestbook/', 'FAIL', 'Error deleting guestbook entry', { error: errorMsg, id });
-            writeToLog(`GuestBook DELETE error: ${errorMsg} id=${id}`, 'guestbook');
-            throw error;
         }
+        
+        if (!entryToDelete) {
+            writeToLog(`GuestBook DELETE entry not found: id=${id}`, 'guestbook');
+            throw new NotFoundError(`Guestbook entry with ID "${id}" not found`);
+        }
+        
+        const removed = await RedisClient.lRem(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 1, entryToDelete);
+        
+        if (removed <= 0) {
+            writeToLog(`GuestBook DELETE failed: id=${id}`, 'guestbook');
+            throw new NotFoundError(`Failed to delete guestbook entry with ID "${id}"`);
+        }
+        
+        writeToLog(`GuestBook DELETE success: id=${id}`, 'guestbook');
+        return {
+            success: true,
+            meta: {
+                id: id
+            },
+            message: 'Entry deleted successfully',
+        };
     }
 }

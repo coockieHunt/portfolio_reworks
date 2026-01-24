@@ -13,6 +13,7 @@ import { responseHandler } from '../middlewares/responseHandler.middlewar';
 import { writeToLog, logConsole } from '../middlewares/log.middlewar';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
+import { asyncHandler } from '../middlewares/errorHandler.middleware';
 
 const BlogRoute: Router = express.Router({ mergeParams: true });
 
@@ -94,31 +95,15 @@ BlogRoute.get('/:slug',
     rateLimiter, 
     param('slug').notEmpty().withMessage('Slug is required'),
     validateRequest,
-    async (req: Request<{ slug: string }>, res: Response) => {
-        try {
-            const data = await BlogService.getPostBySlug(req.params.slug);
-            
-            if (!data.data) {
-                logConsole('GET', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });
-                writeToLog(`BlogRoute READ not found slug=${req.params.slug}`, 'blog');
-                return res.idNotFound(req.params.slug, `post (${req.params.slug}) not found`);
-            }
-
-            logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post `, { slug: req.params.slug });
-            writeToLog(`BlogRoute READ ok slug=${req.params.slug}`, 'blog');
-
-            return res.success({ 
-                 ...data.data, 
-                 cached: data.cached
-            });
-
-        } catch (error) {
-            logConsole('GET', `/blog/${req.params.slug}`, 'FAIL', `Error retrieving blog post`, { error, slug: req.params.slug });
-            writeToLog(`BlogRoute READ error slug=${req.params.slug}`, 'blog');
-
-            return res.error("error retrieving blog post", 500, error);
-        }
-    }, 
+    asyncHandler(async (req: Request<{ slug: string }>, res: Response) => {
+        const data = await BlogService.getPostBySlug(req.params.slug);
+        logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post `, { slug: req.params.slug });
+        writeToLog(`BlogRoute READ ok slug=${req.params.slug}`, 'blog');
+        return res.success({ 
+             ...data.data, 
+             cached: data.cached
+        });
+    }), 
 responseHandler);
 
 /**
@@ -130,21 +115,22 @@ responseHandler);
 BlogRoute.post('/new', 
     rateLimiter, 
     [
-        body('title').notEmpty().withMessage('Title is required'),
-        body('slug').notEmpty().withMessage('Slug is required'),
+        body('title').notEmpty().withMessage('Title is required').trim(),
+        body('slug').notEmpty().withMessage('Slug is required').matches(/^[a-z0-9-]+$/).withMessage('Slug must contain only lowercase letters, numbers, and hyphens'),
         body('content').notEmpty().withMessage('Content is required'),
-        body('summary').optional().isString().withMessage('Summary must be a string'),
-        body('authorId').notEmpty().withMessage('Author ID is required'),
+        body('summary').optional().isString().trim().withMessage('Summary must be a string'),
+        body('authorId').notEmpty().isInt().withMessage('Author ID must be an integer'),
         body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
-        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer')
+        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer'),
+        body('featuredImage').optional().isURL().withMessage('Featured image must be a valid URL')
     ],
     validateRequest,
     authenticateToken,
     async (req: Request, res: Response) => {
-        const { title, slug, content, summary, authorId, tagIds } = req.body;
+        const { title, slug, content, summary, authorId, tagIds, featuredImage } = req.body;
 
         try {
-            const newPost = await BlogService.createPost({ title, slug, content, summary, authorId, tagIds });
+            const newPost = await BlogService.createPost({ title, slug, content, summary, authorId, tagIds, featuredImage });
             logConsole('POST', '/blog/', 'OK', `Created new blog post`, { slug });
             writeToLog(`BlogRoute CREATE ok slug=${slug}`, 'blog');
 
@@ -196,28 +182,29 @@ BlogRoute.put('/edit/update/:slug',
     rateLimiter, 
     [
         param('slug').notEmpty().withMessage('Slug is required'),
-        body('title').optional().isString(),
+        body('title').optional().isString().trim(),
         body('content').optional().isString(),
-        body('summary').optional().isString(),
-        body('authorId').optional().isNumeric(),
+        body('summary').optional().isString().trim(),
+        body('authorId').optional().isInt().withMessage('Author ID must be an integer'),
         body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
         body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer'),
         body('tags').optional().isArray().withMessage('Tags must be an array'),
-        body('tags.*').optional().isInt().withMessage('Each tag ID must be an integer')
+        body('tags.*').optional().isInt().withMessage('Each tag ID must be an integer'),
+        body('featuredImage').optional().isURL().withMessage('Featured image must be a valid URL')
     ],
     validateRequest,
     authenticateToken,
     async (req: Request<{ slug: string }>, res: Response) => {
-        let { title, content, summary, authorId, tagIds, tags } = req.body;
+        let { title, content, summary, authorId, tagIds, tags, featuredImage } = req.body;
         
         // Support "tags" as alias for "tagIds"
         if (!tagIds && tags) {
             tagIds = tags;
         }
 
-        console.log( title, content, summary, authorId, tagIds );
+        console.log( title, content, summary, authorId, tagIds, featuredImage );
         try {
-            const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId, tagIds });
+            const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId, tagIds, featuredImage });
 
             if (!updatedPost) {
                 logConsole('PUT', `/blog/${req.params.slug}`, 'WARN', `Post not found`, { slug: req.params.slug });

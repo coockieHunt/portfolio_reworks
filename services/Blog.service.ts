@@ -7,7 +7,6 @@ import { post_author, posts, postTags, tags } from '../database/shema';
 //orm
 import { desc, eq, sql, inArray, like, and} from 'drizzle-orm';
 
-
 //services
 import { RedisClient } from '../services/Redis.service';
 
@@ -21,6 +20,9 @@ import { writeToLog } from '../middlewares/log.middlewar';
 
 //config
 import cfg from '../config/default';
+
+//errors
+import { NotFoundError, ValidationError } from '../utils/AppError';
 
 /**
  * Blog Service
@@ -187,7 +189,7 @@ export class BlogService {
                 .where(eq(posts.slug, slug))
                 .get();
             
-            if (!postResult) return null;
+            if (!postResult) throw new NotFoundError(`Post with slug "${slug}" not found`);
 
             const tagsResults = await db.select({
                 tag: tags
@@ -216,10 +218,10 @@ export class BlogService {
 
     /**
      * Creates a new blog post
-     * @param data - Post data including title, content, summary, author ID, and optional tags
+     * @param data - Post data including title, content, summary, author ID, optional tags, and optional featuredImage
      * @returns Promise with the newly created post
      */
-    static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; tagIds?: number[]; }) {
+    static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; tagIds?: number[]; featuredImage?: string; }) {
         const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-');
         const { tagIds, ...postData } = data;
 
@@ -264,10 +266,10 @@ export class BlogService {
     /**
      * Updates an existing blog post and invalidates its cache
      * @param slug - The post slug to update
-     * @param updateData - Partial post data to update, including optional tags
+     * @param updateData - Partial post data to update, including optional tags and optional featuredImage
      * @returns Promise with updated post or null if not found
      */
-    static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; }) {
+    static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; featuredImage?: string; }) {
         const key = this.getCacheKey(slug);
         validateKey(key);
 
@@ -279,7 +281,7 @@ export class BlogService {
             .get();
 
             if (!authorExists) {
-                throw new Error('INVALID_AUTHOR');
+                throw new NotFoundError(`Author with ID ${updateData.authorId} not found`);
             }
         }
 
@@ -294,7 +296,7 @@ export class BlogService {
             const missing = updateData.tagIds.filter(id => !foundIds.has(id));
 
             if (missing.length > 0) {
-                throw new Error(`INVALID_TAG_IDS:${missing.join(',')}`);
+                throw new ValidationError(`Invalid tag IDs: ${missing.join(',')}`);
             }
         }
 
@@ -307,27 +309,28 @@ export class BlogService {
             .returning()
             .get();
 
-        if (updatedPost) {
-            if (tagIds !== undefined) {
-                await db.delete(postTags).where(eq(postTags.postId, updatedPost.id));
-                
-                if (tagIds.length > 0) {
-                    const tagAssociations = tagIds.map(tagId => ({
-                        postId: updatedPost.id,
-                        tagId: tagId
-                    }));
-                    await db.insert(postTags).values(tagAssociations);
-                }
-            }
-            
-            try {
-                await this.deleteCacheBySlug(slug);
-            } catch (error) {
-                console.error(`Failed to delete cache for slug ${slug} after update`, error);
-            }
-            return updatedPost;
+        if (!updatedPost) {
+            throw new NotFoundError(`Post with slug "${slug}" not found`);
         }
-        return null;
+
+        if (tagIds !== undefined) {
+            await db.delete(postTags).where(eq(postTags.postId, updatedPost.id));
+            
+            if (tagIds.length > 0) {
+                const tagAssociations = tagIds.map(tagId => ({
+                    postId: updatedPost.id,
+                    tagId: tagId
+                }));
+                await db.insert(postTags).values(tagAssociations);
+            }
+        }
+        
+        try {
+            await this.deleteCacheBySlug(slug);
+        } catch (error) {
+            console.error(`Failed to delete cache for slug ${slug} after update`, error);
+        }
+        return updatedPost;
     }
 
     /**
@@ -346,16 +349,16 @@ export class BlogService {
             .returning()
             .get();
 
-
-        if (updatedPost) {
-            try {
-                await this.deleteCacheBySlug(slug);
-            } catch (error) {
-                console.error(`Failed to delete cache for slug ${slug} after publish update`, error);
-            }
-            return updatedPost;
+        if (!updatedPost) {
+            throw new NotFoundError(`Post with slug "${slug}" not found`);
         }
-        return null;
+
+        try {
+            await this.deleteCacheBySlug(slug);
+        } catch (error) {
+            console.error(`Failed to delete cache for slug ${slug} after publish update`, error);
+        }
+        return updatedPost;
     }
 
     /**
@@ -369,15 +372,16 @@ export class BlogService {
 
         const deletedPost = await db.delete(posts).where(eq(posts.slug, slug)).returning().get();
         
-        if (deletedPost) {
-            try {
-                await this.deleteCacheBySlug(slug);
-            } catch (error) {
-                console.error(`Failed to delete cache for slug ${slug} after DB deletion`, error);
-            }
-            return true;
+        if (!deletedPost) {
+            throw new NotFoundError(`Post with slug "${slug}" not found`);
         }
-        return false;
+
+        try {
+            await this.deleteCacheBySlug(slug);
+        } catch (error) {
+            console.error(`Failed to delete cache for slug ${slug} after DB deletion`, error);
+        }
+        return true;
     }
 
     /**

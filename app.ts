@@ -5,6 +5,7 @@ dotenv.config({
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import chalk from 'chalk';
 import consola from 'consola';
 
@@ -19,6 +20,7 @@ import { trackApiCall } from './middlewares/callApiCount.middlewar';
 import { allowOnlyFromIPs } from './middlewares/whiteList.middlewar';
 import { responseHandler } from './middlewares/responseHandler.middlewar';
 import { TestingMiddleware } from './middlewares/testing.middleware';
+import { errorHandler } from './middlewares/errorHandler.middleware';
 
 import mailRouter from './routes/MailRoute.route';
 import guestBookRoute from './routes/GuestBook.route';
@@ -76,9 +78,29 @@ const redisClient = createClient({
 });
 
 //load global middlewares
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", 'data:', 'https:'],
+            connectSrc: ["'self'"],
+        },
+    },
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    frameguard: { action: 'deny' },
+    noSniff: true,
+    xssFilter: true,
+    strictTransportSecurity: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+    }
+}));
 app.use(cors(corsOptions));
 app.use(TestingMiddleware);
-app.use(express.json()); 
+app.use(express.json({ limit: '10kb' }));
 app.use(trackApiCall); 
 app.use(responseHandler);
 
@@ -107,8 +129,18 @@ app.use((req, res, next) => {
     });
 });
 
+app.use(errorHandler);
+
 // run
 async function startServer() {
+    const requiredEnvVars = ['ACCESS_TOKEN_SECRET'];
+    const missingEnvVars = requiredEnvVars.filter(v => !process.env[v]);
+    
+    if (missingEnvVars.length > 0) {
+        consola.fatal(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+        process.exit(1);
+    }
+
     if (cfg.fallback.latency || cfg.fallback.sendError) {
         consola.warn('🛑 FALLBACK SIMULATION is ENABLED');
     }

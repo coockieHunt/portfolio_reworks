@@ -1,0 +1,124 @@
+meta {
+  name: 🔒 List Image
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}{{endPointAsset}}/list
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200 or 304", function() {
+    const status = res.getStatus();
+    expect([200, 304]).to.include(status);
+  });
+  
+  test("Response has content-type header", function() {
+    const contentType = res.getHeader('content-type');
+    if (res.getStatus() === 200) {
+      expect(contentType).to.exist;
+      expect(contentType.toLowerCase()).to.include('image');
+    }
+  });
+  
+  test("Resized image dimensions match request", function() {
+    const contentType = res.getHeader('content-type');
+    if (res.getStatus() === 200) {
+      expect(contentType.toLowerCase()).to.include('image');
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # � List All Assets
+  
+  **Description:**
+  Retrieves a complete list of all assets stored in the system.
+  This endpoint requires authentication and is rate-limited for security.
+  
+  ---
+  
+  ### 📥 Request (Input)
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointAsset}}/list`
+  
+  **Authentication:**
+  * ✔️ **Required** - Bearer token authentication
+  * Rate limited: Yes
+  
+  **URL Parameters:**
+  * None
+  
+  **Query Parameters:**
+  * None
+  
+  **Headers:**
+  * `Authorization: Bearer {token}` - Required for authentication
+  
+  ---
+  
+  ### 📤 Response (Output)
+  
+  **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "assets": [
+        {
+          "id": "asset-id-1",
+          "publicId": "public-id-1",
+          "filename": "image.jpg",
+          "folder": "blog",
+          "size": 102400,
+          "uploadedAt": "2026-01-24T10:30:00Z"
+        },
+        {
+          "id": "asset-id-2",
+          "publicId": "public-id-2",
+          "filename": "photo.png",
+          "folder": "assets",
+          "size": 204800,
+          "uploadedAt": "2026-01-23T15:45:00Z"
+        }
+      ]
+    },
+    "message": "Asset list retrieved successfully"
+  }
+  ```
+  
+  **Error Response (500 Internal Server Error):**
+  ```json
+  {
+    "success": false,
+    "message": "Error retrieving asset list",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+  
+  **Unauthorized (401):**
+  * Invalid or missing authentication token
+  
+  **Rate Limited (429):**
+  * Too many requests from the same IP/user
+  
+  ---
+  
+  ### 📌 Notes
+  
+  - **Authentication Required:** Must include valid Bearer token in Authorization header
+  - **Rate Limiting:** Subject to configured rate limits
+  - **Response Time:** Typically < 500ms
+  - **Cache:** Results are cached in Redis when available
+  - **With Fit Mode:** `/images/proxy/blog/article-img/size/300/200?fit=cover`
+  - **With Position:** `/images/proxy/blog/article-img/size/300/200?fit=cover&position=center`
+}

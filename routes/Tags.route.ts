@@ -9,6 +9,7 @@ import { TagService } from '../services/Tag.service';
 import rateLimiter from '../middlewares/rateLimiter.middlewar';
 import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
+import { asyncHandler } from '../middlewares/errorHandler.middleware';
 
 // syteme
 import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
@@ -51,24 +52,13 @@ TagRouter.get('/:slug',
         param('slug').isString().notEmpty(),
     ],
     validateRequest,
-    async (req: Request<{ slug: string }>, res: Response) => {
+    asyncHandler(async (req: Request<{ slug: string }>, res: Response) => {
         const { slug } = req.params;
-
-        try {
-            const tag = await TagService.getTagBySlug(slug);
-            if (!tag) {
-                logConsole('TagRouter', `GET /${slug}`, 'FAIL', `Tag with slug: ${slug} not found.`);
-                writeToLog(`Tag with slug: ${slug} not found.`, "tags");
-                return res.error('Tag not found.', 404);
-            }
-            logConsole('TagRouter', `GET /${slug}`, 'OK', `Retrieved tag with slug: ${slug}.`);
-            return res.success(tag);
-        } catch (error: any) {
-            logConsole('TagRouter', `GET /${slug}`, 'FAIL', error.message);
-            writeToLog(`Failed to retrieve tag with slug: ${slug}: ${error.message}`, "tags");
-            return res.error('Failed to retrieve tag.', 500);
-        }
-});
+        const tag = await TagService.getTagBySlug(slug);
+        logConsole('TagRouter', `GET /${slug}`, 'OK', `Retrieved tag with slug: ${slug}.`);
+        return res.success(tag);
+    })
+);
 
 /**
  * DELETE /:slug - Delete tag by slug
@@ -83,20 +73,14 @@ TagRouter.delete('/:slug',
         param('slug').isString().notEmpty(),
     ],
     validateRequest,
-    async (req: Request<{ slug: string }>, res: Response) => {
+    asyncHandler(async (req: Request<{ slug: string }>, res: Response) => {
         const { slug } = req.params;
-
-        try {
-            TagService.deleteTagBySlug(slug);
-            logConsole('TagRouter', `DELETE /${slug}`, 'OK', `Deleted tag with slug: ${slug}.`);
-            writeToLog(`Deleted tag with slug: ${slug}.`, "tags");
-            return res.removed(slug, 'Tag deleted successfully.');
-        } catch (error: any) {
-            logConsole('TagRouter', `DELETE /${slug}`, 'FAIL', error.message);
-            writeToLog(`Failed to delete tag with slug: ${slug}: ${error.message}`, "tags");
-            return res.error('Failed to delete tag.', 500);
-        }
-});
+        await TagService.deleteTagBySlug(slug);
+        logConsole('TagRouter', `DELETE /${slug}`, 'OK', `Deleted tag with slug: ${slug}.`);
+        writeToLog(`Deleted tag with slug: ${slug}.`, "tags");
+        return res.removed(slug, 'Tag deleted successfully.');
+    })
+);
 
 /**
  * POST / - Create a new tag
@@ -108,25 +92,43 @@ TagRouter.post('/',
     rateLimiter,
     authenticateToken,
     [
-        body('name').isString().notEmpty(),
-        body('slug').isString().notEmpty(),
-        body('color').isString().notEmpty(),
+        body('name').isString().notEmpty().trim(),
+        body('slug').isString().notEmpty().trim().matches(/^[a-z0-9-]+$/),
+        body('color').isString().notEmpty().matches(/^#[0-9A-F]{6}$/i).withMessage('Color must be a valid hex color (#XXXXXX)'),
     ],
     validateRequest,
-    async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request, res: Response) => {
         const { name, slug, color } = req.body;
+        const newTag = await TagService.createTag(name, slug, color);
+        logConsole('TagRouter', 'POST /', 'OK', `Created new tag with slug: ${slug}.`);
+        writeToLog(`Created new tag with slug: ${slug}.`, "tags");
+        return res.success(newTag, 'Tag created successfully.');
+    })
+);
 
-        try {
-            const newTag = await TagService.createTag(name, slug, color);
-            logConsole('TagRouter', 'POST /', 'OK', `Created new tag with slug: ${slug}.`);
-            writeToLog(`Created new tag with slug: ${slug}.`, "tags");
-            return res.success(newTag, 'Tag created successfully.');
-        } catch (error: any) {
-            logConsole('TagRouter', 'POST /', 'FAIL', error.message);
-            writeToLog(`Failed to create tag: ${error.message}`, "tags");
-            return res.error('Failed to create tag.', 500);
-        }
-    }
+/**
+ * PUT /:slug - Update tag by slug
+ * Updates a tag's name and/or color by its slug.
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
+TagRouter.put('/:slug',
+    rateLimiter,
+    authenticateToken,
+    [
+        param('slug').isString().notEmpty(),
+        body('name').optional().isString().trim(),
+        body('color').optional().matches(/^#[0-9A-F]{6}$/i).withMessage('Color must be a valid hex color (#XXXXXX)'),
+    ],
+    validateRequest,
+    asyncHandler(async (req: Request<{ slug: string }>, res: Response) => {
+        const { slug } = req.params;
+        const { name, color } = req.body;
+        const updatedTag = await TagService.updateTagBySlug(slug, { name, color });
+        logConsole('TagRouter', `PUT /${slug}`, 'OK', `Updated tag with slug: ${slug}.`);
+        writeToLog(`Updated tag with slug: ${slug}.`, "tags");
+        return res.success(updatedTag, 'Tag updated successfully.');
+    })
 );
 
 
