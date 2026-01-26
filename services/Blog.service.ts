@@ -42,16 +42,24 @@ export class BlogService {
         return `${AUTHORIZED_REDIS_PREFIXES.BLOG_POST}${slug}`;
     }
 
+    
+
     /**
      * Retrieves all blog posts with pagination
      * @param page - Page number (default: 1)
      * @param limit - Number of posts per page (default: 20)
      * @returns Promise with paginated posts and metadata
      */
-    static async getAllPosts(page: number = 1, limit: number = 20) {
+    static async getAllPosts(page: number = 1, limit: number = 20, isAuthenticated: boolean = false) {
         const offset = (page - 1) * limit;
 
-        const totalCountResult = await db.select({ count: sql<number>`count(*)` }).from(posts).get();
+        const visibilityFilter = isAuthenticated ? undefined : eq(posts.published, 1);
+
+        const totalCountResult = await db
+            .select({ count: sql<number>`count(*)` })
+            .from(posts)
+            .where(visibilityFilter)
+            .get();
         const totalCount = totalCountResult ? totalCountResult.count : 0;
 
         const postsResults = await db.select({
@@ -61,6 +69,7 @@ export class BlogService {
             }
         })
         .from(posts)
+        .where(visibilityFilter)
         .orderBy(desc(posts.createdAt))
         .leftJoin(post_author, eq(posts.authorId, post_author.id))
         .limit(limit)
@@ -100,13 +109,17 @@ export class BlogService {
      * Retrieves blog posts using offset-based pagination
      * @param min - Minimum offset position (default: 1)
      * @param max - Maximum offset position (default: 100)
+     * @param tagsToFilter - Array of tag slugs to filter by (default: [])
+     * @param titleContains - Substring that the title must contain (default: '')
+     * @param onlyPublished - Whether to include only published posts (default: true)
      * @returns Promise with posts and cursor metadata
      */
     static async getPostOffset(
         min: number = 1, 
         max: number = 100, 
         tagsToFilter: string[] = [],
-        titleContains: string = ''
+        titleContains: string = '',
+        onlyPublished: boolean = true
     ) {
         const limit = max - min + 1;
         const offset = min - 1;
@@ -135,14 +148,19 @@ export class BlogService {
             })
             .from(posts)
             .leftJoin(post_author, eq(posts.authorId, post_author.id))
-            .where(and(...filters)) 
+            .where(
+                and(
+                    ...filters, 
+                    onlyPublished ? eq(posts.published, 1) : undefined 
+                )
+            )
             .orderBy(desc(posts.createdAt))
             .limit(limit)
             .offset(offset)
             .all();
         
         let tagsResults: Array<{ postId: number, tag: typeof tags.$inferSelect }> = [];
-        
+
         if (postsResults.length > 0) {
             const postIds = postsResults.map(r => r.post.id);
             tagsResults = await db.select({
@@ -173,10 +191,11 @@ export class BlogService {
     /**
      * Retrieves a single blog post by its slug with caching
      * @param slug - The unique slug identifier for the post
+     * @param isAuthenticated - Whether the requester is authenticated (true) or a guest (false)
      * @returns Promise with post data and cache status
      */
-    static async getPostBySlug(slug: string ) {
-        const data = await withCache(this.getCacheKey(slug), async () => {
+    static async getPostBySlug(slug: string, isAuthenticated: boolean) {
+        const fetchFromDb = async () => {
             const postResult = await db.select({
                 post: posts,
                 author: {
@@ -184,36 +203,59 @@ export class BlogService {
                     describ: post_author.describ
                 }
             })
-                .from(posts)
-                .leftJoin(post_author, eq(posts.authorId, post_author.id)) 
-                .where(eq(posts.slug, slug))
-                .get();
+            .from(posts)
+            .leftJoin(post_author, eq(posts.authorId, post_author.id))
+            .where(eq(posts.slug, slug))
+            .get();
             
             if (!postResult) throw new NotFoundError(`Post with slug "${slug}" not found`);
 
-            const tagsResults = await db.select({
-                tag: tags
-            })
-
-            
-            .from(postTags)
-            .innerJoin(tags, eq(postTags.tagId, tags.id))
-            .where(eq(postTags.postId, postResult.post.id))
-            .all();
-
+            if (!isAuthenticated && postResult.post.published === 0) {
+                throw new NotFoundError(`Post with slug "${slug}" is not published`);
+            }
+    
+            const tagsResults = await db.select({ tag: tags })
+                .from(postTags)
+                .innerJoin(tags, eq(postTags.tagId, tags.id))
+                .where(eq(postTags.postId, postResult.post.id))
+                .all();
+    
             return {
                 ...postResult,
                 tags: tagsResults.map(t => t.tag)
             };
-        },
-            cfg.blog.cache_ttl
-        );
-
-        if (!data.cached && data.data) {
-            writeToLog(`BlogService CACHE CREATE ok slug=${slug}`, 'blog');
+        };
+    
+        if (isAuthenticated) {
+           
+            const result = await fetchFromDb();
+            return { 
+                data: result, 
+                cached: false
+            };
+        } else {
+           
+            const result = await fetchFromDb(); 
+            
+            if (result.post.published === 1) {
+                try {
+                    const cached = await withCache(
+                        this.getCacheKey(slug),
+                        async () => result,
+                        cfg.blog.cache_ttl
+                    );
+                    if (!cached.cached) {
+                        writeToLog(`BlogService CACHE CREATE ok slug=${slug}`, 'blog');
+                    }
+                    return cached;
+                } catch (cacheError) {
+                    console.error(`Cache error for slug ${slug}:`, cacheError);
+                    return { data: result, cached: false };
+                }
+            }
+            
+            return { data: result, cached: false };
         }
-
-        return data;
     }
 
     /**
@@ -221,7 +263,7 @@ export class BlogService {
      * @param data - Post data including title, content, summary, author ID, optional tags, and optional featuredImage
      * @returns Promise with the newly created post
      */
-    static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; tagIds?: number[]; featuredImage?: string; }) {
+    static async createPost(data: { title: string; slug?: string; content: string; summary?: string, authorId: number; tagIds?: number[]; featuredImage?: string; indexed?: number; published?: number; }) {
         const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-');
         const { tagIds, ...postData } = data;
 
@@ -250,7 +292,7 @@ export class BlogService {
             }
         }
         
-        const newPost = await db.insert(posts).values({ ...postData, slug }).returning().get();
+        const newPost = await db.insert(posts).values({ ...postData, slug, indexed: data.indexed ?? 0, published: data.published ?? 0 }).returning().get();
         
         if (tagIds && tagIds.length > 0 && newPost) {
             const tagAssociations = tagIds.map(tagId => ({
@@ -269,7 +311,7 @@ export class BlogService {
      * @param updateData - Partial post data to update, including optional tags and optional featuredImage
      * @returns Promise with updated post or null if not found
      */
-    static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; featuredImage?: string; }) {
+    static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; featuredImage?: string; indexed?: number; published?: number; slug?: string; }) {
         const key = this.getCacheKey(slug);
         validateKey(key);
 
@@ -357,6 +399,34 @@ export class BlogService {
             await this.deleteCacheBySlug(slug);
         } catch (error) {
             console.error(`Failed to delete cache for slug ${slug} after publish update`, error);
+        }
+        return updatedPost;
+    }
+
+    /**
+     * Updates the indexed status of a blog post
+     * @param slug - The post slug to update
+     * @param indexed - 0 or 1 to set indexed status
+     * @returns Promise with updated post or null if not found
+     */
+    static async indexedPostBySlug(slug: string, indexed: number) {
+        const key = this.getCacheKey(slug);
+        validateKey(key);
+
+        const updatedPost =  await db.update(posts)
+            .set({ indexed: indexed, editedAt: new Date() })
+            .where(eq(posts.slug, slug))
+            .returning()
+            .get();
+
+        if (!updatedPost) {
+            throw new NotFoundError(`Post with slug "${slug}" not found`);
+        }
+
+        try {
+            await this.deleteCacheBySlug(slug);
+        } catch (error) {
+            console.error(`Failed to delete cache for slug ${slug} after indexed update`, error);
         }
         return updatedPost;
     }

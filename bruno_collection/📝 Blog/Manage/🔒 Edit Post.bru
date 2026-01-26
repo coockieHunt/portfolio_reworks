@@ -16,7 +16,10 @@ body:json {
     "content": "content of new post new edited",
     "summary": "sammary edited",
     "authorId": 1,
-    "featuredImage": "https://example.com/image-edited.jpg"
+    "featuredImage": "",
+    "indexed": 1,
+    "published": 1,
+    "slug": "new-slug-name"
   }
 }
 
@@ -92,6 +95,10 @@ docs {
   | `summary` | String | ❌ | Updated summary |
   | `authorId` | Number | ❌ | Author ID |
   | `tagIds` | Array | ❌ | Array of tag IDs to associate |
+  | `featuredImage` | String | ❌ | URL of the featured image |
+  | `indexed` | Number | ❌ | 0 or 1 - SEO indexing status |
+  | `published` | Number | ❌ | 0 or 1 - Publication status |
+  | `slug` | String | ❌ | New slug (lowercase, numbers, hyphens only) |
   
   **Body Example:**
   ```json
@@ -99,7 +106,11 @@ docs {
     "title": "Updated Title",
     "content": "Updated content here...",
     "summary": "Updated summary",
-    "tagIds": [1, 2, 3]
+    "tagIds": [1, 2, 3],
+    "featuredImage": "https://example.com/image.jpg",
+    "indexed": 1,
+    "published": 1,
+    "slug": "new-post-slug"
   }
   ```
   
@@ -117,10 +128,12 @@ docs {
       "post": {
         "id": 72,
         "title": "Updated Title",
-        "slug": "slug",
+        "slug": "new-post-slug",
         "content": "Updated content here...",
         "summary": "Updated summary",
-        "published": 0,
+        "featuredImage": "https://example.com/image.jpg",
+        "indexed": 1,
+        "published": 1,
         "createdAt": "2026-01-19T10:30:00.000Z",
         "editedAt": "2026-01-19T18:39:21.316Z",
         "authorId": 1
@@ -135,6 +148,15 @@ docs {
   {
     "success": false,
     "message": "post (slug) not found",
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+
+  **Slug Conflict (409 Conflict):**
+  ```json
+  {
+    "success": false,
+    "message": "slug already exists",
     "timestamp": "2026-01-19T18:39:21.316Z"
   }
   ```
@@ -153,5 +175,7 @@ docs {
   - Only provided fields are updated
   - Requires admin authentication
   - Updates editedAt timestamp automatically
-  - Publication status remains unchanged
+  - `slug`: Must be lowercase letters, numbers, and hyphens only. Returns 409 if slug already exists.
+  - `indexed`: Controls SEO indexing (0 = not indexed, 1 = indexed)
+  - `published`: Controls visibility (0 = draft, 1 = published)
 }

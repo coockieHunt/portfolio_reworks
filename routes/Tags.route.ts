@@ -12,7 +12,7 @@ import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { asyncHandler } from '../middlewares/errorHandler.middleware';
 
 // syteme
-import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
+import { authenticateToken, HybridAuthenticateToken } from '../middlewares/authenticateToken.middlewar';
 
 
 const TagRouter: Router = express.Router({ mergeParams: true });
@@ -27,11 +27,13 @@ TagRouter.use(rateLimiter);
  */
 TagRouter.get('/',
     rateLimiter,
+    HybridAuthenticateToken,
     async (req: Request, res: Response) => {
         try {
-            const tags = await TagService.getAllTags();
-            logConsole('TagRouter', 'GET /', 'OK', 'Retrieved all tags.');
-            writeToLog(`Retrieved all tags.`, "tags");
+            const isAuthenticated = !!(req as any).user;
+            const tags = await TagService.getAllTags(isAuthenticated);
+            logConsole('TagRouter', 'GET /', 'OK', `Retrieved all tags. auth=${isAuthenticated}`);
+            writeToLog(`Retrieved all tags. auth=${isAuthenticated}`, "tags");
             return res.success(tags.tags);
         } catch (error: any) {
             logConsole('TagRouter', 'GET /', 'FAIL', error.message);
@@ -48,14 +50,16 @@ TagRouter.get('/',
  */
 TagRouter.get('/:slug', 
     rateLimiter,
+    HybridAuthenticateToken,
     [
         param('slug').isString().notEmpty(),
     ],
     validateRequest,
     asyncHandler(async (req: Request<{ slug: string }>, res: Response) => {
         const { slug } = req.params;
-        const tag = await TagService.getTagBySlug(slug);
-        logConsole('TagRouter', `GET /${slug}`, 'OK', `Retrieved tag with slug: ${slug}.`);
+        const isAuthenticated = !!(req as any).user;
+        const tag = await TagService.getTagBySlug(slug, isAuthenticated);
+        logConsole('TagRouter', `GET /${slug}`, 'OK', `Retrieved tag with slug: ${slug}. auth=${isAuthenticated}`);
         return res.success(tag);
     })
 );

@@ -100,7 +100,7 @@ app.use(helmet({
 }));
 app.use(cors(corsOptions));
 app.use(TestingMiddleware);
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '20kb' }));
 app.use(trackApiCall); 
 app.use(responseHandler);
 

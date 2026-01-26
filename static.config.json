@@ -341,4 +341,10 @@
 			}
 		}
 	}
+	,
+	"blog": {
+		"cache_ttl": 86400,
+		"cache_client_age": 300,
+		"og_image": true
+	}
 }

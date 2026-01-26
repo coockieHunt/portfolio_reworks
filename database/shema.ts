@@ -15,6 +15,7 @@ export const posts = sqliteTable('posts', {
     content: text('content').notNull(),
     summary: text('summary'),
     published: integer('published').notNull().default(0),
+    indexed: integer('indexed').notNull().default(0),
     createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
     editedAt: integer('edited_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
     

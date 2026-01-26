@@ -58,3 +58,59 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
         return res.error('Internal server error', 500);
     }
 }
+
+/**
+ * Hybrid Authentication middleware
+ * 
+ * Similar to authenticateToken but allows requests without tokens to proceed.
+ * If a token is provided, it is verified and checked for revocation.
+ * Attaches decoded user payload to request object if token is valid.
+ * 
+ * @param req - Express request object
+ * @param res - Express response object
+ * @param next - Express next function
+ * @returns Promise resolving when authentication completes
+ */
+/**
+ * Hybrid Authentication middleware
+ * 
+ * - Si pas de token : Passe en Invité.
+ * - Si token valide : Passe en Admin/User (req.user rempli).
+ * - Si token invalide/révoqué : IGNORE l'erreur et passe en Invité (req.user undefined).
+ */
+export const HybridAuthenticateToken = async (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    const path = req.originalUrl || req.path;
+    const method = req.method;
+
+    const prefix = chalk.cyan('[AUTH-HYBRID]');
+
+    if (!token) {
+        console.log(`${prefix} ${chalk.yellow('INFO')} No token provided Guest Access → ${chalk.gray(path)}`);
+        return next();
+    }
+
+    try {
+        const isRevoked = await AuthService.isTokenRevoked(token);
+        if (isRevoked) {
+            console.log(`${prefix} ${chalk.yellow('WARN')} token revoked → ${chalk.gray(path)}`);
+            return next();
+        }
+
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, user) => {
+            if (err) {
+                console.log(`${prefix} ${chalk.yellow('WARN')} no token Guest Access → ${chalk.gray(path)}`);
+                return next();
+            }
+
+            console.log(`${prefix} ${chalk.green('OK')} token verified  ${chalk.gray(path)}`);
+            req.user = user as TokenPayload;
+            next();
+        });
+        
+    } catch (error) {
+        console.log(`${prefix} ${chalk.magenta('CRITICAL')} Redis/Auth Error →`, error);
+        return next();
+    }
+}

@@ -35,6 +35,7 @@ interface RateLimiterConfig {
 
 interface blogConfig {
 	cache_ttl: number;
+	cache_client_age: number;
 	og_image: boolean;
 }
 
@@ -115,8 +116,9 @@ const config: AppConfig = {
 	},
 
 	blog: {
-		cache_ttl: Number(process.env.BLOG_CACHE_TTL || 86400),
-		og_image: Boolean(process.env.BLOG_OG_CACHE || true)
+		cache_ttl: Number(process.env.BLOG_CACHE_TTL || staticConfig.blog?.cache_ttl || 86400),
+		cache_client_age: Number(process.env.BLOG_CACHE_CLIENT_AGE || staticConfig.blog?.cache_client_age || 300),
+		og_image: Boolean(process.env.BLOG_OG_CACHE ?? (staticConfig.blog?.og_image ?? true))
 	},
 
 	fallback: {

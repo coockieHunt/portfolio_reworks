@@ -6,11 +6,18 @@ import { NotFoundError, ValidationError } from '../utils/AppError';
 export class TagService {
     /**
      * get all tags with their links to posts
+     * @param isAuthenticated include unpublished posts if true
      * @returns all tags with metadata
      */
-    static async getAllTags() {
+    static async getAllTags(isAuthenticated: boolean = false) {
         const result = await db.query.tags.findMany({
-            with: {postTags: true},
+            with: {
+                postTags: {
+                    with: {
+                        post: true
+                    }
+                }
+            },
         });
 
         const tags = result.map(tag => ({
@@ -18,7 +25,9 @@ export class TagService {
             name: tag.name,
             slug: tag.slug,
             color: tag.color,
-            postIds: tag.postTags.map(pt => pt.postId)
+            postIds: tag.postTags
+                .filter(pt => isAuthenticated || pt.post?.published === 1)
+                .map(pt => pt.postId)
         }));
 
         return {
@@ -34,10 +43,16 @@ export class TagService {
      * @param slug - the slug of the tag
      * @returns the tag with metadata
      */
-    static async getTagBySlug(slug: string) {
+    static async getTagBySlug(slug: string, isAuthenticated: boolean = false) {
         const tag = await db.query.tags.findFirst({
             where: (tags, { eq }) => eq(tags.slug, slug),
-            with: { postTags: true },
+            with: { 
+                postTags: {
+                    with: {
+                        post: true
+                    }
+                } 
+            },
         });
 
         if (!tag) {
@@ -49,7 +64,9 @@ export class TagService {
             name: tag.name,
             slug: tag.slug,
             color: tag.color,
-            postIds: tag.postTags.map(pt => pt.postId)
+            postIds: tag.postTags
+                .filter(pt => isAuthenticated || pt.post?.published === 1)
+                .map(pt => pt.postId)
         };
     }
 
