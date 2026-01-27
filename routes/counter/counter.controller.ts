@@ -15,7 +15,7 @@ class CounterController {
         return key || null; 
     }
 
-    private validateRedisKey(value: string): boolean{
+    public validateRedisKey(value: string): boolean{
         const upperName = value.toUpperCase() as keyof typeof AUTHORIZED_REDIS_KEYS;
         if (!AUTHORIZED_REDIS_KEYS[upperName]) {
             throw new Error('Invalid counter name');
