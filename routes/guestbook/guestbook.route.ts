@@ -4,7 +4,7 @@ import { GuestBookValidator } from './guestbook.validator';
 import { rateLimiter } from '../../middlewares/rateLimiter.middlewar';
 import { responseHandler } from '../../middlewares/responseHandler.middlewar';
 import { validateRequest } from '../../middlewares/validateRequest.middleware';
-import { authenticateToken } from '../../middlewares/authenticateToken.middlewar';
+import { authenticateToken,  HybridAuthenticateToken} from '../../middlewares/authenticateToken.middlewar';
 import { asyncHandler } from '../../middlewares/errorHandler.middleware';
 
 const GuestBookRoute: Router = express.Router({ mergeParams: true });
@@ -17,10 +17,34 @@ const GuestBookRoute: Router = express.Router({ mergeParams: true });
  */
 GuestBookRoute.get('/',
 	rateLimiter,
+	HybridAuthenticateToken,
 	GuestBookValidator.getAll,
 	validateRequest,
 	asyncHandler(GuestBookController.getAll),
 	responseHandler
+);
+
+/** PUT /authorize/:id - Authorize guestbook entry by ID
+ * authorize a guestbook entry by ID
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
+GuestBookRoute.put('/authorize/:id',
+    rateLimiter,
+    authenticateToken,
+    GuestBookValidator.authorize,
+    validateRequest,
+    asyncHandler(GuestBookController.authorize),
+    responseHandler
+);
+
+GuestBookRoute.put('/unauthorize/:id',
+    rateLimiter,
+    authenticateToken,
+    GuestBookValidator.unauthorize,
+    validateRequest,
+    asyncHandler(GuestBookController.unauthorize),
+    responseHandler
 );
 
 /**

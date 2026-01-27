@@ -4,10 +4,15 @@ import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 
 class GuestBookController {
 	async getAll(req: Request, res: Response) {
+		const user = (req as any).user;
+        const isAuthenticated = !!user;
+
+		console.log('GuestBookController.getAll - isAuthenticated:', isAuthenticated);
+
 		const page = req.query.page ? parseInt(req.query.page as string) : 1;
 		const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
 		try {
-			const guestBookResponse = await GuestBookService.getGuestBookEntries(page, limit);
+			const guestBookResponse = await GuestBookService.getGuestBookEntries(page, limit, isAuthenticated);
 			logConsole('GET', '/guestbook/', 'INFO', `Retrieved guestbook entries`, { count: guestBookResponse.entries.length, page });
 			writeToLog(`GuestBookRoute READ ok page=${page} count=${guestBookResponse.entries.length}`, 'guestbook');
 			return res.success(guestBookResponse);
@@ -17,6 +22,34 @@ class GuestBookController {
 			return res.error('Error retrieving guestbook entries', 500, error);
 		}
 	}
+
+    async authorize(req: Request<{ id: string }>, res: Response) {
+        const { id } = req.params;
+        try {
+            const authorizedEntry = await GuestBookService.authorizeGuestBookEntry(id);
+            logConsole('POST', `/guestbook/authorize/${id}`, 'OK', 'Authorized guestbook entry', { id });
+            writeToLog(`GuestBookRoute AUTHORIZE ok id=${id}`, 'guestbook');
+            return res.success({ id: authorizedEntry.id, entry: authorizedEntry }, 'Guestbook entry authorized successfully');
+        } catch (error) {
+            logConsole('POST', `/guestbook/authorize/${id}`, 'FAIL', 'Error authorizing guestbook entry', { error });
+            writeToLog('GuestBookRoute AUTHORIZE error', 'guestbook');
+            return res.error('Error authorizing guestbook entry', 500, error);
+        }
+    }
+
+    async unauthorize(req: Request<{ id: string }>, res: Response) {
+        const { id } = req.params;
+        try {
+            const unauthorizedEntry = await GuestBookService.unauthorizeGuestBookEntry(id);
+            logConsole('POST', `/guestbook/unauthorize/${id}`, 'OK', 'Unauthorized guestbook entry', { id });
+            writeToLog(`GuestBookRoute UNAUTHORIZE ok id=${id}`, 'guestbook');
+            return res.success({ id: unauthorizedEntry.id, entry: unauthorizedEntry }, 'Guestbook entry unauthorized successfully');
+        } catch (error) {
+            logConsole('POST', `/guestbook/unauthorize/${id}`, 'FAIL', 'Error unauthorizing guestbook entry', { error });
+            writeToLog('GuestBookRoute UNAUTHORIZE error', 'guestbook');
+            return res.error('Error unauthorizing guestbook entry', 500, error);
+        }
+    }
 
 	async create(req: Request, res: Response) {
 		const { name, message } = req.body;

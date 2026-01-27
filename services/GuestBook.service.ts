@@ -10,6 +10,7 @@ import { logConsole, writeToLog } from '../middlewares/log.middlewar';
 
 // errors
 import { NotFoundError } from '../utils/AppError';
+import { is } from 'drizzle-orm';
 
 // type
 interface GuestBookEntry {
@@ -17,6 +18,7 @@ interface GuestBookEntry {
     name: string;
     message: string;
     createdAt: string;
+    authorized: boolean;
 }
 
 interface GuestBookResponseGet {
@@ -62,7 +64,7 @@ export class GuestBookService {
      * @returns Promise with entries and pagination metadata
      * @throws {Error} If Redis client is not connected
      */
-    static async getGuestBookEntries(page: number = 1, limit: number = 20): Promise<GuestBookResponseGet> {
+    static async getGuestBookEntries(page: number = 1, limit: number = 20, isAuthenticated: boolean = false): Promise<GuestBookResponseGet> {
         validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
 
         if (!RedisClient || !RedisClient.isReady) {
@@ -80,14 +82,22 @@ export class GuestBookService {
 
             const entries: GuestBookEntry[] = rawEntries.map((entry, index) => {
                 try {
+                    if(!isAuthenticated) {
+                        const parsedEntry = JSON.parse(entry);
+                        if(!parsedEntry.authorized) {
+                            return null; 
+                        }
+                    }
+
                     const parsed = JSON.parse(entry);
+                   
                     if (!parsed.id) {
                         parsed.id = `legacy-${Date.now()}-${index}`;
                     }
-                    // Normalize legacy field names
                     if (!parsed.createdAt) {
                         parsed.createdAt = parsed.date || new Date().toISOString();
                     }
+                    console.log("Parsed guestbook entry:", parsed);
                     return parsed;
                 } catch (e) {
                     console.error("error parsing entry guestbook", e);
@@ -112,6 +122,68 @@ export class GuestBookService {
             writeToLog(`GuestBook READ error: ${errorMsg}`, 'guestbook');
             throw error;
         }
+    }
+
+    static async authorizeGuestBookEntry(id: string): Promise<GuestBookEntry> {
+        validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new Error("Redis client is not connected.");
+        }
+
+        const allEntries = await RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
+        
+        for (let i = 0; i < allEntries.length; i++) {
+            const entryString = allEntries[i];
+            try {
+                const entry: GuestBookEntry = JSON.parse(entryString);
+                if (entry.id === id) {
+                    entry.authorized = true;
+                    const updatedEntryString = JSON.stringify(entry);
+                    await RedisClient.lSet(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, i, updatedEntryString);
+                    
+                    writeToLog(`GuestBook AUTHORIZE success: id=${id}`, 'guestbook');
+                    return entry;
+                }
+            } catch (e) {
+                console.error("Error parsing entry during authorize:", e);
+                continue;
+            }
+        }
+
+        writeToLog(`GuestBook AUTHORIZE entry not found: id=${id}`, 'guestbook');
+        throw new NotFoundError(`Guestbook entry with ID "${id}" not found`);
+    }
+
+    static async unauthorizeGuestBookEntry(id: string): Promise<GuestBookEntry> {
+        validateKey(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new Error("Redis client is not connected.");
+        }
+
+        const allEntries = await RedisClient.lRange(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, 0, -1);
+        
+        for (let i = 0; i < allEntries.length; i++) {
+            const entryString = allEntries[i];
+            try {
+                const entry: GuestBookEntry = JSON.parse(entryString);
+                if (entry.id === id) {
+                    entry.authorized = false;
+                    const updatedEntryString = JSON.stringify(entry);
+                    await RedisClient.lSet(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, i, updatedEntryString);
+                    
+                    writeToLog(`GuestBook UNAUTHORIZE success: id=${id}`, 'guestbook');
+                    return entry;
+                }
+            } catch (e) {
+                console.error("Error parsing entry during unauthorize:", e);
+                continue;
+            }
+        }
+
+        writeToLog(`GuestBook UNAUTHORIZE entry not found: id=${id}`, 'guestbook');
+        throw new NotFoundError(`Guestbook entry with ID "${id}" not found`);
     }
 
     /**
@@ -142,11 +214,13 @@ export class GuestBookService {
                 id: this.generateId(),
                 name: escapeHtml(name.trim()), 
                 message: escapeHtml(message.trim()),
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                authorized: false
             };
 
             const entryString = JSON.stringify(entryData);
-            
+
+            console.log("Adding guestbook entry:", entryString);
             await RedisClient.lPush(AUTHORIZED_REDIS_KEYS.GUESTBOOK_ENTRIES, entryString);
             
             writeToLog(`GuestBook WRITE success: by=${name.trim()} length=${message.trim().length} id=${entryData.id}`, 'guestbook');

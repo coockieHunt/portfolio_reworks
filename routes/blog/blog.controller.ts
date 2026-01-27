@@ -44,8 +44,6 @@ class BlogController {
     }
 
     async getBySlug(req: Request<{ slug: string }>, res: Response) {
-        const authHeader = req.headers['authorization'];
-
         const user = (req as any).user;
         const isAuthenticated = !!user;
 

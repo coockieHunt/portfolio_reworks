@@ -15,6 +15,12 @@ export const GuestBookValidator = {
 		query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
 		query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be between 1 and 100')
 	],
+    authorize: [
+        param('id').notEmpty().withMessage('ID is required').isString(),
+    ],
+    unauthorize: [
+        param('id').notEmpty().withMessage('ID is required').isString(),
+    ],
 	create: [
 		body('password').custom((value) => {
 			if (!value || value !== secretConfig.password) {
