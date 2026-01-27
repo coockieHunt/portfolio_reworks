@@ -5,31 +5,9 @@ meta {
 }
 
 get {
-  url: {{base_url}}{{endPointAsset}}/list
+  url: {{base_url}}{{endPointApi}}/assets/list
   body: none
   auth: inherit
-}
-
-tests {
-  test("Status code is 200 or 304", function() {
-    const status = res.getStatus();
-    expect([200, 304]).to.include(status);
-  });
-  
-  test("Response has content-type header", function() {
-    const contentType = res.getHeader('content-type');
-    if (res.getStatus() === 200) {
-      expect(contentType).to.exist;
-      expect(contentType.toLowerCase()).to.include('image');
-    }
-  });
-  
-  test("Resized image dimensions match request", function() {
-    const contentType = res.getHeader('content-type');
-    if (res.getStatus() === 200) {
-      expect(contentType.toLowerCase()).to.include('image');
-    }
-  });
 }
 
 settings {

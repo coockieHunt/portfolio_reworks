@@ -1,48 +1,37 @@
-import express, { Request, Response, Router } from 'express';
-import { param } from 'express-validator';
+import { RedisService, RedisClient } from '../../services/Redis.service'; 
+import { Request, Response } from 'express';
+import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
+import { AUTHORIZED_REDIS_KEYS } from '../../constants/redis.constant';
 
-import { RedisService, RedisClient } from '../services/Redis.service'; 
-import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant'; 
-
-import { writeToLog, logConsole } from '../middlewares/log.middlewar';
-import { rateLimiter } from '../middlewares/rateLimiter.middlewar';
-import { validateRequest } from '../middlewares/validateRequest.middleware';
-import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
-
-const counterRouter: Router = express.Router({ mergeParams: true });
-
-function getValidatedRedisKey(name: string | undefined): string | null {
-    if (!name || typeof name !== 'string' || name.trim() === '') { 
-        return null; 
+class CounterController {
+    getValidatedRedisKey(name: string | undefined): string | null {
+        if (!name || typeof name !== 'string' || name.trim() === '') { 
+            return null;    
+        }
+        
+        const upperName = name.toUpperCase() as keyof typeof AUTHORIZED_REDIS_KEYS;
+        const key = AUTHORIZED_REDIS_KEYS[upperName];
+        
+        return key || null; 
     }
-    
-    const upperName = name.toUpperCase() as keyof typeof AUTHORIZED_REDIS_KEYS;
-    const key = AUTHORIZED_REDIS_KEYS[upperName];
-    
-    return key || null; 
-}
 
-const validateRedisKey = (value: string) => {
-    const upperName = value.toUpperCase() as keyof typeof AUTHORIZED_REDIS_KEYS;
-    if (!AUTHORIZED_REDIS_KEYS[upperName]) {
-        throw new Error('Invalid counter name');
-    }
-    return true;
-};
+    validateRedisKey = (value: string) => {
+        const upperName = value.toUpperCase() as keyof typeof AUTHORIZED_REDIS_KEYS;
+        if (!AUTHORIZED_REDIS_KEYS[upperName]) {
+            throw new Error('Invalid counter name');
+        }
+        return true;
+    };
 
-/**
- ** GET /:name get value of counter
- ** Retrieves the counter value. Creates and initializes to 0 if non-existent.
- *  @param req Express Request object
- *  @param res Express Response object
- */
-counterRouter.get('/:name', 
-    rateLimiter, 
-    param('name').custom(validateRedisKey),
-    validateRequest,
-    async (req: Request<{ name: string }>, res: Response) => {
+    /**
+     ** GET /:name get value of counter
+     ** Retrieves the counter value. Creates and initializes to 0 if non-existent.
+     *  @param req Express Request object
+     *  @param res Express Response object
+     */
+    async getCounter(req: Request<{ name: string }>, res: Response) {
         const { name } = req.params; 
-        const redisKey = getValidatedRedisKey(name);
+        const redisKey = this.getValidatedRedisKey(name);
 
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
@@ -71,21 +60,17 @@ counterRouter.get('/:name',
             writeToLog(`Counter GET error name=${name}: ${errorMsg}`, 'counter');
             return res.error('An error occurred while getting the counter value.', 500, errorMsg);
         }
-});
+    }
 
-/**
- ** POST /:name/increment
- ** Increments the counter value. If non-existent, it is created and set to 1.
- *  @param req Express Request object
- *  @param res Express Response object
- */
-counterRouter.post('/:name/increment', 
-    rateLimiter, 
-    param('name').custom(validateRedisKey),
-    validateRequest,
-    async (req: Request<{ name: string }>, res: Response) => {
+    /**
+     ** POST /:name/increment
+     ** Increments the counter value. If non-existent, it is created and set to 1.
+     *  @param req Express Request object
+     *  @param res Express Response object
+    */
+    async incrementCounter(req: Request<{ name: string }>, res: Response) {
         const { name } = req.params;
-        const redisKey = getValidatedRedisKey(name);
+        const redisKey = this.getValidatedRedisKey(name);
 
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
@@ -123,22 +108,16 @@ counterRouter.post('/:name/increment',
             return res.error('An error occurred while incrementing the counter value.', 500, errorMsg);
         }
     }
-);
 
-/**
- ** POST /:name/decrement
- ** Decrements the counter value.
- *  @param req Express Request object
- *  @param res Express Response object
- */
-counterRouter.post('/:name/decrement', 
-    rateLimiter, 
-    param('name').custom(validateRedisKey),
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ name: string }>, res: Response) => {
-        const { name } = req.params;
-        const redisKey = getValidatedRedisKey(name);
+    /**
+     ** POST /:name/decrement
+    ** Decrements the counter value.
+    *  @param req Express Request object
+    *  @param res Express Response object
+    */
+    async decrementCounter(req: Request<{ name: string }>, res: Response) {
+         const { name } = req.params;
+        const redisKey = this.getValidatedRedisKey(name);
 
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
@@ -181,22 +160,16 @@ counterRouter.post('/:name/decrement',
             return res.error('An error occurred while decrementing the counter value.', 500, errorMsg);
         }
     }
-);
 
-/**
- ** DELETE /:name
- ** Reset the counter value to 0.
- *  @param req Express Request object
- *  @param res Express Response object
- */
-counterRouter.delete('/:name', 
-    rateLimiter, 
-    param('name').custom(validateRedisKey),
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ name: string }>, res: Response) => {
+    /**
+     ** DELETE /:name
+    ** Reset the counter value to 0.
+    *  @param req Express Request object
+    *  @param res Express Response object
+    */
+    async resetCounter(req: Request<{ name: string }>, res: Response) {
         const { name } = req.params;
-        const redisKey = getValidatedRedisKey(name);
+        const redisKey = this.getValidatedRedisKey(name);
 
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
 
@@ -218,6 +191,6 @@ counterRouter.delete('/:name',
             return res.error('An error occurred while resetting the counter value.', 500, errorMsg);
         }
     }
-);  
+}
 
-export default counterRouter;
+export default new CounterController();

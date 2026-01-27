@@ -16,7 +16,7 @@ body:json {
     "content": "content of new post new edited",
     "summary": "sammary edited",
     "authorId": 1,
-    "featuredImage": "",
+    "featuredImage": "https://example.com/image-edited.jpg",
     "indexed": 1,
     "published": 1,
     "slug": "new-slug-name"
@@ -98,8 +98,7 @@ docs {
   | `featuredImage` | String | ❌ | URL of the featured image |
   | `indexed` | Number | ❌ | 0 or 1 - SEO indexing status |
   | `published` | Number | ❌ | 0 or 1 - Publication status |
-  | `slug` | String | ❌ | New slug (lowercase, numbers, hyphens only) |
-  
+  | `slug` | String | ❌ | New slug (lowercase, numbers, hyphens only) |  
   **Body Example:**
   ```json
   {
@@ -110,8 +109,7 @@ docs {
     "featuredImage": "https://example.com/image.jpg",
     "indexed": 1,
     "published": 1,
-    "slug": "new-post-slug"
-  }
+    "slug": "new-post-slug"  }
   ```
   
   ---
@@ -151,7 +149,6 @@ docs {
     "timestamp": "2026-01-19T18:39:21.316Z"
   }
   ```
-
   **Slug Conflict (409 Conflict):**
   ```json
   {
@@ -159,8 +156,7 @@ docs {
     "message": "slug already exists",
     "timestamp": "2026-01-19T18:39:21.316Z"
   }
-  ```
-  
+  ```  
   **Unauthorized (401):**
   ```json
   {

@@ -1,42 +1,13 @@
-//express
-import express, { Request, Response, Router } from 'express';
+import config from '../../config/default';
+import { BlogService } from '../../services/Blog.service';
+import { Request, Response } from 'express';
+import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 
-//validators
-import { body, param, query } from 'express-validator';
-
-// services
-import { BlogService } from '../services/Blog.service';
-import config from '../config/default';
-
-// middlewares
-import { rateLimiter } from '../middlewares/rateLimiter.middlewar';
-import { responseHandler } from '../middlewares/responseHandler.middlewar';
-import { writeToLog, logConsole } from '../middlewares/log.middlewar';
-import { validateRequest } from '../middlewares/validateRequest.middleware';
-import { authenticateToken, HybridAuthenticateToken } from '../middlewares/authenticateToken.middlewar';
-import { asyncHandler } from '../middlewares/errorHandler.middleware';
-
-const BlogRoute: Router = express.Router({ mergeParams: true });
-
-/**
- * GET /all - Get all blog posts with pagination
- * Retrieve all blog posts with pagination
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.get('/all', 
-    rateLimiter, 
-    HybridAuthenticateToken,
-    [
-        query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
-        query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be a positive integer between 1 and 100'),
-    ],
-    validateRequest,
-    async (req: Request, res: Response) => {
+class BlogController {
+    async getAll(req: Request, res: Response) {
         try {
             const page = req.query.page ? parseInt(req.query.page as string) : 1;
             const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
-
             const isAuthenticated = !!(req as any).user;
             const data = await BlogService.getAllPosts(page, limit, isAuthenticated);
             
@@ -48,24 +19,9 @@ BlogRoute.get('/all',
             writeToLog(`BlogRoute READ error`, 'blog');
             return res.error("error retrieving blog posts", 500, error);
         }
-}, responseHandler);
+    }
 
-/**
- * GET /offset - Get blog posts with offset-based pagination
- * Retrieve blog posts using offset-based pagination with optional filters
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.get('/offset',
-    rateLimiter,[
-        query('min').optional().isInt({ min: 1 }).withMessage('Min must be a positive integer'),
-        query('max').optional().isInt({ min: 1, max: 100 }).withMessage('Max must be a positive integer between 1 and 100'),
-
-        query('tagsContains').optional().isString().withMessage('Each tag must be a string'),
-        query('titleContains').optional().isString().withMessage('Title filter must be a string'),
-    ],
-    validateRequest,
-    async (req: Request, res: Response) => {
+    async getOffset(req: Request, res: Response) {
         try {
             const min = req.query.min ? parseInt(req.query.min as string) : 1;
             const max = req.query.max ? parseInt(req.query.max as string) : 100;
@@ -85,20 +41,9 @@ BlogRoute.get('/offset',
             writeToLog(`BlogRoute READ OFFSET error`, 'blog');
             return res.error("error retrieving blog posts with offset", 500, error);
         }
-}, responseHandler);
+    }
 
-/**
- * GET /:slug - Get blog post by slug
- * Retrieve a blog post using its slug
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.get('/:slug', 
-    rateLimiter, 
-    param('slug').notEmpty().withMessage('Slug is required'),
-    validateRequest,
-    HybridAuthenticateToken,
-    asyncHandler(async (req: Request<{ slug: string }>, res: Response) => {
+    async getBySlug(req: Request<{ slug: string }>, res: Response) {
         const authHeader = req.headers['authorization'];
 
         const user = (req as any).user;
@@ -117,41 +62,19 @@ BlogRoute.get('/:slug',
         const data = await BlogService.getPostBySlug(req.params.slug, isAuthenticated);
         
         if (!data || !data.data) {
-             return res.error('Post not found', 404);
+                return res.error('Post not found', 404);
         }
 
         logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post (Auth: ${isAuthenticated})`, { slug: req.params.slug });
         writeToLog(`BlogRoute READ ok slug=${req.params.slug} auth=${isAuthenticated}`, 'blog');
         
         return res.success({ 
-             ...data.data, 
-             cached: data.cached
+                ...data.data, 
+                cached: data.cached
         });
-    }), 
-responseHandler);
+    }
 
-/**
- * POST /new - Create a new blog post
- * Create a new blog post with the provided details
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.post('/new', 
-    rateLimiter, 
-    [
-        body('title').notEmpty().withMessage('Title is required').trim(),
-        body('slug').notEmpty().withMessage('Slug is required').matches(/^[a-z0-9-]+$/).withMessage('Slug must contain only lowercase letters, numbers, and hyphens'),
-        body('content').notEmpty().withMessage('Content is required'),
-        body('summary').optional().isString().trim().withMessage('Summary must be a string'),
-        body('authorId').notEmpty().isInt().withMessage('Author ID must be an integer'),
-        body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
-        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer'),
-        body('indexed').optional().isInt({ min: 0, max: 1 }).withMessage('Indexed must be 0 or 1'),
-        body('published').optional().isInt({ min: 0, max: 1 }).withMessage('Published must be 0 or 1'),
-    ],
-    validateRequest,
-    authenticateToken,
-    async (req: Request, res: Response) => {
+    async create(req: Request, res: Response) {
         const { title, slug, content, summary, authorId, tagIds, featuredImage, indexed, published } = req.body;
 
         try {
@@ -194,37 +117,11 @@ BlogRoute.post('/new',
 
             return res.error("error creating blog post", 500, error);
         }
-    }, 
-responseHandler);
+    }
 
-/**
- * PUT /edit/update/:slug - Update blog post by slug
- * Update the details of a blog post
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.put('/edit/update/:slug', 
-    rateLimiter, 
-    [
-        param('slug').notEmpty().withMessage('Slug is required'),
-        body('title').optional().isString().trim(),
-        body('content').optional().isString(),
-        body('summary').optional().isString().trim(),
-        body('authorId').optional().isInt().withMessage('Author ID must be an integer'),
-        body('tagIds').optional().isArray().withMessage('Tag IDs must be an array'),
-        body('tagIds.*').optional().isInt().withMessage('Each tag ID must be an integer'),
-        body('tags').optional().isArray().withMessage('Tags must be an array'),
-        body('tags.*').optional().isInt().withMessage('Each tag ID must be an integer'),
-        body('indexed').optional().isInt({ min: 0, max: 1 }).withMessage('Indexed must be 0 or 1'),
-        body('published').optional().isInt({ min: 0, max: 1 }).withMessage('Published must be 0 or 1'),
-        body('featuredImage').optional().isString().withMessage('Featured image must be a string'),
-        body('slug').optional().matches(/^[a-z0-9-]+$/).withMessage('Slug must contain only lowercase letters, numbers, and hyphens'),
-    ],
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ slug: string }>, res: Response) => {
+    async update(req: Request<{ slug: string }>, res: Response) {
         let { title, content, summary, authorId, tagIds, tags, featuredImage, indexed, published, slug: newSlug } = req.body;
-        
+    
         if (!tagIds && tags) {
             tagIds = tags;
         }
@@ -270,23 +167,9 @@ BlogRoute.put('/edit/update/:slug',
 
             return res.error("error updating blog post", 500, error);
         }
-    }, 
-responseHandler);
+    }
 
-/** * PUT /edit/publish/:slug - Publish or unpublish blog post
- * Update the published status of a blog post
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.put('/edit/publish/:slug', 
-    rateLimiter, 
-    [
-        param('slug').notEmpty().withMessage('Slug is required'),
-        body('publish').isBoolean().withMessage('Publish must be a boolean')
-    ],
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ slug: string }>, res: Response) => {
+    async updatePublish(req: Request<{ slug: string }>, res: Response) {
         const { publish } = req.body;
         try {
             const updatedPost = await BlogService.publishedPostBySlug(req.params.slug, publish);
@@ -307,24 +190,9 @@ BlogRoute.put('/edit/publish/:slug',
 
             return res.error("error updating blog post publish status", 500, error);
         }
-    }, 
-responseHandler);
+    }
 
-/**
- * PUT /edit/indexed/:slug - Set indexed status for blog post
- * Update the indexed status of a blog post
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.put('/edit/indexed/:slug', 
-    rateLimiter, 
-    [
-        param('slug').notEmpty().withMessage('Slug is required'),
-        body('indexed').isInt({ min: 0, max: 1 }).withMessage('Indexed must be 0 or 1')
-    ],
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ slug: string }>, res: Response) => {
+    async updateIndexed(req: Request<{ slug: string }>, res: Response) {
         const { indexed } = req.body;
         try {
             const updatedPost = await BlogService.indexedPostBySlug(req.params.slug, indexed);
@@ -345,21 +213,9 @@ BlogRoute.put('/edit/indexed/:slug',
 
             return res.error("error updating blog post indexed status", 500, error);
         }
-    }, 
-responseHandler);
+    }
 
-/**
- * DELETE /:slug - Delete blog post by slug
- * Delete a blog post by its slug
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.delete('/:slug', 
-    rateLimiter, 
-    param('slug').notEmpty().withMessage('Slug is required'),
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ slug: string }>, res: Response, next) => {
+    async delete(req: Request<{ slug: string }>, res: Response) {
         try {
             const deleted = await BlogService.deletePostBySlug(req.params.slug);
             if (!deleted) {
@@ -378,21 +234,10 @@ BlogRoute.delete('/:slug',
 
             return res.error("error deleting blog post", 500, error);
         }
-    }, 
-responseHandler);
+    }
 
-/**
- * DELETE /cache/delete/:slug - Delete blog post cache by slug
- * Delete the cached version of a blog post by its slug
- *  @param req Express Request object
- *  @param res Express Response object
- */
-BlogRoute.delete('/cache/delete/:slug', 
-    rateLimiter, 
-    param('slug').notEmpty().withMessage('Slug is required'),
-    validateRequest,
-    authenticateToken,
-    async (req: Request<{ slug: string }>, res: Response, next) => {
+
+    async CacheClear(req: Request<{ slug: string }>, res: Response) {
         try {
             const deleted = await BlogService.deleteCacheBySlug(req.params.slug);
             if (!deleted) {
@@ -410,13 +255,10 @@ BlogRoute.delete('/cache/delete/:slug',
             writeToLog(`BlogRoute CACHE DELETE error slug=${req.params.slug}`, 'blog');
 
             return res.error("error while deleting blog post cache", 500, error);
-        }}, 
-responseHandler);
+        } 
+    }
 
-BlogRoute.delete('/cache/clear/',
-    rateLimiter,
-    authenticateToken,
-    async (req, res, next) => {
+    async CacheClearAll(req: Request, res: Response) {
         try {
             await BlogService.clearAllCache();
 
@@ -429,7 +271,9 @@ BlogRoute.delete('/cache/clear/',
             writeToLog(`BlogRoute CACHE CLEAR ALL error`, 'blog');
 
             return res.error("error while clearing all blog cache", 500, error);
-        }}, 
-responseHandler);
+        }
+    }
+}
 
-export default BlogRoute;
+export default new BlogController();
+

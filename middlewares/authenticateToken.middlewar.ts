@@ -71,46 +71,31 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
  * @param next - Express next function
  * @returns Promise resolving when authentication completes
  */
-/**
- * Hybrid Authentication middleware
- * 
- * - Si pas de token : Passe en Invité.
- * - Si token valide : Passe en Admin/User (req.user rempli).
- * - Si token invalide/révoqué : IGNORE l'erreur et passe en Invité (req.user undefined).
- */
 export const HybridAuthenticateToken = async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     const path = req.originalUrl || req.path;
-    const method = req.method;
-
     const prefix = chalk.cyan('[AUTH-HYBRID]');
 
-    if (!token) {
-        console.log(`${prefix} ${chalk.yellow('INFO')} No token provided Guest Access → ${chalk.gray(path)}`);
-        return next();
-    }
+    if (!token) {return next();}//no token guest
 
     try {
         const isRevoked = await AuthService.isTokenRevoked(token);
-        if (isRevoked) {
-            console.log(`${prefix} ${chalk.yellow('WARN')} token revoked → ${chalk.gray(path)}`);
-            return next();
-        }
+        if (isRevoked) {return next();}//token revoked guest
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err, user) => {
             if (err) {
                 console.log(`${prefix} ${chalk.yellow('WARN')} no token Guest Access → ${chalk.gray(path)}`);
-                return next();
+                return next();//invalid token guest
             }
 
             console.log(`${prefix} ${chalk.green('OK')} token verified  ${chalk.gray(path)}`);
             req.user = user as TokenPayload;
-            next();
+            next();//token valid admin
         });
         
     } catch (error) {
         console.log(`${prefix} ${chalk.magenta('CRITICAL')} Redis/Auth Error →`, error);
-        return next();
+        return next();//redis/auth error guest
     }
 }

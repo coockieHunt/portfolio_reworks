@@ -5,13 +5,13 @@ meta {
 }
 
 post {
-  url: {{base_url}}{{endPointApi}}/counter/:counteur_name/decrement/
+  url: {{base_url}}{{endPointApi}}/counter/:counteur_name/decrement
   body: none
   auth: inherit
 }
 
 params:path {
-  counteur_name: 
+  counteur_name: THEME_RAND
 }
 
 tests {

@@ -1,29 +1,13 @@
-//express
-import express, { Request, Response, Router } from 'express';
-
+import { AuthService } from '../../services/Auth.service';
+import { Request, Response } from 'express';
+import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { body } from 'express-validator';
-import { validateRequest } from '../middlewares/validateRequest.middleware';
-import { rateLimiter } from '../middlewares/rateLimiter.middlewar';
-import { authenticateToken } from '../middlewares/authenticateToken.middlewar';
-import { asyncHandler } from '../middlewares/errorHandler.middleware';
-import { AuthService } from '../services/Auth.service';
-import { logConsole, writeToLog } from '../middlewares/log.middlewar';
-import { AuthError } from '../utils/AppError';
+import { AuthError } from '../../utils/AppError';
 
-
-const AuthRoute: Router = express.Router({ mergeParams: true });
-
-AuthRoute.post('/login', 
-    rateLimiter,
-    [
-        body('password').notEmpty().withMessage('Password is required')
-    ],
-    validateRequest,
-    asyncHandler(async (req: Request, res: Response) => {
+class AuthController {
+    async login(req: Request, res: Response) {
         const { password } = req.body;
-
         const match = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH as string);
 
         if (!match) {
@@ -38,14 +22,11 @@ AuthRoute.post('/login',
         logConsole("POST", "/auth/login", "OK", "User logged in successfully");
         writeToLog("Login successful", "auth");
         return res.success({ token: tokenSign }, 'Login successful');
-    })
-);
+    }
 
-AuthRoute.post('/logout', 
-    authenticateToken,
-    asyncHandler(async (req: Request, res: Response) => {
+    async logout(req: Request, res: Response) {
         const token = req.headers['authorization']?.split(' ')[1];
-        
+                
         if (!token) {
             throw new AuthError('No token provided');
         }
@@ -62,8 +43,7 @@ AuthRoute.post('/logout',
         logConsole("POST", "/auth/logout", "OK", "Token revoked successfully", { token });
         writeToLog("Logout successful", "auth");
         return res.success({}, 'Logout successful');
-    })
-);
+    }
+}
 
-
-export default AuthRoute;
+export default new AuthController();

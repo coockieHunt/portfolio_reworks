@@ -22,18 +22,17 @@ import { responseHandler } from './middlewares/responseHandler.middlewar';
 import { TestingMiddleware } from './middlewares/testing.middleware';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 
-import mailRouter from './routes/MailRoute.route';
-import guestBookRoute from './routes/GuestBook.route';
-import counterRouter from './routes/Counteur.route';
-import healthCheckRouter from './routes/healthCheck.route';
-import BlogRoute from './routes/Blog.route';
-import AuthRoute from './routes/Auth.route';
-import TagRouter from './routes/Tags.route';
+import MailRoute from './routes/mail/mail.route';
+import GuestBookRoute from './routes/guestbook/guestbook.route';
+import HealthRoute from './routes/health/health.route';
+import TagsRoute from './routes/tags/tags.route';
+import BlogRoute from './routes/blog/blog.route';
+import AuthRoute from './routes/auth/auth.route';
+import CounterRoute from './routes/counter/counter.route';
+import AssetsRoute from './routes/assets/assets.route';
 
-import assetsRoute from './routes/Assets.route';
-
-import OpenGraphRouter from './routes/assets/OgImage.route.asset';
-import AssetsProxyRoute from './routes/assets/AssetsProxy.route.asset';
+import OpenGraphRouter from './routes/proxy/ogImage.route';
+import AssetsProxyRoute from './routes/proxy/assetsProxy.route';
 
 const API_ROOT = cfg.ApiRoot ;
 const ASSET_ROOT = cfg.AssetRoot ;
@@ -106,14 +105,14 @@ app.use(responseHandler);
 
 // Routes
 //allowOnlyFromIPs for ip restriction
-app.use(`${API_ROOT}/mail`, allowOnlyFromIPs, mailRouter);
-app.use(`${API_ROOT}/guestbook`, allowOnlyFromIPs, guestBookRoute);
+app.use(`${API_ROOT}/mail`, allowOnlyFromIPs, MailRoute);
+app.use(`${API_ROOT}/guestbook`, allowOnlyFromIPs, GuestBookRoute);
 app.use(`${API_ROOT}/blog`, allowOnlyFromIPs, BlogRoute);
 app.use(`${API_ROOT}/auth`, allowOnlyFromIPs, AuthRoute);
-app.use(`${API_ROOT}/counter`, counterRouter);
-app.use(`${API_ROOT}/health`, healthCheckRouter);
-app.use(`${API_ROOT}/tags`, allowOnlyFromIPs, TagRouter);
-app.use(`${API_ROOT}/assets`, allowOnlyFromIPs, assetsRoute);
+app.use(`${API_ROOT}/counter`, CounterRoute);
+app.use(`${API_ROOT}/health`, HealthRoute);
+app.use(`${API_ROOT}/tags`, allowOnlyFromIPs, TagsRoute);
+app.use(`${API_ROOT}/assets`, allowOnlyFromIPs, AssetsRoute);
 
 //asset
 app.use(`${ASSET_ROOT}/opengraph`, allowOnlyFromIPs, OpenGraphRouter);
