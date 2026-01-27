@@ -4,7 +4,7 @@ import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 import { AUTHORIZED_REDIS_KEYS } from '../../constants/redis.constant';
 
 class CounterController {
-    getValidatedRedisKey(name: string | undefined): string | null {
+    private getValidatedRedisKey(name: string): string | null {
         if (!name || typeof name !== 'string' || name.trim() === '') { 
             return null;    
         }
@@ -15,7 +15,7 @@ class CounterController {
         return key || null; 
     }
 
-    validateRedisKey = (value: string) => {
+    private validateRedisKey(value: string): boolean{
         const upperName = value.toUpperCase() as keyof typeof AUTHORIZED_REDIS_KEYS;
         if (!AUTHORIZED_REDIS_KEYS[upperName]) {
             throw new Error('Invalid counter name');
@@ -29,7 +29,7 @@ class CounterController {
      *  @param req Express Request object
      *  @param res Express Response object
      */
-    async getCounter(req: Request<{ name: string }>, res: Response) {
+     getCounter = async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params; 
         const redisKey = this.getValidatedRedisKey(name);
 
@@ -68,7 +68,7 @@ class CounterController {
      *  @param req Express Request object
      *  @param res Express Response object
     */
-    async incrementCounter(req: Request<{ name: string }>, res: Response) {
+    incrementCounter = async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params;
         const redisKey = this.getValidatedRedisKey(name);
 
@@ -115,8 +115,8 @@ class CounterController {
     *  @param req Express Request object
     *  @param res Express Response object
     */
-    async decrementCounter(req: Request<{ name: string }>, res: Response) {
-         const { name } = req.params;
+    decrementCounter = async (req: Request<{ name: string }>, res: Response) => {
+        const { name } = req.params;
         const redisKey = this.getValidatedRedisKey(name);
 
         if (!redisKey) {return res.error('Counter name is required and must be valid.', 400);}
@@ -167,7 +167,7 @@ class CounterController {
     *  @param req Express Request object
     *  @param res Express Response object
     */
-    async resetCounter(req: Request<{ name: string }>, res: Response) {
+    resetCounter = async (req: Request<{ name: string }>, res: Response) => {
         const { name } = req.params;
         const redisKey = this.getValidatedRedisKey(name);
 
