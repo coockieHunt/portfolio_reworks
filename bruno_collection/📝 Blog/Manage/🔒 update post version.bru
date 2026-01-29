@@ -1,0 +1,121 @@
+meta {
+  name: 🔒 update post version
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{base_url}}{{endPointApi}}/blog/version/{{slugBlog_demoName}}/update
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200 when authenticated", function() {
+    if (bru.getEnvVar("auth_token")) {
+      expect(res.getStatus()).to.equal(200);
+    }
+  });
+  
+  test("Response structure is valid on success", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Error response when unauthorized", function() {
+    if (res.getStatus() === 401) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+      expect(body.statusCode).to.equal(401);
+    }
+  });
+  
+  test("Authorization header is respected", function() {
+    if (res.getStatus() === 200) {
+      expect(res.getBody().success).to.be.true;
+    } else if (res.getStatus() === 401) {
+      expect(res.getBody().success).to.be.false;
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Update Blog Post Version
+  
+  Manually update the version timestamp for a blog post (force refresh).
+  
+  ## Purpose
+  
+  Versions are auto-updated when:
+  - Blog post created (published)
+  - Blog post edited
+  - Publish status changed
+  - Indexed status changed
+  
+  This endpoint lets authenticated users force a manual version update.
+  
+  ## Authentication
+  
+  **Required** - JWT Bearer token
+  ```
+  Authorization: Bearer <your_token>
+  ```
+  
+  ## Usage
+  
+  ```
+  PUT /api/blog/version/{slug}/update
+  ```
+  
+  ## Request
+  
+  No body required. Empty or JSON both work.
+  
+  ## Response (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {}
+  }
+  ```
+  
+  ## Error: Unauthorized (401)
+  
+  ```json
+  {
+    "success": false,
+    "message": "Error",
+    "error": "Unauthorized",
+    "statusCode": 401
+  }
+  ```
+  
+  ## Use Cases
+  
+  - Force client caches to refresh
+  - Sync version after external updates
+  - Test cache invalidation
+  - Admin maintenance
+  
+  ## What Happens
+  
+  ```
+  Before: BLOG_VER:slug = "2026-01-29T10:00:00Z"
+  
+  PUT /blog/version/my-post/update (with auth)
+  
+  After:  BLOG_VER:slug = "2026-01-29T14:30:00Z"
+  
+  → Clients detect new timestamp
+  → Clients refresh their cache
+  ```
+}

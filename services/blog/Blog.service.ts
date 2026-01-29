@@ -29,42 +29,6 @@ import {BlogHelper} from './Blog.helper';
 
 export class BlogService {
     /**
-     * Fetches all post data with author and tags from database
-     * @param slug - The blog post slug
-     * @returns Promise with post, author, and tags data
-     * @throws {NotFoundError} If post not found
-     * @private
-     */
-    private static async fetchAllPost(slug: string) {
-        const postResult = await db.select({
-            post: posts,
-            author: {
-                name: post_author.name,
-                describ: post_author.describ
-            }
-        })
-        .from(posts)
-        .leftJoin(post_author, eq(posts.authorId, post_author.id))
-        .where(eq(posts.slug, slug))
-        .get();
-        
-        if (!postResult) {
-            throw new NotFoundError(`Post with slug "${slug}" not found`);
-        }
-
-        const tagsResults = await db.select({ tag: tags })
-            .from(postTags)
-            .innerJoin(tags, eq(postTags.tagId, tags.id))
-            .where(eq(postTags.postId, postResult.post.id))
-            .all();
-
-        return {
-            ...postResult,
-            tags: tagsResults.map(t => t.tag)
-        };
-    }
-
-    /**
      * Updates the Redis cache key for a blog post by slug with fresh data
      * @param slug - The blog post slug
      * @returns Promise resolving to true if cache was updated
@@ -81,7 +45,9 @@ export class BlogService {
 
         try {
             const cacheData = await BlogHelper.fetchAllPost(slug);
+            const version = new Date().toISOString();
             await RedisClient.setEx(key, cfg.blog.cache_ttl, JSON.stringify(cacheData));
+            await BlogService.updatePostVersion(slug, version);
             writeToLog(`BlogService CACHE UPDATE ok slug=${slug}`, 'blog');
             return true;
         } catch (error) {
@@ -267,6 +233,8 @@ export class BlogService {
             );
             
             if (!cached.cached) {
+                const version = new Date().toISOString();
+                await BlogService.updatePostVersion(slug, version);
                 writeToLog(`BlogService CACHE CREATE ok slug=${slug}`, 'blog');
             } else {
                 writeToLog(`BlogService CACHE HIT slug=${slug}`, 'blog');
@@ -453,14 +421,23 @@ export class BlogService {
      * @throws {Error} If Redis client is not connected
      */
     static async deleteCacheBySlug(slug: string) {
-        const clearedKey = await (new BlogService()).clearCacheKey(slug);
-        if (clearedKey) {
-            writeToLog(`BlogService CACHE DELETE ok slug=${slug}`, 'blog');
-            return clearedKey;
-        }else {
-            writeToLog(`BlogService CACHE DELETE miss slug=${slug}`, 'blog');
+        const key = BlogHelper.getCacheKey(slug);
+        const versionKey = `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}${slug}`;
+        validateKey(key);
+        validateKey(versionKey);
+        
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
         }
-        return clearedKey;
+
+        try {
+            await RedisClient.del([key, versionKey]);
+            writeToLog(`BlogService CACHE DELETE ok slug=${slug}`, 'blog');
+            return true;
+        } catch (error) {
+            console.error(`Error deleting cache for slug ${slug}:`, error);
+            throw error;
+        }
     }
 
     /**
@@ -479,6 +456,7 @@ export class BlogService {
             let batchCount = 0;
             const keysDeleted: string[] = [];
 
+            // Clear blog post caches
             do {
                 const reply = await RedisClient.scan(cursor, { MATCH: BlogHelper.getCacheKey('*'), COUNT: 100 });
                 cursor = reply.cursor;
@@ -490,6 +468,22 @@ export class BlogService {
                     batchCount++;
                     keysDeleted.push(...keys);
                     writeToLog(`BlogService CACHE CLEAR batch #${batchCount} count=${keys.length}`, 'blog');
+                }
+            } while (cursor !== '0');
+
+            // Clear blog post versions
+            cursor = '0';
+            do {
+                const reply = await RedisClient.scan(cursor, { MATCH: `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}*`, COUNT: 100 });
+                cursor = reply.cursor;
+                const keys = reply.keys;
+
+                if (keys.length > 0) {
+                    await RedisClient.del(keys);
+                    totalKeysCleared += keys.length;
+                    batchCount++;
+                    keysDeleted.push(...keys);
+                    writeToLog(`BlogService CACHE CLEAR versions batch #${batchCount} count=${keys.length}`, 'blog');
                 }
             } while (cursor !== '0');
 
@@ -505,5 +499,38 @@ export class BlogService {
             console.error("Error clearing all blog post caches:", error);
             throw error;
         }
-    }   
+    }  
+    
+    static async getPostVersion (slug: string) {
+        const key = `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}${slug}`;
+        validateKey(key);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
+        }
+
+        try {
+            const versionData = await RedisClient.get(key);
+            return versionData;
+        } catch (error) {
+            console.error(`Error retrieving post version for slug ${slug}:`, error);
+            throw error;
+        }
+    }
+
+    static async updatePostVersion (slug: string, data: string) {
+        const key = `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}${slug}`;
+        validateKey(key);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
+        }
+
+        try {
+            await RedisClient.setEx(key, cfg.blog.cache_ttl, data);
+        } catch (error) {
+            console.error(`Error updating post version for slug ${slug}:`, error);
+            throw error;
+        }
+    }
 }

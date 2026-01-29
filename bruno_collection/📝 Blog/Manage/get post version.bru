@@ -1,0 +1,98 @@
+meta {
+  name: get post version
+  type: http
+  seq: 9
+}
+
+docs {
+  # Get Blog Post Version
+  
+  Retrieve the current version timestamp for a blog post.
+  
+  ## Purpose
+  
+  Clients use this to check if their cached blog post is stale.
+  The version is an ISO 8601 timestamp updated whenever the post or cache changes.
+  
+  ## Authentication
+  
+  **Not required** - Public endpoint
+  
+  ## Usage
+  
+  ```
+  GET /api/blog/version/{slug}
+  ```
+  
+  ## Response (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "version": "2026-01-29T14:32:15.123Z"
+    }
+  }
+  ```
+  
+  If cache doesn't exist, version is `null`.
+  
+  ## Cache Validation Example
+  
+  ```javascript
+  const serverVersion = await fetch(`/api/blog/version/${slug}`)
+    .then(r => r.json())
+    .then(b => b.data.version);
+  
+  const cachedVersion = localStorage.getItem(`blog:${slug}:v`);
+  
+  if (serverVersion === cachedVersion && cachedVersion) {
+    // ✓ Use cached data - still fresh
+  } else {
+    // ✗ Fetch fresh data - cache is stale or missing
+  }
+  ```
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/blog/version/{{slugBlog_demoName}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    const body = res.getBody();
+    expect(body.success).to.be.true;
+    expect(body.message).to.equal("Success");
+  });
+  
+  test("Response has version in data", function() {
+    const body = res.getBody();
+    expect(body.data).to.exist;
+    expect(body.data.version).to.satisfy(v => v === null || typeof v === 'string');
+  });
+  
+  test("Version is valid ISO timestamp or null", function() {
+    const version = res.getBody().data.version;
+    if (version !== null && version !== undefined) {
+      const date = new Date(version);
+      expect(!isNaN(date.getTime())).to.be.true;
+      expect(version).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    }
+  });
+  
+  test("No authentication required", function() {
+    expect(res.getStatus()).to.not.equal(401);
+    expect(res.getStatus()).to.not.equal(403);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

@@ -275,6 +275,39 @@ class BlogController {
             return res.error("error while clearing all blog cache", 500, error);
         }
     }
+
+    async getPostVersion(req: Request<{ slug: string }>, res: Response) {
+        try {
+            const version = await BlogService.getPostVersion(req.params.slug);
+
+            logConsole('GET', `/blog/version/${req.params.slug}`, 'INFO', `Retrieved blog post version`, { slug: req.params.slug, version: version });
+            writeToLog(`BlogRoute GET VERSION ok slug=${req.params.slug}`, 'blog');
+
+            return res.success({ version }, `blog post version retrieved successfully`);
+        } catch (error) {
+            logConsole('GET', `/blog/version/${req.params.slug}`, 'FAIL', `Error retrieving blog post version`, { error, slug: req.params.slug });
+            writeToLog(`BlogRoute GET VERSION error slug=${req.params.slug}`, 'blog');
+
+            return res.error("error retrieving blog post version", 500, error);
+        }
+    }
+
+    async updatePostVersion(req: Request<{ slug: string }>, res: Response) {
+        
+        try {
+            await BlogService.updatePostVersion(req.params.slug, new Date().toISOString());
+
+            logConsole('PUT', `/blog/version/${req.params.slug}/update`, 'OK', `Updated blog post version`, { slug: req.params.slug, version: new Date().toISOString() });
+            writeToLog(`BlogRoute UPDATE VERSION ok slug=${req.params.slug}`, 'blog');
+
+            return res.success({}, `blog post version updated successfully`);
+        } catch (error) {
+            logConsole('PUT', `/blog/version/${req.params.slug}/update`, 'FAIL', `Error updating blog post version`, { error, slug: req.params.slug });
+            writeToLog(`BlogRoute UPDATE VERSION error slug=${req.params.slug}`, 'blog');
+
+            return res.error("error updating blog post version", 500, error);
+        }
+    }
 }
 
 export default new BlogController();

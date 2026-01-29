@@ -14,7 +14,6 @@ import { RedisClient } from '../../services/Redis.service';
 import { AUTHORIZED_REDIS_PREFIXES } from '../../constants/redis.constant';
 
 //helpers
-import { withCache } from '../../utils/cache.helper'; 
 import { validateKey } from '../../utils/redis.helper';
 import { writeToLog } from '../../middlewares/log.middlewar';
 
@@ -162,7 +161,11 @@ export class BlogHelper {
      */
     static async deleteCacheBySlug(slug: string) {
         const clearedKey = await this.clearCacheKey(slug);
+        const UpdatePostVersion = await this.updtateCacheKey(slug);
         if (clearedKey) {
+            if (UpdatePostVersion){
+                writeToLog(`BlogService CACHE UPDATE ok slug=${slug}`, 'blog');
+            }
             writeToLog(`BlogService CACHE DELETE ok slug=${slug}`, 'blog');
             return clearedKey;
         }else {
@@ -195,7 +198,31 @@ export class BlogHelper {
         }
     }
 
-    static UpdatePostVersion(slug: string) {
-        // Placeholder for future version update logic
+    static async UpdatePostVersion(slug: string, data: string) {
+        const key = `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}${slug}`;
+        validateKey(key);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
+        }
+
+        await RedisClient.setEx(key, cfg.blog.cache_ttl, data);
+    }
+
+    static async GetPostVersion(slug: string) {
+        const key = `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}${slug}`;
+        validateKey(key);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
+        }
+
+        try {
+            const versionData = await RedisClient.get(key);
+            return versionData;
+        } catch (error) {
+            console.error(`Error retrieving post version for slug ${slug}:`, error);
+            throw error;
+        }
     }
 }

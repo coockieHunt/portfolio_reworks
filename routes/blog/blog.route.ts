@@ -149,4 +149,29 @@ BlogRoute.delete('/cache/clear/',
     asyncHandler(BlogController.CacheClearAll),
 responseHandler);
 
+/** GET /version/:slug - Get blog post version by slug
+ * Retrieve a specific version of a blog post using its slug
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
+BlogRoute.get('/version/:slug',
+    rateLimiter,
+    BlogValidator.getBySlug,
+    validateRequest,
+    asyncHandler(BlogController.getPostVersion),
+responseHandler);
+
+/** PUT /version/:slug/update - Update blog post version by slug
+ * Update a specific version of a blog post using its slug
+ *  @param req Express Request object
+ *  @param res Express Response object
+ */
+BlogRoute.put('/version/:slug/update',
+    authenticateToken,
+    rateLimiter,
+    BlogValidator.getBySlug,
+    validateRequest,
+    asyncHandler(BlogController.updatePostVersion),
+responseHandler);
+
 export default BlogRoute;
