@@ -1,5 +1,5 @@
 import config from '../../config/default';
-import { BlogService } from '../../services/Blog.service';
+import { BlogService } from '../../services/blog/Blog.service';
 import { Request, Response } from 'express';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 
@@ -63,7 +63,7 @@ class BlogController {
                 return res.error('Post not found', 404);
         }
 
-        logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post (Auth: ${isAuthenticated})`, { slug: req.params.slug });
+        logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post (cache create skip: ${isAuthenticated})`, { slug: req.params.slug });
         writeToLog(`BlogRoute READ ok slug=${req.params.slug} auth=${isAuthenticated}`, 'blog');
         
         return res.success({ 
@@ -258,12 +258,16 @@ class BlogController {
 
     async CacheClearAll(req: Request, res: Response) {
         try {
-            await BlogService.clearAllCache();
+            const rslt = await BlogService.clearAllCache();
 
             logConsole('DELETE', `/blog/cache/clear/all`, 'OK', `Cleared all blog cache`);
             writeToLog(`BlogRoute CACHE CLEAR ALL ok`, 'blog');
 
-            return res.success({}, `all blog cache cleared successfully`);
+            return res.success({
+                batches_processed: rslt.batches_processed,
+                total_keys_cleared: rslt.total_keys_cleared,
+                keys_deleted: rslt.keys_deleted,
+            }, `all blog cache cleared successfully`);
         } catch (error) {
             logConsole('DELETE', `/blog/cache/clear/all`, 'FAIL', `Error clearing all blog cache`, { error });
             writeToLog(`BlogRoute CACHE CLEAR ALL error`, 'blog');

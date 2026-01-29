@@ -19,6 +19,7 @@ const BlogRoute: Router = express.Router({ mergeParams: true });
  */
 BlogRoute.get('/all', 
     rateLimiter,
+    HybridAuthenticateToken,
     BlogValidator.getAll,
     validateRequest,
     asyncHandler(BlogController.getAll),

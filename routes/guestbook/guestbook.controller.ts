@@ -1,4 +1,4 @@
-import { GuestBookService } from '../../services/GuestBook.service';
+import { GuestBookService } from '../../services/guestbook/GuestBook.service';
 import { Request, Response } from 'express';
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 

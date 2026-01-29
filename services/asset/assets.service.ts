@@ -1,11 +1,10 @@
 import * as fs from 'fs';
-import { promises as fsPromises } from 'fs'; 
-import path from 'path';
-import sharp from 'sharp';
+import { promises as fsPromises } from 'fs';
 
-import { AUTHORIZED_REDIS_KEYS } from '../constants/redis.constant';
-import { hashGet, hashSet, hashDel, hashGetAll, cacheDel, isRedisReady } from '../utils/cache.helper';
-import { logConsole } from '../middlewares/log.middlewar';
+import { AUTHORIZED_REDIS_KEYS } from '../../constants/redis.constant';
+import { hashGet, hashSet, hashDel, hashGetAll, cacheDel, isRedisReady } from '../../utils/cache.helper';
+import { logConsole } from '../../middlewares/log.middlewar';
+import { AssetHelper } from './assets.helper';
 
 export interface AssetDetail {
     file: string;
@@ -15,10 +14,8 @@ export interface AssetDetail {
 }
 
 export class AssetsService {
-    private static assetsDirectory = path.join(process.cwd(), 'assets');
-
     static getAssetPath(filename: string): string {
-        return path.join(this.assetsDirectory, filename);
+        return AssetHelper.getAssetPath(filename);
     }
 
     /**
@@ -43,42 +40,20 @@ export class AssetsService {
         }
 
         try {
-            if (!fs.existsSync(this.assetsDirectory)) {
-                await fsPromises.mkdir(this.assetsDirectory, { recursive: true });
+            if (!fs.existsSync(AssetHelper.getAssetsDirectory())) {
+                await fsPromises.mkdir(AssetHelper.getAssetsDirectory(), { recursive: true });
             }
 
             const assetField = `${folder}:${id}`;
 
-            // Informative check (non-blocking)
             const currentCachedId = await hashGet(AUTHORIZED_REDIS_KEYS.ASSET_LIST, assetField);
             if (currentCachedId) {
                 logConsole("INFO", "ASSETS_SERVICE", "INFO", "Asset already exists in cache", { existingFile: currentCachedId });
             }
 
-            const timestamp = Date.now();
-            const nameFormatted = name.replace(/\s+/g, '-').toLowerCase();
-            
-            // Convert image to WebP format
-            const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.webp'];
-            const isImage = imageExtensions.includes(extension.toLowerCase());
-            
-            let finalBuffer = buffer;
-            let finalExtension = extension;
-            
-            if (isImage) {
-                try {
-                    finalBuffer = await sharp(buffer)
-                        .webp({ quality: 80 })
-                        .toBuffer();
-                    finalExtension = '.webp';
-                    logConsole("INFO", "ASSETS_SERVICE", "OK", "Image converted to WebP", { originalExtension: extension });
-                } catch (conversionError: any) {
-                    logConsole("WARN", "ASSETS_SERVICE", "WARN", "WebP conversion failed, using original format", { error: conversionError.message });
-                }
-            }
-            
-            const newPhysicalName = `${id}-${nameFormatted}-${timestamp}${finalExtension}`;
-            const fullPath = path.join(this.assetsDirectory, newPhysicalName);
+            const { buffer: finalBuffer, extension: finalExtension } = await AssetHelper.convertToWebP(buffer, extension);
+            const newPhysicalName = AssetHelper.formatFilename(id, name, finalExtension);
+            const fullPath = AssetHelper.getAssetPath(newPhysicalName);
 
             await fsPromises.writeFile(fullPath, finalBuffer);
             logConsole("INFO", "ASSETS_SERVICE", "OK", "File written to disk", { path: fullPath });
@@ -113,12 +88,12 @@ export class AssetsService {
             return filename;
         }
 
-        if (!fs.existsSync(this.assetsDirectory)) {
+        if (!fs.existsSync(AssetHelper.getAssetsDirectory())) {
             return undefined;
         }
 
         try {
-            const files = await fsPromises.readdir(this.assetsDirectory);
+            const files = await fsPromises.readdir(AssetHelper.getAssetsDirectory());
 
             const prefix = `${id}-`;
             
@@ -213,12 +188,12 @@ export class AssetsService {
 
     static async listAllAssets(): Promise<AssetDetail[]> {
         try {
-            if (!fs.existsSync(this.assetsDirectory)) {
+            if (!fs.existsSync(AssetHelper.getAssetsDirectory())) {
                 logConsole("WARN", "ASSETS_SERVICE", "FAIL", "Assets directory does not exist");
                 return [];
             }
 
-            const localFiles = await fsPromises.readdir(this.assetsDirectory);
+            const localFiles = await fsPromises.readdir(AssetHelper.getAssetsDirectory());
             const cleanFiles = localFiles.filter(f => !f.startsWith('.'));
 
             const redisAssets = await hashGetAll(AUTHORIZED_REDIS_KEYS.ASSET_LIST);
@@ -236,8 +211,8 @@ export class AssetsService {
                 return {
                     file: filename,
                     cached: !!redisKey, 
-                    id: this.extractId(filename, redisKey),
-                    version: this.extractVersionFromFilename(filename)
+                    id: AssetHelper.extractId(filename, redisKey),
+                    version: AssetHelper.extractVersionFromFilename(filename)
                 };
             });
 
@@ -249,36 +224,8 @@ export class AssetsService {
         }
     }
 
-    /**
-        * Extracts the asset ID from the filename or Redis key.
-        * @param filename - The asset filename
-        * @param redisKey - The Redis key associated with the asset (optional)
-        * @returns The extracted asset ID or null if not found
-    */
-    private static extractId(filename: string, redisKey?: string): string | null {
-        if (redisKey) {
-            const parts = redisKey.split(':');
-            return parts.length > 1 ? parts[parts.length - 1] : null;
-        }
 
-        const parts = filename.split('-');
-        return parts.length > 0 ? parts[0] : null;
-    }
-
-    /**
-        * Extracts the version (timestamp) from the filename.
-        * @param filename - The asset filename
-        * @returns The extracted version as a number or null if not found
-    */
-    private static extractVersionFromFilename(filename: string): number | null {
-        const nameWithoutExt = path.parse(filename).name; 
-        const parts = nameWithoutExt.split('-');
-
-        if (parts.length < 2) return null;
-
-        const potentialTimestamp = parts[parts.length - 1];
-        const parsedTs = parseInt(potentialTimestamp, 10);
-
-        return !isNaN(parsedTs) ? parsedTs : null;
+    static getAssetPath(filename: string): string {
+        return AssetHelper.getAssetPath(filename);
     }
 }

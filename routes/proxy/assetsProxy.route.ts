@@ -2,7 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import sharp from 'sharp';
 import { rateLimiter } from '../../middlewares/rateLimiter.middlewar';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
-import { AssetsService } from '../../services/assets.service';
+import { AssetsService } from '../../services/asset/assets.service';
 import { param } from 'express-validator';
 
 const AssetsProxyRoute: Router = express.Router();

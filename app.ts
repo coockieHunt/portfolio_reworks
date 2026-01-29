@@ -12,7 +12,7 @@ import consola from 'consola';
 import cfg from './config/default';
 import { createClient } from 'redis';
 import { RedisService } from './services/Redis.service';
-import { SendmailService } from './services/Sendmail.service'; 
+import { SendmailService } from './services/sendmail/Sendmail.service'; 
 
 import { pingSqlite } from './utils/sqllite.helper';
 

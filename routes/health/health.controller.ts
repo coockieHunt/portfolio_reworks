@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 import { uptime } from 'node:process';
-import { SendmailService } from '../../services/Sendmail.service';
+import { SendmailService } from '../../services/sendmail/Sendmail.service';
 import { RedisClient } from '../../services/Redis.service';
 import { pingSqlite } from '../../utils/sqllite.helper';
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { TagService } from '../../services/Tag.service';
+import { TagService } from '../../services/tag/Tag.service';
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 
 class TagsController {

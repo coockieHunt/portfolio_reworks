@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import sendmail from '../../services/Sendmail.service';
+import sendmail from '../../services/sendmail/Sendmail.service';
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 
 class MailController {

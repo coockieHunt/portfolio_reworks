@@ -10,6 +10,7 @@ export const AUTHORIZED_REDIS_KEYS = {
 // authorized redis prefixes (authorized dynamic keys)
 export const AUTHORIZED_REDIS_PREFIXES = {
     BLOG_POST: 'portfolio:blog:post:',
+    // BLOG_VER: 'portfolio:blog:version:',
     AUTH_TOKEN: 'portfolio:auth:token:',
 } as const;
 

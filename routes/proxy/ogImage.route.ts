@@ -2,7 +2,7 @@ import React from 'react';
 import express, { Request, Response, Router } from 'express';
 import { query } from 'express-validator';
 import { ImageResponse } from '@vercel/og';
-import { AssetsService } from '../../services/assets.service';
+import { AssetsService } from '../../services/asset/assets.service';
 import { hashGet, hashSet } from '../../utils/cache.helper';
 import { AUTHORIZED_REDIS_KEYS } from '../../constants/redis.constant';
 import { logConsole } from '../../middlewares/log.middlewar';

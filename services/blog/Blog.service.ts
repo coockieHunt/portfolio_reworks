@@ -1,47 +1,94 @@
 //helpers
-import { db } from '../utils/sqllite.helper';
+import { db } from '../../utils/sqllite.helper';
 
 //shema
-import { post_author, posts, postTags, tags } from '../database/shema'; 
+import { post_author, posts, postTags, tags } from '../../database/shema'; 
 
 //orm
 import { desc, eq, sql, inArray, like, and} from 'drizzle-orm';
 
 //services
-import { RedisClient } from '../services/Redis.service';
+import { RedisClient } from '../../services/Redis.service';
 
 //constants
-import { AUTHORIZED_REDIS_PREFIXES } from '../constants/redis.constant';
+import { AUTHORIZED_REDIS_PREFIXES } from '../../constants/redis.constant';
 
 //helpers
-import { withCache } from '../utils/cache.helper'; 
-import { validateKey } from '../utils/redis.helper';
-import { writeToLog } from '../middlewares/log.middlewar';
+import { withCache } from '../../utils/cache.helper'; 
+import { validateKey } from '../../utils/redis.helper';
+import { writeToLog } from '../../middlewares/log.middlewar';
 
 //config
-import cfg from '../config/default';
+import cfg from '../../config/default';
 
 //errors
-import { NotFoundError, ValidationError } from '../utils/AppError';
+import { NotFoundError, ValidationError } from '../../utils/AppError';
 
-/**
- * Blog Service
- * 
- * Handles all blog post operations including CRUD operations and caching.
- * Integrates with SQLite database and Redis cache for optimal performance.
- * Manages blog post lifecycle from creation to deletion with automatic cache invalidation.
- */
+//helpers
+import {BlogHelper} from './Blog.helper';
+
 export class BlogService {
     /**
-     * Generates the Redis cache key for a blog post by slug
+     * Fetches all post data with author and tags from database
      * @param slug - The blog post slug
-     * @returns The prefixed Redis cache key
+     * @returns Promise with post, author, and tags data
+     * @throws {NotFoundError} If post not found
      * @private
      */
-    private static getCacheKey(slug: string) {
-        return `${AUTHORIZED_REDIS_PREFIXES.BLOG_POST}${slug}`;
+    private static async fetchAllPost(slug: string) {
+        const postResult = await db.select({
+            post: posts,
+            author: {
+                name: post_author.name,
+                describ: post_author.describ
+            }
+        })
+        .from(posts)
+        .leftJoin(post_author, eq(posts.authorId, post_author.id))
+        .where(eq(posts.slug, slug))
+        .get();
+        
+        if (!postResult) {
+            throw new NotFoundError(`Post with slug "${slug}" not found`);
+        }
+
+        const tagsResults = await db.select({ tag: tags })
+            .from(postTags)
+            .innerJoin(tags, eq(postTags.tagId, tags.id))
+            .where(eq(postTags.postId, postResult.post.id))
+            .all();
+
+        return {
+            ...postResult,
+            tags: tagsResults.map(t => t.tag)
+        };
     }
 
+    /**
+     * Updates the Redis cache key for a blog post by slug with fresh data
+     * @param slug - The blog post slug
+     * @returns Promise resolving to true if cache was updated
+     * @throws {Error} If Redis client is not connected or update fails
+     * @private
+     */
+    private static async updtateCacheKey(slug: string) {
+        const key = BlogHelper.getCacheKey(slug);
+        validateKey(key);
+
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
+        }
+
+        try {
+            const cacheData = await BlogHelper.fetchAllPost(slug);
+            await RedisClient.setEx(key, cfg.blog.cache_ttl, JSON.stringify(cacheData));
+            writeToLog(`BlogService CACHE UPDATE ok slug=${slug}`, 'blog');
+            return true;
+        } catch (error) {
+            console.error(`Error updating cache for slug ${slug}:`, error);
+            throw error;
+        }
+    }
     
 
     /**
@@ -75,6 +122,7 @@ export class BlogService {
         .limit(limit)
         .offset(offset)
         .all();
+
 
         let tagsResults: Array<{ postId: number, tag: typeof tags.$inferSelect }> = [];
         if (postsResults.length > 0) {
@@ -195,66 +243,39 @@ export class BlogService {
      * @returns Promise with post data and cache status
      */
     static async getPostBySlug(slug: string, isAuthenticated: boolean) {
-        const fetchFromDb = async () => {
-            const postResult = await db.select({
-                post: posts,
-                author: {
-                    name: post_author.name,
-                    describ: post_author.describ
-                }
-            })
-            .from(posts)
-            .leftJoin(post_author, eq(posts.authorId, post_author.id))
-            .where(eq(posts.slug, slug))
-            .get();
-            
-            if (!postResult) throw new NotFoundError(`Post with slug "${slug}" not found`);
-
-            if (!isAuthenticated && postResult.post.published === 0) {
-                throw new NotFoundError(`Post with slug "${slug}" is not published`);
-            }
-    
-            const tagsResults = await db.select({ tag: tags })
-                .from(postTags)
-                .innerJoin(tags, eq(postTags.tagId, tags.id))
-                .where(eq(postTags.postId, postResult.post.id))
-                .all();
-    
-            return {
-                ...postResult,
-                tags: tagsResults.map(t => t.tag)
-            };
-        };
-    
         if (isAuthenticated) {
-           
-            const result = await fetchFromDb();
+            const result = await BlogHelper.fetchAllPost(slug);
             return { 
                 data: result, 
                 cached: false
             };
-        } else {
-           
-            const result = await fetchFromDb(); 
-            
-            if (result.post.published === 1) {
-                try {
-                    const cached = await withCache(
-                        this.getCacheKey(slug),
-                        async () => result,
-                        cfg.blog.cache_ttl
-                    );
-                    if (!cached.cached) {
-                        writeToLog(`BlogService CACHE CREATE ok slug=${slug}`, 'blog');
+        }
+        
+        try {
+            const cached = await withCache(
+                BlogHelper.getCacheKey(slug),
+                async () => {
+                    const result = await BlogHelper.fetchAllPost(slug);
+                    
+                    if (result.post.published === 0) {
+                        throw new NotFoundError(`Post with slug "${slug}" is not published`);
                     }
-                    return cached;
-                } catch (cacheError) {
-                    console.error(`Cache error for slug ${slug}:`, cacheError);
-                    return { data: result, cached: false };
-                }
+                    
+                    return result;
+                },
+                cfg.blog.cache_ttl
+            );
+            
+            if (!cached.cached) {
+                writeToLog(`BlogService CACHE CREATE ok slug=${slug}`, 'blog');
+            } else {
+                writeToLog(`BlogService CACHE HIT slug=${slug}`, 'blog');
             }
             
-            return { data: result, cached: false };
+            return cached;
+        } catch (error) {
+            console.error(`Error retrieving post by slug ${slug}:`, error);
+            throw error;
         }
     }
 
@@ -267,79 +288,58 @@ export class BlogService {
         const slug = data.slug || data.title.toLowerCase().replace(/ /g, '-');
         const { tagIds, ...postData } = data;
 
-        const authorExists = await db
-            .select({ id: post_author.id })
-            .from(post_author)
-            .where(eq(post_author.id, postData.authorId))
+        await BlogHelper.validateAuthor(postData.authorId);
+        await BlogHelper.validateTags(tagIds || []);
+
+        const existingSlug = await db
+            .select({ slug: posts.slug })
+            .from(posts)
+            .where(eq(posts.slug, slug))
             .get();
 
-        if (!authorExists) {
-            throw new Error('INVALID_AUTHOR');
-        }
-
-        if (tagIds && tagIds.length > 0) {
-            const existingTags = await db
-                .select({ id: tags.id })
-                .from(tags)
-                .where(inArray(tags.id, tagIds))
-                .all();
-
-            const foundIds = new Set(existingTags.map(t => t.id));
-            const missing = tagIds.filter(id => !foundIds.has(id));
-
-            if (missing.length > 0) {
-                throw new Error(`INVALID_TAG_IDS:${missing.join(',')}`);
-            }
+        if (existingSlug) {
+            throw new ValidationError(`Post with slug "${slug}" already exists`);
         }
         
         const newPost = await db.insert(posts).values({ ...postData, slug, indexed: data.indexed ?? 0, published: data.published ?? 0 }).returning().get();
         
-        if (tagIds && tagIds.length > 0 && newPost) {
-            const tagAssociations = tagIds.map(tagId => ({
-                postId: newPost.id,
-                tagId: tagId
-            }));
-            await db.insert(postTags).values(tagAssociations);
+        if (!newPost) {
+            throw new ValidationError('Failed to create post in database');
         }
-        
+
+        await BlogHelper.updatePostTags(newPost.id, tagIds);
+
+        if (newPost.published === 1) {
+            try {
+                await BlogHelper.updtateCacheKey(slug);
+                writeToLog(`BlogService CREATE POST ok slug=${slug} cached=true`, 'blog');
+            } catch (error) {
+                console.error(`Failed to create cache for new post slug=${slug}:`, error);
+                writeToLog(`BlogService CREATE POST ok slug=${slug} cached=false (cache error)`, 'blog');
+            }
+        } else {
+            writeToLog(`BlogService CREATE POST ok slug=${slug} published=false`, 'blog');
+        }
+
         return newPost;
     }
 
     /**
-     * Updates an existing blog post and invalidates its cache
+     * Updates an existing blog post and updates its cache
      * @param slug - The post slug to update
      * @param updateData - Partial post data to update, including optional tags and optional featuredImage
      * @returns Promise with updated post or null if not found
      */
     static async updatePostBySlug(slug: string, updateData: { title?: string; content?: string; summary?: string; editedAt?: Date; authorId?: number; tagIds?: number[]; featuredImage?: string; indexed?: number; published?: number; slug?: string; }) {
-        const key = this.getCacheKey(slug);
+        const key = BlogHelper.getCacheKey(slug);
         validateKey(key);
 
         if (updateData.authorId) {
-             const authorExists = await db
-            .select({ id: post_author.id })
-            .from(post_author)
-            .where(eq(post_author.id, updateData.authorId))
-            .get();
-
-            if (!authorExists) {
-                throw new NotFoundError(`Author with ID ${updateData.authorId} not found`);
-            }
+            await BlogHelper.validateAuthor(updateData.authorId);
         }
 
-        if (updateData.tagIds && updateData.tagIds.length > 0) {
-            const existingTags = await db
-                .select({ id: tags.id })
-                .from(tags)
-                .where(inArray(tags.id, updateData.tagIds))
-                .all();
-
-            const foundIds = new Set(existingTags.map(t => t.id));
-            const missing = updateData.tagIds.filter(id => !foundIds.has(id));
-
-            if (missing.length > 0) {
-                throw new ValidationError(`Invalid tag IDs: ${missing.join(',')}`);
-            }
+        if (updateData.tagIds) {
+            await BlogHelper.validateTags(updateData.tagIds);
         }
 
         updateData.editedAt = new Date();
@@ -356,21 +356,13 @@ export class BlogService {
         }
 
         if (tagIds !== undefined) {
-            await db.delete(postTags).where(eq(postTags.postId, updatedPost.id));
-            
-            if (tagIds.length > 0) {
-                const tagAssociations = tagIds.map(tagId => ({
-                    postId: updatedPost.id,
-                    tagId: tagId
-                }));
-                await db.insert(postTags).values(tagAssociations);
-            }
+            await BlogHelper.updatePostTags(updatedPost.id, tagIds);
         }
         
         try {
-            await this.deleteCacheBySlug(slug);
+            await BlogHelper.updtateCacheKey(slug);
         } catch (error) {
-            console.error(`Failed to delete cache for slug ${slug} after update`, error);
+            console.error(`Failed to update cache for slug ${slug} after update`, error);
         }
         return updatedPost;
     }
@@ -382,7 +374,7 @@ export class BlogService {
      * @returns Promise with updated post or null if not found
      */
     static async publishedPostBySlug(slug: string, publish: boolean) {
-        const key = this.getCacheKey(slug);
+        const key = BlogHelper.getCacheKey(slug);
         validateKey(key);
 
         const updatedPost =  await db.update(posts)
@@ -396,9 +388,9 @@ export class BlogService {
         }
 
         try {
-            await this.deleteCacheBySlug(slug);
+            await BlogHelper.updtateCacheKey(slug);
         } catch (error) {
-            console.error(`Failed to delete cache for slug ${slug} after publish update`, error);
+            console.error(`Failed to update cache for slug ${slug} after publish update`, error);
         }
         return updatedPost;
     }
@@ -410,7 +402,7 @@ export class BlogService {
      * @returns Promise with updated post or null if not found
      */
     static async indexedPostBySlug(slug: string, indexed: number) {
-        const key = this.getCacheKey(slug);
+        const key = BlogHelper.getCacheKey(slug);
         validateKey(key);
 
         const updatedPost =  await db.update(posts)
@@ -424,9 +416,9 @@ export class BlogService {
         }
 
         try {
-            await this.deleteCacheBySlug(slug);
+            await BlogHelper.updtateCacheKey(slug);
         } catch (error) {
-            console.error(`Failed to delete cache for slug ${slug} after indexed update`, error);
+            console.error(`Failed to update cache for slug ${slug} after indexed update`, error);
         }
         return updatedPost;
     }
@@ -437,7 +429,7 @@ export class BlogService {
      * @returns Promise resolving to true if deleted, false otherwise
      */
     static async deletePostBySlug(slug: string) {
-        const key = this.getCacheKey(slug);
+        const key = BlogHelper.getCacheKey(slug);
         validateKey(key);
 
         const deletedPost = await db.delete(posts).where(eq(posts.slug, slug)).returning().get();
@@ -447,7 +439,7 @@ export class BlogService {
         }
 
         try {
-            await this.deleteCacheBySlug(slug);
+            await BlogHelper.deleteCacheBySlug(slug);
         } catch (error) {
             console.error(`Failed to delete cache for slug ${slug} after DB deletion`, error);
         }
@@ -461,44 +453,54 @@ export class BlogService {
      * @throws {Error} If Redis client is not connected
      */
     static async deleteCacheBySlug(slug: string) {
-        const key = this.getCacheKey(slug);
-        validateKey(key);
-
-        if (!RedisClient || !RedisClient.isReady) {throw new Error("Redis client is not connected.");}
-
-        try {
-            const result = await RedisClient.del(key);
-            if (result > 0) {
-                writeToLog(`BlogService CACHE DELETE ok slug=${slug}`, 'blog');
-            }
-            return result > 0; 
-        } catch (error) {
-            console.error(`Error deleting cache for slug ${slug}:`, error);
-            throw error;
+        const clearedKey = await (new BlogService()).clearCacheKey(slug);
+        if (clearedKey) {
+            writeToLog(`BlogService CACHE DELETE ok slug=${slug}`, 'blog');
+            return clearedKey;
+        }else {
+            writeToLog(`BlogService CACHE DELETE miss slug=${slug}`, 'blog');
         }
+        return clearedKey;
     }
 
     /**
      * Clears all blog post cache entries from Redis
-     * Uses SCAN operation to safely remove all matching keys
-     * @returns Promise that resolves when all cache is cleared
+     * @returns Promise with clearing statistics (total keys cleared, batches processed)
      * @throws {Error} If Redis client is not connected
      */
     static async clearAllCache() {
-        if (!RedisClient || !RedisClient.isReady) {throw new Error("Redis client is not connected.");}
+        if (!RedisClient || !RedisClient.isReady) {
+            throw new ValidationError("Redis client is not connected.");
+        }
         
         try {
             let cursor = '0';
+            let totalKeysCleared = 0;
+            let batchCount = 0;
+            const keysDeleted: string[] = [];
+
             do {
-                const reply = await RedisClient.scan(cursor, { MATCH: this.getCacheKey('*'), COUNT: 100 });
+                const reply = await RedisClient.scan(cursor, { MATCH: BlogHelper.getCacheKey('*'), COUNT: 100 });
                 cursor = reply.cursor;
                 const keys = reply.keys;
 
                 if (keys.length > 0) {
                     await RedisClient.del(keys);
-                    writeToLog(`BlogService CACHE CLEAR batch count=${keys.length}`, 'blog');
+                    totalKeysCleared += keys.length;
+                    batchCount++;
+                    keysDeleted.push(...keys);
+                    writeToLog(`BlogService CACHE CLEAR batch #${batchCount} count=${keys.length}`, 'blog');
                 }
             } while (cursor !== '0');
+
+            writeToLog(`BlogService CACHE CLEAR complete total=${totalKeysCleared} batches=${batchCount}`, 'blog');
+            
+            return {
+                status: 'success',
+                total_keys_cleared: totalKeysCleared,
+                keys_deleted: keysDeleted,
+                batches_processed: batchCount
+            };
         } catch (error) {
             console.error("Error clearing all blog post caches:", error);
             throw error;

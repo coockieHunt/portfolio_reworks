@@ -9,13 +9,7 @@ import { validateKey } from '../utils/redis.helper';
 
 export let RedisClient: RedisClientType | null = null;
 
-/**
- * Redis Service
- * 
- * Provides Redis connection management and counter operations.
- * Handles atomic counter increments and connection lifecycle.
- * Ensures thread-safe operations for distributed counter management.
- */
+
 export class RedisService {
     /**
      * Initializes and connects the Redis client

@@ -1,4 +1,4 @@
-import { AuthService } from '../../services/Auth.service';
+import { AuthService } from '../../services/auth/Auth.service';
 import { Request, Response } from 'express';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 import bcrypt from 'bcrypt';

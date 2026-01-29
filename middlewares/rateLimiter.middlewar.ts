@@ -4,7 +4,7 @@ import { match } from 'path-to-regexp';
 import { consola } from "consola";
 
 import { RedisClient } from '../services/Redis.service';
-import { AuthService } from '../services/Auth.service';
+import { AuthService } from '../services/auth/Auth.service';
 
 import cfg from '../config/default';
 

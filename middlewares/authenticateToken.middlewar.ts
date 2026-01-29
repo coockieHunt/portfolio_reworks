@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import chalk from 'chalk';
-import { AuthService } from '../services/Auth.service';
+import { AuthService } from '../services/auth/Auth.service';
 
 interface TokenPayload {
     userId: number;
