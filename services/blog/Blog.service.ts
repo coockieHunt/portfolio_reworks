@@ -29,35 +29,6 @@ import {BlogHelper} from './Blog.helper';
 
 export class BlogService {
     /**
-     * Updates the Redis cache key for a blog post by slug with fresh data
-     * @param slug - The blog post slug
-     * @returns Promise resolving to true if cache was updated
-     * @throws {Error} If Redis client is not connected or update fails
-     * @private
-     */
-    private static async updtateCacheKey(slug: string) {
-        const key = BlogHelper.getCacheKey(slug);
-        validateKey(key);
-
-        if (!RedisClient || !RedisClient.isReady) {
-            throw new ValidationError("Redis client is not connected.");
-        }
-
-        try {
-            const cacheData = await BlogHelper.fetchAllPost(slug);
-            const version = new Date().toISOString();
-            await RedisClient.setEx(key, cfg.blog.cache_ttl, JSON.stringify(cacheData));
-            await BlogService.updatePostVersion(slug, version);
-            writeToLog(`BlogService CACHE UPDATE ok slug=${slug}`, 'blog');
-            return true;
-        } catch (error) {
-            console.error(`Error updating cache for slug ${slug}:`, error);
-            throw error;
-        }
-    }
-    
-
-    /**
      * Retrieves all blog posts with pagination
      * @param page - Page number (default: 1)
      * @param limit - Number of posts per page (default: 20)
@@ -206,14 +177,16 @@ export class BlogService {
      * Retrieves a single blog post by its slug with caching
      * @param slug - The unique slug identifier for the post
      * @param isAuthenticated - Whether the requester is authenticated (true) or a guest (false)
-     * @returns Promise with post data and cache status
+     * @returns Promise with post data, cache status and details
      */
     static async getPostBySlug(slug: string, isAuthenticated: boolean) {
         if (isAuthenticated) {
             const result = await BlogHelper.fetchAllPost(slug);
+            writeToLog(`BlogService GET POST slug=${slug} source=database client_version=fresh authenticated=true`, 'blog');
             return { 
                 data: result, 
-                cached: false
+                cached: false,
+                cacheStatus: 'no_send'
             };
         }
         
@@ -235,12 +208,20 @@ export class BlogService {
             if (!cached.cached) {
                 const version = new Date().toISOString();
                 await BlogService.updatePostVersion(slug, version);
-                writeToLog(`BlogService CACHE CREATE ok slug=${slug}`, 'blog');
+                writeToLog(`BlogService GET POST slug=${slug} source=database cache_status=created client_refresh=true version=${version}`, 'blog');
+                return {
+                    data: cached.data,
+                    cached: false,
+                    cacheStatus: 'cache_created'
+                };
             } else {
-                writeToLog(`BlogService CACHE HIT slug=${slug}`, 'blog');
+                writeToLog(`BlogService GET POST slug=${slug} source=redis cache_status=hit client_refresh=false`, 'blog');
+                return {
+                    data: cached.data,
+                    cached: true,
+                    cacheStatus: 'cache_hit'
+                };
             }
-            
-            return cached;
         } catch (error) {
             console.error(`Error retrieving post by slug ${slug}:`, error);
             throw error;
@@ -279,7 +260,7 @@ export class BlogService {
 
         if (newPost.published === 1) {
             try {
-                await BlogHelper.updtateCacheKey(slug);
+                await BlogHelper.updateCacheKey(slug);
                 writeToLog(`BlogService CREATE POST ok slug=${slug} cached=true`, 'blog');
             } catch (error) {
                 console.error(`Failed to create cache for new post slug=${slug}:`, error);
@@ -328,7 +309,30 @@ export class BlogService {
         }
         
         try {
-            await BlogHelper.updtateCacheKey(slug);
+            const author = await db.select({
+                name: post_author.name,
+                describ: post_author.describ
+            })
+            .from(post_author)
+            .where(eq(post_author.id, updatedPost.authorId))
+            .get();
+
+            const tagsResults = await db.select({ tag: tags })
+                .from(postTags)
+                .innerJoin(tags, eq(postTags.tagId, tags.id))
+                .where(eq(postTags.postId, updatedPost.id))
+                .all();
+
+            const cacheData = {
+                post: updatedPost,
+                author: {
+                    name: author?.name || null,
+                    describ: author?.describ || null
+                },
+                tags: tagsResults.map(t => t.tag)
+            };
+
+            await BlogHelper.updateCacheKey(slug, cacheData);
         } catch (error) {
             console.error(`Failed to update cache for slug ${slug} after update`, error);
         }
@@ -356,8 +360,12 @@ export class BlogService {
         }
 
         try {
-            await BlogHelper.updtateCacheKey(slug);
+            await BlogHelper.updateCacheKey(slug);
+            const action = publish ? 'published' : 'unpublished';
+            writeToLog(`BlogService UPDATE POST slug=${slug} action=${action} cache_update=success`, 'blog');
         } catch (error) {
+            const action = publish ? 'published' : 'unpublished';
+            writeToLog(`BlogService UPDATE POST slug=${slug} action=${action} cache_update=failed post_no_cache_update`, 'blog');
             console.error(`Failed to update cache for slug ${slug} after publish update`, error);
         }
         return updatedPost;
@@ -384,8 +392,12 @@ export class BlogService {
         }
 
         try {
-            await BlogHelper.updtateCacheKey(slug);
+            await BlogHelper.updateCacheKey(slug);
+            const indexStatus = indexed === 1 ? 'indexed' : 'unindexed';
+            writeToLog(`BlogService UPDATE POST slug=${slug} action=${indexStatus} cache_update=success`, 'blog');
         } catch (error) {
+            const indexStatus = indexed === 1 ? 'indexed' : 'unindexed';
+            writeToLog(`BlogService UPDATE POST slug=${slug} action=${indexStatus} cache_update=failed post_no_cache_update`, 'blog');
             console.error(`Failed to update cache for slug ${slug} after indexed update`, error);
         }
         return updatedPost;
@@ -456,7 +468,6 @@ export class BlogService {
             let batchCount = 0;
             const keysDeleted: string[] = [];
 
-            // Clear blog post caches
             do {
                 const reply = await RedisClient.scan(cursor, { MATCH: BlogHelper.getCacheKey('*'), COUNT: 100 });
                 cursor = reply.cursor;
@@ -471,7 +482,6 @@ export class BlogService {
                 }
             } while (cursor !== '0');
 
-            // Clear blog post versions
             cursor = '0';
             do {
                 const reply = await RedisClient.scan(cursor, { MATCH: `${AUTHORIZED_REDIS_PREFIXES.BLOG_VER}*`, COUNT: 100 });

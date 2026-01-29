@@ -132,10 +132,11 @@ export class BlogHelper {
     /**
      * Updates the Redis cache key for a blog post by slug with fresh data
      * @param slug - The blog post slug
+     * @param cacheData - Optional pre-fetched cache data to avoid race conditions
      * @returns Promise resolving to true if cache was updated
      * @throws {ValidationError} If Redis client is not connected
      */
-    static async updtateCacheKey(slug: string) {
+    static async updateCacheKey(slug: string, cacheData?: any) {
         const key = this.getCacheKey(slug);
         validateKey(key);
 
@@ -144,9 +145,34 @@ export class BlogHelper {
         }
 
         try {
-            const cacheData = await this.fetchAllPost(slug);
-            await RedisClient.setEx(key, cfg.blog.cache_ttl, JSON.stringify(cacheData));
-            writeToLog(`BlogService CACHE UPDATE ok slug=${slug}`, 'blog');
+            let dataToCache = cacheData;
+            
+            if (!dataToCache) {
+                let retries = 3;
+                let lastError: any;
+                
+                while (retries > 0) {
+                    try {
+                        dataToCache = await this.fetchAllPost(slug);
+                        break;
+                    } catch (error) {
+                        lastError = error;
+                        retries--;
+                        if (retries > 0) {
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                        }
+                    }
+                }
+                
+                if (retries === 0) {
+                    throw lastError;
+                }
+            }
+            
+            await RedisClient.setEx(key, cfg.blog.cache_ttl, JSON.stringify(dataToCache));
+            await this.UpdatePostVersion(slug, new Date().toISOString());
+
+            writeToLog(`BlogService CACHE UPDATE ok slug=${slug} + NEW VERSION`, 'blog');
             return true;
         } catch (error) {
             console.error(`Error updating cache for slug ${slug}:`, error);
@@ -161,14 +187,10 @@ export class BlogHelper {
      */
     static async deleteCacheBySlug(slug: string) {
         const clearedKey = await this.clearCacheKey(slug);
-        const UpdatePostVersion = await this.updtateCacheKey(slug);
         if (clearedKey) {
-            if (UpdatePostVersion){
-                writeToLog(`BlogService CACHE UPDATE ok slug=${slug}`, 'blog');
-            }
             writeToLog(`BlogService CACHE DELETE ok slug=${slug}`, 'blog');
             return clearedKey;
-        }else {
+        } else {
             writeToLog(`BlogService CACHE DELETE miss slug=${slug}`, 'blog');
         }
         return clearedKey;

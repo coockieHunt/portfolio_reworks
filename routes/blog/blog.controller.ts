@@ -46,29 +46,54 @@ class BlogController {
     async getBySlug(req: Request<{ slug: string }>, res: Response) {
         const user = (req as any).user;
         const isAuthenticated = !!user;
-
+    
         res.setHeader('Vary', 'Authorization');
-
-        if (isAuthenticated) {
-            res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-        } else {
-            const maxAge = config.blog.cache_client_age;
-            const staleWhileRevalidate = maxAge * 2;
-            res.setHeader('Cache-Control', `public, max-age=${maxAge}, stale-while-revalidate=${staleWhileRevalidate}`);
+    
+        let currentVersion = await BlogService.getPostVersion(req.params.slug);
+        let logDetails = { slug: req.params.slug, cacheStatus: ''};
+    
+        if (!isAuthenticated && currentVersion) {
+            const etag = `"${currentVersion}"`;
+            res.setHeader('ETag', etag);
+    
+            if (req.headers['if-none-match'] === etag) {
+                logDetails.cacheStatus = 'client_cache_hit';
+                logConsole('GET', `/blog/${req.params.slug}`, 'OK', `Retrieved blog post slug=${req.params.slug} cache=${logDetails.cacheStatus} auth=false`, logDetails);
+                writeToLog(`BlogRoute READ ok slug=${req.params.slug} cache=${logDetails.cacheStatus} auth=false status=304`, 'blog');
+                return res.status(304).end(); 
+            }
+            
+            res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
         }
-
+    
+        
         const data = await BlogService.getPostBySlug(req.params.slug, isAuthenticated);
         
         if (!data || !data.data) {
-                return res.error('Post not found', 404);
+            return res.error('Post not found', 404);
         }
-
-        logConsole('GET', `/blog/${req.params.slug}`, 'INFO', `Retrieved blog post (cache create skip: ${isAuthenticated})`, { slug: req.params.slug });
-        writeToLog(`BlogRoute READ ok slug=${req.params.slug} auth=${isAuthenticated}`, 'blog');
+    
+        if (!isAuthenticated && !currentVersion) {
+            currentVersion = new Date().toISOString();
+            
+            await BlogService.updatePostVersion(req.params.slug, currentVersion).catch(err => 
+                console.error("Failed to auto-create version", err)
+            );
+    
+            res.setHeader('ETag', `"${currentVersion}"`);
+            res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+        } else if (isAuthenticated) {
+             res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+        }
+    
+        logDetails.cacheStatus = data.cacheStatus;
+        logConsole('GET', `/blog/${req.params.slug}`, 'OK', `Retrieved blog post slug=${req.params.slug} cache=${logDetails.cacheStatus} auth=${isAuthenticated}`);
+        writeToLog(`BlogRoute READ ok slug=${req.params.slug} cache=${logDetails.cacheStatus} auth=${isAuthenticated}`, 'blog');
         
         return res.success({ 
-                ...data.data, 
-                cached: data.cached
+            ...data.data, 
+            cached: data.cached,
+            version: currentVersion 
         });
     }
 
@@ -124,7 +149,6 @@ class BlogController {
             tagIds = tags;
         }
 
-        console.log( title, content, summary, authorId, tagIds, featuredImage, indexed, published, newSlug );
         try {
             const updatedPost = await BlogService.updatePostBySlug(req.params.slug, { title, content, summary, authorId, tagIds, featuredImage, indexed, published, slug: newSlug });
 
