@@ -88,6 +88,8 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
             gap: 8px;
             margin-bottom: 10px;
             flex-wrap: wrap;
+
+           
         }
        
         .info {

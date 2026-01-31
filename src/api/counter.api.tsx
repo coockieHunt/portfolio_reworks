@@ -15,9 +15,9 @@ const logDev = (...args: unknown[]) => {
 export async function getCounter({counterName}: ICounterRequest): Promise<IApiResponse | null> {
     try {
         const resp = await axios.get<IApiResponse>(
-            `${ApiBaseUrl}/counter/get/${counterName}`,
+            `${ApiBaseUrl}/counter/${counterName}`,
         );
-        return resp.data.data;
+        return resp.data.data.counterValue !== undefined ? resp.data : null;
     } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 429) {
             return {
@@ -36,7 +36,7 @@ export async function getCounter({counterName}: ICounterRequest): Promise<IApiRe
 export async function incrementCounter({counterName}: ICounterRequest): Promise<IApiResponse | null> {
     try {
         const resp = await axios.post<IApiResponse>(
-            `${ApiBaseUrl}/counter/increment/${counterName}`,
+            `${ApiBaseUrl}/counter/${counterName}/increment`,
         );
         return resp.data;
     } catch (err) {

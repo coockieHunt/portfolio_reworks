@@ -1,3 +1,44 @@
+/**
+* ───────────────────────────────────────────────────────────────
+*  INTERNAL MEMO — ENGINEERING / PRODUCT / SPIRITUAL DAMAGE
+* ───────────────────────────────────────────────────────────────
+*
+*  Status:
+*   ✔ Functional
+*   ✔ Accessible
+*   ✖ Elegant
+*   ✖ Maintenable
+*   ✖ Refactor-ready
+*
+*  Context:
+*   This file was written very late.
+*   Not "end of day" late.
+*   More like "why is it suddenly 03:42" late.
+*
+*  Design decision:
+*   The code is intentionally not beautiful.
+*   The chaos is part of the feature.
+*
+*  Important note for future maintainers (including future me):
+*   ❌ Do not clean
+*   ❌ Do not optimize
+*   ❌ Do not ask "why is it like this?"
+*
+*  Any attempt to rewrite this file
+*  would defeat its entire purpose.
+*
+*  This is not technical debt.
+*  This is narrative debt.
+*
+*  Approved by:
+*   • Me, at night
+*   • Me, tired
+*   • Me, fully aware of the consequences
+*
+* ───────────────────────────────────────────────────────────────
+*/
+
+
 import { PostGuestbookEntry, GetGuestbookEntries } from '../api/guestbook.api';
 
 declare global {
@@ -270,7 +311,7 @@ export const ConnectedToSecretSystem = () => {
                                     Agent: e.name,
                                     Data: e.message,
                                     Timestamp: new Date(
-                                        e.date,
+                                        e.createdAt,
                                     ).toLocaleTimeString(),
                                 }),
                             );

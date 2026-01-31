@@ -1,12 +1,22 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components'; 
 import { SCREEN_SIZE } from '@/config';
+
+const pixelToRound = keyframes`
+    0% {
+        font-variation-settings: "wght" 500, "ROND" 0;
+        transform: scale(0.98);
+    }
+    100% {
+        font-variation-settings: "wght" 500, "ROND" 100;
+        transform: scale(1);
+    }
+`;
 
 export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 90vh;
-
     min-height: 700px;
     position: relative;
 
@@ -40,27 +50,45 @@ export const Container = styled.div`
         }
 
         & .text {
-            align-items: flex-start;
-            text-align: left;
-            padding-left: 10%;
-            padding-right: 20px;
-
+            padding-left: 8%;
+            
             & h1 {
-                font-size: 3.5em;
-                margin-bottom: 20px;
-                font-weight: 700;
-                line-height: 1.2;
+                font-size: clamp(2rem, 5vw, 3.5rem); 
+                margin-bottom: 30px; 
+                font-weight: 600; 
+                line-height: 1.1;
 
-                display: inline-block;
-                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.2em; 
+                max-width: 100%; 
+            
+                & span {
+                    display: inline-flex; 
+                    align-items: center;
+                    flex-wrap: wrap; 
+                    gap: 10px; 
+
+                    & strong {
+                        color: var(--primary);
+                        font-family: 'Doto Variable', sans-serif;
+                        font-size: 1.1em;
+                        margin-left: 8px;
+                        font-weight: 500;
+                        
+                        animation: ${pixelToRound} 2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+                        
+                        font-variation-settings: "wght" 500, "ROND" 0;
+                    }
+                }
             }
 
             & p {
-                font-size: 1.3em;
-                line-height: 1.6;
+                font-size: 1.2em;
+                line-height: 1.4;
                 max-width: 550px;
                 color: var(--font-subtle);
-                margin-bottom: 40px;
+                margin-bottom: 20px;
             }
 
             & .cta {
@@ -68,7 +96,7 @@ export const Container = styled.div`
                 gap: 20px;
                 flex-wrap: wrap;
             }
-        }
+        } 
 
         & .cube {
             align-items: center;
@@ -83,14 +111,17 @@ export const Container = styled.div`
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             flex: none;
             width: 100%;
+            flex-direction: column; 
 
             & .text {
                 width: 100%;
-                padding: 0 35px;
-                justify-content: flex-start;
+                padding: 0 20px; 
+                justify-content: center; 
+                padding-top: 60px; 
+                z-index: 2;
 
                 & h1 {
-                    font-size: 2em;
+                    font-size: 2.2em;
                 }
 
                 & p {
@@ -101,11 +132,13 @@ export const Container = styled.div`
 
             & .cube {
                 pointer-events: none;
-                z-index: -1;
+                z-index: 1; 
                 position: absolute;
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: 100%;
-                opacity: 0.2;
+                opacity: 0.25; 
 
                 & .scene {
                     width: 100%;
@@ -116,22 +149,19 @@ export const Container = styled.div`
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        margin-top: 0;
-        padding-top: 100px;
-        padding-bottom: 50px;
+        padding-top: 30px;
         height: auto;
 
         & .mouse {
             position: relative;
-            margin-top: 40px;
+            margin-top: 50px;
             bottom: auto;
             left: auto;
             transform: scale(0.8);
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
     }
 
-    //no display on very small screens (S8, Iphone SE)
     @media (max-width: 400px) {
         & .mouse {
             display: none;
@@ -139,40 +169,31 @@ export const Container = styled.div`
     }
 `;
 
-export const ButtonScroll = styled.div`
-    display: flex;
-    align-items: center;
-`;
-export const Top = styled.div`
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
 export const Action = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 12px 28px;
-
     font-weight: 600;
     font-size: 1rem;
-
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.3);
 
     & a {
+        text-decoration: none;
+        color: inherit;
         width: 100%;
         height: 100%;
+        display: flex; 
+        align-items: center;
+        justify-content: center;
     }
 
     &:hover {
         transform: translateY(-2px);
+        border-color: #fff;
     }
 
     &.highlight {
@@ -180,8 +201,10 @@ export const Action = styled.div`
         border: 1px solid var(--primary);
         box-shadow: 0 0 15px color-mix(in srgb, var(--primary) 25%, transparent);
         color: var(--font-on-primary);
+        
         &:hover {
-            background-color: var(--primary);
+            background-color: var(--primary); 
+            box-shadow: 0 0 25px color-mix(in srgb, var(--primary) 40%, transparent);
         }
     }
 

@@ -1,12 +1,22 @@
 import { GridEffect } from '@/styles/effect';
 import * as Styled from './hero.style';
 
-// Interface
+// Interfaces
 interface IHeroContainerProps {
     children: React.ReactNode;
     $backgroundImg?: string;
     className?: string;
     [key: string]: any;
+}
+
+interface IHeroContentProps {
+    title: string;
+    subtitle?: string;
+    meta?: {
+        date?: string;
+        category?: string;
+        readTime?: string;
+    };
 }
 
 export const HeroContainer = ({
@@ -28,6 +38,6 @@ export const HeroContainer = ({
             </GridEffect>
             <Styled.ShadowOverlay />
         </>
-       
     );
 };
+

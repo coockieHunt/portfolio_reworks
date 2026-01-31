@@ -68,7 +68,6 @@ export const useThemeManager = () => {
     const fetchThemeCount = useCallback(async () => {
         const response = await getCounter({ counterName: 'THEME_RAND' });
 
-
         if (response?.success && response.data) {
             setRandomThemeCount(Number(response.data.counterValue || 0));
         }

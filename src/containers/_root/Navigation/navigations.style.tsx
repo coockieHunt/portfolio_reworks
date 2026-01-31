@@ -93,7 +93,8 @@ export const Nav = styled.nav`
 
         li {
             padding: 0 10px;
-            &:hover {
+
+            &:not(.is-spacer):hover {
                 color: var(--primary);
                 transition:
                     color 0.2s ease,
@@ -113,10 +114,37 @@ export const Nav = styled.nav`
                 @media (max-width: ${SCREEN_SIZE.mobile}) {
                     font-size: 1.2em;
                     font-variation-settings: 'wght' 800;
-
                     display: block;
                     width: 100%;
                     padding: 30px;
+                }
+            }
+
+            &.is-spacer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0 15px;
+
+                pointer-events: none;
+
+                .spacer {
+                    display: block;
+                    width: 1px;          
+                    height: 20px;         
+                    background-color: rgba(255, 255, 255, 0.5);
+                }
+
+                @media (max-width: ${SCREEN_SIZE.mobile}) {
+                    width: 100%;         
+                    padding: 0;         
+                    margin: 15px 0;     
+
+                    .spacer {
+                        width: 80%;      
+                        height: 1px;     
+                        margin: 0 auto; 
+                    }
                 }
             }
         }
@@ -156,7 +184,8 @@ export const Nav = styled.nav`
             padding: 30px 0 0 0;
             margin: 0;
             gap: 0;
-            & li {
+            
+            & li:not(.is-spacer) {
                 padding: 0;
             }
         }

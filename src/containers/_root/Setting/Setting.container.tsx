@@ -46,6 +46,7 @@ export const SettingContainer: React.FC = () => {
 
     const handleThemeClick = (themeKey: string) => {
         applyTheme(themeKey, COLOR_SETTING[themeKey].display_name);
+        setIsOpen(false);
     };
 
     const handleRandomClick = async () => {

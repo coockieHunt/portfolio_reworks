@@ -6,7 +6,6 @@ export const MarkdownContent = styled.div`
     margin-top: 20px;
     line-height: 1.8; 
     
-    /* --- TITRES --- */
     & h1, & h2, & h3, & h4, & h5, & h6 {
         font-family: "Source Code Pro", monospace;
         scroll-margin-top: 80px; 
@@ -89,6 +88,30 @@ export const MarkdownContent = styled.div`
         }
     }
 
+    & details {
+        margin: 20px 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        background-color: color-mix(in hsl, ${HexToRgbaConverter('var(--primary)', 0.50)}, #000000 90%);
+        
+        & summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            background-color: red;
+            outline: none;
+            padding: 10px 15px;
+            background-color: color-mix(in hsl, ${HexToRgbaConverter('var(--primary)', 0.90)}, #000000 90%);
+        }
+
+        & p {
+            margin-top: 10px;
+            padding: 10px 15px;
+        }
+    }
+
+
+
     & strong {
         font-weight: 600;
         color: var(--font-primary);
@@ -105,7 +128,6 @@ export const MarkdownContent = styled.div`
         color: var(--font-hint);
     }
 
-    /* --- CODE --- */
     & code:not(pre code) {
         border-radius: 4px;
         padding: 4px 8px; 
@@ -115,7 +137,6 @@ export const MarkdownContent = styled.div`
         background: rgba(255, 255, 255, 0.05); 
     }
 
-    /* Code blocks */
     & pre {
         display: flex;
         flex-direction: column; 
@@ -168,7 +189,6 @@ export const MarkdownContent = styled.div`
             line-height: 1.6;
             background: transparent; 
 
-            /* --- SCROLLBAR CODE BLOCK (Toujours actif si besoin) --- */
             &::-webkit-scrollbar {
                 height: 8px;
             }
@@ -194,8 +214,20 @@ export const MarkdownContent = styled.div`
         font-family: inherit;
         padding: 10px;
     }
+    
+    .mjx-math,
+        .katex {
+        font-size: 1.4em;
+        color: #222;
+        }
 
-    /* --- LISTES --- */
+        .mjx-math {
+        font-family: "Times New Roman", serif;
+        }
+
+        .katex-display {
+        margin: 1.2em 0;
+        }
     & ul {
         margin: 25px 0; 
         padding-left: 30px;
@@ -248,7 +280,6 @@ export const MarkdownContent = styled.div`
         }
     }
 
-    /* Task list */
     & input[type='checkbox'] {
         margin-right: 12px;
         cursor: pointer;
@@ -259,7 +290,6 @@ export const MarkdownContent = styled.div`
         top: 2px;
     }
 
-    /* --- CITATIONS --- */
     & blockquote {
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-left: 3px solid var(--primary); 
@@ -270,6 +300,30 @@ export const MarkdownContent = styled.div`
         color: var(--font-subtle);
         border-radius: 6px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+        &.type-WARNING { 
+            border-left: 3px solid yellow;
+            & .type-title { color: yellow;}
+        }
+        &.type-TIP { 
+            border-left: 3px solid blue;
+            & .type-title { color: blue;}
+        }
+        &.type-NOTE { 
+            border-left: 3px solid green; 
+            & .type-title { color: green;}
+        }
+
+        & .type-header {
+            margin-bottom: 10px;
+        }
+
+        & .type-title {
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--font-primary);
+        }
 
         & p {
             font-size: 1rem;
@@ -282,13 +336,12 @@ export const MarkdownContent = styled.div`
 
         & blockquote {
             margin: 15px 0; 
-            border-left-color: var(--secondary);
             background-color: color-mix(in hsl, ${HexToRgbaConverter('var(--primary)', 0.70)}, #131212 90%);
             padding: 15px 20px;
         }
+        
     }
 
-    /* --- LIENS --- */
     & a {
         color: var(--primary);
         text-decoration: none;
@@ -307,7 +360,6 @@ export const MarkdownContent = styled.div`
         }
     }
 
-    /* --- IMAGES --- */
     & img {
         display: block;
         border-radius: 8px;
@@ -315,9 +367,7 @@ export const MarkdownContent = styled.div`
         height: auto;
     }
 
-    /* --- TABLEAUX --- */
     & table {
-        /* Default Desktop: Full width, wrap text */
         width: 100%;
         display: table;
         white-space: normal;
@@ -326,13 +376,11 @@ export const MarkdownContent = styled.div`
         margin: 40px 0;
         border: none;
 
-        /* TABLET & MOBILE ONLY: Activate Scrollbar */
         @media (max-width: ${SCREEN_SIZE.tablet}) {
-            display: block;        /* Necessary for scroll */
-            overflow-x: auto;      /* Show scrollbar if needed */
-            white-space: nowrap;   /* Force horizontal expansion */
+            display: block;       
+            overflow-x: auto;     
+            white-space: nowrap; 
             
-            /* --- SCROLLBAR TABLE (Visible only on mobile/tablet overflow) --- */
             &::-webkit-scrollbar {
                 height: 8px;
             }
@@ -386,7 +434,6 @@ export const MarkdownContent = styled.div`
         }
     }
 
-    /* --- SPACERS --- */
     & hr {
         border: none;
         height: 1px;
@@ -394,10 +441,8 @@ export const MarkdownContent = styled.div`
         margin: 50px 0; 
     }
 
-    /* Nettoyage des marges externes */
     & > *:first-child { margin-top: 0; }
     & > *:last-child { margin-bottom: 0; }
     
-    /* Espacement entre sections consécutives */
     & h2 + h3, & h3 + h4 { margin-top: 25px; }
 `;

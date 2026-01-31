@@ -54,10 +54,11 @@ export const Route = createFileRoute('/blog/$slug')({
     },
 
     pendingComponent: () => (
-        <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <GlobalLoader />
+        <div>
+            <GlobalLoader text="Chargement de l'article..." />
         </div>
     ),
+    
     errorComponent: () => (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
             <p>Oops pas d'article trouvé</p>
@@ -108,19 +109,17 @@ function RouteComponent() {
 
     return (
         <>
-            <NavigationComponent navConfig={navigation} background={true}/>
+            <NavigationComponent navConfig={navigation}/>
         
-            <Suspense fallback={<div style={{ minHeight: '500px' }}><GlobalLoader /></div>}>
-                <PostContainer
-                    title={blogPost.post.title}
-                    summary={blogPost.post.summary}
-                    content={blogPost.post.content}
-                    featured_image={featuredImageUrl}
-                    author={blogPost.author || { name: 'Unknown', describ: '' }}
-                    last_update={blogPost.post.editedAt}
-                    created_at={blogPost.post.createdAt}
-                />
-            </Suspense>
+            <PostContainer
+                title={blogPost.post.title}
+                summary={blogPost.post.summary}
+                content={blogPost.post.content}
+                featured_image={featuredImageUrl}
+                author={blogPost.author || { name: 'Unknown', describ: '' }}
+                last_update={blogPost.post.editedAt}
+                created_at={blogPost.post.createdAt}
+            />
         </>
     );
 }

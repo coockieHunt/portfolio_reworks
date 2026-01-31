@@ -8,10 +8,11 @@ import { ConnectedToSecretSystem } from './utils/rb';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 
-import '@fontsource/montserrat/400.css';
-import '@fontsource/montserrat/600.css';
-import '@fontsource/montserrat/700.css';
-import '@fontsource/source-code-pro/400.css'; 
+//fonts
+import '@fontsource-variable/doto/rond.css'; 
+import '@fontsource-variable/montserrat';
+import '@fontsource-variable/source-code-pro';
+
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === 'production'

@@ -19,13 +19,6 @@ const GlobalStyle = createGlobalStyle`
         --border: ${(props) => COLOR_SETTING[props.theme.theme]?.border || 'rgba(255, 255, 255, 0.12)'};
     }
 
-    @font-face {
-        font-family: "Montserrat-Fallback";
-        size-adjust: 105%;   
-        ascent-override: 95%;
-        src: local("Arial");  
-        font-display: swap; 
-    }
 
     /* gloabl wraper */
     .font_code {
@@ -33,6 +26,12 @@ const GlobalStyle = createGlobalStyle`
         font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
+    }
+
+    .font_dot{
+        font-family: 'Doto Variable', sans-serif;
+        font-weight: 300;
+        font-optical-sizing: auto;
     }
 
     *, *::before, *::after {

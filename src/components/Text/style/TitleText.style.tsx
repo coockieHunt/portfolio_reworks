@@ -15,6 +15,8 @@ export const TitleContainer = styled.div`
     overflow: hidden;
 
     text-align: center;
+
+    font-family: 'Doto Variable', sans-serif;
 `;
 
 export const Title = styled.h2`

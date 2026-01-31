@@ -21,6 +21,7 @@ const navigation: INavItem[] = [
     { display : 'Competences', to: 'benefit', type: "scroll" },
     { display : 'Projets', to: 'project', type: "scroll" },
     { display : 'Contact', to: 'contact', type: "scroll" },
+    { display : 'CV', to: 'cv', type: "spacer" },
     { display : 'blog', to: 'blog', type: "route" },
 ];
 

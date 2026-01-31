@@ -128,11 +128,11 @@ export const TitleTextComponent = ({
     style,
 }: ITitleTextComponentProps): JSX.Element => {
     return (
-        <TitleContainer style={style}>
+        <TitleContainer style={style} >
             <Title>{children}</Title>
             <BackTitle
                 style={{ opacity: subtitleOpacity }}
-                className="BackSubtitle"
+                className="BackSubtitle font_code"
             >
                 {subtitle}
             </BackTitle>

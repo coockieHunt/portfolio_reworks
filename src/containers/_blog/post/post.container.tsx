@@ -133,10 +133,56 @@ const MarkdownImage = ({ node, src, alt, ...props }: any) => {
     );
 };
 
+const MarkdownQuote = ({ children }: any) => {
+    const arrayChildren = React.Children.toArray(children);
+    
+    const firstElem = arrayChildren.find((child: any) => React.isValidElement(child));
+    
+    if (!firstElem) return <blockquote>{children}</blockquote>;
 
+    const pChildren = React.Children.toArray((firstElem as any).props.children);
+    const firstTextNode = pChildren[0];
 
+    let calloutType: string | null = null;
+    let cleanContent = children;
 
+    if (typeof firstTextNode === 'string') {
+        const match = firstTextNode.match(/^\[!(.*?)\]/);
+        
+        if (match) {
+            calloutType = match[1]; 
+            const textWithoutTag = firstTextNode.replace(match[0], '').trim();
+            
+            const newPChildren = [...pChildren];
+            newPChildren[0] = textWithoutTag;
+            
+            const newP = React.cloneElement(firstElem as React.ReactElement, {}, ...newPChildren);
+            
+            const elemIndex = arrayChildren.indexOf(firstElem);
+            const newArrayChildren = [...arrayChildren];
+            newArrayChildren[elemIndex] = newP;
+            
+            cleanContent = newArrayChildren;
+        }
+    }
 
+    if (calloutType) {
+        return (
+            <blockquote className={`type-${calloutType}`}>
+                <div className="type-header">
+                    <strong className="type-title">{calloutType}</strong>
+                </div>
+                <div className="type-body">
+                    {cleanContent}
+                </div>
+            </blockquote>
+        );
+    }
+
+    return <blockquote>{children}</blockquote>;
+};
+        
+    
 
 export const PostContainer = ({
     title,
@@ -161,7 +207,7 @@ export const PostContainer = ({
                         textAlign: 'center',
                     }}
                 >
-                    <h1 style={{ width: '80%' }}>{title}</h1>
+                    <h1 style={{ width: '70%' }}>{title}</h1>
                 </div>
             </HeroContainer>
 
@@ -235,7 +281,8 @@ export const PostContainer = ({
                                         <>{children}</>
                                     ),
                                     code: MarkdownCodeBlock,
-                                    img: MarkdownImage 
+                                    img: MarkdownImage,
+                                    blockquote: MarkdownQuote,
                                 }}
                             >
                                 {content}

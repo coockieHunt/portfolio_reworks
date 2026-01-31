@@ -69,25 +69,24 @@ export const HeroContainer = ({ id }: HeroContainerProps): JSX.Element => {
             <styled.Container id={id}>
                 <div className="split">
                     <div className="text">
+
                         <h1>
-                            Vous voulez transformer votre{' '}
-                            <ProjectIdeaInput
+                            <span>Votre but ?</span>
+                            <span>
+                                transformer votre
+                                <ProjectIdeaInput
                                 ScroolTo='textarea[name="message"]'
                                 DataWord={word_hero}
-                            />{' '}
-                            en{' '}
-                            <span style={{ whiteSpace: 'nowrap' }}>
-                                <GradientTextContainer>
-                                    Site Web
-                                </GradientTextContainer>
-                                .
+                                />
                             </span>
+                            <span>en <strong >site web</strong></span>
                         </h1>
 
-                        <p className="font_code">
-                            Bonjour, je suis Jonathan, développeur Web. Je
-                            développe vos plateformes numériques, rapides, pour
-                            atteindre vos objectifs.
+
+                        <p>
+                            Moi, c'est Jonathan. 
+                            Je conçois des sites web rapides, 
+                            taillés pour votre croissance. 
                             <HelloHandComponent />
                         </p>
 

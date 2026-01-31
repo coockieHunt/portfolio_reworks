@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 
 const CUBE_SIZE = 60;
 const HALF_SIZE = CUBE_SIZE / 2;
+const DOT_SIZE = 2;
 
 export const FrameCubeScene = styled.div`
     width: 100%;
@@ -39,12 +40,32 @@ export const CubeFace = styled.div<{
     position: absolute;
     width: ${CUBE_SIZE}px;
     height: ${CUBE_SIZE}px;
-    border: 2px solid ${(props) => props.$color};
+    
+    border: 1px solid ${(props) => props.$color}70; 
+    
     background: rgba(0, 0, 0, 0);
     backface-visibility: visible;
     transform: rotateX(${(p) => p.$rotateX}deg) rotateY(${(p) => p.$rotateY}deg)
         translateZ(${(p) => p.$translateZ}px);
     pointer-events: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        
+        width: ${DOT_SIZE}px;
+        height: ${DOT_SIZE}px;
+        border-radius: 50%;
+        background-color: ${(props) => props.$color};
+        
+        top: -2px; 
+        left: -2px;
+        
+        box-shadow: 
+            0 ${CUBE_SIZE}px 0 ${(props) => props.$color},          
+            ${CUBE_SIZE}px ${CUBE_SIZE}px 0 ${(props) => props.$color},
+            ${CUBE_SIZE}px ${CUBE_SIZE}px 4px ${(props) => props.$color};
+    }
 `;
 
 export const SliderOffset = styled.input<{ color?: string }>`

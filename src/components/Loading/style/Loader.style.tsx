@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const LoaderWrapper = styled.div`
     @keyframes loaderAnimation {
-        0%, 40%, 100% {
-            transform: scale(0.4);
+        0%, 100% {
+            transform: scale(.4);
         }
         20% {
-            transform: scale(1.0);
+            transform: scale(.6);
         }
     }
 
@@ -22,7 +22,6 @@ export const LoaderWrapper = styled.div`
         align-items: center;
         justify-content: center;
         gap: 8px;
-        height: 40px;
 
         & .loader-bar {
             width: 12px;

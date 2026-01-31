@@ -10,8 +10,8 @@ export interface IMouseProps {
 
 const type_size = {
     mouse: {
-        width: '60px',
-        height: '100px',
+        width: '50px',
+        height: '80px',
         border: '100px',
         positonX: '20%',
         positonY: '50%',
@@ -35,7 +35,7 @@ export const Mouse = styled.div<IMouseProps>`
     position: relative;
     width: ${type_size.mouse.width};
     height: ${type_size.mouse.height};
-    border: 2px solid white;
+    border: 1px solid white;
     border-radius: ${type_size.mouse.border};
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -51,7 +51,7 @@ export const Mouse = styled.div<IMouseProps>`
         top: ${type_size.mouse.positonX};
         left: ${type_size.mouse.positonY};
         transform: translate(-50%, 0);
-        border: 2px solid var(--primary);
+        background-color: var(--primary);
         border-radius: 100%;
         animation: ${scrollWheelAnimation} 1.4s infinite alternate ease-in-out;
 

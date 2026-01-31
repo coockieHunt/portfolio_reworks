@@ -22,5 +22,6 @@ export interface IBlogPost {
         slug: string;
         summary: string;
         title: string;
+        indexed: boolean;
     };
 }

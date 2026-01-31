@@ -49,15 +49,10 @@ export const InputWrapper = styled.div`
     position: relative;
     display: flex;
     align-items: center;
-    max-width: 40%;
-    contain: layout paint;
-
-    background-color: var(--background-secondary);
 `;
 
 export const LabelWorld = styled.input`
-    font-size: 0.7em;
-    font-weight: 200;
+    font-size: 0.8em;
     padding: 3px 10px;
     padding-right: 50px;
     background: #1f1e1e;
@@ -66,9 +61,9 @@ export const LabelWorld = styled.input`
     box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
     width: 100%;
     will-change: border-color;
+    font-variation-settings: 'wght' 600;
 
     &:not(:focus, :hover) {
         border-bottom: 2px solid #ffffff21;

@@ -22,7 +22,7 @@ import * as Styled from './navigations.style';
 export interface INavItem {
     display: string;
     to: string;
-    type: 'scroll' | 'route';
+    type: 'scroll' | 'route' | 'spacer';
 }
 
 export interface INavigationComponentProps {
@@ -43,7 +43,7 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
     return (
         <>
             {items.map((item, index) => (
-                <li key={`${item.display}-${index}`}>
+                <li key={`${item.display}-${index}`} className={item.type === 'spacer' ? 'is-spacer' : ''}>
                     {item.type === 'scroll' ? (
                         <ScrollLink
                             to={item.to}
@@ -70,6 +70,8 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
                         >
                             {item.display}
                         </RouterLink>
+                    ) : item.type === 'spacer' ? (
+                        <div className="spacer"/>
                     ) : null}
                 </li>
             ))}
@@ -92,7 +94,6 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     brandColor = 'var(--primary)',
     background = false
 }) => {
-    console.log('NavigationComponent rendered with background:', background);
     const [menuOpen, setMenuOpen] = useState(false);
 
     const mobileBreakpoint = useMemo(() => {

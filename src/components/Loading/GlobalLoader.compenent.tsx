@@ -10,7 +10,7 @@ const CONTAINER_STYLE: React.CSSProperties = {
     position: 'relative',
 };
 
-export const GlobalLoader: React.FC = () => {
+export const GlobalLoader: React.FC<{ text?: string }> = ({ text = "initialization" }) => {
     const { settings } = useSettingContext();
 
     return (
@@ -23,7 +23,7 @@ export const GlobalLoader: React.FC = () => {
             <div style={CONTAINER_STYLE}>
                 <NeonRing theme={settings} />
             </div>
-            <LoadingText className="font_code">Initialisation</LoadingText>
+            <LoadingText className="font_code">{text}</LoadingText>
         </LoaderWrapper>
     );
 };

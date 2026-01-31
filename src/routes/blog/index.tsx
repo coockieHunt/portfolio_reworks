@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 import { getBlogPostsOffset, getTagList } from '@/api/blog.api';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
@@ -18,6 +18,12 @@ import { INavItem, NavigationComponent } from '@/containers/_root/Navigation/nav
 
 
 const CustomHero = styled(HeroContainer)`
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,6 +45,10 @@ const CustomHero = styled(HeroContainer)`
             margin-top: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            & span{
+                font-size: 0.9rem;
+                color: var(--font-subtle);
+            }
         }
 
         & h1 {
@@ -47,6 +57,10 @@ const CustomHero = styled(HeroContainer)`
             font-weight: bold;
             margin: 0;
             text-align: center;
+
+            & span {
+                animation: blink 1.5s infinite;
+            }
         }
     }
 `;
@@ -111,7 +125,9 @@ function BlogIndex() {
             try {
                 const tagResponse = await getTagList();
                 if (tagResponse?.data) {
-                    setTags(tagResponse.data);
+                    const filterEmptyTags = tagResponse.data.filter((tag) => tag.postIds.length > 0);
+                    console.log('Fetched tags:', filterEmptyTags);
+                    setTags(filterEmptyTags);
                 }
             } catch (error) {
                 console.error('Error fetching tags:', error);
@@ -188,29 +204,37 @@ function BlogIndex() {
         
             <CustomHero className="blog-hero">
                 <div className="content">
-                    <h1>Blog</h1>
+                    <h1 className='font_dot'>Dev/Blog<span className='font_code'>_</span></h1>
 
                     <SearchBarComponent
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}
                         bounceTime={1500}
+                        found={blogPosts.length}
+                        searching={isLoading.posts}
                     />
 
                     <div className="tagList">
                         {isLoading.tags ? (
                             <LoaderComponent type="loading"/>
                         ):(
-                            tags.map((tag) => (
-                                <TagsComponent 
-                                    key={tag.id}  
-                                    color={tag.color} 
-                                    name={tag.name} 
-                                    id={tag.id} 
-                                    count={tag.postIds.length} 
-                                    selected={searchParams.tag === tag.slug}
-                                    onClick={() => handleTagFilter(tag.slug)}
-                                />
-                            ))
+                            <>
+                                {tags.length === 0 ? 
+                                    <span>Pas de tag disponible actuellement.</span> 
+                                    :
+                                    tags.map((tag) => (
+                                        <TagsComponent 
+                                            key={tag.id}  
+                                            color={tag.color} 
+                                            name={tag.name} 
+                                            id={tag.id} 
+                                            count={tag.postIds.length} 
+                                            selected={searchParams.tag === tag.slug}
+                                            onClick={() => handleTagFilter(tag.slug)}
+                                        />
+                                    ))
+                                }
+                            </>
                         )}
                     </div>
                 </div>
@@ -222,6 +246,7 @@ function BlogIndex() {
                     count={Blog.POSTS_PER_PAGE}
                     data={blogPosts} 
                     loading={isLoading.posts}
+                    isEmpty={!isLoading.posts && blogPosts.length === 0}
                 />
             </div>
             
@@ -249,13 +274,6 @@ function BlogIndex() {
             {!isLoading.posts && !hasMore && blogPosts.length > 0 && (
                 <LoaderComponent type="NoLoading">
                     Vous avez vu tous les articles.
-                </LoaderComponent>
-                
-            )}
-            {/* no articles found */}
-            {!isLoading.posts && !hasMore && blogPosts.length === 0 && (
-                <LoaderComponent type="NoLoading">
-                    Aucun article trouvé pour cette recherche. 
                 </LoaderComponent>
             )}
         </>

@@ -10,10 +10,12 @@ export async function GetGuestbookEntries(
     password: string,
 ): Promise<IApiResponse | null> {
     try {
-        const response = await axios.post(`${ApiBaseUrl}/guestbook/read`, {
-            password,
-            page: 1,
-            limit: 100,
+        const response = await axios.get(`${ApiBaseUrl}/guestbook`, {
+            params: {
+                password,
+                page: 1,
+                limit: 100,
+            }
         });
 
         logDev('GetGuestbookEntries data', response.data);
@@ -46,7 +48,7 @@ export async function PostGuestbookEntry(
     message: string,
 ): Promise<IApiResponse | null> {
     try {
-        const response = await axios.post(`${ApiBaseUrl}/guestbook/write`, {
+        const response = await axios.post(`${ApiBaseUrl}/guestbook/`, {
             password,
             name,
             message,

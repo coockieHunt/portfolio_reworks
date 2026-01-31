@@ -11,9 +11,11 @@ export async function getBlogPosts(
     limit: number = 100,
 ): Promise<IApiResponse | null> {
     try {
-        const resp = await axios.post(`${ApiBaseUrl}/blog/`, {
-            page,
-            limit,
+        const resp = await axios.get(`${ApiBaseUrl}/blog/all`, {
+            params: {
+                page,
+                limit,
+            }
         });
 
         return resp.data;
@@ -39,11 +41,13 @@ export async function getBlogPostsOffset(
     tagsContains?: string,
 ): Promise<IApiResponse | null> {
     try {
-        const resp = await axios.post(`${ApiBaseUrl}/blog/offset`, {
-            min,
-            max,
-            titleContains,
-            tagsContains,
+        const resp = await axios.get(`${ApiBaseUrl}/blog/offset`, {
+            params: {
+                min,
+                max,
+                titleContains,
+                tagsContains,
+            }
         });
         return resp.data;
     } catch (err) {
