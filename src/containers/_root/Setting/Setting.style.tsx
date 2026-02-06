@@ -14,7 +14,7 @@ export const Toggle = styled.button<{ $isOpen: boolean }>`
     align-items: center;
     justify-content: center;
     background: var(--background-secondary);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-dark);
 
     padding: 15px 5px;
     border-radius: 0 10px 10px 0;
@@ -36,7 +36,7 @@ export const Toggle = styled.button<{ $isOpen: boolean }>`
         transform: ${(props) => (props.$isOpen ? 'scale(0.5)' : 'scale(1)')};
 
         writing-mode: horizontal-tb;
-        border-left: 1px solid var(--primary);
+        border-left: 1px solid var(--border-dark);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         padding: 15px;
         border-radius: 50px;
@@ -62,13 +62,16 @@ export const ContainerSetting = styled.div`
     max-width: 1728px;
     max-height: 972px;
 
-    border: 3px solid var(--background-secondary);
     border-radius: ${BORDER_RADIUS.xlarge};
     display: flex;
     flex-direction: column;
 
+    background-color: var(--background-color);
+    border: 1px dashed var(--border-subtle);
+
     transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.521);
+
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         left: auto;
@@ -80,8 +83,8 @@ export const ContainerSetting = styled.div`
         max-width: none;
         max-height: none;
         border-radius: 5px;
-        border: 1px solid var(--primary);
-        border-left: 1px solid var(--primary);
+        border: 1px solid var(--border-dark);
+        border-left: 1px solid var(--border-dark);
     }
 
     &.close {
@@ -93,18 +96,7 @@ export const ContainerSetting = styled.div`
         }
     }
 
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--background-tertiary);
-        z-index: -1;
-        pointer-events: none;
-        border-radius: inherit;
-    }
+  
 
     & .header {
         flex-shrink: 0;
@@ -120,7 +112,7 @@ export const ContainerSetting = styled.div`
 
         & h3 {
             margin: 0;
-            font-size: 1.2em;
+            font-size: 1.6em;
             font-variation-settings: 'wght' 600;
         }
     }
@@ -204,7 +196,7 @@ export const CloseButton = styled.button`
     border-radius: 50%;
     transition: all 0.2s;
     &:hover {
-        background-color: var(--background-tertiary);
+        background-color: var(--background-color);
         color: var(--primary);
     }
 `;

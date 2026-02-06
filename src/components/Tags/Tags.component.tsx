@@ -32,11 +32,10 @@ export const TagsComponent = ({
     return (
         <Styled.Tag 
             $color={color} 
-            $interactive={isInteractive} // Nouvelle prop pour le style
+            $interactive={isInteractive} 
             className={`font_code ${selected ? 'selected' : ''}`} 
             onClick={onClick}
         >
-            {/* Affichage conditionnel de l'indicateur */}
             {selected !== undefined && 
                 <strong>{selected ? '✓' : '○'}</strong> 
             }

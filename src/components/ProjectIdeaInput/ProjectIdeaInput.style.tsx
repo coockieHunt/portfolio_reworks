@@ -79,6 +79,6 @@ export const LabelWorld = styled.input`
 
     &&:hover,
     &&:focus {
-        border: 2px solid var(--primary);
+        border: 2px solid var(--border-dark);
     }
 `;

@@ -11,15 +11,21 @@ export const MarkdownContent = styled.div`
         scroll-margin-top: 80px; 
         color: var(--primary);
     }
+
+    & h1, & h2 {
+        font-family: "Doto Variable", serif;
+
+    }
     
     & h1 {
         font-weight: 600; 
         font-size: 2.1rem; 
         margin: 50px 0 25px 0;
         line-height: 1.2;
-        border-bottom: 1px solid var(--border); 
+        border-bottom: 1px solid var(--border-dark); 
         padding-bottom: 15px;
         letter-spacing: -1px; 
+        font-variation-settings: "wght" 700, "ROUND" 100;
         
         @media (max-width: ${SCREEN_SIZE.tablet}) {
             font-size: 1.75rem;
@@ -29,11 +35,12 @@ export const MarkdownContent = styled.div`
 
     & h2 {
         font-weight: 600;
-        font-size: 1.7rem; 
+        font-size: 1.9rem; 
         margin: 45px 0 20px 0; 
         line-height: 1.3;
         letter-spacing: -0.5px;
-        
+
+        font-variation-settings: "wght" 600, "ROUND" 100;
         @media (max-width: ${SCREEN_SIZE.tablet}) {
             font-size: 1.5rem;
             margin: 35px 0 15px 0;
@@ -41,11 +48,11 @@ export const MarkdownContent = styled.div`
     }
 
     & h3 {
-        font-weight: 500; 
-        font-size: 1.4rem; 
+        font-weight: 400; 
+        font-size: 1.5rem; 
         margin: 35px 0 15px 0;
         line-height: 1.4;
-        color: var(--secondary);
+        color: var(--primary);
         
         @media (max-width: ${SCREEN_SIZE.tablet}) {
             font-size: 1.25rem;
@@ -343,20 +350,21 @@ export const MarkdownContent = styled.div`
     }
 
     & a {
-        color: var(--primary);
+        color: var(--accentuate);
         text-decoration: none;
-        border-bottom: 1px solid ${HexToRgbaConverter('var(--primary)', 0.3)};
         transition: all 0.2s ease;
+        border-bottom-color: var(--accentuate);
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
         
         &:hover {
-            color: var(--accentuate);
-            border-bottom-color: var(--accentuate);
-            border-bottom-width: 2px;
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
         }
 
         &:visited {
             color: var(--secondary);
-            border-bottom-color: ${HexToRgbaConverter('var(--secondary)', 0.3)};
+            border-bottom-color: var(--secondary);
         }
     }
 
@@ -445,4 +453,38 @@ export const MarkdownContent = styled.div`
     & > *:last-child { margin-bottom: 0; }
     
     & h2 + h3, & h3 + h4 { margin-top: 25px; }
+
+
+
+    .corrupted-link {
+        color: #03a30b !important;
+        opacity: .15; 
+        cursor: default; 
+        text-decoration: none;
+        border-bottom: none !important;
+        font-style: italic;
+        user-select: none;
+    }
+
+    .corrupted-link:hover {
+        animation: glitch 0.5s infinite;
+    }
+
+    @keyframes glitch {
+        0%, 100% { 
+            transform: translate(0); 
+        }
+        25% { 
+            transform: translate(-4px, 5px);
+            opacity: 0.2;
+        }
+        50% { 
+            transform: translate(4px, -2px);
+        }
+        75% { 
+            transform: translate(-2px, -px);
+            opacity: .4;
+        }
+    }
+
 `;

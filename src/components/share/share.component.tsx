@@ -69,11 +69,21 @@ export const ShareComponent = ({ socialType, urlPost, title }: IShareComponentPr
 
     const renderIcon = () => {
         switch (socialType) {
-            case 'twitter': return <Twitter />;
-            case 'linkedin': return <Linkedin />;
-            case 'facebook': return <Facebook />; 
-            case 'native': return <Share />;
+            case 'twitter': return <Twitter aria-hidden="true" focusable={false} />;
+            case 'linkedin': return <Linkedin aria-hidden="true" focusable={false} />;
+            case 'facebook': return <Facebook aria-hidden="true" focusable={false} />; 
+            case 'native': return <Share aria-hidden="true" focusable={false} />;
             default: return null;
+        }
+    };
+
+    const getAriaLabel = () => {
+        switch (socialType) {
+            case 'twitter': return 'Partager sur Twitter';
+            case 'linkedin': return 'Partager sur LinkedIn';
+            case 'facebook': return 'Partager sur Facebook'; 
+            case 'native': return 'Partager via le partage natif du navigateur';
+            default: return 'Partager';
         }
     };
 
@@ -82,7 +92,18 @@ export const ShareComponent = ({ socialType, urlPost, title }: IShareComponentPr
     if (!Icon) return null;
 
     return (
-        <ShareContainer onClick={handleShare}>
+        <ShareContainer 
+            onClick={handleShare}
+            role="button"
+            tabIndex={0}
+            aria-label={getAriaLabel()}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleShare();
+                }
+            }}
+        >
             {Icon}
         </ShareContainer>
     );

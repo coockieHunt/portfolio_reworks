@@ -28,8 +28,8 @@ export const Tag = styled.span<{ $color?: string }>`
 `;
 
 export const PostPreview = styled.article<{ $loading: boolean }>`
-    background-color: #1e1e1e; 
-    border: 1px solid ${HexToRgbaConverter('var(--primary)', 0.4)};
+    background-color: var(--background-secondary); 
+    border: 1px solid ${HexToRgbaConverter('var(--border-dark)', 0.4)};
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,7 +69,7 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
         flex-direction: column;
 
         & h2 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--primary);
             font-weight: normal;
             margin-bottom: 10px;
@@ -120,7 +120,7 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
             border-top: 1px solid #333;
             
             small {
-                color: #5c6370;
+                color: var(--font-subtle);
                 font-style: italic;
                 display: block;
             }
@@ -128,14 +128,9 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
     }
 
     &:hover {
-        border-color: var(--primary);
-        box-shadow: 
-            0 4px 12px ${HexToRgbaConverter('var(--primary)', 0.15)},
-            0 2px 4px ${HexToRgbaConverter('var(--primary)', 0.1)};
-        transform: translateY(-2px);
-
+        border-color: var(--border-light);
+     
         & img {
-            filter: brightness(1.05);
             transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
     }

@@ -7,17 +7,24 @@ export interface IGridContainerProps {
     $gap?: number;
 }
 
+export const ListContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+`;
+
 export const GridContainer = styled.div<IGridContainerProps>`
     display: grid;
     grid-template-columns: repeat(${(props) => props.$columns || 4}, 1fr);
     grid-template-rows: repeat(
         ${(props) => props.$rows || 2},
-        minmax(150px, 300px)
+        1fr
     );
     gap: ${(props) => props.$gap || 10}px;
     width: 100%;
-
-    margin-bottom: 30px;
+    height: 100%;
 
     justify-items: stretch;
     align-items: stretch;
@@ -35,7 +42,7 @@ export const PaginationContainer = styled.div`
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin-top: 20px;
+    margin: 20px 0;
 
     & span {
         font-size: 1.1em;

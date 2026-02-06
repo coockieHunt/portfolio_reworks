@@ -44,7 +44,7 @@ export const AlertProvider: React.FC<IAlertProviderProps> = ({
     const [alerts, setAlerts] = useState<IAlert[]>([]);
 
     const addAlert = (
-        message: string,
+        message: ReactNode,
         colorAlert: string,
         delay?: number,
     ): void => {

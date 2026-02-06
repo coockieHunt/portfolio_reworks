@@ -8,6 +8,8 @@ import { GridEffect } from '@/styles/effect';
 import { GradientTextContainer } from '@/components/Text/Text.component';
 import { Button } from '@/components/Button/Button';
 
+import { StickyNote, HomeIcon } from 'lucide-react';
+
 const NotFoundContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -30,6 +32,13 @@ const Description = styled.p`
     margin-bottom: 2rem;
 `;
 
+const CTA = styled.div`
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+`;
+
 // 404 Not Found Page Component
 export function NotFound() {
     const navigate = useNavigate();
@@ -44,9 +53,14 @@ export function NotFound() {
                 <Description>
                     Oups ! La page que vous cherchez n'existe pas.
                 </Description>
-                <Button onClick={() => navigate({ to: '/' })}>
-                    ← Retour à l'accueil
-                </Button>
+                <CTA>
+                    <Button onClick={() => navigate({ to: '/' })} icon={<HomeIcon />}>
+                        Retour à l'accueil
+                    </Button>
+                    <Button onClick={() => navigate({ to: '/blog' })} icon={<StickyNote />}  icon_right={true}>
+                        Aller aux blogs
+                    </Button>
+                </CTA>
             </NotFoundContainer>
         </GridEffect>
     );

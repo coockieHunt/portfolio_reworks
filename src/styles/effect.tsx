@@ -72,7 +72,7 @@ export const BackDrop = styled.div<{ $isOpen: boolean }>`
     height: 100%;
     z-index: 1199;
     
-    background: color-mix(in srgb, var(--background-secondary) 65%, transparent);
+    background: color-mix(in srgb, var(--background-color) 65%, transparent);
     
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);

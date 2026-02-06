@@ -186,7 +186,7 @@ export const ContactForm = styled.div`
 
     background: linear-gradient(
         135deg,
-        var(--background-tertiary),
+        var(--background-color),
         color-mix(in srgb, var(--primary) 8%, transparent)
     );
 

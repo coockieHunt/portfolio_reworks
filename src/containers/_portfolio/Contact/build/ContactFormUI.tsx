@@ -103,7 +103,19 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
             />
 
             <styled.ActionForm>
-                <span className="resetForm" onClick={handleReset}>
+                <span 
+                    className="resetForm" 
+                    onClick={handleReset}
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Réinitialiser le formulaire"
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleReset();
+                        }
+                    }}
+                >
                     Réinitialiser
                 </span>
                 <Button

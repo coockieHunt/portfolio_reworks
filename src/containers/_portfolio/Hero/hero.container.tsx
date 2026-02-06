@@ -1,8 +1,5 @@
 import { useState, useEffect, ChangeEvent, KeyboardEvent, JSX } from 'react';
 
-// library
-import { Link } from 'react-scroll';
-
 // style
 import * as styled from './hero.style';
 import { GridEffect } from '@/styles/effect';
@@ -39,14 +36,14 @@ const CtaLink = ({
 }: CtaLinkProps) => {
     const ariaLabel = `${title} – ${description}`;
 
+    const handleClick = () => {
+        window.location.hash = to;
+    };
+
     return (
-        <Link
-            href={`${window.location.origin}/#${to}`}
-            to={to}
-            spy={true}
-            smooth={true}
-            offset={-70}
-            duration={500}
+        <a
+            href={`#${to}`}
+            onClick={handleClick}
             style={{ textDecoration: 'none', color: 'inherit' }}
             aria-label={ariaLabel}
             role="link"
@@ -54,7 +51,7 @@ const CtaLink = ({
             <styled.Action className={isHighlight ? 'highlight' : ''}>
                 <h2>{title}</h2>
             </styled.Action>
-        </Link>
+        </a>
     );
 };
 

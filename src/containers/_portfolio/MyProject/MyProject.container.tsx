@@ -67,23 +67,25 @@ export const MyProjectContainer: React.FC<MyProjectContainerProps> = ({
     id,
 }) => {
     return (
-        <>
-            <styled.Container id={id}>
-                <TitleTextComponent
-                    subtitle={'Une partie de mes'}
+        <styled.Container id={id}>
+                <TitleTextComponent 
+                    subtitle={'Un parti de'} 
                     subtitleOpacity={0.3}
                 >
-                    MES PROJETS
+                    Mes projets
                 </TitleTextComponent>
-                <PaginatedGrid
-                    items={projectList}
-                    renderItem={BuildProjectCard}
-                    columns={3}
-                    rows={2}
-                    gap_desktop={10}
-                    gap_mobile={25}
-                />
-            </styled.Container>
-        </>
+            <styled.ContentWrapper>
+                <styled.CardsContainer>
+                    <PaginatedGrid
+                        items={projectList}
+                        renderItem={BuildProjectCard}
+                        columns={3}
+                        rows={2}
+                        gap_desktop={10}
+                        gap_mobile={25}
+                    />
+                </styled.CardsContainer>
+            </styled.ContentWrapper>
+        </styled.Container>
     );
 };

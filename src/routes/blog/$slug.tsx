@@ -10,6 +10,7 @@ import { getProxyUrl } from '@/utils/image';
 
 import { GlobalLoader } from '@/components/Loading/GlobalLoader.compenent'; 
 import { INavItem, NavigationComponent } from '@/containers/_root/Navigation/navigations.container';
+import { Button } from '@/components/Button/Button';
 
 const PostContainer = React.lazy(() => 
     import('@/containers/_blog/post/post.container.jsx').then(module => ({
@@ -60,8 +61,11 @@ export const Route = createFileRoute('/blog/$slug')({
     ),
     
     errorComponent: () => (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-            <p>Oops pas d'article trouvé</p>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', flexDirection: 'column', gap: '20px' }}>
+            <p style={{
+                fontSize: "2rem",
+            }}><span className='font_dot' style={{ fontWeight: 'bold', color:('var(--primary)') }}>Oops</span> pas d'article trouvé</p>
+            <Button onClick={() => window.history.back()}>Retour au blog</Button>
         </div>
     )
 });
@@ -92,6 +96,14 @@ function RouteComponent() {
 
     const navigation: INavItem[] = [
         {
+            display : 'Accueil', 
+            to: '/', 
+            type: "route"
+        },
+        {
+            type: "spacer"
+        },
+        {
             display : 'Retour au blog', 
             to: '/blog', 
             type: "route"
@@ -103,6 +115,7 @@ function RouteComponent() {
     useDocumentMeta({
         title: `${blogPost.post.title} | Jonathan Gleyze`,
         description: blogPost.post.summary,
+        canonical: currentUrl,
         meta: metaTags,
     });
     

@@ -92,6 +92,7 @@ function BlogIndex() {
     useDocumentMeta({
         title: 'Blog | Jonathan Gleyze',
         description: 'Découvrez mes articles sur le développement web, les technologies Node.js, React et bien plus encore.',
+        canonical: `${SITE_URL}/blog`,
         meta: metaTags,
     });
     
@@ -126,7 +127,6 @@ function BlogIndex() {
                 const tagResponse = await getTagList();
                 if (tagResponse?.data) {
                     const filterEmptyTags = tagResponse.data.filter((tag) => tag.postIds.length > 0);
-                    console.log('Fetched tags:', filterEmptyTags);
                     setTags(filterEmptyTags);
                 }
             } catch (error) {

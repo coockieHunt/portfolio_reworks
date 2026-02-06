@@ -1,7 +1,27 @@
 {
-    "name": "Jonathan gleyze Développeur web",
-    "short_name": "jg web",
+    "name": "Jonathan Gleyze - Full Stack Developer",
+    "short_name": "Jonathan Gleyze",
+    "description": "Full Stack Developer portfolio showcasing web development projects, blog articles, and technical expertise in Node.js, React, TypeScript, and modern web technologies.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "categories": ["productivity", "technology"],
     "icons": [
+        {
+            "src": "./favicon/web-app-manifest-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "./favicon/web-app-manifest-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
         {
             "src": "./favicon/web-app-manifest-192x192.png",
             "sizes": "192x192",
@@ -15,7 +35,54 @@
             "purpose": "maskable"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "display": "standalone"
+    "screenshots": [
+        {
+            "src": "./favicon/web-app-manifest-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "./favicon/web-app-manifest-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "View Blog",
+            "short_name": "Blog",
+            "description": "Read my latest articles and technical posts",
+            "url": "/blog",
+            "icons": [
+                {
+                    "src": "./favicon/web-app-manifest-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "View Projects",
+            "short_name": "Projects",
+            "description": "Explore my portfolio projects",
+            "url": "/projects",
+            "icons": [
+                {
+                    "src": "./favicon/web-app-manifest-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
+    "share_target": {
+        "action": "/share",
+        "method": "POST",
+        "enctype": "application/x-www-form-urlencoded",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    }
 }

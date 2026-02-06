@@ -1,5 +1,4 @@
 import { LinkContainer } from './style/link.style';
-import { Link as ScrollLink } from 'react-scroll';
 import { Link as RouterLink } from '@tanstack/react-router';
 
 export interface LinkProps {
@@ -12,11 +11,11 @@ export interface LinkProps {
 }
 
 /**
- * A unified link component that handles internal routing, smooth scrolling, and external navigation.
+ * A unified link component that handles internal routing, smooth scrolling (via Lenis), and external navigation.
  * 
  * Depending on the `type` prop, it renders:
  * - `route`: A `@tanstack/react-router` link for SPA navigation.
- * - `scroll`: A `react-scroll` link for smooth scrolling to an anchor (automatically handles '#' stripping).
+ * - `scroll`: A native `<a>` tag with hash navigation (Lenis handles the smooth scrolling).
  * - `external`: A native `<a>` tag. Automatically adds `target="_blank"` and `rel="noopener noreferrer"` if the URL starts with "http".
  *
  * @param {LinkProps} props - The component properties.
@@ -38,18 +37,14 @@ export const Link = ({ type, href, ariaLabel, className, onClick, children }: Li
                 {children}
             </RouterLink>
         ) : type === 'scroll' ? (
-            <ScrollLink 
-                to={safeHref.replace('#', '')}
-                href={safeHref.startsWith('#') ? safeHref : `#${safeHref}`} 
-                spy={true}
-                smooth={true}
-                duration={500}
+            <a 
+                href={safeHref.startsWith('#') ? safeHref : `#${safeHref}`}
                 aria-label={ariaLabel} 
                 className={className} 
                 onClick={onClick}
             >
                 {children}
-            </ScrollLink>
+            </a>
         ) : (
             <a 
                 href={safeHref} 

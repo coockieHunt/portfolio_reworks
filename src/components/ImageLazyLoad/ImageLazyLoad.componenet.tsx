@@ -1,7 +1,6 @@
-import { on } from 'events';
 import React, { useState, useCallback, CSSProperties } from 'react';
-import { useInView } from 'react-intersection-observer';
-import styled, { keyframes, css } from 'styled-components';
+import { useInView } from '@/hooks/useInView.hook';
+import styled, { keyframes } from 'styled-components';
 
 const shimmerAnimation = keyframes`
   0% {
@@ -12,13 +11,14 @@ const shimmerAnimation = keyframes`
   }
 `;
 
-const SkeletonBox = styled.div`
+const SkeletonBox = styled.span`
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
+  display: block;
   
   background-color: #1e1e1e; 
   background-image: linear-gradient(
@@ -29,11 +29,10 @@ const SkeletonBox = styled.div`
   );
   background-size: 200% 100%;
   animation: ${shimmerAnimation} 1.5s infinite linear;
-
 `;
 
 const StyledImage = styled.img<{ $isLoaded: boolean; $duration: number, $fetchPriority?: string }>`
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -45,7 +44,6 @@ const StyledImage = styled.img<{ $isLoaded: boolean; $duration: number, $fetchPr
   will-change: opacity;
 `;
 
-
 const globalImageCache: Set<string> = new Set();
 
 const getSizeValue = (val?: number | string) => {
@@ -54,8 +52,6 @@ const getSizeValue = (val?: number | string) => {
     if (/^\d+$/.test(val)) return `${val}px`;
     return val;
 };
-
-
 
 export interface ImageLazyLoadProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     className?: string;
@@ -116,7 +112,11 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
         width: getSizeValue(width) ?? '100%', 
         height: getSizeValue(height) ?? 'auto',
         ...(width && height ? { aspectRatio: `${typeof width === 'string' ? parseInt(width) : width} / ${typeof height === 'string' ? parseInt(height) : height}` } : {}),
-        backgroundColor: '#1e1e1e',
+        
+        /* CHANGEMENT ICI : Le fond devient transparent une fois chargé */
+        backgroundColor: isLoaded ? 'transparent' : '#1e1e1e',
+        transition: 'background-color 0.3s ease', // Transition douce pour cacher le gris
+        
         contain: 'layout paint',
         ...style,
     };
@@ -128,13 +128,14 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     }, [finalSrc, onLoad]);
 
     return (
-        <div
+        // CHANGEMENT 2 : span au lieu de div
+        <span
             ref={ref}
             className={`${wrapperClassName || ''} lazy-wrapper`}
             style={wrapperStyle}
         >
             {!isLoaded && (
-                <SkeletonBox >
+                <SkeletonBox>
                     {placeholder}
                 </SkeletonBox>
             )}
@@ -158,7 +159,8 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
             )}
 
             {hasError && (
-                <div style={{
+                // CHANGEMENT 3 : span au lieu de div (avec display flex, c'est ok)
+                <span style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -182,8 +184,8 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
                         fontSize: '1.2em'}
                     }>Oops!</span> 
                     <span>Quelque chose a mal tourné lors du chargement de l'image </span>
-                </div>
+                </span>
             )}
-        </div>
+        </span>
     );
 };

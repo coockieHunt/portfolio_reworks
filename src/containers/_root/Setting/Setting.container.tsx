@@ -12,10 +12,16 @@ import { useSettingContext } from '@/context/Setting.context';
 import { useThemeManager } from '@/hooks/useThemeManager';
 import { useScrollbar } from '@/hooks/useScrollBar.hook';
 import { SimpleButton } from '@/components/Button/SimpleButton';
+import { useAlert } from '@/context/alert.context';
+
+
+//icon
+import { Share } from 'lucide-react';
 
 type ThemeName = keyof typeof COLOR_SETTING;
 
 export const SettingContainer: React.FC = () => {
+    const { addAlert } = useAlert();
     const { settings } = useSettingContext();
 
     const {
@@ -58,6 +64,23 @@ export const SettingContainer: React.FC = () => {
         ChangeHightContrast(!settings.highContrast);
     };
 
+    const HandleShareWithTheme = (e: React.MouseEvent, themeKey: string) => {
+        e.stopPropagation();
+        const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+        navigator.clipboard.writeText(`${SITE_URL}?theme=${themeKey}`);
+        const themeColor = COLOR_SETTING[themeKey].primary;
+        const message = <span>Lien avec le thème <span style={{ color: themeColor, fontWeight: 'bold' }}>{COLOR_SETTING[themeKey].display_name}</span> pret a etre partagé !</span>;
+        addAlert(message, 'success', 3000);
+    }
+
+    const HandleShareWithHightContrast = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+        navigator.clipboard.writeText(`${SITE_URL}?hc=true`);
+        const message = <span>Lien avec le mode <span style={{ fontWeight: 'bold', color: 'yellow'}}>Contraste Élevé</span> pret a etre partagé !</span>;
+        addAlert(message, 'success', 3000);
+    }
+
     useEffect(() => {
         if (!isOpen) return;
 
@@ -95,8 +118,8 @@ export const SettingContainer: React.FC = () => {
                 }
                 type="button"
             >
-                <span>{isOpen ? 'Fermer' : 'Apparence'}</span>
-                <Palette />
+                <span >{isOpen ? 'Fermer' : 'Apparence'}</span>
+                <Palette aria-hidden="true" focusable={false} />
             </Styled.Toggle>
 
             <BackDrop $isOpen={isOpen} onClick={() => setIsOpen(false)} />
@@ -106,12 +129,12 @@ export const SettingContainer: React.FC = () => {
                 className={isOpen ? 'opened' : 'close'}
             >
                 <div className="header">
-                    <h3 className="font_code">Apparence</h3>
+                    <h3 className="font_dot">Apparence</h3>
                     <Styled.CloseButton
                         onClick={() => setIsOpen(false)}
-                        aria-label="Fermer"
+                        aria-label="Fermer les paramètres"
                     >
-                        <X />
+                        <X aria-hidden="true" focusable={false} />
                     </Styled.CloseButton>
                 </div>
                 <Styled.Content>
@@ -131,23 +154,33 @@ export const SettingContainer: React.FC = () => {
                                         }
                                         aria-label={`Activer le thème ${COLOR_SETTING[themeKey].display_name}`}
                                     >
-                                        <RoundColor
-                                            $color={
-                                                COLOR_SETTING[themeKey].primary
-                                            }
-                                        />
-                                        <RoundColor
-                                            $color={
-                                                COLOR_SETTING[themeKey]
-                                                    .secondary
-                                            }
-                                        />
-                                        <span>
+                                        <div className="color">
+                                            <RoundColor
+                                                $color={
+                                                    COLOR_SETTING[themeKey].primary
+                                                }
+                                            />
+                                            <RoundColor
+                                                $color={
+                                                    COLOR_SETTING[themeKey]
+                                                        .secondary
+                                                }
+                                            />
+                                            <span>
                                             {
                                                 COLOR_SETTING[themeKey]
                                                     .display_name
                                             }
                                         </span>
+                                        </div>
+                                      
+                                        <span
+                                            role="button"
+                                            onClick={(e) => HandleShareWithTheme(e, themeKey)}
+                                        >
+                                            <Share size={16} />
+                                        </span>
+
                                     </SimpleButton>
                                 ))}
                             </div>
@@ -166,18 +199,31 @@ export const SettingContainer: React.FC = () => {
                                     className={`contrast ${settings.highContrast ? 'active' : ''}`}
                                     onClick={handleContrastClick}
                                     type="button"
+                                    aria-label={settings.highContrast ? 'Désactiver le contraste élevé' : 'Activer le contraste élevé'}
+                                    aria-pressed={settings.highContrast}
                                 >
                                     {settings.highContrast ? (
                                         <>
-                                            <EyeOff />{' '}
+                                            <EyeOff aria-hidden="true" focusable={false} />{' '}
                                             <span>Désactiver le contraste</span>
                                         </>
                                     ) : (
                                         <>
-                                            <Eye />{' '}
+                                            <Eye aria-hidden="true" focusable={false} />{' '}
                                             <span>Activer Contraste Élevé</span>
                                         </>
                                     )}
+                                </SimpleButton>
+                                <SimpleButton
+                                    className={`contrast ${settings.highContrast ? 'active' : ''}`}
+                                    onClick={(e) => HandleShareWithHightContrast(e)}
+                                    type="button"
+                                    aria-label="Partager le mode contraste élevé"
+                                >
+                                    <>
+                                        <Share aria-hidden="true" focusable={false} size={16} />{' '}
+                                        <span>Partage avec le mode contrast elevée</span>
+                                    </>
                                 </SimpleButton>
                             </Wrapper>
                         </div>
@@ -188,6 +234,7 @@ export const SettingContainer: React.FC = () => {
                                 className="random"
                                 onClick={handleRandomClick}
                                 type="button"
+                                aria-label="Appliquer un thème de couleur aléatoire"
                             >
                                 <div className="content-random">
                                     <p>

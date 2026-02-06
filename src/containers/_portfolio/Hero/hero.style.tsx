@@ -53,7 +53,7 @@ export const Container = styled.div`
             padding-left: 8%;
             
             & h1 {
-                font-size: clamp(2rem, 5vw, 3.5rem); 
+                font-size: clamp(1.9rem, 4vw, 3rem); 
                 margin-bottom: 30px; 
                 font-weight: 600; 
                 line-height: 1.1;

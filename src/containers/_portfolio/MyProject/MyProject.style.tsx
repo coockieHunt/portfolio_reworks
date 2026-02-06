@@ -4,41 +4,51 @@ import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
 import { ThinScroolBar, fadeInTranslate } from '@/styles/utils.style';
 
 export const Container = styled.div`
+
+`;
+
+
+export const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     margin: 0 auto;
-    position: relative;
     width: 85%;
+    gap: 30px;
+
+    padding-bottom: 40px;
+
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 94%;
     }
-    @media (max-width: 1200px) {
-        padding-bottom: 30px;
-    }
+`;
+
+export const CardsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(60vh + 100px);
+
+    min-height: fit-content;
+
 `;
 
 export const ProjectCard = styled.div`
-    border: 1px solid color-mix(in srgb, var(--primary), transparent 88%);
+    border: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
-    position: relative;
     overflow: hidden;
     width: 100%;
-    height: 100%;
-    min-height: 500px;
-
     box-sizing: border-box;
     border-radius: ${BORDER_RADIUS.large};
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--background-secondary) 40%, transparent);
+    
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease;
 
     & .tab-content {
         flex-shrink: 0;
-        background: rgba(0, 0, 0, 0.2);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: var(--background-secondary);
+        border-bottom: 1px solid var(--border);
 
         & ul {
             display: flex;
@@ -60,12 +70,12 @@ export const ProjectCard = styled.div`
                 border-bottom: 2px solid transparent;
 
                 &:hover {
-                    background: rgba(255, 255, 255, 0.03);
+                    background: color-mix(in srgb, var(--background-secondary) 50%, transparent);
                 }
 
                 &.selected {
                     color: var(--primary);
-                    border-bottom-color: var(--primary);
+                    border-bottom-color: var(--border-light);
                 }
 
                 & svg {
@@ -88,7 +98,6 @@ export const ProjectCard = styled.div`
         flex-direction: column;
         flex: 1;
         width: 100%;
-        min-height: 0;
         animation: ${fadeInTranslate} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
@@ -96,26 +105,26 @@ export const ProjectCard = styled.div`
         display: flex;
         flex-direction: column;
         flex: 1;
-        min-height: 0;
         width: 100%;
 
         & .content {
-            padding: 25px;
+            padding: clamp(15px, 3vw, 25px);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: clamp(10px, 2vw, 20px);
             flex: 1;
             overflow-y: hidden;
 
             & .title {
-                font-size: 2em;
+                font-size: clamp(1.2em, 5vw, 2em);
                 font-weight: 800;
                 margin: 0;
                 letter-spacing: -0.5px;
+                line-height: 1.2;
             }
 
             & span {
-                font-size: 0.9em;
+                font-size: clamp(0.75em, 2vw, 0.9em);
                 font-weight: 500;
                 opacity: 0.9;
                 text-transform: uppercase;
@@ -123,24 +132,18 @@ export const ProjectCard = styled.div`
             }
 
             & p {
-                background: rgba(0, 0, 0, 0.2);
-                border: 1px solid rgba(255, 255, 255, 0.05);
-                padding: 20px;
+                background: var(--background-secondary);
+                border: 1px solid var(--border);
+                padding: clamp(12px, 2vw, 20px);
                 border-radius: ${BORDER_RADIUS.medium};
-                line-height: 1.7em;
+                line-height: 1.6;
                 margin: 0;
                 flex: 1;
-                max-height: 250px;
-                min-height: 100px;
                 color: var(--font-subtle);
                 overflow-y: auto;
+                font-size: clamp(0.8em, 1.5vw, 1em);
 
                 ${ThinScroolBar}
-
-                &:hover {
-                    background: rgba(0, 0, 0, 0.3);
-                    border-color: rgba(255, 255, 255, 0.1);
-                }
             }
 
             & ul {
@@ -149,13 +152,13 @@ export const ProjectCard = styled.div`
                 list-style: none;
                 padding: 0;
                 margin: 0;
-                gap: 8px;
+                gap: clamp(6px, 1vw, 8px);
 
                 & li {
                     color: var(--font-subtle);
-                    padding: 10px 15px;
+                    padding: clamp(8px, 1vw, 10px) clamp(10px, 1.5vw, 15px);
                     border-radius: ${BORDER_RADIUS.medium};
-                    font-size: 0.8em;
+                    font-size: clamp(0.65em, 1vw, 0.8em);
                     font-weight: 600;
                     border: 1px solid
                         color-mix(in srgb, var(--primary), transparent 81%);
@@ -166,6 +169,7 @@ export const ProjectCard = styled.div`
                     );
                     transition: all 0.2s ease;
                     cursor: default;
+                    white-space: nowrap;
 
                     &:hover {
                         transform: translateY(-2px);
@@ -177,19 +181,21 @@ export const ProjectCard = styled.div`
         & .footer {
             margin-top: auto;
             width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--background-secondary);
+            border-top: 1px solid var(--border);
 
             & .cta {
                 display: flex;
                 flex-wrap: wrap;
                 align-items: center;
-                gap: 15px;
-                padding: 20px;
+                gap: clamp(10px, 2vw, 15px);
+                padding: clamp(10px, 2vw, 16px);
 
                 & .project_code {
                     background: var(--primary);
-                    border-color: var(--primary);
+                    border-color: var(--border-dark);
+                    font-size: clamp(0.8em, 1.5vw, 0.95em);
+                    padding: clamp(8px, 1vw, 12px) clamp(10px, 1.7vw, 16px);
 
                     &:hover {
                         background: var(--primary);
@@ -239,8 +245,8 @@ export const ProjectCard = styled.div`
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            background-color: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px color-mix(in srgb, var(--background-secondary) 30%, transparent);
+            background-color: var(--background-secondary);
 
             &:hover {
                 border-color: var(--primary);
@@ -250,7 +256,6 @@ export const ProjectCard = styled.div`
 
         ${ThinScroolBar}
 
-        /* in gallery one ligne on mobile */
         @media (max-width: ${SCREEN_SIZE.mobile}) {
             grid-template-columns: 1fr;
         }

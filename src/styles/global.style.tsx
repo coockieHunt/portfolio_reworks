@@ -2,13 +2,29 @@ import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING, HightContrastColorSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
+    @font-face {
+        font-family: 'Doto Variable';
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Montserrat';
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Source Code Pro';
+        font-display: swap;
+    }
+
     :root {
-        --background: ${(props) => COLOR_SETTING[props.theme.theme]?.background || '#303134'};
-        --background-secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.background_secondary || '#221f30'};
-        --background-tertiary: ${(props) => COLOR_SETTING[props.theme.theme]?.background_tertiary || '#1c1933'};
+        --background: ${(props) => COLOR_SETTING[props.theme.theme]?.background || '#121212'};
+        --background-secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.background_secondary || '#0d0d0d'};
+        --background-color: ${(props) => COLOR_SETTING[props.theme.theme]?.background_color || '#342c72'};
+        --background-elevated: ${(props) => COLOR_SETTING[props.theme.theme]?.background_elevated || '#15111f'};
         
         --font: ${(props) => COLOR_SETTING[props.theme.theme]?.font || '#ddd9f7'};
-        --font-subtle: ${(props) => COLOR_SETTING[props.theme.theme]?.font_subtle || '#eeebffc0'};
+        --font-subtle: ${(props) => COLOR_SETTING[props.theme.theme]?.font_subtle || 'rgba(255, 255, 255, 0.75)'};
         --font-on-primary: ${(props) => COLOR_SETTING[props.theme.theme]?.font_on_primary || '#ffffff'};
         --font-hint: ${(props) => COLOR_SETTING[props.theme.theme]?.font_hint || '#bbbbcc'};
 
@@ -17,6 +33,9 @@ const GlobalStyle = createGlobalStyle`
         --accentuate: ${(props) => COLOR_SETTING[props.theme.theme]?.accentuate || '#A594FF'};
         
         --border: ${(props) => COLOR_SETTING[props.theme.theme]?.border || 'rgba(255, 255, 255, 0.12)'};
+        --border-light: ${(props) => COLOR_SETTING[props.theme.theme]?.border_light || '#A594FF'};
+        --border-dark: ${(props) => COLOR_SETTING[props.theme.theme]?.border_dark || '#6B5BA8'};
+        --border-subtle: ${(props) => COLOR_SETTING[props.theme.theme]?.border_subtle || 'color-mix(in srgb, var(--primary), transparent 90%)'};
     }
 
 
@@ -144,6 +163,7 @@ const GlobalStyle = createGlobalStyle`
                 
                 & p, & li, & a, & div, & input, & textarea, & button {
                     font-weight: 600 !important;
+                    font-size: 1.01em !important;
                     color: white!important;
                 }
 
@@ -206,7 +226,6 @@ const GlobalStyle = createGlobalStyle`
                 }
 
                 //specific fixes
-
                 & #services{
                     & a{
                         display: inline-block !important;
@@ -224,6 +243,29 @@ const GlobalStyle = createGlobalStyle`
                         & svg{
                             color: #050505!important;
                         }
+                    }
+                }
+
+                & #toc{
+                    & li {
+                        border: 2px solid var(--primary);
+
+                        & svg{
+                            color: red               !important;
+                            font-weight: 700 !important;
+                            font-size: 1.1em !important;
+                        }
+
+                        &.active {
+                            background-color: var(--primary) !important;
+                        }
+                    }
+                    & a {
+                        background-color: black !important;
+                        color: #ffffff !important;
+                        font-weight: 700 !important;
+                        font-size: 1.1em !important;
+                        padding: 5px 10px !important;
                     }
                 }
             }

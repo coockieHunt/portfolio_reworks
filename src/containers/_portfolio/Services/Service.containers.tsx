@@ -1,5 +1,4 @@
 import React, { useRef, useCallback } from 'react';
-import { scroller, Link } from 'react-scroll';
 import {
     ArrowRight,
     CircleCheck,
@@ -91,12 +90,10 @@ export const ServiceContainer = ({ id }) => {
     useScrollbar(isAnyModalOpen);
 
     const scrollToSection = () => {
-        scroller.scrollTo('scrollTo', {
-            duration: 200,
-            delay: 0,
-            smooth: true,
-            offset: -window.innerHeight / 5,
-        });
+        const scrollToElement = document.querySelector('.scrollTo');
+        if (scrollToElement) {
+            scrollToElement.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     const handleOpenModal = useCallback(
@@ -155,13 +152,8 @@ export const ServiceContainer = ({ id }) => {
                     />
                 ))}
 
-                <Link
-                    to={'contact'}
-                    spy={true}
-                    smooth={true}
-                    offset={-70}
-                    duration={500}
-                    href={`${window.location.origin}/#contact`}
+                <a
+                    href="#contact"
                     aria-label="Me contacter"
                     title="Me contacter"
                     style={{ color: 'inherit', textDecoration: 'none' }}
@@ -184,7 +176,7 @@ export const ServiceContainer = ({ id }) => {
                             <ArrowRight />
                         </span>
                     </Fence>
-                </Link>
+                </a>
             </FenceContainer>
 
             <ScrollIndicator />

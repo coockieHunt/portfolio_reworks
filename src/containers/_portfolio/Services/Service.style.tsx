@@ -112,7 +112,7 @@ export const Fence = styled.div`
     flex-direction: column;
     gap: 15px;
     border-radius: ${BORDER_RADIUS.xlarge};
-    border: 2px solid var(--primary);
+    border: 2px solid var(--border-dark);
     position: relative;
 
     @media (max-width: 768px) {
@@ -158,6 +158,7 @@ export const Fence = styled.div`
     }
 
     &:hover {
+        border-color: var(--border-light);
         background-color: color-mix(in srgb, var(--primary), transparent 97%);
         & > span > svg {
             transition: all 0.3s ease-in-out;

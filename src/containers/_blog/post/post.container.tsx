@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'; 
@@ -36,6 +36,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { HeroContainer } from '@/containers/_blog/hero/hero.container';
 import { TocContainer } from '@/components/Toc/toc.container';
+import { LightBoxComponent } from '@/components/LightBox/LightBox.component';
 import { ShareComponent } from '@/components/share/share.component';
 
 import { resolveImageUrl } from '@/utils/image';
@@ -91,6 +92,15 @@ const MarkdownCodeBlock = ({ node, inline, className, children, ...props }: any)
                                 navigator.clipboard.writeText(String(children).replace(/\n$/, ''));
                                 addAlert('Code copié dans le presse-papiers', 'green', 3000);
                             }}
+                            aria-label="Copier le code"
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    navigator.clipboard.writeText(String(children).replace(/\n$/, ''));
+                                    addAlert('Code copié dans le presse-papiers', 'green', 3000);
+                                }
+                            }}
                         />
                         </div>
                         
@@ -106,7 +116,7 @@ const MarkdownCodeBlock = ({ node, inline, className, children, ...props }: any)
     return <code className={className} {...props}>{children}</code>;
 };
 
-const MarkdownImage = ({ node, src, alt, ...props }: any) => {
+const MarkdownImage = ({ node, src, alt, onImageClick, ...props }: any) => {
     let finalSrc = src || '';
     if (finalSrc.startsWith('url:')) {
         finalSrc = finalSrc.replace('url:', '');
@@ -122,12 +132,14 @@ const MarkdownImage = ({ node, src, alt, ...props }: any) => {
             alt={alt || ''}
             width="100%"
             style={{ 
-                aspectRatio: '16/9',
+                minHeight: '200px', 
                 backgroundColor: '#1e1e1e',
                 borderRadius: '8px',
                 margin: '2rem 0',
-                display: 'block' 
+                display: 'block',
+                cursor: 'pointer'
             }}
+            onClick={() => onImageClick(finalSrc, alt)}
             {...props}
         />
     );
@@ -194,6 +206,21 @@ export const PostContainer = ({
     created_at,
 }: PostContainerProps) => {
     const navigate = useNavigate();
+    const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+    const [currentImg, setCurrentImg] = useState<string | null>(null);
+    const [currentAlt, setCurrentAlt] = useState<string>('');
+
+    const openLightBox = (imgSrc: string, altText: string = '') => {
+        setCurrentImg(imgSrc);
+        setCurrentAlt(altText);
+        setIsLightBoxOpen(true);
+    };
+
+    const closeLightBox = () => {
+        setIsLightBoxOpen(false);
+        setCurrentImg(null);
+        setCurrentAlt('');
+    };
 
     return (
         <Styled.Container>
@@ -215,7 +242,7 @@ export const PostContainer = ({
                 <div className="post">
                     
                     <div className="other">
-                        <span>Résumé : </span>
+                        <span className='font_dot'>Résumé : </span>
                         <p>{summary}</p>
                     </div>
 
@@ -281,21 +308,18 @@ export const PostContainer = ({
                                         <>{children}</>
                                     ),
                                     code: MarkdownCodeBlock,
-                                    img: MarkdownImage,
+                                    img: (props) => <MarkdownImage {...props} onImageClick={openLightBox} />,
                                     blockquote: MarkdownQuote,
                                 }}
                             >
                                 {content}
                             </Markdown>
                         </MarkdownContent>
-                    </div>
-
-                    <div className="other author-info">
                         {author && (
-                            <>
-                                <span>{author.name}</span>
-                                <p>{author.describ}</p>
-                            </>
+                            <div className="author-section">
+                                <div className="author-name font_dot">{author.name}</div>
+                                <p className="author-bio">{author.describ}</p>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -306,6 +330,12 @@ export const PostContainer = ({
                     UpdateAt={content}
                 />
             </Styled.ContainerPost>
+            <LightBoxComponent
+                isLightBoxOpen={isLightBoxOpen}
+                currentImg={currentImg}
+                altText={currentAlt}
+                closeLightBox={closeLightBox}
+            />
         </Styled.Container>
     );
 };

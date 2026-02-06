@@ -12,22 +12,34 @@ export const ContainerPost = styled.div`
     width: 90%;
 
     & .other {
-        background-color: var(--secondary);
-        padding: 20px;
-        border-radius: 8px;
+        background-color: var(--background-elevated);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+
+        border: 1px solid var(--border-subtle);
 
         & span {
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.5em;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         & p {
-            margin-top: 10px;
-            color: var(--font-subtle);
+            margin-top: 0;
+            line-height: 1.6;
+            font-size: 0.95em;
         }
     }
 
     & .action {
-        background-color: var(--background-secondary);
+        background-color: var(--background-color);
+        border: 1px solid var(--border-subtle);
+
         padding: 5px 10px;
         display: flex;
         align-items: center;
@@ -69,10 +81,10 @@ export const ContainerPost = styled.div`
                 gap: 10px;
                 color: var(--font-subtle);
                 border-radius: 8px;
-                border: 1px solid ${HexToRgbaConverter('var(--primary)', 0.3)};
+                border: 1px solid ${HexToRgbaConverter('var(--border-dark)', 0.3)};
 
                 padding: 5px 13px;
-                background-color: ${HexToRgbaConverter('var(--primary)', 0.1)};
+                background-color: ${HexToRgbaConverter('var(--border-dark)', 0.1)};
             }
 
 
@@ -88,14 +100,17 @@ export const ContainerPost = styled.div`
 
         & .content {
             padding: 30px;
-            background-color: color-mix(in srgb, var(--background-secondary) 20%, #000000 80%);
+            background-color: var(--background-elevated);
             position: relative;
             border-radius: 16px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border: 1px dashed var(--border-subtle);
 
             & .author-info {
                 padding: 20px;
-                border-top: 2px solid var(--border);
-
+                border-top: 2px solid var(--border-dark);
+                margin-top: 30px;
+                
                 & h3 {
                     margin-bottom: 15px;
                     color: var(--font);
@@ -104,6 +119,28 @@ export const ContainerPost = styled.div`
                 & p {
                     color: var(--font-subtle);
                     margin: 5px 0;
+                }
+            }
+
+            & .author-section {
+                padding: 25px;
+                margin-top: 30px;
+                background: var(--background-color);
+                border-radius: 12px;
+                border: 1px solid var(--border-subtle);
+                
+                & .author-name {
+                    font-size: 1.5em;
+                    font-weight: 700;
+                    color: var(--primary);
+                    margin-bottom: 10px;
+                }
+                
+                & .author-bio {
+                    color: var(--font);
+                    line-height: 1.6;
+                    font-size: 0.95em;
+                    margin: 0;
                 }
             }
         }

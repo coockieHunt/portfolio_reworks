@@ -9,17 +9,19 @@ interface MetaTag {
 interface UseDocumentMetaProps {
     title: string;
     description?: string;
+    canonical?: string;
     meta?: MetaTag[];
 }
 
 /**
- * Hook to set document title and meta tags
+ * Hook to set document title, meta tags and canonical link
  * @param {UseDocumentMetaProps} params - Parameters for setting document meta
  * @param {string} params.title - The title to set for the document
  * @param {string} [params.description] - The description meta tag content
+ * @param {string} [params.canonical] - The canonical URL to prevent duplicate content issues
  * @param {MetaTag[]} [params.meta] - Additional meta tags to set
  */
-export const useDocumentMeta = ({ title, description, meta = [] }: UseDocumentMetaProps) => {
+export const useDocumentMeta = ({ title, description, canonical, meta = [] }: UseDocumentMetaProps) => {
     useEffect(() => {
         const originalTitle = document.title;
 
@@ -33,6 +35,17 @@ export const useDocumentMeta = ({ title, description, meta = [] }: UseDocumentMe
                 document.head.appendChild(descriptionMeta);
             }
             descriptionMeta.content = description;
+        }
+
+        let canonicalLink: HTMLLinkElement | null = null;
+        if (canonical) {
+            canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+            if (!canonicalLink) {
+                canonicalLink = document.createElement('link');
+                canonicalLink.rel = 'canonical';
+                document.head.appendChild(canonicalLink);
+            }
+            canonicalLink.href = canonical;
         }
 
         const addedMetas: HTMLMetaElement[] = [];
@@ -57,6 +70,9 @@ export const useDocumentMeta = ({ title, description, meta = [] }: UseDocumentMe
         return () => {
             document.title = originalTitle;
             addedMetas.forEach(meta => meta.remove());
+            if (canonicalLink && canonical) {
+                canonicalLink.href = '';
+            }
         };
-    }, [title, description, meta]);
+    }, [title, description, canonical, meta]);
 };

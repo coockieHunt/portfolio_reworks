@@ -27,3 +27,5 @@ export const GlobalLoader: React.FC<{ text?: string }> = ({ text = "initializati
         </LoaderWrapper>
     );
 };
+
+

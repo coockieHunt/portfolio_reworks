@@ -4,7 +4,6 @@ import { useLoading } from '../context/loading.context';
 import { COLOR_SETTING } from '../config';
 import { getCounter, incrementCounter } from '../api/counter.api';
 import { generatePapucheTheme } from '../utils/colorGenerator';
-import { useAlert } from '../context/alert.context';
 
 export const useThemeManager = () => {
     const { changeTheme, changeHighContrast } = useSettingContext();
@@ -47,7 +46,7 @@ export const useThemeManager = () => {
         const themeConfig = COLOR_SETTING[newTheme];
 
         showLoading(
-            themeConfig?.background_secondary || '#000000',
+            themeConfig?.background_color || '#000000',
             TOTAL_DURATION,
             <>
                 <span>Changement de thème en cours...</span>

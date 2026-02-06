@@ -21,7 +21,8 @@ export interface iColorSettings {
     display_name: string;
     background: string;
     background_secondary: string;
-    background_tertiary: string;
+    background_color: string;
+    background_elevated: string;
 
     font: string;
     font_on_primary: string;
@@ -33,6 +34,9 @@ export interface iColorSettings {
     accentuate: string;
 
     border: string;
+    border_light: string;
+    border_dark: string;
+    border_subtle: string;
 }
 
 export interface iStackItem {
@@ -50,9 +54,11 @@ export const ContactEmail = 'contacts@jonathangleyze.com';
 export const COLOR_SETTING = {
     default: {
         display_name: 'Nuit',
-        background: '#303134',
-        background_secondary: '#221f30',
-        background_tertiary: '#1c1933',
+        
+        background: '#121212',
+        background_secondary: '#0d0d0d',
+        background_color: '#09011f',
+        background_elevated: '#0a0908',
 
         font: '#ddd9f7',
         font_subtle: '#eeebffc0',
@@ -64,13 +70,18 @@ export const COLOR_SETTING = {
         accentuate: '#A594FF',
 
         border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#8c7dffb0',
+        border_light: '#6B5C8C',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     red: {
         display_name: 'Magma',
-        background: '#303134',
-        background_secondary: '#2c1510',
-        background_tertiary: '#4a1712',
+
+        background: '#121212',
+        background_secondary: '#171717',
+        background_color: '#1f0a06',
+        background_elevated: '#0a0604',
 
         font: '#f7e3e0',
         font_subtle: '#ffebe8c0',
@@ -81,14 +92,18 @@ export const COLOR_SETTING = {
         secondary: '#B03C2E',
         accentuate: '#FFAFA3',
 
-        border: '#FF7B6E',
+        border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#ff7b6eb0',
+        border_light: '#C25C52',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     green: {
         display_name: 'Matrix',
-        background: '#303134',
-        background_secondary: '#172419',
-        background_tertiary: '#1f4224',
+        background: '#121212',
+        background_secondary: '#0d0d0d',
+        background_color: '#060f07',
+        background_elevated: '#080d0a',
 
         font: '#e8ffed',
         font_subtle: '#e8ffedC0',
@@ -99,14 +114,18 @@ export const COLOR_SETTING = {
         secondary: '#166534',
         accentuate: '#86EFAC',
 
-        border: '#4ADE80',
+        border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#4ade80b0',
+        border_light: '#3A7F5B',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     yellow: {
         display_name: 'Électrique',
-        background: '#303134',
-        background_secondary: '#2c2415',
-        background_tertiary: '#4a3d17',
+        background: '#121212',
+        background_secondary: '#0d0d0d',
+        background_color: '#0f0f04',
+        background_elevated: '#0f0d09',
 
         font: '#fff8e8',
         font_subtle: '#fff8e8c0',
@@ -117,14 +136,18 @@ export const COLOR_SETTING = {
         secondary: '#B9770E',
         accentuate: '#FFE082',
 
-        border: '#FFB74D',
+        border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#ffb74db0',
+        border_light: '#CC8C3A',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     cyan: {
         display_name: 'Cyber Wave',
-        background: '#303134',
-        background_secondary: '#0d2b2e',
-        background_tertiary: '#134147',
+        background: '#121212',
+        background_secondary: '#0d0d0d',
+        background_color: '#040f15',
+        background_elevated: '#070f10',
 
         font: '#e8fbff',
         font_subtle: '#e8fbffc0',
@@ -135,14 +158,18 @@ export const COLOR_SETTING = {
         secondary: '#0E7490',
         accentuate: '#67E8F9',
 
-        border: '#22D3EE',
+        border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#22d3eeb0',
+        border_light: '#188BA8',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     pink: {
         display_name: 'Dreams',
-        background: '#303134',
-        background_secondary: '#2a1525',
-        background_tertiary: '#4a1f3d',
+        background: '#121212',
+        background_secondary: '#0d0d0d',
+        background_color: '#150608',
+        background_elevated: '#0a0708',
 
         font: '#ffebf3',
         font_subtle: '#ffebf3c0',
@@ -153,14 +180,18 @@ export const COLOR_SETTING = {
         secondary: '#BE185D',
         accentuate: '#FF9EBB',
 
-        border: '#FF6696',
+        border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#ff6696b0',
+        border_light: '#CC4D7A',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     ice: {
         display_name: 'Frost',
-        background: '#303134',
-        background_secondary: '#0f1c2e',
-        background_tertiary: '#1a2f4a',
+        background: '#121212',
+        background_secondary: '#0d0d0d',
+        background_color: '#050810',
+        background_elevated: '#080f0f',
 
         font: '#ebf3ff',
         font_subtle: '#ebf3ffc0',
@@ -171,25 +202,34 @@ export const COLOR_SETTING = {
         secondary: '#1D4ED8',
         accentuate: '#93C5FD',
 
-        border: '#60A5FA',
+        border: 'rgba(255, 255, 255, 0.12)',
+        border_dark: '#60a5fab0',
+        border_light: '#4984c7',
+        border_subtle: 'color-mix(in srgb, var(--primary), transparent 70%)',
     },
 
     HighContrast: {
         display_name: 'Haut Contraste',
+        
         background: '#000000',
-        background_secondary: '#1a1a1a',
-        background_tertiary: '#2a2a2a',
+        background_secondary: '#000000',
+        background_color: '#000000',
+        background_elevated: '#000000',
 
         font: '#ffffff',
-        font_subtle: '#fdf6f6d0',
+        font_subtle: '#dddddd',
         font_on_primary: '#000000',
-        font_hint: '#bbbbcc',
+        font_hint: '#bbbbbb',
 
-        primary: '#ffee00',
-        secondary: '#2600ff',
+        primary: '#ffee00',     
+        secondary: '#00ffff',  
         accentuate: '#fff566',
 
-        border: '#ffee00',
+        border: '#ffffff',      
+        border_dark: '#ffee00', 
+        border_light: '#ffffff',
+        
+        border_subtle: '#ffee00', 
     },
 };
 

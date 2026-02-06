@@ -16,11 +16,12 @@ const FooterContainer = lazy(() =>
 );
 
 const navigation: INavItem[] = [
-    { display : 'Accueil', to: 'home', type: "scroll" },
-    { display : 'A propos', to: 'home', type: "scroll" },
-    { display : 'Competences', to: 'benefit', type: "scroll" },
-    { display : 'Projets', to: 'project', type: "scroll" },
-    { display : 'Contact', to: 'contact', type: "scroll" },
+    { display : 'Accueil', to: '', type: "scroll" },
+    { display : 'A propos', to: 'catch', type: "scroll", offset: -50 },
+    { display : 'Competences', to: 'benefit', type: "scroll", offset: 30 },
+    { display : 'Projets', to: 'project', type: "scroll", offset: -25 },
+    { display : 'FAQ', to: 'faq', type: "scroll", offset: -130 },
+    { display : 'Contact', to: 'contact', type: "scroll", offset: 25 },
     { display : 'CV', to: 'cv', type: "spacer" },
     { display : 'blog', to: 'blog', type: "route" },
 ];

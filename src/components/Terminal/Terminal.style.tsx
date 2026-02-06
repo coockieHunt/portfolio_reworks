@@ -13,7 +13,7 @@ export const TerminalContainer = styled.div`
     will-change: backdrop-filter;
     isolation: isolate;
 
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-dark);
     border-radius: ${BORDER_RADIUS.large};
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     font-family: 'Consolas', 'Monaco', monospace;
@@ -24,7 +24,7 @@ export const TerminalContainer = styled.div`
     overflow: hidden;
     font-size: 14px;
 
-    border-bottom: 4px solid var(--primary);
+    border-bottom: 4px solid var(--border-dark);
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         max-width: 90%;
@@ -63,7 +63,7 @@ export const TerminalHeader = styled.div`
     align-items: center;
     padding: 8px 15px;
     background-color: var(--primary);
-    border-bottom: 1px solid var(--primary);
+    border-bottom: 1px solid var(--border-dark);
 `;
 
 export const TerminalLine = styled.div`
@@ -106,7 +106,7 @@ export const TerminalLine = styled.div`
                 margin-top: 5px;
                 width: 45px;
                 height: 45px;
-                border: 1px solid var(--primary);
+                border: 1px solid var(--border-dark);
                 border-radius: 8px;
                 padding: 10px;
 
@@ -171,7 +171,7 @@ export const TerminalLine = styled.div`
             padding: 15px;
             background-color: color-mix(
                 in srgb,
-                var(--background-tertiary) 50%,
+                var(--background-color) 50%,
                 transparent
             );
             display: flex;

@@ -43,7 +43,7 @@ export const FormLabel = styled.label<FormLabelProps>`
 export const FormInput = styled.input<FormInputProps>`
     padding: 14px 18px;
     outline: none;
-    border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
+    border: ${BorderSize} solid var(--border-subtle);
     width: 100%;
     background-color: rgba(255, 255, 255, 0.03);
     font-size: 1em;
@@ -56,16 +56,16 @@ export const FormInput = styled.input<FormInputProps>`
     }
 
     &:hover {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: var(--border-subtle);
         background-color: rgba(255, 255, 255, 0.04);
     }
 
     &:focus {
-        border-color: var(--primary);
+        border-color: var(--border-dark);
         background-color: rgba(255, 255, 255, 0.05);
         box-shadow:
-            0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent),
-            0 4px 12px color-mix(in srgb, var(--primary) 12%, transparent);
+            0 0 0 3px color-mix(in srgb, var(--border-dark) 8%, transparent),
+            0 4px 12px color-mix(in srgb, var(--border-dark) 12%, transparent);
         transform: translateY(-1px);
 
         &::placeholder {
@@ -87,7 +87,7 @@ export const FormTextArea = styled.textarea`
     resize: vertical;
     min-height: 180px;
     outline: none;
-    border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
+    border: ${BorderSize} solid var(--border-subtle);
     border-radius: ${BORDER_RADIUS.xlarge};
     background-color: rgba(255, 255, 255, 0.03);
     font-size: 1em;
@@ -100,16 +100,16 @@ export const FormTextArea = styled.textarea`
     }
 
     &:hover {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: var(--border-subtle);
         background-color: rgba(255, 255, 255, 0.04);
     }
 
     &:focus {
-        border-color: var(--primary);
+        border-color: var(--border-dark);
         background-color: rgba(255, 255, 255, 0.05);
         box-shadow:
-            0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent),
-            0 4px 12px color-mix(in srgb, var(--primary) 12%, transparent);
+            0 0 0 3px color-mix(in srgb, var(--border-dark) 8%, transparent),
+            0 4px 12px color-mix(in srgb, var(--border-dark) 12%, transparent);
         transform: translateY(-1px);
 
         &::placeholder {
@@ -125,7 +125,7 @@ export const FormTextArea = styled.textarea`
 export const FormSubmit = styled.input<FormSubmitProps>`
     padding: 15px;
     margin-top: 15px;
-    background-color: var(--background-tertiary);
+    background-color: var(--background-color);
     border: none;
     text-transform: uppercase;
     border-radius: ${BORDER_RADIUS.small};

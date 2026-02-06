@@ -1,6 +1,5 @@
 // React
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link as ScrollLink } from 'react-scroll';
 import { Link as RouterLink } from '@tanstack/react-router';
 
 // Hooks & Context
@@ -20,9 +19,10 @@ import cv from '@/assets/pdf/cv_dev_JG.pdf';
 import * as Styled from './navigations.style';
 
 export interface INavItem {
-    display: string;
-    to: string;
+    display?: string;
+    to?: string;
     type: 'scroll' | 'route' | 'spacer';
+    offset?: number;
 }
 
 export interface INavigationComponentProps {
@@ -36,28 +36,44 @@ interface INavigationLinksProps {
     onLinkClick: () => void;
 }
 
+
 const NavigationLinks: React.FC<INavigationLinksProps> = ({
     items,
     onLinkClick,
 }) => {
+    const handleClick = useCallback((section: string) => {
+        if (section === '') {
+            window.history.replaceState(null, "", window.location.pathname);
+        } else {
+            window.history.replaceState(null, "", `#${section}`);
+        }
+        onLinkClick();
+    }, [onLinkClick]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY === 0) {
+                window.history.replaceState(null, "", window.location.pathname);
+            }
+        };
+    
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
         <>
             {items.map((item, index) => (
                 <li key={`${item.display}-${index}`} className={item.type === 'spacer' ? 'is-spacer' : ''}>
                     {item.type === 'scroll' ? (
-                        <ScrollLink
-                            to={item.to}
-                            onClick={onLinkClick}
+                        <a
                             href={`#${item.to}`}
-                            spy={true}
-                            smooth={true}
-                            offset={-70}
-                            duration={500}
+                            onClick={() => handleClick(item.to)}
                             style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                         >
                             <span>{index + 1}. </span>
                             {item.display}
-                        </ScrollLink>
+                        </a>
                     ) : item.type === 'route' ? (
                         <RouterLink 
                             to={item.to} 
@@ -156,7 +172,12 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
                             text={link.text}
                         />
                     ))}
-                    <button onClick={handleOpenCv} type="button" className="cv-desktop-btn">
+                    <button 
+                        onClick={handleOpenCv} 
+                        type="button" 
+                        className="cv-desktop-btn"
+                        aria-label="Ouvrir le CV (nouvelle fenêtre)"
+                    >
                         Curriculum Vitae
                     </button>
                 </div>

@@ -10,9 +10,34 @@ export default defineConfig(({ mode }) => {
     const isProd = mode === 'production';
 
     return {
+        define: {
+            '__APP_BUILD_TIME__': JSON.stringify(Date.now()),
+        },
         server: {
             port: 3000,
-            strictPort: true, 
+            strictPort: true,
+            proxy: {
+                '/sitemap.xml': {
+                    target: 'http://localhost:3001',
+                    changeOrigin: true,
+                    rewrite: (path) => path,
+                },
+                '/robots.txt': {
+                    target: 'http://localhost:3001',
+                    changeOrigin: true,
+                    rewrite: (path) => path,
+                },
+                '/ai.txt': {
+                    target: 'http://localhost:3001',
+                    changeOrigin: true,
+                    rewrite: (path) => path,
+                },
+                '/manifest.json': {
+                    target: 'http://localhost:3001',
+                    changeOrigin: true,
+                    rewrite: (path) => path,
+                },
+            },
         },
         plugins: [
             svgr(),
@@ -45,6 +70,7 @@ export default defineConfig(({ mode }) => {
                 },
                 minify: isProd,
             }),
+         
         ],
         resolve: {
             alias: {

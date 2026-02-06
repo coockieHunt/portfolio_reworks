@@ -2,14 +2,14 @@ import { ReactNode } from 'react';
 
 export interface IAlert {
     id: number;
-    message: string;
+    message: ReactNode;
     colorAlert: string;
     delay?: number;
 }
 
 export interface IAlertContext {
     alerts: IAlert[];
-    addAlert: (message: string, colorAlert: string, delay?: number) => void;
+    addAlert: (message: ReactNode, colorAlert: string, delay?: number) => void;
     removeAlert: (alert: IAlert) => void;
 }
 

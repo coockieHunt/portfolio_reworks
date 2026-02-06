@@ -72,7 +72,7 @@ export const Mouse = styled.div<IMouseProps>`
             top: 15%;
             left: calc(100% + 4px);
             transform: translate(-50%, 0);
-            border: 1px solid var(--primary);
+            border: 1px solid var(--border-dark);
             background-color: var(--primary);
             height: 15px;
             width: 1px;

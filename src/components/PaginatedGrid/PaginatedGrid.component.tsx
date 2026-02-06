@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useWindowSize } from '../../hooks/useScreenResize.hook';
 import { SCREEN_SIZE } from '../../config';
-import { GridContainer, PaginationContainer } from './PaginatedGrid.style';
+import { ListContainer, GridContainer, PaginationContainer } from './PaginatedGrid.style';
 
 export interface IPaginatedGridProps {
     items: Array<{
@@ -227,7 +227,7 @@ export const PaginatedGrid = ({
 
     if (HideOnePage) {
         return (
-            <div className="listContainer">
+            <ListContainer>
                 <GridContainer
                     $columns={isMobile ? 1 : columns}
                     $rows={isMobile ? 4 : rows}
@@ -238,11 +238,11 @@ export const PaginatedGrid = ({
                         return <RenderItem key={item.id} {...item} />;
                     })}
                 </GridContainer>
-            </div>
+            </ListContainer>
         );
     } else {
         return (
-            <div className="listContainer">
+            <ListContainer>
                 <GridContainer
                     $columns={isMobile ? 1 : columns}
                     $rows={isMobile ? 4 : rows}
@@ -295,7 +295,7 @@ export const PaginatedGrid = ({
                         Suivant
                     </Button>
                 </PaginationContainer>
-            </div>
+            </ListContainer>
         );
     }
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SCREEN_SIZE } from '@/config';
 
 export const TitleContainer = styled.div`
     position: relative;
@@ -17,6 +18,8 @@ export const TitleContainer = styled.div`
     text-align: center;
 
     font-family: 'Doto Variable', sans-serif;
+    
+    
 `;
 
 export const Title = styled.h2`
@@ -31,9 +34,8 @@ export const Title = styled.h2`
     color: var(--primary);
     font-size: 2.5rem;
     text-transform: uppercase;
-
-    @media screen and (max-width: 768px) {
-        font-size: 2em;
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        font-size: 1.5rem;
     }
 `;
 
@@ -47,12 +49,12 @@ export const BackTitle = styled.span`
     text-align: center;
 
     font-variation-settings: 'wght' 700;
-    font-size: 4.3em;
+    font-size: 4.3rem;
     color: #292929f8;
     text-transform: uppercase;
 
     @media screen and (max-width: 768px) {
-        font-size: 2em;
+        font-size: 2rem;
         width: auto;
     }
 `;

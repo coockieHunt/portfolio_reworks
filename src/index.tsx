@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 //utils
 import { ConnectedToSecretSystem } from './utils/rb';
+import { initWebVitals } from './utils/analytics';
 
 //router
 import { RouterProvider, createRouter } from '@tanstack/react-router';
@@ -31,6 +32,7 @@ const router = createRouter({
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 
 ConnectedToSecretSystem();
+initWebVitals();
 
 root.render(
     <React.StrictMode>

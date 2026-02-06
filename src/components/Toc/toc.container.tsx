@@ -153,13 +153,27 @@ export const TocContainer = ({
     const toggleToc = () => setIsCollapsed(prev => !prev);
 
     return (
-        <Styled.Container>
+        <Styled.Container id="toc">
             <div className="info">
-                <div className='header' onClick={toggleToc} style={{ cursor: 'pointer' }}>
+                <div 
+                    className='header' 
+                    onClick={toggleToc} 
+                    style={{ cursor: 'pointer' }}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={isCollapsed ? 'Ouvrir le sommaire' : 'Fermer le sommaire'}
+                    aria-expanded={!isCollapsed}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleToc();
+                        }
+                    }}
+                >
                     <h2>Sommaire</h2>
                     {visibleItems.length > 0 && isMobileOrTablet && (
                         <span>
-                            {isCollapsed ? <ArrowDownToLine /> : <ArrowUpFromLine />}
+                            {isCollapsed ? <ArrowDownToLine aria-hidden="true" focusable={false} /> : <ArrowUpFromLine aria-hidden="true" focusable={false} />}
                         </span>
                     )}
                 </div>
@@ -193,8 +207,17 @@ export const TocContainer = ({
                                             e.stopPropagation();
                                             toggleSection(item.id);
                                         }}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={item.DropDown ? `Réduire la section ${item.text}` : `Développer la section ${item.text}`}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                toggleSection(item.id);
+                                            }
+                                        }}
                                     >
-                                        {item.DropDown ? <ArrowUpFromLine size={16} /> : <ArrowDownToLine size={16} />}
+                                        {item.DropDown ? <ArrowUpFromLine size={16} aria-hidden="true" focusable={false} /> : <ArrowDownToLine size={16} aria-hidden="true" focusable={false} />}
                                     </span>
                                 )}
                             </li>

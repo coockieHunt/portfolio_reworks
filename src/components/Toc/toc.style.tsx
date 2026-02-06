@@ -18,10 +18,6 @@ export const Container = styled.div`
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             user-select: none; 
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.03);
-            }
         }
 
         & h2 {
@@ -107,7 +103,6 @@ export const Container = styled.div`
             min-width: 0; 
         }
 
-        /* Styles pour l'icône dropdown */
         & span {
              display: flex;
              align-items: center;
@@ -117,8 +112,8 @@ export const Container = styled.div`
              transition: background 0.2s ease, color 0.2s ease;
 
              &:hover {
-                background: rgba(255, 255, 255, 0.1);
-                color: var(--primary);
+                background: var(--secondary);
+                color: white;
              }
         }
     }

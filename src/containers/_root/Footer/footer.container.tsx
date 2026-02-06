@@ -106,6 +106,15 @@ export const FooterContainer = ({ id }): JSX.Element => {
                     <p
                         onClick={handleSecretClick}
                         style={{ cursor: 'pointer' }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Accéder à l'easter egg du footer"
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleSecretClick();
+                            }
+                        }}
                     >
                         [ Le footer contient la réponse. Ou peut-être pas. Un
                         seul moyen de savoir... ]
@@ -157,10 +166,13 @@ export const FooterContainer = ({ id }): JSX.Element => {
                             aria-expanded={legalOpen}
                             aria-controls="LegalContent"
                             id="footer-legal"
+                            aria-label={legalOpen ? 'Masquer les mentions légales' : 'Afficher les mentions légales'}
                         >
                             Mentions Légales{' '}
                             <ChevronDown
                                 className={legalOpen ? 'opened' : ''}
+                                aria-hidden="true"
+                                focusable={false}
                             />
                         </button>
                     </div>

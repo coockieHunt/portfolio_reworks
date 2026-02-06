@@ -32,7 +32,7 @@ const AlertItem: React.FC<IAlertItemProps> = ({
                     className="progress-bar"
                     style={{ animationDuration: `${alert.delay}ms` }}
                 />
-                <span>{alert.message}</span>
+                <div>{alert.message}</div>
             </div>
 
             <button

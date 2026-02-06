@@ -1,5 +1,5 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router';
-import { ReactLenis } from 'lenis/react';
+import { ReactLenis, useLenis } from 'lenis/react';
 import { LazyMotion, domAnimation } from 'framer-motion';
 
 //components
@@ -56,8 +56,53 @@ export const Route = createRootRoute({
     notFoundComponent: () => <NotFound />,
 });
 
-// Layout for the root section (all routes)
 function RootComponent() {
+    const lenis = useLenis();
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.slice(1);
+            if (!hash || !lenis) return;
+
+            const scrollToElement = () => {
+                const element = document.getElementById(hash);
+                if (element) {
+                    lenis.scrollTo(element, {
+                        duration: 1.5,
+                        offset: -150,
+                    });
+                    return true;
+                }
+                return false;
+            };
+
+            if (scrollToElement()) return;
+
+            const observer = new MutationObserver(() => {
+                if (scrollToElement()) {
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+            });
+
+            const timeout = setTimeout(() => {
+                observer.disconnect();
+                scrollToElement();
+            }, 2000);
+        };
+
+        if (window.location.hash) {
+            handleHashChange();
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, [lenis]);
+
     return (
         <ReactLenis
             root

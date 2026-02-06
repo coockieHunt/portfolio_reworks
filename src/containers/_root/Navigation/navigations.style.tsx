@@ -15,7 +15,7 @@ export const NavigationContainer = styled.div`
     transition: background-color 0.3s ease;
 
     &.NavBackground {
-        background-color: ${HexToRgbaConverter('var(--background-tertiary)', 0.2)};
+        background-color: ${HexToRgbaConverter('var(--background-color)', 0.2)};
         backdrop-filter: blur(10px);
     }
 
@@ -32,7 +32,7 @@ export const NavigationContainer = styled.div`
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--background-tertiary);
+            background-color: var(--background-color);
             backdrop-filter: blur(5px);
             opacity: 0.8;
             z-index: -1;

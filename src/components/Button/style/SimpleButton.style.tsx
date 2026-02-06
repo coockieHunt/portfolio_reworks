@@ -11,7 +11,7 @@ export const StyledSimpleButton = styled.button`
 
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: row;
     gap: 10px;
     padding: 10px;
@@ -20,8 +20,14 @@ export const StyledSimpleButton = styled.button`
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 
+    & .color{
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
     &.current {
-        border: 2px solid var(--primary);
+        border: 2px dashed var(--border-dark);
     }
 
     &:not(.current):hover {
@@ -40,9 +46,9 @@ export const StyledSimpleButton = styled.button`
 
     &.contrast {
         justify-content: center;
-        border: 1px dashed var(--primary);
+        border: 1px dashed var(--border-dark);
         &:hover {
-            background-color: var(--background-tertiary);
+            background-color: var(--background-color);
         }
         &.active {
             background-color: var(--primary);
@@ -97,7 +103,7 @@ export const StyledSimpleButton = styled.button`
             background: rgba(0, 0, 0, 0.2);
             padding: 10px 20px;
             border-radius: 5px;
-            border: 1px dashed var(--primary);
+            border: 1px dashed var(--border-dark);
 
             gap: 5px;
             & .count {
@@ -126,6 +132,22 @@ export const StyledSimpleButton = styled.button`
             text-shadow: -1px -1px 2px #000000;
             text-align: center;
             color: white;
+        }
+    }
+
+    & span {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
     }
 `;

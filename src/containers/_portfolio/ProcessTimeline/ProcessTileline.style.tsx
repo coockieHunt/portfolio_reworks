@@ -62,8 +62,8 @@ export const TimeLineContainer = styled.div`
     &::after {
         content: '';
         position: absolute;
-        border-left: 3px solid var(--primary);
-        border-bottom: 3px solid var(--primary);
+        border-left: 3px solid var(--border-dark);
+        border-bottom: 3px solid var(--border-dark);
         height: 40px;
         width: 40px;
         transform: rotate(-45deg);
@@ -83,7 +83,7 @@ export const TimeLineContainer = styled.div`
             width: 5%;
             z-index: -1;
             opacity: 1;
-            border-bottom: 1px dashed var(--primary);
+            border-bottom: 1px dashed var(--border-dark);
             transition: opacity 0.2s ease;
         }
 
@@ -201,12 +201,13 @@ export const TimeLineItemContainer = styled.div`
     border-radius: 5px;
     width: 43%;
     position: relative;
-    border: 1px solid var(--primary);
-    border-bottom: 4px solid var(--primary);
+    border: 1px solid var(--border-subtle);
+    border-bottom: 4px solid var(--border-dark);
     cursor: default;
     transition:
         transform 0.3s ease,
-        border-radius 0.3s ease;
+        border-radius 0.3s ease,
+        border-color 0.3s ease;
 
     &::after {
         content: '';
@@ -215,7 +216,7 @@ export const TimeLineItemContainer = styled.div`
         transform-origin: center;
         pointer-events: none;
         opacity: 0.6;
-        background-color: var(--background-secondary);
+        background-color: var(--background-elevated);
         z-index: -1;
     }
 
@@ -258,6 +259,7 @@ export const TimeLineItemContainer = styled.div`
     }
 
     &:hover {
+        border-color: var(--border-light);
         & .DotBg::before {
             opacity: 1;
         }
