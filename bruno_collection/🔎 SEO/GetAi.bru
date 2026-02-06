@@ -1,0 +1,16 @@
+meta {
+  name: GetAi
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/ai.txt
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, primaryKey, numeric } from 'drizzle-orm/sqlite-core';
 
 export const post_author = sqliteTable('post_author', {
     id: integer('id').primaryKey({ autoIncrement: true }),
@@ -68,3 +68,21 @@ export const postTagsRelations = relations(postTags, ({ one }) => ({
         references: [tags.id],
     }),
 }));
+
+export const projects = sqliteTable('projects', {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    title: text('title').notNull(),
+    file_name: text('file_name'),
+    description: text('description'),
+    content: text('content'),
+    web_url: text('web_url'),
+    git_url: text('git_url'),
+    tech_stack: text('tech_stack'),
+    gallery: text('gallery'),
+    grid_column: integer('grid_column').default(1),
+    grid_row: integer('grid_row').default(2),
+    is_favorite: integer('is_favorite').default(0),
+    project_date: text('project_date'),
+    is_complete: integer('is_complete').default(1),
+    created_at: numeric('created_at').$defaultFn(() => new Date().toISOString()),
+});

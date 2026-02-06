@@ -30,6 +30,7 @@ import BlogRoute from './routes/blog/blog.route';
 import AuthRoute from './routes/auth/auth.route';
 import CounterRoute from './routes/counter/counter.route';
 import AssetsRoute from './routes/assets/assets.route';
+import RouteMap from './routes/sitemap/sitemap.route';
 
 import OpenGraphRouter from './routes/proxy/ogImage.route';
 import AssetsProxyRoute from './routes/proxy/assetsProxy.route';
@@ -113,6 +114,9 @@ app.use(`${API_ROOT}/counter`, CounterRoute);
 app.use(`${API_ROOT}/health`, HealthRoute);
 app.use(`${API_ROOT}/tags`, allowOnlyFromIPs, TagsRoute);
 app.use(`${API_ROOT}/assets`, allowOnlyFromIPs, AssetsRoute);
+app.use(`${API_ROOT}/`, RouteMap);
+
+app.use('/', RouteMap);
 
 //asset
 app.use(`${ASSET_ROOT}/opengraph`, allowOnlyFromIPs, OpenGraphRouter);

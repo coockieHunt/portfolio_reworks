@@ -338,6 +338,109 @@
 					"url": "/api/assets/list",
 					"method": "GET"
 				}
+			},
+
+			"sitemap.get": {
+				"windowSeconds": 60,
+				"maxRequests": 200,
+				"adminBypass": true,
+				"match": {
+					"url": "/sitemap.xml",
+					"method": "GET"
+				}
+			},
+			"robots.get": {
+				"windowSeconds": 60,
+				"maxRequests": 200,
+				"adminBypass": true,
+				"match": {
+					"url": "/robots.txt",
+					"method": "GET"
+				}
+			},
+			"ai.policy": {
+				"windowSeconds": 60,
+				"maxRequests": 200,
+				"adminBypass": true,
+				"match": {
+					"url": "/ai.txt",
+					"method": "GET"
+				}
+			},
+
+			"guestbook.authorize": {
+				"windowSeconds": 60,
+				"maxRequests": 10,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/guestbook/authorize/:id",
+					"method": "PUT"
+				}
+			},
+			"guestbook.unauthorize": {
+				"windowSeconds": 60,
+				"maxRequests": 10,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/guestbook/unauthorize/:id",
+					"method": "PUT"
+				}
+			},
+
+			"blog.indexed": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/edit/indexed/:slug",
+					"method": "PUT"
+				}
+			},
+			"blog.version.get": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/version/:slug",
+					"method": "GET"
+				}
+			},
+			"blog.version.update": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/blog/version/:slug/update",
+					"method": "PUT"
+				}
+			},
+
+			"assets.proxy.image": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/assets/images/proxy/:public_id",
+					"method": "GET"
+				}
+			},
+			"assets.proxy.folder.image": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/assets/images/proxy/:folder/:id",
+					"method": "GET"
+				}
+			},
+			"assets.proxy.resize": {
+				"windowSeconds": 60,
+				"maxRequests": 50,
+				"adminBypass": true,
+				"match": {
+					"url": "/assets/images/proxy/:public_id/size/:w/:h",
+					"method": "GET"
+				}
 			}
 		}
 	}
