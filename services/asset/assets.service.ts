@@ -14,10 +14,6 @@ export interface AssetDetail {
 }
 
 export class AssetsService {
-    static getAssetPath(filename: string): string {
-        return AssetHelper.getAssetPath(filename);
-    }
-
     /**
         * Uploads an asset to the server and updates the Redis cache.
         * Images are automatically converted to WebP format.
