@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
+const NAV_BREAKPOINT = `${parseInt(SCREEN_SIZE.mobile) + 300}px`;
+
 export const NavigationContainer = styled.div`
     display: flex;
     align-items: center;
@@ -39,7 +41,7 @@ export const NavigationContainer = styled.div`
         }
     }
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
+    @media (max-width: ${NAV_BREAKPOINT}) {
         z-index: 1000;
         flex-direction: column;
         height: 100vh;
@@ -59,7 +61,7 @@ export const Logo = styled.img`
     border-right: 1px solid #ffffff3b;
     box-sizing: content-box;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
+    @media (max-width: ${NAV_BREAKPOINT}) {
         flex-direction: column;
         height: 100vh;
         padding: 5px 10px;
@@ -111,8 +113,8 @@ export const Nav = styled.nav`
                     font-variation-settings: 'wght' 1000;
                 }
 
-                @media (max-width: ${SCREEN_SIZE.mobile}) {
-                    font-size: 1.2em;
+                @media (max-width: ${NAV_BREAKPOINT}) {
+                    font-size: 1em;
                     font-variation-settings: 'wght' 800;
                     display: block;
                     width: 100%;
@@ -135,7 +137,7 @@ export const Nav = styled.nav`
                     background-color: rgba(255, 255, 255, 0.5);
                 }
 
-                @media (max-width: ${SCREEN_SIZE.mobile}) {
+                @media (max-width: ${NAV_BREAKPOINT}) {
                     width: 100%;         
                     padding: 0;         
                     margin: 15px 0;     
@@ -157,12 +159,12 @@ export const Nav = styled.nav`
         margin-left: 10px;
         gap: 15px;
 
-        @media (max-width: ${SCREEN_SIZE.mobile}) {
+        @media (max-width: ${NAV_BREAKPOINT}) {
             display: none;
         }
     }
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
+    @media (max-width: ${NAV_BREAKPOINT}) {
         height: calc(100% - 60px);
         width: 100%;
         display: flex;
@@ -272,14 +274,14 @@ export const BrandContainer = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
+    @media (max-width: ${NAV_BREAKPOINT}) {
         width: 100%;
         padding: 0 10px;
     }
 
     & .burger-menu-wrapper {
         display: none;
-        @media (max-width: ${SCREEN_SIZE.mobile}) {
+        @media (max-width: ${NAV_BREAKPOINT}) {
             display: block;
         }
     }

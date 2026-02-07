@@ -146,7 +146,7 @@ export const StyledSimpleButton = styled.button`
         padding: 5px;
         border-radius: 5px;
 
-        &:hover {
+        &:hover[role="button"] {
             background-color: rgba(255, 255, 255, 0.1);
         }
     }

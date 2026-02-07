@@ -68,7 +68,7 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
                     {item.type === 'scroll' ? (
                         <a
                             href={`#${item.to}`}
-                            onClick={() => handleClick(item.to)}
+                            onClick={() => handleClick(item.to || '')}
                             style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                         >
                             <span>{index + 1}. </span>
@@ -113,7 +113,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     const [menuOpen, setMenuOpen] = useState(false);
 
     const mobileBreakpoint = useMemo(() => {
-        return parseInt(SCREEN_SIZE.mobile.replace(/\D/g, ''), 10) || 768;
+        return parseInt(SCREEN_SIZE.mobile) + 300;
     }, []);
 
     const isMobileRaw = useWindowSize(mobileBreakpoint);

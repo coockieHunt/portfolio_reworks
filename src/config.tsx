@@ -124,7 +124,7 @@ export const COLOR_SETTING = {
         display_name: 'Électrique',
         background: '#121212',
         background_secondary: '#0d0d0d',
-        background_color: '#0f0f04',
+        background_color: '#3f3600',
         background_elevated: '#0f0d09',
 
         font: '#fff8e8',
