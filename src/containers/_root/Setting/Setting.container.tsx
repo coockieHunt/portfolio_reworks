@@ -39,6 +39,7 @@ export const SettingContainer: React.FC = () => {
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const toggleRef = useRef<HTMLButtonElement | null>(null);
+    const contentRef = useRef<HTMLDivElement | null>(null);
 
     const defaultThemes: ThemeName[] = [
         'default',
@@ -96,13 +97,63 @@ export const SettingContainer: React.FC = () => {
             }
         };
 
+        const handleWheel = (event: WheelEvent) => {
+            if (contentRef.current) {
+                const element = contentRef.current;
+                const canScrollDown = element.scrollHeight > element.clientHeight && element.scrollTop < element.scrollHeight - element.clientHeight;
+                const canScrollUp = element.scrollTop > 0;
+
+                if ((event.deltaY > 0 && !canScrollDown) || (event.deltaY < 0 && !canScrollUp)) {
+                    return;
+                }
+
+                event.preventDefault();
+                element.scrollTop += event.deltaY;
+            }
+        };
+
+        let touchStartY = 0;
+        const handleTouchStart = (event: TouchEvent) => {
+            touchStartY = event.touches[0].clientY;
+        };
+
+        const handleTouchMove = (event: TouchEvent) => {
+            if (!contentRef.current) return;
+            
+            const element = contentRef.current;
+            const touchCurrentY = event.touches[0].clientY;
+            const deltaY = touchStartY - touchCurrentY;
+
+            const canScrollDown = element.scrollHeight > element.clientHeight && element.scrollTop < element.scrollHeight - element.clientHeight;
+            const canScrollUp = element.scrollTop > 0;
+
+            if ((deltaY > 0 && !canScrollDown) || (deltaY < 0 && !canScrollUp)) {
+                return;
+            }
+
+            event.preventDefault();
+            element.scrollTop += deltaY;
+            touchStartY = touchCurrentY;
+        };
+
         setIsLoadingCount(true);
         fetchThemeCount().finally(() => setIsLoadingCount(false));
 
         document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('wheel', handleWheel, { passive: false });
+        
+        if (contentRef.current) {
+            contentRef.current.addEventListener('touchstart', handleTouchStart, { passive: true });
+            contentRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
+        }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('wheel', handleWheel);
+            if (contentRef.current) {
+                contentRef.current.removeEventListener('touchstart', handleTouchStart);
+                contentRef.current.removeEventListener('touchmove', handleTouchMove);
+            }
         };
     }, [isOpen, fetchThemeCount]);
 
@@ -137,7 +188,7 @@ export const SettingContainer: React.FC = () => {
                         <X aria-hidden="true" focusable={false} />
                     </Styled.CloseButton>
                 </div>
-                <Styled.Content>
+                <Styled.Content ref={contentRef}>
                     <div
                         className="ContainerButton"
                         style={{ marginTop: '10px' }}
