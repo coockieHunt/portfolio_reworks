@@ -225,7 +225,7 @@ export const CaptchaComponent = forwardRef(
                         value={userAnswer}
                         onChange={handleCaptchaChange}
                         name="Captcha"
-                        id="Captcha"
+                        id="captcha"
                         pattern="[0-9]*"
                     />
                 </styled.CaptchaForm>

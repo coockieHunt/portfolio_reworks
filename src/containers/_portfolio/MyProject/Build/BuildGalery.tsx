@@ -34,6 +34,7 @@ const BuildGaleryBuild = ({ project }) => {
                                     : `Galerie image ${index + 1}`
                             }
                             alt={altText}
+                            loading="lazy"
                             onClick={() => handleClickImg(imgUrl.img, altText)}
                             className="preview_img"
                         />

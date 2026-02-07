@@ -46,6 +46,7 @@ export const PostCardComponents = ({
                     height="300"
                     width="300"
                     alt={title}
+                    title={title}
                     lazy={!priority}
                     fetchPriority={priority ? 'high' : undefined}
                 />

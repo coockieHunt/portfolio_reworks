@@ -116,7 +116,7 @@ export function PortfolioIndex() {
                 <ProductContainer id="product" />
                 <ServiceContainer id="service" />
                 <BenefitContainer id="benefit" />
-                <ProcessTimeLine id="ProcessTimeline" />
+                <ProcessTimeLine id="process-timeline" />
 
                 <QuoteContainer>
                     <Quote aria-hidden="true" focusable={false} />

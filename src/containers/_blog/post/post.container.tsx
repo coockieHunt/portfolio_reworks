@@ -130,6 +130,7 @@ const MarkdownImage = ({ node, src, alt, onImageClick, ...props }: any) => {
         <ImageLazyLoad
             src={finalSrc}
             alt={alt || ''}
+            title={alt || ''}
             width="100%"
             style={{ 
                 minHeight: '200px', 
@@ -139,6 +140,7 @@ const MarkdownImage = ({ node, src, alt, onImageClick, ...props }: any) => {
                 display: 'block',
                 cursor: 'pointer'
             }}
+            loading="lazy"
             onClick={() => onImageClick(finalSrc, alt)}
             {...props}
         />

@@ -39,11 +39,11 @@ export const URL = {
     onset: 'https://github.com/coockieHunt/ck_rp',
 };
 
-import QuoteImage from './assets/projetImg/Quote-send_1.webp';
-import QuoteImage1 from './assets/projetImg/Quote-send_2.webp';
-import OnsetImage from './assets/projetImg/onset_1.webp';
-import OnsetImage1 from './assets/projetImg/onset_2.webp';
-import ArduinoImage1 from './assets/projetImg/arduino_1.webp';
+import QuoteImage from './assets/projet-img/quote-send-1.webp';
+import QuoteImage1 from './assets/projet-img/quote-send-2.webp';
+import OnsetImage from './assets/projet-img/onset-1.webp';
+import OnsetImage1 from './assets/projet-img/onset-2.webp';
+import ArduinoImage1 from './assets/projet-img/arduino-1.webp';
 
 // -- Projet List ---
 // column end row range from 1 to 2
@@ -51,7 +51,7 @@ export const projectList = [
     {
         id: 1,
         title: 'Quote Send',
-        fileName: 'quote_send.jsx',
+        fileName: 'quote-send.jsx',
         description:
             "Un projet d'affichage de citations avec interface d'administration",
         content:
@@ -80,7 +80,7 @@ export const projectList = [
     {
         id: 2,
         title: 'Premier Portfolio',
-        fileName: 'portfolio_v1.jsx',
+        fileName: 'portfolio-v1.jsx',
         description:
             "Premier portfolio en ligne, beaucoup plus simple à l'époque la première itération de la version actuelle",
         content:
@@ -98,7 +98,7 @@ export const projectList = [
     {
         id: 3,
         title: 'Framework mods de jeux',
-        fileName: 'Framework.jsx',
+        fileName: 'framework.jsx',
         description:
             'Un projet passionnant axé sur le développement de mods de jeux',
         content:
@@ -123,7 +123,7 @@ export const projectList = [
     {
         id: 4,
         title: 'Lecteur BMP Arduino ST7789',
-        fileName: 'ArduinoReader.jsx',
+        fileName: 'arduino-reader.jsx',
         description:
             "Affichage d'images BMP depuis une carte SD sur un écran ST7789",
         content:

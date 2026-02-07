@@ -164,7 +164,7 @@ export const FooterContainer = ({ id }): JSX.Element => {
                         <button
                             onClick={handleToggleLegal}
                             aria-expanded={legalOpen}
-                            aria-controls="LegalContent"
+                            aria-controls="legal-content"
                             id="footer-legal"
                             aria-label={legalOpen ? 'Masquer les mentions légales' : 'Afficher les mentions légales'}
                         >
@@ -179,7 +179,7 @@ export const FooterContainer = ({ id }): JSX.Element => {
                 </Footer.BottomBar>
 
                 <Footer.LegalContent
-                    id="LegalContent"
+                    id="legal-content"
                     className={legalOpen ? 'open' : 'closed'}
                     ref={legalContentRef}
                 >
