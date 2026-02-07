@@ -78,6 +78,7 @@ function RouteComponent() {
     const dynamicOgUrl = getOpenGraphUrl(
         blogPost.post.slug,
         blogPost.post.title,
+        blogPost.author?.name || 'Unknown',
         blogPost.post.editedAt
     );
 

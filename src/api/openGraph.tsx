@@ -8,14 +8,17 @@ const logDev = (...args: unknown[]) => {
     if (import.meta.env.DEV) console.error(...args);
 };
 
-export function getOpenGraphUrl(slug: string, title: string, lastEdit: string) {
+export function getOpenGraphUrl(slug: string, title: string, author: string, lastEdit: string): string {
     const params = new URLSearchParams({
         slug,
         title,
-        lastEdit
+        author,
+        date: lastEdit,
     });
 
+
     const url_build = `${AssetsBaseUrl}/opengraph/get?${params.toString()}`;
+    console.log('Generated OpenGraph URL:', url_build);
 
     return url_build;
 }
