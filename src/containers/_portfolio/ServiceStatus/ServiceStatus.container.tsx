@@ -55,11 +55,9 @@ const ServiceStatusApiComponent = () => {
     };
 
     useEffect(() => {
-        console.log('[ServiceStatus] useEffect triggered at', new Date().toISOString());
         async function fetchData() {
             setLoading(true);
             try {
-                console.log('[ServiceStatus] Fetching gatus endpoints...');
                 const endpoints = await fetchGatusEndpoints();
                 const servicesToShow = ['api-portfolio', 'site-portfolio'];
                 
