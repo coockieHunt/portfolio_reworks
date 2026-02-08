@@ -47,7 +47,7 @@ Check out the portfolio in production: **[jonathangleyze.fr](https://www.jonatha
 │─────────────────────────────────────┤
 │  Redis (Cache) | Umami (Analytics)  │
 │─────────────────────────────────────┤
-│      Uptime Kuma (Monitoring)       │
+│      Gatus (Monitoring)             │
 └─────────────────────────────────────┘
 ```
 
@@ -55,7 +55,7 @@ Check out the portfolio in production: **[jonathangleyze.fr](https://www.jonatha
 
 - 🔄 **PM2**: Process manager (24/7 availability, automatic restarts)
 - 📊 **Umami**: Privacy-friendly analytics (self-hosted, GDPR compliant)
-- 📈 **Uptime Kuma**: Real-time monitoring with health checks
+- 📈 **Gatus**: Real-time monitoring with health checks
 - 🐳 **Docker**: Service containerization
 - ⚡ **Redis**: Cache for optimal performance
 

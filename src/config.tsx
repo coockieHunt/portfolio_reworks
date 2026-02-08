@@ -239,10 +239,10 @@ export const HightContrastColorSetting = {
 
 export const StackList: iStackItem[] = [
     {
-        name: 'Uptime Kuma',
+        name: 'Gatus',
         icon: <Activity />,
         color: '#4CAF50',
-        link: 'https://uptime.kuma.pet/',
+        link: 'https://gatus.io/',
         width: 20,
     },
     {
