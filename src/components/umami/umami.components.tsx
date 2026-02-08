@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useAdBlockDetection } from '@/hooks/useAdBlockDetection';
 
 export const trackEvent = (
     eventName: string,
@@ -6,32 +7,43 @@ export const trackEvent = (
 ) => {
     if (typeof window !== 'undefined' && window.umami) {
         window.umami.track(eventName, eventData);
-    } else {
-        if (import.meta.env.DEV) {
-            console.log('[Dev] Umami Track:', eventName, eventData);
-        }
     }
 };
 
 export const UmamiTracker = () => {
+    const isAdBlockDetected = useAdBlockDetection();
+    const initDone = useRef(false);
+
     useEffect(() => {
-        const scriptUrl = import.meta.env.VITE_UMAMI_SCRIPT_URL;
-        const websiteId = import.meta.env.VITE_UMAMI_ID;
+        if (isAdBlockDetected === null) return;
 
-        if (!scriptUrl || !websiteId) {
-            return;
-        }
+        if (isAdBlockDetected) return;
 
-        if (document.querySelector(`script[data-website-id="${websiteId}"]`))
-            return;
+        if (initDone.current) return;
+        initDone.current = true;
 
-        const script = document.createElement('script');
-        script.defer = true;
-        script.src = scriptUrl;
-        script.setAttribute('data-website-id', websiteId);
+        const detectAndLoad = async () => {
+            const scriptUrl = import.meta.env.VITE_UMAMI_SCRIPT_URL;
+            const websiteId = import.meta.env.VITE_UMAMI_ID;
 
-        document.head.appendChild(script);
-    }, []);
+            if (!scriptUrl || !websiteId) return;
+
+            if (document.querySelector(`script[data-website-id="${websiteId}"]`)) return;
+
+            const script = document.createElement('script');
+            script.defer = true;
+            script.src = scriptUrl;
+            script.setAttribute('data-website-id', websiteId);
+
+            script.onerror = (e) => {
+                if (typeof e !== 'string' && e.target instanceof Element) e.target.remove();
+            };
+
+            document.head.appendChild(script);
+        };
+
+        detectAndLoad();
+    }, [isAdBlockDetected]);
 
     return null;
 };

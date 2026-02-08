@@ -41,9 +41,9 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof PortfolioIndexRoute
   '/blog': typeof BlogRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
-  '/': typeof PortfolioIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
@@ -61,7 +61,7 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/blog' | '/blog/$slug' | '/' | '/blog/'
+  fullPaths: '/' | '/blog' | '/blog/$slug' | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to: '/blog/$slug' | '/' | '/blog'
   id:
@@ -90,7 +90,7 @@ declare module '@tanstack/react-router' {
     '/_portfolio': {
       id: '/_portfolio'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
