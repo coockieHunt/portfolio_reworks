@@ -248,7 +248,33 @@ export const LegalNoticeContent: React.FC = () => {
                     </li>
                 </ul>
 
-                <h5>3. Données fournies volontairement</h5>
+                <h5>3. Respect des bloqueurs de publicité</h5>
+                <p>
+                    <strong>Si vous utilisez un bloqueur de publicité :</strong>
+                </p>
+                <ul>
+                    <li>
+                        Ce site détecte la présence d'un bloqueur de publicité
+                        et <strong>respecte entièrement votre choix</strong>.
+                    </li>
+                    <li>
+                        Si un bloqueur est détecté, <strong>aucun script d'analytique ou de tracking n'est chargé</strong>, pas même Umami.
+                    </li>
+                    <li>
+                        <strong>Aucune solution de contournement</strong> n'est
+                        employée pour tenter de contourner votre bloqueur.
+                    </li>
+                    <li>
+                        Vous continuez à naviguer sur le site sans aucune
+                        collecte de données analytics.
+                    </li>
+                </ul>
+                <p>
+                    Votre choix d'utiliser un bloqueur de publicité et/ou de
+                    tracking est <strong>totalement respecté</strong>.
+                </p>
+
+                <h5>4. Données fournies volontairement</h5>
                 <p>
                     Les formulaires (contact ou livre d'or) collectent
                     uniquement :
@@ -263,7 +289,7 @@ export const LegalNoticeContent: React.FC = () => {
                     (échange ou publication sur le livre d'or).
                 </p>
 
-                <h5>4. Durée de conservation</h5>
+                <h5>5. Durée de conservation</h5>
                 <ul>
                     <li>
                         Les e-mails sont conservés le temps du traitement de la
@@ -275,11 +301,12 @@ export const LegalNoticeContent: React.FC = () => {
                     </li>
                     <li>
                         Les statistiques Umami sont conservées sous forme
-                        agrégée et anonyme.
+                        agrégée et anonyme (seulement si aucun bloqueur n'est
+                        détecté).
                     </li>
                 </ul>
 
-                <h5>5. Vos droits</h5>
+                <h5>6. Vos droits</h5>
                 <p>
                     Vous pouvez demander l’accès, la correction ou la
                     suppression de vos données envoyées via formulaire.
@@ -288,7 +315,7 @@ export const LegalNoticeContent: React.FC = () => {
                     Contact : <MailLink />
                 </p>
 
-                <h5>6. Cookies</h5>
+                <h5>7. Cookies</h5>
                 <p>
                     Grâce à l'utilisation d'Umami,{' '}
                     <strong>
