@@ -98,7 +98,7 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     const [hasError, setHasError] = useState<boolean>(false);
 
     const OnImageError = (e) => {
-        console.error('Image failed to load');
+        if (import.meta.env.DEV) console.error('Image failed to load');
         setHasError(true);
         setIsLoaded(true);
     }
