@@ -88,11 +88,6 @@ function RootComponent() {
                 childList: true,
                 subtree: true,
             });
-
-            const timeout = setTimeout(() => {
-                observer.disconnect();
-                scrollToElement();
-            }, 2000);
         };
 
         if (window.location.hash) {

@@ -41,6 +41,19 @@ export const MarkdownContent = styled.div`
         letter-spacing: -0.5px;
 
         font-variation-settings: "wght" 600, "ROUND" 100;
+
+        & svg {
+            color: var(--primary);
+            opacity: 0.4;
+            transition: all 0.2s ease;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
         @media (max-width: ${SCREEN_SIZE.tablet}) {
             font-size: 1.5rem;
             margin: 35px 0 15px 0;
