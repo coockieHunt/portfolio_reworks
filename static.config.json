@@ -13,6 +13,7 @@
 			"whitelist": "whitelist.log",
 			"validation_error": "validation_error.log",
 			"health": "health.log",
+			"gatus": "gatus.log",
 			"ogimage": "ogimage.log",
 			"tags": "tags.log",
 			"assets": "assets.log"
@@ -215,6 +216,16 @@
 				"adminBypass": true,
 				"match": {
 					"url": "/api/health",
+					"method": "GET"
+				}
+			},
+
+			"gatus.endpoints": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/gatus/endpoints",
 					"method": "GET"
 				}
 			},
