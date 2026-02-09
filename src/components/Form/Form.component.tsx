@@ -216,9 +216,9 @@ export const CaptchaComponent = forwardRef(
                     $isValid={isCaptchaValid}
                     $hasValue={userAnswer !== ''}
                 >
-                    <span>
+                    <label htmlFor="captcha">
                         {number1} + {number2} =
-                    </span>
+                    </label>
 
                     <styled.CaptchaInput
                         type="text"
@@ -227,6 +227,7 @@ export const CaptchaComponent = forwardRef(
                         name="Captcha"
                         id="captcha"
                         pattern="[0-9]*"
+                        aria-label="Réponse au captcha"
                     />
                 </styled.CaptchaForm>
             </styled.CaptchaContainer>

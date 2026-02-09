@@ -17,10 +17,14 @@ export const Container = styled.div<ContainerProps>`
     position: relative;
     z-index: 0;
     overflow: hidden;
-    padding: 6rem 1rem; 
+    padding: 6rem 1rem;
+    contain: layout style paint;
+    contain-intrinsic-size: auto 400px;
     
     text-align: center; 
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); 
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    
+    min-height: 350px;
 
     ${({ $backgroundImg }) =>
         $backgroundImg &&
@@ -60,8 +64,10 @@ export const Container = styled.div<ContainerProps>`
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         height: auto;
         font-size: 1.5rem; 
-        padding: 4rem 1rem;
+        padding: 3rem 1rem;
         line-height: 1.4;
+        min-height: 280px;
+        contain-intrinsic-size: auto 280px;
     }
 `;
 

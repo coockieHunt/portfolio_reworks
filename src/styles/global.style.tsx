@@ -2,19 +2,25 @@ import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING, HightContrastColorSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
+    /* Font declarations with fallback to optimize CLS */
     @font-face {
         font-family: 'Doto Variable';
-        font-display: swap;
+        font-display: fallback;
+        font-weight: 100 900;
+        font-stretch: 75% 100%;
     }
 
     @font-face {
         font-family: 'Montserrat';
-        font-display: swap;
+        font-display: fallback;
+        font-weight: 100 900;
+        font-stretch: 75% 100%;
     }
 
     @font-face {
         font-family: 'Source Code Pro';
-        font-display: swap;
+        font-display: fallback;
+        font-weight: 200 700;
     }
 
     :root {
@@ -85,7 +91,7 @@ const GlobalStyle = createGlobalStyle`
     body {
         background-color: #121212;
         color: var(--font);
-        font-family: 'Montserrat', 'Montserrat-Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         font-size: 100%;
         line-height: 1.5;
         font-weight: 400;
@@ -96,13 +102,26 @@ const GlobalStyle = createGlobalStyle`
         overflow-x: hidden;
         min-height: 100vh;
         width: 100%;
+        
+        /* Prevent layout shifts by maintaining consistent line-height and font metrics */
+        font-optical-sizing: auto;
     }
 
 
     a {
         text-decoration: none;
         color: inherit;
-    text-decoration: none; 
+        text-decoration: none; 
+    }
+
+    /* Consistent text styling to prevent CLS from font loading */
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    p, li, span, div {
+        line-height: inherit;
     }
 
     input, textarea {

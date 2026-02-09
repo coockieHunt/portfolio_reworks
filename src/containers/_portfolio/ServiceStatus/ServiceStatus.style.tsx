@@ -16,11 +16,83 @@ export const ServiceStatusContainer = styled.div`
         align-items: flex-start;
         margin-bottom: 20px;
 
+        .Other {
+            position: relative; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            font-size: 5rem;
+            margin-top: 10px;
+            margin-left: 10px;
+            color: var(--primary);
+
+            &:hover {
+                font-variation-settings: 'wght' 500;    
+            }
+
+            a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            & .hidden {
+                position: absolute;
+                top: 50%;
+                left: 100%; 
+                transform: translateY(-50%) translateX(20px);
+                font-size: 1.5rem;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                margin-left: 15px;
+                white-space: nowrap;
+            }
+
+            &:hover .hidden {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+                pointer-events: auto; 
+            }
+
+            @media (max-width: ${SCREEN_SIZE.tablet}) {
+                & .Other {
+                    margin-top: 0;
+                    gap: 0;
+                }
+
+
+                & .hidden {
+                    position: static;
+                    opacity: 1;
+                    pointer-events: auto;
+                    transform: none;
+                    margin-left: 0;
+                    font-size: 1.5rem;
+
+                    transform: translateY(-50%);
+                }
+
+                &:hover .hidden {
+                    transform: none;
+
+                }
+            }
+
+        }
+
         @media (max-width: ${SCREEN_SIZE.tablet}) {
             flex-direction: column;
             align-items: center;
+            padding: 0 20px;
         }
     }
+
 `;
 
 export const StatusBadge = styled.div<{ $Status: 'online' | 'offline' | 'maintenance' }>`

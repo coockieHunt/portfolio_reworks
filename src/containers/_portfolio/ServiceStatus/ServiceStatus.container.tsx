@@ -124,6 +124,19 @@ const ServiceStatusApiComponent = () => {
                         checkTiming={service.lastCheck}
                     />
                 ))}
+
+                <div className="Other font_dot">
+                <a 
+                    href={'https://uptime.jonathangleyze.fr/'} 
+                    aria-label={"Voir le statut complet sur UptimeRobot"} 
+                    target={'_blank'}
+                    rel={'noopener noreferrer'}
+                >
+                    <span>+</span>
+                    <span className="hidden">Voir les autres services</span>
+                </a>
+                  
+                </div>
             </div>
         </Styled.ServiceStatusContainer>
     );

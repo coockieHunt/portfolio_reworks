@@ -144,6 +144,7 @@ export const PostContainer = ({
                                 className="back"
                                 onClick={() => navigate({ to: '/blog' })}
                                 role="button" 
+                                aria-label="Retour aux articles"
                                 tabIndex={0}
                                 onKeyDown={(e) => e.key === 'Enter' && navigate({ to: '/blog' })}
                             >

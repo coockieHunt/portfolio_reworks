@@ -14,6 +14,7 @@ export const Container = styled.footer`
     min-height: 350px;
     contain: layout style;
     contain-intrinsic-size: auto 350px;
+    content-visibility: auto;
 
     & .content-wrapper {
         z-index: 2;

@@ -274,6 +274,8 @@ export const PaginatedGrid = ({
                                 }
                                 onClick={() => handlePageChange(pageIndex)}
                                 role="button"
+                                aria-label={`Aller à la page ${pageIndex}`}
+                                aria-current={pageIndex === currentPage ? 'page' : undefined}
                                 tabIndex={0}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' || e.key === ' ') {

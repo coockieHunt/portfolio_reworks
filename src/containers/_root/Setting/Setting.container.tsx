@@ -227,6 +227,7 @@ export const SettingContainer: React.FC = () => {
                                       
                                         <span
                                             role="button"
+                                            aria-label={`Partager avec le thème ${COLOR_SETTING[themeKey].display_name}`}
                                             onClick={(e) => HandleShareWithTheme(e, themeKey)}
                                         >
                                             <Share size={16} />

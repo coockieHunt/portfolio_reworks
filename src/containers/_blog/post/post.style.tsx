@@ -3,13 +3,17 @@ import styled from 'styled-components';
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 import { SCREEN_SIZE } from '@/config.js';
 
-export const Container = styled.div`margin-bottom: 100px;`;
+export const Container = styled.div`
+    margin-bottom: 100px;
+    contain: layout style;
+`;
 
 export const ContainerPost = styled.div`
     margin: 0 auto;
     display: flex;
     gap: 40px;
     width: 90%;
+    contain: layout style;
 
     & .other {
         background-color: var(--background-elevated);
