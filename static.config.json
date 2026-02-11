@@ -16,7 +16,8 @@
 			"gatus": "gatus.log",
 			"ogimage": "ogimage.log",
 			"tags": "tags.log",
-			"assets": "assets.log"
+			"assets": "assets.log",
+			"projects": "projects.log"
 		}
 	},
 
@@ -206,6 +207,70 @@
 				"adminBypass": true,
 				"match": {
 					"url": "/api/blog/cache/clear",
+					"method": "DELETE"
+				}
+			},
+
+			"projects.readAll": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/",
+					"method": "GET"
+				}
+			},
+			"projects.readOffset": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/offset",
+					"method": "GET"
+				}
+			},
+			"projects.readOne": {
+				"windowSeconds": 60,
+				"maxRequests": 100,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/:id",
+					"method": "GET"
+				}
+			},
+			"projects.create": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/",
+					"method": "POST"
+				}
+			},
+			"projects.update": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/:id",
+					"method": "PUT"
+				}
+			},
+			"projects.publish": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/edit/publish/:id",
+					"method": "PUT"
+				}
+			},
+			"projects.delete": {
+				"windowSeconds": 60,
+				"maxRequests": 20,
+				"adminBypass": true,
+				"match": {
+					"url": "/api/projects/:id",
 					"method": "DELETE"
 				}
 			},

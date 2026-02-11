@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { sqliteTable, text, integer, primaryKey, numeric } from 'drizzle-orm/sqlite-core';
+import { title } from 'node:process';
 
 export const post_author = sqliteTable('post_author', {
     id: integer('id').primaryKey({ autoIncrement: true }),
@@ -72,17 +73,12 @@ export const postTagsRelations = relations(postTags, ({ one }) => ({
 export const projects = sqliteTable('projects', {
     id: integer('id').primaryKey({ autoIncrement: true }),
     title: text('title').notNull(),
-    file_name: text('file_name'),
-    description: text('description'),
-    content: text('content'),
-    web_url: text('web_url'),
-    git_url: text('git_url'),
-    tech_stack: text('tech_stack'),
-    gallery: text('gallery'),
-    grid_column: integer('grid_column').default(1),
-    grid_row: integer('grid_row').default(2),
-    is_favorite: integer('is_favorite').default(0),
-    project_date: text('project_date'),
-    is_complete: integer('is_complete').default(1),
-    created_at: numeric('created_at').$defaultFn(() => new Date().toISOString()),
+    tabName: text('tab_name').notNull(),
+    description: text('description').notNull(),
+    content: text('content').notNull(),
+    stack: text('stacks').notNull(),
+    UrlGithub: text('url_github').notNull(),
+    UrlProject: text('url_project'),
+    published: integer('published').notNull().default(0),
+    gallery: text('gallery').notNull().default('[]'),
 });

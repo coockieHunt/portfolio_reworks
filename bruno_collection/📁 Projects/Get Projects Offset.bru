@@ -1,0 +1,81 @@
+meta {
+  name: Get Projects Offset
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/projects/offset?min=1&max=6
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+
+  test("Response contains projects array", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.have.property('projects');
+      expect(body.data.projects).to.be.an('array');
+    }
+  });
+
+  test("Response contains meta", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.have.property('meta');
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Projects Offset
+  
+  **Description:**
+  Returns projects using offset-based pagination.
+  
+  ---
+  
+  ### Request
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/projects/offset?min=1&max=6`
+  
+  **Authentication:**
+  - Optional: include bearer token to access unpublished projects.
+  
+  ---
+  
+  ### Response (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "meta": {
+        "cursor_start": 1,
+        "cursor_end": 7,
+        "requested_limit": 6
+      },
+      "projects": []
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}

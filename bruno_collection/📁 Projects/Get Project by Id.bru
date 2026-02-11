@@ -1,0 +1,87 @@
+meta {
+  name: Get Project by Id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/projects/{{project_id_demo}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+  
+  test("Response contains project", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('id');
+      expect(body.data).to.have.property('title');
+      expect(body.data).to.have.property('tabName');
+    }
+  });
+  
+  test("Project not found returns 404", function() {
+    if (res.getStatus() === 404) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Project by Id
+  
+  **Description:**
+  Returns a single project by id. If you are not authenticated, unpublished projects are hidden.
+  
+  ---
+  
+  ### Request
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/projects/{{project_id_demo}}`
+  
+  **Authentication:**
+  - Optional: include bearer token to access unpublished projects.
+  
+  ---
+  
+  ### Response (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "id": 1,
+      "title": "Portfolio V2",
+      "tabName": "portfolio",
+      "description": "Short description",
+      "content": "Full content",
+      "stack": ["Node.js", "TypeScript"],
+      "UrlGithub": "https://github.com/example/repo",
+      "UrlProject": "https://example.com",
+      "published": 1,
+      "gallery": ["asset-id-1"]
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}

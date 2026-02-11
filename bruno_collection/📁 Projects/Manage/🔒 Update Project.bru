@@ -1,0 +1,82 @@
+meta {
+  name: 🔒 Update Project
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{base_url}}{{endPointApi}}/projects/{{project_id_demo}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Updated Project Title",
+    "description": "Updated description",
+    "stack": ["Node.js", "TypeScript", "SQLite"],
+    "UrlProject": "https://example.com/updated"
+  }
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+
+  test("Project not found returns 404", function() {
+    if (res.getStatus() === 404) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Update Project
+  
+  **Description:**
+  Updates a project by id. Requires authentication.
+  
+  ---
+  
+  ### Request
+  
+  **Method:** `PUT`
+  **URL:** `{{base_url}}{{endPointApi}}/projects/{{project_id_demo}}`
+  
+  **Authentication:**
+  - Required: bearer token
+  
+  **Body Parameters (partial allowed):**
+  - `title`, `tabName`, `description`, `content`, `stack`, `UrlGithub`, `UrlProject`, `published`, `gallery`
+  
+  ---
+  
+  ### Response (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": {
+      "id": 1,
+      "title": "Updated Project Title"
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}
+

@@ -1,0 +1,113 @@
+meta {
+  name: 🔒 Create Project
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}{{endPointApi}}/projects/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "New Project",
+    "tabName": "portfolio",
+    "description": "Short project description",
+    "content": "Longer project content",
+    "stack": ["Node.js", "TypeScript"],
+    "UrlGithub": "https://github.com/example/repo",
+    "UrlProject": "https://example.com",
+    "published": 0,
+    "gallery": ["asset-id-1", "asset-id-2"]
+  }
+}
+
+tests {
+  test("Status code is 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("Response success is true", function() {
+    if (res.getStatus() === 201) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+
+  test("Response contains project", function() {
+    if (res.getStatus() === 201) {
+      const body = res.getBody();
+      expect(body.data).to.exist;
+      expect(body.data).to.have.property('id');
+    }
+  });
+
+  test("Missing fields returns 400", function() {
+    if (res.getStatus() === 400) {
+      const body = res.getBody();
+      expect(body.success).to.be.false;
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Create Project
+  
+  **Description:**
+  Creates a new project entry. Requires authentication.
+  
+  ---
+  
+  ### Request
+  
+  **Method:** `POST`
+  **URL:** `{{base_url}}{{endPointApi}}/projects/`
+  
+  **Authentication:**
+  - Required: bearer token
+  
+  **Body Parameters:**
+  | Param | Type | Required | Description |
+  | :--- | :--- | :---: | :--- |
+  | `title` | String | Yes | Project title |
+  | `tabName` | String | Yes | Tab/group name |
+  | `description` | String | Yes | Short description |
+  | `content` | String | Yes | Full content |
+  | `stack` | Array/String | Yes | Stack list |
+  | `UrlGithub` | String | Yes | GitHub URL |
+  | `UrlProject` | String | No | Live project URL |
+  | `published` | Number | No | 0 or 1 |
+  | `gallery` | Array | No | Asset IDs |
+  
+  ---
+  
+  ### Response (201)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Project created successfully",
+    "data": {
+      "id": 7,
+      "title": "New Project",
+      "tabName": "portfolio",
+      "description": "Short project description",
+      "content": "Longer project content",
+      "stack": ["Node.js", "TypeScript"],
+      "UrlGithub": "https://github.com/example/repo",
+      "UrlProject": "https://example.com",
+      "published": 0,
+      "gallery": ["asset-id-1", "asset-id-2"]
+    },
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}
+

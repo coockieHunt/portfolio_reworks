@@ -1,0 +1,100 @@
+meta {
+  name: Get Projects
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}{{endPointApi}}/projects/
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response success is true", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.success).to.be.true;
+    }
+  });
+
+  test("Response contains projects array", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      expect(body.data).to.be.an('array');
+    }
+  });
+
+  test("Project structure is valid", function() {
+    if (res.getStatus() === 200) {
+      const body = res.getBody();
+      const projects = body.data || [];
+
+      if (projects.length > 0) {
+        const project = projects[0];
+        expect(project).to.have.property('id');
+        expect(project).to.have.property('title');
+        expect(project).to.have.property('tabName');
+        expect(project).to.have.property('description');
+        expect(project).to.have.property('content');
+        expect(project).to.have.property('stack');
+        expect(project).to.have.property('UrlGithub');
+        expect(project).to.have.property('published');
+        expect(project).to.have.property('gallery');
+      }
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  # Get Projects
+  
+  **Description:**
+  Returns all projects. If you are authenticated, it also returns unpublished projects.
+  
+  ---
+  
+  ### Request
+  
+  **Method:** `GET`
+  **URL:** `{{base_url}}{{endPointApi}}/projects/`
+  
+  **Authentication:**
+  - Optional: include bearer token to access unpublished projects.
+  
+  ---
+  
+  ### Response (200)
+  
+  ```json
+  {
+    "success": true,
+    "message": "Success",
+    "data": [
+      {
+        "id": 1,
+        "title": "Portfolio V2",
+        "tabName": "portfolio",
+        "description": "Short description",
+        "content": "Full content",
+        "stack": ["Node.js", "TypeScript"],
+        "UrlGithub": "https://github.com/example/repo",
+        "UrlProject": "https://example.com",
+        "published": 1,
+        "gallery": ["asset-id-1"]
+      }
+    ],
+    "timestamp": "2026-01-19T18:39:21.316Z"
+  }
+  ```
+}
+
