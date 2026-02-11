@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as PortfolioRouteImport } from './routes/_portfolio'
+import { Route as PageRouteImport } from './routes/_page'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as PortfolioIndexRouteImport } from './routes/_portfolio/index'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as PageGuide_mode_contrast_eleveeRouteImport } from './routes/_page/guide_mode_contrast_elevee'
 
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
@@ -22,6 +24,10 @@ const BlogRoute = BlogRouteImport.update({
 } as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/_portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PageRoute = PageRouteImport.update({
+  id: '/_page',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -39,41 +45,59 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => BlogRoute,
 } as any)
+const PageGuide_mode_contrast_eleveeRoute =
+  PageGuide_mode_contrast_eleveeRouteImport.update({
+    id: '/guide_mode_contrast_elevee',
+    path: '/guide_mode_contrast_elevee',
+    getParentRoute: () => PageRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PortfolioIndexRoute
   '/blog': typeof BlogRouteWithChildren
+  '/guide_mode_contrast_elevee': typeof PageGuide_mode_contrast_eleveeRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
-  '/blog/$slug': typeof BlogSlugRoute
   '/': typeof PortfolioIndexRoute
+  '/guide_mode_contrast_elevee': typeof PageGuide_mode_contrast_eleveeRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_page': typeof PageRouteWithChildren
   '/_portfolio': typeof PortfolioRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
+  '/_page/guide_mode_contrast_elevee': typeof PageGuide_mode_contrast_eleveeRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/_portfolio/': typeof PortfolioIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blog' | '/blog/$slug' | '/blog/'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/guide_mode_contrast_elevee'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/blog/$slug' | '/' | '/blog'
+  to: '/' | '/guide_mode_contrast_elevee' | '/blog/$slug' | '/blog'
   id:
     | '__root__'
+    | '/_page'
     | '/_portfolio'
     | '/blog'
+    | '/_page/guide_mode_contrast_elevee'
     | '/blog/$slug'
     | '/_portfolio/'
     | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  PageRoute: typeof PageRouteWithChildren
   PortfolioRoute: typeof PortfolioRouteWithChildren
   BlogRoute: typeof BlogRouteWithChildren
 }
@@ -92,6 +116,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_page': {
+      id: '/_page'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -115,8 +146,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof BlogRoute
     }
+    '/_page/guide_mode_contrast_elevee': {
+      id: '/_page/guide_mode_contrast_elevee'
+      path: '/guide_mode_contrast_elevee'
+      fullPath: '/guide_mode_contrast_elevee'
+      preLoaderRoute: typeof PageGuide_mode_contrast_eleveeRouteImport
+      parentRoute: typeof PageRoute
+    }
   }
 }
+
+interface PageRouteChildren {
+  PageGuide_mode_contrast_eleveeRoute: typeof PageGuide_mode_contrast_eleveeRoute
+}
+
+const PageRouteChildren: PageRouteChildren = {
+  PageGuide_mode_contrast_eleveeRoute: PageGuide_mode_contrast_eleveeRoute,
+}
+
+const PageRouteWithChildren = PageRoute._addFileChildren(PageRouteChildren)
 
 interface PortfolioRouteChildren {
   PortfolioIndexRoute: typeof PortfolioIndexRoute
@@ -143,6 +191,7 @@ const BlogRouteChildren: BlogRouteChildren = {
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  PageRoute: PageRouteWithChildren,
   PortfolioRoute: PortfolioRouteWithChildren,
   BlogRoute: BlogRouteWithChildren,
 }

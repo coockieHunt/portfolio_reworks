@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 import {
     IAlert,
@@ -15,10 +15,7 @@ const AlertContext = createContext<IAlertContext | undefined>(undefined);
 export const useAlert = (): IAlertContext => {
     const ctx = useContext(AlertContext);
     if (!ctx) {
-        // Guard: if hook is used outside provider, return safe no-op implementation
-        // This prevents runtime destructuring errors and makes the issue visible in the console.
         if (typeof window !== 'undefined') {
-            // eslint-disable-next-line no-console
             console.warn(
                 'useAlert called outside of AlertProvider. Returning no-op fallbacks.',
             );

@@ -2,47 +2,43 @@ import styled from 'styled-components';
 import { SCREEN_SIZE } from '../../config.js';
 
 export interface IGridContainerProps {
-    $columns?: number;
-    $rows?: number;
     $gap?: number;
+    $gapMobile?: number;
 }
 
 export const ListContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: auto;
     flex: 1;
 `;
 
 export const GridContainer = styled.div<IGridContainerProps>`
     display: grid;
-    grid-template-columns: repeat(${(props) => props.$columns || 4}, 1fr);
-    grid-template-rows: repeat(
-        ${(props) => props.$rows || 2},
-        1fr
-    );
-    gap: ${(props) => props.$gap || 10}px;
+    /* On force 3 colonnes égales sur PC */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: ${({ $gap }) => ($gap ?? 20)}px;
     width: 100%;
-    height: 100%;
 
-    justify-items: stretch;
-    align-items: stretch;
+    /* Gestion Tablette (Optionnel mais conseillé si l'écran réduit un peu) */
+    @media (max-width: 1100px) {
+        grid-template-columns: repeat(2, 1fr); /* Passe à 2 colonnes sur écran moyen */
+    }
 
+    /* Gestion Mobile */
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: auto;
-        height: auto;
+        grid-template-columns: 1fr; /* 1 seule colonne sur mobile */
+        gap: ${({ $gapMobile, $gap }) => ($gapMobile ?? $gap ?? 20)}px;
     }
 `;
 
 export const PaginationContainer = styled.div`
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin: 20px 0;
+    margin-top: 20px;
 
     & span {
         font-size: 1.1em;

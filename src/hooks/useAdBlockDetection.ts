@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAlert } from '@/context/alert.context';
 /*
 * try to fetch a known ad-serving domain (DoubleClick) with no-cors and check if it was blocked or redirected.
 * if block not load any tracking script.
@@ -17,15 +18,14 @@ export const useAdBlockDetection = () => {
         })
             .then(({ redirected }) => {
                 if (redirected) {
-                    console.log('%c✅ Bloqueur de pub détecté. Analytics désactivé.', 'color: #4CAF50; font-weight: bold; font-size: 14px;');
+                    console.log('%c[privacy] %cAdBlock detected disabled umami.', 'color: green;', 'color: inherit;');
                     setAdBlockDetected(true);
                 } else {
                     setAdBlockDetected(false);
                 }
             })
             .catch(() => {
-                console.log('%c✅ Bloqueur de pub détecté. Analytics désactivé.', 'color: #4CAF50; font-weight: bold; font-size: 14px;');
-                setAdBlockDetected(true);
+                console.log('%c[privacy] %cAdBlock detected disabled umami.', 'color: green;', 'color: inherit;');
             });
     }, []);
 

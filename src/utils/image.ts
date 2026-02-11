@@ -5,13 +5,18 @@ import { AssetsBaseUrl } from '../config';
  */
 export const getProxyUrl = (imageId: string, options?: Record<string, any>): string => {
     let optionsStr = '';
+    let queryStr = '';
 
     if(options && options.size) {
         const { width, height } = options.size;
         optionsStr = `/size/${width}/${height}`;
     }
+
+    if (options && options.folder) {
+        queryStr = `?folder=${encodeURIComponent(options.folder)}`;
+    }
     
-    const url = `${AssetsBaseUrl}/images/proxy/${imageId}${optionsStr}`;
+    const url = `${AssetsBaseUrl}/images/proxy/${imageId}${optionsStr}${queryStr}`;
     return url;
 }
 

@@ -322,16 +322,20 @@ export const MarkdownContent = styled.div`
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
         &.type-WARNING { 
-            border-left: 3px solid yellow;
-            & .type-title { color: yellow;}
+            border-left: 3px solid var(--warning);
+            & .type-title { color: var(--warning);}
         }
         &.type-TIP { 
-            border-left: 3px solid blue;
-            & .type-title { color: blue;}
+            border-left: 3px solid var(--info);
+            & .type-title { color: var(--info);}
         }
         &.type-NOTE { 
-            border-left: 3px solid green; 
-            & .type-title { color: green;}
+            border-left: 3px solid var(--succes); 
+            & .type-title { color: var(--succes);}
+        }
+        &.type-ERROR { 
+            border-left: 3px solid var(--error); 
+            & .type-title { color: var(--error);}
         }
 
         & .type-header {

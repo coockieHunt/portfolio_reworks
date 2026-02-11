@@ -1,8 +1,14 @@
-import { useMemo, FC, ReactNode } from 'react';
+import { useMemo, FC } from 'react';
 import * as Styled from './Stack.style';
 import { StackList, iStackItem } from '@/config';
 
-const BuildStack = ({ data }) => {
+interface BuildStackProps {
+    data: iStackItem;
+}
+
+const BuildStack: FC<BuildStackProps> = ({ data }) => {
+    const Icon = data.icon;
+
     return (
         <Styled.Stack $iconSize={data.width} $iconColor={data.color}>
             <a
@@ -11,7 +17,12 @@ const BuildStack = ({ data }) => {
                 rel="noopener noreferrer"
                 tabIndex={-1}
             >
-                <div className="icon">{data.icon}</div>
+                <Icon 
+                    width= {data.width}
+                    height={data.width} 
+                    style={{ color: data.color, fill: 'currentColor' }} 
+                    className="icon"
+                />
                 <h3>{data.name}</h3>
             </a>
         </Styled.Stack>

@@ -37,6 +37,11 @@ const GlobalStyle = createGlobalStyle`
         --primary: ${(props) => COLOR_SETTING[props.theme.theme]?.primary || '#8C7DFF'};
         --secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.secondary || '#4F4398'};
         --accentuate: ${(props) => COLOR_SETTING[props.theme.theme]?.accentuate || '#A594FF'};
+
+        --succes: ${(props) => COLOR_SETTING[props.theme.theme]?.succes || '#4CAF50'};
+        --error: ${(props) => COLOR_SETTING[props.theme.theme]?.error || '#F44336'};
+        --warning: ${(props) => COLOR_SETTING[props.theme.theme]?.warning || '#FF9800'};
+        --info: ${(props) => COLOR_SETTING[props.theme.theme]?.info || '#2196F3'};
         
         --border: ${(props) => COLOR_SETTING[props.theme.theme]?.border || 'rgba(255, 255, 255, 0.12)'};
         --border-light: ${(props) => COLOR_SETTING[props.theme.theme]?.border_light || '#A594FF'};
@@ -186,7 +191,7 @@ const GlobalStyle = createGlobalStyle`
                     color: white!important;
                 }
 
-                & nav, & header, & footer, & section, & article, & main {
+                & nav, & header, & footer, & section, & main {
                     & a {
                         text-decoration: underline !important;
                         border: none !important;
@@ -231,10 +236,16 @@ const GlobalStyle = createGlobalStyle`
                     
                 }
 
+                
+
                 & Button, & a {
                     background-color: black !important;
                     color: #ffffff !important;
-                    border: 2px solid white !important;
+                }
+
+                & a{
+                    text-decoration: none !important;
+                    color: #07c5ff !important;
                 }
 
                 //highlight tab

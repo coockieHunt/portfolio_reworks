@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
-const scrollLeftToRight = keyframes`
-    0% { transform: translateX(-50%);}
-    100% { transform: translateX(0);}
+const scrollAnimation = keyframes`
+    0% { transform: translate3d(-50%, 0, 0); }
+    100% { transform: translate3d(0, 0, 0); }
 `;
 
 export const Container = styled.div`
@@ -10,7 +10,15 @@ export const Container = styled.div`
     overflow: hidden;
     padding: 20px 0;
     position: relative;
+    
     mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 10%,
+        black 90%,
+        transparent
+    );
+    -webkit-mask-image: linear-gradient(
         to right,
         transparent,
         black 10%,
@@ -22,14 +30,26 @@ export const Container = styled.div`
 export const Track = styled.div`
     display: flex;
     width: max-content;
-    gap: 60px;
-    animation: ${scrollLeftToRight} 40s linear infinite;
+    gap: 40px; 
+    
+    animation: ${scrollAnimation} 40s linear infinite;
+    will-change: transform; 
+
     &:hover {
         animation-play-state: paused;
     }
+
+    @media (min-width: 768px) {
+        gap: 80px;
+    }
 `;
 
-export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
+interface StackProps {
+    $iconSize?: number;
+    $iconColor?: string;
+}
+
+export const Stack = styled.div<StackProps>`
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -38,33 +58,35 @@ export const Stack = styled.div<{ $iconSize?: number; $iconColor?: string }>`
         display: flex;
         align-items: center;
         justify-content: center;
-
         text-decoration: none;
-        padding: 10px;
-        gap: 10px;
-        transition:
-            transform 0.3s ease,
-            color 0.3s ease;
+        padding: 10px 15px;
+        gap: 12px;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
         & svg {
-            font-size: ${(props) => props.$iconSize || 30}px;
-            height: auto;
-            width: auto;
+            font-size: ${(props) => props.$iconSize || 24}px;
+            width: 1em;
+            height: 1em;
             color: ${(props) => props.$iconColor || '#FFFFFF'};
             transition: color 0.3s ease;
-            display: block;
+            display: block; 
         }
 
-        &:hover svg {
-            transform: scale(1.2);
-            color: var(--primary);
+        & h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: inherit;
+            line-height: 1.2;
         }
-    }
 
-    h3 {
-        margin: 0;
-        line-height: 1;
-
-        transform: translateY(5px);
+        &:hover {
+            background: ${(props) => 
+                props.$iconColor 
+                ? `${props.$iconColor}1A` 
+                : 'rgba(255, 255, 255, 0.1)'
+            };
+        }
     }
 `;

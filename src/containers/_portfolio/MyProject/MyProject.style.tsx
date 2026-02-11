@@ -27,18 +27,25 @@ export const CardsContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: calc(60vh + 100px);
-
-    min-height: fit-content;
-
+    height: auto;
 `;
+
 
 export const ProjectCard = styled.div`
     border: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    width: 100%;
+    
+    /* --- AJOUT INDISPENSABLE --- */
+    height: 650px; /* Change cette valeur selon tes goûts (ex: 550px ou 650px) */
+    /* --------------------------- */
+
+    /* Sur mobile, on peut réduire un peu la hauteur si besoin */
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        height: 500px;
+    }
+    
     box-sizing: border-box;
     border-radius: ${BORDER_RADIUS.large};
     box-shadow: 0 8px 32px color-mix(in srgb, var(--background-secondary) 40%, transparent);

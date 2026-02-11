@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Eye, EyeOff, Palette, X } from 'lucide-react';
+import { Link, useNavigate } from '@tanstack/react-router';
 
 // Styles & Config
 import * as Styled from './Setting.style';
@@ -23,6 +24,7 @@ type ThemeName = keyof typeof COLOR_SETTING;
 export const SettingContainer: React.FC = () => {
     const { addAlert } = useAlert();
     const { settings } = useSettingContext();
+    const navigate = useNavigate();
 
     const {
         randomThemeCount,
@@ -194,7 +196,7 @@ export const SettingContainer: React.FC = () => {
                         style={{ marginTop: '10px' }}
                     >
                         <div className="theme">
-                            <h3>Thème de Couleur</h3>
+                            <h3>Thème de Couleur <span>( <Share size={15}/> pour partager avec la thème )</span></h3>
                             <div className="ThemesContainer">
                                 {defaultThemes.map((themeKey) => (
                                     <SimpleButton
@@ -244,7 +246,8 @@ export const SettingContainer: React.FC = () => {
                                 <p>
                                     Conçue pour améliorer la visibilité des
                                     éléments et faciliter la lecture pour les
-                                    personnes ayant des déficiences visuelles.
+                                    personnes ayant des déficiences visuelles. 
+                                    &nbsp;<Link to="/guide_mode_contrast_elevee" style={{color: "var(--primary)"}}>En savoir plus</Link>
                                 </p>
 
                                 <SimpleButton

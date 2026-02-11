@@ -112,8 +112,9 @@ export const ContainerSetting = styled.div`
 
         & h3 {
             margin: 0;
-            font-size: 1.6em;
+            font-size: 2em;
             font-variation-settings: 'wght' 600;
+            color: var(--primary);
         }
     }
 
@@ -147,6 +148,21 @@ export const Content = styled.div`
         font-variation-settings: 'wght' 600;
         margin: 0 0 15px 0;
         font-size: 1.2em;
+
+        & span {
+            font-size: 0.8em;
+            color: var(--font-subtle);
+            opacity: 0.7;
+            margin-left: 10px;
+
+            & svg {
+                vertical-align: middle;
+                transition: all 0.2s;
+                cursor: pointer;
+                color: var(--font-subtle);
+               
+            }
+        }
     }
 
     & .ContainerButton {

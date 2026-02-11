@@ -1,20 +1,18 @@
 import { ReactNode } from 'react';
 
 //Icon
-import {
-    Activity,
-    Atom,
-    BarChart3,
-    Braces,
-    Brush,
-    Database,
-    FileCode,
-    Move,
-    Route,
-    Send,
-    Server,
-    Terminal,
-} from 'lucide-react';
+import DockerIcon from './assets/techIcon/docker.svg?react';
+import DrizzleIcon from './assets/techIcon/drizzle.svg?react';
+import framerIcon from './assets/techIcon/framer.svg?react';
+import GatusIcon from './assets/techIcon/gatus.svg?react';
+import NodeDotJsIcon from './assets/techIcon/nodedotjs.svg?react';
+import RedisIcon from './assets/techIcon/redis.svg?react';
+import ReactIcon from './assets/techIcon/react.svg?react';
+import StyledComponentsIcon from './assets/techIcon/styledcomponents.svg?react';
+import UmamiIcon from './assets/techIcon/umami.svg?react';
+import TanstakIcon from './assets/techIcon/tanstack.svg?react';
+import TypeScriptIcon from './assets/techIcon/typescript.svg?react';
+import ViteIcon from './assets/techIcon/vite.svg?react';
 
 // interface
 export interface iColorSettings {
@@ -41,7 +39,7 @@ export interface iColorSettings {
 
 export interface iStackItem {
     name: string;
-    icon: ReactNode;
+    icon: React.ElementType;
     color: string;
     link: string;
     width: number;
@@ -69,6 +67,11 @@ export const COLOR_SETTING = {
         secondary: '#4F4398',
         accentuate: '#A594FF',
 
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
+
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#8c7dffb0',
         border_light: '#6B5C8C',
@@ -91,6 +94,11 @@ export const COLOR_SETTING = {
         primary: '#FF7B6E',
         secondary: '#B03C2E',
         accentuate: '#FFAFA3',
+        
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
 
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#ff7b6eb0',
@@ -114,6 +122,11 @@ export const COLOR_SETTING = {
         secondary: '#166534',
         accentuate: '#86EFAC',
 
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',      
+
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#4ade80b0',
         border_light: '#3A7F5B',
@@ -135,6 +148,11 @@ export const COLOR_SETTING = {
         primary: '#FFB74D',
         secondary: '#B9770E',
         accentuate: '#FFE082',
+
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
 
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#ffb74db0',
@@ -158,6 +176,11 @@ export const COLOR_SETTING = {
         secondary: '#0E7490',
         accentuate: '#67E8F9',
 
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
+
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#22d3eeb0',
         border_light: '#188BA8',
@@ -180,6 +203,11 @@ export const COLOR_SETTING = {
         secondary: '#BE185D',
         accentuate: '#FF9EBB',
 
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
+
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#ff6696b0',
         border_light: '#CC4D7A',
@@ -201,6 +229,11 @@ export const COLOR_SETTING = {
         primary: '#60A5FA',
         secondary: '#1D4ED8',
         accentuate: '#93C5FD',
+
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
 
         border: 'rgba(255, 255, 255, 0.12)',
         border_dark: '#60a5fab0',
@@ -225,6 +258,11 @@ export const COLOR_SETTING = {
         secondary: '#00ffff',  
         accentuate: '#fff566',
 
+        succes: '#4CAF50',
+        error: '#F44336',
+        warning: '#FF9800',
+        info: '#2196F3',
+        
         border: '#ffffff',      
         border_dark: '#ffee00', 
         border_light: '#ffffff',
@@ -239,86 +277,86 @@ export const HightContrastColorSetting = {
 
 export const StackList: iStackItem[] = [
     {
-        name: 'Gatus',
-        icon: <Activity />,
-        color: '#4CAF50',
-        link: 'https://gatus.io/',
+        name: 'TypeScript',
+        icon: TypeScriptIcon,
+        color: '#3178C6',
+        link: 'https://www.typescriptlang.org/',
         width: 20,
     },
     {
-        name: 'JavaScript',
-        icon: <Braces />,
-        color: '#F0DB4F',
-        link: 'https://developer.mozilla.org/fr/docs/Web/JavaScript',
+        name: 'React',
+        icon: ReactIcon,
+        color: '#61DAFB',
+        link: 'https://react.dev/',
+        width: 20,
+    },
+    {
+        name: 'Vite',
+        icon: ViteIcon,
+        color: '#9553ff',
+        link: 'https://vitejs.dev/',
         width: 20,
     },
     {
         name: 'Styled Components',
-        icon: <Brush />,
-        color: '#d485c2',
+        icon: StyledComponentsIcon,
+        color: '#DB7093',
         link: 'https://styled-components.com/',
-        width: 40,
-    },
-    {
-        name: 'HTML5',
-        icon: <FileCode />,
-        color: '#E34F26',
-        link: 'https://developer.mozilla.org/fr/docs/Web/Guide/HTML/HTML5',
-        width: 20,
-    },
-    {
-        name: 'API RESTful',
-        icon: <Server />,
-        color: '#27ad0c',
-        link: 'https://restfulapi.net/',
-        width: 20,
-    },
-    {
-        name: 'React Js',
-        icon: <Atom />,
-        color: '#61DAFB',
-        link: 'https://fr.react.dev/',
-        width: 20,
+        width: 30,
     },
     {
         name: 'Framer Motion',
-        icon: <Move />,
+        icon: framerIcon,
         color: '#0055FF',
         link: 'https://www.framer.com/motion/',
         width: 20,
     },
     {
-        name: 'Node Js',
-        icon: <Terminal />,
+        name: 'TanStack',
+        icon: TanstakIcon,
+        color: '#FF4154',
+        link: 'https://tanstack.com/',
+        width: 20,
+    },
+    {
+        name: 'Node.js',
+        icon: NodeDotJsIcon,
         color: '#339933',
         link: 'https://nodejs.org/',
         width: 20,
     },
     {
-        name: 'Express',
-        icon: <Route />,
-        color: '#bdb43e',
-        link: 'https://expressjs.com/fr/',
-        width: 20,
-    },
-    {
-        name: 'Node Mailer',
-        icon: <Send />,
-        color: '#0f9dce',
-        link: 'https://nodemailer.com/about/',
+        name: 'Drizzle ORM',
+        icon: DrizzleIcon,
+        color: '#C5F74F',
+        link: 'https://orm.drizzle.team/',
         width: 20,
     },
     {
         name: 'Redis',
-        icon: <Database />,
+        icon: RedisIcon,
         color: '#DC382D',
-        link: 'https://redis.com/',
+        link: 'https://redis.io/',
+        width: 20,
+    },
+    {
+        name: 'Docker',
+        icon: DockerIcon,
+        color: '#2496ED',
+        link: 'https://www.docker.com/',
+        width: 20,
+    },
+    {
+        name: 'Gatus',
+        icon: GatusIcon,
+        color: '#4CAF50',
+        link: 'https://gatus.io/',
         width: 20,
     },
     {
         name: 'Umami',
-        icon: <BarChart3 />,
-        color: '#bdbdbd',
+        icon: UmamiIcon,
+        color: '#dadada',
         link: 'https://umami.is/',
         width: 20,
     },
