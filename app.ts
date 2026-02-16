@@ -33,6 +33,7 @@ import AssetsRoute from './routes/assets/assets.route';
 import RouteMap from './routes/sitemap/sitemap.route';
 import GatusRoute from './routes/gatus/gatus.route';
 import ProjectRoute from './routes/projects/projects.route';
+import WorkerRoute from './routes/worker/worker.route';
 
 import OpenGraphRouter from './routes/proxy/ogImage.route';
 import AssetsProxyRoute from './routes/proxy/assetsProxy.route';
@@ -118,9 +119,9 @@ app.use(`${API_ROOT}/tags`, allowOnlyFromIPs, TagsRoute);
 app.use(`${API_ROOT}/assets`, allowOnlyFromIPs, AssetsRoute);
 app.use(`${API_ROOT}/projects`, allowOnlyFromIPs, ProjectRoute);
 app.use(`${API_ROOT}/gatus`, GatusRoute);
+app.use(`${API_ROOT}/worker`, WorkerRoute);
 app.use(`${API_ROOT}/`, RouteMap);
 
-app.use('/', RouteMap);
 
 //asset
 app.use(`${ASSET_ROOT}/opengraph`, allowOnlyFromIPs, OpenGraphRouter);

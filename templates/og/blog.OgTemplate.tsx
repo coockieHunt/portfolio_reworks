@@ -1,10 +1,6 @@
 // **
 // Og template for blog posts
 // **
-
-
-import React from 'react';
-
 import React from 'react';
 
 export const BlogOgTemplate = ({
