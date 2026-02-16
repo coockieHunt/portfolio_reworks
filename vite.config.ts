@@ -17,34 +17,36 @@ export default defineConfig(({ mode }) => {
             port: 3000,
             strictPort: true,
             proxy: {
+                '/fallback/worker_cache.json': {
+                    target: 'http://127.0.0.1:3002',
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace('/fallback', ''),
+                },
                 '/sitemap.xml': {
                     target: 'http://localhost:3001',
                     changeOrigin: true,
-                    rewrite: (path) => path,
+                    rewrite: () => '/api/sitemap.xml', 
                 },
                 '/robots.txt': {
                     target: 'http://localhost:3001',
                     changeOrigin: true,
-                    rewrite: (path) => path,
+                    rewrite: () => '/api/robots.txt',
                 },
                 '/ai.txt': {
                     target: 'http://localhost:3001',
                     changeOrigin: true,
-                    rewrite: (path) => path,
+                    rewrite: () => '/api/ai.txt',
                 },
                 '/manifest.json': {
                     target: 'http://localhost:3001',
                     changeOrigin: true,
-                    rewrite: (path) => path,
+                    rewrite: () => '/api/manifest.json',
                 },
+                
             },
         },
         plugins: [
             svgr(),
-            TanStackRouterVite({
-                target: 'react',
-                autoCodeSplitting: true,
-            }),
             react({
                 babel: {
                     plugins: [

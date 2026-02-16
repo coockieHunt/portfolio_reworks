@@ -2,39 +2,13 @@ import { useState, useCallback, useEffect } from 'react';
 import { useSettingContext } from '../context/Setting.context';
 import { useLoading } from '../context/loading.context';
 import { COLOR_SETTING } from '../config';
-import { getCounter, incrementCounter } from '../api/counter.api';
+import { getCounter, incrementCounter } from '../api/service/counter.api';
 import { generatePapucheTheme } from '../utils/colorGenerator';
 
 export const useThemeManager = () => {
     const { changeTheme, changeHighContrast } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
-
-    // Apply settings from URL parameters on initial load and cleanup
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const themeParam = params.get('theme');
-        const hcParam = params.get('hc');
-
-        let hasChanged = false;
-
-        if (hcParam === '1' || hcParam === 'true') {
-            changeHighContrast(true);
-            changeTheme('HighContrast' as keyof typeof COLOR_SETTING);
-            hasChanged = true;
-        } else if (
-            themeParam &&
-            COLOR_SETTING[themeParam as keyof typeof COLOR_SETTING]
-        ) {
-            changeTheme(themeParam as keyof typeof COLOR_SETTING);
-            hasChanged = true;
-        }
-
-        if (hasChanged) {
-            const newRelativePathQuery = window.location.pathname;
-            window.history.replaceState({}, '', newRelativePathQuery);
-        }
-    }, [changeTheme, changeHighContrast]);
 
     const applyTheme = (
         newTheme: string,

@@ -39,7 +39,7 @@
 */
 
 
-import { PostGuestbookEntry, GetGuestbookEntries } from '../api/guestbook.api';
+import { PostGuestbookEntry, GetGuestbookEntries } from '../api/service/guestbook.api';
 
 declare global {
     interface Window {

@@ -1,46 +1,37 @@
-import axios from 'axios';
-import { ApiBaseUrl } from '@/config';
+import { apiClient } from '../AxiosClient';
+import { isApiDown, setApiDown } from '../apiHealth';
+import { IGatusEndpoint } from '../interface/api.interface';
 
-export interface GatusResult {
-    status: number;
-    success: boolean;
-    timestamp: string;
-    duration: number;
-}
-
-export interface GatusEndpoint {
-    name: string;
-    group: string;
-    key: string;
-    results: GatusResult[];
-}
-
-const logDev = (...args: unknown[]) => {
-    if (import.meta.env.DEV) console.warn(...args);
-};
-
-export const fetchGatusEndpoints = async (): Promise<GatusEndpoint[]> => {
+export const fetchGatusEndpoints = async (): Promise<IGatusEndpoint[]> => {
+    if (typeof window !== 'undefined' && isApiDown()) {
+        return [];
+    }
     try {
-        const response = await axios.get<GatusEndpoint[]>(`${ApiBaseUrl}/gatus/endpoints`);
+        const response = await apiClient.get<IGatusEndpoint[]>('/gatus/endpoints');
+        setApiDown(false);
         return response.data;
     } catch (error) {
-        logDev('Failed to fetch Gatus endpoints:', error);
-        throw error;
+        setApiDown(true);
+        return [];
     }
 };
 
-export const fetchGatusEndpoint = async (key: string): Promise<GatusEndpoint | null> => {
+export const fetchGatusEndpoint = async (key: string): Promise<IGatusEndpoint | null> => {
+    if (typeof window !== 'undefined' && isApiDown()) {
+        return null;
+    }
     try {
-        const response = await axios.get<GatusEndpoint[]>(`${ApiBaseUrl}/gatus/endpoints`);
+        const response = await apiClient.get<IGatusEndpoint[]>('/gatus/endpoints');
+        setApiDown(false);
         const endpoint = response.data.find(e => e.key === key);
         return endpoint || null;
     } catch (error) {
-        logDev(`Failed to fetch Gatus endpoint [${key}]:`, error);
+        setApiDown(true);
         return null;
     }
 };
 
-export const getEndpointStatus = (endpoint: GatusEndpoint): 'online' | 'offline' | 'maintenance' => {
+export const getEndpointStatus = (endpoint: IGatusEndpoint): 'online' | 'offline' | 'maintenance' => {
     if (!endpoint.results || endpoint.results.length === 0) {
         return 'offline';
     }
@@ -59,7 +50,7 @@ export const getEndpointStatus = (endpoint: GatusEndpoint): 'online' | 'offline'
     return 'online';
 };
 
-export const calculateUptime = (endpoint: GatusEndpoint): number => {
+export const calculateUptime = (endpoint: IGatusEndpoint): number => {
     if (!endpoint.results || endpoint.results.length === 0) {
         return 0;
     }
@@ -68,7 +59,7 @@ export const calculateUptime = (endpoint: GatusEndpoint): number => {
     return Math.round((successful / endpoint.results.length) * 100);
 };
 
-export const getLastCheck = (endpoint: GatusEndpoint): string => {
+export const getLastCheck = (endpoint: IGatusEndpoint): string => {
     if (!endpoint.results || endpoint.results.length === 0) {
         return 'N/A';
     }

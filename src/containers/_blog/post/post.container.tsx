@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLenis } from 'lenis/react';
 
 import Markdown from 'react-markdown';

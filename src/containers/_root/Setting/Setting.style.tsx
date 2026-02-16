@@ -148,7 +148,7 @@ export const Content = styled.div`
         font-variation-settings: 'wght' 600;
         margin: 0 0 15px 0;
         font-size: 1.2em;
-
+        
         & span {
             font-size: 0.8em;
             color: var(--font-subtle);
@@ -162,6 +162,25 @@ export const Content = styled.div`
                 color: var(--font-subtle);
                
             }
+        }
+    }
+
+    & .titleSection {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+
+        margin-bottom: 20px;
+
+        & h3{
+            line-height: 1rem;
+            margin-bottom: 0;
+        }
+
+        & span {
+            color: var(--font-subtle);
+            font-size: 0.8em;
+            margin-left: 0;
         }
     }
 
@@ -193,6 +212,21 @@ export const Content = styled.div`
 
             & h3 {
                 margin: 0 0 20px 0;
+            }
+        }
+    }
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        & .titleSection {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+
+            & h3 {
+                margin-bottom: 0;
+            }
+            & span {
+                font-size: 0.9em;
             }
         }
     }

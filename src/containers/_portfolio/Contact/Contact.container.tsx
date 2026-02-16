@@ -3,6 +3,7 @@ import { useContactForm } from '@/hooks/useContactForm';
 import { ContactInfo } from './build/Contact.info';
 import { ContactFormUI } from './build/ContactFormUI';
 import * as styled from './Contact.style';
+import { useApiStatus } from '@/context/ApiStatus.context';
 
 // Types
 export interface IContactContainerProps {
@@ -11,6 +12,8 @@ export interface IContactContainerProps {
 
 export const ContactContainer: React.FC<IContactContainerProps> = ({ id }) => {
     const formLogic = useContactForm();
+
+     const { isApiDown } = useApiStatus();
 
     return (
         <div id={id}>
@@ -26,7 +29,7 @@ export const ContactContainer: React.FC<IContactContainerProps> = ({ id }) => {
             </styled.Text>
             <styled.Container>
                 <ContactInfo />
-                <ContactFormUI {...formLogic} />
+                <ContactFormUI {...formLogic} isApiDown={isApiDown} />
             </styled.Container>
         </div>
     );

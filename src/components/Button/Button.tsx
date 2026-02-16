@@ -22,12 +22,18 @@ export interface ButtonProps {
  *
  * This component renders a customizable button with optional icon and click handler.
  *
- * @param onClick {Function} - Callback function to be executed when the button is clicked.
- * @param color {string} - Color of the button.
- * @param children {ReactNode} - Content to be displayed inside the button.
- * @param icon {ReactNode} - Optional icon element to be displayed before the button content.
- * @param icon_right {boolean} - If `true`, the icon will be displayed to the right of the button content.
- * @param disabled {boolean} - If `true`, the button will be disabled and cannot be clicked.
+ * @param {() => void} [onClick] - Function to call when the button is clicked.
+ * @param {string} [color] - Color of the button border and text.
+ * @param {React.ReactNode} children - The content to be displayed inside the button.
+ * @param {React.ReactNode} [icon] - Optional icon to be displayed alongside the button text.
+ * @param {boolean} [icon_right=false] - If true, the icon will be displayed on the right side of the text.
+ * @param {boolean} [disabled=false] - If true, the button will be disabled and not clickable.
+ * @param {string} [className] - Additional CSS class for custom styling.
+ * @param {string} [target] - Specifies where to open the linked document (used when href is provided).
+ * @param {string} [href] - If provided, the button will render as an anchor tag linking to this URL.
+ * @param {string} [padding] - Custom padding for the button.
+ *
+ * @returns {JSX.Element} The rendered Button component.
  */
 export const Button: React.FC<ButtonProps> = ({
     onClick,

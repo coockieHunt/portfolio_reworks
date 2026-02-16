@@ -18,26 +18,31 @@ export const TitleContainer = styled.div`
     text-align: center;
 
     font-family: 'Doto Variable', sans-serif;
+
+    & .title{
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 100%;
+
+        display: inline-block;
+        z-index: 9;
+        font-variation-settings: 'wght' 500;
+        color: var(--primary);
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        @media (max-width: ${SCREEN_SIZE.mobile}) {
+            font-size: 1.5rem;
+        }
+    }
     
     
 `;
 
 export const Title = styled.h2`
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 100%;
-
-    display: inline-block;
-    z-index: 9;
-    font-variation-settings: 'wght' 500;
-    color: var(--primary);
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    @media (max-width: ${SCREEN_SIZE.mobile}) {
-        font-size: 1.5rem;
-    }
+   
 `;
+
 
 export const BackTitle = styled.span`
     display: inline-block;

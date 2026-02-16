@@ -55,9 +55,9 @@ export const Info = styled.div`
             gap: 10px;
             padding: 10px 0 25px 0;
             & h2 {
-                font-size: 1.5em;
+                font-size: 1.8em;
                 color: var(--primary);
-                font-weight: 600;
+                font-weight: 700;
             }
 
             & span {
@@ -179,10 +179,19 @@ export const Info = styled.div`
     }
 `;
 
-export const ContactForm = styled.div`
+export const ContactForm = styled.div<{ $disabled?: boolean }>`
     margin: auto;
     width: 70%;
     padding: 35px;
+    position: relative;
+    overflow: hidden;
+
+    & h2 {
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
 
     background: linear-gradient(
         135deg,
@@ -194,52 +203,33 @@ export const ContactForm = styled.div`
     border-bottom: 8px solid var(--primary);
     border-radius: ${BORDER_RADIUS.xxlarge};
 
-    --breath-color: var(--primary);
-    --shadow-blur-min: 10px;
-    --shadow-blur-max: 20px;
-    --shadow-spread-min: 4px;
-    --shadow-spread-max: 6px;
 
-    box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min)
-        var(--breath-color);
-    transition: box-shadow 0.3s ease;
-    animation: breathe 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    & .disabled-overlay {
+        display: ${(props) => (props.$disabled ? 'flex' : 'none')};
+        flex-direction: column;
+        position: absolute;
+        inset: 0; 
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        pointer-events: all; 
+        gap: 15px;
 
-    & h2 {
-        font-size: 1.8em;
-        color: var(--primary);
-        font-weight: 600;
-        margin-bottom: 10px;
-        position: relative;
-        z-index: 1;
-    }
-
-    @keyframes breathe {
-        0%,
-        100% {
-            box-shadow: 0 var(--shadow-spread-min) var(--shadow-blur-min)
-                var(--breath-color);
-        }
-        25% {
-            box-shadow: 0 6px 20px var(--breath-color);
-        }
-        50% {
-            box-shadow: 0 var(--shadow-spread-max) var(--shadow-blur-max)
-                var(--breath-color);
-        }
-        75% {
-            box-shadow: 0 6px 20px var(--breath-color);
+        & strong{
+            color: var(--primary);
+            font-weight: bold;
         }
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         width: 100%;
         padding: 25px;
-
-        & h2 {
-            font-size: 1.6em;
-            line-height: 1.4em;
-        }
     }
 `;
 

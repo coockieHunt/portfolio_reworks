@@ -1,128 +1,200 @@
-import { SimpleButton } from '@/components/Button/SimpleButton';
-import * as Styled from './highContrast.style'
+import * as Styled from './style/highContrast.style'
+import { Container } from './style/container.style';
 import { useThemeManager } from '@/hooks/useThemeManager';
 import { useSettingContext } from '@/context/Setting.context';
+import { TitleTextComponent } from '@/components/Text/Text.component';
+import { Button } from '@/components/Button/Button';
+import { Swatch } from '@/components/swatch/swatch.conponents';
+
 
 export const HighContrastContainer = () => {
-        const { ChangeHightContrast } = useThemeManager();
-        const { settings } = useSettingContext();
-        
-        const handleToggleHighContrast = () => {
-            ChangeHightContrast(!settings.highContrast);
-        };
+    const { ChangeHightContrast } = useThemeManager();
+    const { settings } = useSettingContext();
+    
+    const handleToggleHighContrast = () => {
+        ChangeHightContrast(!settings.highContrast);
+    };
 
     return (
         <Styled.HighContrastWrapper>
-            <div className="container">
-                <Styled.HeaderSection>
-                    <Styled.HeaderTitle>Guide de Style : Mode Contraste Élevé</Styled.HeaderTitle>
-                    <Styled.ButtonSection>
-                        <SimpleButton 
-                            isActive={settings.highContrast}
-                            onClick={handleToggleHighContrast} 
-                            title={`${settings.highContrast ? 'Désactiver' : 'Activer'} le mode contraste élevé`}
-                        >
-                            {settings.highContrast ? 'Désactiver' : 'Activer'}
-                        </SimpleButton>
-                    </Styled.ButtonSection>
-                </Styled.HeaderSection>
-                <p>Ce document détaille les règles visuelles appliquées lorsque la classNamee le theme Contrast elevée et activée</p>
+            <Container>
+                <TitleTextComponent subtitle={'Pour une meilleure accessibilité'} weight={1}>
+                    Contraste Élevé
+                </TitleTextComponent>
 
-                <section>
-                    <h2>1. Palette de Couleurs</h2>
-                    <p>Les couleurs sont limitées pour assurer un contraste maximal (ratio AAA).</p>
-                    <div className="color-grid">
-                    <div className="swatch">
-                        <Styled.SwatchColorDemo $bgColor="#000000" $textColor="#fff">Noir</Styled.SwatchColorDemo>
-                        <div className="swatch-info">
-                            <strong>Arrière-plan</strong>
-                            <span className="swatch-hex">#000000</span>
-                            <small>Utilisé pour le body, inputs, boutons et conteneurs.</small>
-                        </div>
-                    </div>
-
-                    <div className="swatch">
-                        <Styled.SwatchColorDemo $bgColor="#FFFFFF" $textColor="#000">Blanc</Styled.SwatchColorDemo>
-                        <div className="swatch-info">
-                            <strong>Texte & Bordures</strong>
-                            <span className="swatch-hex">#FFFFFF</span>
-                            <small>Titres, paragraphes, bordures de section (2px).</small>
-                        </div>
-                    </div>
-
-                    <div className="swatch">
-                        <Styled.SwatchColorDemo $bgColor="#07c5ff" $textColor="#000">Cyan</Styled.SwatchColorDemo>
-                        <div className="swatch-info">
-                            <strong>Liens Hypertextes</strong>
-                            <span className="swatch-hex">#07c5ff</span>
-                            <small>Couleur des balises &lt;a&gt; (sans soulignement).</small>
-                        </div>
-                    </div>
-
-                    <div className="swatch">
-                        <Styled.SwatchColorDemo $bgColor="#000" $textColor="#85fa00">Vert Fluo</Styled.SwatchColorDemo>
-                        <div className="swatch-info">
-                            <strong>Mise en valeur</strong>
-                            <span className="swatch-hex">#85fa00</span>
-                            <small>Pour les &lt;span&gt; dans les &lt;div&gt;.</small>
-                        </div>
-                    </div>
-
-                    <div className="swatch">
-                        <Styled.SwatchColorDemo $bgColor="#000" $textColor="#ff0000">Rouge</Styled.SwatchColorDemo>
-                        <div className="swatch-info">
-                            <strong>Focus (Navigation)</strong>
-                            <span className="swatch-hex">#ff0000</span>
-                            <small>Contour visible lors de la navigation clavier.</small>
-                        </div>
-                    </div>
+                <div className='header_describ'>
+                    <p>
+                        Le mode Contraste Élevé est conçu pour offrir une expérience visuelle optimale
+                        aux utilisateurs ayant des difficultés de vision ou préférant une interface 
+                        plus nette. En activant ce mode, les couleurs sont ajustées pour maximiser 
+                        le contraste entre les éléments de la page, rendant le contenu plus facile à lire 
+                        et à naviguer.
+                    </p>
+                    
+                    <Button
+                        color="color-mix(in srgb, var(--primary), transparent 90%)"
+                        className="source_code"
+                        target="_blank"
+                        onClick={() => handleToggleHighContrast()}
+                    >
+                        {settings.highContrast ? 'Désactiver le mode' : 'Tester le mode Contraste Élevé'}
+                    </Button>
                 </div>
-                </section>
 
                 <section>
-                    <h2>2. Typographie et Lisibilité</h2>
-                    <p>Toutes les décorations superflues (ombres portées, gradients) sont supprimées.</p>
-                <ul>
-                    <li><strong>Titres (H1, H2, H3) :</strong> Blanc pur, gras (Font-weight 700/600), hauteur de ligne 1.3.</li>
-                    <li><strong>Corps de texte :</strong> Blanc, épaisseur renforcée (Semi-Bold 600), taille augmentée (1.01em).</li>
-                    <li><strong>Icônes SVG :</strong> Trait épaissi à 2.5px pour une meilleure visibilité.</li>
-                </ul>
-                </section>
+                    <h2>Palette de Couleurs</h2>
+                    <p>
+                        Le mode utilise cinq couleurs principales pour garantir une visibilité maximale 
+                        et réduire la fatigue visuelle.
+                    </p>
+                    <div className="color-grid">
+                        <Swatch
+                            color="#000000"
+                            colorText='white'
+                            title="Arrière-plan - Noir"
+                        >
+                            Fond de page pour un contraste maximal avec le texte blanc.
+                        </Swatch>
 
-                <section>
-                    <h2>3. Composants d'Interface (UI)</h2>
-                    <h3>Conteneurs (Nav, Header, Main, Section)</h3>
-                    <p>Les blocs structurels sont strictement délimités :</p>
-                    <div className="sample-box">
-                        Exemple de conteneur : Fond noir avec une <strong>bordure blanche solide de 2px</strong>.
+                        <Swatch
+                            color="#FFFFFF"
+                            colorText="#000000"
+                            title="Texte - Blanc"
+                        >
+                            Tous les textes, titres et paragraphes apparaissent en blanc pur.
+                        </Swatch>
+
+                        <Swatch
+                            color="#2986ff"
+                            colorText="#000000"
+                            title="Liens - Bleu vif"
+                        >
+                            Les liens cliquables et les bordures principales sont en bleu vif pour les repérer facilement.
+                        </Swatch>
+
+                        <Swatch
+                            color="#29ff3b"
+                            colorText="#000000"
+                            title="Sélection - Vert vif"
+                        >
+                            Indique l'élément actuellement sélectionné ou actif dans la navigation.
+                        </Swatch>
+
+                        <Swatch
+                            color="#ff0202"
+                            colorText="#000000"
+                            title="Icônes - Rouge vif"
+                        >
+                            Les icônes et symboles utilisent cette couleur pour se démarquer visuellement.
+                        </Swatch>
                     </div>
+                </section>
 
-                    <h3>Formulaires (Input, Textarea, Button)</h3>
-                        <p>Les champs de saisie suivent la règle du contraste inversé strict :</p>
-                        <Styled.FormDemoSection>
-                            <Styled.FormDemoInput type="text" value="Saisie utilisateur" readOnly />
-                            <Styled.FormDemoButton>Bouton d'action</Styled.FormDemoButton>
-                        </Styled.FormDemoSection>
+                <section>
+                    <h2>Lisibilité du Texte</h2>
+                    <p>
+                        Le mode Contraste Élevé améliore la lecture en rendant le texte plus épais et 
+                        en supprimant tous les effets visuels inutiles.
+                    </p>
+                    <ul>
+                        <li><strong>Titres :</strong> Plus gros et en gras pour une meilleure hiérarchie visuelle.</li>
+                        <li><strong>Texte normal :</strong> Légèrement agrandi avec une épaisseur renforcée pour faciliter la lecture.</li>
+                        <li><strong>Icônes :</strong> Traits plus épais (2,5 pixels) en rouge vif pour une reconnaissance immédiate.</li>
+                        <li><strong>Effets supprimés :</strong> Aucune ombre, dégradé ou transparence qui pourrait réduire le contraste.</li>
+                    </ul>
+                </section>
 
-                    <h3>Navigation Clavier (Focus)</h3>
-                    <p>Tout élément interactif recevant le focus clavier (Tab) affiche un contour épais :</p>
+                <section>
+                    <h2>Navigation et Interactions</h2>
+                    
+                    <h3>Zones de Contenu</h3>
+                    <p>
+                        Toutes les sections importantes (navigation, en-tête, contenu principal) sont 
+                        délimitées par des bordures blanches de 2 pixels pour une structure claire.
+                    </p>
+
+                    <h3>Champs de Formulaire</h3>
+                    <p>Les zones de saisie sont faciles à identifier :</p>
+                    <Styled.FormDemoSection>
+                        <Styled.FormDemoInput type="text" value="Exemple de texte saisi" readOnly />
+                        <Styled.FormDemoButton>Bouton</Styled.FormDemoButton>
+                    </Styled.FormDemoSection>
+
+                    <h3>Navigation au Clavier</h3>
+                    <p>
+                        Si vous naviguez avec la touche Tab, un contour épais apparaît autour 
+                        de l'élément sélectionné pour le repérer facilement :
+                    </p>
                     <Styled.FocusDemoSection>
-                        <Styled.FocusDemoButton>Élément avec Focus</Styled.FocusDemoButton>
+                        <Styled.FocusDemoButton>Essayez de cliquer ici</Styled.FocusDemoButton>
                     </Styled.FocusDemoSection>
                 </section>
 
                 <section>
-                    <h2>4. Règles Spécifiques</h2>
-                        <ul>
-                            <li><strong>Liens :</strong> Couleur cyan <code>#07c5ff</code>. Cependant, dans les zones de navigation/header/footer, ils peuvent apparaître soulignés.</li>
-                            <li><strong>Table des matières (#toc) :</strong> Utilise la couleur <code>var(--primary)</code> pour les bordures et l'état actif, avec des icônes rouges.</li>
-                            <li><strong>Reset Global :</strong> Suppression forcée des <code>background-image</code> (gradients), <code>box-shadow</code>, et <code>text-shadow</code> (sauf exceptions spécifiques).</li>
-                        </ul>
+                    <h2>Éléments Spécifiques</h2>
+                    <ul>
+                        <li>
+                            <strong>Liens :</strong> Affichés en bleu vif pour les repérer rapidement. 
+                            Dans les menus, ils sont également soulignés.
+                        </li>
+                        <li>
+                            <strong>Articles :</strong> Chaque article est entouré d'une bordure bleue 
+                            pour le séparer visuellement du reste de la page.
+                        </li>
+                        <li>
+                            <strong>Projets :</strong> Les projets ont des bordures bleues, avec des 
+                            boutons d'action marqués par une bordure verte.
+                        </li>
+                        <li>
+                            <strong>Table des matières :</strong> 
+                            <ul>
+                                <li>Bordure bleue autour de chaque élément</li>
+                                <li>Fond vert vif pour l'élément actif (section en cours de lecture)</li>
+                                <li>Bordure verte au survol de la souris</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Fenêtres modales :</strong> Encadrées par une bordure bleue épaisse 
+                            pour attirer l'attention.
+                        </li>
+                        <li>
+                            <strong>Icônes :</strong> Toutes les icônes sont en rouge vif avec un trait 
+                            épaissi pour être facilement visibles.
+                        </li>
+                    </ul>
                 </section>
-            </div>
 
+                <section>
+                    <h2>Pourquoi ces Couleurs ?</h2>
+                    <p>
+                        Cette palette a été choisie pour offrir le meilleur contraste possible 
+                        tout en restant agréable à l'œil :
+                    </p>
+                    <ul>
+                        <li><strong>Noir et Blanc :</strong> Le contraste le plus élevé possible (21:1) pour une lisibilité optimale.</li>
+                        <li><strong>Bleu vif (#2986ff) :</strong> Facile à distinguer du fond noir, utilisé pour structurer le contenu.</li>
+                        <li><strong>Vert vif (#29ff3b) :</strong> Attire immédiatement l'attention sur les éléments actifs.</li>
+                        <li><strong>Rouge vif (#ff0202) :</strong> Rend les icônes et symboles instantanément reconnaissables.</li>
+                    </ul>
+                    <p>
+                        Ce mode garantit un ratio de contraste supérieur à 7:1, ce qui dépasse 
+                        largement les recommandations internationales pour l'accessibilité web 
+                        (conformité WCAG niveau AAA).
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Avantages de ce Mode</h2>
+                    <ul>
+                        <li>✓ Réduit la fatigue oculaire pour les sessions prolongées</li>
+                        <li>✓ Améliore la lisibilité pour les personnes malvoyantes</li>
+                        <li>✓ Facilite la navigation au clavier</li>
+                        <li>✓ Élimine les distractions visuelles</li>
+                        <li>✓ Compatible avec les lecteurs d'écran</li>
+                        <li>✓ Respecte les normes d'accessibilité internationales</li>
+                    </ul>
+                </section>
+            </Container>
         </Styled.HighContrastWrapper>
-
-        
     );
 }

@@ -172,13 +172,14 @@ const GlobalStyle = createGlobalStyle`
                 }
 
                 & svg {
-                    stroke-width: 2.5px !important;
+                    stroke-width: ${COLOR_SETTING.HighContrast.custom.svg_stroke} !important;
+                    stroke: ${COLOR_SETTING.HighContrast.custom.svg_stroke_color} !important; 
                 }
 
                 & h1, & h2, & h3 {
-                    color: white !important;
-                    margin-bottom: 1rem !important;
-                    line-height: 1.3 !important;
+                    color: ${COLOR_SETTING.HighContrast.custom.text_color} !important;
+                    margin: ${COLOR_SETTING.HighContrast.custom.margin_title} !important;
+                    line-height: ${COLOR_SETTING.HighContrast.custom.title_line} !important;
                 }
 
                 & h1 { font-size: 2.5rem !important; font-weight: 700 !important; }
@@ -186,9 +187,9 @@ const GlobalStyle = createGlobalStyle`
                 & h3 { font-size: 1.5rem !important; font-weight: 600 !important; }
                 
                 & p, & li, & a, & div, & input, & textarea, & button {
-                    font-weight: 600 !important;
-                    font-size: 1.01em !important;
-                    color: white!important;
+                    font-weight: ${COLOR_SETTING.HighContrast.custom.basic_text_weight} !important;
+                    color: ${COLOR_SETTING.HighContrast.custom.text_color} !important;
+                    font-size: ${COLOR_SETTING.HighContrast.custom.basic_text_size} !important;
                 }
 
                 & nav, & header, & footer, & section, & main {
@@ -203,10 +204,10 @@ const GlobalStyle = createGlobalStyle`
                 & input, & textarea, & select, & button {
                     border: 2px solid white !important;
                     background-color: black !important;
-                    color: #fdfbfb !important;
+                    color: ${COLOR_SETTING.HighContrast.custom.text_color} !important;
 
                     &::placeholder {
-                        color: white !important;
+                        color: ${COLOR_SETTING.HighContrast.custom.text_color_placeHolder} !important;
                         opacity: 1 !important;
                     }
                 }
@@ -226,78 +227,57 @@ const GlobalStyle = createGlobalStyle`
                 }
 
                 & div svg{
-                    color: #faf5f5!important;
-                }
-
-                & div span{
-                    color: #85fa00!important;
-                    font-weight: 700!important;
-                    font-shadow: 0 0 5px #0c4601!important;
-                    
-                }
-
-                
-
-                & Button, & a {
-                    background-color: black !important;
-                    color: #ffffff !important;
+                    color: ${COLOR_SETTING.HighContrast.custom.text_color} !important;
                 }
 
                 & a{
-                    text-decoration: none !important;
-                    color: #07c5ff !important;
+                    color: ${COLOR_SETTING.HighContrast.custom.link_color} !important;
                 }
 
-                //highlight tab
-                & *:focus-visible {
-                    outline: 3px solid #ff0000 !important; 
-                    outline-offset: 2px;
-                    box-shadow: 0 0 10px #ff0000 !important; 
-                }
-
-                //specific fixes
-                & #services{
-                    & a{
-                        display: inline-block !important;
-                    }
-                }
-                
-                & #product{
-                    & :after, & :before {
-                        display: none !important;
+               
+               
+                article {
+                    border: 2px solid ${COLOR_SETTING.HighContrast.custom.link_color} !important;
+                    & h2 {
+                        color: ${COLOR_SETTING.HighContrast.custom.text_color} !2986ff;
                     }
                 }
 
-                & #contact{
-                    & .ItemInfo{
-                        & svg{
-                            color: #050505!important;
+               #project {
+                    
+                    ul {
+                        & .cta{
+                            border: 2px solid green!important;
                         }
-                    }
-                }
-
-                & #toc{
-                    & li {
-                        border: 2px solid var(--primary);
-
-                        & svg{
-                            color: red               !important;
-                            font-weight: 700 !important;
-                            font-size: 1.1em !important;
+                        & li {
+                            border: 2px solid ${COLOR_SETTING.HighContrast.custom.link_color} !important;
+                            
                         }
 
+                      
+                    }
+                }
+
+
+                #toc {
+                    li{
+                        border: 2px solid ${COLOR_SETTING.HighContrast.custom.link_color} !important;
                         &.active {
-                            background-color: var(--primary) !important;
+                            background-color: ${COLOR_SETTING.HighContrast.custom.link_color_select} !important;
+                        }
+                        & :hover {
+                            border: 2px solid ${COLOR_SETTING.HighContrast.custom.link_color_select} !important;
                         }
                     }
-                    & a {
-                        background-color: black !important;
-                        color: #ffffff !important;
-                        font-weight: 700 !important;
-                        font-size: 1.1em !important;
-                        padding: 5px 10px !important;
-                    }
                 }
+                    
+             
+                .Modal {
+                    border: 2px solid ${COLOR_SETTING.HighContrast.custom.link_color} !important;
+                }
+              
+
+               
             }
         `;
     }}

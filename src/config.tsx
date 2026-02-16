@@ -13,6 +13,8 @@ import UmamiIcon from './assets/techIcon/umami.svg?react';
 import TanstakIcon from './assets/techIcon/tanstack.svg?react';
 import TypeScriptIcon from './assets/techIcon/typescript.svg?react';
 import ViteIcon from './assets/techIcon/vite.svg?react';
+import { text } from 'stream/consumers';
+import { link } from 'fs';
 
 // interface
 export interface iColorSettings {
@@ -59,7 +61,7 @@ export const COLOR_SETTING = {
         background_elevated: '#0a0908',
 
         font: '#ddd9f7',
-        font_subtle: '#eeebffc0',
+        font_subtle: '#eeebff97',
         font_on_primary: '#ffffff',
         font_hint: '#bbbbcc',
 
@@ -114,7 +116,7 @@ export const COLOR_SETTING = {
         background_elevated: '#080d0a',
 
         font: '#e8ffed',
-        font_subtle: '#e8ffedC0',
+        font_subtle: '#eeebff97',
         font_on_primary: '#ffffff',
         font_hint: '#bbbbcc',
 
@@ -141,7 +143,7 @@ export const COLOR_SETTING = {
         background_elevated: '#0f0d09',
 
         font: '#fff8e8',
-        font_subtle: '#fff8e8c0',
+        font_subtle: '#eeebff97',
         font_on_primary: '#ffffff',
         font_hint: '#bbbbcc',
 
@@ -168,7 +170,7 @@ export const COLOR_SETTING = {
         background_elevated: '#070f10',
 
         font: '#e8fbff',
-        font_subtle: '#e8fbffc0',
+        font_subtle: '#eeebff97',
         font_on_primary: '#ffffff',
         font_hint: '#bbbbcc',
 
@@ -195,7 +197,7 @@ export const COLOR_SETTING = {
         background_elevated: '#0a0708',
 
         font: '#ffebf3',
-        font_subtle: '#ffebf3c0',
+        font_subtle: '#eeebff97',
         font_on_primary: '#ffffff',
         font_hint: '#bbbbcc',
 
@@ -222,7 +224,7 @@ export const COLOR_SETTING = {
         background_elevated: '#080f0f',
 
         font: '#ebf3ff',
-        font_subtle: '#ebf3ffc0',
+        font_subtle: '#eeebff97',
         font_on_primary: '#ffffff',
         font_hint: '#bbbbcc',
 
@@ -268,6 +270,26 @@ export const COLOR_SETTING = {
         border_light: '#ffffff',
         
         border_subtle: '#ffee00', 
+
+
+        custom: {
+            margin_title: '0 0 1rem 0',
+            title_line: '1.3',
+
+            text_color: '#ffffff',
+            text_color_placeHolder: '#ffffff',
+
+            basic_text_size: '1.01em',
+            basic_text_weight: '800',
+
+            link_color: '#2986ff',
+            link_color_select: '#29ff3b',
+
+            svg_stroke: " 2.5px",
+
+            svg_stroke_color: '#ff0202',
+
+        }
     },
 };
 
@@ -387,6 +409,8 @@ export const ApiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 export const AssetsBaseUrl =
     import.meta.env.VITE_ASSETS_BASE_URL || 'http://localhost:3001/assets';
+export const FallbackCacheUrl =
+    import.meta.env.VITE_FALLBACK_CACHE_URL="/fallback/worker_cache.json"
 export const MailDefault = {
     firstName: '',
     lastName: '',

@@ -1,8 +1,8 @@
 import * as Styled from './ServiceStatus.style';
-import { TitleTextComponent } from '@/components/Text/Text.component';
+import { InfoDataTextComponent, TitleTextComponent } from '@/components/Text/Text.component';
 import { CalendarCheck, ClockCheck, Dot, Loader2 } from 'lucide-react';
 import { memo, useEffect, useState } from 'react';
-import { fetchGatusEndpoints, getEndpointStatus, calculateUptime, getLastCheck} from '@/api/gatus.api';
+import { fetchGatusEndpoints, getEndpointStatus, calculateUptime, getLastCheck} from '@/api/service/gatus.api';
 
 interface IServiceStatusProps {
     Name: string;
@@ -106,13 +106,11 @@ const ServiceStatusApiComponent = () => {
                 )}
                 
                 {error && (
-                    <div style={{ 
-                        padding: '1rem',
-                        color: 'var(--color-error)',
-                        fontSize: '0.9rem'
-                    }}>
-                        Impossible de charger le statut des services
-                    </div>
+                    <InfoDataTextComponent
+                        StrongText="Erreur"
+                        text="Impossible de récupérer le statut des services."
+                        subtitle="Veuillez réessayer plus tard."
+                    />
                 )}
                 
                 {!loading && displayedServices.map(service => (

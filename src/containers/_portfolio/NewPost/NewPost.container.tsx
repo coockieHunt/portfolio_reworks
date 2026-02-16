@@ -1,6 +1,5 @@
-import { TitleTextComponent } from '@/components/Text/Text.component';
 import { IBlogPost } from '@/types/blog.d';
-import { getBlogPostsOffset } from '@/api/blog.api';
+import { getBlogPostsOffset } from '@/api/service/blog.api';
 import { useEffect, useState } from 'react';
 import { PostGridContainer } from '@/containers/_blog/postGrid/postGrid.container';
 
@@ -11,6 +10,7 @@ import {Link as LinkComponent} from '@/components/Button/LinkButton';
 export const NewPostContainer = () => {
     const [IsLoading, setIsLoading] = useState(true);
     const [LatestPost, setLatestPost] = useState<IBlogPost[]>([]);
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         async function fetchLatestPost() {
@@ -19,9 +19,11 @@ export const NewPostContainer = () => {
                 const response = await getBlogPostsOffset(1, 2);
                 if (response?.data?.posts && response.data.posts.length > 0) {
                     setLatestPost(response?.data?.posts || []);
+                } else {
+                    setHasError(true);
                 }
             } catch (error) {
-                console.error('Error fetching latest post:', error);
+                setHasError(true);
             } finally {
                 setIsLoading(false);
             }
@@ -36,6 +38,8 @@ export const NewPostContainer = () => {
                         count={2}
                         data={LatestPost} 
                         loading={IsLoading}
+                        isEmpty={LatestPost.length === 0}
+                        hasError={hasError}
                     />
                 </Styled.PostContainer>
 

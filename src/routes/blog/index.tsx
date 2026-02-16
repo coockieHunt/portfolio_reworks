@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import styled, {keyframes} from 'styled-components';
 
-import { getBlogPostsOffset, getTagList } from '@/api/blog.api';
+import { getBlogPostsOffset, getTagList } from '@/api/service/blog.api';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
 import { IBlogPost } from '@/types/blog.d';
 
@@ -104,6 +104,11 @@ function BlogIndex() {
         "tags": false
     });
 
+    const [hasError, setHasError] = useState({
+        "posts": false,
+        "tags": false
+    });
+
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
@@ -128,9 +133,13 @@ function BlogIndex() {
                 if (tagResponse?.data) {
                     const filterEmptyTags = tagResponse.data.filter((tag) => tag.postIds.length > 0);
                     setTags(filterEmptyTags);
+                    setHasError((prev) => ({...prev, "tags": false}));
+                } else {
+                    setHasError((prev) => ({...prev, "tags": true}));
                 }
             } catch (error) {
                 console.error('Error fetching tags:', error);
+                setHasError((prev) => ({...prev, "tags": true}));
             } finally {
                 setIsLoading((prev) => ({...prev, "tags": false}) );
             }
@@ -150,18 +159,25 @@ function BlogIndex() {
                 const response = await getBlogPostsOffset(min, max, searchTerm, searchParams.tag); 
                 const newPosts = response?.data?.posts || [];
 
-                setBlogPosts((prev) => {
-                    return page === 1 ? newPosts : [...prev, ...newPosts];
-                });
-
-                if (newPosts.length < Blog.POSTS_PER_PAGE) {
-                    setHasMore(false);
+                if (!response?.data?.posts) {
+                    setHasError((prev) => ({...prev, "posts": true}));
                 } else {
-                    setHasMore(true);
+                    setBlogPosts((prev) => {
+                        return page === 1 ? newPosts : [...prev, ...newPosts];
+                    });
+
+                    if (newPosts.length < Blog.POSTS_PER_PAGE) {
+                        setHasMore(false);
+                    } else {
+                        setHasMore(true);
+                    }
+
+                    setHasError((prev) => ({...prev, "posts": false}));
                 }
 
             } catch (error) {
                 console.error('Error fetching posts:', error);
+                setHasError((prev) => ({...prev, "posts": true}));
             } finally {
                 setIsLoading((prev) => ({...prev, "posts": false}));
             }
@@ -247,6 +263,7 @@ function BlogIndex() {
                     data={blogPosts} 
                     loading={isLoading.posts}
                     isEmpty={!isLoading.posts && blogPosts.length === 0}
+                    hasError={hasError.posts}
                 />
             </div>
             
@@ -255,7 +272,7 @@ function BlogIndex() {
                 <LoaderComponent type="NoLoading" ></LoaderComponent>
             )}
             {/* cta load more */}
-            {!isLoading.posts && hasMore && (
+            {!isLoading.posts && hasMore && !hasError.posts && (
                 <LoaderComponent type='NoLoading' >
                     <span 
                         onClick={() => setPage((prev) => prev + 1)}

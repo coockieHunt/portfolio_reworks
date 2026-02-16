@@ -15,7 +15,7 @@ export const ContactInfo = () => {
             />
             <div className="content">
                 <div className="title">
-                    <h2>Informations</h2>
+                    <h2 >Informations</h2>
                     <span>Mes coordonnées directes</span>
                 </div>
                 <div className="container">

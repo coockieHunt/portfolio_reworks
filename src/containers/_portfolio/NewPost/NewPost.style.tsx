@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { SCREEN_SIZE } from "@/config";
 
 export const Container = styled.div`
     display: flex;
@@ -9,6 +10,10 @@ export const Container = styled.div`
     width: 85%;
 
     margin: 0 auto;
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        width: 95%;
+    }
 `
 
 export const PostContainer = styled.div`

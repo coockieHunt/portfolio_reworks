@@ -19,6 +19,8 @@ export const StyledSimpleButton = styled.button`
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    border: 2px dashed color-mix(in srgb, var(--primary), black 80%);
+
 
     & .color{
         display: flex;
@@ -54,6 +56,7 @@ export const StyledSimpleButton = styled.button`
             background-color: var(--primary);
             color: var(--background);
         }
+        
     }
 
     &.random {

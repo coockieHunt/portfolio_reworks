@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Eye, EyeOff, Palette, X } from 'lucide-react';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 
 // Styles & Config
 import * as Styled from './Setting.style';
@@ -82,6 +82,11 @@ export const SettingContainer: React.FC = () => {
         navigator.clipboard.writeText(`${SITE_URL}?hc=true`);
         const message = <span>Lien avec le mode <span style={{ fontWeight: 'bold', color: 'yellow'}}>Contraste Élevé</span> pret a etre partagé !</span>;
         addAlert(message, 'success', 3000);
+    }
+
+    const handleReadMoreClick = () => {
+        navigate({ to: '/guide_mode_contrast_elevee' });
+        setIsOpen(false);
     }
 
     useEffect(() => {
@@ -195,8 +200,12 @@ export const SettingContainer: React.FC = () => {
                         className="ContainerButton"
                         style={{ marginTop: '10px' }}
                     >
-                        <div className="theme">
-                            <h3>Thème de Couleur <span>( <Share size={15}/> pour partager avec la thème )</span></h3>
+                        <div>
+                            <div className="titleSection">
+                                <h3>Thème de Couleur </h3>
+                                <span>( <Share size={15}/> pour partager avec la thème )</span>
+                            </div>
+                           
                             <div className="ThemesContainer">
                                 {defaultThemes.map((themeKey) => (
                                     <SimpleButton
@@ -240,14 +249,25 @@ export const SettingContainer: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="accesebility">
-                            <h3>Accessibilité</h3>
+                        <div>
+                            <div className="titleSection">
+                                <h3>Accessibilité</h3>
+                            </div>
                             <Wrapper>
                                 <p>
                                     Conçue pour améliorer la visibilité des
                                     éléments et faciliter la lecture pour les
                                     personnes ayant des déficiences visuelles. 
-                                    &nbsp;<Link to="/guide_mode_contrast_elevee" style={{color: "var(--primary)"}}>En savoir plus</Link>
+                                    &nbsp;
+                                    <span
+                                        style={{
+                                            color: "var(--font-subtle)",
+                                            cursor: 'pointer',
+                                        }}
+                                        onClick={() => {
+                                            handleReadMoreClick()
+                                        }}
+                                    >En savoir plus.</span>
                                 </p>
 
                                 <SimpleButton
@@ -283,8 +303,10 @@ export const SettingContainer: React.FC = () => {
                             </Wrapper>
                         </div>
 
-                        <div className="fun">
-                            <h3>Mode Fun</h3>
+                        <div>
+                            <div className="titleSection">
+                                <h3>Mode Fun</h3>
+                            </div>
                             <SimpleButton
                                 className="random"
                                 onClick={handleRandomClick}

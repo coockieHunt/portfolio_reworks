@@ -25,8 +25,10 @@ import GlobalStyle from '@/styles/global.style';
 
 //context
 import { useSettingContext } from '@/context/Setting.context';
-
+import { ApiStatusProvider, useApiStatus } from '@/context/ApiStatus.context';
 import {AlertContainerComponent} from '@/components/Alert/Alert.component';
+import { LayerComponent } from '@/components/Layer/Layer.component';
+import { ParamsProvider } from '@/context/SearchParams.context';
 
 
 export const ThemeWrapper = ({ children }): React.ReactNode => {
@@ -55,6 +57,19 @@ export const Route = createRootRoute({
     component: RootComponent,
     notFoundComponent: () => <NotFound />,
 });
+
+const ApiStatusLayer = () => {
+    const { isApiDown } = useApiStatus();
+
+    if (!isApiDown) return null;
+
+    return (
+        <LayerComponent
+            text="MODE RESTREINT"
+            link={"/mode-restreint"}
+        />
+    );
+};
 
 function RootComponent() {
     const lenis = useLenis();
@@ -98,6 +113,7 @@ function RootComponent() {
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [lenis]);
 
+
     return (
         <ReactLenis
             root
@@ -112,11 +128,16 @@ function RootComponent() {
                     <ThemeWrapper>
                         <LoadingProvider>
                             <AlertProvider>
-                            <AlertContainerComponent />
-                                <Content>
-                                    <UmamiTracker />
-                                    <Outlet />
-                                </Content>
+                                <ParamsProvider>
+                                    <AlertContainerComponent />
+                                    <ApiStatusProvider>
+                                        <ApiStatusLayer />
+                                        <UmamiTracker />
+                                        <Content>
+                                            <Outlet />
+                                        </Content>
+                                    </ApiStatusProvider>
+                                </ParamsProvider>
                             </AlertProvider>
                         </LoadingProvider>
                     </ThemeWrapper>

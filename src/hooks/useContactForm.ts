@@ -1,6 +1,6 @@
 import { useState, useRef, ChangeEvent } from 'react';
 import { useAlert } from '../context/alert.context';
-import { sendEmail } from '../api/mail.api';
+import { sendEmail } from '../api/service/mail.api';
 import { trackEvent } from '../components/umami/umami.components';
 import { MailDefault } from '../config';
 

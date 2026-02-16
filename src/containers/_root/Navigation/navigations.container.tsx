@@ -23,6 +23,7 @@ export interface INavItem {
     to?: string;
     type: 'scroll' | 'route' | 'spacer';
     offset?: number;
+    icon?: React.ReactNode;
 }
 
 export interface INavigationComponentProps {
@@ -71,7 +72,8 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
                             onClick={() => handleClick(item.to || '')}
                             style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
                         >
-                            <span>{index + 1}. </span>
+                            
+                            {item.icon ? <span className="icon">{item.icon}</span>: <span>{index + 1}. </span>}
                             {item.display}
                         </a>
                     ) : item.type === 'route' ? (
@@ -84,6 +86,7 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
                                 textTransform: 'uppercase',
                             }}
                         >
+                            {item.icon && <span className="icon">{item.icon}</span>}
                             {item.display}
                         </RouterLink>
                     ) : item.type === 'spacer' ? (

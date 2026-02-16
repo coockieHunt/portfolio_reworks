@@ -178,8 +178,20 @@ export const Action = styled.div`
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--primary);
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #00000055;
+        filter: blur(2px);
+        z-index: -1;
+    }
 
     & a {
         text-decoration: none;
@@ -189,11 +201,18 @@ export const Action = styled.div`
         display: flex; 
         align-items: center;
         justify-content: center;
+
+       
     }
 
     &:hover {
         transform: translateY(-2px);
-        border-color: #fff;
+        color: var(--primary);
+        box-shadow: 0 4px 12px -4px color-mix(in srgb, var(--primary) 53%, transparent);
+
+        &::after {
+            background-color: #0000008f;
+        }
     }
 
     &.highlight {
@@ -205,6 +224,10 @@ export const Action = styled.div`
         &:hover {
             background-color: var(--primary); 
             box-shadow: 0 0 25px color-mix(in srgb, var(--primary) 40%, transparent);
+        }
+
+        &::after {
+            background-color: transparent;
         }
     }
 

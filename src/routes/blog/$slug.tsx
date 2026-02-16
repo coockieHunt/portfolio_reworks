@@ -1,12 +1,14 @@
 import React, { Suspense, useMemo } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import { getBlogPostBySlug } from '@/api/blog.api';
+import { getBlogPostBySlug } from '@/api/service/blog.api';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
-import { getOpenGraphUrl } from '@/api/openGraph';
+import { getOpenGraphUrl } from '@/api/service/openGraph';
 import { getProxyUrl } from '@/utils/image';
+
+import { ArrowBigLeftDash } from 'lucide-react';
 
 import { GlobalLoader } from '@/components/Loading/GlobalLoader.compenent'; 
 import { INavItem, NavigationComponent } from '@/containers/_root/Navigation/navigations.container';
@@ -40,8 +42,13 @@ export const Route = createFileRoute('/blog/$slug')({
     component: RouteComponent,
     
     loader: async ({ params }) => {
+        const slug = params.slug?.trim();
+        if (!slug || slug === 'blog') {
+            throw redirect({ to: '/blog' });
+        }
+
         try {
-            const response = await getBlogPostBySlug(params.slug);
+            const response = await getBlogPostBySlug(slug);
             const data = response?.data; 
             
             if (!data) {
@@ -75,12 +82,13 @@ function RouteComponent() {
     const featuredImageUrl = getProxyUrl(blogPost.post.featuredImage) || '';
     const currentUrl = `${SITE_URL}/blog/${blogPost.post.slug}`;
 
-    const dynamicOgUrl = getOpenGraphUrl(
-        blogPost.post.slug,
-        blogPost.post.title,
-        blogPost.author?.name || 'Unknown',
-        blogPost.post.editedAt
-    );
+    const dynamicOgUrl = getOpenGraphUrl({
+        slug: blogPost.post.slug,
+        title: blogPost.post.title,
+        author: blogPost.author?.name || 'Unknown',
+        lastEdit: blogPost.post.editedAt
+    });
+
 
     // Meta tags pour SEO
     const metaTags = useMemo(() => [
@@ -107,7 +115,8 @@ function RouteComponent() {
         {
             display : 'Retour au blog', 
             to: '/blog', 
-            type: "route"
+            type: "route",
+            icon: <ArrowBigLeftDash />
         }
         
     ];

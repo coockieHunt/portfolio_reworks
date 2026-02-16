@@ -15,6 +15,7 @@ import { Route as PageRouteImport } from './routes/_page'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as PortfolioIndexRouteImport } from './routes/_portfolio/index'
 import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
+import { Route as PageModeRestreintRouteImport } from './routes/_page/mode-restreint'
 import { Route as PageGuide_mode_contrast_eleveeRouteImport } from './routes/_page/guide_mode_contrast_elevee'
 
 const BlogRoute = BlogRouteImport.update({
@@ -45,6 +46,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => BlogRoute,
 } as any)
+const PageModeRestreintRoute = PageModeRestreintRouteImport.update({
+  id: '/mode-restreint',
+  path: '/mode-restreint',
+  getParentRoute: () => PageRoute,
+} as any)
 const PageGuide_mode_contrast_eleveeRoute =
   PageGuide_mode_contrast_eleveeRouteImport.update({
     id: '/guide_mode_contrast_elevee',
@@ -56,12 +62,14 @@ export interface FileRoutesByFullPath {
   '/': typeof PortfolioIndexRoute
   '/blog': typeof BlogRouteWithChildren
   '/guide_mode_contrast_elevee': typeof PageGuide_mode_contrast_eleveeRoute
+  '/mode-restreint': typeof PageModeRestreintRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PortfolioIndexRoute
   '/guide_mode_contrast_elevee': typeof PageGuide_mode_contrast_eleveeRoute
+  '/mode-restreint': typeof PageModeRestreintRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
 }
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/_portfolio': typeof PortfolioRouteWithChildren
   '/blog': typeof BlogRouteWithChildren
   '/_page/guide_mode_contrast_elevee': typeof PageGuide_mode_contrast_eleveeRoute
+  '/_page/mode-restreint': typeof PageModeRestreintRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/_portfolio/': typeof PortfolioIndexRoute
   '/blog/': typeof BlogIndexRoute
@@ -81,16 +90,23 @@ export interface FileRouteTypes {
     | '/'
     | '/blog'
     | '/guide_mode_contrast_elevee'
+    | '/mode-restreint'
     | '/blog/$slug'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/guide_mode_contrast_elevee' | '/blog/$slug' | '/blog'
+  to:
+    | '/'
+    | '/guide_mode_contrast_elevee'
+    | '/mode-restreint'
+    | '/blog/$slug'
+    | '/blog'
   id:
     | '__root__'
     | '/_page'
     | '/_portfolio'
     | '/blog'
     | '/_page/guide_mode_contrast_elevee'
+    | '/_page/mode-restreint'
     | '/blog/$slug'
     | '/_portfolio/'
     | '/blog/'
@@ -146,6 +162,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof BlogRoute
     }
+    '/_page/mode-restreint': {
+      id: '/_page/mode-restreint'
+      path: '/mode-restreint'
+      fullPath: '/mode-restreint'
+      preLoaderRoute: typeof PageModeRestreintRouteImport
+      parentRoute: typeof PageRoute
+    }
     '/_page/guide_mode_contrast_elevee': {
       id: '/_page/guide_mode_contrast_elevee'
       path: '/guide_mode_contrast_elevee'
@@ -158,10 +181,12 @@ declare module '@tanstack/react-router' {
 
 interface PageRouteChildren {
   PageGuide_mode_contrast_eleveeRoute: typeof PageGuide_mode_contrast_eleveeRoute
+  PageModeRestreintRoute: typeof PageModeRestreintRoute
 }
 
 const PageRouteChildren: PageRouteChildren = {
   PageGuide_mode_contrast_eleveeRoute: PageGuide_mode_contrast_eleveeRoute,
+  PageModeRestreintRoute: PageModeRestreintRoute,
 }
 
 const PageRouteWithChildren = PageRoute._addFileChildren(PageRouteChildren)

@@ -4,6 +4,8 @@ import * as FormComponent from '@/components/Form/Form.component';
 import { Button } from '@/components/Button/Button';
 import { Send } from 'lucide-react';
 import { IMailForm, ICaptchaRef } from '@/hooks/useContactForm';
+import { ContactEmail } from '@/config';
+
 
 interface IContactFormUIProps {
     output: IMailForm;
@@ -19,6 +21,7 @@ interface IContactFormUIProps {
     setHoneypot: (val: string) => void;
     IsCoolDown: boolean;
     CoolDownTime: number;
+    isApiDown: boolean;
 }
 
 export const ContactFormUI: React.FC<IContactFormUIProps> = ({
@@ -33,9 +36,27 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
     setHoneypot,
     IsCoolDown,
     CoolDownTime,
+    isApiDown,
 }) => {
     return (
-        <styled.ContactForm>
+        <styled.ContactForm aria-label="Formulaire de contact" $disabled={isApiDown}>
+            <div className="disabled-overlay">
+                <div>
+                    <strong>X)</strong> 
+                    <p>Le formulaire de contact est indisponible en mode restreint</p>
+                </div>
+                <div>
+                    <span style={{
+                        fontSize: '.8em',
+                    }}>N'hésitez pas à m'envoyer un email</span>
+                    <Button
+                        href={`mailto:${ContactEmail}`}
+                        icon={<Send />}
+                        padding='10px'
+                    > </Button>
+                </div>
+               
+            </div>
             <h2>Envoyer un message</h2>
             <styled.FormInstruction>
                 <span>(*)</span> Champs obligatoires
@@ -103,6 +124,7 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
             />
 
             <styled.ActionForm>
+
                 <span 
                     className="resetForm" 
                     onClick={handleReset}

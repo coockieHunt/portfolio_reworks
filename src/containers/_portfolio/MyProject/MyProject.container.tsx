@@ -7,8 +7,9 @@ import { Button } from '@/components/Button/Button';
 import { BuildPreview } from './Build/BuildPreview';
 import { BuildGalery } from './Build/BuildGalery';
 import { BuildTab } from './Build/BuildTab';
-import { getProjectsOffset } from '@/api/projects.api';
+import { getProjectsOffset } from '@/api/service/projects.api';
 import { getProxyUrl } from '@/utils/image';
+import { InfoDataTextComponent } from '@/components/Text/Text.component';
 
 import { IProject } from '../MyProject/interface/MyProject.interface';
 
@@ -174,13 +175,17 @@ export const MyProjectContainer: React.FC<MyProjectContainerProps> = ({
             <styled.ContentWrapper>
                 <styled.CardsContainer>
                     {hasError ? (
-                        <div className="flex items-center justify-center py-10 text-center text-muted-foreground w-full">
-                            Impossible de charger les projets pour le moment.
-                        </div>
+                       <InfoDataTextComponent
+                            StrongText="Erreur"
+                            text="Impossible de charger les projets."
+                            subtitle="Veuillez réessayer plus tard."
+                        />
                     ) : !isLoading && projects.length === 0 ? (
-                        <div className="flex items-center justify-center py-10 text-center text-muted-foreground w-full">
-                            Aucun projet pour le moment.
-                        </div>
+                        <InfoDataTextComponent
+                            StrongText="Oops!"
+                            text="Aucun projet pour le moment."
+                            subtitle='Essayer peut-être plus tard ?'
+                        />
                     ) : (
                         <PaginatedGrid
                             items={projects}
@@ -193,7 +198,9 @@ export const MyProjectContainer: React.FC<MyProjectContainerProps> = ({
                         />
                     )}
                     {isLoading && !hasError && (
-                        <div className="text-xs opacity-70">Chargement...</div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2.5rem', textAlign: 'center' }}>
+                            Chargement...
+                        </div>
                     )}
                 </styled.CardsContainer>
                 {!hasError && totalPages > 1 && (

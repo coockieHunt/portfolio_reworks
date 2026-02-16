@@ -3,6 +3,8 @@ import * as Styled from './PostCard.style';
 import { TagsComponent } from '@/components/Tags/Tags.component';
 import { Link } from '@tanstack/react-router';
 import { ImageLazyLoad } from "../ImageLazyLoad/ImageLazyLoad.componenet";
+import { useWindowSize } from '@/hooks/useScreenResize.hook';
+import { SCREEN_SIZE } from '@/config';
 
 interface PostCardProps {
     index: number;
@@ -29,8 +31,11 @@ export const PostCardComponents = ({
     slug,
     priority = false,
 }: PostCardProps) => {
+    const isMobile = !!useWindowSize(parseInt(SCREEN_SIZE.mobile) + 600);
+    const imageSize = isMobile ? { width: 200, height: 200 } : { width: 300, height: 300 };
+
     return(
-        <Styled.PostPreview $loading={loading}>
+        <Styled.PostPreview $loading={loading} >
             <Link 
                 to={loading ? '#' : `/blog/${slug}`} 
                 aria-label={loading ? 'Loading...' : `Read more about ${title}`}
@@ -39,12 +44,12 @@ export const PostCardComponents = ({
                     src={
                         getProxyUrl(
                             featured_image, 
-                            { size: { width: 300, height: 300 } }
+                            { size: imageSize }
                         ) ||
                         'https://via.placeholder.com/600x400?text=No+Image'
                     }
-                    height="300"
-                    width="300"
+                    height={imageSize.height.toString()}
+                    width={imageSize.width.toString()}
                     alt={title}
                     title={title}
                     lazy={!priority}

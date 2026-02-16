@@ -1,9 +1,12 @@
 import { AssetsBaseUrl } from '../config';
+import { isApiDown } from '../api/apiHealth';
 
 /**
  ** return proxy Cloudinary URL
  */
 export const getProxyUrl = (imageId: string, options?: Record<string, any>): string => {
+    if (!imageId) return '';
+    if (typeof window !== 'undefined' && isApiDown()) return '';
     let optionsStr = '';
     let queryStr = '';
 

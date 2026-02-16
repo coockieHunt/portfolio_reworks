@@ -2,11 +2,12 @@ import styled, { keyframes, css } from 'styled-components';
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 import { SCREEN_SIZE } from '@/config.js';
 
-const heightPostCard = 280;
-
-
 const imageWidth = 300;
-const imageHeight = 300;
+const imageHeight = imageWidth;
+
+const imageWidthMobile = 200;
+const imageHeightMobile = 200;
+
 
 const shimmer = keyframes`
     0% {
@@ -62,6 +63,20 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
         display: ${props => props.$loading ? 'none' : 'block'};
     }
 
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        & .lazy-wrapper {
+            width: ${imageWidthMobile}px;
+            height: ${imageHeightMobile}px;
+            min-width: ${imageWidthMobile}px;
+            min-height: ${imageHeightMobile}px;
+        }
+
+        & img {
+            width: ${imageWidthMobile}px;
+            height: ${imageHeightMobile}px;
+        }   
+    }
+
     & .content {
         flex: 1;
         padding: 20px;
@@ -111,6 +126,25 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
                 padding-left: 15px;
                 line-height: 1.5;
                 flex: 1;
+            }
+
+            @media (max-width: ${SCREEN_SIZE.mobile}) {
+                .brace{
+                    display: none;
+                }
+
+                p {
+                    padding-left: 0;
+                    
+                    display: -webkit-box;
+                    -webkit-line-clamp: 5; 
+                    -webkit-box-orient: vertical;
+                    
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    flex: none; 
+                }
             }
         }
 

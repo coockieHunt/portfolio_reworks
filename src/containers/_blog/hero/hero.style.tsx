@@ -63,8 +63,8 @@ export const Container = styled.div<ContainerProps>`
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         height: auto;
-        font-size: 1.5rem; 
-        padding: 3rem 1rem;
+        font-size: 1.3rem; 
+        padding: 5rem 1rem 3rem 1rem;
         line-height: 1.4;
         min-height: 280px;
         contain-intrinsic-size: auto 280px;

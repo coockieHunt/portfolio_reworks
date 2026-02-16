@@ -68,6 +68,7 @@ const ModalItem = ({
                 animate={{ y: '-50%', x: '-50%', opacity: 1 }}
                 exit={{ y: 'calc(-50% + 50px)', x: '-50%', opacity: 0 }}
                 transition={{ ease: 'easeOut', duration: 0.3 }}
+                className='Modal'
             >
                 <Top>
                     <button

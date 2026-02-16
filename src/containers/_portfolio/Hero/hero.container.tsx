@@ -89,7 +89,7 @@ export const HeroContainer = ({ id }: HeroContainerProps): JSX.Element => {
 
                         <div className="cta">
                             <CtaLink
-                                to="service"
+                                to="product"
                                 title="Découvrez mes services"
                                 description="Exploration des services proposés"
                             />

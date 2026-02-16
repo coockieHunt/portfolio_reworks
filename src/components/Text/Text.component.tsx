@@ -5,6 +5,10 @@ import { ToText } from './style/LinkText.style';
 import { TitleContainer, Title, BackTitle } from './style/TitleText.style';
 import { useSettingContext } from '../../context/Setting.context';
 import { COLOR_SETTING } from '../../config';
+import {InfoDataTextContainer} from './style/InfoDataText.style';
+import { sub } from 'framer-motion/client';
+
+
 
 export interface IAccentTextComponentProps {
     children: React.ReactNode;
@@ -15,6 +19,7 @@ export interface ITitleTextComponentProps {
     subtitle: React.ReactNode;
     subtitleOpacity?: number;
     style?: React.CSSProperties | undefined;
+    weight?: 1 | 2;
 }
 
 export interface IGradientTextContainerProps {
@@ -121,15 +126,23 @@ export const AccentTextComponent = ({
     return <Text className={className}>{children}</Text>;
 };
 
+/*
+    weight: 1 for h1, 2 for h2
+*/
 export const TitleTextComponent = ({
     children,
     subtitle,
     subtitleOpacity = 0.2,
     style,
+    weight = 2
 }: ITitleTextComponentProps): JSX.Element => {
     return (
         <TitleContainer style={style} >
-            <Title>{children}</Title>
+            {weight === 1 ?
+                <h1 className='title'>{children}</h1>
+                :
+                <h2 className='title'>{children}</h2>
+            }
             <BackTitle
                 style={{ opacity: subtitleOpacity }}
                 className="BackSubtitle font_code"
@@ -184,5 +197,18 @@ export const LinkTextComponent = ({
         >
             {children}
         </ToText>
+    );
+};
+
+export const InfoDataTextComponent = ({
+    StrongText,
+    text,
+    subtitle
+}: { StrongText: string; text: string; subtitle?: string }) => {
+    return (
+        <InfoDataTextContainer>
+            <span><strong>{StrongText}</strong> {text}</span>
+            {subtitle && <span className='sub'>{subtitle}</span>}
+        </InfoDataTextContainer>
     );
 };

@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
+import { slideIn } from '@/styles/utils.style';
 
 const NAV_BREAKPOINT = `${parseInt(SCREEN_SIZE.mobile) + 300}px`;
 
@@ -92,6 +93,7 @@ export const Nav = styled.nav`
         align-items: center;
         padding: 0;
         margin: 0;
+        animation: ${slideIn} .2s ease-out forwards;
 
         li {
             padding: 0 10px;
@@ -108,6 +110,20 @@ export const Nav = styled.nav`
                 text-decoration: none;
                 font-weight: bold;
                 cursor: pointer;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                gap: 5px;
+                & svg {
+                    margin-top: 5px;
+                    margin-right: 5px;
+                    width: 20px;
+                    height: 20px;
+                }
+
+
                 span {
                     color: var(--primary);
                     font-variation-settings: 'wght' 1000;
@@ -254,14 +270,7 @@ export const Nav = styled.nav`
             border: 1px solid var(--primary);
             color: var(--primary);
 
-            &:hover {
-                background: var(--primary);
-                color: var(--background);
-                box-shadow: 0 6px 18px -6px
-                    color-mix(in srgb, var(--primary) 67%, transparent);
-                transform: none;
-                color: white;
-            }
+          
         }
     }
 `;
