@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContactEmail } from '@/config';
 import { Link } from '@/components/Button/LinkButton';
+import { ListComponent } from '@/components/List/List.component';
 
 const SITE_INFO = {
     author: 'Jonathan Gleyze',
@@ -81,42 +82,34 @@ export const LegalNoticeContent: React.FC = () => {
                 <p>{SITE_INFO.author}</p>
 
                 <h5>Hébergement</h5>
-                <p>Le site est hébergé par :</p>
-                <ul>
+                <ListComponent>
                     <li>{SITE_INFO.hosting.name}</li>
-                    <li>Adresse : {SITE_INFO.hosting.address}</li>
+                    <li>{`Adresse : ${SITE_INFO.hosting.address}`}</li>
+                    <li>Aucune donnée personnelle n’est collectée sans consentement explicite.</li>
                     <li>
-                        Site :{' '}
-                        <Link href={SITE_INFO.hosting.website} type="external">
-                            hostinger.com
-                        </Link>
+                        Site : <Link href={SITE_INFO.hosting.website} type="external">hostinger.com</Link>
                     </li>
-                </ul>
+                </ListComponent>
 
                 <h5>Technologies et Éthique</h5>
                 <p>
                     Ce site privilégie des technologies open-source et
                     respectueuses de la vie privée :
                 </p>
-                <ul>
-                    <li>
-                        <strong>Front-end :</strong> React, React Icons, Web
-                        Vitals.
-                    </li>
-                    <li>
-                        <strong>Analytique :</strong> Umami (solution
-                        open-source sans cookies).
-                    </li>
-                    <li>
-                        <strong>Polices :</strong> Hébergées en local (pas de
-                        Google Fonts externes).
-                    </li>
-                </ul>
+                <ListComponent>
+                    <li><strong>Front-end :</strong> React, React Icons, Web Vitals.</li>
+                    <li><strong>Analytique :</strong> Umami (solution open-source sans cookies).</li>
+                    <li><strong>Polices :</strong> Hébergées en local (pas de Google Fonts externes).</li>
+                </ListComponent>
+              
+
                 <p>Une API interne gère :</p>
-                <ul>
+                <p>Elle ne collecte aucune donnée personnelle et ne fait que :</p>
+                <ListComponent>
                     <li>l’enregistrement des messages du livre d'or</li>
                     <li>la gestion des compteurs de clics</li>
-                </ul>
+                </ListComponent>
+
 
                 <h5>Propriété intellectuelle</h5>
                 <p>
@@ -138,28 +131,21 @@ export const LegalNoticeContent: React.FC = () => {
                 <p>
                     <strong>Vous êtes libre de :</strong>
                 </p>
-                <ul>
+                <ListComponent>
                     <li>Télécharger et utiliser le code</li>
                     <li>Modifier et adapter le projet à vos besoins</li>
                     <li>Déployer votre propre version en production</li>
-                    <li>
-                        Utiliser le code à des fins commerciales ou personnelles
-                    </li>
-                </ul>
+                    <li>Utiliser le code à des fins commerciales ou personnelles</li>
+                </ListComponent>
                 <p>
                     <strong>Conditions d'utilisation :</strong>
                 </p>
-                <ul>
-                    <li>
-                        Vous devez conserver une mention claire de l'auteur
-                        original ({SITE_INFO.author})
-                    </li>
-                    <li>
-                        Un lien vers le projet source doit être visible sur
-                        votre déploiement
-                    </li>
+                <ListComponent>
+                    <li>{`Vous devez conserver une mention claire de l'auteur original (${SITE_INFO.author})`}</li>
+                    <li>Un lien vers le projet source doit être visible sur votre déploiement</li>
                     <li>Les crédits et attributions doivent rester intacts</li>
-                </ul>
+                </ListComponent>
+
                 <p>
                     Dépôt GitHub :{' '}
                     <Link href={SITE_INFO.repoUrl} type="external">
@@ -183,46 +169,23 @@ export const LegalNoticeContent: React.FC = () => {
                     <strong>Umami</strong>, une alternative éthique et
                     open-source aux outils conventionnels.
                 </p>
-                <ul>
-                    <li>
-                        <strong>Anonymisation :</strong> Aucune adresse IP
-                        complète n'est stockée.
-                    </li>
-                    <li>
-                        <strong>Pas de profilage :</strong> Aucune donnée
-                        personnelle n'est collectée pour vous suivre d'un site à
-                        l'autre.
-                    </li>
-                    <li>
-                        <strong>Propriété des données :</strong> Les données
-                        analytiques restent strictement confidentielles et ne
-                        sont jamais revendues à des tiers.
-                    </li>
-                </ul>
+                <ListComponent>
+                    <li><strong>Anonymisation :</strong> Aucune adresse IP complète n'est stockée.</li>
+                    <li><strong>Pas de profilage :</strong> Aucune donnée personnelle n'est collectée pour vous suivre d'un site à l'autre.</li>
+                    <li><strong>Propriété des données :</strong> Les données analytiques restent strictement confidentielles et ne sont jamais revendues à des tiers.</li>
+                </ListComponent>
 
                 <h6>Événements trackés</h6>
                 <p>
                     Pour améliorer l'expérience utilisateur, certaines
                     interactions sont mesurées de manière anonyme :
                 </p>
-                <ul>
-                    <li>
-                        <strong>Clics sur les liens GitHub :</strong> Suivi des
-                        accès au code source (front-end et API) pour mesurer
-                        l'intérêt des développeurs.
-                    </li>
-                    <li>
-                        <strong>Clics sur les projets :</strong> Suivi des clics
-                        sur le bouton "Voir Projet" pour comprendre quels
-                        projets suscitent le plus d'intérêt.
-                    </li>
-                    <li>
-                        <strong>Interactions avec le terminal :</strong> Suivi
-                        des clics sur les solutions/produits affichés dans
-                        l'interface terminal pour analyser les services
-                        consultés.
-                    </li>
-                </ul>
+                <ListComponent>
+                    <li><strong>Clics sur les liens GitHub :</strong> Suivi des accès au code source (front-end et API) pour mesurer l'intérêt des développeurs.</li>
+                    <li><strong>Clics sur les projets :</strong> Suivi des clics sur le bouton "Voir Projet" pour comprendre quels projets suscitent le plus d'intérêt.</li>
+                    <li><strong>Interactions avec le terminal :</strong> Suivi des clics sur les solutions/produits affichés dans l'interface terminal pour analyser les services consultés.</li>
+                </ListComponent>
+
                 <p>
                     <strong>Important :</strong> Ces événements sont de simples
                     compteurs de clics. Ils enregistrent uniquement{' '}
@@ -237,38 +200,22 @@ export const LegalNoticeContent: React.FC = () => {
 
                 <h5>2. Absence de traqueurs intrusifs</h5>
                 <p>Dans un souci de respect absolu de votre vie privée :</p>
-                <ul>
-                    <li>
-                        Ce site n'utilise <strong>pas Google Analytics</strong>.
-                    </li>
-                    <li>
-                        Ce site n'utilise{' '}
-                        <strong>pas de Google reCAPTCHA</strong> (protections
-                        alternatives non intrusives).
-                    </li>
-                </ul>
+                <ListComponent>
+                    <li>Ce site n'utilise <strong>pas Google Analytics</strong>.</li>
+                    <li>Ce site n'utilise <strong>pas de Google reCAPTCHA</strong> (protections alternatives non intrusives).</li>
+                </ListComponent>
 
                 <h5>3. Respect des bloqueurs de publicité</h5>
                 <p>
                     <strong>Si vous utilisez un bloqueur de publicité :</strong>
                 </p>
-                <ul>
-                    <li>
-                        Ce site détecte la présence d'un bloqueur de publicité
-                        et <strong>respecte entièrement votre choix</strong>.
-                    </li>
-                    <li>
-                        Si un bloqueur est détecté, <strong>aucun script d'analytique ou de tracking n'est chargé</strong>, pas même Umami.
-                    </li>
-                    <li>
-                        <strong>Aucune solution de contournement</strong> n'est
-                        employée pour tenter de contourner votre bloqueur.
-                    </li>
-                    <li>
-                        Vous continuez à naviguer sur le site sans aucune
-                        collecte de données analytics.
-                    </li>
-                </ul>
+                <ListComponent>
+                    <li>Ce site détecte la présence d'un bloqueur de publicité et <strong>respecte entièrement votre choix</strong>.</li>
+                    <li>Si un bloqueur est détecté, <strong>aucun script d'analytique ou de tracking n'est chargé</strong>, pas même Umami.</li>
+                    <li><strong>Aucune solution de contournement</strong> n'est employée pour tenter de contourner votre bloqueur.</li>
+                    <li>Vous continuez à naviguer sur le site sans aucune collecte de données analytics.</li>
+                </ListComponent>
+               
                 <p>
                     Votre choix d'utiliser un bloqueur de publicité et/ou de
                     tracking est <strong>totalement respecté</strong>.
@@ -279,32 +226,23 @@ export const LegalNoticeContent: React.FC = () => {
                     Les formulaires (contact ou livre d'or) collectent
                     uniquement :
                 </p>
-                <ul>
+                <ListComponent>
                     <li>adresse e-mail (pour vous répondre)</li>
                     <li>nom ou pseudonyme</li>
                     <li>contenu du message</li>
-                </ul>
+                </ListComponent>
+               
                 <p>
                     Ces données servent uniquement à la fonctionnalité demandée
                     (échange ou publication sur le livre d'or).
                 </p>
 
                 <h5>5. Durée de conservation</h5>
-                <ul>
-                    <li>
-                        Les e-mails sont conservés le temps du traitement de la
-                        demande.
-                    </li>
-                    <li>
-                        Les messages du livre d’or restent publiés jusqu'à
-                        demande de suppression.
-                    </li>
-                    <li>
-                        Les statistiques Umami sont conservées sous forme
-                        agrégée et anonyme (seulement si aucun bloqueur n'est
-                        détecté).
-                    </li>
-                </ul>
+                <ListComponent>
+                    <li>Les e-mails sont conservés le temps du traitement de la demande.</li>
+                    <li>Les messages du livre d’or restent publiés jusqu'à demande de suppression.</li>
+                    <li>Les statistiques Umami sont conservées sous forme agrégée et anonyme (seulement si aucun bloqueur n'est détecté).</li>
+                </ListComponent>
 
                 <h5>6. Vos droits</h5>
                 <p>
@@ -328,12 +266,12 @@ export const LegalNoticeContent: React.FC = () => {
             </LegalSection>
 
             <LegalSection id="credits-heading" title="🧾 Crédits">
-                <ul>
-                    <li>React &amp; React Icons : MIT License</li>
+                <ListComponent>
+                    <li>React & React Icons : MIT License</li>
                     <li>Umami : MIT License</li>
                     <li>Polices locales : selon leurs licences propres</li>
                     <li>Logo Node.js : marque de la Node.js Foundation</li>
-                </ul>
+                </ListComponent>
             </LegalSection>
         </>
     );

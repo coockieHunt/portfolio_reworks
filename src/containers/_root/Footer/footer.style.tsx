@@ -294,29 +294,7 @@ export const LegalContent = styled.div`
         }
     }
 
-    & ul {
-        margin: 15px 0 15px 20px;
-        padding: 0;
-        list-style: none;
-
-        & li {
-            position: relative;
-            margin-bottom: 8px;
-            padding-left: 20px;
-            line-height: 1.6;
-            font-size: 0.95rem;
-
-            &::before {
-                content: '▹';
-                position: absolute;
-                left: 0;
-                color: var(--primary);
-                font-size: 1.2rem;
-                line-height: 1.2rem;
-                top: 2px;
-            }
-        }
-    }
+  
 
     & hr {
         border: none;

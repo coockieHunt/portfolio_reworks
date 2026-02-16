@@ -235,71 +235,19 @@ export const MarkdownContent = styled.div`
         padding: 10px;
     }
     
-    .mjx-math,
-        .katex {
+    .mjx-math,.katex {
         font-size: 1.4em;
         color: #222;
-        }
+    }
 
-        .mjx-math {
+    .mjx-math {
         font-family: "Times New Roman", serif;
-        }
+    }
 
-        .katex-display {
+    .katex-display {
         margin: 1.2em 0;
-        }
-    & ul {
-        margin: 25px 0; 
-        padding-left: 30px;
-        list-style-type: none;
-
-        & li {
-            position: relative;
-            margin-bottom: 10px; 
-            line-height: 1.8;
-            padding-left: 10px;
-
-            &::before {
-                content: "▸";
-                color: var(--primary);
-                position: absolute;
-                left: -20px;
-                font-weight: bold;
-            }
-        }
-
-        & ul {
-            margin: 10px 0;
-            & li::before { content: "◦"; }
-            & ul {
-                & li::before { content: "▪"; }
-            }
-        }
     }
-
-    & ol {
-        margin: 25px 0;
-        padding-left: 30px;
-        list-style-type: decimal;
-
-        & li {
-            margin-bottom: 10px;
-            line-height: 1.8;
-            padding-left: 10px;
-
-            &::marker {
-                color: var(--primary);
-                font-weight: 700;
-            }
-        }
-
-        & ol {
-            margin: 10px 0; 
-            list-style-type: lower-alpha;
-            & ol { list-style-type: lower-roman; }
-        }
-    }
-
+    
     & input[type='checkbox'] {
         margin-right: 12px;
         cursor: pointer;
@@ -390,73 +338,6 @@ export const MarkdownContent = styled.div`
         border-radius: 8px;
         max-width: 100%;
         height: auto;
-    }
-
-    & table {
-        width: 100%;
-        display: table;
-        white-space: normal;
-        
-        border-collapse: collapse;
-        margin: 40px 0;
-        border: none;
-
-        @media (max-width: ${SCREEN_SIZE.tablet}) {
-            display: block;       
-            overflow-x: auto;     
-            white-space: nowrap; 
-            
-            &::-webkit-scrollbar {
-                height: 8px;
-            }
-            &::-webkit-scrollbar-track {
-                background: rgba(0, 0, 0, 0.2);
-                border-radius: 4px;
-            }
-            &::-webkit-scrollbar-thumb {
-                background: ${HexToRgbaConverter('var(--primary)', 0.3)};
-                border-radius: 4px;
-                cursor: pointer;
-                &:hover {
-                    background: ${HexToRgbaConverter('var(--primary)', 0.5)};
-                }
-            }
-        }
-
-        & thead {
-            border-bottom: 2px solid var(--primary);
-            & th {
-                font-weight: 600;
-                text-align: left;
-                padding: 14px 16px;
-                border: none;
-                font-size: 0.9rem;
-                letter-spacing: 0.5px;
-                color: var(--primary);
-                background: transparent;
-            }
-        }
-
-        & tbody {
-            & tr {
-                border-bottom: 1px solid ${HexToRgbaConverter('var(--primary)', 0.15)};
-                transition: background-color 0.2s ease;
-                
-                &:last-child { border-bottom: none; }
-                &:hover { background-color: rgba(255, 255, 255, 0.02); }
-            }
-
-            & td {
-                padding: 14px 16px;
-                border: none;
-                line-height: 1.6;
-                font-size: 0.95rem;
-                
-                &:first-child {
-                    font-weight: 500;
-                }
-            }
-        }
     }
 
     & hr {

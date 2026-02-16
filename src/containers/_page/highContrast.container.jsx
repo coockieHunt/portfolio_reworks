@@ -1,11 +1,12 @@
-import * as Styled from './style/highContrast.style'
+import React from 'react';
+import * as Styled from './style/highContrast.style';
 import { Container } from './style/container.style';
 import { useThemeManager } from '@/hooks/useThemeManager';
 import { useSettingContext } from '@/context/Setting.context';
 import { TitleTextComponent } from '@/components/Text/Text.component';
 import { Button } from '@/components/Button/Button';
 import { Swatch } from '@/components/swatch/swatch.conponents';
-
+import { ListComponent } from '@/components/List/List.component';
 
 export const HighContrastContainer = () => {
     const { ChangeHightContrast } = useThemeManager();
@@ -34,8 +35,7 @@ export const HighContrastContainer = () => {
                     <Button
                         color="color-mix(in srgb, var(--primary), transparent 90%)"
                         className="source_code"
-                        target="_blank"
-                        onClick={() => handleToggleHighContrast()}
+                        onClick={handleToggleHighContrast}
                     >
                         {settings.highContrast ? 'Désactiver le mode' : 'Tester le mode Contraste Élevé'}
                     </Button>
@@ -96,12 +96,12 @@ export const HighContrastContainer = () => {
                         Le mode Contraste Élevé améliore la lecture en rendant le texte plus épais et 
                         en supprimant tous les effets visuels inutiles.
                     </p>
-                    <ul>
+                    <ListComponent>
                         <li><strong>Titres :</strong> Plus gros et en gras pour une meilleure hiérarchie visuelle.</li>
                         <li><strong>Texte normal :</strong> Légèrement agrandi avec une épaisseur renforcée pour faciliter la lecture.</li>
                         <li><strong>Icônes :</strong> Traits plus épais (2,5 pixels) en rouge vif pour une reconnaissance immédiate.</li>
                         <li><strong>Effets supprimés :</strong> Aucune ombre, dégradé ou transparence qui pourrait réduire le contraste.</li>
-                    </ul>
+                    </ListComponent>
                 </section>
 
                 <section>
@@ -116,7 +116,7 @@ export const HighContrastContainer = () => {
                     <h3>Champs de Formulaire</h3>
                     <p>Les zones de saisie sont faciles à identifier :</p>
                     <Styled.FormDemoSection>
-                        <Styled.FormDemoInput type="text" value="Exemple de texte saisi" readOnly />
+                        <Styled.FormDemoInput type="text" defaultValue="Exemple de texte saisi" readOnly />
                         <Styled.FormDemoButton>Bouton</Styled.FormDemoButton>
                     </Styled.FormDemoSection>
 
@@ -132,36 +132,36 @@ export const HighContrastContainer = () => {
 
                 <section>
                     <h2>Éléments Spécifiques</h2>
-                    <ul>
+                    <ListComponent>
                         <li>
-                            <strong>Liens :</strong> Affichés en bleu vif pour les repérer rapidement. 
+                            <strong>Liens :</strong> Affichés en bleu vif pour les repérer rapidement.
                             Dans les menus, ils sont également soulignés.
                         </li>
                         <li>
-                            <strong>Articles :</strong> Chaque article est entouré d'une bordure bleue 
+                            <strong>Articles :</strong> Chaque article est entouré d'une bordure bleue
                             pour le séparer visuellement du reste de la page.
                         </li>
                         <li>
-                            <strong>Projets :</strong> Les projets ont des bordures bleues, avec des 
+                            <strong>Projets :</strong> Les projets ont des bordures bleues, avec des
                             boutons d'action marqués par une bordure verte.
                         </li>
                         <li>
-                            <strong>Table des matières :</strong> 
-                            <ul>
+                            <strong>Table des matières :</strong>
+                            <ListComponent>
                                 <li>Bordure bleue autour de chaque élément</li>
                                 <li>Fond vert vif pour l'élément actif (section en cours de lecture)</li>
                                 <li>Bordure verte au survol de la souris</li>
-                            </ul>
+                            </ListComponent>
                         </li>
                         <li>
-                            <strong>Fenêtres modales :</strong> Encadrées par une bordure bleue épaisse 
+                            <strong>Fenêtres modales :</strong> Encadrées par une bordure bleue épaisse
                             pour attirer l'attention.
                         </li>
                         <li>
-                            <strong>Icônes :</strong> Toutes les icônes sont en rouge vif avec un trait 
+                            <strong>Icônes :</strong> Toutes les icônes sont en rouge vif avec un trait
                             épaissi pour être facilement visibles.
                         </li>
-                    </ul>
+                    </ListComponent>
                 </section>
 
                 <section>
@@ -170,12 +170,18 @@ export const HighContrastContainer = () => {
                         Cette palette a été choisie pour offrir le meilleur contraste possible 
                         tout en restant agréable à l'œil :
                     </p>
-                    <ul>
-                        <li><strong>Noir et Blanc :</strong> Le contraste le plus élevé possible (21:1) pour une lisibilité optimale.</li>
-                        <li><strong>Bleu vif (#2986ff) :</strong> Facile à distinguer du fond noir, utilisé pour structurer le contenu.</li>
-                        <li><strong>Vert vif (#29ff3b) :</strong> Attire immédiatement l'attention sur les éléments actifs.</li>
-                        <li><strong>Rouge vif (#ff0202) :</strong> Rend les icônes et symboles instantanément reconnaissables.</li>
-                    </ul>
+                    <div style={{
+                        paddingLeft: '15px',
+                        margin: '10px 0',
+
+                    }}>
+                        <p><strong>Noir et Blanc :</strong> Le contraste le plus élevé possible (21:1) pour une lisibilité optimale.</p>
+                        <p><strong style={{color: '#2986ff'}}>Bleu vif (#2986ff) :</strong> Facile à distinguer du fond noir, utilisé pour structurer le contenu.</p>
+                        <p><strong style={{color: '#29ff3b'}}>Vert vif (#29ff3b) :</strong> Attire immédiatement l'attention sur les éléments actifs.</p>
+                        <p><strong style={{color: '#ff0202'}}>Rouge vif (#ff0202) :</strong> Rend les icônes et symboles instantanément reconnaissables.</p>
+                    </div>
+                 
+                
                     <p>
                         Ce mode garantit un ratio de contraste supérieur à 7:1, ce qui dépasse 
                         largement les recommandations internationales pour l'accessibilité web 
@@ -185,14 +191,12 @@ export const HighContrastContainer = () => {
 
                 <section>
                     <h2>Avantages de ce Mode</h2>
-                    <ul>
-                        <li>✓ Réduit la fatigue oculaire pour les sessions prolongées</li>
-                        <li>✓ Améliore la lisibilité pour les personnes malvoyantes</li>
-                        <li>✓ Facilite la navigation au clavier</li>
-                        <li>✓ Élimine les distractions visuelles</li>
-                        <li>✓ Compatible avec les lecteurs d'écran</li>
-                        <li>✓ Respecte les normes d'accessibilité internationales</li>
-                    </ul>
+                    <p>✓ Réduit la fatigue oculaire pour les sessions prolongées</p>
+                    <p>✓ Améliore la lisibilité pour les personnes malvoyantes</p>
+                    <p>✓ Facilite la navigation au clavier</p>
+                    <p>✓ Élimine les distractions visuelles</p>
+                    <p>✓ Compatible avec les lecteurs d'écran</p>
+                    <p>✓ Respecte les normes d'accessibilité internationales</p>
                 </section>
             </Container>
         </Styled.HighContrastWrapper>

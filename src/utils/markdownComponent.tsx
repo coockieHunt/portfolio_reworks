@@ -1,13 +1,11 @@
 import React from 'react';
+import type { Components, ExtraProps } from 'react-markdown';
 
 import { ImageLazyLoad } from '@/components/ImageLazyLoad/ImageLazyLoad.componenet';
 import { useAlert } from '@/context/alert.context';
 import { resolveImageUrl } from '@/utils/image';
 
 import { Copy, Code, Hash } from 'lucide-react';
-
-
-
 
 // Highlight.js
 import hljs from 'highlight.js/lib/core';
@@ -21,6 +19,8 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import python from 'highlight.js/lib/languages/python';
 import sql from 'highlight.js/lib/languages/sql';
 import 'highlight.js/styles/atom-one-dark.css';
+import { ListComponent } from '@/components/List/List.component';
+import { Table } from '@/components/MarkdownTable/Table.component';
 
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('typescript', typescript);
@@ -47,7 +47,20 @@ const clearSlug = (id: string): string => {
 /** 
 * build custom components for react-markdown to handle code blocks, images, blockquotes, etc.
 */
-export const MarkdownCodeBlock = ({ node, inline, className, children, ...props }: any) => {
+type CodeProps = React.ComponentPropsWithoutRef<'code'> & ExtraProps & { inline?: boolean };
+type PreProps = React.ComponentPropsWithoutRef<'pre'> & ExtraProps;
+type ImgProps = React.ComponentPropsWithoutRef<'img'> & ExtraProps;
+type BlockquoteProps = React.ComponentPropsWithoutRef<'blockquote'> & ExtraProps;
+type HeadingProps = React.ComponentPropsWithoutRef<'h2'> & ExtraProps;
+type UnorderedListProps = React.ComponentPropsWithoutRef<'ul'> & ExtraProps;
+type OrderedListProps = React.ComponentPropsWithoutRef<'ol'> & ExtraProps;
+type TableProps = React.ComponentPropsWithoutRef<'table'> & ExtraProps;
+
+type MarkdownImageProps = ImgProps & {
+    onImageClick: (src: string, alt: string) => void;
+};
+
+export const MarkdownCodeBlock = ({ inline, className, children, ...props }: CodeProps) => {
     const { addAlert } = useAlert();
 
     const match = /language-(\w+)/.exec(className || '');
@@ -88,7 +101,7 @@ export const MarkdownCodeBlock = ({ node, inline, className, children, ...props 
 /**
 * Custom image component for react-markdown that supports lazy loading and proxy URLs.
 */
-export const MarkdownImage = ({ node, src, alt, onImageClick, ...props }: any) => {
+export const MarkdownImage = ({ src, alt, onImageClick, ...props }: MarkdownImageProps) => {
     let finalSrc = src || '';
     if (finalSrc.startsWith('url:')) {
         finalSrc = finalSrc.replace('url:', '');
@@ -111,7 +124,7 @@ export const MarkdownImage = ({ node, src, alt, onImageClick, ...props }: any) =
                 cursor: 'pointer',
             }}
             loading="lazy"
-            onClick={() => onImageClick(finalSrc, alt)}
+            onClick={() => onImageClick(finalSrc, alt || '')}
             {...props}
         />
     );
@@ -120,7 +133,7 @@ export const MarkdownImage = ({ node, src, alt, onImageClick, ...props }: any) =
 /**
  * Custom blockquote component for react-markdown that supports callout styles based on tags like [!NOTE], [!WARNING], etc.
  */
-export const MarkdownQuote = ({ children }: any) => {
+export const MarkdownQuote = ({ children }: BlockquoteProps) => {
     const arrayChildren = React.Children.toArray(children);
     const firstElem = arrayChildren.find((child: any) => React.isValidElement(child));
 
@@ -171,9 +184,9 @@ export const MarkdownQuote = ({ children }: any) => {
 /**
  * Custom H2 component for react-markdown that adds an anchor link icon and supports smooth scrolling to the section when clicked.
  */
-export const H2Title = ({ children, id }: any) => {
+export const H2Title = ({ children, id, ...rest }: HeadingProps) => {
     const { addAlert } = useAlert();
-    const safeId = clearSlug(id);
+    const safeId = typeof id === 'string' ? clearSlug(id) : undefined;
 
     const handleClick = () => {
         if (!safeId) return;
@@ -184,19 +197,30 @@ export const H2Title = ({ children, id }: any) => {
     };
 
     return (
-        <h2 id={safeId}>
+        <h2 id={safeId} {...rest}>
             <Hash onClick={handleClick} style={{ cursor: 'pointer' }} /> {children}
         </h2>
     );
 };
 
 /**
- * Factory function to get custom components for react-markdown, allowing the parent component to pass an image click handler.
+ * Custom wrapper for list items in react-markdown to ensure consistent styling and structure, especially when nested lists are involved.
  */
-export const getMarkdownComponents = (onImageClick: (src: string, alt: string) => void) => ({
-    pre: ({ children }: any) => <>{children}</>,
-    code: MarkdownCodeBlock,
-    img: (props: any) => <MarkdownImage {...props} onImageClick={onImageClick} />,
-    blockquote: MarkdownQuote,
-    h2: H2Title,
+export const ListWrapper = ({ children }: { children?: React.ReactNode }) => {
+    return (
+        <ListComponent>{children}</ListComponent>
+    );
+}
+
+export const getMarkdownComponents = (onImageClick: (src: string, alt: string) => void): Components => ({
+    pre: ({ children }: PreProps) => <>{children}</>,
+    code: (props: CodeProps) => <MarkdownCodeBlock {...props} />,
+    img: (props: ImgProps) => <MarkdownImage {...props} onImageClick={onImageClick} />,
+    blockquote: (props: BlockquoteProps) => <MarkdownQuote {...props} />,
+    h2: (props: HeadingProps) => <H2Title {...props} />,
+    ul: ({ children }: UnorderedListProps) => <ListComponent>{children ?? null}</ListComponent>,
+    ol: ({ children }: OrderedListProps) => <ListComponent type="numbered">{children ?? null}</ListComponent>,
+    table: ({ children }: TableProps) => <Table>{children ?? null}</Table>,
 });
+
+
