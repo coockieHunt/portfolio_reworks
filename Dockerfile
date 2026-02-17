@@ -15,6 +15,10 @@ RUN npm run build
 # NGNIX STAGE
 FROM nginx:alpine
 
+# copy nginx config to nginx conf.d folder
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf  
+
 # copy built files to nginx html folder
 COPY --from=build /app/build /usr/share/nginx/html
 
