@@ -1,0 +1,15 @@
+node_modules
+.env
+.env.*
+build
+dist
+.git
+.gitignore
+*.log
+.DS_Store
+README.md
+scripts
+.vscode
+.fttemplates
+.github
+.tanstack
