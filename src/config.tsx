@@ -410,7 +410,7 @@ export const ApiBaseUrl =
 export const AssetsBaseUrl =
     import.meta.env.VITE_ASSETS_BASE_URL || 'http://localhost:3001/assets';
 export const FallbackCacheUrl =
-    import.meta.env.VITE_FALLBACK_CACHE_URL="/fallback/worker_cache.json"
+    import.meta.env.VITE_FALLBACK_CACHE_URL || '/fallback/worker_cache.json';
 export const MailDefault = {
     firstName: '',
     lastName: '',
