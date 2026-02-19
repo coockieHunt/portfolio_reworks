@@ -201,11 +201,13 @@ export const PostContainer = ({
                                 {content}
                             </Markdown>
                         </MarkdownContent>
-                        {author && (
+                        {author?.name ? (
                             <div className="author-section">
                                 <div className="author-name font_dot">{author.name}</div>
-                                <p className="author-bio">{author.describ}</p>
+                                {author.describ && <p className="author-bio">{author.describ}</p>}
                             </div>
+                        ) : (
+                            <strong style={{ display: 'block', marginTop: '2rem', fontSize: '1.4rem' }} className='font_dot'>Auteur inconnu</strong>
                         )}
                     </div>
                 </div>

@@ -23,7 +23,7 @@ export const PostGridContainer = ({
 }: PostGridProps) => {
 
     const visiblePosts = useMemo(() => {
-        return data.filter((postData) => postData.post.indexed);
+        return data.filter((postData) => postData?.post?.indexed);
     }, [data]);
 
     const showEmptyState = !loading && (isEmpty || visiblePosts.length === 0);
@@ -81,9 +81,9 @@ export const PostGridContainer = ({
                                     title={postData.post.title}
                                     summary={postData.post.summary}
                                     featured_image={postData.post.featuredImage}
-                                    authorName={postData.author.name}
+                                    authorName={postData.author?.name}
                                     publishDate={postData.post.createdAt}
-                                    tags={postData.tags}
+                                    tags={postData.tags ?? []}
                                     loading={false}
                                     priority={index === 0}
                                 />

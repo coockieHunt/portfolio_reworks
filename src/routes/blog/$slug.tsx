@@ -85,7 +85,7 @@ function RouteComponent() {
     const dynamicOgUrl = getOpenGraphUrl({
         slug: blogPost.post.slug,
         title: blogPost.post.title,
-        author: blogPost.author?.name || 'Unknown',
+        author: blogPost.author?.name || '',
         lastEdit: blogPost.post.editedAt
     });
 
@@ -139,7 +139,7 @@ function RouteComponent() {
                 summary={blogPost.post.summary}
                 content={blogPost.post.content}
                 featured_image={featuredImageUrl}
-                author={blogPost.author || { name: 'Unknown', describ: '' }}
+                author={blogPost.author || undefined}
                 last_update={blogPost.post.editedAt}
                 created_at={blogPost.post.createdAt}
             />

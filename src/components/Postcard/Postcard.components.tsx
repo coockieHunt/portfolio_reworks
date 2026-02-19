@@ -12,7 +12,7 @@ interface PostCardProps {
     title: string;
     summary: string;
     featured_image: string;
-    authorName: string;
+    authorName: string | undefined;
     publishDate: string;
     loading: boolean;
     tags?: any[];
@@ -80,7 +80,7 @@ export const PostCardComponents = ({
 
                     <div className="footer">
                         <small>
-                            // By {authorName} | Published on {new Date(publishDate).toLocaleDateString()}
+                            {authorName ? `// By ${authorName} | Published on ${new Date(publishDate).toLocaleDateString()}` : `// Published on ${new Date(publishDate).toLocaleDateString()}`}
                         </small>
                     </div>
                 </div>

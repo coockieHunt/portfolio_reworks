@@ -6,15 +6,15 @@ export interface ITag {
 }
 
 export interface IBlogPost {
-    author: {
-        id: number;
-        name: string;
+    author?: {
+        id?: number;
+        name?: string;
     };
     tags: ITag[];
     post: {
         id: number;
         featuredImage: string;
-        authorId: string;
+        authorId?: string | null;
         content: string;
         createdAt: string;
         editedAt: string;
