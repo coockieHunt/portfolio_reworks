@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type {Request, Response} from 'express';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 
 const GATUS_API_URL = 'https://uptime.jonathangleyze.fr/api/v1/endpoints/statuses';

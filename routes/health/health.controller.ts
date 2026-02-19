@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type {Request, Response} from 'express';
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 import { uptime } from 'node:process';
 import { SendmailService } from '../../services/sendmail/Sendmail.service';

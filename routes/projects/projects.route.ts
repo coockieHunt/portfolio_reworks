@@ -1,4 +1,5 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router} from "express";
+import type { Request, Response, NextFunction } from "express";
 import { rateLimiter } from '../../middlewares/rateLimiter.middlewar';
 import { responseHandler } from '../../middlewares/responseHandler.middlewar';
 import { validateRequest } from '../../middlewares/validateRequest.middleware';

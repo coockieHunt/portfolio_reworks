@@ -1,8 +1,8 @@
 // request
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 // types
-import { ApiResponse } from '../types/api';
+import type { ApiResponse } from '../types/api';
 import chalk from 'chalk';
 
 const SpacerStart = (method: string, url: string) => {

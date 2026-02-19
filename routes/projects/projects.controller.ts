@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 import { ProjectsService } from '../../services/projects/Projects.service';
 

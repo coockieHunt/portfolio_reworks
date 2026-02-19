@@ -1,5 +1,5 @@
 import { RedisService, RedisClient } from '../../services/Redis.service'; 
-import { Request, Response } from 'express';
+import type {Request, Response} from 'express';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 import { AUTHORIZED_REDIS_KEYS } from '../../constants/redis.constant';
 

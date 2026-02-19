@@ -1,5 +1,5 @@
 import { GuestBookService } from '../../services/guestbook/GuestBook.service';
-import { Request, Response } from 'express';
+import type {Request, Response} from 'express';
 import { logConsole, writeToLog } from '../../middlewares/log.middlewar';
 
 class GuestBookController {

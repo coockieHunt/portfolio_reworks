@@ -1,5 +1,5 @@
 // request
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 //redis
 import { RedisService } from '../services/Redis.service';

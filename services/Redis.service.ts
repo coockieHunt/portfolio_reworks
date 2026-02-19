@@ -1,5 +1,5 @@
 //redis
-import { RedisClientType } from 'redis';
+import type { RedisClientType } from 'redis';
 
 // middlewares
 import { logConsole, writeToLog } from '../middlewares/log.middlewar';

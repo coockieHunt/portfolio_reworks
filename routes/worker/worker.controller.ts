@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type {Request, Response} from 'express';
 import { BlogService } from '../../services/blog/Blog.service';
 import { ProjectsService } from '../../services/projects/Projects.service';
 import { TagService } from '../../services/tag/Tag.service';

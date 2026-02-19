@@ -1,6 +1,6 @@
 import config from '../../config/default';
 import { BlogService } from '../../services/blog/Blog.service';
-import { Request, Response } from 'express';
+import type {Request, Response} from 'express';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';
 
 class BlogController {

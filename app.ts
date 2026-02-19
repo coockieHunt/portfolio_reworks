@@ -14,7 +14,7 @@ import { createClient } from 'redis';
 import { RedisService } from './services/Redis.service';
 import { SendmailService } from './services/sendmail/Sendmail.service'; 
 
-import { pingSqlite } from './utils/sqllite.helper';
+import { pingSqlite, initializeSQLiteSchema } from './utils/sqllite.helper';
 
 import { trackApiCall } from './middlewares/callApiCount.middlewar';
 import { allowOnlyFromIPs } from './middlewares/whiteList.middlewar';
@@ -161,8 +161,9 @@ async function startServer() {
     consola.start('Starting System Services...');
 
     try {
+        await initializeSQLiteSchema();
         pingSqlite();
-        consola.success('SQLite Ready', chalk.dim(`(portfolio.db)`));
+        consola.success('SQLite Ready', chalk.dim(`(${process.env.DATABASE_URL || 'portfolio.db'})`));
 
         await RedisService.connectRedis(redisClient as any);
         consola.success('Redis Ready', chalk.dim(`(${cfg.redis.host}:${cfg.redis.port})`));

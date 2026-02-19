@@ -1,5 +1,6 @@
 import React from 'react';
-import express, { Request, Response, Router } from 'express';
+import express, {  Router } from 'express';
+import type {Request, Response} from 'express';
 import { query } from 'express-validator';
 import { ImageResponse } from '@vercel/og';
 import { AssetsService } from '../../services/asset/assets.service';

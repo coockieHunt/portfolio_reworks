@@ -1,4 +1,5 @@
-import express, { Request, Response, Router } from 'express';
+import express, {Router } from 'express';
+import type { Request, Response } from 'express';
 import sharp from 'sharp';
 import { rateLimiter } from '../../middlewares/rateLimiter.middlewar';
 import { writeToLog, logConsole } from '../../middlewares/log.middlewar';

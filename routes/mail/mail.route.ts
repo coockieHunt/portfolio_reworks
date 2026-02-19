@@ -1,4 +1,5 @@
-import express, { Router, Request, Response } from 'express';
+import express, { Router } from 'express';
+import type {Request, Response} from 'express';
 import MailController from './mail.controller';
 import { MailValidator } from './mail.validator';
 import { rateLimiter } from '../../middlewares/rateLimiter.middlewar';

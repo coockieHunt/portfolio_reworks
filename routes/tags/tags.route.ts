@@ -1,4 +1,5 @@
-import express, { Router, Request, Response } from 'express';
+import express, { Router } from 'express';
+import type { Request, Response } from 'express';
 import TagsController from './tags.controller';
 import { TagsValidator } from './tags.validator';
 import { rateLimiter } from '../../middlewares/rateLimiter.middlewar';
