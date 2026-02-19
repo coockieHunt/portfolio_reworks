@@ -8,9 +8,15 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-# copy project files and build
+# copy project files
 COPY . .
+
+# change .env to .env.docker for Docker builds 
+COPY .env.docker .env
+
+# build
 RUN npm run build
+
 
 # NGNIX STAGE
 FROM nginx:alpine

@@ -113,7 +113,7 @@ function RootComponent() {
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [lenis]);
 
-
+    console.log(import.meta.env)
     return (
         <ReactLenis
             root

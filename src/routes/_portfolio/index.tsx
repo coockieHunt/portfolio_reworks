@@ -91,7 +91,7 @@ export const Route = createFileRoute('/_portfolio/' as any)({
 });
 
 export function PortfolioIndex() {
-    const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+    const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
     
     useDocumentMeta({
         title: 'Jonathan Gleyze - Développeur Web & Mobile (Portfolio)',

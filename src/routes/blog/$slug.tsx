@@ -4,7 +4,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { getBlogPostBySlug } from '@/api/service/blog.api';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
 
-const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
 import { getOpenGraphUrl } from '@/api/service/openGraph';
 import { getProxyUrl } from '@/utils/image';
 

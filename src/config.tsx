@@ -406,11 +406,11 @@ export const Blog ={
 }
 
 export const ApiBaseUrl =
-    import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
-export const AssetsBaseUrl =
-    import.meta.env.VITE_ASSETS_BASE_URL || 'http://localhost:3001/assets';
+    import.meta.env.VITE_FRONT_API_BASE_URL;
+export const AssetsBaseUrl = 
+    import.meta.env.VITE_FRONT_ASSETS_BASE_URL;
 export const FallbackCacheUrl =
-    import.meta.env.VITE_FALLBACK_CACHE_URL || '/fallback/worker_cache.json';
+    import.meta.env.VITE_FRONT_FALLBACK_CACHE_URL;
 export const MailDefault = {
     firstName: '',
     lastName: '',

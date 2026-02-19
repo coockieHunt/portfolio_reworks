@@ -23,8 +23,8 @@ export const UmamiTracker = () => {
         initDone.current = true;
 
         const detectAndLoad = async () => {
-            const scriptUrl = import.meta.env.VITE_UMAMI_SCRIPT_URL;
-            const websiteId = import.meta.env.VITE_UMAMI_ID;
+            const scriptUrl = import.meta.env.VITE_FRONT_UMAMI_SCRIPT_URL;
+            const websiteId = import.meta.env.VITE_FRONT_UMAMI_ID;
 
             if (!scriptUrl || !websiteId) return;
 

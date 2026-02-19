@@ -69,7 +69,7 @@ export const Route = createFileRoute('/blog/')({
     component: BlogIndex,
 });
 
-const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
 const OG_IMAGE = `${SITE_URL}/og_image.jpg`;
 
 function BlogIndex() {

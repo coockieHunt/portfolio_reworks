@@ -18,27 +18,27 @@ export default defineConfig(({ mode }) => {
             strictPort: true,
             proxy: {
                 '/fallback/worker_cache.json': {
-                    target: 'http://127.0.0.1:3002',
+                    target: env.VITE_FRONT_SEO_BASE_URL,
                     changeOrigin: true,
                     rewrite: (path) => path.replace('/fallback', ''),
                 },
                 '/sitemap.xml': {
-                    target: 'http://localhost:3001',
+                    target: env.VITE_FRONT_SEO_BASE_URL,
                     changeOrigin: true,
                     rewrite: () => '/api/sitemap.xml', 
                 },
                 '/robots.txt': {
-                    target: 'http://localhost:3001',
+                    target: env.VITE_FRONT_SEO_BASE_URL,
                     changeOrigin: true,
                     rewrite: () => '/api/robots.txt',
                 },
                 '/ai.txt': {
-                    target: 'http://localhost:3001',
+                    target: env.VITE_FRONT_SEO_BASE_URL,
                     changeOrigin: true,
                     rewrite: () => '/api/ai.txt',
                 },
                 '/manifest.json': {
-                    target: 'http://localhost:3001',
+                    target: env.VITE_FRONT_SEO_BASE_URL,
                     changeOrigin: true,
                     rewrite: () => '/api/manifest.json',
                 },
@@ -67,7 +67,7 @@ export default defineConfig(({ mode }) => {
             createHtmlPlugin({
                 inject: {
                     data: {
-                        siteUrl: env.VITE_SITE_URL || 'http://localhost:3000',
+                        siteUrl: env.VITE_FRONT_SITE_URL,
                     },
                 },
                 minify: isProd,

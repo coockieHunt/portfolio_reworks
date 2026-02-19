@@ -69,7 +69,7 @@ export const SettingContainer: React.FC = () => {
 
     const HandleShareWithTheme = (e: React.MouseEvent, themeKey: string) => {
         e.stopPropagation();
-        const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+        const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
         navigator.clipboard.writeText(`${SITE_URL}?theme=${themeKey}`);
         const themeColor = COLOR_SETTING[themeKey].primary;
         const message = <span>Lien avec le thème <span style={{ color: themeColor, fontWeight: 'bold' }}>{COLOR_SETTING[themeKey].display_name}</span> pret a etre partagé !</span>;
@@ -78,7 +78,7 @@ export const SettingContainer: React.FC = () => {
 
     const HandleShareWithHightContrast = (e: React.MouseEvent) => {
         e.stopPropagation();
-        const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://jonathangleyze.fr';
+        const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
         navigator.clipboard.writeText(`${SITE_URL}?hc=true`);
         const message = <span>Lien avec le mode <span style={{ fontWeight: 'bold', color: 'yellow'}}>Contraste Élevé</span> pret a etre partagé !</span>;
         addAlert(message, 'success', 3000);
