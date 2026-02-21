@@ -17,11 +17,7 @@ export default defineConfig(({ mode }) => {
             port: 3000,
             strictPort: true,
             proxy: {
-                '/fallback/worker_cache.json': {
-                    target: env.VITE_FRONT_SEO_BASE_URL,
-                    changeOrigin: true,
-                    rewrite: (path) => path.replace('/fallback', ''),
-                },
+
                 '/sitemap.xml': {
                     target: env.VITE_FRONT_SEO_BASE_URL,
                     changeOrigin: true,

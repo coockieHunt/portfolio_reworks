@@ -4,17 +4,12 @@ import { apiClient } from './AxiosClient';
 import { setApiDown } from './apiHealth';
 
 export type IWorkerCache = {
-    success?: boolean;
-    message?: string;
-    data?: {
-        blog?: {
-            meta?: Record<string, unknown>;
-            posts?: any[];
-        };
-        projects?: any[];
-        tags?: any[];
+    blog?: {
+        meta?: Record<string, unknown>;
+        posts?: any[];
     };
-    timestamp?: string;
+    projects?: any[];
+    tags?: any[];
 };
 
 let cachedPayload: IWorkerCache | null = null;
@@ -27,7 +22,6 @@ const loadFallbackCache = async (): Promise<IWorkerCache | null> => {
     if (cachedPayload) return cachedPayload;
     if (cachePromise) return cachePromise;
     if (typeof window === 'undefined') return null;
-
     const request = apiClient
         .get<IWorkerCache>(FallbackCacheUrl, {
             baseURL: '',
@@ -51,6 +45,8 @@ const loadFallbackCache = async (): Promise<IWorkerCache | null> => {
         });
 
     cachePromise = request;
+
+    console.log(cachePromise);
     return request;
 };
 
@@ -65,7 +61,7 @@ export async function getFallbackBlogPosts(
     limit: number = 100,
 ): Promise<IApiResponse | null> {
     const payload = await loadFallbackCache();
-    const posts = payload?.data?.blog?.posts;
+    const posts = payload?.blog?.posts;
     if (!Array.isArray(posts)) return null;
 
     const totalCount = posts.length;
@@ -91,10 +87,10 @@ export async function getFallbackBlogPostsOffset(
     titleContains?: string,
     tagsContains?: string,
 ): Promise<IApiResponse | null> {
-    const payload = await loadFallbackCache();
-    const posts = payload?.data?.blog?.posts;
-    if (!Array.isArray(posts)) return null;
 
+    const payload = await loadFallbackCache();
+    const posts = payload?.blog?.posts;
+    if (!Array.isArray(posts)) return null;
     const normalizedTitle = normalizeString(titleContains);
     const normalizedTag = normalizeString(tagsContains);
 
@@ -136,7 +132,7 @@ export async function getFallbackBlogPostBySlug(
     slug: string,
 ): Promise<IApiResponse | null> {
     const payload = await loadFallbackCache();
-    const posts = payload?.data?.blog?.posts;
+    const posts = payload?.blog?.posts;
     if (!Array.isArray(posts)) return null;
 
     const normalizedSlug = normalizeString(slug);
@@ -150,14 +146,14 @@ export async function getFallbackBlogPostBySlug(
 
 export async function getFallbackTags(): Promise<IApiResponse | null> {
     const payload = await loadFallbackCache();
-    const tags = payload?.data?.tags;
+    const tags = payload?.tags;
     if (!Array.isArray(tags)) return null;
     return buildResponse(tags);
 }
 
 export async function getFallbackProjects(): Promise<IApiResponse | null> {
     const payload = await loadFallbackCache();
-    const projects = payload?.data?.projects;
+    const projects = payload?.projects;
     if (!Array.isArray(projects)) return null;
 
     return buildResponse({
@@ -174,7 +170,7 @@ export async function getFallbackProjectsOffset(
     max: number = 6,
 ): Promise<IApiResponse | null> {
     const payload = await loadFallbackCache();
-    const projects = payload?.data?.projects;
+    const projects = payload?.projects;
     if (!Array.isArray(projects)) return null;
 
     const startIndex = Math.max(0, min - 1);
