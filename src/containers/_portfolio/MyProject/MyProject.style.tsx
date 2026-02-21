@@ -37,11 +37,8 @@ export const ProjectCard = styled.div`
     flex-direction: column;
     overflow: hidden;
     
-    /* --- AJOUT INDISPENSABLE --- */
-    height: 650px; /* Change cette valeur selon tes goûts (ex: 550px ou 650px) */
-    /* --------------------------- */
+    height: 650px;
 
-    /* Sur mobile, on peut réduire un peu la hauteur si besoin */
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         height: 500px;
     }
@@ -105,6 +102,8 @@ export const ProjectCard = styled.div`
         flex-direction: column;
         flex: 1;
         width: 100%;
+        min-height: 0; 
+        overflow: hidden; 
         animation: ${fadeInTranslate} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
@@ -113,6 +112,7 @@ export const ProjectCard = styled.div`
         flex-direction: column;
         flex: 1;
         width: 100%;
+        min-height: 0; 
 
         & .content {
             padding: clamp(15px, 3vw, 25px);
@@ -239,14 +239,18 @@ export const ProjectCard = styled.div`
     & .container_galery {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-auto-rows: 160px; 
         gap: 20px;
+        align-content: start;
         padding: 25px;
         flex: 1;
+        min-height: 0; 
         overflow-y: auto;
 
         & .preview_img {
+            display: block;
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
             border-radius: ${BORDER_RADIUS.medium};
             border: 2px solid transparent;
