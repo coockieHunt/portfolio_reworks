@@ -23,6 +23,9 @@
         "styled-components": "^6.1.19",
         "web-vitals": "^5.1.0"
     },
+    "overrides": {
+        "minimatch": "^10.2.1"
+      },
     "scripts": {
         "dev": "vite",
         "dev:network": "USE_NETWORK=true vite",
