@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'; // Import de css nécessaire pour le bloc conditionnel
+import styled, { css } from 'styled-components';
 import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
 export const Tag = styled.span<{ $color: string; $interactive: boolean }>`

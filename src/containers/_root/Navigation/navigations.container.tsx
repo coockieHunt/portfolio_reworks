@@ -30,6 +30,7 @@ export interface INavigationComponentProps {
     navConfig: INavItem[];
     brandColor?: string;
     background?: boolean;
+    clearOnTop?: boolean;
 }
 
 interface INavigationLinksProps {
@@ -51,16 +52,7 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
         onLinkClick();
     }, [onLinkClick]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY === 0) {
-                window.history.replaceState(null, "", window.location.pathname);
-            }
-        };
-    
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+   
 
     return (
         <>
@@ -111,7 +103,8 @@ const NavigationLinks: React.FC<INavigationLinksProps> = ({
 export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     navConfig,
     brandColor = 'var(--primary)',
-    background = false
+    background = false,
+    clearOnTop = true,
 }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -129,6 +122,18 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
             setMenuOpen(false);
         }
     }, [isMobile, menuOpen]);
+
+    useEffect(() => {
+        if(!clearOnTop) return;
+        const handleScroll = () => {
+            if (window.scrollY === 0) {
+                window.history.replaceState(null, "", window.location.pathname);
+            }
+        };
+    
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [clearOnTop]);
 
     const toggleMenu = () => setMenuOpen((prev) => !prev);
     const closeMenu = () => setMenuOpen(false);

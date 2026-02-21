@@ -12,12 +12,24 @@ const loadingAnimation = keyframes`
     }
 `;
 
+const fadeInSlideUp = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
 export const Wrapper = styled.div`
     width: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    animation: ${fadeInSlideUp} 0.4s ease-out;
 `;
 
 export const InputContainer = styled.div`
@@ -29,14 +41,13 @@ export const InputContainer = styled.div`
 
 export const Input = styled.input`
     width: 100%;
-    padding: 12px 15px; 
+    padding: 12px 40px 12px 15px; /* ← padding-right pour le bouton X */
     border: 1px solid var(--border-dark);
     border-radius: ${BORDER_RADIUS.small};
     font-size: 1rem;
     background-color: #1e1e1e;
     color: white;
     transition: all 0.3s ease;
-    
     margin: 0; 
 
     &:focus {
@@ -46,20 +57,34 @@ export const Input = styled.input`
     }
 `;
 
+export const ClearButton = styled.button`
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-25%);
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s;
+    &:hover { opacity: 1; }
+`;
+
 export const LoadingBar = styled.div<{ $duration?: number }>`
     height: 3px;
     background-color: var(--secondary);
-    
     position: absolute;
     bottom: 1px; 
     left: 2px;   
     right: 2px;
-    
-    border-radius: 0 0 ${BORDER_RADIUS.small} ; 
+    border-radius: 0 0 ${BORDER_RADIUS.small};
     z-index: 10;
     opacity: 0; 
     width: 0%;
-
     animation: ${loadingAnimation} ${(props) => props.$duration || 1000}ms linear forwards;
     animation-delay: 350ms; 
 `;
@@ -67,19 +92,21 @@ export const LoadingBar = styled.div<{ $duration?: number }>`
 export const InfoBar = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin-top: 8px;
-    padding: 0 2px;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+    margin-top: 20px;
     min-height: 24px; 
 `;
 
 export const StatusText = styled.span`
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--font-subtle, #aaa);
     display: flex;
     align-items: center;
     gap: 6px;
+
+    font-family: 'font_code', monospace !important;
 
     strong {
         color: var(--secondary); 
@@ -91,19 +118,19 @@ export const StatusText = styled.span`
 export const ResetButton = styled.button`
     background: transparent;
     border: none;
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: #ef4444; 
     cursor: pointer;
     opacity: 0.7;
     transition: all 0.2s ease;
-    
     display: flex;
     align-items: center;
     gap: 4px;
-    
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.5px;
+    font-family: 'font_code', monospace !important;
+    min-height: 24px;
 
     &:hover {
         opacity: 1;

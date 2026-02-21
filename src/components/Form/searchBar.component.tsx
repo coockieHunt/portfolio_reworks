@@ -1,38 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { X } from 'lucide-react';
 import * as styled from './searchBar.style';
-import { RotateCcw } from 'lucide-react'; 
 
 interface SearchBarProps {
-    searchTerm: string; 
+    localTerm: string; 
     bounceTime: number; 
     found?: number; 
     searching?: boolean;
-    setSearchTerm: (term: string) => void; 
+    isWaiting?: boolean;
+    hasActiveFilters?: boolean;
+    onLocalTermChange: (term: string) => void;
+    onClearSearch: () => void;
+    onResetAll: () => void;
+    children?: React.ReactNode;
 }
 
-export const SearchBarComponent = ({ searchTerm, bounceTime, setSearchTerm, found = 0, searching = false }: SearchBarProps) => {
-    const [localTerm, setLocalTerm] = useState(searchTerm);
-    const BUFFER = 200; 
-    const isWaiting = localTerm !== searchTerm;
-
-    const handleReset = () => {
-        setLocalTerm('');   
-        setSearchTerm('');  
-    };
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (localTerm !== searchTerm) {
-                setSearchTerm(localTerm);
-            }
-        }, bounceTime); 
-
-        return () => clearTimeout(timeoutId);
-    }, [localTerm, bounceTime, setSearchTerm, searchTerm]);
-
-    useEffect(() => {
-        setLocalTerm(searchTerm);
-    }, [searchTerm]);
+export const SearchBarComponent = ({ 
+    localTerm, 
+    bounceTime, 
+    onLocalTermChange,
+    onClearSearch,
+    onResetAll,
+    found = 0, 
+    searching = false,
+    isWaiting = false,
+    hasActiveFilters = false,
+    children
+}: SearchBarProps) => {
+    const BUFFER = 200;
 
     return (
         <styled.Wrapper>
@@ -41,7 +36,7 @@ export const SearchBarComponent = ({ searchTerm, bounceTime, setSearchTerm, foun
                     type="text" 
                     placeholder="Rechercher..." 
                     value={localTerm}
-                    onChange={(e) => setLocalTerm(e.target.value)}
+                    onChange={(e) => onLocalTermChange(e.target.value)}
                 />
 
                 {isWaiting && (
@@ -50,26 +45,34 @@ export const SearchBarComponent = ({ searchTerm, bounceTime, setSearchTerm, foun
                         $duration={bounceTime - BUFFER} 
                     />
                 )}
+
+                {localTerm && (
+                    <styled.ClearButton onClick={onClearSearch} title="Effacer">
+                        <X size={25} />
+                    </styled.ClearButton>
+                )}
             </div>
+            
+            {children}
 
             <styled.InfoBar>
-                
                 <styled.StatusText className='font_code'>
                     {searching || isWaiting ? (
                         <span style={{ opacity: 0.7 }}>Analyse en cours...</span>
                     ) : (
-                        localTerm && (
-                            <><strong>{found}</strong> résultats trouvés</>
-                        )
+                        <><strong>&gt; {found}</strong> RÉSULTAT{found > 1 ? 'S' : ''} TROUVÉ{found > 1 ? 'S' : ''}</>
                     )}
                 </styled.StatusText>
-
-                {localTerm && (
-                    <styled.ResetButton onClick={handleReset} title="Effacer la recherche">
-                        Reset <RotateCcw size={18}/>
-                    </styled.ResetButton>
-                )}
-                
+                <styled.ResetButton 
+                    onClick={onResetAll} 
+                    title="Effacer la recherche et les filtres"
+                    style={{
+                        visibility: hasActiveFilters ? 'visible' : 'hidden',
+                        pointerEvents: hasActiveFilters ? 'auto' : 'none',
+                    }}
+                >
+                    &gt; RETIRER LES FILTRES()
+                </styled.ResetButton>
             </styled.InfoBar>
         </styled.Wrapper>
     );

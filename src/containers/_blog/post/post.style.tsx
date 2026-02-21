@@ -96,7 +96,8 @@ export const ContainerPost = styled.div`
     }
 
     & .post {
-        max-width: 75%;
+        width: 75%;
+
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -180,11 +181,8 @@ export const ContainerPost = styled.div`
         }
 
         & .post {
-            max-width: 100%;
-
-            & .content {
-                padding: 15px;
-            }
+            width: 100%;
+            & .content {padding: 15px;}
         }
     }
 `;

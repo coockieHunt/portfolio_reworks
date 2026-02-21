@@ -207,7 +207,7 @@ export const PostContainer = ({
                                 {author.describ && <p className="author-bio">{author.describ}</p>}
                             </div>
                         ) : (
-                            <strong style={{ display: 'block', marginTop: '2rem', fontSize: '1.4rem' }} className='font_dot'>Auteur inconnu</strong>
+                            <strong style={{ display: 'block', marginTop: '2rem', fontSize: '1.4rem' }} className='font_dot'>Aucun auteur</strong>
                         )}
                     </div>
                 </div>

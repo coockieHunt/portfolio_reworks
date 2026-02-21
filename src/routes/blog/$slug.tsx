@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { getBlogPostBySlug } from '@/api/service/blog.api';

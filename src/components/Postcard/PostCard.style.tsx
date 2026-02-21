@@ -8,13 +8,23 @@ const imageHeight = imageWidth;
 const imageWidthMobile = 200;
 const imageHeightMobile = 200;
 
-
 const shimmer = keyframes`
     0% {
         background-position: -468px 0;
     }
     100% {
         background-position: 468px 0;
+    }
+`;
+
+const fadeInSlideUp = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 `;
 
@@ -34,6 +44,7 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: ${fadeInSlideUp} 0.5s ease-out;
     opacity: ${props => (props.$loading ? 0.8 : 1)};
     pointer-events: ${props => (props.$loading ? 'none' : 'auto')};
 

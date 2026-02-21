@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 
 import { getBlogPostsOffset, getTagList } from '@/api/service/blog.api';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
@@ -11,10 +11,13 @@ import { Blog } from '@/config';
 import { HeroContainer } from '@/containers/_blog/hero/hero.container';
 import { PostGridContainer } from '@/containers/_blog/postGrid/postGrid.container';
 import { TagsComponent } from '@/components/Tags/Tags.component';
-import { SearchBarComponent } from '@/components/Form/searchBar.component';
+import { SearchBarComponent} from '@/components/Form/searchBar.component';
 
 import {LoaderComponent} from '@/components/Loading/loader.component';
 import { INavItem, NavigationComponent } from '@/containers/_root/Navigation/navigations.container';
+import { BORDER_RADIUS } from '@/config';
+import { X } from 'lucide-react';
+
 
 
 const CustomHero = styled(HeroContainer)`
@@ -41,10 +44,15 @@ const CustomHero = styled(HeroContainer)`
         
         & .tagList {
             display: flex;
+
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: start;
+
+            height: 100%;
+            width: 100%;
+
             & span{
                 font-size: 0.9rem;
                 color: var(--font-subtle);
@@ -63,6 +71,21 @@ const CustomHero = styled(HeroContainer)`
             }
         }
     }
+`;
+
+const ResetButton = styled.button`
+    background: none;
+    border: 1px solid var(--secondary);
+    color: var(--primary);
+    cursor: pointer;
+    opacity: 0.5;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s;
+    padding: 5px;
+    border-radius: ${BORDER_RADIUS.small};
+    &:hover { opacity: 1; }
 `;
 
 export const Route = createFileRoute('/blog/')({
@@ -113,6 +136,9 @@ function BlogIndex() {
     const [hasMore, setHasMore] = useState(true);
 
     const [searchTerm, setSearchTerm] = useState<string>(searchParams.search || '');
+    const [localTerm, setLocalTerm] = useState<string>(searchParams.search || '');
+    const BOUNCE_TIME = 1500;
+    const isWaiting = localTerm !== searchTerm;
 
     const navigation: INavItem[] = [
         {
@@ -198,61 +224,101 @@ function BlogIndex() {
         });
     };
 
+    const handleClearSearch = () => {
+        setLocalTerm('');
+        setSearchTerm('');
+    };
+
+    const handleReset = () => {
+        setPage(1);
+        setBlogPosts([]);
+        setHasMore(true);
+        setSearchTerm('');
+        
+        navigate({
+            search: (prev) => ({ ...prev, search: undefined, tag: undefined }),
+        });
+    };
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (localTerm !== searchTerm) {
+                setSearchTerm(localTerm);
+            }
+        }, BOUNCE_TIME);
+
+        return () => clearTimeout(timeoutId);
+    }, [localTerm, searchTerm]);
+
     useEffect(() => {
         if (searchTerm !== (searchParams.search || '')) {
              setPage(1);
              setBlogPosts([]);
              setHasMore(true);
              
-             const timeoutId = setTimeout(() => {
-                 navigate({
-                     search: (prev) => ({ ...prev, search: searchTerm || undefined }),
-                 });
-             }, 500);
-
-             return () => clearTimeout(timeoutId);
+             navigate({
+                 search: (prev) => ({ ...prev, search: searchTerm || undefined }),
+             });
         }
     }, [searchTerm, navigate, searchParams.search]);
 
+    useEffect(() => {
+        setLocalTerm(searchParams.search || '');
+    }, [searchParams.search]);
+
     return (
         <>
-            <NavigationComponent navConfig={navigation}/>
+            <NavigationComponent navConfig={navigation} clearOnTop={false}/>
         
             <CustomHero className="blog-hero">
                 <div className="content">
                     <h1 className='font_dot'>Dev/Blog<span className='font_code'>_</span></h1>
 
                     <SearchBarComponent
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        bounceTime={1500}
+                        localTerm={localTerm}
+                        onLocalTermChange={setLocalTerm}
+                        onClearSearch={handleClearSearch}
+                        bounceTime={BOUNCE_TIME}
                         found={blogPosts.length}
                         searching={isLoading.posts}
-                    />
+                        isWaiting={isWaiting}
+                        hasActiveFilters={localTerm !== '' || searchParams.tag !== undefined}
+                        onResetAll={handleReset}
+                    > 
+                        <div className="tagList">
+                            {isLoading.tags ? (
+                                <LoaderComponent type="loading"/>
+                            ):(
+                                <>
+                                    {tags.length === 0 ? 
+                                        <span>Pas de tag disponible actuellement.</span>
+                                        :(
+                                            <>
+                                                {tags.map((tag) => (
+                                                    <TagsComponent 
+                                                        key={tag.id}  
+                                                        color={tag.color} 
+                                                        name={tag.name} 
+                                                        id={tag.id} 
+                                                        count={tag.postIds.length} 
+                                                        selected={searchParams.tag === tag.slug}
+                                                        onClick={() => handleTagFilter(tag.slug)}
+                                                    />
+                                                ))}
 
-                    <div className="tagList">
-                        {isLoading.tags ? (
-                            <LoaderComponent type="loading"/>
-                        ):(
-                            <>
-                                {tags.length === 0 ? 
-                                    <span>Pas de tag disponible actuellement.</span> 
-                                    :
-                                    tags.map((tag) => (
-                                        <TagsComponent 
-                                            key={tag.id}  
-                                            color={tag.color} 
-                                            name={tag.name} 
-                                            id={tag.id} 
-                                            count={tag.postIds.length} 
-                                            selected={searchParams.tag === tag.slug}
-                                            onClick={() => handleTagFilter(tag.slug)}
-                                        />
-                                    ))
-                                }
-                            </>
-                        )}
-                    </div>
+                                                {searchParams.tag && (
+                                                    <ResetButton onClick={() => handleTagFilter(searchParams.tag)}>
+                                                        <X size={16} />
+                                                    </ResetButton>
+                                                )}
+                                            </>
+                                        )
+                                    }
+                                </>
+                            )}
+                        </div>
+                    
+                    </SearchBarComponent>
                 </div>
             </CustomHero>
             
