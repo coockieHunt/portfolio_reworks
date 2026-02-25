@@ -34,6 +34,9 @@ export const PostCardComponents = ({
     const isMobile = !!useWindowSize(parseInt(SCREEN_SIZE.mobile) + 600);
     const imageSize = isMobile ? { width: 200, height: 200 } : { width: 300, height: 300 };
 
+    const truncatedSummary = summary.length > 580 
+        ? summary.substring(0, 580) + "..." 
+        : summary;
     return(
         <Styled.PostPreview $loading={loading} >
             <Link 
@@ -73,7 +76,7 @@ export const PostCardComponents = ({
                     <div className="info">
                         <span className="brace">{'{'}</span>
                         
-                        <p>{summary}</p>
+                        <p>{truncatedSummary}</p>
 
                         <span className="brace">{'}'}</span>
                     </div>

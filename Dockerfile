@@ -1,5 +1,5 @@
 # NODE STAGE
-FROM node:25-bookworm-slim AS build
+FROM node:24-bookworm-slim AS build
 
 # update and upgrade apt packages
 RUN apt update && apt upgrade -y
@@ -14,8 +14,9 @@ RUN npm ci
 # copy project files
 COPY . .
 
-# change .env to .env.docker for Docker builds 
-COPY .env.docker .env
+# choose env file for Docker builds
+ARG ENV_FILE=.env.docker
+COPY ${ENV_FILE} .env
 
 # build
 RUN npm run build

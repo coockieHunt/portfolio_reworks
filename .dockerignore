@@ -12,3 +12,4 @@ scripts
 .fttemplates
 .github
 .tanstack
+public/fallback

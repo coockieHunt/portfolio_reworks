@@ -114,6 +114,7 @@ export const PostContainer = ({
         setCurrentAlt('');
     };
 
+
     return (
         <Styled.Container>
             <HeroContainer $backgroundImg={featured_image}>
@@ -204,7 +205,7 @@ export const PostContainer = ({
                         {author?.name ? (
                             <div className="author-section">
                                 <div className="author-name font_dot">{author.name}</div>
-                                {author.describ && <p className="author-bio">{author.describ}</p>}
+                                <p className="author-bio">{author.describ}</p>
                             </div>
                         ) : (
                             <strong style={{ display: 'block', marginTop: '2rem', fontSize: '1.4rem' }} className='font_dot'>Aucun auteur</strong>

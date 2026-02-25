@@ -38,6 +38,24 @@ interface BlogPost {
     author?: Author;
 }
 
+const navigation: INavItem[] = [
+    {
+        display : 'Accueil', 
+        to: '/', 
+        type: "route"
+    },
+    {
+        type: "spacer"
+    },
+    {
+        display : 'Retour au blog', 
+        to: '/blog', 
+        type: "route",
+        icon: <ArrowBigLeftDash />
+    }
+    
+];
+
 export const Route = createFileRoute('/blog/$slug')({
     component: RouteComponent,
     
@@ -50,7 +68,6 @@ export const Route = createFileRoute('/blog/$slug')({
         try {
             const response = await getBlogPostBySlug(slug);
             const data = response?.data; 
-            
             if (!data) {
                 throw new Error('Post not found');
             }
@@ -68,12 +85,26 @@ export const Route = createFileRoute('/blog/$slug')({
     ),
     
     errorComponent: () => (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', flexDirection: 'column', gap: '20px' }}>
-            <p style={{
-                fontSize: "2rem",
-            }}><span className='font_dot' style={{ fontWeight: 'bold', color:('var(--primary)') }}>Oops</span> pas d'article trouvé</p>
-            <Button onClick={() => window.history.back()}>Retour au blog</Button>
-        </div>
+        <>
+            <NavigationComponent navConfig={navigation}/>
+
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                minHeight: '60vh', 
+                flexDirection: 'column', 
+                gap: '20px', 
+                padding: '100px',
+            }}>
+                <p style={{fontSize: "2rem",}}>
+                    <span className='font_dot' style={{ fontWeight: 'bold', color:('var(--primary)') }}>Oops</span> Aucun article ici !
+                </p>
+                <span className='font_dot' style={{ fontWeight: 'bold', color:('var(--primary)'), fontSize: "2rem" }}>u_u</span>
+                <Button onClick={() => window.history.back()}>Retour au blog</Button>
+            </div>
+        </>
+       
     )
 });
 
@@ -81,14 +112,12 @@ function RouteComponent() {
     const blogPost = Route.useLoaderData();
     const featuredImageUrl = getProxyUrl(blogPost.post.featuredImage) || '';
     const currentUrl = `${SITE_URL}/blog/${blogPost.post.slug}`;
-
     const dynamicOgUrl = getOpenGraphUrl({
         slug: blogPost.post.slug,
         title: blogPost.post.title,
         author: blogPost.author?.name || '',
         lastEdit: blogPost.post.editedAt
     });
-
 
     // Meta tags pour SEO
     const metaTags = useMemo(() => [
@@ -102,24 +131,6 @@ function RouteComponent() {
         { name: 'twitter:description', content: blogPost.post.summary },
         { name: 'twitter:image', content: dynamicOgUrl },
     ], [blogPost.post.title, blogPost.post.summary, dynamicOgUrl, currentUrl]);
-
-    const navigation: INavItem[] = [
-        {
-            display : 'Accueil', 
-            to: '/', 
-            type: "route"
-        },
-        {
-            type: "spacer"
-        },
-        {
-            display : 'Retour au blog', 
-            to: '/blog', 
-            type: "route",
-            icon: <ArrowBigLeftDash />
-        }
-        
-    ];
 
 
     useDocumentMeta({
@@ -139,7 +150,7 @@ function RouteComponent() {
                 summary={blogPost.post.summary}
                 content={blogPost.post.content}
                 featured_image={featuredImageUrl}
-                author={blogPost.author || undefined}
+                author={blogPost.author}
                 last_update={blogPost.post.editedAt}
                 created_at={blogPost.post.createdAt}
             />

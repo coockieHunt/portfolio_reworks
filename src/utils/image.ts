@@ -2,7 +2,7 @@ import { AssetsBaseUrl } from '../config';
 import { isApiDown } from '../api/apiHealth';
 
 /**
- ** return proxy Cloudinary URL
+ ** return proxy api URL for given image ID and options
  */
 export const getProxyUrl = (imageId: string, options?: Record<string, any>): string => {
     if (!imageId) return '';

@@ -13,7 +13,7 @@ export interface IContactContainerProps {
 export const ContactContainer: React.FC<IContactContainerProps> = ({ id }) => {
     const formLogic = useContactForm();
 
-     const { isApiDown } = useApiStatus();
+    const { isApiDown } = useApiStatus();
 
     return (
         <div id={id}>

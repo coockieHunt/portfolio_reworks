@@ -1,6 +1,7 @@
 import React, { useState, useCallback, CSSProperties } from 'react';
 import { useInView } from '@/hooks/useInView.hook';
 import styled, { keyframes } from 'styled-components';
+import { useApiStatus } from '@/context/ApiStatus.context';
 
 const shimmerAnimation = keyframes`
   0% {
@@ -84,6 +85,7 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     fetchPriority,
     ...rest
 }) => {
+    const { isApiDown } = useApiStatus();
     const finalSrc = src || url || '';
     const isCached = finalSrc ? globalImageCache.has(finalSrc) : false;
     const { ref, inView } = useInView({
@@ -97,7 +99,7 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     const [isLoaded, setIsLoaded] = useState<boolean>(isCached);
     const [hasError, setHasError] = useState<boolean>(false);
 
-    const OnImageError = (e) => {
+    const OnImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         if (import.meta.env.DEV) console.error('Image failed to load');
         setHasError(true);
         setIsLoaded(true);
@@ -113,9 +115,8 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
         height: getSizeValue(height) ?? 'auto',
         ...(width && height ? { aspectRatio: `${typeof width === 'string' ? parseInt(width) : width} / ${typeof height === 'string' ? parseInt(height) : height}` } : {}),
         
-        /* CHANGEMENT ICI : Le fond devient transparent une fois chargé */
         backgroundColor: isLoaded ? 'transparent' : '#1e1e1e',
-        transition: 'background-color 0.3s ease', // Transition douce pour cacher le gris
+        transition: 'background-color 0.3s ease', 
         
         contain: 'layout paint',
         ...style,
@@ -128,38 +129,46 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     }, [finalSrc, onLoad]);
 
     return (
-        // CHANGEMENT 2 : span au lieu de div
         <span
             ref={ref}
             className={`${wrapperClassName || ''} lazy-wrapper`}
             style={wrapperStyle}
         >
-            {!isLoaded && (
+            {!isLoaded && !hasError && !isApiDown && (
                 <SkeletonBox>
                     {placeholder}
                 </SkeletonBox>
             )}
 
-            {shouldLoad && finalSrc && (
-                <StyledImage
-                    src={finalSrc}
-                    alt={alt}
-                    className={className}
-                    loading={lazy ? loading : 'eager'} 
-                    decoding={decoding}
-                    onLoad={handleLoad}
-                    onError={OnImageError}
-                    $isLoaded={isLoaded}
-                    $duration={transitionDuration}
-                    width={typeof width === 'number' ? width : parseInt(String(width)) || undefined}
-                    height={typeof height === 'number' ? height : parseInt(String(height)) || undefined}
-                    $fetchPriority={fetchPriority}
-                    {...rest}
-                />
+            {isApiDown && !isLoaded && (
+                <span style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: '#1e1e1e',
+                    color: '#888',
+                    fontSize: '14px',
+                    zIndex: 3,
+                    padding: "0.7em",
+                    textAlign: "center"
+                }}>
+                    <span style={{
+                        color: 'var(--primary)', 
+                        fontWeight: 'bold', 
+                        marginRight: '8px', 
+                        fontSize: '1.2em'}
+                    }>Oups!</span> 
+                    <span>Les images ne peuvent pas être chargées en mode restreint</span>
+                </span>
             )}
 
-            {hasError && (
-                // CHANGEMENT 3 : span au lieu de div (avec display flex, c'est ok)
+            {hasError && !isApiDown && (
                 <span style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -185,6 +194,24 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
                     }>Oops!</span> 
                     <span>Quelque chose a mal tourné lors du chargement de l'image </span>
                 </span>
+            )}
+
+            {shouldLoad && finalSrc && (!isApiDown || isLoaded) && (
+                <StyledImage
+                    src={finalSrc}
+                    alt={alt}
+                    className={className}
+                    loading={lazy ? loading : 'eager'} 
+                    decoding={decoding}
+                    onLoad={handleLoad}
+                    onError={OnImageError}
+                    $isLoaded={isLoaded}
+                    $duration={transitionDuration}
+                    width={typeof width === 'number' ? width : parseInt(String(width)) || undefined}
+                    height={typeof height === 'number' ? height : parseInt(String(height)) || undefined}
+                    $fetchPriority={fetchPriority}
+                    {...rest}
+                />
             )}
         </span>
     );

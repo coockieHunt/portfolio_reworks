@@ -141,7 +141,12 @@ export async function getFallbackBlogPostBySlug(
     );
 
     if (!match) return null;
-    return buildResponse(match);
+    
+    return buildResponse({
+        post: match.post,
+        author: match.author ?? null,
+        tags: match.tags ?? [],
+    });
 }
 
 export async function getFallbackTags(): Promise<IApiResponse | null> {
