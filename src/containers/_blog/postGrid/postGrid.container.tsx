@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import * as Styled from './postGrid.style';
 import { PostCardComponents } from '@/components/Postcard/Postcard.components';
 import { InfoDataTextComponent } from '@/components/Text/Text.component';
@@ -14,7 +14,7 @@ interface PostGridProps {
     hasError: boolean;
 }
 
-export const PostGridContainer = ({ 
+export const PostGridContainer = memo(({ 
     data, 
     loading, 
     count, 
@@ -94,4 +94,4 @@ export const PostGridContainer = ({
             </Styled.Grid>
         </Styled.Container>
     );
-};
+});

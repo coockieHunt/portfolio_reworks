@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import styled from 'styled-components';
 
@@ -6,7 +6,7 @@ import { getBlogPostsOffset, getTagList } from '@/api/service/blog.api';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta.hook';
 import { IBlogPost } from '@/types/blog.d';
 
-import { Blog } from '@/config';
+import { Blog, SCREEN_SIZE } from '@/config';
 
 import { HeroContainer } from '@/containers/_blog/hero/hero.container';
 import { PostGridContainer } from '@/containers/_blog/postGrid/postGrid.container';
@@ -34,6 +34,7 @@ const CustomHero = styled(HeroContainer)`
     margin-bottom: 0px;
     position: relative;
 
+    max-height: 450px;
     & .content {
         width: 100%;
         max-width: 800px;
@@ -65,10 +66,17 @@ const CustomHero = styled(HeroContainer)`
             font-weight: bold;
             margin: 0;
             text-align: center;
+            margin-bottom: 10px;
 
             & span {
                 animation: blink 1.5s infinite;
             }
+
+            @media (max-width: ${SCREEN_SIZE.mobile}) {
+                font-size: 2rem;
+                text-align: left;
+                width: 100%;
+            }   
         }
     }
 `;
@@ -94,6 +102,7 @@ export const Route = createFileRoute('/blog/')({
 
 const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
 const OG_IMAGE = `${SITE_URL}/og_image.jpg`;
+const BOUNCE_TIME = 1500;
 
 function BlogIndex() {
     const navigate = useNavigate({ from: Route.fullPath });
@@ -122,52 +131,61 @@ function BlogIndex() {
     const [blogPosts, setBlogPosts] = useState<IBlogPost[]>([]);
     const [tags, setTags] = useState<{ id: number; name: string; slug: string; color: string; postIds: number[] }[]>([]);
     
-    const [isLoading, setIsLoading] = useState({
-        "posts": false,
-        "tags": false
-    });
-
-    const [hasError, setHasError] = useState({
-        "posts": false,
-        "tags": false
-    });
+    const [isPostsLoading, setIsPostsLoading] = useState(false);
+    const [isTagsLoading, setIsTagsLoading] = useState(false);
+    const [hasPostsError, setHasPostsError] = useState(false);
+    const [hasTagsError, setHasTagsError] = useState(false);
 
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const postsRequestRef = useRef(0);
+    const tagsRequestRef = useRef(0);
 
     const [searchTerm, setSearchTerm] = useState<string>(searchParams.search || '');
     const [localTerm, setLocalTerm] = useState<string>(searchParams.search || '');
-    const BOUNCE_TIME = 1500;
     const isWaiting = localTerm !== searchTerm;
+    const hasActiveFilters = useMemo(() => localTerm !== '' || searchParams.tag !== undefined, [localTerm, searchParams.tag]);
 
-    const navigation: INavItem[] = [
+    const navigation = useMemo<INavItem[]>(() => [
         {
             display : 'Accueil', 
             to: '/', 
             type: "route"
         },
-       
-    ];
+    ], []);
+
+    const resetPostList = useCallback(() => {
+        setPage(1);
+        setBlogPosts([]);
+        setHasMore(true);
+    }, []);
 
     //  post
     useEffect(() => {
         const fetchTags = async () => {
-            setIsLoading((prev) => ({...prev, "tags": true}) ); 
+            const requestId = ++tagsRequestRef.current;
+            setIsTagsLoading(true);
 
             try {
                 const tagResponse = await getTagList();
+                if (requestId !== tagsRequestRef.current) return;
+
                 if (tagResponse?.data) {
                     const filterEmptyTags = tagResponse.data.filter((tag) => tag.postIds.length > 0);
                     setTags(filterEmptyTags);
-                    setHasError((prev) => ({...prev, "tags": false}));
+                    setHasTagsError(false);
                 } else {
-                    setHasError((prev) => ({...prev, "tags": true}));
+                    setHasTagsError(true);
                 }
             } catch (error) {
                 console.error('Error fetching tags:', error);
-                setHasError((prev) => ({...prev, "tags": true}));
+                if (requestId === tagsRequestRef.current) {
+                    setHasTagsError(true);
+                }
             } finally {
-                setIsLoading((prev) => ({...prev, "tags": false}) );
+                if (requestId === tagsRequestRef.current) {
+                    setIsTagsLoading(false);
+                }
             }
         };
         fetchTags();
@@ -176,69 +194,71 @@ function BlogIndex() {
     // tags
     useEffect(() => {
         const fetchPosts = async () => {
-            setIsLoading((prev) => ({...prev, "posts": true}));
+            const requestId = ++postsRequestRef.current;
+            setIsPostsLoading(true);
 
             try {
                 const min = (page - 1) * Blog.POSTS_PER_PAGE + 1;
                 const max = page * Blog.POSTS_PER_PAGE;
                 
                 const response = await getBlogPostsOffset(min, max, searchTerm, searchParams.tag); 
+                if (requestId !== postsRequestRef.current) return;
+
                 const newPosts = response?.data?.posts || [];
 
                 if (!response?.data?.posts) {
-                    setHasError((prev) => ({...prev, "posts": true}));
+                    setHasPostsError(true);
                 } else {
                     setBlogPosts((prev) => {
                         return page === 1 ? newPosts : [...prev, ...newPosts];
                     });
-
-                    if (newPosts.length < Blog.POSTS_PER_PAGE) {
-                        setHasMore(false);
-                    } else {
-                        setHasMore(true);
-                    }
-
-                    setHasError((prev) => ({...prev, "posts": false}));
+                    setHasMore(newPosts.length >= Blog.POSTS_PER_PAGE);
+                    setHasPostsError(false);
                 }
 
             } catch (error) {
                 console.error('Error fetching posts:', error);
-                setHasError((prev) => ({...prev, "posts": true}));
+                if (requestId === postsRequestRef.current) {
+                    setHasPostsError(true);
+                }
             } finally {
-                setIsLoading((prev) => ({...prev, "posts": false}));
+                if (requestId === postsRequestRef.current) {
+                    setIsPostsLoading(false);
+                }
             }
         };
 
         fetchPosts();
     }, [page, searchParams.tag, searchTerm]); 
 
-    const handleTagFilter = (tagName: string) => {
-        setPage(1);
-        setBlogPosts([]); 
-        setHasMore(true);
+    const handleTagFilter = useCallback((tagName: string) => {
+        resetPostList();
 
         const newTag = searchParams.tag === tagName ? undefined : tagName;
         
         navigate({
             search: (prev) => ({ ...prev, tag: newTag }),
         });
-    };
+    }, [navigate, resetPostList, searchParams.tag]);
 
-    const handleClearSearch = () => {
+    const handleClearSearch = useCallback(() => {
         setLocalTerm('');
         setSearchTerm('');
-    };
+    }, []);
 
-    const handleReset = () => {
-        setPage(1);
-        setBlogPosts([]);
-        setHasMore(true);
+    const handleReset = useCallback(() => {
+        resetPostList();
+        setLocalTerm('');
         setSearchTerm('');
         
         navigate({
             search: (prev) => ({ ...prev, search: undefined, tag: undefined }),
         });
-    };
+    }, [navigate, resetPostList]);
+
+    const handleLoadMore = useCallback(() => {
+        setPage((prev) => prev + 1);
+    }, []);
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -252,18 +272,19 @@ function BlogIndex() {
 
     useEffect(() => {
         if (searchTerm !== (searchParams.search || '')) {
-             setPage(1);
-             setBlogPosts([]);
-             setHasMore(true);
+             resetPostList();
              
              navigate({
                  search: (prev) => ({ ...prev, search: searchTerm || undefined }),
              });
         }
-    }, [searchTerm, navigate, searchParams.search]);
+    }, [searchTerm, navigate, searchParams.search, resetPostList]);
 
     useEffect(() => {
-        setLocalTerm(searchParams.search || '');
+        const nextTerm = searchParams.search || '';
+        if (nextTerm !== localTerm) {
+            setLocalTerm(nextTerm);
+        }
     }, [searchParams.search]);
 
     return (
@@ -280,17 +301,17 @@ function BlogIndex() {
                         onClearSearch={handleClearSearch}
                         bounceTime={BOUNCE_TIME}
                         found={blogPosts.length}
-                        searching={isLoading.posts}
+                        searching={isPostsLoading}
                         isWaiting={isWaiting}
-                        hasActiveFilters={localTerm !== '' || searchParams.tag !== undefined}
+                        hasActiveFilters={hasActiveFilters}
                         onResetAll={handleReset}
                     > 
                         <div className="tagList">
-                            {isLoading.tags ? (
+                            {isTagsLoading ? (
                                 <LoaderComponent type="loading"/>
                             ):(
                                 <>
-                                    {tags.length === 0 ? 
+                                    {(tags.length === 0 || hasTagsError) ? 
                                         <span>Pas de tag disponible actuellement.</span>
                                         :(
                                             <>
@@ -307,7 +328,10 @@ function BlogIndex() {
                                                 ))}
 
                                                 {searchParams.tag && (
-                                                    <ResetButton onClick={() => handleTagFilter(searchParams.tag)}>
+                                                    <ResetButton 
+                                                        onClick={() => handleTagFilter(searchParams.tag)}
+                                                        title="Effacer le filtre de tag"
+                                                    >
                                                         <X size={16} />
                                                     </ResetButton>
                                                 )}
@@ -327,21 +351,21 @@ function BlogIndex() {
                 <PostGridContainer 
                     count={Blog.POSTS_PER_PAGE}
                     data={blogPosts} 
-                    loading={isLoading.posts}
-                    isEmpty={!isLoading.posts && blogPosts.length === 0}
-                    hasError={hasError.posts}
+                    loading={isPostsLoading}
+                    isEmpty={!isPostsLoading && blogPosts.length === 0}
+                    hasError={hasPostsError}
                 />
             </div>
             
             {/* empty loader for end posts spacing */}
-            {isLoading.posts &&(
+            {isPostsLoading &&(
                 <LoaderComponent type="NoLoading" ></LoaderComponent>
             )}
             {/* cta load more */}
-            {!isLoading.posts && hasMore && !hasError.posts && (
+            {!isPostsLoading && hasMore && !hasPostsError && (
                 <LoaderComponent type='NoLoading' >
                     <span 
-                        onClick={() => setPage((prev) => prev + 1)}
+                        onClick={handleLoadMore}
                         style={{ 
                             cursor: 'pointer', 
                             textDecoration: 'underline', 
@@ -354,7 +378,7 @@ function BlogIndex() {
                 </LoaderComponent>
             )}
             {/* no more articles */}
-            {!isLoading.posts && !hasMore && blogPosts.length > 0 && (
+            {!isPostsLoading && !hasMore && blogPosts.length > 0 && (
                 <LoaderComponent type="NoLoading">
                     Vous avez vu tous les articles.
                 </LoaderComponent>

@@ -36,12 +36,12 @@ export const InputContainer = styled.div`
     position: relative; 
     width: 100%;
     display: flex;
-    flex-direction: column;
 `;
 
 export const Input = styled.input`
+    display: block; 
     width: 100%;
-    padding: 12px 40px 12px 15px; /* ← padding-right pour le bouton X */
+    padding: 15px; 
     border: 1px solid var(--border-dark);
     border-radius: ${BORDER_RADIUS.small};
     font-size: 1rem;
@@ -61,17 +61,27 @@ export const ClearButton = styled.button`
     position: absolute;
     right: 12px;
     top: 50%;
-    transform: translateY(-25%);
-    background: none;
+    
+    transform: translateY(-50%);
+    height: 100%;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
     border: none;
     color: var(--primary);
     cursor: pointer;
     opacity: 0.5;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    transition: opacity 0.2s;
-    &:hover { opacity: 1; }
+    padding: 0; 
+    transition: opacity 0.2s, color 0.2s;
+
+    &:hover { 
+        opacity: 1; 
+        color: var(--secondary);
+    }
+
+  
 `;
 
 export const LoadingBar = styled.div<{ $duration?: number }>`
@@ -96,7 +106,7 @@ export const InfoBar = styled.div`
     gap: 5px;
     height: 100%;
     margin-top: 20px;
-    min-height: 24px; 
+    min-height: 32px; 
 `;
 
 export const StatusText = styled.span`
@@ -130,7 +140,7 @@ export const ResetButton = styled.button`
     font-weight: 600;
     letter-spacing: 0.5px;
     font-family: 'font_code', monospace !important;
-    min-height: 24px;
+    min-height: 32px;
 
     &:hover {
         opacity: 1;

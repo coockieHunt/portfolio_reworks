@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { X } from 'lucide-react';
 import * as styled from './searchBar.style';
 
