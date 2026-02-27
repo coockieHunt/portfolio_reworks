@@ -2,11 +2,10 @@ import { useMemo, JSX } from 'react';
 import { Text } from './style/AccentText.style';
 import { Gradient } from './style/GradientText.style';
 import { ToText } from './style/LinkText.style';
-import { TitleContainer, Title, BackTitle } from './style/TitleText.style';
+import { TitleContainer, BackTitle } from './style/TitleText.style';
 import { useSettingContext } from '../../context/Setting.context';
 import { COLOR_SETTING } from '../../config';
 import {InfoDataTextContainer} from './style/InfoDataText.style';
-import { sub } from 'framer-motion/client';
 
 
 

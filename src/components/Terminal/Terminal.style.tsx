@@ -73,8 +73,13 @@ export const TerminalLine = styled.div`
         margin: 10px 0 20px 0;
     }
 
+    & .icon{
+        display: flex;
+    }
+
     & .header {
         display: flex;
+        align-items: center;
         padding: 10px 20px;
         border-left: transparent 4px solid;
 
@@ -231,46 +236,88 @@ export const TerminalLine = styled.div`
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         & .header {
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 10px;
+            gap: 8px;
+            padding: 12px 8px;
             font-size: 12px;
+            align-items: center;
 
-            & .selected & .header {
-                border-left: 4px solid transparent;
+            & .icon {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                min-width: 0;
             }
 
             & .left {
                 margin-right: 0px;
+                flex-shrink: 0;
+
                 & span {
                     display: none;
+                }
+
+                & svg {
+                    margin-top: 0;
+                    width: 40px;
+                    height: 40px;
+                    padding: 8px;
                 }
             }
 
             & .info {
                 flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
                 gap: 2px;
+                min-width: 0;
+                width: 100%;
+
+                & .title {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
+                }
+
+                & .subtitle {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
+                    font-size: 11px;
+                }
             }
 
             & .action {
-                margin-left: 0;
+                margin-left: auto;
+                flex-shrink: 0;
+                padding-left: 6px;
+                align-self: center;
             }
+
             &:hover {
-                border-left: 4px solid transparent;
+                border-left: 4px solid var(--accentuate);
             }
         }
 
         & .content {
+            box-shadow: none;
+            padding: 10px 8px;
+            justify-content: center;
+
             &::after {
-                border-left: 4px solid transparent;
+                border-left: none;
             }
+
             & .card {
                 width: 100%;
             }
+
             & .card::before {
-                border-left: 2px dashed transparent;
-                border-bottom: 2px dashed transparent;
+                border-left: none;
+                border-bottom: none;
             }
         }
     }
@@ -292,6 +339,10 @@ export const ServicesListWrapper = styled.div`
     display: flex;
     flex-direction: column;
     padding: 5px 30px;
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        padding: 5px 8px;
+    }
 
     span {
         white-space: nowrap;

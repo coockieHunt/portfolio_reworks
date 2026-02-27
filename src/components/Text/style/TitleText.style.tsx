@@ -1,65 +1,65 @@
 import styled from 'styled-components';
-import { SCREEN_SIZE } from '@/config';
 
 export const TitleContainer = styled.div`
     position: relative;
-    height: 100px;
+    min-height: 100px; 
     padding: 30px 0;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    white-space: nowrap;
-
-    left: 50%;
-    transform: translate(-50%, 0);
+    white-space: normal;
+    width: 100%;
+    max-width: 100vw;
     overflow: hidden;
-
     text-align: center;
-
     font-family: 'Doto Variable', sans-serif;
 
-    & .title{
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, 0);
-        width: 100%;
-
-        display: inline-block;
+    & .title {
+        position: relative; 
         z-index: 9;
-        font-variation-settings: 'wght' 500;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: block;
+        
+        /* Couleur de test (à ajuster selon ton besoin) */
         color: var(--primary);
-        font-size: 2.5rem;
+        font-variation-settings: 'wght' 500;
         text-transform: uppercase;
-        @media (max-width: ${SCREEN_SIZE.mobile}) {
-            font-size: 1.5rem;
-        }
+        text-align: center;
+
+        /* TITRE PRINCIPAL PLUS PETIT SUR DESKTOP */
+        /* Mobile: 1.4rem | Desktop Max: 2.8rem */
+        font-size: clamp(2rem, 3vw + 0.8rem, 2.8rem);
+
+        overflow-wrap: break-word;
+        white-space: normal; 
     }
-    
-    
 `;
-
-export const Title = styled.h2`
-   
-`;
-
 
 export const BackTitle = styled.span`
-    display: inline-block;
-    z-index: 2;
-
     position: absolute;
     left: 50%;
-    transform: translate(-50%, 0);
-    text-align: center;
+    top: 50%; 
+    transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: 2;
+    display: block;
 
     font-variation-settings: 'wght' 700;
-    font-size: 4.3rem;
-    color: #292929f8;
     text-transform: uppercase;
+    color: #292929f8;
+    text-align: center;
+    line-height: 0.5;
 
-    @media screen and (max-width: 768px) {
-        font-size: 2rem;
-        width: auto;
-    }
+    /* BACKTITLE PLUS PETIT SUR DESKTOP (à peine plus grand que le Title) */
+    /* Mobile: 1.8rem | Desktop Max: 3.2rem */
+    font-size: clamp(1.8rem, 3.5vw + 0.6rem, 2.7rem);
+    
+    user-select: none;
+    pointer-events: none;
+    white-space: normal;
+    overflow-wrap: break-word;
+    opacity: 0.5;
 `;

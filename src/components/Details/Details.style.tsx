@@ -39,6 +39,10 @@ export const DropdownHead = styled.button<{ $isOpen: boolean }>`
     cursor: pointer;
     transition: background-color 0.2s;
 
+    white-space: nowrap;
+
+    font-size: .9rem;
+
     &:hover {
         background-color: #1a1a1a;
         

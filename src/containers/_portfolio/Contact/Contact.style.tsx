@@ -42,7 +42,6 @@ export const Info = styled.div`
     );
     backdrop-filter: blur(10px);
     color: var(--font-base);
-    
 
     & .content {
         display: flex;
@@ -71,7 +70,6 @@ export const Info = styled.div`
             flex-direction: column;
             padding-bottom: 20px;
 
-
             & .ItemInfo {
                 display: flex;
                 align-items: center;
@@ -91,7 +89,6 @@ export const Info = styled.div`
                         transform 0.3s ease,
                         box-shadow 0.3s ease;
                     z-index: 2;
-
                 }
 
                 & > div {
@@ -110,7 +107,6 @@ export const Info = styled.div`
                     }
                 }
 
-              
                 &:hover {
                     transform: translateX(8px);
                     background: rgba(255, 255, 255, 0.03);
@@ -144,30 +140,23 @@ export const Info = styled.div`
 
         & .content {
             & .container {
-                flex-direction: row;
-                width: 100%;
-                justify-content: space-between;
+                flex-direction: column;
+                gap: 4px;
 
-                & .info {
-                    display: none;
-                }
-                & .name {
-                    display: none;
-                }
-                & a .textInfo {
-                    display: none;
+                & .ItemInfo {
+                    flex: 1 1 100%;
+                    width: 100%;
+                    padding: 10px 8px;
                 }
             }
 
             & .title {
                 & h2 {
                     font-size: 1.2em;
-                    text-align: center;
                 }
 
                 & span {
                     font-size: 0.9em;
-                    text-align: center;
                 }
             }
 
@@ -203,12 +192,11 @@ export const ContactForm = styled.div<{ $disabled?: boolean }>`
     border-bottom: 8px solid var(--primary);
     border-radius: ${BORDER_RADIUS.xxlarge};
 
-
     & .disabled-overlay {
         display: ${(props) => (props.$disabled ? 'flex' : 'none')};
         flex-direction: column;
         position: absolute;
-        inset: 0; 
+        inset: 0;
         background: rgba(0, 0, 0, 0.6);
         color: white;
         font-size: 1.5em;
@@ -218,10 +206,10 @@ export const ContactForm = styled.div<{ $disabled?: boolean }>`
         justify-content: center;
         align-items: center;
         z-index: 10;
-        pointer-events: all; 
+        pointer-events: all;
         gap: 15px;
 
-        & strong{
+        & strong {
             color: var(--primary);
             font-weight: bold;
         }
@@ -261,9 +249,10 @@ export const ActionForm = styled.div`
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
-        flex-direction: column;
         gap: 15px;
-
+        & button {
+            width: 100%;
+        }
         & .resetForm {
             display: none;
         }

@@ -47,19 +47,22 @@ const TerminalLineItem: React.FC<ITerminalLineItemProps> = ({
                 aria-label={`Découvrir ${product.title} : ${product.subTitle}`}
                 onKeyDown={handleKeyDown}
             >
-                <div className="left" aria-hidden="true">
-                    <span>{String(product.id).padStart(2, '0')}</span>
-                    {product.icon}
-                </div>
+                <div className="icon">
+                    <div className="left" aria-hidden="true">
+                        <span>{String(product.id).padStart(2, '0')}</span>
+                        {product.icon}
+                    </div>
 
-                <div className="info" aria-hidden="true">
-                    <styled.LineTag className="title font_code">
-                        [{product.title}]
-                    </styled.LineTag>
-                    <styled.LineTag className="subtitle font_code">
-                        {product.subTitle}
-                    </styled.LineTag>
+                    <div className="info" aria-hidden="true">
+                        <styled.LineTag className="title font_code">
+                            [{product.title}]
+                        </styled.LineTag>
+                        <styled.LineTag className="subtitle font_code">
+                            {product.subTitle}
+                        </styled.LineTag>
+                    </div>
                 </div>
+               
 
                 <div className="action" aria-hidden="true">
                     <styled.Separator>
