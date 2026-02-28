@@ -71,11 +71,13 @@ export async function getBlogPostBySlug(
     );
 }
 
-export async function getTagList(): Promise<IApiResponse | null> {
+export async function getTagList(params?: { tagsContains?: string; titleContains?: string }): Promise<IApiResponse | null> {
     return withFallback(
         async () => {
             try {
-                return await apiClient.get<IApiResponse>('/tags/');
+                return await apiClient.get<IApiResponse>('/blog/tags', {
+                    params,
+                });
             } catch (err) {
                 throw err;
             }

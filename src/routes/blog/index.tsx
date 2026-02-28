@@ -108,7 +108,6 @@ function BlogIndex() {
     const navigate = useNavigate({ from: Route.fullPath });
     const searchParams = Route.useSearch();
 
-    // Meta tags pour SEO
     const metaTags = useMemo(() => [
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'Blog | Jonathan Gleyze' },
@@ -129,7 +128,8 @@ function BlogIndex() {
     });
     
     const [blogPosts, setBlogPosts] = useState<IBlogPost[]>([]);
-    const [tags, setTags] = useState<{ id: number; name: string; slug: string; color: string; postIds: number[] }[]>([]);
+    const [totalCount, setTotalCount] = useState<number>(0);
+    const [tags, setTags] = useState<{ id: number; name: string; slug: string; color: string; count: number }[]>([]);
     
     const [isPostsLoading, setIsPostsLoading] = useState(false);
     const [isTagsLoading, setIsTagsLoading] = useState(false);
@@ -145,6 +145,11 @@ function BlogIndex() {
     const [localTerm, setLocalTerm] = useState<string>(searchParams.search || '');
     const isWaiting = localTerm !== searchTerm;
     const hasActiveFilters = useMemo(() => localTerm !== '' || searchParams.tag !== undefined, [localTerm, searchParams.tag]);
+    const visiblePostsCount = totalCount;
+    const visibleTags = useMemo(
+        () => tags.filter((tag) => (tag.count ?? 0) > 0),
+        [tags]
+    );
 
     const navigation = useMemo<INavItem[]>(() => [
         {
@@ -160,19 +165,25 @@ function BlogIndex() {
         setHasMore(true);
     }, []);
 
-    //  post
     useEffect(() => {
         const fetchTags = async () => {
             const requestId = ++tagsRequestRef.current;
             setIsTagsLoading(true);
 
             try {
-                const tagResponse = await getTagList();
+                const tagResponse = await getTagList({
+                    tagsContains: searchParams.tag,
+                    titleContains: searchTerm,
+                });
                 if (requestId !== tagsRequestRef.current) return;
 
-                if (tagResponse?.data) {
-                    const filterEmptyTags = tagResponse.data.filter((tag) => tag.postIds.length > 0);
-                    setTags(filterEmptyTags);
+                if (tagResponse?.data?.tags) {
+                    setTags(
+                        tagResponse.data.tags.map((t: any) => ({
+                            ...t.tag,
+                            count: t.count
+                        }))
+                    );
                     setHasTagsError(false);
                 } else {
                     setHasTagsError(true);
@@ -189,9 +200,8 @@ function BlogIndex() {
             }
         };
         fetchTags();
-    }, []);
+    }, [searchParams.tag, searchTerm]);
 
-    // tags
     useEffect(() => {
         const fetchPosts = async () => {
             const requestId = ++postsRequestRef.current;
@@ -205,6 +215,7 @@ function BlogIndex() {
                 if (requestId !== postsRequestRef.current) return;
 
                 const newPosts = response?.data?.posts || [];
+                const newTotal = response?.data?.meta?.total_count ?? newPosts.length;
 
                 if (!response?.data?.posts) {
                     setHasPostsError(true);
@@ -212,6 +223,7 @@ function BlogIndex() {
                     setBlogPosts((prev) => {
                         return page === 1 ? newPosts : [...prev, ...newPosts];
                     });
+                    setTotalCount(newTotal);
                     setHasMore(newPosts.length >= Blog.POSTS_PER_PAGE);
                     setHasPostsError(false);
                 }
@@ -300,7 +312,7 @@ function BlogIndex() {
                         onLocalTermChange={setLocalTerm}
                         onClearSearch={handleClearSearch}
                         bounceTime={BOUNCE_TIME}
-                        found={blogPosts.length}
+                        found={visiblePostsCount}
                         searching={isPostsLoading}
                         isWaiting={isWaiting}
                         hasActiveFilters={hasActiveFilters}
@@ -311,17 +323,17 @@ function BlogIndex() {
                                 <LoaderComponent type="loading"/>
                             ):(
                                 <>
-                                    {(tags.length === 0 || hasTagsError) ? 
+                                    {(visibleTags.length === 0 || hasTagsError) ? 
                                         <span>Pas de tag disponible actuellement.</span>
                                         :(
                                             <>
-                                                {tags.map((tag) => (
+                                                {visibleTags.map((tag) => (
                                                     <TagsComponent 
                                                         key={tag.id}  
                                                         color={tag.color} 
                                                         name={tag.name} 
                                                         id={tag.id} 
-                                                        count={tag.postIds.length} 
+                                                        count={tag.count} 
                                                         selected={searchParams.tag === tag.slug}
                                                         onClick={() => handleTagFilter(tag.slug)}
                                                     />
@@ -357,11 +369,9 @@ function BlogIndex() {
                 />
             </div>
             
-            {/* empty loader for end posts spacing */}
             {isPostsLoading &&(
                 <LoaderComponent type="NoLoading" ></LoaderComponent>
             )}
-            {/* cta load more */}
             {!isPostsLoading && hasMore && !hasPostsError && (
                 <LoaderComponent type='NoLoading' >
                     <span 
@@ -377,8 +387,7 @@ function BlogIndex() {
                     </span>
                 </LoaderComponent>
             )}
-            {/* no more articles */}
-            {!isPostsLoading && !hasMore && blogPosts.length > 0 && (
+            {!isPostsLoading && !hasMore && visiblePostsCount > 0 && (
                 <LoaderComponent type="NoLoading">
                     Vous avez vu tous les articles.
                 </LoaderComponent>
