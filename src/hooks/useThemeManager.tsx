@@ -10,7 +10,7 @@ export const useThemeManager = () => {
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
 
-    const applyTheme = (
+    const applyTheme = async (
         newTheme: string,
         displayName: string,
         durationAdded: number = 0,
@@ -18,6 +18,12 @@ export const useThemeManager = () => {
         const TOTAL_DURATION = 2000 + durationAdded;
 
         const themeConfig = COLOR_SETTING[newTheme];
+
+        console.log(newTheme);
+
+        if(!newTheme.startsWith('random_')) {
+            await incrementCounter({ counterName: 'theme:counter:' + newTheme.toUpperCase() });
+        }
 
         showLoading(
             themeConfig?.background_color || '#000000',
@@ -39,7 +45,7 @@ export const useThemeManager = () => {
     };
 
     const fetchThemeCount = useCallback(async () => {
-        const response = await getCounter({ counterName: 'THEME_RAND' });
+        const response = await getCounter({ counterName: 'theme:counter:RANDOM' });
 
         if (response?.success && response.data) {
             setRandomThemeCount(Number(response.data.counterValue || 0));
@@ -57,7 +63,7 @@ export const useThemeManager = () => {
 
         applyTheme(newKey, '🦄 PAPUCHE !!!', 500);
 
-        const response = await incrementCounter({ counterName: 'THEME_RAND' });
+        const response = await incrementCounter({ counterName: 'theme:counter:RANDOM' });
 
         if (!response) {
             console.warn('API injoignable ou erreur inconnue');
