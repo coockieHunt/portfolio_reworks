@@ -45,7 +45,6 @@ export const Wrapper = styled.div`
     flex-direction: column;
     gap: 15px;
 
-    margin-bottom: 15px;
     transition: all 0.3s ease;
 
     & p {

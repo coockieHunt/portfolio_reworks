@@ -6,23 +6,22 @@ import { useNavigate } from '@tanstack/react-router';
 import * as Styled from './Setting.style';
 import { COLOR_SETTING } from '@/config';
 import { BackDrop } from '@/styles/effect';
-import { RoundColor, Wrapper } from '@/styles/utils.style';
+import { Wrapper } from '@/styles/utils.style';
 
 // Contexts & Hooks
 import { useSettingContext } from '@/context/Setting.context';
 import { useThemeManager } from '@/hooks/useThemeManager';
 import { useScrollbar } from '@/hooks/useScrollBar.hook';
 import { SimpleButton } from '@/components/Button/SimpleButton';
-import { useAlert } from '@/context/alert.context';
 
-
-//icon
+// icon
 import { Share } from 'lucide-react';
+import { ThemeCard } from '@/components/ThemeCard/themeCard.component';
+import { CarouselComponent } from '@/components/Carousel/carousel.component';
 
 type ThemeName = keyof typeof COLOR_SETTING;
 
 export const SettingContainer: React.FC = () => {
-    const { addAlert } = useAlert();
     const { settings } = useSettingContext();
     const navigate = useNavigate();
 
@@ -35,8 +34,6 @@ export const SettingContainer: React.FC = () => {
     } = useThemeManager();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [isLoadingCount, setIsLoadingCount] = useState(false);
-
     useScrollbar(isOpen);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -50,10 +47,18 @@ export const SettingContainer: React.FC = () => {
         'yellow',
         'cyan',
         'pink',
-        'ice'
+        'ice',
     ];
 
-    const handleThemeClick = (themeKey: string) => {
+    const orderedThemes: ThemeName[] =
+        settings.theme in COLOR_SETTING
+            ? [
+                  settings.theme as ThemeName,
+                  ...defaultThemes.filter((themeKey) => themeKey !== settings.theme),
+              ]
+            : defaultThemes;
+
+    const handleThemeClick = (themeKey: ThemeName) => {
         applyTheme(themeKey, COLOR_SETTING[themeKey].display_name);
         setIsOpen(false);
     };
@@ -67,27 +72,16 @@ export const SettingContainer: React.FC = () => {
         ChangeHightContrast(!settings.highContrast);
     };
 
-    const HandleShareWithTheme = (e: React.MouseEvent, themeKey: string) => {
-        e.stopPropagation();
-        const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
-        navigator.clipboard.writeText(`${SITE_URL}?theme=${themeKey}`);
-        const themeColor = COLOR_SETTING[themeKey].primary;
-        const message = <span>Lien avec le thème <span style={{ color: themeColor, fontWeight: 'bold' }}>{COLOR_SETTING[themeKey].display_name}</span> pret a etre partagé !</span>;
-        addAlert(message, 'success', 3000);
-    }
-
-    const HandleShareWithHightContrast = (e: React.MouseEvent) => {
+    const handleShareWithHightContrast = (e: React.MouseEvent) => {
         e.stopPropagation();
         const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
         navigator.clipboard.writeText(`${SITE_URL}?hc=true`);
-        const message = <span>Lien avec le mode <span style={{ fontWeight: 'bold', color: 'yellow'}}>Contraste Élevé</span> pret a etre partagé !</span>;
-        addAlert(message, 'success', 3000);
-    }
+    };
 
     const handleReadMoreClick = () => {
         navigate({ to: '/guide_mode_contrast_elevee' });
         setIsOpen(false);
-    }
+    };
 
     useEffect(() => {
         if (!isOpen) return;
@@ -107,7 +101,9 @@ export const SettingContainer: React.FC = () => {
         const handleWheel = (event: WheelEvent) => {
             if (contentRef.current) {
                 const element = contentRef.current;
-                const canScrollDown = element.scrollHeight > element.clientHeight && element.scrollTop < element.scrollHeight - element.clientHeight;
+                const canScrollDown =
+                    element.scrollHeight > element.clientHeight &&
+                    element.scrollTop < element.scrollHeight - element.clientHeight;
                 const canScrollUp = element.scrollTop > 0;
 
                 if ((event.deltaY > 0 && !canScrollDown) || (event.deltaY < 0 && !canScrollUp)) {
@@ -126,12 +122,14 @@ export const SettingContainer: React.FC = () => {
 
         const handleTouchMove = (event: TouchEvent) => {
             if (!contentRef.current) return;
-            
+
             const element = contentRef.current;
             const touchCurrentY = event.touches[0].clientY;
             const deltaY = touchStartY - touchCurrentY;
 
-            const canScrollDown = element.scrollHeight > element.clientHeight && element.scrollTop < element.scrollHeight - element.clientHeight;
+            const canScrollDown =
+                element.scrollHeight > element.clientHeight &&
+                element.scrollTop < element.scrollHeight - element.clientHeight;
             const canScrollUp = element.scrollTop > 0;
 
             if ((deltaY > 0 && !canScrollDown) || (deltaY < 0 && !canScrollUp)) {
@@ -143,12 +141,11 @@ export const SettingContainer: React.FC = () => {
             touchStartY = touchCurrentY;
         };
 
-        setIsLoadingCount(true);
-        fetchThemeCount().finally(() => setIsLoadingCount(false));
+        fetchThemeCount().catch((err) => console.error(err));
 
         document.addEventListener('mousedown', handleClickOutside);
         document.addEventListener('wheel', handleWheel, { passive: false });
-        
+
         if (contentRef.current) {
             contentRef.current.addEventListener('touchstart', handleTouchStart, { passive: true });
             contentRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -169,14 +166,12 @@ export const SettingContainer: React.FC = () => {
             <Styled.Toggle
                 ref={toggleRef}
                 $isOpen={isOpen}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsOpen((prev) => !prev)}
                 aria-expanded={isOpen}
-                aria-label={
-                    isOpen ? 'Fermer les paramètres' : 'Ouvrir les paramètres'
-                }
+                aria-label={isOpen ? 'Fermer les paramètres' : 'Ouvrir les paramètres'}
                 type="button"
             >
-                <span >{isOpen ? 'Fermer' : 'Apparence'}</span>
+                <span>{isOpen ? 'Fermer' : 'Apparence'}</span>
                 <Palette aria-hidden="true" focusable={false} />
             </Styled.Toggle>
 
@@ -195,150 +190,137 @@ export const SettingContainer: React.FC = () => {
                         <X aria-hidden="true" focusable={false} />
                     </Styled.CloseButton>
                 </div>
+
                 <Styled.Content ref={contentRef}>
-                    <div
-                        className="ContainerButton"
-                        style={{ marginTop: '10px' }}
-                    >
-                        <div>
+                    <div className="ContainerButton">
+                        <div className="section-themes">
                             <div className="titleSection">
-                                <h3>Thème de Couleur </h3>
-                                <span>( <Share size={15}/> pour partager avec la thème )</span>
+                                <h3>Ambiance</h3>
+                                <span>
+                                    ( <Share size={15} /> pour partager avec l'ambiance actuelle )
+                                </span>
                             </div>
-                           
                             <div className="ThemesContainer">
-                                {defaultThemes.map((themeKey) => (
-                                    <SimpleButton
-                                        key={themeKey}
-                                        isActive={settings.theme === themeKey}
-                                        onClick={() =>
-                                            handleThemeClick(themeKey)
-                                        }
-                                        aria-label={`Activer le thème ${COLOR_SETTING[themeKey].display_name}`}
+                                <div className="themes-desktop">
+                                    <CarouselComponent
+                                        itemsToScroll={4}
+                                        resetKey={settings.theme}
                                     >
-                                        <div className="color">
-                                            <RoundColor
-                                                $color={
-                                                    COLOR_SETTING[themeKey].primary
-                                                }
+                                        {orderedThemes.map((themeKey) => (
+                                            <ThemeCard
+                                                isActive={settings.theme === themeKey}
+                                                key={themeKey}
+                                                name={themeKey}
+                                                displayName={COLOR_SETTING[themeKey].display_name}
+                                                onClick={() => handleThemeClick(themeKey)}
                                             />
-                                            <RoundColor
-                                                $color={
-                                                    COLOR_SETTING[themeKey]
-                                                        .secondary
-                                                }
-                                            />
-                                            <span>
-                                            {
-                                                COLOR_SETTING[themeKey]
-                                                    .display_name
-                                            }
-                                        </span>
-                                        </div>
-                                      
-                                        <span
-                                            role="button"
-                                            aria-label={`Partager avec le thème ${COLOR_SETTING[themeKey].display_name}`}
-                                            onClick={(e) => HandleShareWithTheme(e, themeKey)}
-                                        >
-                                            <Share size={16} />
-                                        </span>
+                                        ))}
+                                    </CarouselComponent>
+                                </div>
 
-                                    </SimpleButton>
-                                ))}
+                                <div className="themes-mobile">
+                                    {orderedThemes.map((themeKey) => (
+                                        <ThemeCard
+                                            isActive={settings.theme === themeKey}
+                                            key={`mobile-${themeKey}`}
+                                            name={themeKey}
+                                            displayName={COLOR_SETTING[themeKey].display_name}
+                                            onClick={() => handleThemeClick(themeKey)}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                         </div>
-
-                        <div>
-                            <div className="titleSection">
-                                <h3>Accessibilité</h3>
-                            </div>
-                            <Wrapper>
-                                <p>
-                                    Conçue pour améliorer la visibilité des
-                                    éléments et faciliter la lecture pour les
-                                    personnes ayant des déficiences visuelles. 
-                                    &nbsp;
-                                    <span
-                                        style={{
-                                            color: "var(--font-subtle)",
-                                            cursor: 'pointer',
-                                        }}
-                                        onClick={() => {
-                                            handleReadMoreClick()
-                                        }}
-                                    >En savoir plus.</span>
-                                </p>
-
-                                <SimpleButton
-                                    className={`contrast ${settings.highContrast ? 'active' : ''}`}
-                                    onClick={handleContrastClick}
-                                    type="button"
-                                    aria-label={settings.highContrast ? 'Désactiver le contraste élevé' : 'Activer le contraste élevé'}
-                                    aria-pressed={settings.highContrast}
-                                >
-                                    {settings.highContrast ? (
-                                        <>
-                                            <EyeOff aria-hidden="true" focusable={false} />{' '}
-                                            <span>Désactiver le contraste</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Eye aria-hidden="true" focusable={false} />{' '}
-                                            <span>Activer Contraste Élevé</span>
-                                        </>
-                                    )}
-                                </SimpleButton>
-                                <SimpleButton
-                                    className={`contrast ${settings.highContrast ? 'active' : ''}`}
-                                    onClick={(e) => HandleShareWithHightContrast(e)}
-                                    type="button"
-                                    aria-label="Partager le mode contraste élevé"
-                                >
-                                    <>
-                                        <Share aria-hidden="true" focusable={false} size={16} />{' '}
-                                        <span>Partage avec le mode contrast elevée</span>
-                                    </>
-                                </SimpleButton>
-                            </Wrapper>
-                        </div>
-
-                        <div>
-                            <div className="titleSection">
-                                <h3>Mode Fun</h3>
-                            </div>
-                            <SimpleButton
-                                className="random"
-                                onClick={handleRandomClick}
-                                type="button"
-                                aria-label="Appliquer un thème de couleur aléatoire"
-                            >
-                                <div className="content-random">
+                        <div className="section-row2">
+                            <div>
+                                <div className="titleSection">
+                                    <h3>Accessibilité</h3>
+                                </div>
+                                <Wrapper>
                                     <p>
-                                        Nous déclinons toute responsabilité en
-                                        cas de <br />
-                                        <strong
+                                        Conçue pour améliorer la visibilité des éléments et
+                                        faciliter la lecture pour les personnes ayant des
+                                        déficiences visuelles.&nbsp;
+                                        <span
                                             style={{
-                                                textDecoration: 'underline',
+                                                color: 'var(--font-subtle)',
+                                                cursor: 'pointer',
                                             }}
+                                            onClick={handleReadMoreClick}
                                         >
-                                            crise de couleur
-                                        </strong>
+                                            En savoir plus.
+                                        </span>
                                     </p>
-                                    <span>🦄 Thème aléatoire 🦄</span>
-                                </div>
 
-                                <div className="counter-random">
-                                    <span>Déja</span>
-                                    <span className="count">
-                                        {String(randomThemeCount ?? '...')}
-                                    </span>
-                                    <span>
-                                        âmes courageuses
-                                        <br /> ont osé essayer
-                                    </span>
+                                    <SimpleButton
+                                        className={`contrast ${settings.highContrast ? 'active' : ''}`}
+                                        onClick={handleContrastClick}
+                                        type="button"
+                                        aria-label={
+                                            settings.highContrast
+                                                ? 'Désactiver le contraste élevé'
+                                                : 'Activer le contraste élevé'
+                                        }
+                                        aria-pressed={settings.highContrast}
+                                    >
+                                        {settings.highContrast ? (
+                                            <>
+                                                <EyeOff aria-hidden="true" focusable={false} />{' '}
+                                                <span>Désactiver le contraste</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Eye aria-hidden="true" focusable={false} />{' '}
+                                                <span>Activer Contraste Élevé</span>
+                                            </>
+                                        )}
+                                    </SimpleButton>
+
+                                    <SimpleButton
+                                        className={`contrast ${settings.highContrast ? 'active' : ''}`}
+                                        onClick={handleShareWithHightContrast}
+                                        type="button"
+                                        aria-label="Partager le mode contraste élevé"
+                                    >
+                                        <>
+                                            <Share aria-hidden="true" focusable={false} size={16} />{' '}
+                                            <span>Partage avec le mode contrast elevée</span>
+                                        </>
+                                    </SimpleButton>
+                                </Wrapper>
+                            </div>
+                            <div>
+                                <div className="titleSection">
+                                    <h3>Mode Fun</h3>
                                 </div>
-                            </SimpleButton>
+                                <SimpleButton
+                                    className="random"
+                                    onClick={handleRandomClick}
+                                    type="button"
+                                    aria-label="Appliquer un thème de couleur aléatoire"
+                                >
+                                    <div className="content-random">
+                                        <p>
+                                            Nous déclinons toute responsabilité en cas de <br />
+                                            <strong style={{ textDecoration: 'underline' }}>
+                                                crise de couleur
+                                            </strong>
+                                        </p>
+                                        <span>🦄 Thème aléatoire 🦄</span>
+                                    </div>
+
+                                    <div className="counter-random">
+                                        <span>Déja</span>
+                                        <span className="count">
+                                            {String(randomThemeCount ?? '...')}
+                                        </span>
+                                        <span>
+                                            âmes courageuses
+                                            <br /> ont osé essayer
+                                        </span>
+                                    </div>
+                                </SimpleButton>
+                            </div>
                         </div>
                     </div>
                 </Styled.Content>

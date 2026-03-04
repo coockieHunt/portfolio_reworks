@@ -46,7 +46,6 @@ const loadFallbackCache = async (): Promise<IWorkerCache | null> => {
 
     cachePromise = request;
 
-    console.log(cachePromise);
     return request;
 };
 

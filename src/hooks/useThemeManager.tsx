@@ -19,7 +19,6 @@ export const useThemeManager = () => {
 
         const themeConfig = COLOR_SETTING[newTheme];
 
-        console.log(newTheme);
 
         if(!newTheme.startsWith('random_')) {
             await incrementCounter({ counterName: 'theme:counter:' + newTheme.toUpperCase() });

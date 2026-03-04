@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS } from '@/config';
+import { Wrapper } from '@/styles/utils.style';
+import { HexToRgbaConverter } from '@/utils/HexToRgbaConverter';
 
 export const Toggle = styled.button<{ $isOpen: boolean }>`
     position: fixed;
@@ -72,7 +74,6 @@ export const ContainerSetting = styled.div`
     transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.521);
 
-
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         left: auto;
         top: 50%;
@@ -95,8 +96,6 @@ export const ContainerSetting = styled.div`
             transform: translate(50%, -50%);
         }
     }
-
-  
 
     & .header {
         flex-shrink: 0;
@@ -148,7 +147,7 @@ export const Content = styled.div`
         font-variation-settings: 'wght' 600;
         margin: 0 0 15px 0;
         font-size: 1.2em;
-        
+
         & span {
             font-size: 0.8em;
             color: var(--font-subtle);
@@ -160,19 +159,19 @@ export const Content = styled.div`
                 transition: all 0.2s;
                 cursor: pointer;
                 color: var(--font-subtle);
-               
             }
         }
     }
 
     & .titleSection {
         display: flex;
-        flex-direction: row;
-        gap: 20px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
 
-        margin-bottom: 20px;
-
-        & h3{
+        & h3 {
             line-height: 1rem;
             margin-bottom: 0;
         }
@@ -184,17 +183,73 @@ export const Content = styled.div`
         }
     }
 
+    
     & .ContainerButton {
         display: grid;
-        grid-template-columns: 1.3fr 1fr;
-        gap: 20px;
-        align-items: start;
+        grid-template-columns: 1fr;
+        gap: 25px;
+
+        & .section-themes {
+            width: 100%;
+            overflow: hidden;
+            border-radius: ${BORDER_RADIUS.large};
+        }
 
         & .ThemesContainer {
+            width: 100%;
+            border: 1px dashed var(--border-subtle);
+            border-radius: ${BORDER_RADIUS.medium};
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: ${HexToRgbaConverter('var(--background)', 0.5)};
+            & .themes-desktop {
+                display: block;
+            }
+
+            & .themes-mobile {
+                display: none;
+            }
+        }
+
+        & .section-row2 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            column-gap: 20px;
-            row-gap: 10px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+            & > div {
+                border-radius: ${BORDER_RADIUS.large};
+                display: flex;
+                flex-direction: column;
+            }
+
+            & ${Wrapper} {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                flex: 1;
+
+                & > * {
+                    margin: 0;
+                }
+
+                & p {
+                    margin: 0;
+                }
+
+                & .contrast {
+                    margin: 0 !important;
+                    padding: 0;
+
+                    & span {
+                        margin-left: 0;
+                    }
+                }
+            }
+
+            & .random {
+                flex: 1;
+                min-height: 0;
+                margin: 0;
+            }
         }
 
         @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -204,10 +259,37 @@ export const Content = styled.div`
             gap: 20px;
             width: 100%;
 
-            & .ThemesContainer {
+            & .section-row2 > div {
+                border-radius: ${BORDER_RADIUS.medium};
+            }
+
+            & .section-themes {
+                padding: 0;
+                border-radius: 0;
+            }
+
+            & .section-row2 {
                 grid-template-columns: 1fr;
+            }
+
+            & .ThemesContainer {
                 width: 100%;
                 box-sizing: border-box;
+                border: none;
+                border-radius: 0;
+                padding: 0;
+
+                background-color: transparent;
+
+                & .themes-desktop {
+                    display: none;
+                }
+
+                & .themes-mobile {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
             }
 
             & h3 {
@@ -217,6 +299,7 @@ export const Content = styled.div`
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
+
         & .titleSection {
             flex-direction: column;
             align-items: flex-start;

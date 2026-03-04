@@ -7,6 +7,8 @@ interface IGridEffectProps {
     $smallSize?: string;
     $bigOffset?: string;
     $smallOffset?: string;
+
+    $opacity?: number;
 }
 
 interface IDotGridEffectProps {
@@ -21,6 +23,8 @@ interface IDotGridEffectProps {
 export const GridEffect = styled.div<IGridEffectProps>`
     --big-c: ${(p) => p.$bigColor || '#38373753'};
     --small-c: ${(p) => p.$smallColor || '#38373753'};
+    --opacity: ${(p) => p.$opacity || 1};
+    
     
     background-image:
         linear-gradient(var(--big-c) 2px, transparent 2px),
@@ -39,6 +43,7 @@ export const GridEffect = styled.div<IGridEffectProps>`
         ${(p) => p.$bigOffset || '-2px'} ${(p) => p.$bigOffset || '-2px'},
         ${(p) => p.$smallOffset || '-1px'} ${(p) => p.$smallOffset || '-1px'},
         ${(p) => p.$smallOffset || '-1px'} ${(p) => p.$smallOffset || '-1px'};
+
 `;
 
 export const DotGridEffect = styled.div<IDotGridEffectProps>`
