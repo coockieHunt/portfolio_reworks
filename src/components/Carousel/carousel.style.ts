@@ -44,7 +44,7 @@ const BaseButton = styled.button`
     background: transparent;
     border: none;
     cursor: pointer;
-    color: var(--font-subtle);
+    color: var(--primary);
     padding: 4px;
     display: flex;
     align-items: center;

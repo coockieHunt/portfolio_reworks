@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as styled from './MyProject.style';
 import { TitleTextComponent } from '@/components/Text/Text.component';
 import { PaginatedGrid } from '@/components/PaginatedGrid/PaginatedGrid.component';
-import { PaginationContainer } from '@/components/PaginatedGrid/PaginatedGrid.style';
-import { Button } from '@/components/Button/Button';
+import { ControlsComponent } from '@/components/Controls/controls.component';
 import { BuildPreview } from './Build/BuildPreview';
 import { BuildGalery } from './Build/BuildGalery';
 import { BuildTab } from './Build/BuildTab';
@@ -204,38 +203,16 @@ export const MyProjectContainer: React.FC<MyProjectContainerProps> = ({
                     )}
                 </styled.CardsContainer>
                 {!hasError && totalPages > 1 && (
-                    <PaginationContainer>
-                        <Button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            color="color-mix(in srgb, var(--secondary), transparent 20%)"
-                        >
-                            {'<'}
-                        </Button>
-                        {Array.from({ length: totalPages }, (_, i) => {
-                            const pageNumber = i + 1;
-                            return (
-                                <span
-                                    key={`page-${pageNumber}`}
-                                    className={
-                                        currentPage === pageNumber
-                                            ? 'active-page'
-                                            : ''
-                                    }
-                                    onClick={() => handlePageChange(pageNumber)}
-                                >
-                                    {pageNumber}
-                                </span>
-                            );
-                        })}
-                        <Button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                            color="color-mix(in srgb, var(--secondary), transparent 20%)"
-                        >
-                            {'>'}
-                        </Button>
-                    </PaginationContainer>
+                    <ControlsComponent
+                        onPrev={() => handlePageChange(currentPage - 1)}
+                        onNext={() => handlePageChange(currentPage + 1)}
+                        isPrevDisabled={currentPage === 1}
+                        isNextDisabled={currentPage === totalPages}
+                        pageCount={totalPages}
+                        activePage={currentPage - 1}
+                        indicatorType="number"
+                        size={"lg"}
+                    />
                 )}
             </styled.ContentWrapper>
         </styled.Container>

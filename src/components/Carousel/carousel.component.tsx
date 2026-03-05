@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as Styled from './carousel.style';
+import { ControlsComponent } from '../Controls/controls.component';
 
 type CarouselProps = {
     children: React.ReactNode;
@@ -85,33 +85,14 @@ export const CarouselComponent = ({ children, itemsToScroll = 1, resetKey }: Car
                 </Styled.SliderTrack>
             </Styled.Viewport>
 
-            <Styled.Controls>
-                <Styled.PrevButton 
-                    onClick={() => handleScroll('left')}
-                    disabled={translateX === 0}
-                    aria-label="Défiler vers la gauche"
-                    type="button"
-                >
-                    <ChevronLeft size={30} aria-hidden="true" focusable={false} />
-                </Styled.PrevButton>
-
-                <Styled.Indicators aria-hidden="true">
-                    {Array.from({ length: pageCount }).map((_, index) => (
-                        <Styled.Indicator key={index} $active={index === activePage}>
-                            -
-                        </Styled.Indicator>
-                    ))}
-                </Styled.Indicators>
-
-                <Styled.NextButton 
-                    onClick={() => handleScroll('right')}
-                    disabled={translateX <= -maxScroll}
-                    aria-label="Défiler vers la droite"
-                    type="button"
-                >
-                    <ChevronRight size={30} aria-hidden="true" focusable={false} />
-                </Styled.NextButton>
-            </Styled.Controls>
+            <ControlsComponent
+                onPrev={() => handleScroll('left')}
+                onNext={() => handleScroll('right')}
+                isPrevDisabled={translateX === 0}
+                isNextDisabled={translateX <= -maxScroll}
+                pageCount={pageCount}
+                activePage={activePage}
+            />
         </Styled.Container>
     );
 }
