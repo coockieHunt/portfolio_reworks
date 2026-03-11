@@ -33,7 +33,7 @@ export const Track = styled.div`
     gap: 40px; 
     
     animation: ${scrollAnimation} 40s linear infinite;
-    will-change: transform; 
+    will-change: transform;
 
     &:hover {
         animation-play-state: paused;

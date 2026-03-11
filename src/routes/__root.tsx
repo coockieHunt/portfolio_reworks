@@ -1,6 +1,6 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { ReactLenis, useLenis } from 'lenis/react';
-import { LazyMotion, domAnimation } from 'framer-motion';
+import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion';
 
 //components
 import { UmamiTracker } from '@/components/umami/umami.components';
@@ -50,6 +50,16 @@ export const ThemeWrapper = ({ children }): React.ReactNode => {
             <GlobalStyle />
             {children}
         </ThemeProvider>
+    );
+};
+
+const MotionAccessibilityWrapper = ({ children }: { children: React.ReactNode }) => {
+    const { settings } = useSettingContext();
+
+    return (
+        <MotionConfig reducedMotion={settings.reducedMotion ? 'always' : 'never'}>
+            {children}
+        </MotionConfig>
     );
 };
 
@@ -124,22 +134,24 @@ function RootComponent() {
         >
             <LazyMotion features={domAnimation}>
                 <SettingProvider>
-                    <ThemeWrapper>
-                        <LoadingProvider>
-                            <AlertProvider>
-                                <ParamsProvider>
-                                    <AlertContainerComponent />
-                                    <ApiStatusProvider>
-                                        <ApiStatusLayer />
-                                        <UmamiTracker />
-                                        <Content>
-                                            <Outlet />
-                                        </Content>
-                                    </ApiStatusProvider>
-                                </ParamsProvider>
-                            </AlertProvider>
-                        </LoadingProvider>
-                    </ThemeWrapper>
+                    <MotionAccessibilityWrapper>
+                        <ThemeWrapper>
+                            <LoadingProvider>
+                                <AlertProvider>
+                                    <ParamsProvider>
+                                        <AlertContainerComponent />
+                                        <ApiStatusProvider>
+                                            <ApiStatusLayer />
+                                            <UmamiTracker />
+                                            <Content>
+                                                <Outlet />
+                                            </Content>
+                                        </ApiStatusProvider>
+                                    </ParamsProvider>
+                                </AlertProvider>
+                            </LoadingProvider>
+                        </ThemeWrapper>
+                    </MotionAccessibilityWrapper>
                 </SettingProvider>
             </LazyMotion>
         </ReactLenis>

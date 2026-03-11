@@ -91,6 +91,8 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
 
                 <input
                     type="text"
+                    id="contact-honeypot"
+                    name="contact-honeypot"
                     value={honeypot}
                     onChange={(e) => setHoneypot(e.target.value)}
                     style={{

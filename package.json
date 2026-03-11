@@ -6,6 +6,7 @@
         "@fontsource-variable/doto": "^5.2.10",
         "@fontsource-variable/montserrat": "^5.2.8",
         "@fontsource-variable/source-code-pro": "^5.2.7",
+        "@fontsource/opendyslexic": "^5.2.5",
         "@tanstack/react-router-devtools": "^1.150.0",
         "axios": "^1.13.2",
         "framer-motion": "^12.23.24",

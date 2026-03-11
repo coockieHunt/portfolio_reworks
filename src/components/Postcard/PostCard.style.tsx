@@ -216,7 +216,6 @@ export const PostPreview = styled.article<{ $loading: boolean }>`
         background-size: 800px 100%;
         animation: ${shimmer} 1.5s infinite linear;
         border-color: #333;
-
         & .content {
 
             & h2 .index, .info p, .footer small {

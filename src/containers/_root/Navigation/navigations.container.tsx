@@ -143,7 +143,7 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
     }, []);
 
     return (
-        <Styled.NavigationContainer className={`${menuOpen ? 'NavOpen' : 'NavClose'} ${background ? 'NavBackground' : ''}`}>
+        <Styled.NavigationContainer className={`reduce-motion-component ${menuOpen ? 'NavOpen' : 'NavClose'} ${background ? 'NavBackground' : ''}`}>
             <Styled.BrandContainer>
                 <RouterLink to="/" aria-label="Aller à la page d'accueil">
                     <LogoComponent

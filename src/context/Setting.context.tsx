@@ -30,6 +30,8 @@ const DEFAULT_SETTINGS: ISettings = {
     theme: 'default',
     light: 'dark',
     highContrast: false,
+    reducedMotion: false,
+    openDyslexic: false,
 };
 
 export const SettingProvider: React.FC<ISettingProviderProps> = ({
@@ -45,6 +47,9 @@ export const SettingProvider: React.FC<ISettingProviderProps> = ({
                     console.error('Erreur lecture settings', e);
                 }
             }
+            //setyp motion reduc based on os 
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            return { ...DEFAULT_SETTINGS, reducedMotion: prefersReduced };
         }
         return DEFAULT_SETTINGS;
     });
@@ -60,13 +65,29 @@ export const SettingProvider: React.FC<ISettingProviderProps> = ({
 
             root.setAttribute('data-theme', settings.theme);
 
+            //global class for config
             if (settings.highContrast) {
                 root.classList.add('high-contrast');
             } else {
                 root.classList.remove('high-contrast');
             }
+
+            if (settings.reducedMotion) {
+                root.classList.add('reduced-motion');
+            } else {
+                root.classList.remove('reduced-motion');
+            }
+
+            if (settings.openDyslexic) {
+                root.classList.add('open-dyslexic');
+            } else {
+                root.classList.remove('open-dyslexic');
+            }
         }
     }, [settings]);
+
+
+    // change
 
     const changeTheme = useCallback((theme: ThemeKey): void => {
         setSettings((prev) => ({ ...prev, theme }));
@@ -80,14 +101,24 @@ export const SettingProvider: React.FC<ISettingProviderProps> = ({
         setSettings((prev) => ({ ...prev, highContrast }));
     }, []);
 
+    const changeReducedMotion = useCallback((reducedMotion: boolean): void => {
+        setSettings((prev) => ({ ...prev, reducedMotion }));
+    }, []);
+
+    const changeOpenDyslexic = useCallback((openDyslexic: boolean): void => {
+        setSettings((prev) => ({ ...prev, openDyslexic }));
+    }, []);
+
     const value = useMemo(
         () => ({
             settings,
             changeTheme,
             changeLight,
             changeHighContrast,
+            changeReducedMotion,
+            changeOpenDyslexic
         }),
-        [settings, changeTheme, changeLight, changeHighContrast],
+        [settings, changeTheme, changeLight, changeHighContrast, changeReducedMotion, changeOpenDyslexic],
     );
 
     return (

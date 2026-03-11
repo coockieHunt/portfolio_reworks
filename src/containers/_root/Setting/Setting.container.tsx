@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Eye, EyeOff, Palette, X } from 'lucide-react';
+import { Contrast, Palette, X, ZapOff, SpellCheck, ExternalLink } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 
 // Styles & Config
@@ -13,6 +13,7 @@ import { useSettingContext } from '@/context/Setting.context';
 import { useThemeManager } from '@/hooks/useThemeManager';
 import { useScrollbar } from '@/hooks/useScrollBar.hook';
 import { SimpleButton } from '@/components/Button/SimpleButton';
+import { TogglesComponent } from '@/components/Form/Form.component';
 
 // icon
 import { Share } from 'lucide-react';
@@ -30,7 +31,9 @@ export const SettingContainer: React.FC = () => {
         fetchThemeCount,
         applyTheme,
         activateRandomTheme,
-        ChangeHightContrast,
+        ChangeHighContrast,
+        ChangeReducedMotion,
+        ChangeOpenDyslexic,
     } = useThemeManager();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -69,14 +72,16 @@ export const SettingContainer: React.FC = () => {
     };
 
     const handleContrastClick = () => {
-        ChangeHightContrast(!settings.highContrast);
+        ChangeHighContrast(!settings.highContrast);
     };
 
-    const handleShareWithHightContrast = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
-        navigator.clipboard.writeText(`${SITE_URL}?hc=true`);
+    const handleReducedMotionClick = () => {
+        ChangeReducedMotion(!settings.reducedMotion);
     };
+
+    const handleOpenDyslexicClick = () => {
+        ChangeOpenDyslexic(!settings.openDyslexic);
+    }; 
 
     const handleReadMoreClick = () => {
         navigate({ to: '/guide_mode_contrast_elevee' });
@@ -232,15 +237,13 @@ export const SettingContainer: React.FC = () => {
                             </div>
                         </div>
                         <div className="section-row2">
-                            <div>
+                            <div className="section-accessibility">
                                 <div className="titleSection">
                                     <h3>Accessibilité</h3>
                                 </div>
                                 <Wrapper>
                                     <p>
-                                        Conçue pour améliorer la visibilité des éléments et
-                                        faciliter la lecture pour les personnes ayant des
-                                        déficiences visuelles.&nbsp;
+                                        Conçue pour améliorer le confort visuel et l'accessibilité pour tous les utilisateurs.&nbsp;
                                         <span
                                             style={{
                                                 color: 'var(--font-subtle)',
@@ -252,41 +255,58 @@ export const SettingContainer: React.FC = () => {
                                         </span>
                                     </p>
 
-                                    <SimpleButton
-                                        className={`contrast ${settings.highContrast ? 'active' : ''}`}
-                                        onClick={handleContrastClick}
-                                        type="button"
-                                        aria-label={
-                                            settings.highContrast
-                                                ? 'Désactiver le contraste élevé'
-                                                : 'Activer le contraste élevé'
-                                        }
-                                        aria-pressed={settings.highContrast}
-                                    >
-                                        {settings.highContrast ? (
-                                            <>
-                                                <EyeOff aria-hidden="true" focusable={false} />{' '}
-                                                <span>Désactiver le contraste</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Eye aria-hidden="true" focusable={false} />{' '}
-                                                <span>Activer Contraste Élevé</span>
-                                            </>
-                                        )}
-                                    </SimpleButton>
+                                    <TogglesComponent 
+                                        icon={<SpellCheck size={20} />}
+                                        label="Mode police d'ecriture dyslexique" 
+                                        bool={settings.openDyslexic} 
+                                        onClick={handleOpenDyslexicClick}
+                                    />
 
-                                    <SimpleButton
-                                        className={`contrast ${settings.highContrast ? 'active' : ''}`}
-                                        onClick={handleShareWithHightContrast}
-                                        type="button"
-                                        aria-label="Partager le mode contraste élevé"
-                                    >
-                                        <>
-                                            <Share aria-hidden="true" focusable={false} size={16} />{' '}
-                                            <span>Partage avec le mode contrast elevée</span>
-                                        </>
-                                    </SimpleButton>
+                                    <TogglesComponent 
+                                        icon={<ZapOff size={20} />}
+                                        label="Mode animation réduit" 
+                                        bool={settings.reducedMotion} 
+                                        onClick={handleReducedMotionClick}
+                                    />
+
+                                    <TogglesComponent 
+                                        icon={<Contrast size={20} />}
+                                        label="Mode contraste élevé" 
+                                        bool={settings.highContrast} 
+                                        onClick={handleContrastClick}
+                                    />
+
+                                    <div className="action">
+                                        <SimpleButton
+                                            className="share-config"
+                                            onClick={() => {
+                                                const params = [
+                                                    settings.highContrast ? 'accessibility=true' : '',
+                                                    settings.openDyslexic ? 'dysfont=1' : '',
+                                                    settings.reducedMotion ? 'reduceMotion=1' : '',
+                                                ].filter(Boolean).join('&');
+
+                                                const SITE_URL = import.meta.env.VITE_FRONT_SITE_URL || 'https://jonathangleyze.fr';
+                                                const urlToCopy = `${SITE_URL}${params ? `?${params}` : ''}`;
+                                                navigator.clipboard.writeText(urlToCopy);
+                                            }}
+                                        >
+                                            <ExternalLink size={15} />
+                                            Partager avec la configuration actuelle
+                                        </SimpleButton>
+                                        <SimpleButton
+                                            className="reset-config"
+                                            aria-label="Réinitialiser les options d'accessibilité"
+                                            onClick={() => {
+                                                ChangeHighContrast(false);
+                                                ChangeOpenDyslexic(false);
+                                                ChangeReducedMotion(false);
+                                            }}
+                                        >
+                                            <X size={25} />
+                                        </SimpleButton>
+                                    </div>
+                                    
                                 </Wrapper>
                             </div>
                             <div>
@@ -322,6 +342,7 @@ export const SettingContainer: React.FC = () => {
                                 </SimpleButton>
                             </div>
                         </div>
+
                     </div>
                 </Styled.Content>
 

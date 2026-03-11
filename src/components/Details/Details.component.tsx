@@ -21,7 +21,7 @@ export const DetailsComponent = ({ Head, children, rounded = false, isOpen, onTo
     const contentId = `details-content-${Head.replace(/\s+/g, '-').toLowerCase()}`;
 
     return (
-        <Styled.Container $rounded={rounded} $isOpen={isOpen}>
+        <Styled.Container className="reduce-motion-component" $rounded={rounded} $isOpen={isOpen}>
             <Styled.DropdownHead 
                 onClick={onToggle} 
                 aria-expanded={isOpen}

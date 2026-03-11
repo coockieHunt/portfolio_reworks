@@ -2,7 +2,7 @@ import { createGlobalStyle, styled } from 'styled-components';
 import { COLOR_SETTING, HightContrastColorSetting } from '../config';
 
 const GlobalStyle = createGlobalStyle`
-    /* Font declarations with fallback to optimize CLS */
+    /* Font declarations with fallback to optimize CLS
     @font-face {
         font-family: 'Doto Variable';
         font-display: fallback;
@@ -23,6 +23,13 @@ const GlobalStyle = createGlobalStyle`
         font-weight: 200 700;
     }
 
+    @font-face {
+        font-family: 'OpenDyslexic';
+        font-display: fallback;
+        font-weight: 400;
+        font-style: normal;
+    } */
+
     :root {
         --background: ${(props) => COLOR_SETTING[props.theme.theme]?.background || '#121212'};
         --background-secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.background_secondary || '#0d0d0d'};
@@ -38,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
         --secondary: ${(props) => COLOR_SETTING[props.theme.theme]?.secondary || '#4F4398'};
         --accentuate: ${(props) => COLOR_SETTING[props.theme.theme]?.accentuate || '#A594FF'};
 
-        --succes: ${(props) => COLOR_SETTING[props.theme.theme]?.succes || '#4CAF50'};
+        --success: ${(props) => COLOR_SETTING[props.theme.theme]?.succes || '#4CAF50'};
         --error: ${(props) => COLOR_SETTING[props.theme.theme]?.error || '#F44336'};
         --warning: ${(props) => COLOR_SETTING[props.theme.theme]?.warning || '#FF9800'};
         --info: ${(props) => COLOR_SETTING[props.theme.theme]?.info || '#2196F3'};
@@ -71,7 +78,6 @@ const GlobalStyle = createGlobalStyle`
         border: 0;
         font-weight: normal;
         font-style: normal;
-        /* font-family: 'Montserrat', 'Montserrat-Fallback', sans-serif; */
     }
 
     *::-webkit-scrollbar {
@@ -92,6 +98,34 @@ const GlobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
+    html.reduced-motion {
+        scroll-behavior: auto;
+    }
+
+    html.reduced-motion .reduce-motion-static {
+        transition: none !important;
+    }
+
+    html.reduced-motion .reduce-motion-static:hover {
+        filter: none !important;
+    }
+
+    html.reduced-motion .reduce-motion-component,
+    html.reduced-motion .reduce-motion-component *,
+    html.reduced-motion .reduce-motion-component *::before,
+    html.reduced-motion .reduce-motion-component *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    html.open-dyslexic,
+    html.open-dyslexic body {
+        font-family: 'OpenDyslexic', Arial, sans-serif !important;
+        font-size: .95em !important;
+        line-height: 1.5 !important;
+    }
+
 
     body {
         background-color: #121212;
@@ -157,6 +191,7 @@ const GlobalStyle = createGlobalStyle`
         transition: stroke-width 0.2s ease-in-out;
     }
 
+   
     ${(props) => {
         const hcConfig = HightContrastColorSetting;
 

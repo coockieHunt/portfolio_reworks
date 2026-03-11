@@ -278,8 +278,8 @@ export const MarkdownContent = styled.div`
             & .type-title { color: var(--info);}
         }
         &.type-NOTE { 
-            border-left: 3px solid var(--succes); 
-            & .type-title { color: var(--succes);}
+            border-left: 3px solid var(--success); 
+            & .type-title { color: var(--success);}
         }
         &.type-ERROR { 
             border-left: 3px solid var(--error); 

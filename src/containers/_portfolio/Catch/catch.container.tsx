@@ -1,85 +1,38 @@
-// react
-import { ElementType } from 'react';
-
 // style
 import * as StyleCatch from './catch.style';
-import { DotGridEffect } from '@/styles/effect';
 
 // components
-import { AccentTextComponent } from '@/components/Text/Text.component';
-import { WaveComponent } from '@/components/Wave/wave.component';
+import { BentoComponent } from '@/components/Bento/Bento.component';
 
-// config & data
-import { skillCards, catchText } from '@/data';
+// hooks & config
+import { useWindowSize } from '@/hooks/useScreenResize.hook';
+import { SCREEN_SIZE } from '@/config';
 
-// types
-interface ISkillCardData {
-    Icon: ElementType;
-    title: string;
-    description: string;
-    color?: string;
-}
+
+//bento
+import { PartnerBentoComponent } from './BentoFrame/partner/partner.bento';
+import { OnePixelBentoComponent } from './BentoFrame/OnePixel/OnePixel.bento';
+import { CreativeWayBentoComponent } from './BentoFrame/CreativeWay/CreativeWay.bento';
+import { BlackBoxBentoComponent } from './BentoFrame/BlackBox/BlackBox.bento';
 
 interface ICatchContainerProps {
     id: string;
 }
 
-const SkillCard = ({ Icon, title, description, color }: ISkillCardData) => {
-    return (
-        <StyleCatch.SkillCard className="card">
-            <DotGridEffect
-                $isHovered={true}
-                $DotColor="#fafeff14"
-                $Spacing="18px"
-                $DotSize="2px"
-            />
-
-            <div style={{ position: 'relative', zIndex: 2 }}>
-                <div className="header-card">
-                    <Icon color={color} size={30} />
-                    <h2>{title}</h2>
-                </div>
-                <p className="font_code">{description}</p>
-            </div>
-        </StyleCatch.SkillCard>
-    );
-};
-
 export const CatchContainer = ({ id }: ICatchContainerProps) => {
-    const cards = skillCards as ISkillCardData[];
+    const isMobile = !!useWindowSize(parseInt(SCREEN_SIZE.mobile));
+
     return (
         <StyleCatch.Section id={id}>
-            <StyleCatch.Text>
-                <div className="left">
-                    <h3>
-                        <AccentTextComponent>DÉPASSER</AccentTextComponent> les
-                        limites du technique
-                    </h3>
-                    <p>
-                        {catchText.intro}
-                        <br />
-                        {catchText.extra}
-                    </p>
-                </div>
-
-                <div className="right">
-                    <StyleCatch.CardList className="cardList">
-                        {cards.map((card, index) => (
-                            <SkillCard
-                                key={index}
-                                Icon={card.Icon}
-                                title={card.title}
-                                description={card.description}
-                                color={card.color}
-                            />
-                        ))}
-                    </StyleCatch.CardList>
-                </div>
-            </StyleCatch.Text>
-
-            <StyleCatch.WaveBackground>
-                <WaveComponent colorPrimary="var(--primary)" />
-            </StyleCatch.WaveBackground>
+            <div className="head">
+                <h1 className='font_dot'>// DÉPASSER les limites du technique</h1>
+            </div>
+            <BentoComponent >
+                <OnePixelBentoComponent SizeCard="tall" isMobile={isMobile} />
+                <PartnerBentoComponent SizeCard="tall" isMobile={isMobile} />
+                <CreativeWayBentoComponent SizeCard="wide" isMobile={isMobile} />
+                <BlackBoxBentoComponent SizeCard="wide" isMobile={isMobile} />
+            </BentoComponent>
         </StyleCatch.Section>
     );
 };

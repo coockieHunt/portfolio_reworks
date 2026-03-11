@@ -7,6 +7,8 @@ export interface ISettings {
     theme: ThemeKey;
     light: string;
     highContrast: boolean;
+    reducedMotion: boolean;
+    openDyslexic: boolean;
 }
 
 export interface ISettingContext {
@@ -14,6 +16,8 @@ export interface ISettingContext {
     changeTheme: (theme: ThemeKey) => void;
     changeLight: (light: string) => void;
     changeHighContrast: (enabled: boolean) => void;
+    changeReducedMotion: (enabled: boolean) => void;
+    changeOpenDyslexic: (enabled: boolean) => void;
 }
 
 export interface ISettingProviderProps {

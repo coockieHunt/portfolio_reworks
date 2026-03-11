@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useMemo } from 'react';
-import { useNavigate, useSearch, useRouterState } from '@tanstack/react-router'; // 1. On réimporte useRouterState
+import React, { createContext, useEffect, useMemo } from 'react';
+import { useNavigate, useSearch, useRouterState } from '@tanstack/react-router';
 import { useSettingContext } from './Setting.context';
 import { COLOR_SETTING } from '../config';
 import { setApiDown } from '@/api/apiHealth';
@@ -8,6 +8,8 @@ type AppSearchParams = {
     theme?: string;
     accessibility?: string | boolean;
     restricted?: string | boolean;
+    dysfont?: string;
+    reduceMotion?: string;
     [key: string]: unknown;
 };
 
@@ -15,16 +17,16 @@ type ParamsContextType = {
     theme?: string;
     accessibility: boolean;
     restricted: boolean;
+    dysfont: boolean;
+    reduceMotion: boolean;
 };
 
 const ParamsContext = createContext<ParamsContextType | null>(null);
 
 export const ParamsProvider = ({ children }: { children: React.ReactNode }) => {
-    const { changeTheme, changeHighContrast } = useSettingContext();
+    const { changeTheme, changeHighContrast, changeOpenDyslexic, changeReducedMotion } = useSettingContext();
     const navigate = useNavigate({ from: '__root__' });
-    
-    const routerState = useRouterState(); 
-    
+    const routerState = useRouterState();
     const search = useSearch({ from: '__root__' }) as AppSearchParams;
 
     useEffect(() => {
@@ -45,9 +47,25 @@ export const ParamsProvider = ({ children }: { children: React.ReactNode }) => {
             hasChanges = true;
         }
 
+        if ('dysfont' in search) {
+            changeOpenDyslexic(String(search.dysfont) === '1');
+            paramsToRemove.push('dysfont');
+            hasChanges = true;
+        }
+
+        if ('reduceMotion' in search) {
+            changeReducedMotion(String(search.reduceMotion) === '1');
+            paramsToRemove.push('reduceMotion');
+            hasChanges = true;
+        }
+
+        if ('restricted' in search) {
+            setApiDown(String(search.restricted) === '1');
+        }
+
         if (hasChanges) {
             navigate({
-                to: routerState.location.pathname, 
+                to: routerState.location.pathname,
                 search: (prev: any) => {
                     const next = { ...prev };
                     paramsToRemove.forEach((key) => delete next[key]);
@@ -56,25 +74,15 @@ export const ParamsProvider = ({ children }: { children: React.ReactNode }) => {
                 replace: true,
             });
         }
-
-        if('restricted' in search) {
-            const value = String(search.restricted).toLowerCase();
-            if (value === '1') {
-                setApiDown(true);
-            } else if (value === '0') {
-                setApiDown(false);
-            }
-        }
-    }, [search, changeTheme, changeHighContrast, navigate, routerState.location.pathname]);
-
-
+    }, [search, changeTheme, changeHighContrast, changeOpenDyslexic, changeReducedMotion, navigate, routerState.location.pathname]);
 
     const value = useMemo<ParamsContextType>(() => ({
         theme: search.theme,
         accessibility: 'accessibility' in search,
         restricted: 'restricted' in search,
+        dysfont: 'dysfont' in search,
+        reduceMotion: 'reduceMotion' in search,
     }), [search]);
 
     return <ParamsContext.Provider value={value}>{children}</ParamsContext.Provider>;
 };
-

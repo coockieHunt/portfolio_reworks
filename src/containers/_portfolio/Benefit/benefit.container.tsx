@@ -1,6 +1,7 @@
 // libraries
+import { memo, useMemo } from 'react';
 import { m, Variants } from 'framer-motion';
-import { JSX, CSSProperties } from 'react';
+import { JSX } from 'react';
 
 // styles
 import { Container, TextContainer, Info, Img, Text } from './benefit.style';
@@ -11,7 +12,7 @@ import { TitleTextComponent } from '@/components/Text/Text.component';
 // data
 import { benefitItems } from '@/data';
 
-//shared types
+// shared types
 import { ICustomCSSProperties } from '@/types/shared';
 
 // types
@@ -27,10 +28,24 @@ export interface IBenefitContainerProps {
     $transition?: object;
 }
 
-const AnimateSvg = (): JSX.Element => (
+const INFO_VARIANTS: Variants = {
+    left: { x: 100, opacity: 1 },
+    right: { x: -100, opacity: 1 },
+};
+
+const MARGIN_VALUES: readonly number[] = [0, 20, 20, 0] as const;
+
+const CSS_VARS = {
+    '--font': 'white',
+} as ICustomCSSProperties;
+
+const LEFT_ITEMS = (benefitItems as IBenefitItemData[]).slice(0, 4);
+const RIGHT_ITEMS = (benefitItems as IBenefitItemData[]).slice(4, 8);
+
+const AnimateSvg = memo((): JSX.Element => (
     <m.svg
-        width="2200"
-        height="2450"
+        width="256"
+        height="282"
         viewBox="0 0 256 282"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMinYMin meet"
@@ -50,26 +65,11 @@ const AnimateSvg = (): JSX.Element => (
             />
         </g>
     </m.svg>
-);
+));
 
-export const BenefitContainer = ({
-    id,
-}: IBenefitContainerProps): JSX.Element => {
-    const InfoVariants: Variants = {
-        left: { x: 100, opacity: 1 },
-        right: { x: -100, opacity: 1 },
-    };
-
-    const marginValues: number[] = [0, 20, 20, 0];
-
-    const cssVars = {
-        '--font': 'white',
-    } as ICustomCSSProperties;
-
-    const items = benefitItems as IBenefitItemData[];
-
+export const BenefitContainer = memo(({ id }: IBenefitContainerProps): JSX.Element => {
     return (
-        <Container style={cssVars} id={id}>
+        <Container style={CSS_VARS} id={id}>
             <TitleTextComponent subtitle={'A PROPOS'} subtitleOpacity={0.3}>
                 Mes compétences
             </TitleTextComponent>
@@ -82,16 +82,16 @@ export const BenefitContainer = ({
                     initial="left"
                     whileInView={{ x: 0 }}
                     transition={{ type: 'spring' }}
-                    variants={InfoVariants}
+                    variants={INFO_VARIANTS}
                 >
                     <Info className="start">
-                        {items.slice(0, 4).map((item, index) => (
+                        {LEFT_ITEMS.map((item, index) => (
                             <div
                                 className="InfoElement"
                                 key={index}
                                 style={
                                     {
-                                        '--desktop-margin-right': `${marginValues[index]}px`,
+                                        '--desktop-margin-right': `${MARGIN_VALUES[index]}px`,
                                     } as ICustomCSSProperties
                                 }
                             >
@@ -104,7 +104,6 @@ export const BenefitContainer = ({
                                         {item.icon}
                                     </span>
                                 </div>
-
                                 <p className="font_code">{item.description}</p>
                             </div>
                         ))}
@@ -117,16 +116,16 @@ export const BenefitContainer = ({
                     initial="right"
                     whileInView={{ x: 0 }}
                     transition={{ type: 'spring' }}
-                    variants={InfoVariants}
+                    variants={INFO_VARIANTS}
                 >
                     <Info className="end">
-                        {items.slice(4, 8).map((item, index) => (
+                        {RIGHT_ITEMS.map((item, index) => (
                             <div
                                 className="InfoElement"
                                 key={index}
                                 style={
                                     {
-                                        '--desktop-margin-left': `${marginValues[index]}px`,
+                                        '--desktop-margin-left': `${MARGIN_VALUES[index]}px`,
                                     } as ICustomCSSProperties
                                 }
                             >
@@ -145,4 +144,4 @@ export const BenefitContainer = ({
             </TextContainer>
         </Container>
     );
-};
+});

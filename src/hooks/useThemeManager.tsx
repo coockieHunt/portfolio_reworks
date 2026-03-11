@@ -6,7 +6,13 @@ import { getCounter, incrementCounter } from '../api/service/counter.api';
 import { generatePapucheTheme } from '../utils/colorGenerator';
 
 export const useThemeManager = () => {
-    const { changeTheme, changeHighContrast } = useSettingContext();
+    const { 
+        settings,
+        changeTheme, 
+        changeHighContrast,
+        changeReducedMotion,
+        changeOpenDyslexic,
+    } = useSettingContext();
     const { showLoading, hideLoading } = useLoading();
     const [randomThemeCount, setRandomThemeCount] = useState(0);
 
@@ -19,8 +25,7 @@ export const useThemeManager = () => {
 
         const themeConfig = COLOR_SETTING[newTheme];
 
-
-        if(!newTheme.startsWith('random_')) {
+        if (!newTheme.startsWith('random_')) {
             await incrementCounter({ counterName: 'theme:counter:' + newTheme.toUpperCase() });
         }
 
@@ -79,13 +84,51 @@ export const useThemeManager = () => {
         }
     };
 
-    const ChangeHightContrast = (isHighContrast: boolean) => {
-        if (isHighContrast) {
-            applyTheme('HighContrast', 'Contraste Élevé', 500);
-        } else {
-            applyTheme('default', 'Nuit', 500);
-        }
+    const ChangeHighContrast = (isHighContrast: boolean) => {
+        applyTheme(
+            isHighContrast ? 'HighContrast' : 'default',
+            isHighContrast ? 'Contraste Élevé' : 'Nuit',
+            500,
+        );
         changeHighContrast(isHighContrast);
+    };
+
+    const ChangeReducedMotion = (isReducedMotion: boolean) => {
+        const TOTAL_DURATION = 1300;
+        const themeConfig = COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
+
+        showLoading(
+            themeConfig?.background_color || '#000000',
+            TOTAL_DURATION,
+            <>
+                <span>Changement du mode animation...</span>
+                <strong style={{ color: themeConfig?.primary || 'inherit' }}>
+                    {isReducedMotion ? 'Mode réduit activé' : 'Mode réduit désactivé'}
+                </strong>
+            </>,
+        );
+
+        setTimeout(() => changeReducedMotion(isReducedMotion), 0);
+        setTimeout(() => hideLoading(), TOTAL_DURATION);
+    };
+
+    const ChangeOpenDyslexic = (isOpenDyslexic: boolean) => {
+        const TOTAL_DURATION = 1300;
+        const themeConfig = COLOR_SETTING[settings.theme] || COLOR_SETTING.default;
+
+        showLoading(
+            themeConfig?.background_color || '#000000',
+            TOTAL_DURATION,
+            <>
+                <span>Changement de police...</span>
+                <strong style={{ color: themeConfig?.primary || 'inherit' }}>
+                    {isOpenDyslexic ? 'Police OpenDyslexic activée' : 'Police OpenDyslexic désactivée'}
+                </strong>
+            </>,
+        );
+
+        setTimeout(() => changeOpenDyslexic(isOpenDyslexic), 0);
+        setTimeout(() => hideLoading(), TOTAL_DURATION);
     };
 
     return {
@@ -93,6 +136,8 @@ export const useThemeManager = () => {
         fetchThemeCount,
         applyTheme,
         activateRandomTheme,
-        ChangeHightContrast,
+        ChangeHighContrast,
+        ChangeReducedMotion,
+        ChangeOpenDyslexic,
     };
 };

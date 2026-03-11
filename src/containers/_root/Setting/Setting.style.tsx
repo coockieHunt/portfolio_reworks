@@ -99,7 +99,7 @@ export const ContainerSetting = styled.div`
 
     & .header {
         flex-shrink: 0;
-        padding: 15px 20px;
+        padding: 10px 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -246,9 +246,42 @@ export const Content = styled.div`
             }
 
             & .random {
-                flex: 1;
                 min-height: 0;
                 margin: 0;
+            }
+
+            & .section-accessibility {
+                & .action {
+                    display: flex;
+                    align-items: stretch;
+                    width: 100%;
+                    gap: 10px;
+
+                    & .share-config {
+                        flex: 1;
+                        justify-content: flex-start;
+                        padding-inline: 16px;
+                    }
+
+                    & .reset-config {
+                        flex: 0 0 auto;
+                        width: 52px;
+                        justify-content: center;
+                        padding: 0;
+                        background-color: color-mix(in srgb, #d84c4c 10%, transparent);
+
+                        & svg {
+                            color: #ff6b6b;
+                            margin: 0;
+                        }
+
+                        &:hover {
+                            transform: scale(1);
+                            box-shadow: none;
+                            background-color: color-mix(in srgb, #d84c4c 18%, transparent);
+                        }
+                    }
+                }
             }
         }
 
@@ -270,7 +303,25 @@ export const Content = styled.div`
 
             & .section-row2 {
                 grid-template-columns: 1fr;
+
+                & .section-accessibility {
+                    & .action {
+                        flex-direction: column;
+
+                        & .share-config {
+                            justify-content: center;
+                            text-align: center;
+                        }
+
+                        & .reset-config {
+                            width: 100%;
+                        }
+                    }
+                }
             }
+
+
+           
 
             & .ThemesContainer {
                 width: 100%;
@@ -313,6 +364,7 @@ export const Content = styled.div`
             }
         }
     }
+
 `;
 
 export const CloseButton = styled.button`

@@ -13,7 +13,6 @@ import { trackEvent } from '../../components/umami/umami.components';
 import { GlobalLoader } from '../../components/Loading/GlobalLoader.compenent';
 
 import { HeroContainer } from '@/containers/_portfolio/Hero/hero.container';
-import { CatchContainer } from '../../containers/_portfolio/Catch/catch.container';
 import { TitleTextComponent } from '@/components/Text/Text.component';
 import { ServiceStatusApi } from '@/containers/_portfolio/ServiceStatus/ServiceStatus.container';
 import { FaqContainer } from '@/containers/_portfolio/Faq/Faq.container';
@@ -27,6 +26,11 @@ const BenefitContainer = lazy(() =>
     import('@/containers/_portfolio/Benefit/benefit.container').then(
         (module) => ({ default: module.BenefitContainer }),
     ),
+);
+const CatchContainer = lazy(() =>
+    import('@/containers/_portfolio/Catch/catch.container').then((module) => ({
+        default: module.CatchContainer,
+    })),
 );
 const QuoteContainer = lazy(() =>
     import('@/containers/_portfolio/Quote/Quote.containers').then((module) => ({
@@ -103,7 +107,9 @@ export function PortfolioIndex() {
         <>
             
             <HeroContainer id="hero" />
-            <CatchContainer id="catch" />
+            <Suspense fallback={null}>
+                <CatchContainer id="catch" />
+            </Suspense>
 
             <TitleTextComponent
                 subtitle={'Vous voulez lire les'}

@@ -1,4 +1,4 @@
-import { useState, useImperativeHandle, forwardRef } from 'react';
+import { useState, useImperativeHandle, forwardRef, JSX } from 'react';
 import * as styled from './Form.style';
 import { GenerateRandomNumber } from '../../utils/number';
 
@@ -209,7 +209,7 @@ export const CaptchaComponent = forwardRef(
 
         return (
             <styled.CaptchaContainer>
-                <styled.CaptchaLabel htmlFor="Captcha">
+                <styled.CaptchaLabel htmlFor="captcha">
                     Captcha <span>*</span>
                 </styled.CaptchaLabel>
                 <styled.CaptchaForm
@@ -234,3 +234,28 @@ export const CaptchaComponent = forwardRef(
         );
     },
 );
+
+/**
+ * A component for displaying a toggle switch with an optional icon and label.
+ *
+ * @param {JSX.Element} icon - An optional icon to display alongside the toggle switch.
+ * @param {boolean} bool - The current state of the toggle switch (on/off).
+ * @param {string} label - The label to display next to the toggle switch.
+ * @param {function} onClick - A callback function to handle toggle switch state changes.
+ * @returns {JSX.Element} The rendered toggle switch component.
+ */
+export const TogglesComponent = ({ icon, bool, label, onClick }: { icon?: JSX.Element; bool: boolean; label: string; onClick: () => void }) => {
+    return (
+        <styled.ToggleContainer>
+            {icon && <>{icon}</>}
+            <input
+                type="checkbox"
+                id="toggle"
+                name="toggle"
+                checked={bool}
+                onChange={onClick}
+            />
+            <label htmlFor="toggle">{label}</label>
+        </styled.ToggleContainer>
+    )
+}

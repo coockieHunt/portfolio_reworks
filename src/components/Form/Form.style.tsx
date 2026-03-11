@@ -232,3 +232,55 @@ export const CaptchaInput = styled.input<CaptchaInputProps>`
         margin: 0;
     }
 `;
+
+export const ToggleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+
+    & svg {
+        color: var(--primary);
+    }
+
+    input[type='checkbox'] {
+        appearance: none;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+        background: var(--background-color);
+        border: ${BorderSize} solid var(--border-subtle);
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &:checked {
+            background: color-mix(in srgb, var(--primary) 20%, transparent);
+            border-color: var(--primary);
+
+            &::after {
+                transform: translateX(20px);
+                background: var(--primary);
+            }
+        }
+    }
+
+    label {
+        font-size: 0.95em;
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
+    }
+`;

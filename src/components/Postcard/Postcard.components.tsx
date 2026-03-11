@@ -38,7 +38,7 @@ export const PostCardComponents = ({
         ? summary.substring(0, 580) + "..." 
         : summary;
     return(
-        <Styled.PostPreview $loading={loading} >
+        <Styled.PostPreview className="reduce-motion-component" $loading={loading} >
             <Link 
                 to={loading ? '#' : `/blog/${slug}`} 
                 aria-label={loading ? 'Loading...' : `Read more about ${title}`}

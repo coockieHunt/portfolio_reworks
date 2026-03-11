@@ -29,7 +29,7 @@ const BuildProjectCardComponent: React.FC<IProject> = (project) => {
         <styled.ProjectCard
             key={project.id}
             style={style}
-            className={`project-card${project.favorite ? ' favorite' : ''}`}
+            className={`project-card reduce-motion-component${project.favorite ? ' favorite' : ''}`}
         >
             <BuildTab
                 project={project}

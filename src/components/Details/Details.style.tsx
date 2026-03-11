@@ -62,6 +62,7 @@ export const DropdownHead = styled.button<{ $isOpen: boolean }>`
         transition: transform 0.3s ease;
         transform: ${props => props.$isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
     }
+
 `;
 
 export const DropdownContent = styled.div<{ $isOpen: boolean }>`

@@ -36,7 +36,7 @@ const BuildGaleryBuild = ({ project }) => {
                             alt={altText}
                             loading="lazy"
                             onClick={() => handleClickImg(imgUrl.img, altText)}
-                            className="preview_img"
+                            className="preview_img reduce-motion-static"
                         />
                     );
                 })}
