@@ -1,9 +1,5 @@
-import styled, { keyframes } from 'styled-components';
-
-const scrollAnimation = keyframes`
-    0% { transform: translate3d(-50%, 0, 0); }
-    100% { transform: translate3d(0, 0, 0); }
-`;
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
@@ -27,17 +23,11 @@ export const Container = styled.div`
     );
 `;
 
-export const Track = styled.div`
+export const Track = styled(motion.div)`
     display: flex;
     width: max-content;
     gap: 40px; 
-    
-    animation: ${scrollAnimation} 40s linear infinite;
     will-change: transform;
-
-    &:hover {
-        animation-play-state: paused;
-    }
 
     @media (min-width: 768px) {
         gap: 80px;
