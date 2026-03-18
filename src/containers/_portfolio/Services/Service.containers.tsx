@@ -1,6 +1,7 @@
 import React, { useRef, useCallback } from 'react';
+import { motion, easeInOut } from 'framer-motion'; 
 import {
-    ArrowRight,
+    MoveRight,
     CircleCheck,
     Palette,
     Send,
@@ -8,7 +9,6 @@ import {
     Wrench,
 } from 'lucide-react';
 
-// Styles & Hooks
 import {
     Fence,
     FenceContainer,
@@ -23,7 +23,33 @@ import { useScrollbar } from '@/hooks/useScrollBar.hook';
 import { UseModal } from '@/hooks/useModal.hook';
 import { ModalComponent } from '@/components/Modal/Modal.coponents';
 
-// --- Types & Interfaces ---
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15, 
+        },
+    },
+};
+
+const cardVariants = {
+    hidden: { 
+        opacity: 0, 
+        y: 20, 
+        scale: 0.98 
+    },
+    visible: { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: {
+            duration: 0.5,
+            ease: easeInOut
+        }
+    }
+};
+
 
 interface IServiceCardProps {
     icon: React.ReactNode;
@@ -32,21 +58,9 @@ interface IServiceCardProps {
 }
 
 const SERVICES_CONFIG = [
-    {
-        index: 0,
-        title: 'Développement\nWeb',
-        icon: <Wrench />,
-    },
-    {
-        index: 1,
-        title: 'Consultant\nWeb',
-        icon: <Unlock />,
-    },
-    {
-        index: 2,
-        title: 'Conception\nGraphique',
-        icon: <Palette />,
-    },
+    { index: 0, title: 'Développement\nWeb', icon: <Wrench /> },
+    { index: 1, title: 'Consultant\nWeb', icon: <Unlock /> },
+    { index: 2, title: 'Conception\nGraphique', icon: <Palette /> },
 ];
 
 const ServiceCard: React.FC<IServiceCardProps> = ({ icon, title, onClick }) => {
@@ -72,38 +86,38 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ icon, title, onClick }) => {
                 $DotSize="2px"
             />
             {icon}
-            <p className="catch" style={{ whiteSpace: 'pre-line' }}>
+            <p className="catch font_code" style={{ whiteSpace: 'pre-line' }}>
                 {title}
             </p>
             <span>
-                Voir plus <ArrowRight />
+                Voir plus <MoveRight className="arrow-icon" />
             </span>
         </Fence>
     );
 };
 
-export const ServiceContainer = ({ id }) => {
+export const ServiceContainer = ({ id }: { id?: string }) => {
     const { modals, openModal, closeModal } = UseModal();
     const lastFocusedRef = useRef<HTMLElement | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const isAnyModalOpen = modals.some((m) => m.isOpen);
     useScrollbar(isAnyModalOpen);
 
     const scrollToSection = () => {
-        const scrollToElement = document.querySelector('.scrollTo');
-        if (scrollToElement) {
-            scrollToElement.scrollIntoView({ behavior: 'smooth' });
+        if (containerRef.current) {
+            containerRef.current.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
         }
     };
 
     const handleOpenModal = useCallback(
         (index: number) => {
             lastFocusedRef.current = document.activeElement as HTMLElement;
-
             scrollToSection();
-
             const modalData = serviceModals[index];
-
             if (!modalData) return;
 
             openModal(
@@ -115,7 +129,7 @@ export const ServiceContainer = ({ id }) => {
                             <li key={idx}>
                                 <IconList>
                                     <CircleCheck />
-                                </IconList>{' '}
+                                </IconList>
                                 {item}
                             </li>
                         ))}
@@ -123,7 +137,7 @@ export const ServiceContainer = ({ id }) => {
                 </>,
             );
         },
-        [openModal],
+        [openModal]
     );
 
     const handleCloseModal = useCallback(
@@ -135,48 +149,54 @@ export const ServiceContainer = ({ id }) => {
                 }
             }, 0);
         },
-        [closeModal],
+        [closeModal]
     );
 
     return (
         <div className={id}>
             <ModalComponent modals={modals} onClose={handleCloseModal} />
 
-            <FenceContainer className="scrollTo">
+            <FenceContainer 
+                ref={containerRef}
+                as={motion.div} 
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }} 
+            >
                 {SERVICES_CONFIG.map((service) => (
-                    <ServiceCard
-                        key={service.index}
-                        icon={service.icon}
-                        title={service.title}
-                        onClick={() => handleOpenModal(service.index)}
-                    />
+                    <motion.div key={service.index} variants={cardVariants}>
+                        <ServiceCard
+                            icon={service.icon}
+                            title={service.title}
+                            onClick={() => handleOpenModal(service.index)}
+                        />
+                    </motion.div>
                 ))}
 
-                <a
-                    href="#contact"
-                    aria-label="Me contacter"
-                    title="Me contacter"
-                    style={{ color: 'inherit', textDecoration: 'none' }}
-                    className="desktop-contact-card"
-                >
-                    <Fence
-                        tabIndex={-1}
-                        className="HightLighting"
-                        style={{ opacity: 1 }}
-                        aria-hidden={true}
+                <motion.div variants={cardVariants} className="desktop-contact-card">
+                    <a
+                        href="#contact"
+                        aria-label="Me contacter"
+                        title="Me contacter"
+                        style={{ color: 'inherit', textDecoration: 'none' }}
                     >
-                        <Send />
-                        <p className="catch" style={{ whiteSpace: 'pre-line' }}>
-                            Me <br />
-                            Contacter
-                        </p>
-                        <span>
-                            {' '}
-                            Contacter
-                            <ArrowRight />
-                        </span>
-                    </Fence>
-                </a>
+                        <Fence
+                            tabIndex={-1}
+                            className="HightLighting"
+                            aria-hidden={true}
+                        >
+                            <Send />
+                            <p className="catch font_code" style={{ whiteSpace: 'pre-line' }}>
+                                Me <br />
+                                Contacter
+                            </p>
+                            <span>
+                                Contacter <MoveRight className="arrow-icon" />
+                            </span>
+                        </Fence>
+                    </a>
+                </motion.div>
             </FenceContainer>
 
             <ScrollIndicator />
