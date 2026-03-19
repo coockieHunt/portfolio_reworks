@@ -15,6 +15,7 @@ export const Container = styled.section`
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         --timeline-line-x: 20px;
+        overflow: hidden;
     }
 
     & svg {
@@ -82,8 +83,9 @@ export const CommitNode = styled(motion.div)`
 export const CardContent = styled.div`
     background: ${HexToRgbaConverter('var(--background)', 0.7)};
     border: 1px solid ${HexToRgbaConverter('var(--primary)', 0.3)};
-    border-radius: 8px;
-    width: 100%;
+    border-radius: ${BORDER_RADIUS.small};
+    flex: 1;
+    min-width: 0;
     transition: all 0.3s ease;
 
     user-select: none;
@@ -108,12 +110,15 @@ export const CardLeft = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-width: 0;
 
     .git-command {
         font-family: 'Fira Code', monospace;
         font-size: 0.72rem;
         color: var(--font-subtle);
         display: block;
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -139,6 +144,7 @@ export const CardDivider = styled.div`
 
 export const CardRight = styled.div`
     padding: 24px 28px;
+    min-width: 0;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         padding: 15px 28px;
@@ -166,6 +172,7 @@ export const TimeLineContent = styled.p`
     font-size: 0.9rem;
     line-height: 1.65;
     margin: 0;
+    min-width: 0;
 
     display: flex;
     flex-direction: column;
@@ -178,8 +185,7 @@ export const TimeLineContent = styled.p`
         padding: 12px;
 
         font-size: 0.8rem;
-    }
-    & .describ {
-
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 `;
