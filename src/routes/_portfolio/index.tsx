@@ -53,7 +53,7 @@ const ProductContainer = lazy(() =>
     ),
 );
 const ProcessTimeLine = lazy(() =>
-    import('@/containers/_portfolio/ProcessTimeline/ProcessTileline.container').then(
+    import('@/containers/_portfolio/ProcessTimeline/ProcessTimeline.container').then(
         (module) => ({ default: module.ProcessTimeLine }),
     ),
 );
@@ -83,7 +83,7 @@ const preloadComponents = () =>
         import('@/containers/_portfolio/Stack/Stack.containers'),
         import('@/containers/_portfolio/Services/Service.containers'),
         import('@/containers/_portfolio/Product/product.container'),
-        import('@/containers/_portfolio/ProcessTimeline/ProcessTileline.container'),
+        import('@/containers/_portfolio/ProcessTimeline/ProcessTimeline.container'),
         import('@/containers/_portfolio/Contact/Contact.container'),
         import('@/containers/_portfolio/NewPost/NewPost.container'),
         import('@/components/Text/Text.component'),
