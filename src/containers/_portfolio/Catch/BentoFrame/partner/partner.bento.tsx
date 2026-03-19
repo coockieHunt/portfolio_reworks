@@ -91,7 +91,7 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
     const meX = useMotionValue(160);
     const meY = useMotionValue(120);
     const distCursor = useMotionValue(400);
-    const LineStroke = useMotionValue(2.5);
+    const lineStroke = useMotionValue(2.5);
     const syncProgress = useMotionValue(0); 
     
     const globalScale = useSpring(1, BENTO_SPRING.mid);
@@ -110,15 +110,16 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
     const [isPartnerHover, setIsPartnerHover] = useState(false);
     const [isWaveIntense, setIsWaveIntense] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const isInteractionEnabled = !isMobile;
     const displayCompleted = isMobile || isCompleted;
     const [awaitHoverRearm, setAwaitHoverRearm] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
 
     useEffect(() => {
         isPartnerHoverRef.current = isPartnerHover;
-        isCompletedRef.current = displayCompleted;
+        isCompletedRef.current = isCompleted;
         awaitHoverRearmRef.current = awaitHoverRearm;
-    }, [isPartnerHover, displayCompleted, awaitHoverRearm]);
+    }, [isPartnerHover, isCompleted, awaitHoverRearm]);
 
     const lineOpacity = useTransform(distCursor, [700, 350, 80], [0.12, 0.24, 0.62]);
     const syncOpacity = useTransform(distCursor, [250, 60], [0.4, 1]);
@@ -161,13 +162,18 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
         distCursor.set(Math.hypot(staticMeX - staticYouX, staticMeY - staticYouY));
     }, [distCursor, meX, meY, youX, youY]);
 
-    const handlePartnerMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const handlePartnerPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
         const rect = event.currentTarget.getBoundingClientRect();
         partnerAreaRef.current = { width: rect.width, height: rect.height };
         if (isCompletedRef.current || awaitHoverRearmRef.current) return;
-        youX.set(event.clientX - rect.left);
-        youY.set(event.clientY - rect.top);
-    }, [youX, youY]);
+
+        const pointerX = event.clientX - rect.left;
+        const pointerY = event.clientY - rect.top;
+
+        youX.set(pointerX);
+        youY.set(pointerY);
+        distCursor.set(Math.hypot(meX.get() - pointerX, meY.get() - pointerY));
+    }, [distCursor, meX, meY, youX, youY]);
 
     const animateMe = (timestamp: number) => {
         const { width, height } = partnerAreaRef.current;
@@ -190,7 +196,7 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
         const d = Math.hypot(dx, dy);
         const safeDistance = Math.max(d, 0.0001);
 
-        if (isPartnerHoverRef.current && !isCompletedRef.current && !awaitHoverRearmRef.current) {
+        if (isInteractionEnabled && isPartnerHoverRef.current && !isCompletedRef.current && !awaitHoverRearmRef.current) {
             if (d < MIN_DISTANCE) {
                 const repel = (1 - d / MIN_DISTANCE) * 45;
                 targetX += (dx / safeDistance) * repel;
@@ -212,6 +218,8 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
             } else {
                 syncProgress.set(Math.max(syncProgress.get() - 0.04, 0));
             }
+        } else {
+            syncProgress.set(Math.max(syncProgress.get() - 0.06, 0));
         }
 
         targetX = Math.min(width - margin, Math.max(margin, targetX));
@@ -228,6 +236,25 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
             youX.set(syncedYouX);
             youY.set(syncedYouY);
             distCursor.set(Math.hypot(pos.x - syncedYouX, pos.y - syncedYouY));
+        } else if (!isInteractionEnabled) {
+            const mobileYouX = Math.min(
+                width - margin,
+                Math.max(
+                    margin,
+                    centerX + ampX * 0.82 * Math.sin(t * 0.95 + SYNCED_PHASE) + ampX * 0.14 * Math.sin(t * 1.9 + 0.6),
+                ),
+            );
+            const mobileYouY = Math.min(
+                height - margin,
+                Math.max(
+                    margin,
+                    centerY + ampY * 0.9 * Math.cos(t * 0.78 + SYNCED_PHASE) + ampY * 0.18 * Math.sin(t * 1.4 + 2.2),
+                ),
+            );
+
+            youX.set(mobileYouX);
+            youY.set(mobileYouY);
+            distCursor.set(Math.hypot(pos.x - mobileYouX, pos.y - mobileYouY));
         } else {
             distCursor.set(d);
         }
@@ -244,10 +271,10 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
         if (isMobile) {
             const { width, height } = partnerAreaRef.current;
             setStaticCursorPositions(width, height);
-            return;
+        } else {
+            resetMeToCenter();
         }
 
-        resetMeToCenter();
         requestRef.current = requestAnimationFrame(animateMe);
         return () => { if (requestRef.current) cancelAnimationFrame(requestRef.current); };
     }, [isMobile, resetMeToCenter, setStaticCursorPositions]);
@@ -277,14 +304,14 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
 
     const handleCardClick = useCallback(() => {
         setIsWaveIntense(true);
-        animate(LineStroke, 3.2, {
+        animate(lineStroke, 3.2, {
             type: 'spring',
             stiffness: 800,
             damping: 10,
-            onComplete: () => animate(LineStroke, 2.5, { duration: 1 }),
+            onComplete: () => animate(lineStroke, 2.5, { duration: 1 }),
         });
         setTimeout(() => setIsWaveIntense(false), WAVE_INTENSE_DURATION);
-    }, [LineStroke]);
+    }, [lineStroke]);
 
     const cardStyle = {
         cursor: hideCustomCursor || isMobile ? 'default' : 'none',
@@ -298,25 +325,25 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
             SizeCard={SizeCard}
             className='partner reduce-motion-component'
             style={cardStyle}
-            onMouseMove={isMobile ? undefined : handlePartnerMouseMove}
-            onMouseEnter={isMobile ? undefined : handleMouseEnter}
-            onMouseLeave={isMobile ? undefined : handleMouseLeave}
-            onClick={isMobile ? undefined : handleCardClick}
+            onPointerMove={handlePartnerPointerMove}
+            onMouseEnter={isInteractionEnabled ? handleMouseEnter : undefined}
+            onMouseLeave={isInteractionEnabled ? handleMouseLeave : undefined}
+            onClick={isInteractionEnabled ? handleCardClick : undefined}
         >
             {!isMobile && (
                 <div className="head">
                      <BentoActionComponent
                         status={displayCompleted ? "reset" : "rules"}
                         icon={displayCompleted ? <RefreshCcw size={14} /> : <Hash size={14} />}
-                        rulesText={"Synchronisée les curseur"}
+                        rulesText={"Synchroniser les curseurs"}
                         onClick={displayCompleted ? handleReset : undefined}
                     />
                 </div>
             )}
 
             <div className="frame">
-                {!isMobile && !disablePartnerEffects && <motion.div className="dot-tint dot-tint-me" style={{ '--dot-color': `${primaryColor}2E`, '--mask-x': meMaskX, '--mask-y': meMaskY } as any} />}
-                {!isMobile && !disablePartnerEffects && <motion.div className="dot-tint dot-tint-you" animate={{ opacity: showYouCursor ? 1 : 0 }} transition={{ duration: 0.18 }} style={{ '--dot-color': `${secondaryColor}2A`, '--mask-x': youMaskX, '--mask-y': youMaskY } as any} />}
+                {isInteractionEnabled && !disablePartnerEffects && <motion.div className="dot-tint dot-tint-me" style={{ '--dot-color': `${primaryColor}2E`, '--mask-x': meMaskX, '--mask-y': meMaskY } as any} />}
+                {isInteractionEnabled && !disablePartnerEffects && <motion.div className="dot-tint dot-tint-you" animate={{ opacity: showYouCursor ? 1 : 0 }} transition={{ duration: 0.18 }} style={{ '--dot-color': `${secondaryColor}2A`, '--mask-x': youMaskX, '--mask-y': youMaskY } as any} />}
 
                 {!displayCompleted && isSyncing && (
                     <div className="sync-progress-track" aria-hidden="true">
@@ -333,20 +360,20 @@ export const PartnerBentoComponent = ({ BorderColor, SizeCard, isMobile }: Bento
                 <svg xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", overflow: "visible", pointerEvents: "none", zIndex: 1 }}>
                     <motion.line
                         x1={meXSmooth} y1={meYSmooth} x2={youX} y2={youY}
-                        stroke={primaryColor} strokeWidth={LineStroke} strokeDasharray="4 6"
+                        stroke={primaryColor} strokeWidth={lineStroke} strokeDasharray="4 6"
                         strokeOpacity={lineOpacity} animate={{ opacity: showYouCursor ? 1 : 0 }}
                         style={{ animation: isReducedMotion ? 'none' : 'partnerLink 2s linear infinite' }}
                     />
                 </svg>
 
-                <Cursor x={meXSmooth} y={meYSmooth} scale={globalScale} color={primaryColor} colorBorder={borderLightColor} className="cursor-me" label="Moi" wave={!isMobile && !disablePartnerEffects && isPartnerHover} waveIntense={!isMobile && !disablePartnerEffects && isWaveIntense} />
-                <Cursor x={youX} y={youY} scale={globalScale} color={secondaryColor} colorBorder={borderLightColor} className="cursor-you" label="Vous" visible={showYouCursor} wave={!isMobile && !disablePartnerEffects && showYouCursor} waveIntense={!isMobile && !disablePartnerEffects && isWaveIntense} />
+                <Cursor x={meXSmooth} y={meYSmooth} scale={globalScale} color={primaryColor} colorBorder={borderLightColor} className="cursor-me" label="Moi" wave={isInteractionEnabled && !disablePartnerEffects && isPartnerHover} waveIntense={isInteractionEnabled && !disablePartnerEffects && isWaveIntense} />
+                <Cursor x={youX} y={youY} scale={globalScale} color={secondaryColor} colorBorder={borderLightColor} className="cursor-you" label="Vous" visible={showYouCursor} wave={isInteractionEnabled && !disablePartnerEffects && showYouCursor} waveIntense={isInteractionEnabled && !disablePartnerEffects && isWaveIntense} />
             </div>
 
             <div className="footer">
                 <BentoStateDotComponent status={isMobile ? "mobile" : displayCompleted ? "completed" : "idle"} />
                 <BentoLabelComponent>
-                    {displayCompleted ? 'Synchronisation active' : isSyncing ? 'Sync en cours...' : 'Partenaire impliquee'}
+                    {displayCompleted ? 'Synchronisation active' : isSyncing ? 'Sync en cours...' : 'Partenaire implique'}
                 </BentoLabelComponent>
             </div>
         </Styled.Partner>

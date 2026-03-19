@@ -1,25 +1,19 @@
 import {
     CodeXml,
-    Boxes,
     Eye,
     FileCheck,
-    Gem,
     Github,
     Globe,
-    Handshake,
     Image,
     LayoutTemplate,
-    Lightbulb,
     Linkedin,
     LifeBuoy,
-    MessagesSquare,
     Paintbrush,
     ShoppingCart,
     SlidersHorizontal,
     Target,
     TrendingUp,
     Server,
-    User,
 } from 'lucide-react';
 export const CONTACT_EMAIL = 'pro.jonathan.gleyze@gmail.com';
 
@@ -38,113 +32,6 @@ export const URL = {
     FirstPortfolio: 'https://github.com/coockieHunt/portfolio',
     onset: 'https://github.com/coockieHunt/ck_rp',
 };
-
-import QuoteImage from './assets/projet-img/quote-send-1.webp';
-import QuoteImage1 from './assets/projet-img/quote-send-2.webp';
-import OnsetImage from './assets/projet-img/onset-1.webp';
-import OnsetImage1 from './assets/projet-img/onset-2.webp';
-import ArduinoImage1 from './assets/projet-img/arduino-1.webp';
-
-// -- Projet List ---
-// column end row range from 1 to 2
-export const projectList = [
-    {
-        id: 1,
-        title: 'Quote Send',
-        fileName: 'quote-send.jsx',
-        description:
-            "Un projet d'affichage de citations avec interface d'administration",
-        content:
-            "Quote Send est un projet personnel qui affiche des citations de manière élégante. Il dispose d\'un menu d\'administration sécurisé avec supabase pour gérer les citations. Ce projet reflète mon aspiration pour les textes inspirants, en offrant une plateforme simple mais efficace pour les partager.",
-        webUrl: 'https://quote.jonathangleyze.fr',
-        gitUrl: URL.projectQuoteSend,
-        galery: [
-            {
-                img: QuoteImage,
-                title: 'Quote send affichage quote simple',
-                alt: 'quote send image démo short',
-            },
-            {
-                img: QuoteImage1,
-                title: 'Quote send affichage quote longue',
-                alt: 'quote send image démo long',
-            },
-        ],
-        techStack: ['react', 'supabase'],
-        column: 1,
-        row: 2,
-        favorite: true,
-        date: '2024-12-04',
-        complete: true,
-    },
-    {
-        id: 2,
-        title: 'Premier Portfolio',
-        fileName: 'portfolio-v1.jsx',
-        description:
-            "Premier portfolio en ligne, beaucoup plus simple à l'époque la première itération de la version actuelle",
-        content:
-            'Mon premier portfolio en ligne, développé avec HTML, CSS et JavaScript, marque le début de mon parcours en développement web. Il met en avant mes compétences et projets passés, reflétant mes premières réalisations dans ce domaine.',
-        webUrl: null,
-        gitUrl: URL.FirstPortfolio,
-        galery: [],
-        techStack: ['html', 'css', 'javascript', 'react'],
-        column: 1,
-        row: 2,
-        favorite: false,
-        date: '2023-11-01',
-        complete: false,
-    },
-    {
-        id: 3,
-        title: 'Framework mods de jeux',
-        fileName: 'framework.jsx',
-        description:
-            'Un projet passionnant axé sur le développement de mods de jeux',
-        content:
-            "Un projet passionnant axé sur le développement de mods de jeux, créé à l'aide de technologies telles que Unity, Lua, HTML et JS. Ce framework a pour but de poser les bases, permettant des expériences de jeu amusantes et interactives.",
-        gitUrl: URL.onset,
-        webUrl: null,
-        galery: [
-            {
-                img: OnsetImage1,
-                title: 'Logo projet onset rp',
-                alt: 'onset image',
-            },
-            { img: OnsetImage, title: 'Image of onset', alt: 'onset image' },
-        ],
-        techStack: ['unity', 'lua', 'html', 'js', 'mysql'],
-        column: 1,
-        row: 2,
-        favorite: false,
-        date: '2023-11-01',
-        complete: true,
-    },
-    {
-        id: 4,
-        title: 'Lecteur BMP Arduino ST7789',
-        fileName: 'arduino-reader.jsx',
-        description:
-            "Affichage d'images BMP depuis une carte SD sur un écran ST7789",
-        content:
-            "Un projet embarqué conçu pour lire des fichiers images au format BMP stockés sur une carte SD et les afficher sur un écran TFT ST7789. Ce code gère l'interface SPI et le traitement des données binaires d'image sur microcontrôleur.",
-        gitUrl: 'https://github.com/coockieHunt/arduino_st7789_readSdBmp',
-        webUrl: null,
-        galery: [
-            {
-                img: ArduinoImage1,
-                title: 'Montage Arduino',
-                alt: 'arduino wiring',
-            },
-        ],
-        techStack: ['arduino', 'c++', 'embedded', 'spi'],
-        column: 1,
-        row: 2,
-        favorite: false,
-        date: '2023-11-01',
-        complete: true,
-    },
-];
 
 export const word_hero = [
     'idée',
@@ -286,65 +173,44 @@ export const benefitItems = [
 
 export const TimeLine = [
     {
+        command: 'git init discovery',
         title: 'Premier échange 🔗',
-        content:
-            "Après réception de votre formulaire, planifions un appel pour explorer ensemble votre projet. C'est le moment de partager votre vision et vos objectifs pour créer un site qui vous correspond vraiment.",
+        content: {
+            git_output: 'Initialized empty Git repository in *green**~/discovery/.git/**  ·  *blue**1 commit** on *green**main**',
+            description: "Après réception de votre formulaire, planifions un appel pour explorer ensemble votre projet. C'est le moment de partager votre vision et vos objectifs pour créer un site qui vous correspond vraiment.",
+        }
     },
     {
+        command: "git commit -m 'feat: blueprints'",
         title: 'Conception & Design 🎨',
-        content:
-            "Avant de coder, place à la créativité. Je réalise les maquettes graphiques de votre site pour valider l'identité visuelle et l'expérience utilisateur. Vous visualisez le résultat final avant même le début du développement.",
+        content: {
+            git_output: "[*green**main**] *blue**a3f9c12** feat: blueprints  ·  *amber**4 files changed,** *green**218 insertions(+)**",
+            description: "Avant de coder, place à la créativité. Je réalise les maquettes graphiques de votre site pour valider l'identité visuelle et l'expérience utilisateur. Vous visualisez le résultat final avant même le début du développement.",
+        },
     },
     {
+        command: 'git checkout -b develop',
         title: 'Développement 👨‍💻',
-        content:
-            "Les maquettes sont validées ? C'est parti ! Je développe votre site en transformant le design en code performant. Vous suivez l'évolution en temps réel et nous ajustons les derniers détails ensemble.",
+        content: {
+            git_output: "Switched to a new branch *green**'develop'**  ·  tracking *blue**origin/develop**",
+            description: "Les maquettes sont validées ? C'est parti ! Je développe votre site en transformant le design en code performant. Vous suivez l'évolution en temps réel et nous ajustons les derniers détails ensemble.",
+        }
     },
     {
+        command: 'git merge main --deploy',
         title: 'Mise en ligne 🚀',
-        content:
-            "Votre site est prêt et testé ? Je configure l'hébergement, le nom de domaine et je vous livre les accès. Nous procédons au lancement officiel pour que votre présence digitale puisse enfin décoller !",
+        content: {
+            git_output: "*green**Fast-forward** merge complete  ·  Deploying to *blue**production**... *green**✓ live**",
+            description: "Votre site est prêt et testé ? Je configure l'hébergement, le nom de domaine et je vous livre les accès. Nous procédons au lancement officiel pour que votre présence digitale puisse enfin décoller !",
+        }
     },
     {
+        command: 'git tag -a v1.0.0',
         title: 'Formation & Autonomie 🎓',
-        content:
-            'Je ne vous laisse pas sans boussole. Je vous forme à la gestion de votre site (textes, images, articles) pour que vous ayez toutes les clés en main et soyez totalement autonome sur votre plateforme.',
-    },
-];
-
-export const catchText = {
-    intro: "Ce n'est pas simplement du code, j'apporte une méthodologie et un état d'esprit qui transforment les contraintes en opportunités.",
-    extra: "Mes 4 piliers d'engagement :",
-};
-
-export const skillCards = [
-    {
-        Icon: Handshake,
-        title: 'Partenaire Impliqué',
-        description:
-            "Plus qu'un simple exécutant, je m'immerge dans votre vision. Je considère votre projet comme le mien, avec un engagement total vers votre réussite.",
-        color: '#3B82F6',
-    },
-    {
-        Icon: MessagesSquare,
-        title: 'Pédagogie & Clarté',
-        description:
-            'La technique ne doit pas être une boîte noire. Je traduis la complexité en langage clair pour que vous restiez toujours maître des décisions stratégiques.',
-        color: '#10B981',
-    },
-    {
-        Icon: Lightbulb,
-        title: 'Résolution Créative',
-        description:
-            "Là où d'autres voient des problèmes, je vois des solutions. Ma curiosité me pousse à contourner les obstacles techniques par l'innovation.",
-        color: '#8B5CF6',
-    },
-    {
-        Icon: Gem,
-        title: 'Souci du Détail',
-        description:
-            "L'excellence se niche dans les finitions. Du code propre à l'alignement au pixel près, je cultive une exigence d'artisan pour un rendu final impeccable.",
-        color: '#EA7600',
+        content: {
+            git_output: "Tagged *blue**v1.0.0**  ·  *green**GPG signed**  ·  pushed to *red**origin**",
+            description: 'Je ne vous laisse pas sans boussole. Je vous forme à la gestion de votre site (textes, images, articles) pour que vous ayez toutes les clés en main et soyez totalement autonome sur votre plateforme.',
+        }
     },
 ];
 
