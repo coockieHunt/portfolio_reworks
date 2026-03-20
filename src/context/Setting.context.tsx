@@ -86,6 +86,14 @@ export const SettingProvider: React.FC<ISettingProviderProps> = ({
         }
     }, [settings]);
 
+    useEffect(() => {
+        if (!settings.openDyslexic) return;
+
+        import('@fontsource/opendyslexic/index.css').catch((error) => {
+            console.error('Erreur chargement police OpenDyslexic', error);
+        });
+    }, [settings.openDyslexic]);
+
 
     // change
 

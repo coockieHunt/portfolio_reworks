@@ -13,7 +13,6 @@ import { routeTree } from './routeTree.gen';
 import '@fontsource-variable/doto/rond.css'; 
 import '@fontsource-variable/montserrat';
 import '@fontsource-variable/source-code-pro';
-import '@fontsource/opendyslexic';
 
 
 const TanStackRouterDevtools =

@@ -1,10 +1,19 @@
 // src/routes/blog.tsx
 import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { lazy, Suspense } from 'react';
 
 //containers
-import { FooterContainer } from '@/containers/_root/Footer/footer.container';
-import { SettingContainer } from '@/containers/_root/Setting/Setting.container';
-import { NavigationComponent, INavItem } from '@/containers/_root/Navigation/navigations.container';
+const FooterContainer = lazy(() =>
+    import('@/containers/_root/Footer/footer.container').then((module) => ({
+        default: module.FooterContainer,
+    })),
+);
+
+const SettingContainer = lazy(() =>
+    import('@/containers/_root/Setting/Setting.container').then((module) => ({
+        default: module.SettingContainer,
+    })),
+);
 
 export const Route = createFileRoute('/blog')({
     component: BlogLayout,
@@ -13,13 +22,17 @@ export const Route = createFileRoute('/blog')({
 function BlogLayout() {
     return (
         <>
-            <SettingContainer />
+            <Suspense fallback={null}>
+                <SettingContainer />
+            </Suspense>
 
             <main style={{ flex: 1 }}>
                 <Outlet />
             </main>
 
-            <FooterContainer id="footer" />
+            <Suspense fallback={<div style={{ height: 100 }} />}>
+                <FooterContainer id="footer" />
+            </Suspense>
         </>
     );
 }

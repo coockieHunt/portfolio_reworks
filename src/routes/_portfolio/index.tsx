@@ -13,7 +13,9 @@ import { trackEvent } from '../../components/umami/umami.components';
 import { GlobalLoader } from '../../components/Loading/GlobalLoader.compenent';
 
 import { HeroContainer } from '@/containers/_portfolio/Hero/hero.container';
-import { TitleTextComponent } from '@/components/Text/Text.component';
+import { CatchContainer } from '@/containers/_portfolio/Catch/catch.container';
+import { NewPostContainer } from '@/containers/_portfolio/NewPost/NewPost.container';
+import { LinkTextComponent, TitleTextComponent } from '@/components/Text/Text.component';
 import { ServiceStatusApi } from '@/containers/_portfolio/ServiceStatus/ServiceStatus.container';
 import { FaqContainer } from '@/containers/_portfolio/Faq/Faq.container';
 
@@ -26,11 +28,6 @@ const BenefitContainer = lazy(() =>
     import('@/containers/_portfolio/Benefit/benefit.container').then(
         (module) => ({ default: module.BenefitContainer }),
     ),
-);
-const CatchContainer = lazy(() =>
-    import('@/containers/_portfolio/Catch/catch.container').then((module) => ({
-        default: module.CatchContainer,
-    })),
 );
 const QuoteContainer = lazy(() =>
     import('@/containers/_portfolio/Quote/Quote.containers').then((module) => ({
@@ -57,41 +54,14 @@ const ProcessTimeLine = lazy(() =>
         (module) => ({ default: module.ProcessTimeLine }),
     ),
 );
-const LinkTextComponent = lazy(() =>
-    import('@/components/Text/Text.component').then((module) => ({
-        default: module.LinkTextComponent,
-    })),
-);
 const ContactContainer = lazy(() =>
     import('@/containers/_portfolio/Contact/Contact.container').then(
         (module) => ({ default: module.ContactContainer }),
     ),
 );
 
-const NewPostContainer = lazy(() =>
-    import('@/containers/_portfolio/NewPost/NewPost.container').then(
-        (module) => ({ default: module.NewPostContainer }),
-    ),
-);
-
-const preloadComponents = () =>
-    Promise.all([
-        import('@/containers/_portfolio/MyProject/MyProject.container'),
-        import('@/containers/_portfolio/Benefit/benefit.container'),
-        import('@/containers/_portfolio/Quote/Quote.containers'),
-        import('@/containers/_portfolio/ServiceStatus/ServiceStatus.container'),
-        import('@/containers/_portfolio/Stack/Stack.containers'),
-        import('@/containers/_portfolio/Services/Service.containers'),
-        import('@/containers/_portfolio/Product/product.container'),
-        import('@/containers/_portfolio/ProcessTimeline/ProcessTimeline.container'),
-        import('@/containers/_portfolio/Contact/Contact.container'),
-        import('@/containers/_portfolio/NewPost/NewPost.container'),
-        import('@/components/Text/Text.component'),
-    ]);
-
 export const Route = createFileRoute('/_portfolio/' as any)({
     component: PortfolioIndex,
-    beforeLoad: preloadComponents,
 });
 
 export function PortfolioIndex() {
@@ -107,15 +77,13 @@ export function PortfolioIndex() {
         <>
             
             <HeroContainer id="hero" />
-            <Suspense fallback={null}>
-                <CatchContainer id="catch" />
-            </Suspense>
+            <CatchContainer id="catch" />
 
             <TitleTextComponent
                 subtitle={'Vous voulez lire les'}
                 subtitleOpacity={0.3}
             >Dernier article</TitleTextComponent>
-            
+
             <NewPostContainer />
 
             <Suspense fallback={<GlobalLoader />}>
