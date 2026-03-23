@@ -180,24 +180,9 @@ export const NavigationComponent: React.FC<INavigationComponentProps> = ({
                             text={link.text}
                         />
                     ))}
-                    <button 
-                        onClick={handleOpenCv} 
-                        type="button" 
-                        className="cv-desktop-btn"
-                        aria-label="Ouvrir le CV (nouvelle fenêtre)"
-                    >
-                        Curriculum Vitae
-                    </button>
                 </div>
 
-                <button
-                    className="cv-mobile-btn"
-                    type="button"
-                    aria-label="Ouvrir le CV (nouvelle fenêtre)"
-                    onClick={handleOpenCv}
-                >
-                    Curriculum Vitae
-                </button>
+
             </Styled.Nav>
         </Styled.NavigationContainer>
     );
