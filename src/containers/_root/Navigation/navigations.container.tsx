@@ -14,7 +14,7 @@ import { LogoComponent } from '@/components/Logo/Logo.components';
 // Data & Config
 import { SCREEN_SIZE } from '@/config';
 import { socialLinks } from '@/data';
-// import cv from '@/assets/pdf/cv_dev_JG.pdf';
+import cv from '@/assets/pdf/cv_dev_JG.pdf';
 
 import * as Styled from './navigations.style';
 
