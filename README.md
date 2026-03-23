@@ -47,18 +47,20 @@ Check out the portfolio in production: **[jonathangleyze.fr](https://www.jonatha
 │─────────────────────────────────────┤
 │  Redis (Cache) | Umami (Analytics)  │
 │─────────────────────────────────────┤
-│      Uptime Kuma (Monitoring)       │
+│      Gatus (Monitoring)             │
 └─────────────────────────────────────┘
 ```
 
 **Active Services**:
+
 - 🔄 **PM2**: Process manager (24/7 availability, automatic restarts)
 - 📊 **Umami**: Privacy-friendly analytics (self-hosted, GDPR compliant)
-- 📈 **Uptime Kuma**: Real-time monitoring with health checks
+- 📈 **Gatus**: Real-time monitoring with health checks
 - 🐳 **Docker**: Service containerization
 - ⚡ **Redis**: Cache for optimal performance
 
 **CI/CD Workflow**:
+
 ```bash
 git push → GitHub Actions → Build → SSH Deploy → PM2 Reload (0 downtime)
 ```
@@ -72,6 +74,7 @@ git push → GitHub Actions → Build → SSH Deploy → PM2 Reload (0 downtime)
 ## 🚀 Installation
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or yarn
 
@@ -94,6 +97,7 @@ npm run dev
 ```
 
 **Available commands**:
+
 - `npm run dev` - Development server (http://localhost:5173)
 - `npm run dev:network` - Local network access
 - `npm run build` - Production build
@@ -106,6 +110,7 @@ npm run dev
 ## 🔗 API Configuration
 
 **`.env.example` file**:
+
 ```env
 # Backend API URL
 VITE_API_BASE_URL=http://localhost:3001/api
@@ -115,6 +120,7 @@ VITE_ANALYTICS_ID=your-umami-website-id
 ```
 
 **Available endpoints**:
+
 - `/api/guestbook` - Guestbook
 - `/api/contact` - Contact form
 - `/api/counter` - Visit counter
@@ -126,14 +132,17 @@ API clients are located in `src/api/`
 ## 🛠️ Tech Stack
 
 **Frontend**
+
 - React 18 | TypeScript | Vite
 - Styled Components | Framer Motion
 
 **Backend & Infrastructure**
+
 - Node.js | Express.js | Redis
 - Docker | PM2 | Umami Analytics
 
 **DevOps**
+
 - GitHub Actions | SSH Deploy | Git
 
 ---
@@ -172,15 +181,18 @@ src/
 ## 📜 License
 
 **Mixed license model**:
+
 - **Code**: Open source (see [LICENSE.md](./LICENSE.md))
 - **Design & Assets**: Proprietary © 2025 Jonathan Gleyze
 
 ### ✅ Allowed
+
 - Use the code to learn and build your own projects
 - Modify and adapt the code for your needs
 - Use as reference for your own portfolio
 
 ### ❌ Not Allowed
+
 - Clone this repository and use it as-is
 - Use the design, graphics or content without permission
 - Use for commercial purposes without explicit authorization

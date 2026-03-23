@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { BORDER_RADIUS } from '../../config.js';
 
 export interface FormLabelProps {
@@ -32,20 +32,23 @@ export const FormLabel = styled.label<FormLabelProps>`
     font-weight: 500;
     transition: color 0.3s ease;
 
-    &:first-letter { text-transform: uppercase; }
-    & span { color: var(--primary); }
+    &:first-letter {
+        text-transform: uppercase;
+    }
+    & span {
+        color: var(--primary);
+    }
 `;
 
 export const FormInput = styled.input<FormInputProps>`
     padding: 14px 18px;
     outline: none;
-    border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
+    border: ${BorderSize} solid var(--border-subtle);
     width: 100%;
     background-color: rgba(255, 255, 255, 0.03);
     font-size: 1em;
     border-radius: ${BORDER_RADIUS.xlarge};
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
 
     &::placeholder {
         color: var(--font-subtle);
@@ -53,16 +56,16 @@ export const FormInput = styled.input<FormInputProps>`
     }
 
     &:hover {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: var(--border-subtle);
         background-color: rgba(255, 255, 255, 0.04);
     }
 
     &:focus {
-        border-color: var(--primary);
+        border-color: var(--border-dark);
         background-color: rgba(255, 255, 255, 0.05);
-        box-shadow: 
-            0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent),
-            0 4px 12px color-mix(in srgb, var(--primary) 12%, transparent);
+        box-shadow:
+            0 0 0 3px color-mix(in srgb, var(--border-dark) 8%, transparent),
+            0 4px 12px color-mix(in srgb, var(--border-dark) 12%, transparent);
         transform: translateY(-1px);
 
         &::placeholder {
@@ -71,8 +74,8 @@ export const FormInput = styled.input<FormInputProps>`
     }
 
     &:-webkit-autofill,
-    &:-webkit-autofill:hover, 
-    &:-webkit-autofill:focus, 
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
         -webkit-text-fill-color: #ffffff;
         transition: background-color 5000s ease-in-out 0s;
@@ -84,7 +87,7 @@ export const FormTextArea = styled.textarea`
     resize: vertical;
     min-height: 180px;
     outline: none;
-    border: ${BorderSize} solid rgba(255, 255, 255, 0.1);
+    border: ${BorderSize} solid var(--border-subtle);
     border-radius: ${BORDER_RADIUS.xlarge};
     background-color: rgba(255, 255, 255, 0.03);
     font-size: 1em;
@@ -97,16 +100,16 @@ export const FormTextArea = styled.textarea`
     }
 
     &:hover {
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: var(--border-subtle);
         background-color: rgba(255, 255, 255, 0.04);
     }
 
     &:focus {
-        border-color: var(--primary);
+        border-color: var(--border-dark);
         background-color: rgba(255, 255, 255, 0.05);
-        box-shadow: 
-            0 0 0 3px color-mix(in srgb, var(--primary) 8%, transparent),
-            0 4px 12px color-mix(in srgb, var(--primary) 12%, transparent);
+        box-shadow:
+            0 0 0 3px color-mix(in srgb, var(--border-dark) 8%, transparent),
+            0 4px 12px color-mix(in srgb, var(--border-dark) 12%, transparent);
         transform: translateY(-1px);
 
         &::placeholder {
@@ -122,12 +125,11 @@ export const FormTextArea = styled.textarea`
 export const FormSubmit = styled.input<FormSubmitProps>`
     padding: 15px;
     margin-top: 15px;
-    background-color: var(--background-tertiary);
+    background-color: var(--background-color);
     border: none;
     text-transform: uppercase;
     border-radius: ${BORDER_RADIUS.small};
     cursor: pointer;
-
 `;
 
 export const FormElement = styled.div`
@@ -148,7 +150,7 @@ export const FormInline = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    
+
     @media (max-width: 850px) {
         grid-template-columns: 1fr;
     }
@@ -177,10 +179,11 @@ export const CaptchaForm = styled.div<CaptchaFormProps>`
     gap: 12px;
     width: fit-content;
     background: rgba(255, 255, 255, 0.03);
-    border: ${BorderSize} solid ${props => {
-        if (!props.$hasValue) return 'rgba(255, 255, 255, 0.1)';
-        return props.$isValid ? '#4caf50' : '#f44336';
-    }};
+    border: ${BorderSize} solid
+        ${(props) => {
+            if (!props.$hasValue) return 'rgba(255, 255, 255, 0.1)';
+            return props.$isValid ? '#4caf50' : '#f44336';
+        }};
     border-radius: ${BORDER_RADIUS.xlarge};
     padding: 12px 16px;
     transition: all 0.3s ease;
@@ -193,15 +196,17 @@ export const CaptchaForm = styled.div<CaptchaFormProps>`
     }
 
     &:focus-within {
-        border-color: ${props => {
+        border-color: ${(props) => {
             if (!props.$hasValue) return 'var(--primary)';
             return props.$isValid ? '#4caf50' : '#f44336';
         }};
         background: rgba(255, 255, 255, 0.05);
-        box-shadow: 0 0 0 3px ${props => {
-            if (!props.$hasValue) return `color-mix(in srgb, var(--primary) 8%, transparent)`;
-            return props.$isValid ? '#4caf5015' : '#f4433615';
-        }};
+        box-shadow: 0 0 0 3px
+            ${(props) => {
+                if (!props.$hasValue)
+                    return `color-mix(in srgb, var(--primary) 8%, transparent)`;
+                return props.$isValid ? '#4caf5015' : '#f4433615';
+            }};
     }
 `;
 
@@ -225,5 +230,57 @@ export const CaptchaInput = styled.input<CaptchaInputProps>`
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+`;
+
+export const ToggleContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+
+    & svg {
+        color: var(--primary);
+    }
+
+    input[type='checkbox'] {
+        appearance: none;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+        background: var(--background-color);
+        border: ${BorderSize} solid var(--border-subtle);
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &:checked {
+            background: color-mix(in srgb, var(--primary) 20%, transparent);
+            border-color: var(--primary);
+
+            &::after {
+                transform: translateX(20px);
+                background: var(--primary);
+            }
+        }
+    }
+
+    label {
+        font-size: 0.95em;
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
     }
 `;

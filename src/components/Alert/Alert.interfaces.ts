@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { IAlert } from '../../context/interface/alert.interface';
 
 export interface IAlertItemProps {
@@ -9,7 +10,7 @@ export interface IAlertItemProps {
 export interface IAlertContainerProps {
     $coloralert: string;
     $timer_bar: string;
-    $message?: string;
+    $message?: ReactNode;
 }
 
 export interface IContainerProps {

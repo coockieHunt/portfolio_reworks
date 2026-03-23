@@ -1,5 +1,5 @@
 import 'styled-components';
-import { COLOR_SETTING } from '../config'; 
+import { COLOR_SETTING } from '../config';
 
 //get key of COLOR_SETTING
 type ThemeKey = keyof typeof COLOR_SETTING;

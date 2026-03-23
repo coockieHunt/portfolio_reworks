@@ -5,11 +5,11 @@ interface IStyledAnimatedSvgProps {
 }
 
 const ANIMATION_CONFIG = {
-    dotsCount: 30,      
-    staggerDelay: 0.01, 
+    dotsCount: 30,
+    staggerDelay: 0.01,
     dotDuration: '0.6s',
     lineDuration: '1.5s',
-    lineDelay: '0.5s'
+    lineDelay: '0.5s',
 };
 
 const generateStaggeredDelays = (count: number, delayStep: number) => {
@@ -17,7 +17,9 @@ const generateStaggeredDelays = (count: number, delayStep: number) => {
     for (let i = 1; i <= count; i++) {
         styles += `&:nth-child(${i}) { animation-delay: ${i * delayStep}s; }`;
     }
-    return css`${styles}`;
+    return css`
+        ${styles}
+    `;
 };
 
 const popIn = keyframes`
@@ -37,22 +39,27 @@ export const StyledAnimatedSvg = styled.svg<IStyledAnimatedSvgProps>`
         transform-origin: center;
         opacity: 0;
 
-        animation: ${({ $isVisible }) => 
-            $isVisible 
-                ? css`${popIn} ${ANIMATION_CONFIG.dotDuration} cubic-bezier(0.34, 1.56, 0.64, 1) forwards` 
-                : 'none'
-        };
+        animation: ${({ $isVisible }) =>
+            $isVisible
+                ? css`
+                      ${popIn} ${ANIMATION_CONFIG.dotDuration} cubic-bezier(0.34, 1.56, 0.64, 1) forwards
+                  `
+                : 'none'};
 
-        ${generateStaggeredDelays(ANIMATION_CONFIG.dotsCount, ANIMATION_CONFIG.staggerDelay)}
+        ${generateStaggeredDelays(
+            ANIMATION_CONFIG.dotsCount,
+            ANIMATION_CONFIG.staggerDelay,
+        )}
     }
 
     path {
         opacity: 0;
-        animation: ${({ $isVisible }) => 
-            $isVisible 
-                ? css`${drawLine} ${ANIMATION_CONFIG.lineDuration} ease-out forwards` 
-                : 'none'
-        };
+        animation: ${({ $isVisible }) =>
+            $isVisible
+                ? css`
+                      ${drawLine} ${ANIMATION_CONFIG.lineDuration} ease-out forwards
+                  `
+                : 'none'};
         animation-delay: ${ANIMATION_CONFIG.lineDelay};
     }
 `;

@@ -22,7 +22,7 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none; 
+    pointer-events: none;
 `;
 
 export const Content = styled.div<IContentProps>`
@@ -31,19 +31,20 @@ export const Content = styled.div<IContentProps>`
     justify-content: flex-start;
     align-items: flex-start;
     z-index: 1000001;
-    width: fit-content;          
+    width: fit-content;
     height: fit-content;
-    
-    font-size: 2vw;       
+
+    font-size: 2vw;
     color: ${({ $textColor }) => $textColor || 'white'};
     line-height: 1;
 
     position: absolute;
-    top: 50%;            
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
-    animation: ${fadeInOut} ${({ $duration }) => Math.max(0, $duration - 300)}ms ease-in-out forwards;
+
+    animation: ${fadeInOut} ${({ $duration }) => Math.max(0, $duration - 300)}ms
+        ease-in-out forwards;
     gap: 10px;
 
     @media (max-width: ${SCREEN_SIZE.mobile}) {
@@ -55,7 +56,7 @@ const Panel = styled.div<IPanelProps>`
     position: absolute;
     left: 0;
     width: 100%;
-    height: 51%; 
+    height: 51%;
     background-color: ${({ $color }) => $color};
     z-index: 1000000;
     will-change: transform;
@@ -63,10 +64,12 @@ const Panel = styled.div<IPanelProps>`
 
 export const TopPanel = styled(Panel)`
     top: 0;
-    animation: ${slideUp} ${({ $duration }) => $duration}ms cubic-bezier(0.8, 0, 0.2, 1) forwards;
+    animation: ${slideUp} ${({ $duration }) => $duration}ms
+        cubic-bezier(0.8, 0, 0.2, 1) forwards;
 `;
 
 export const BottomPanel = styled(Panel)`
     bottom: 0;
-    animation: ${slideDown} ${({ $duration }) => $duration}ms cubic-bezier(0.8, 0, 0.2, 1) forwards;
+    animation: ${slideDown} ${({ $duration }) => $duration}ms
+        cubic-bezier(0.8, 0, 0.2, 1) forwards;
 `;

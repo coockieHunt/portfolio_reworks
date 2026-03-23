@@ -1,8 +1,15 @@
 // styles
 import * as styled from './ProjectIdeaInput.style';
 
-// react 
-import { useState, ChangeEvent, KeyboardEvent, useEffect, useCallback, useRef } from 'react';
+// react
+import {
+    useState,
+    ChangeEvent,
+    KeyboardEvent,
+    useEffect,
+    useCallback,
+    useRef,
+} from 'react';
 
 // icons
 import { Send } from 'lucide-react';
@@ -13,7 +20,10 @@ interface ProjectIdeaInputProps {
     DataWord: string[];
 }
 
-export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) => {
+export const ProjectIdeaInput = ({
+    ScroolTo,
+    DataWord,
+}: ProjectIdeaInputProps) => {
     const [inputValue, setInputValue] = useState('');
 
     const [currentWord, setCurrentWord] = useState(() => {
@@ -29,7 +39,9 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
     }
 
     const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') { handleSubmit(); }
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
     };
 
     const handleSubmit = useCallback(() => {
@@ -38,17 +50,26 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
         const contactSection = document.getElementById('contact');
         if (contactSection) {
             const messageText = `Bonjour, je souhaite discuter de mon projet : ${inputValue}`;
-            
+
             requestAnimationFrame(() => {
-                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                contactSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
             });
 
             setTimeout(() => {
-                const messageField = document.querySelector(ScroolTo) as HTMLTextAreaElement | null;
-                
+                const messageField = document.querySelector(
+                    ScroolTo,
+                ) as HTMLTextAreaElement | null;
+
                 if (messageField) {
-                    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
-                    
+                    const nativeInputValueSetter =
+                        Object.getOwnPropertyDescriptor(
+                            window.HTMLTextAreaElement.prototype,
+                            'value',
+                        )?.set;
+
                     if (nativeInputValueSetter) {
                         nativeInputValueSetter.call(messageField, messageText);
                     }
@@ -59,9 +80,11 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
                 }
             }, 800);
 
-            setTimeout(() => { setInputValue(''); }, 1000);
+            setTimeout(() => {
+                setInputValue('');
+            }, 1000);
         }
-    }, [inputValue, ScroolTo]); 
+    }, [inputValue, ScroolTo]);
 
     useEffect(() => {
         intervalRef.current = setInterval(() => {
@@ -78,12 +101,14 @@ export const ProjectIdeaInput = ({ ScroolTo, DataWord }: ProjectIdeaInputProps) 
         <styled.InputWrapper>
             <styled.LabelWorld
                 type="text"
-                name="project-idea" 
+                name="project-idea"
                 autoComplete="off"
                 placeholder={`${currentWord}...`}
                 value={inputValue}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyPress} 
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setInputValue(e.target.value)
+                }
+                onKeyDown={handleKeyPress}
                 size={10}
                 aria-label="Décrivez votre projet"
             />

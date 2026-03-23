@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
 import { SCREEN_SIZE, BORDER_RADIUS } from '../../config';
 
 const blink = keyframes`
@@ -13,7 +13,7 @@ export const TerminalContainer = styled.div`
     will-change: backdrop-filter;
     isolation: isolate;
 
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-dark);
     border-radius: ${BORDER_RADIUS.large};
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     font-family: 'Consolas', 'Monaco', monospace;
@@ -24,27 +24,29 @@ export const TerminalContainer = styled.div`
     overflow: hidden;
     font-size: 14px;
 
-    border-bottom: 4px solid var(--primary);
-    
-    @media ( max-width: ${SCREEN_SIZE.mobile}) {max-width: 90%;}
+    border-bottom: 4px solid var(--border-dark);
+
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        max-width: 90%;
+    }
 
     &::before {
         content: '';
         position: absolute;
-        top: 50%;        
-        left: 50%;       
+        top: 50%;
+        left: 50%;
 
-        height: 160px;   
-        width: 160px;      
+        height: 160px;
+        width: 160px;
 
         background-color: var(--accentuate);
-        opacity: 0.15;    
+        opacity: 0.15;
         z-index: -1;
 
         transform: translate(-50%, -50%);
 
-        border-radius: 50%;     
-        filter: blur(24px);     
+        border-radius: 50%;
+        filter: blur(24px);
         will-change: transform, filter;
         contain: paint;
         transition: transform 0.5s ease;
@@ -56,33 +58,39 @@ export const TerminalContainer = styled.div`
     }
 `;
 
-
 export const TerminalHeader = styled.div`
     display: flex;
     align-items: center;
     padding: 8px 15px;
     background-color: var(--primary);
-    border-bottom: 1px solid var(--primary);
+    border-bottom: 1px solid var(--border-dark);
 `;
 
 export const TerminalLine = styled.div`
     cursor: pointer;
 
-    & p{
+    & p {
         margin: 10px 0 20px 0;
     }
 
-    & .header{
+    & .icon{
         display: flex;
+    }
+
+    & .header {
+        display: flex;
+        align-items: center;
         padding: 10px 20px;
         border-left: transparent 4px solid;
 
         border-bottom: 1px solid var(--background-secondary);
-        &:last-child {border-bottom: none;}
+        &:last-child {
+            border-bottom: none;
+        }
 
         &:hover {
             border-left: 4px solid var(--accentuate);
-            & .left{
+            & .left {
                 scale: 1.05;
             }
         }
@@ -94,7 +102,7 @@ export const TerminalLine = styled.div`
             gap: 15px;
             margin-right: 100px;
 
-            & span{
+            & span {
                 font-weight: bold;
                 opacity: 0.6;
             }
@@ -103,7 +111,7 @@ export const TerminalLine = styled.div`
                 margin-top: 5px;
                 width: 45px;
                 height: 45px;
-                border: 1px solid var(--primary);
+                border: 1px solid var(--border-dark);
                 border-radius: 8px;
                 padding: 10px;
 
@@ -121,15 +129,17 @@ export const TerminalLine = styled.div`
 
             font-size: 1rem;
 
-            & .title{color: var(--primary);}
+            & .title {
+                color: var(--primary);
+            }
 
-            & .subtitle{
+            & .subtitle {
                 color: var(--font-subtle);
                 font-size: 13px;
             }
         }
 
-        & .action { 
+        & .action {
             margin-left: auto;
             display: flex;
             align-items: center;
@@ -140,17 +150,18 @@ export const TerminalLine = styled.div`
         }
     }
 
-    & .content{
+    & .content {
         padding: 15px 20px;
         display: flex;
         justify-content: flex-end;
-        
-        position: relative; 
-        overflow: hidden; 
 
-        box-shadow: inset 0px 5px 10px -7px color-mix(in srgb, var(--primary) 20%, transparent);
+        position: relative;
+        overflow: hidden;
 
-        &::after{
+        box-shadow: inset 0px 5px 10px -7px
+            color-mix(in srgb, var(--primary) 20%, transparent);
+
+        &::after {
             content: '';
             position: absolute;
             top: 0;
@@ -163,26 +174,29 @@ export const TerminalLine = styled.div`
             border: 1px solid #f0f0f032;
             width: 60%;
             padding: 15px;
-            background-color: color-mix(in srgb, var(--background-tertiary) 50%, transparent); 
+            background-color: color-mix(
+                in srgb,
+                var(--background-color) 50%,
+                transparent
+            );
             display: flex;
             flex-direction: row;
             align-items: stretch;
             justify-content: flex-start;
             gap: 10px;
 
-
             & span {
-                display: flex; 
-                align-items: flex-start; 
+                display: flex;
+                align-items: flex-start;
                 width: 60px;
                 color: var(--primary);
                 font-size: 1em;
                 margin-top: 5px;
             }
-            
+
             & p {
-                flex-grow: 1; 
-                margin: 0; 
+                flex-grow: 1;
+                margin: 0;
             }
         }
 
@@ -196,18 +210,18 @@ export const TerminalLine = styled.div`
             margin-left: 20%;
             pointer-events: none;
 
-            border-left: 2px dashed  var(--accentuate);
-            border-bottom: 2px dashed  var(--accentuate);
+            border-left: 2px dashed var(--accentuate);
+            border-bottom: 2px dashed var(--accentuate);
 
             opacity: 0.4;
         }
     }
 
     &.selected {
-        & .header{ 
+        & .header {
             border-left: 4px solid var(--accentuate);
 
-            & .left{
+            & .left {
                 & svg {
                     color: var(--accentuate);
                     border-color: var(--accentuate);
@@ -220,42 +234,94 @@ export const TerminalLine = styled.div`
         }
     }
 
-
     @media (max-width: ${SCREEN_SIZE.mobile}) {
         & .header {
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 10px;
+            gap: 8px;
+            padding: 12px 8px;
             font-size: 12px;
+            align-items: center;
 
-            & .selected & .header{border-left: 4px solid transparent;}
+            & .icon {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                min-width: 0;
+            }
 
             & .left {
-                margin-right: 0px; 
-                & span{display: none;}
-            } 
+                margin-right: 0px;
+                flex-shrink: 0;
+
+                & span {
+                    display: none;
+                }
+
+                & svg {
+                    margin-top: 0;
+                    width: 40px;
+                    height: 40px;
+                    padding: 8px;
+                }
+            }
 
             & .info {
                 flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
                 gap: 2px;
+                min-width: 0;
+                width: 100%;
+
+                & .title {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
+                }
+
+                & .subtitle {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
+                    font-size: 11px;
+                }
             }
 
-            & .action {margin-left: 0;}
-            &:hover {border-left: 4px solid transparent;}
+            & .action {
+                margin-left: auto;
+                flex-shrink: 0;
+                padding-left: 6px;
+                align-self: center;
+            }
+
+            &:hover {
+                border-left: 4px solid var(--accentuate);
+            }
         }
 
         & .content {
-            &::after{border-left: 4px solid transparent;}
-            & .card {width: 100%;}
+            box-shadow: none;
+            padding: 10px 8px;
+            justify-content: center;
+
+            &::after {
+                border-left: none;
+            }
+
+            & .card {
+                width: 100%;
+            }
+
             & .card::before {
-                border-left: 2px dashed transparent;
-                border-bottom: 2px dashed transparent;
+                border-left: none;
+                border-bottom: none;
             }
         }
     }
 `;
-
 
 export const CommandPromptWrapper = styled.div`
     display: flex;
@@ -274,8 +340,12 @@ export const ServicesListWrapper = styled.div`
     flex-direction: column;
     padding: 5px 30px;
 
+    @media (max-width: ${SCREEN_SIZE.mobile}) {
+        padding: 5px 8px;
+    }
+
     span {
-        white-space: nowrap; 
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -286,8 +356,15 @@ export const TerminalPath = styled.span`
     color: var(--font-on-primary);
 `;
 
-
-export const Separator = styled.span`margin: 0 5px;`;
-export const LineTag = styled.span`font-weight: bold;`;
-export const LineName = styled.span`font-weight: bold;`;
-export const TerminalBody = styled.div`line-height: 1.5;`;
+export const Separator = styled.span`
+    margin: 0 5px;
+`;
+export const LineTag = styled.span`
+    font-weight: bold;
+`;
+export const LineName = styled.span`
+    font-weight: bold;
+`;
+export const TerminalBody = styled.div`
+    line-height: 1.5;
+`;

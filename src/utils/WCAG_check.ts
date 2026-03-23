@@ -10,17 +10,19 @@ import { IRgb, IGetContrastTextColor } from './interface/utils.interface';
  */
 export const hexToRgb = (hex: string): IRgb => {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : {r: 0, g: 0, b: 0}; 
+
+    return result
+        ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16),
+          }
+        : { r: 0, g: 0, b: 0 };
 };
 
 /**
@@ -31,16 +33,18 @@ export const hexToRgb = (hex: string): IRgb => {
  * @param {string} hexBackground - The hex color string for the background (e.g., "#fff" or "#ffffff").
  * @returns {string} The hex color string for the text ("#000000" for black or "#FFFFFF" for white).
  */
-export const getContrastTextColor = ({ hexBackground }: IGetContrastTextColor): string => {
-    const {r, g, b} = hexToRgb(hexBackground);
-    
+export const getContrastTextColor = ({
+    hexBackground,
+}: IGetContrastTextColor): string => {
+    const { r, g, b } = hexToRgb(hexBackground);
+
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    
-    const SEUIL = 0.50; 
-    
+
+    const SEUIL = 0.5;
+
     if (luminance > SEUIL) {
         return '#000000';
     } else {
-        return '#FFFFFF'; 
+        return '#FFFFFF';
     }
 };

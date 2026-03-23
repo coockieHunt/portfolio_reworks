@@ -1,4 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
 
-Sitemap: https://www.jonathangleyze.fr/sitemap.xml
+Sitemap: https://jonathangleyze.fr/sitemap.xml

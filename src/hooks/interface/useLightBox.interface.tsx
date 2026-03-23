@@ -1,6 +1,7 @@
 export interface IUseLightBox {
     isLightBoxOpen: boolean;
     currentImg: string | null;
-    ChangeLightBoxImg: (imgUrl: string) => void;
+    currentAlt: string;
+    ChangeLightBoxImg: (imgUrl: string, altText?: string) => void;
     ToggleLightBox: () => void;
 }

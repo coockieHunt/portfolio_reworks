@@ -17,46 +17,46 @@ const textBlink = keyframes`
 `;
 
 export const LoaderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; 
-  width: 100%;
-  background-color: #121212;
-  position: fixed; 
-  top: 0;
-  left: 0;
-  z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #121212;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
 `;
 
 export const NeonRing = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 4px solid transparent;
-  border-top-color: var(--primary); 
-  border-right-color: var(--secondary); 
-  
-  box-shadow: 0 0 15px color-mix(in srgb, var(--primary), transparent 75%); 
-  
-  animation: ${spin} 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; 
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top-color: var(--primary);
+    border-right-color: var(--secondary);
+
+    box-shadow: 0 0 15px color-mix(in srgb, var(--primary), transparent 75%);
+
+    animation: ${spin} 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 `;
 
 export const LoadingText = styled.p`
-  margin-top: 20px;
-  font-size: 1rem;
-  color: var(--font-subtle);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  animation: ${textBlink} 2s ease-in-out infinite;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: var(--font-subtle);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: ${textBlink} 2s ease-in-out infinite;
 
-  &::after {
-    content: '...';
-    display: inline-block;
-    width: 20px;
-    text-align: left;
-  }
+    &::after {
+        content: '...';
+        display: inline-block;
+        width: 20px;
+        text-align: left;
+    }
 `;
 
 const LogoContainer = styled.div`
@@ -66,14 +66,15 @@ const LogoContainer = styled.div`
     transform: translate(-50%, -50%);
     opacity: 0.5;
     animation: ${pulse} 2s ease-in-out infinite;
-    
-    width: 40px; 
+
+    width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    img, svg {
+
+    img,
+    svg {
         width: 100%;
         height: auto;
     }
