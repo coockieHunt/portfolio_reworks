@@ -18,6 +18,7 @@ import json from 'highlight.js/lib/languages/json';
 import yaml from 'highlight.js/lib/languages/yaml';
 import python from 'highlight.js/lib/languages/python';
 import sql from 'highlight.js/lib/languages/sql';
+import ini from 'highlight.js/lib/languages/ini';
 import 'highlight.js/styles/atom-one-dark.css';
 import { ListComponent } from '@/components/List/List.component';
 import { Table } from '@/components/MarkdownTable/Table.component';
@@ -31,6 +32,7 @@ hljs.registerLanguage('json', json);
 hljs.registerLanguage('yaml', yaml);
 hljs.registerLanguage('python', python);
 hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('ini', ini);
 
 /**
  * clear slug to create safe anchor links by removing special characters and extra dashes
