@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Components, ExtraProps } from 'react-markdown';
+import type { HLJSApi, LanguageFn } from 'highlight.js';
 
 import { ImageLazyLoad } from '@/components/ImageLazyLoad/ImageLazyLoad.componenet';
 import { useAlert } from '@/context/alert.context';
@@ -7,32 +8,72 @@ import { resolveImageUrl } from '@/utils/image';
 
 import { Copy, Code, Hash } from 'lucide-react';
 
-// Highlight.js
-import hljs from 'highlight.js/lib/core';
-import javascript from 'highlight.js/lib/languages/javascript';
-import typescript from 'highlight.js/lib/languages/typescript';
-import css from 'highlight.js/lib/languages/css';
-import xml from 'highlight.js/lib/languages/xml';
-import bash from 'highlight.js/lib/languages/bash';
-import json from 'highlight.js/lib/languages/json';
-import yaml from 'highlight.js/lib/languages/yaml';
-import python from 'highlight.js/lib/languages/python';
-import sql from 'highlight.js/lib/languages/sql';
-import ini from 'highlight.js/lib/languages/ini';
-import 'highlight.js/styles/atom-one-dark.css';
 import { ListComponent } from '@/components/List/List.component';
 import { Table } from '@/components/MarkdownTable/Table.component';
 
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('typescript', typescript);
-hljs.registerLanguage('css', css);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('bash', bash);
-hljs.registerLanguage('json', json);
-hljs.registerLanguage('yaml', yaml);
-hljs.registerLanguage('python', python);
-hljs.registerLanguage('sql', sql);
-hljs.registerLanguage('ini', ini);
+const languageLoaders: Record<string, () => Promise<{ default: LanguageFn }>> = {
+    javascript: () => import('highlight.js/lib/languages/javascript'),
+    typescript: () => import('highlight.js/lib/languages/typescript'),
+    css: () => import('highlight.js/lib/languages/css'),
+    xml: () => import('highlight.js/lib/languages/xml'),
+    bash: () => import('highlight.js/lib/languages/bash'),
+    json: () => import('highlight.js/lib/languages/json'),
+    yaml: () => import('highlight.js/lib/languages/yaml'),
+    python: () => import('highlight.js/lib/languages/python'),
+    sql: () => import('highlight.js/lib/languages/sql'),
+    ini: () => import('highlight.js/lib/languages/ini'),
+    lisp: () => import('highlight.js/lib/languages/lisp'),
+};
+
+// change var name for hgljs language avoid confus with md language
+const languageAliases: Record<string, string> = {
+    js: 'javascript',
+    ts: 'typescript',
+    yml: 'yaml',
+    html: 'xml',
+    sh: 'bash',
+    shell: 'bash',
+};
+
+let highlighterPromise: Promise<HLJSApi> | null = null;
+
+const normalizeLanguage = (language: string): string => {
+    const normalized = language.toLowerCase();
+    return languageAliases[normalized] ?? normalized;
+};
+
+const loadHighlighter = async (): Promise<HLJSApi> => {
+    if (highlighterPromise) {
+        return highlighterPromise;
+    }
+
+    highlighterPromise = (async () => {
+        const [{ default: hljs }] = await Promise.all([
+            import('highlight.js/lib/core'),
+            import('highlight.js/styles/atom-one-dark.css'),
+        ]);
+
+        const settledLanguages = await Promise.allSettled(
+            Object.entries(languageLoaders).map(async ([name, loader]) => {
+                const languageModule = await loader();
+                return { name, language: languageModule.default };
+            }),
+        );
+
+        settledLanguages.forEach((result) => {
+            if (result.status !== 'fulfilled') {
+                return;
+            }
+
+            const { name, language } = result.value;
+            hljs.registerLanguage(name, language);
+        });
+
+        return hljs;
+    })();
+
+    return highlighterPromise;
+};
 
 /**
  * clear slug to create safe anchor links by removing special characters and extra dashes
@@ -64,38 +105,65 @@ type MarkdownImageProps = ImgProps & {
 
 export const MarkdownCodeBlock = ({ inline, className, children, ...props }: CodeProps) => {
     const { addAlert } = useAlert();
+    const [highlightedCode, setHighlightedCode] = React.useState<string | null>(null);
 
     const match = /language-(\w+)/.exec(className || '');
     const language = match ? match[1] : null;
+    const normalizedLanguage = language ? normalizeLanguage(language) : null;
+    const rawCode = String(children).replace(/\n$/, '');
+
+    React.useEffect(() => {
+        let cancelled = false;
+        setHighlightedCode(null);
+
+        if (inline || !normalizedLanguage) {
+            return;
+        }
+
+        loadHighlighter()
+            .then((hljs) => {
+                if (cancelled || !hljs.getLanguage(normalizedLanguage)) {
+                    return;
+                }
+
+                const highlighted = hljs.highlight(rawCode, { language: normalizedLanguage }).value;
+                setHighlightedCode(highlighted);
+            })
+            .catch((error) => {
+                console.error(`Highlight.js error for language "${normalizedLanguage}":`, error);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [inline, normalizedLanguage, rawCode]);
 
     if (!inline && language) {
-        try {
-            const highlightedCode = hljs.highlight(String(children).replace(/\n$/, ''), { language }).value;
-
-            return (
-                <pre className={className}>
-                    <div className="info">
-                        <span><Code style={{ color: 'var(--primary)' }} /> {language}</span>
-                        <div className="copy">
-                            <Copy
-                                size={16}
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    navigator.clipboard.writeText(String(children).replace(/\n$/, ''));
-                                    addAlert('Snippet copié ! Prêt à être collé.', 'green', 3000);
-                                }}
-                                aria-label="Copier le code"
-                                role="button"
-                                tabIndex={0}
-                            />
-                        </div>
+        return (
+            <pre className={className}>
+                <div className="info">
+                    <span><Code style={{ color: 'var(--primary)' }} /> {normalizedLanguage ?? language}</span>
+                    <div className="copy">
+                        <Copy
+                            size={16}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                navigator.clipboard.writeText(rawCode);
+                                addAlert('Snippet copié ! Prêt à être collé.', 'green', 3000);
+                            }}
+                            aria-label="Copier le code"
+                            role="button"
+                            tabIndex={0}
+                        />
                     </div>
+                </div>
+                {highlightedCode ? (
                     <code dangerouslySetInnerHTML={{ __html: highlightedCode }} {...props} />
-                </pre>
-            );
-        } catch (error) {
-            console.error(`Highlight.js error for language "${language}":`, error);
-        }
+                ) : (
+                    <code className={className} {...props}>{rawCode}</code>
+                )}
+            </pre>
+        );
     }
     return <code className={className} {...props}>{children}</code>;
 };
@@ -123,6 +191,7 @@ export const MarkdownImage = ({ src, alt, onImageClick, ...props }: MarkdownImag
             title={alt || ''}
             width={width}
             height={height}
+            fallbackMinHeight={220}
             style={{
                 backgroundColor: '#1e1e1e',
                 borderRadius: '8px',

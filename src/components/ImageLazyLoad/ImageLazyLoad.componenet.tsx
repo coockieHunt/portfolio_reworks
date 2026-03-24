@@ -65,6 +65,7 @@ export interface ImageLazyLoadProps extends React.ImgHTMLAttributes<HTMLImageEle
     height?: number | string;
     lazy?: boolean;
     fetchPriority?: 'high' | 'low' | 'auto';
+    fallbackMinHeight?: number | string;
 }
 
 export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
@@ -83,6 +84,7 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     style,
     lazy = true,
     fetchPriority,
+    fallbackMinHeight = 220,
     ...rest
 }) => {
     const { isApiDown } = useApiStatus();
@@ -106,13 +108,17 @@ export const ImageLazyLoad: React.FC<ImageLazyLoadProps> = ({
     }
     
     const shouldLoad = !lazy || inView || isCached;
+    const computedHeight = getSizeValue(height) ?? 'auto';
+    const shouldApplyFallbackMinHeight = computedHeight === 'auto' && (!isLoaded || hasError || isApiDown);
+    const computedMinHeight = shouldApplyFallbackMinHeight ? getSizeValue(fallbackMinHeight) : undefined;
 
     const wrapperStyle: CSSProperties = {
         position: 'relative',
         display: 'block', 
         overflow: 'hidden',
         width: getSizeValue(width) ?? '100%', 
-        height: getSizeValue(height) ?? 'auto',
+        height: computedHeight,
+        minHeight: computedMinHeight,
         ...(width && height ? { aspectRatio: `${typeof width === 'string' ? parseInt(width) : width} / ${typeof height === 'string' ? parseInt(height) : height}` } : {}),
         
         backgroundColor: isLoaded ? 'transparent' : '#1e1e1e',
