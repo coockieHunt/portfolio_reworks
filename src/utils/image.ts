@@ -35,13 +35,24 @@ export const getExternalUrl = (url: string): string => {
  */
 export const resolveImageUrl = (input: string): string => {
     if (input.startsWith('proxy:')) {
-        const imageId = input.replace('proxy:', '');
-        return getProxyUrl(imageId);
+        const rawContent = input.replace('proxy:', '');
+        
+        const [imageId, queryString] = rawContent.split('?');
+        const params = new URLSearchParams(queryString);
+        
+        const w = params.get('w');
+        const h = params.get('h');
+
+        const options: any = {};
+        if (w && h) {
+            options.size = { width: w, height: h };
+        }
+        
+        return getProxyUrl(imageId, options);
     }
     
     if (input.startsWith('url:')) {
-        const url = input.replace('url:', '');
-        return getExternalUrl(url);
+        return input.replace('url:', '');
     }
     
     return input;

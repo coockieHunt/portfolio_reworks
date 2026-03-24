@@ -105,28 +105,34 @@ export const MarkdownCodeBlock = ({ inline, className, children, ...props }: Cod
 */
 export const MarkdownImage = ({ src, alt, onImageClick, ...props }: MarkdownImageProps) => {
     let finalSrc = src || '';
-    if (finalSrc.startsWith('url:')) {
-        finalSrc = finalSrc.replace('url:', '');
-    } else if (finalSrc.startsWith('proxy:')) {
-        finalSrc = resolveImageUrl(finalSrc);
+    let width: string | number = "100%";
+    let height: string | number = "auto";
+
+    if (finalSrc.includes('?')) {
+        const params = new URLSearchParams(finalSrc.split('?')[1]);
+        if (params.has('w')) width = params.get('w') + 'px';
+        if (params.has('h')) height = params.get('h') + 'px';
     }
+
+    const resolvedSrc = resolveImageUrl(finalSrc);
 
     return (
         <ImageLazyLoad
-            src={finalSrc}
+            src={resolvedSrc}
             alt={alt || ''}
             title={alt || ''}
-            width="100%"
+            width={width}
+            height={height}
             style={{
-                minHeight: '200px',
                 backgroundColor: '#1e1e1e',
                 borderRadius: '8px',
                 margin: '2rem 0',
                 display: 'block',
                 cursor: 'pointer',
+                ...(width !== "100%" ? { margin: '2rem auto' } : {})
             }}
             loading="lazy"
-            onClick={() => onImageClick(finalSrc, alt || '')}
+            onClick={() => onImageClick(resolvedSrc, alt || '')}
             {...props}
         />
     );
