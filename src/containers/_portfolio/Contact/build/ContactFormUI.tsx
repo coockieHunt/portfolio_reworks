@@ -91,8 +91,8 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
 
                 <input
                     type="text"
-                    id="contact-honeypot"
-                    name="contact-honeypot"
+                    id="hp_website_field"
+                    name="website_url"
                     value={honeypot}
                     onChange={(e) => setHoneypot(e.target.value)}
                     style={{
@@ -104,7 +104,9 @@ export const ContactFormUI: React.FC<IContactFormUIProps> = ({
                         width: 0,
                         zIndex: -1,
                     }}
-                    autoComplete="off"
+                    autoComplete="new-password"
+                    data-lpignore="true"
+                    data-1p-ignore="true"
                     tabIndex={-1}
                     aria-hidden="true"
                 />

@@ -107,8 +107,7 @@ export const useContactForm = () => {
     };
 
     const handleSubmit = async () => {
-        if (honeypot) {
-            console.log('Bot detected.');
+        if (honeypot.trim()) {
             return;
         }
         if (!isCaptchaValid) {
